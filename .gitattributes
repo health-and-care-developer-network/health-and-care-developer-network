@@ -1,0 +1,47 @@
+# Auto detect text files and perform LF normalisation
+*         text=auto
+
+*.java    text diff=java
+*.jar     binary
+*.war     binary
+*.ear     binary
+
+*.zip     binary
+*.gz      binary
+*.tar     binary
+*.deb     binary
+*.rpm     binary
+
+*.html    text diff=html
+*.css     text
+*.js      text
+
+*.txt     text
+*.sql     text
+*.xml     text
+
+*.cs      text diff=csharp
+*.csproj  text merge=union
+*.sln     text merge=union eol=crlf
+*.docx    diff=astextplain
+*.xaml    text
+*.csproj  text
+*.sln     text
+*.tt      text
+*.ps1     text
+*.cmd     text
+*.msbuild text
+*.md      text
+*.cmd     text
+*.bat     text
+
+*.gif     binary
+*.jpg     binary
+*.jpeg    binary
+*.tif     binary
+*.tiff    binary
+*.png     binary
+
+*.o       binary
+*.dll     binary
+*.dylib   binary
