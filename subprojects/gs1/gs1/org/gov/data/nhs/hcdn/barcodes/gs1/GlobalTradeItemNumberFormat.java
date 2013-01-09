@@ -20,7 +20,6 @@ public enum GlobalTradeItemNumberFormat implements ActualName, FormerActualNames
 	GTIN_12("GTIN-12", 12, "EAN-UCC-12", "EAN-12", "UPC"),
 	GTIN_13("GTIN-13", 13, "EAN-UCC-13", "EAN-13", "CIP"),
 	GTIN_14("GTIN-14", MaximumOneBasedPositionT),
-	SelectApplications("Select Applications", 0),
 	;
 
 	@NotNull

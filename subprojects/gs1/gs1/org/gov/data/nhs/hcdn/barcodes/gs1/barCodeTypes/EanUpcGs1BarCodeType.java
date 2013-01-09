@@ -20,10 +20,10 @@ import static org.gov.data.nhs.hcdn.common.EnumeratedVariableArgumentsHelper.unm
 
 public enum EanUpcGs1BarCodeType implements Gs1BarCodeType
 {
-	UpcAVersion("UPC-A Version", TwelveNumeric, GTIN_12, SelectApplications),
-	Ean13Version("EAN-13 Version", ThirteenNumeric, GTIN_13, SelectApplications),
-	UpcEVersion("UPC-E Version", TwelveNumeric, GTIN_12, SelectApplications),
-	Ean8Version("EAN-8 Version", EightNumeric, GTIN_8, SelectApplications),
+	UpcAVersion("UPC-A Version", TwelveNumeric, GTIN_12),
+	Ean13Version("EAN-13 Version", ThirteenNumeric, GTIN_13),
+	UpcEVersion("UPC-E Version", TwelveNumeric, GTIN_12),
+	Ean8Version("EAN-8 Version", EightNumeric, GTIN_8),
 	;
 
 	private static final Set<String> FormerNames = emptySet();
