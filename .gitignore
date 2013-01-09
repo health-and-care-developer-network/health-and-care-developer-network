@@ -4,3 +4,9 @@
 *.jar
 *.war
 *.ear
+
+# IntelliJ
+*.iws
+
+# Mac OS X
+.DS_Store

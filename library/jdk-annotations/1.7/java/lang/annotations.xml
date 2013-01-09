@@ -3,4 +3,12 @@
         <annotation name='org.jetbrains.annotations.NonNls'>
         </annotation>
     </item>
+    <item name='java.lang.IllegalStateException IllegalStateException(java.lang.String) 0'>
+        <annotation name='org.jetbrains.annotations.NonNls'>
+        </annotation>
+    </item>
+    <item name='java.lang.String java.lang.String format(java.util.Locale, java.lang.String, java.lang.Object...) 1'>
+        <annotation name='org.jetbrains.annotations.NonNls'>
+        </annotation>
+    </item>
 </root>
