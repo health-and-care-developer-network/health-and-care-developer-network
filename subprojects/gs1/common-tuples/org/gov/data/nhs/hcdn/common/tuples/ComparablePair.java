@@ -1,0 +1,58 @@
+package org.gov.data.nhs.hcdn.common.tuples;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+@SuppressWarnings("StandardVariableNames")
+public final class ComparablePair<T extends Comparable<T>> extends Pair<T>
+{
+	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
+	@NotNull
+	public static <T extends Comparable<T>> ComparablePair<T> comparablePair(@NotNull final T lowerBoundInclusive, @NotNull final T upperBoundInclusive)
+	{
+		return new ComparablePair<>(lowerBoundInclusive, upperBoundInclusive);
+	}
+
+	public ComparablePair(@NotNull final T a, @NotNull final T b)
+	{
+		super(a, b);
+		if (a.compareTo(b) == 1)
+		{
+			throw new IllegalArgumentException("a can not be greater than b");
+		}
+	}
+
+	@Override
+	public boolean equals(@Nullable final Object obj)
+	{
+		if (this == obj)
+		{
+			return true;
+		}
+		if ((obj == null) || (getClass() != obj.getClass()))
+		{
+			return false;
+		}
+
+		final ComparablePair<?> that = (ComparablePair<?>) obj;
+
+		if (!a.equals(that.a))
+		{
+			return false;
+		}
+		if (!b.equals(that.b))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int result = a.hashCode();
+		result = (31 * result) + b.hashCode();
+		return result;
+	}
+}
