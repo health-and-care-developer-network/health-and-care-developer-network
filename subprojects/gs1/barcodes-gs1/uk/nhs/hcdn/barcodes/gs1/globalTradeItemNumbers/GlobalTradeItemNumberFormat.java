@@ -6,16 +6,17 @@ import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.barcodes.Digit;
 import uk.nhs.hcdn.barcodes.DigitList;
 import uk.nhs.hcdn.barcodes.Digits;
+import uk.nhs.hcdn.barcodes.gs1.checkDigits.CheckDigitCalculator;
+import uk.nhs.hcdn.barcodes.gs1.checkDigits.ExtractingCheckDigit;
 import uk.nhs.hcdn.common.naming.ActualName;
 import uk.nhs.hcdn.common.naming.FormerActualNames;
 
 import java.util.Set;
 
 import static uk.nhs.hcdn.barcodes.Digit.Zero;
-import static uk.nhs.hcdn.barcodes.Digit.digit;
 import static uk.nhs.hcdn.common.VariableArgumentsHelper.unmodifiableSetOf;
 
-public enum GlobalTradeItemNumberFormat implements ActualName, FormerActualNames
+public enum GlobalTradeItemNumberFormat implements ActualName, FormerActualNames, ExtractingCheckDigit
 {
 	GTIN_8("GTIN-8", 8, "EAN-UCC-8", "EAN-8"),
 	// 11 digits, 1 trailing check digit
@@ -36,40 +37,38 @@ public enum GlobalTradeItemNumberFormat implements ActualName, FormerActualNames
 	public static final int T14 = 14;
 	public static final int MaximumOneBasedPositionT = T14;
 
-	private static final int[] CheckDigitScalarMatrix =
-	{
-		3,
-		1,
-		3,
-		1,
-		3,
-		1,
-		3,
-		1,
-		3,
-		1,
-		3,
-		1,
-		3
-	};
-
 	@NotNull
 	private final String actualName;
-	private final int correctNumberOfDigits;
 	private final Set<String> formerActualNames;
 	private final int oneBasedPositionTOffset;
-	private final int correctNumberOfDigitsLessCheckDigit;
+	private final CheckDigitCalculator checkDigitCalculator;
 
 	GlobalTradeItemNumberFormat(@NonNls @NotNull final String actualName, final int correctNumberOfDigits, @NonNls @NotNull final String... formerActualNames)
 	{
 		this.actualName = actualName;
-		this.correctNumberOfDigits = correctNumberOfDigits;
 		this.formerActualNames = unmodifiableSetOf(formerActualNames);
 
 		oneBasedPositionTOffset = MaximumOneBasedPositionT - correctNumberOfDigits;
-		correctNumberOfDigitsLessCheckDigit = correctNumberOfDigits - 1;
 
 		CompilerWorkaround.Index[correctNumberOfDigits] = this;
+		checkDigitCalculator = new CheckDigitCalculator
+		(
+			correctNumberOfDigits,
+			oneBasedPositionTOffset,
+			3,
+			1,
+			3,
+			1,
+			3,
+			1,
+			3,
+			1,
+			3,
+			1,
+			3,
+			1,
+			3
+		);
 	}
 
 	@NonNls
@@ -80,60 +79,29 @@ public enum GlobalTradeItemNumberFormat implements ActualName, FormerActualNames
 		return actualName;
 	}
 
+	@Override
 	public void guardCorrectNumberOfDigitsIfNoCheckDigit(@NotNull final Digits digits)
 	{
-		if (digits.hasSize(correctNumberOfDigitsLessCheckDigit))
-		{
-			return;
-		}
-		throw new IncorrectNumberOfDigitsForGlobalTradeItemNumberWithoutCheckDigitIllegalStateException(this, correctNumberOfDigitsLessCheckDigit);
+		checkDigitCalculator.guardCorrectNumberOfDigitsIfNoCheckDigit(digits);
 	}
 
+	@Override
 	public void guardCorrectNumberOfDigits(@NotNull final Digits digits)
 	{
-		if (digits.hasSize(correctNumberOfDigits))
-		{
-			return;
-		}
-		throw new IncorrectNumberOfDigitsForGlobalTradeItemNumberIllegalStateException(this, correctNumberOfDigits);
+		checkDigitCalculator.guardCorrectNumberOfDigits(digits);
 	}
 
+	@Override
 	public void guardCheckDigitCorrect(@NotNull final Digits digits)
 	{
-		final Digit checkDigit = calculateCheckDigit(digits, digits.size() - 1);
-		if (checkDigit != digits.digitAt(correctNumberOfDigitsLessCheckDigit))
-		{
-			throw new IncorrectCheckDigitForGlobalTradeItemNumberIllegalStateException(digits, checkDigit);
-		}
+		checkDigitCalculator.guardCheckDigitCorrect(digits);
 	}
 
+	@Override
 	@NotNull
 	public Digit calculateCheckDigit(@NotNull final Digits withoutCheckDigit)
 	{
-		guardCorrectNumberOfDigitsIfNoCheckDigit(withoutCheckDigit);
-		final int size = withoutCheckDigit.size();
-
-		return calculateCheckDigit(withoutCheckDigit, size);
-	}
-
-	private Digit calculateCheckDigit(final DigitList digits, final int size)
-	{
-		int sum = 0;
-		for(int index = 0; index < size; index++)
-		{
-			sum += CheckDigitScalarMatrix[index + oneBasedPositionTOffset] * digits.digitAt(index).digit();
-		}
-		final int multipleOfTen = sum / 10;
-		final int remainder = sum - (10 * multipleOfTen);
-		final boolean hasRemainder = remainder != 0;
-		if (hasRemainder)
-		{
-			return digit(10 - remainder);
-		}
-		else
-		{
-			return Zero;
-		}
+		return checkDigitCalculator.calculateCheckDigit(withoutCheckDigit);
 	}
 
 	@NotNull

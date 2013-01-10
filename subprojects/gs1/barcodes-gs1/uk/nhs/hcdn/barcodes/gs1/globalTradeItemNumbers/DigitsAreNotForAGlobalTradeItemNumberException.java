@@ -2,6 +2,7 @@ package uk.nhs.hcdn.barcodes.gs1.globalTradeItemNumbers;
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.barcodes.Digits;
+import uk.nhs.hcdn.barcodes.gs1.checkDigits.IncorrectCheckDigitIllegalStateException;
 
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
@@ -13,7 +14,7 @@ public final class DigitsAreNotForAGlobalTradeItemNumberException extends Except
 		super(message(digits));
 	}
 
-	public DigitsAreNotForAGlobalTradeItemNumberException(@NotNull final Digits digits, @NotNull final IncorrectCheckDigitForGlobalTradeItemNumberIllegalStateException cause)
+	public DigitsAreNotForAGlobalTradeItemNumberException(@NotNull final Digits digits, @NotNull final IncorrectCheckDigitIllegalStateException cause)
 	{
 		super(message(digits), cause);
 	}
