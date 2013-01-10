@@ -493,7 +493,6 @@
         <inspection_tool class="InterfaceNeverImplemented" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="ignoreInterfacesThatOnlyDeclareConstants" value="false" />
         </inspection_tool>
-        <inspection_tool class="InterfaceWithOnlyOneDirectInheritor" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="IteratorHasNextCallsIteratorNext" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="IteratorNextDoesNotThrowNoSuchElementException" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="JDBCExecuteWithNonConstantString" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -1237,6 +1236,9 @@
   </component>
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/barcodes/barcodes.iml" filepath="$PROJECT_DIR$/barcodes/barcodes.iml" group="barcodes" />
+      <module fileurl="file://$PROJECT_DIR$/barcodes-gs1/barcodes-gs1.iml" filepath="$PROJECT_DIR$/barcodes-gs1/barcodes-gs1.iml" group="barcodes" />
+      <module fileurl="file://$PROJECT_DIR$/barcodes-gs1-unitTests/barcodes-gs1-unitTests.iml" filepath="$PROJECT_DIR$/barcodes-gs1-unitTests/barcodes-gs1-unitTests.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-comparison/common-comparison.iml" filepath="$PROJECT_DIR$/common-comparison/common-comparison.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-exceptions/common-exceptions.iml" filepath="$PROJECT_DIR$/common-exceptions/common-exceptions.iml" group="common" />
@@ -1244,8 +1246,6 @@
       <module fileurl="file://$PROJECT_DIR$/common-naming/common-naming.iml" filepath="$PROJECT_DIR$/common-naming/common-naming.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-reflection/common-reflection.iml" filepath="$PROJECT_DIR$/common-reflection/common-reflection.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-tuples/common-tuples.iml" filepath="$PROJECT_DIR$/common-tuples/common-tuples.iml" group="common" />
-      <module fileurl="file://$PROJECT_DIR$/gs1/gs1.iml" filepath="$PROJECT_DIR$/gs1/gs1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/gs1-unitTests/gs1-unitTests.iml" filepath="$PROJECT_DIR$/gs1-unitTests/gs1-unitTests.iml" />
     </modules>
   </component>
   <component name="ProjectResources">

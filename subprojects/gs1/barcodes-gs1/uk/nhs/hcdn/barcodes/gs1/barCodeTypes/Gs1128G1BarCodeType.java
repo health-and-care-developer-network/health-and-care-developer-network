@@ -5,32 +5,30 @@ import uk.nhs.hcdn.barcodes.Directionality;
 import uk.nhs.hcdn.barcodes.Numeracy;
 import uk.nhs.hcdn.barcodes.gs1.GlobalTradeItemNumberFormat;
 import uk.nhs.hcdn.barcodes.gs1.Gs1BarCodeFamily;
+import uk.nhs.hcdn.common.EnumeratedVariableArgumentsHelper;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.barcodes.Alphanumeracy;
 import uk.nhs.hcdn.barcodes.Directionality;
 import uk.nhs.hcdn.barcodes.Numeracy;
-import uk.nhs.hcdn.barcodes.gs1.GlobalTradeItemNumberFormat;
-import uk.nhs.hcdn.barcodes.gs1.Gs1BarCodeFamily;
-import uk.nhs.hcdn.common.EnumeratedVariableArgumentsHelper;
+import uk.nhs.hcdn.common.VariableArgumentsHelper;
 
 import java.util.Set;
 
-import static java.util.Collections.emptySet;
-import static uk.nhs.hcdn.barcodes.Alphanumeracy.NoneAlphanumeric;
+import static uk.nhs.hcdn.barcodes.Alphanumeracy.FortyEightAlphanumeric;
 import static uk.nhs.hcdn.barcodes.Directionality.NotOmnidirectional;
-import static uk.nhs.hcdn.barcodes.Numeracy.FourteenNumeric;
-import static uk.nhs.hcdn.barcodes.gs1.Gs1BarCodeFamily.ITF_14;
-import static uk.nhs.hcdn.common.EnumeratedVariableArgumentsHelper.unmodifiableSetOf;
+import static uk.nhs.hcdn.barcodes.Numeracy.NoneNumeric;
+import static uk.nhs.hcdn.barcodes.gs1.Gs1BarCodeFamily.GS1_128;
 
-public enum Itf14Gs1BarCodeType implements Gs1BarCodeType
+public enum Gs1128G1BarCodeType implements Gs1BarCodeType
 {
-	Itf14,
-	;
+	Gs1128,
 	;
 
-	private static final Set<String> FormerNames = emptySet();
+	@NonNls
+	private static final Set<String> FormerNames = VariableArgumentsHelper.unmodifiableSetOf("UCC/EAN-128", "UCC-128", "EAN-128");
 
+	// TODO: May not be a correct list
 	private static final Set<GlobalTradeItemNumberFormat> GlobalTradeItemNumberFormats = EnumeratedVariableArgumentsHelper.unmodifiableSetOf(GlobalTradeItemNumberFormat.GTIN_12, GlobalTradeItemNumberFormat.GTIN_13, GlobalTradeItemNumberFormat.GTIN_14);
 
 	@NonNls
@@ -38,7 +36,7 @@ public enum Itf14Gs1BarCodeType implements Gs1BarCodeType
 	@Override
 	public String actualName()
 	{
-		return "ITF-14";
+		return "GS1-128";
 	}
 
 	@SuppressWarnings("RefusedBequest")
@@ -49,25 +47,33 @@ public enum Itf14Gs1BarCodeType implements Gs1BarCodeType
 		return actualName();
 	}
 
+	@SuppressWarnings("ReturnOfCollectionOrArrayField")
+	@NotNull
+	@Override
+	public Set<String> formerActualNames()
+	{
+		return FormerNames;
+	}
+
 	@NotNull
 	@Override
 	public Gs1BarCodeFamily barCodeFamily()
 	{
-		return Gs1BarCodeFamily.ITF_14;
+		return GS1_128;
 	}
 
 	@NotNull
 	@Override
 	public Numeracy numeracy()
 	{
-		return Numeracy.FourteenNumeric;
+		return Numeracy.NoneNumeric;
 	}
 
 	@NotNull
 	@Override
 	public Alphanumeracy alphanumeracy()
 	{
-		return Alphanumeracy.NoneAlphanumeric;
+		return Alphanumeracy.FortyEightAlphanumeric;
 	}
 
 	@NotNull
@@ -83,13 +89,5 @@ public enum Itf14Gs1BarCodeType implements Gs1BarCodeType
 	public Set<GlobalTradeItemNumberFormat> gtins()
 	{
 		return GlobalTradeItemNumberFormats;
-	}
-
-	@SuppressWarnings("ReturnOfCollectionOrArrayField")
-	@NotNull
-	@Override
-	public Set<String> formerActualNames()
-	{
-		return FormerNames;
 	}
 }

@@ -19,7 +19,7 @@ import static uk.nhs.hcdn.barcodes.Directionality.Omnidirectional;
 import static uk.nhs.hcdn.barcodes.Numeracy.FourteenNumeric;
 import static uk.nhs.hcdn.barcodes.Numeracy.SeventyFourNumeric;
 import static uk.nhs.hcdn.barcodes.gs1.Gs1BarCodeFamily.GS1DataBar;
-import static uk.nhs.hcdn.common.EnumeratedVariableArgumentsHelper.unmodifiableSetOf;
+import static uk.nhs.hcdn.barcodes.gs1.GlobalTradeItemNumberFormat.*;
 
 @SuppressWarnings("UnusedDeclaration")
 public enum Gs1DataBarGs1BarCodeType implements Gs1BarCodeType

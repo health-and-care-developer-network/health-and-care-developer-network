@@ -8,8 +8,6 @@ import uk.nhs.hcdn.common.VariableArgumentsHelper;
 
 import java.util.Set;
 
-import static uk.nhs.hcdn.common.VariableArgumentsHelper.unmodifiableSetOf;
-
 public enum Gs1BarCodeFamily implements BarCodeFamily
 {
 	EANUPC("EAN/UPC"),

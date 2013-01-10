@@ -13,9 +13,10 @@ import java.util.Set;
 
 import static java.util.Collections.emptySet;
 import static uk.nhs.hcdn.barcodes.Alphanumeracy.NoneAlphanumeric;
+import static uk.nhs.hcdn.barcodes.Numeracy.*;
 import static uk.nhs.hcdn.barcodes.Directionality.Omnidirectional;
 import static uk.nhs.hcdn.barcodes.gs1.Gs1BarCodeFamily.EANUPC;
-import static uk.nhs.hcdn.common.EnumeratedVariableArgumentsHelper.unmodifiableSetOf;
+import static uk.nhs.hcdn.barcodes.gs1.GlobalTradeItemNumberFormat.*;
 
 public enum EanUpcGs1BarCodeType implements Gs1BarCodeType
 {

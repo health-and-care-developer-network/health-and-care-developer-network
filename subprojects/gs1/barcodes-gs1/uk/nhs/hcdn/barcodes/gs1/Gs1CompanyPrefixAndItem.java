@@ -5,7 +5,6 @@ import uk.nhs.hcdn.barcodes.gs1.restrictedCirculation.RestrictedCirculationNumbe
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.barcodes.Digits;
-import uk.nhs.hcdn.barcodes.gs1.restrictedCirculation.RestrictedCirculationNumber;
 
 public final class Gs1CompanyPrefixAndItem extends AbstractToString
 {

@@ -1,8 +1,8 @@
 package uk.nhs.hcdn.barcodes;
 
-import uk.nhs.hcdn.common.comparison.ComparisonResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hcdn.common.comparison.ComparisonResult;
 
 import java.util.Arrays;
 
@@ -11,7 +11,6 @@ import static uk.nhs.hcdn.barcodes.Digit.digitFromUtf16Code;
 import static uk.nhs.hcdn.common.VariableArgumentsHelper.copyOf;
 import static uk.nhs.hcdn.common.comparison.ComparisonHelper.compareInt;
 import static uk.nhs.hcdn.common.comparison.ComparisonHelper.isNotEqualTo;
-import static uk.nhs.hcdn.common.comparison.ComparisonResult.EqualTo;
 
 public final class Digits implements Comparable<Digits>
 {
@@ -162,7 +161,7 @@ public final class Digits implements Comparable<Digits>
 				return digitComparisonResult;
 			}
 		}
-		return EqualTo;
+		return ComparisonResult.EqualTo;
 	}
 
 	public boolean hasSize(final int size)

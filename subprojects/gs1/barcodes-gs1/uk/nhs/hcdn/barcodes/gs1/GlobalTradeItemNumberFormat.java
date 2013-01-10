@@ -9,15 +9,12 @@ import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.barcodes.Digit;
 import uk.nhs.hcdn.barcodes.Digits;
 import uk.nhs.hcdn.common.VariableArgumentsHelper;
-import uk.nhs.hcdn.common.naming.ActualName;
 
 import java.util.Set;
 
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
 import static uk.nhs.hcdn.barcodes.Digit.Zero;
-import static uk.nhs.hcdn.barcodes.gs1.GlobalTradeItemNumber.MaximumOneBasedPositionT;
-import static uk.nhs.hcdn.common.VariableArgumentsHelper.unmodifiableSetOf;
 
 public enum GlobalTradeItemNumberFormat implements ActualName, FormerActualNames
 {

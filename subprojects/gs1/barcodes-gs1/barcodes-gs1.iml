@@ -14,6 +14,7 @@
     <orderEntry type="module" module-name="common-naming" exported="" />
     <orderEntry type="module" module-name="common-exceptions" />
     <orderEntry type="module" module-name="common-comparison" />
+    <orderEntry type="module" module-name="barcodes" />
   </component>
 </module>
 
