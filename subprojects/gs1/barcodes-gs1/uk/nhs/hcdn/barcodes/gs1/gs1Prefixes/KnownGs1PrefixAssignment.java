@@ -10,6 +10,7 @@ import static uk.nhs.hcdn.barcodes.Digit.Zero;
 import static uk.nhs.hcdn.barcodes.Digits.digits;
 import static uk.nhs.hcdn.common.IntegerHelper.power;
 
+@SuppressWarnings("UnusedDeclaration")
 public enum KnownGs1PrefixAssignment implements Gs1PrefixAssignment
 {
 	GS1_US("GS1 US", "000", "019", "030", "039", "060", "139"),
