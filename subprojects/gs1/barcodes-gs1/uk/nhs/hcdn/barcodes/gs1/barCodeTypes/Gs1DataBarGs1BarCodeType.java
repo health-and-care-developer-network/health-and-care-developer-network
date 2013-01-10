@@ -3,7 +3,7 @@ package uk.nhs.hcdn.barcodes.gs1.barCodeTypes;
 import uk.nhs.hcdn.barcodes.Alphanumeracy;
 import uk.nhs.hcdn.barcodes.Directionality;
 import uk.nhs.hcdn.barcodes.Numeracy;
-import uk.nhs.hcdn.barcodes.gs1.GlobalTradeItemNumberFormat;
+import uk.nhs.hcdn.barcodes.gs1.globalTradeItemNumbers.GlobalTradeItemNumberFormat;
 import uk.nhs.hcdn.barcodes.gs1.Gs1BarCodeFamily;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
@@ -19,7 +19,7 @@ import static uk.nhs.hcdn.barcodes.Directionality.Omnidirectional;
 import static uk.nhs.hcdn.barcodes.Numeracy.FourteenNumeric;
 import static uk.nhs.hcdn.barcodes.Numeracy.SeventyFourNumeric;
 import static uk.nhs.hcdn.barcodes.gs1.Gs1BarCodeFamily.GS1DataBar;
-import static uk.nhs.hcdn.barcodes.gs1.GlobalTradeItemNumberFormat.*;
+import static uk.nhs.hcdn.barcodes.gs1.globalTradeItemNumbers.GlobalTradeItemNumberFormat.*;
 
 @SuppressWarnings("UnusedDeclaration")
 public enum Gs1DataBarGs1BarCodeType implements Gs1BarCodeType

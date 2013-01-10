@@ -1,14 +1,13 @@
 package uk.nhs.hcdn.barcodes.gs1;
 
 import uk.nhs.hcdn.barcodes.Digits;
-import uk.nhs.hcdn.barcodes.gs1.restrictedCirculation.RestrictedCirculationNumber;
+import uk.nhs.hcdn.barcodes.gs1.gs1Prefixes.Gs1Prefix;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hcdn.barcodes.Digits;
 
 public final class Gs1CompanyPrefixAndItem extends AbstractToString
 {
-	public static final int NumberOfDigits = 12;
+	public static final int Gs1CompanyPrefixAndItemNumberOfDigits = 12;
 
 	@NotNull
 	private final Digits digits;
@@ -19,8 +18,8 @@ public final class Gs1CompanyPrefixAndItem extends AbstractToString
 	}
 
 	@NotNull
-	public RestrictedCirculationNumber restrictedCirculationNumber()
+	public Gs1Prefix restrictedCirculationNumber()
 	{
-		return new RestrictedCirculationNumber(digits.firstThree());
+		return new Gs1Prefix(digits.firstThree());
 	}
 }
