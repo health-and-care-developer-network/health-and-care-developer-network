@@ -1,13 +1,15 @@
 package org.gov.data.nhs.hcdn.barcodes.gs1;
 
 import org.gov.data.nhs.hcdn.barcodes.Digit;
+import org.gov.data.nhs.hcdn.barcodes.Digits;
+import org.gov.data.nhs.hcdn.common.comparison.ComparisonResult;
 import org.gov.data.nhs.hcdn.common.reflection.toString.AbstractToString;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
-
-import static org.gov.data.nhs.hcdn.common.VariableArgumentsHelper.copyOf;
+import static org.gov.data.nhs.hcdn.barcodes.gs1.Gs1CompanyPrefixAndItem.NumberOfDigits;
+import static org.gov.data.nhs.hcdn.common.comparison.ComparisonHelper.isNotEqualTo;
+import static org.gov.data.nhs.hcdn.common.comparison.ComparisonResult.EqualTo;
 
 public final class GlobalTradeItemNumber extends AbstractToString implements Comparable<GlobalTradeItemNumber>
 {
@@ -17,26 +19,18 @@ public final class GlobalTradeItemNumber extends AbstractToString implements Com
 	private static final int T14 = 14;
 	public static final int MaximumOneBasedPositionT = T14;
 
-	private static final int EqualTo = 0;
-
 	@NotNull
 	private final GlobalTradeItemNumberFormat globalTradeItemNumberFormat;
 
 	@NotNull
-	private final Digit[] digits;
+	private final Digits digits;
 
-	public GlobalTradeItemNumber(@NotNull final GlobalTradeItemNumberFormat globalTradeItemNumberFormat, @NotNull final Digit... digits)
+	public GlobalTradeItemNumber(@NotNull final GlobalTradeItemNumberFormat globalTradeItemNumberFormat, @NotNull final Digits digits)
 	{
 		globalTradeItemNumberFormat.guardCorrectNumberOfDigits(digits);
 
 		this.globalTradeItemNumberFormat = globalTradeItemNumberFormat;
-		this.digits = copyOf(digits);
-	}
-
-	@NotNull
-	public Digit digit(final int oneBasedPositionT)
-	{
-		return globalTradeItemNumberFormat.extract(digits, oneBasedPositionT);
+		this.digits = digits;
 	}
 
 	@NotNull
@@ -53,47 +47,54 @@ public final class GlobalTradeItemNumber extends AbstractToString implements Com
 	}
 
 	@NotNull
+	public Digit digit(final int oneBasedPositionT)
+	{
+		return globalTradeItemNumberFormat.extract(digits, oneBasedPositionT);
+	}
+
+	@NotNull
 	public Gs1CompanyPrefixAndItem gs1CompanyPrefixAndItem()
 	{
-		final Digit[] digit = new Digit[12];
+		final Digit[] slice = new Digit[NumberOfDigits];
 		for(int oneBasedPositionT = T2; oneBasedPositionT <= T13; oneBasedPositionT++)
 		{
-			digit[oneBasedPositionT - T2] = digit(oneBasedPositionT);
+			slice[oneBasedPositionT - T2] = digit(oneBasedPositionT);
 		}
-		return new Gs1CompanyPrefixAndItem(digit);
+		return new Gs1CompanyPrefixAndItem(new Digits(slice));
 	}
 
 	@Override
+	@ComparisonResult
 	public int compareTo(@NotNull final GlobalTradeItemNumber o)
 	{
 		for(int oneBasedPositionT = 1; oneBasedPositionT <= MaximumOneBasedPositionT; oneBasedPositionT++)
 		{
 			final Digit us = digit(oneBasedPositionT);
 			final Digit them = o.digit(oneBasedPositionT);
-			final int comparison = us.compareTo(them);
-			if (comparison != EqualTo)
+			@ComparisonResult final int digitComparisonResult = us.compareTo(them);
+			if (isNotEqualTo(digitComparisonResult))
 			{
-				return comparison;
+				return digitComparisonResult;
 			}
 		}
 		return EqualTo;
 	}
 
 	@Override
-	public boolean equals(@Nullable final Object o)
+	public boolean equals(@Nullable final Object obj)
 	{
-		if (this == o)
+		if (this == obj)
 		{
 			return true;
 		}
-		if (o == null || getClass() != o.getClass())
+		if (obj == null || getClass() != obj.getClass())
 		{
 			return false;
 		}
 
-		final GlobalTradeItemNumber that = (GlobalTradeItemNumber) o;
+		final GlobalTradeItemNumber that = (GlobalTradeItemNumber) obj;
 
-		if (!Arrays.equals(digits, that.digits))
+		if (!digits.equals(that.digits))
 		{
 			return false;
 		}
@@ -109,7 +110,7 @@ public final class GlobalTradeItemNumber extends AbstractToString implements Com
 	public int hashCode()
 	{
 		int result = globalTradeItemNumberFormat.hashCode();
-		result = 31 * result + Arrays.hashCode(digits);
+		result = 31 * result + digits.hashCode();
 		return result;
 	}
 }

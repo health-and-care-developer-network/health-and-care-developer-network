@@ -1,10 +1,14 @@
 package org.gov.data.nhs.hcdn.common.tuples;
 
+import org.gov.data.nhs.hcdn.common.comparison.ComparisonResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import static org.gov.data.nhs.hcdn.common.comparison.ComparisonHelper.isGreaterThan;
+import static org.gov.data.nhs.hcdn.common.comparison.ComparisonHelper.isNotEqualTo;
+
 @SuppressWarnings("StandardVariableNames")
-public final class ComparablePair<T extends Comparable<T>> extends Pair<T>
+public final class ComparablePair<T extends Comparable<T>> extends Pair<T> implements Comparable<ComparablePair<T>>
 {
 	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
 	@NotNull
@@ -16,7 +20,7 @@ public final class ComparablePair<T extends Comparable<T>> extends Pair<T>
 	public ComparablePair(@NotNull final T a, @NotNull final T b)
 	{
 		super(a, b);
-		if (a.compareTo(b) == 1)
+		if (isGreaterThan(a.compareTo(b)))
 		{
 			throw new IllegalArgumentException("a can not be greater than b");
 		}
@@ -54,5 +58,17 @@ public final class ComparablePair<T extends Comparable<T>> extends Pair<T>
 		int result = a.hashCode();
 		result = (31 * result) + b.hashCode();
 		return result;
+	}
+
+	@Override
+	@ComparisonResult
+	public int compareTo(@NotNull final ComparablePair<T> o)
+	{
+		@ComparisonResult final int aComparisonResult = a.compareTo(o.a);
+		if (isNotEqualTo(aComparisonResult))
+		{
+			return aComparisonResult;
+		}
+		return b.compareTo(o.b);
 	}
 }

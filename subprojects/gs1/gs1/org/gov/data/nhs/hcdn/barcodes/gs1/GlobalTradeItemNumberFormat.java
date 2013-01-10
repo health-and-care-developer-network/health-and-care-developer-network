@@ -1,6 +1,7 @@
 package org.gov.data.nhs.hcdn.barcodes.gs1;
 
 import org.gov.data.nhs.hcdn.barcodes.Digit;
+import org.gov.data.nhs.hcdn.barcodes.Digits;
 import org.gov.data.nhs.hcdn.common.naming.ActualName;
 import org.gov.data.nhs.hcdn.common.naming.FormerActualNames;
 import org.jetbrains.annotations.NonNls;
@@ -45,24 +46,24 @@ public enum GlobalTradeItemNumberFormat implements ActualName, FormerActualNames
 		return actualName;
 	}
 
-	public void guardCorrectNumberOfDigits(@NotNull final Digit... digits)
+	public void guardCorrectNumberOfDigits(@NotNull final Digits digits)
 	{
-		final int length = digits.length;
-		if (correctNumberOfDigits != length)
+		if (digits.hasSize(correctNumberOfDigits))
 		{
-			throw new IllegalArgumentException(format(ENGLISH, "Incorrect number of digits for GTIN %1$s (expected %2$s digits)", this, length));
+			return;
 		}
+		throw new IllegalArgumentException(format(ENGLISH, "Incorrect number of digits for GTIN %1$s (expected %2$s digits)", this, correctNumberOfDigits));
 	}
 
 	@NotNull
-	public Digit extract(@NotNull final Digit[] digits, final int oneBasedPositionT)
+	public Digit extract(@NotNull final Digits digits, final int oneBasedPositionT)
 	{
 		final int index = oneBasedPositionT - 1 - oneBasedPositionTOffset;
 		if (index < 0)
 		{
 			return Zero;
 		}
-		return digits[index];
+		return digits.digitAt(index);
 	}
 
 	@SuppressWarnings("ReturnOfCollectionOrArrayField")
