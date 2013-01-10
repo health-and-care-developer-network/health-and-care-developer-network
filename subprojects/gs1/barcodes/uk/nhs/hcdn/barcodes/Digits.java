@@ -12,17 +12,19 @@ import static uk.nhs.hcdn.common.VariableArgumentsHelper.copyOf;
 import static uk.nhs.hcdn.common.comparison.ComparisonHelper.compareInt;
 import static uk.nhs.hcdn.common.comparison.ComparisonHelper.isNotEqualTo;
 
-public final class Digits implements Comparable<Digits>
+public final class Digits implements DigitList
 {
 	private static final Digit[] EmptyDigits = new Digit[0];
 
-	@NotNull public static final Digits Empty = new Digits(EmptyDigits);
+	@NotNull public static final Digits Empty = new Digits(false, EmptyDigits);
 
+	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
 	public static Digits digits(@NotNull final int... digits)
 	{
 		return new Digits(digits);
 	}
 
+	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
 	public static Digits digits(@NotNull final CharSequence digits)
 	{
 		return new Digits(digits);
@@ -62,7 +64,7 @@ public final class Digits implements Comparable<Digits>
 		}
 	}
 
-	public Digits(@NotNull final Digit... digits)
+	public Digits(final boolean makeDefensiveCopy, @NotNull final Digit... digits)
 	{
 		size = digits.length;
 		if (size == 0)
@@ -70,7 +72,7 @@ public final class Digits implements Comparable<Digits>
 			this.digits = EmptyDigits;
 			return;
 		}
-		this.digits = copyOf(digits);
+		this.digits = makeDefensiveCopy ? copyOf(digits) : digits;
 	}
 
 	private Digits(@NotNull final Digit[] copyFromDigits, final int slice)
@@ -95,6 +97,17 @@ public final class Digits implements Comparable<Digits>
 			return copyFromDigits;
 		}
 		return Arrays.copyOf(copyFromDigits, slice);
+	}
+
+	@NotNull
+	public static Digits slice(@NotNull final DigitList digitList, final int startsFromInclusiveOneBasedPositionT, final int endsAtEnclusiveOneBasedPositionT)
+	{
+		final Digit[] slice = new Digit[endsAtEnclusiveOneBasedPositionT - startsFromInclusiveOneBasedPositionT + 1];
+		for (int oneBasedPositionT = startsFromInclusiveOneBasedPositionT; oneBasedPositionT <= endsAtEnclusiveOneBasedPositionT; oneBasedPositionT++)
+		{
+			slice[oneBasedPositionT - startsFromInclusiveOneBasedPositionT] = digitList.digitAtPositionT(oneBasedPositionT);
+		}
+		return new Digits(false, slice);
 	}
 
 	@NotNull
@@ -146,9 +159,9 @@ public final class Digits implements Comparable<Digits>
 	@SuppressWarnings("FeatureEnvy")
 	@Override
 	@ComparisonResult
-	public int compareTo(@NotNull final Digits o)
+	public int compareTo(@NotNull final DigitList o)
 	{
-		@ComparisonResult final int sizeComparisonResult = compareInt(size, o.size);
+		@ComparisonResult final int sizeComparisonResult = compareInt(size, o.size());
 		if (isNotEqualTo(sizeComparisonResult))
 		{
 			return sizeComparisonResult;
@@ -169,6 +182,7 @@ public final class Digits implements Comparable<Digits>
 		return this.size == size;
 	}
 
+	@Override
 	@NotNull
 	public Digit digitAt(final int index)
 	{
@@ -179,8 +193,21 @@ public final class Digits implements Comparable<Digits>
 		return digits[index];
 	}
 
+	@NotNull
+	@Override
+	public Digit digitAtPositionT(final int oneBasedPositionT)
+	{
+		return digitAt(oneBasedPositionT - 1);
+	}
+
+	@Override
+	public int size()
+	{
+		return size;
+	}
+
 	@ComparisonResult
-	public int compareDigitsAtIndex(@NotNull final Digits digits, final int index)
+	public int compareDigitsAtIndex(@NotNull final DigitList digits, final int index)
 	{
 		return compareDigitAtIndexWith(index, digits.digitAt(index));
 	}

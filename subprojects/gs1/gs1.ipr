@@ -118,7 +118,6 @@
         <inspection_tool class="ArrayLengthInLoopCondition" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="AssertEqualsCalledOnArray" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="AssertEqualsMayBeAssertSame" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="AssertsWithoutMessages" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="AssignmentToCatchBlockParameter" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="AssignmentToCollectionFieldFromParameter" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="ignorePrivateMethods" value="true" />
@@ -200,7 +199,6 @@
         <inspection_tool class="CheckForOutOfMemoryOnLargeArrayAllocation" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="m_limit" value="64" />
         </inspection_tool>
-        <inspection_tool class="CheckedExceptionClass" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ClassComplexity" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="m_limit" value="80" />
         </inspection_tool>
@@ -230,7 +228,7 @@
         <inspection_tool class="ClassNamingConvention" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="m_regex" value="[A-Z][A-Za-z\d]*" />
           <option name="m_minLength" value="2" />
-          <option name="m_maxLength" value="64" />
+          <option name="m_maxLength" value="99" />
         </inspection_tool>
         <inspection_tool class="ClassNestingDepth" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="m_limit" value="1" />
@@ -387,7 +385,7 @@
         </inspection_tool>
         <inspection_tool class="FieldCount" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="m_countConstantFields" value="false" />
-          <option name="m_considerStaticFinalFieldsConstant" value="false" />
+          <option name="m_considerStaticFinalFieldsConstant" value="true" />
           <option name="m_limit" value="20" />
         </inspection_tool>
         <inspection_tool class="FieldHidesSuperclassField" enabled="true" level="WARNING" enabled_by_default="true">
@@ -733,7 +731,7 @@
         </inspection_tool>
         <inspection_tool class="ParameterizedParametersStaticCollection" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ParametersPerConstructor" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="m_limit" value="5" />
+          <option name="m_limit" value="10" />
         </inspection_tool>
         <inspection_tool class="ParametersPerMethod" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="m_limit" value="5" />
