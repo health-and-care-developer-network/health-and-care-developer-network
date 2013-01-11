@@ -1,12 +1,52 @@
 package uk.nhs.hcdn.barcodes;
 
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hcdn.common.comparison.ComparisonHelper;
+import uk.nhs.hcdn.common.comparison.ExtendedComparable;
 
-public enum Digit
+public enum Digit implements ExtendedComparable<Digit>
 {
-	Zero(0),
-	One(1),
-	Two(2),
+	Zero(0)
+	{
+		@SuppressWarnings("RefusedBequest")
+		@Override
+		public boolean isZeroToOne()
+		{
+			return true;
+		}
+
+		@SuppressWarnings("RefusedBequest")
+		@Override
+		public boolean isZeroToTwo()
+		{
+			return true;
+		}
+	},
+	One(1)
+	{
+		@SuppressWarnings("RefusedBequest")
+		@Override
+		public boolean isZeroToOne()
+		{
+			return true;
+		}
+
+		@SuppressWarnings("RefusedBequest")
+		@Override
+		public boolean isZeroToTwo()
+		{
+			return true;
+		}
+	},
+	Two(2)
+	{
+		@SuppressWarnings("RefusedBequest")
+		@Override
+		public boolean isZeroToTwo()
+		{
+			return true;
+		}
+	},
 	Three(3),
 	Four(4),
 	Five(5),
@@ -77,5 +117,51 @@ public enum Digit
 	public static Digit digitFromCodepoint(final int unicodeCodePoint)
 	{
 		return digit(unicodeCodePoint - Utf16CodeForZero);
+	}
+
+	public boolean isZeroToOne()
+	{
+		return true;
+	}
+
+	public boolean isZeroToTwo()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isLessThan(@NotNull final Digit right)
+	{
+		return ComparisonHelper.isLessThan(this, right);
+	}
+
+	@Override
+	public boolean isEqualTo(@NotNull final Digit right)
+	{
+		return ComparisonHelper.isEqualTo(this, right);
+	}
+
+	@Override
+	public boolean isNotEqualTo(@NotNull final Digit right)
+	{
+		return ComparisonHelper.isNotEqualTo(this, right);
+	}
+
+	@Override
+	public boolean isGreaterThan(@NotNull final Digit right)
+	{
+		return ComparisonHelper.isGreaterThan(this, right);
+	}
+
+	@Override
+	public boolean isLessThanOrEqualTo(@NotNull final Digit right)
+	{
+		return ComparisonHelper.isLessThanOrEqualTo(this, right);
+	}
+
+	@Override
+	public boolean isGreaterThanOrEqualTo(@NotNull final Digit right)
+	{
+		return ComparisonHelper.isGreaterThanOrEqualTo(this, right);
 	}
 }

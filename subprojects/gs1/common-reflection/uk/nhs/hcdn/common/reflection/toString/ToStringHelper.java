@@ -1,10 +1,9 @@
 package uk.nhs.hcdn.common.reflection.toString;
 
-import uk.nhs.hcdn.common.exceptions.ShouldNeverHappenException;
-import uk.nhs.hcdn.common.reflection.ClassInformation;
-import uk.nhs.hcdn.common.reflection.toString.toStringGenerators.ToStringGenerator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hcdn.common.exceptions.ShouldNeverHappenException;
+import uk.nhs.hcdn.common.reflection.ClassInformation;
 import uk.nhs.hcdn.common.reflection.toString.toStringGenerators.*;
 
 import java.io.StringWriter;
@@ -37,13 +36,13 @@ public final class ToStringHelper
 		ByteToStringGeneratorInstance,
 		CharacterToStringGeneratorInstance,
 		GregorianToStringGeneratorInstance,
-		LockToStringGenerator.LockToStringGeneratorInstance,
+		LockToStringGeneratorInstance,
 		PrimitiveBooleanArrayToStringGeneratorInstance,
-		PrimitiveByteArrayToStringGenerator.PrimitiveByteArrayToStringGeneratorInstance,
+		PrimitiveByteArrayToStringGeneratorInstance,
 		PrimitiveShortArrayToStringGeneratorInstance,
-		PrimitiveCharArrayToStringGenerator.PrimitiveCharArrayToStringGeneratorInstance,
+		PrimitiveCharArrayToStringGeneratorInstance,
 		PrimitiveIntArrayToStringGeneratorInstance,
-		PrimitiveLongArrayToStringGenerator.PrimitiveLongArrayToStringGeneratorInstance,
+		PrimitiveLongArrayToStringGeneratorInstance,
 		PrimitiveFloatArrayToStringGeneratorInstance,
 		PrimitiveDoubleArrayToStringGeneratorInstance
 	);
@@ -73,9 +72,9 @@ public final class ToStringHelper
 		stringWriter.write("(");
 
 		boolean afterFirstField = false;
-		for (final Field field : classInformation.allPrivateFinalFields())
+		for (final Field field : classInformation.allPrivateOrProtectedFinalFields())
 		{
-			if (fieldInformation(field).doesNotHaveAnnotation())
+			if (fieldInformation(field).hasAnnotation(ExcludeFromToString.class))
 			{
 				continue;
 			}
@@ -113,7 +112,7 @@ public final class ToStringHelper
 			@SuppressWarnings("rawtypes") @NotNull final ToStringGenerator notNullToStringGenerator;
 			if (nullableToStringGenerator == null)
 			{
-				notNullToStringGenerator = aClass.isArray() ? ObjectArrayToStringGenerator.ObjectArrayToStringGeneratorInstance : ObjectToStringGenerator.ObjectToStringGeneratorInstance;
+				notNullToStringGenerator = aClass.isArray() ? ObjectArrayToStringGeneratorInstance : ObjectToStringGeneratorInstance;
 			}
 			else
 			{

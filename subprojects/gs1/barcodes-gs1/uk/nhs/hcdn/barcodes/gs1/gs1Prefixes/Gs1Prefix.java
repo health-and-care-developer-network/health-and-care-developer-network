@@ -14,9 +14,20 @@ public final class Gs1Prefix extends AbstractToString implements Comparable<Gs1P
 	@NotNull
 	private final Digits threeDigits;
 
+	@NotNull
+	private final Gs1PrefixAssignment gs1PrefixAssignment;
+
+	@SuppressWarnings("ThisEscapedInObjectConstruction")
 	public Gs1Prefix(@NotNull final Digits threeDigits)
 	{
 		this.threeDigits = threeDigits;
+		gs1PrefixAssignment = KnownGs1PrefixAssignment.gs1PrefixAssignment(this);
+	}
+
+	@NotNull
+	public Gs1PrefixAssignment gs1PrefixAssignment()
+	{
+		return gs1PrefixAssignment;
 	}
 
 	@NotNull

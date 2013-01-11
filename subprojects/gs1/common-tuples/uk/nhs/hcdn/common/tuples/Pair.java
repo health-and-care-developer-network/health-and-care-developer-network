@@ -1,29 +1,64 @@
 package uk.nhs.hcdn.common.tuples;
 
+import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("StandardVariableNames")
-public class Pair<T> extends AbstractToString
+public class Pair<A, B> extends AbstractToString
 {
 	@SuppressWarnings({"ClassEscapesDefinedScope", "PublicField"})
 	@NotNull
-	public final T a;
+	public final A a;
 
 	@SuppressWarnings({"ClassEscapesDefinedScope", "PublicField"})
 	@NotNull
-	public final T b;
+	public final B b;
 
 	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
 	@NotNull
-	public static <T> Pair<T> pair(@NotNull final T a, @NotNull final T b)
+	public static <A, B> Pair<A, B> pair(@NotNull final A a, @NotNull final B b)
 	{
 		return new Pair<>(a, b);
 	}
 
-	public Pair(@NotNull final T a, @NotNull final T b)
+	public Pair(@NotNull final A a, @NotNull final B b)
 	{
 		this.a = a;
 		this.b = b;
+	}
+
+	@Override
+	public boolean equals(@Nullable final Object obj)
+	{
+		if (this == obj)
+		{
+			return true;
+		}
+		if (obj == null || getClass() != obj.getClass())
+		{
+			return false;
+		}
+
+		final Pair<?, ?> pair = (Pair<?, ?>) obj;
+
+		if (!a.equals(pair.a))
+		{
+			return false;
+		}
+		if (!b.equals(pair.b))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int result = a.hashCode();
+		result = 31 * result + b.hashCode();
+		return result;
 	}
 }

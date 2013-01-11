@@ -3,11 +3,10 @@ package uk.nhs.hcdn.barcodes.gs1.barCodeTypes;
 import uk.nhs.hcdn.barcodes.Alphanumeracy;
 import uk.nhs.hcdn.barcodes.Directionality;
 import uk.nhs.hcdn.barcodes.Numeracy;
-import uk.nhs.hcdn.barcodes.gs1.globalTradeItemNumbers.GlobalTradeItemNumberFormat;
+import uk.nhs.hcdn.barcodes.gs1.keys.globalTradeItemNumbers.GlobalTradeItemNumberFormat;
 import uk.nhs.hcdn.barcodes.gs1.Gs1BarCodeFamily;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hcdn.barcodes.Numeracy;
 import uk.nhs.hcdn.common.EnumeratedVariableArgumentsHelper;
 
 import java.util.Set;
@@ -15,7 +14,6 @@ import java.util.Set;
 import static java.util.Collections.emptySet;
 import static uk.nhs.hcdn.barcodes.Alphanumeracy.Gs1DataMatrixAlphanumeric;
 import static uk.nhs.hcdn.barcodes.Directionality.TwoDimensional;
-import static uk.nhs.hcdn.barcodes.Numeracy.Gs1DataMatrixNumeric;
 import static uk.nhs.hcdn.barcodes.gs1.Gs1BarCodeFamily.GS1DataMatrix;
 
 public enum Gs1DataMatrixGs1BarCodeType implements Gs1BarCodeType
@@ -78,6 +76,12 @@ public enum Gs1DataMatrixGs1BarCodeType implements Gs1BarCodeType
 	public Set<GlobalTradeItemNumberFormat> gtins()
 	{
 		return GlobalTradeItemNumberFormats;
+	}
+
+	@Override
+	public boolean canCarryApplicationIdentifiers()
+	{
+		return true;
 	}
 
 	@SuppressWarnings("ReturnOfCollectionOrArrayField")

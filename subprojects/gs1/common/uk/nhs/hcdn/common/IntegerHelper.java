@@ -10,6 +10,11 @@ public final class IntegerHelper
 		return (int) pow((double) x, (double) n);
 	}
 
+	public static boolean isEven(final int value)
+	{
+		return value % 2 == 0;
+	}
+
 	private IntegerHelper()
 	{
 	}

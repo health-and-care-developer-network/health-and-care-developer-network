@@ -1,14 +1,14 @@
-package uk.nhs.hcdn.barcodes.gs1;
+package uk.nhs.hcdn.barcodes.gs1.globalTradeItemNumbers;
 
 import org.junit.Test;
 import uk.nhs.hcdn.barcodes.Digit;
 import uk.nhs.hcdn.barcodes.Digits;
-import uk.nhs.hcdn.barcodes.gs1.globalTradeItemNumbers.GlobalTradeItemNumber;
+import uk.nhs.hcdn.barcodes.gs1.keys.globalTradeItemNumbers.GlobalTradeItemNumber;
 
 import static org.junit.Assert.assertEquals;
 import static uk.nhs.hcdn.barcodes.Digit.*;
 import static uk.nhs.hcdn.barcodes.Digits.digits;
-import static uk.nhs.hcdn.barcodes.gs1.globalTradeItemNumbers.GlobalTradeItemNumberFormat.*;
+import static uk.nhs.hcdn.barcodes.gs1.keys.globalTradeItemNumbers.GlobalTradeItemNumberFormat.*;
 
 public final class GlobalTradeItemNumberUnitTest
 {
@@ -20,8 +20,6 @@ public final class GlobalTradeItemNumberUnitTest
 	private static final Digits NormalisedGlobalTradeItemNumberDigitsForGtin13 = digits("01123456789998");
 	private static final GlobalTradeItemNumber ValidGtin14Number = new GlobalTradeItemNumber(GTIN_14, digits("41123456789910"));
 	private static final Digits NormalisedGlobalTradeItemNumberDigitsForGtin14 = digits("41123456789910");
-
-	// More prefixes: http://www.gs1.org/barcodes/support/prefix_list
 
 	@Test
 	public void gtin8ExtractsIndicatorDigit()
