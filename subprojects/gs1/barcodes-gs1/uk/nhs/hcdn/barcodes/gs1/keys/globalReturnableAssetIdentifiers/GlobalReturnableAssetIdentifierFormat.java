@@ -1,4 +1,4 @@
-package uk.nhs.hcdn.barcodes.gs1.serialShippingContainerCodes;
+package uk.nhs.hcdn.barcodes.gs1.keys.globalReturnableAssetIdentifiers;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
@@ -6,20 +6,17 @@ import uk.nhs.hcdn.barcodes.Digit;
 import uk.nhs.hcdn.barcodes.DigitList;
 import uk.nhs.hcdn.barcodes.Digits;
 import uk.nhs.hcdn.barcodes.gs1.checkDigits.CheckDigitCalculator;
-import uk.nhs.hcdn.barcodes.gs1.checkDigits.ExtractingCheckDigit;
-import uk.nhs.hcdn.common.naming.ActualName;
-import uk.nhs.hcdn.common.naming.FormerActualNames;
+import uk.nhs.hcdn.barcodes.gs1.keys.KeyFormat;
 
 import java.util.Set;
 
 import static uk.nhs.hcdn.common.VariableArgumentsHelper.unmodifiableSetOf;
 
-public enum SerialShippingContainerCodeFormat implements ActualName, FormerActualNames, ExtractingCheckDigit
+public enum GlobalReturnableAssetIdentifierFormat implements KeyFormat
 {
-	SSCS("Serial Shipping Container Code"),
+	GDTI("Global Document Type Identifier"),
 	;
-	public static final int T18 = 14;
-	public static final int MaximumOneBasedPositionT = T18;
+	public static final int MaximumOneBasedPositionT = 13;
 
 	@NotNull
 	private final String actualName;
@@ -27,19 +24,13 @@ public enum SerialShippingContainerCodeFormat implements ActualName, FormerActua
 	private final CheckDigitCalculator checkDigitCalculator;
 
 	@SuppressWarnings("MagicNumber")
-	SerialShippingContainerCodeFormat(@NonNls @NotNull final String actualName, @NonNls @NotNull final String... formerActualNames)
+	GlobalReturnableAssetIdentifierFormat(@NonNls @NotNull final String actualName, @NonNls @NotNull final String... formerActualNames)
 	{
 		this.actualName = actualName;
-		final int correctNumberOfDigits = 18;
 		checkDigitCalculator = new CheckDigitCalculator
 		(
-			correctNumberOfDigits,
+			MaximumOneBasedPositionT,
 			0,
-			3,
-			1,
-			3,
-			1,
-			3,
 			1,
 			3,
 			1,
@@ -88,6 +79,7 @@ public enum SerialShippingContainerCodeFormat implements ActualName, FormerActua
 		return checkDigitCalculator.calculateCheckDigit(withoutCheckDigit);
 	}
 
+	@SuppressWarnings("RefusedBequest")
 	@Override
 	@NotNull
 	public String toString()
@@ -108,5 +100,11 @@ public enum SerialShippingContainerCodeFormat implements ActualName, FormerActua
 	public Digit extract(@NotNull final DigitList digits, final int oneBasedPositionT)
 	{
 		return digits.digitAtPositionT(oneBasedPositionT);
+	}
+
+	@Override
+	public int size()
+	{
+		return MaximumOneBasedPositionT;
 	}
 }

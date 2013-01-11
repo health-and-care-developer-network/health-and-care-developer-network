@@ -1,4 +1,4 @@
-package uk.nhs.hcdn.barcodes.gs1.globalTradeItemNumbers;
+package uk.nhs.hcdn.barcodes.gs1.keys.globalTradeItemNumbers;
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.barcodes.Digits;

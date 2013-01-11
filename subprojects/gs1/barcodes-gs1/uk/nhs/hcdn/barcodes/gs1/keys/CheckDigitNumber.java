@@ -1,4 +1,4 @@
-package uk.nhs.hcdn.barcodes.gs1.checkDigits;
+package uk.nhs.hcdn.barcodes.gs1.keys;
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.barcodes.Digit;

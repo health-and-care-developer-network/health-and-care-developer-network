@@ -1,4 +1,4 @@
-package uk.nhs.hcdn.barcodes.gs1;
+package uk.nhs.hcdn.barcodes.gs1.serialShippingContainerCodes;
 
 import org.junit.Test;
 import uk.nhs.hcdn.barcodes.Digit;
@@ -7,9 +7,9 @@ import uk.nhs.hcdn.barcodes.Digits;
 import static junit.framework.TestCase.assertEquals;
 import static uk.nhs.hcdn.barcodes.Digit.*;
 import static uk.nhs.hcdn.barcodes.Digits.digits;
-import static uk.nhs.hcdn.barcodes.gs1.globalTradeItemNumbers.GlobalTradeItemNumberFormat.*;
+import static uk.nhs.hcdn.barcodes.gs1.keys.globalTradeItemNumbers.GlobalTradeItemNumberFormat.*;
 
-public final class GlobalTradeItemNumberFormatUnitTest
+public final class SerialShippingContainerCodeFormatUnitTest
 {
 	@Test
 	public void gtin8CalculatesCorrectCheckDigit()

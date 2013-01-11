@@ -1,11 +1,11 @@
-package uk.nhs.hcdn.barcodes.gs1.serialShippingContainerCodes;
+package uk.nhs.hcdn.barcodes.gs1.keys.serialShippingContainerCodes;
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.barcodes.Digit;
 import uk.nhs.hcdn.barcodes.Digits;
 import uk.nhs.hcdn.barcodes.gs1.checkDigits.AbstractCheckDigitNumber;
 
-import static uk.nhs.hcdn.barcodes.gs1.serialShippingContainerCodes.SerialShippingContainerCodeFormat.MaximumOneBasedPositionT;
+import static uk.nhs.hcdn.barcodes.gs1.keys.serialShippingContainerCodes.SerialShippingContainerCodeFormat.MaximumOneBasedPositionT;
 
 public final class SerialShippingContainerCode extends AbstractCheckDigitNumber
 {

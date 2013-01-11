@@ -1,4 +1,4 @@
-package uk.nhs.hcdn.barcodes.gs1.globalTradeItemNumbers;
+package uk.nhs.hcdn.barcodes.gs1.keys.globalTradeItemNumbers;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -9,7 +9,7 @@ import uk.nhs.hcdn.barcodes.gs1.checkDigits.AbstractCheckDigitNumber;
 import uk.nhs.hcdn.barcodes.gs1.checkDigits.IncorrectCheckDigitIllegalStateException;
 
 import static uk.nhs.hcdn.barcodes.Digits.slice;
-import static uk.nhs.hcdn.barcodes.gs1.globalTradeItemNumbers.GlobalTradeItemNumberFormat.*;
+import static uk.nhs.hcdn.barcodes.gs1.keys.globalTradeItemNumbers.GlobalTradeItemNumberFormat.*;
 
 // More number kinds at http://www.gs1.org/barcodes/technical/id_keys
 public final class GlobalTradeItemNumber extends AbstractCheckDigitNumber

@@ -1,14 +1,15 @@
-package uk.nhs.hcdn.barcodes.gs1.checkDigits;
+package uk.nhs.hcdn.barcodes.gs1.keys;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.barcodes.Digit;
 import uk.nhs.hcdn.barcodes.DigitList;
 import uk.nhs.hcdn.barcodes.Digits;
+import uk.nhs.hcdn.barcodes.gs1.checkDigits.ExtractingCheckDigit;
 import uk.nhs.hcdn.common.comparison.ComparisonResult;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 
-import static uk.nhs.hcdn.barcodes.gs1.globalTradeItemNumbers.GlobalTradeItemNumberFormat.T1;
+import static uk.nhs.hcdn.barcodes.gs1.keys.globalTradeItemNumbers.GlobalTradeItemNumberFormat.T1;
 import static uk.nhs.hcdn.common.comparison.ComparisonHelper.isNotEqualTo;
 import static uk.nhs.hcdn.common.comparison.ComparisonResult.EqualTo;
 
