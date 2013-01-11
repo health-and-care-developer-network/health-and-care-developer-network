@@ -9,6 +9,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="IntelliJ Annotations" level="project" />
     <orderEntry type="module" module-name="barcodes-gs1" />
+    <orderEntry type="module" module-name="common" />
   </component>
 </module>
 

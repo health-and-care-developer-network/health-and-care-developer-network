@@ -18,7 +18,7 @@ public final class Gs1CompanyPrefixAndItem extends AbstractToString
 	}
 
 	@NotNull
-	public Gs1Prefix restrictedCirculationNumber()
+	public Gs1Prefix gs1Prefix()
 	{
 		return new Gs1Prefix(digits.firstThree());
 	}

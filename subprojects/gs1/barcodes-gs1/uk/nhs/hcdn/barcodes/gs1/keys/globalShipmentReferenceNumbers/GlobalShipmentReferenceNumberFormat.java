@@ -29,24 +29,7 @@ public enum GlobalShipmentReferenceNumberFormat implements KeyFormat
 		this.actualName = actualName;
 		checkDigitCalculator = new CheckDigitCalculator
 		(
-			MaximumOneBasedPositionT,
-			0,
-			1,
-			3,
-			1,
-			3,
-			1,
-			3,
-			1,
-			3,
-			1,
-			3,
-			1,
-			3,
-			1,
-			3,
-			1,
-			3
+			MaximumOneBasedPositionT
 		);
 		this.formerActualNames = unmodifiableSetOf(formerActualNames);
 	}
@@ -78,9 +61,9 @@ public enum GlobalShipmentReferenceNumberFormat implements KeyFormat
 
 	@Override
 	@NotNull
-	public Digit calculateCheckDigit(@NotNull final Digits withoutCheckDigit)
+	public Digit calculateCheckDigit(@NotNull final Digits digits)
 	{
-		return checkDigitCalculator.calculateCheckDigit(withoutCheckDigit);
+		return checkDigitCalculator.calculateCheckDigit(digits);
 	}
 
 	@Override

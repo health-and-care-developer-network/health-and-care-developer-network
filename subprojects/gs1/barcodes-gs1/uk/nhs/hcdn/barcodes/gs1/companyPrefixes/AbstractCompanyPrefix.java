@@ -5,20 +5,18 @@ import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.barcodes.Digits;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 
-import static uk.nhs.hcdn.barcodes.Digit.Zero;
-
-public final class AbstractCompanyPrefix extends AbstractToString
+public abstract class AbstractCompanyPrefix extends AbstractToString
 {
 	@NotNull
-	private final Digits digits;
+	protected final Digits digits;
 
-	public AbstractCompanyPrefix(final @NotNull Digits digits)
+	protected AbstractCompanyPrefix(@NotNull final Digits digits)
 	{
 		this.digits = digits;
 	}
 
 	@Override
-	public boolean equals(final @Nullable Object obj)
+	public boolean equals(@Nullable final Object obj)
 	{
 		if (this == obj)
 		{
@@ -43,11 +41,5 @@ public final class AbstractCompanyPrefix extends AbstractToString
 	public int hashCode()
 	{
 		return digits.hashCode();
-	}
-
-	@NotNull
-	public Gs1CompanyPrefix toGs1CompanyPrefix()
-	{
-		return new Gs1CompanyPrefix(new Digits(false, Zero).add(digits));
 	}
 }

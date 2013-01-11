@@ -13,5 +13,5 @@ public interface CheckDigit
 	void guardCheckDigitCorrect(@NotNull final Digits digits);
 
 	@NotNull
-	Digit calculateCheckDigit(@NotNull final Digits withoutCheckDigit);
+	Digit calculateCheckDigit(@NotNull final Digits digits);
 }

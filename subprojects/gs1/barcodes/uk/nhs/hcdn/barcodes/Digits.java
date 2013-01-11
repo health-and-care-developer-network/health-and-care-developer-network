@@ -6,6 +6,7 @@ import uk.nhs.hcdn.common.comparison.ComparisonResult;
 
 import java.util.Arrays;
 
+import static java.lang.System.arraycopy;
 import static uk.nhs.hcdn.barcodes.Digit.digit;
 import static uk.nhs.hcdn.barcodes.Digit.digitFromUtf16Code;
 import static uk.nhs.hcdn.common.VariableArgumentsHelper.copyOf;
@@ -182,6 +183,11 @@ public final class Digits implements DigitList
 		return this.size == size;
 	}
 
+	public boolean hasSizeBetween(final int lowerBoundInclusive, final int upperBoundInclusive)
+	{
+		return size >= lowerBoundInclusive && size <= upperBoundInclusive;
+	}
+
 	@Override
 	@NotNull
 	public Digit digitAt(final int index)
@@ -200,6 +206,26 @@ public final class Digits implements DigitList
 		return digitAt(oneBasedPositionT - 1);
 	}
 
+	@NotNull
+	public Digits slice(final int lowerInclusiveOneBasedPositionT)
+	{
+		return slice(lowerInclusiveOneBasedPositionT, size - lowerInclusiveOneBasedPositionT);
+	}
+
+	@NotNull
+	public Digits slice(final int lowerInclusiveOneBasedPositionT, final int upperExclusiveOneBasedPositionT)
+	{
+		final int length = upperExclusiveOneBasedPositionT - lowerInclusiveOneBasedPositionT;
+		if (length == 0)
+		{
+			return Empty;
+		}
+		final int lowerInclusiveIndex = lowerInclusiveOneBasedPositionT - 1;
+		final Digit[] slice = new Digit[length];
+		arraycopy(digits, lowerInclusiveIndex, slice, 0, length);
+		return new Digits(false, slice);
+	}
+
 	@Override
 	public int size()
 	{
@@ -216,5 +242,35 @@ public final class Digits implements DigitList
 	public int compareDigitAtIndexWith(final int index, @NotNull final Digit digit)
 	{
 		return digitAt(index).compareTo(digit);
+	}
+
+	@NotNull
+	public Digits add(@NotNull final Digits digits)
+	{
+		final int theirSize = digits.size;
+		if (theirSize == 0)
+		{
+			return this;
+		}
+		if (size == 0)
+		{
+			return digits;
+		}
+		final Digit[] copy = new Digit[size + theirSize];
+		arraycopy(this.digits, 0, copy, 0, size);
+		arraycopy(digits.digits, 0, copy, size, theirSize);
+		return new Digits(false, copy);
+	}
+
+	@NotNull
+	public Digits add(@NotNull final Digit digit)
+	{
+		if (size == 0)
+		{
+			return new Digits(false, digit);
+		}
+		final Digit[] copy = Arrays.copyOf(digits, size + 1);
+		copy[size] = digit;
+		return new Digits(false, copy);
 	}
 }

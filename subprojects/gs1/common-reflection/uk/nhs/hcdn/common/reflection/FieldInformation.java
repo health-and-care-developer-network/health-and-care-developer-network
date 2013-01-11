@@ -1,9 +1,8 @@
 package uk.nhs.hcdn.common.reflection;
 
-import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
-import uk.nhs.hcdn.common.reflection.toString.ExcludeFromToString;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hcdn.common.reflection.toString.ExcludeFromToString;
 
 import java.lang.reflect.Field;
@@ -25,9 +24,14 @@ public final class FieldInformation extends AbstractToString
 		this.field = field;
 	}
 
-	public boolean doesNotHaveAnnotation()
+	public boolean hasAnnotation(@NotNull final Class<ExcludeFromToString> annotationClass)
 	{
-		return field.getAnnotation(ExcludeFromToString.class) == null;
+		return !doesNotHaveAnnotation(annotationClass);
+	}
+
+	public boolean doesNotHaveAnnotation(@NotNull final Class<ExcludeFromToString> annotationClass)
+	{
+		return field.getAnnotation(annotationClass) == null;
 	}
 
 	@Override

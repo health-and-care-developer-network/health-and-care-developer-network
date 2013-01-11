@@ -3,21 +3,15 @@ package uk.nhs.hcdn.barcodes.gs1.barCodeTypes;
 import uk.nhs.hcdn.barcodes.Alphanumeracy;
 import uk.nhs.hcdn.barcodes.Directionality;
 import uk.nhs.hcdn.barcodes.Numeracy;
-import uk.nhs.hcdn.barcodes.gs1.globalTradeItemNumbers.GlobalTradeItemNumberFormat;
+import uk.nhs.hcdn.barcodes.gs1.keys.globalTradeItemNumbers.GlobalTradeItemNumberFormat;
 import uk.nhs.hcdn.barcodes.gs1.Gs1BarCodeFamily;
 import uk.nhs.hcdn.common.EnumeratedVariableArgumentsHelper;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hcdn.barcodes.Alphanumeracy;
-import uk.nhs.hcdn.barcodes.Directionality;
-import uk.nhs.hcdn.barcodes.Numeracy;
 import uk.nhs.hcdn.common.VariableArgumentsHelper;
 
 import java.util.Set;
 
-import static uk.nhs.hcdn.barcodes.Alphanumeracy.FortyEightAlphanumeric;
-import static uk.nhs.hcdn.barcodes.Directionality.NotOmnidirectional;
-import static uk.nhs.hcdn.barcodes.Numeracy.NoneNumeric;
 import static uk.nhs.hcdn.barcodes.gs1.Gs1BarCodeFamily.GS1_128;
 
 public enum Gs1128G1BarCodeType implements Gs1BarCodeType
@@ -89,5 +83,11 @@ public enum Gs1128G1BarCodeType implements Gs1BarCodeType
 	public Set<GlobalTradeItemNumberFormat> gtins()
 	{
 		return GlobalTradeItemNumberFormats;
+	}
+
+	@Override
+	public boolean canCarryApplicationIdentifiers()
+	{
+		return true;
 	}
 }

@@ -1,8 +1,7 @@
 package uk.nhs.hcdn.common.reflection;
 
-import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
-import uk.nhs.hcdn.common.reflection.toString.ExcludeFromToString;
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hcdn.common.reflection.toString.ExcludeFromToString;
 
 import java.lang.reflect.Field;
@@ -10,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import static uk.nhs.hcdn.common.reflection.ClassModifiers.classModifiers;
 import static uk.nhs.hcdn.common.reflection.FieldModifiers.fieldModifiers;
 
 public final class ClassInformation extends AbstractToString
@@ -67,7 +65,7 @@ public final class ClassInformation extends AbstractToString
 	}
 
 	@NotNull
-	public List<Field> allPrivateFinalFields()
+	public List<Field> allPrivateOrProtectedFinalFields()
 	{
 		if (!isRegularClass())
 		{
@@ -96,7 +94,7 @@ public final class ClassInformation extends AbstractToString
 			{
 				for (final Field declaredField : aClass.getDeclaredFields())
 				{
-					if (FieldModifiers.fieldModifiers(declaredField).isPrivateOrProtectedFinalInstanceAndSerializable())
+					if (fieldModifiers(declaredField).isPrivateOrProtectedFinalInstanceAndSerializable())
 					{
 						declaredField.setAccessible(true);
 						add(declaredField);

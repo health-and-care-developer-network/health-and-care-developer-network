@@ -6,19 +6,17 @@ import uk.nhs.hcdn.barcodes.Digit;
 import uk.nhs.hcdn.barcodes.DigitList;
 import uk.nhs.hcdn.barcodes.Digits;
 import uk.nhs.hcdn.barcodes.gs1.checkDigits.CheckDigitCalculator;
-import uk.nhs.hcdn.barcodes.gs1.checkDigits.ExtractingCheckDigit;
-import uk.nhs.hcdn.common.naming.ActualName;
-import uk.nhs.hcdn.common.naming.FormerActualNames;
+import uk.nhs.hcdn.barcodes.gs1.keys.KeyFormat;
 
 import java.util.Set;
 
 import static uk.nhs.hcdn.common.VariableArgumentsHelper.unmodifiableSetOf;
 
-public enum SerialShippingContainerCodeFormat implements ActualName, FormerActualNames, ExtractingCheckDigit
+public enum SerialShippingContainerCodeFormat implements KeyFormat
 {
-	SSCS("Serial Shipping Container Code"),
+	SSCC("Serial Shipping Container Code"),
 	;
-	public static final int T18 = 14;
+	public static final int T18 = 18;
 	public static final int MaximumOneBasedPositionT = T18;
 
 	@NotNull
@@ -30,28 +28,9 @@ public enum SerialShippingContainerCodeFormat implements ActualName, FormerActua
 	SerialShippingContainerCodeFormat(@NonNls @NotNull final String actualName, @NonNls @NotNull final String... formerActualNames)
 	{
 		this.actualName = actualName;
-		final int correctNumberOfDigits = 18;
 		checkDigitCalculator = new CheckDigitCalculator
 		(
-			correctNumberOfDigits,
-			0,
-			3,
-			1,
-			3,
-			1,
-			3,
-			1,
-			3,
-			1,
-			3,
-			1,
-			3,
-			1,
-			3,
-			1,
-			3,
-			1,
-			3
+			MaximumOneBasedPositionT
 		);
 		this.formerActualNames = unmodifiableSetOf(formerActualNames);
 	}
@@ -83,9 +62,9 @@ public enum SerialShippingContainerCodeFormat implements ActualName, FormerActua
 
 	@Override
 	@NotNull
-	public Digit calculateCheckDigit(@NotNull final Digits withoutCheckDigit)
+	public Digit calculateCheckDigit(@NotNull final Digits digits)
 	{
-		return checkDigitCalculator.calculateCheckDigit(withoutCheckDigit);
+		return checkDigitCalculator.calculateCheckDigit(digits);
 	}
 
 	@Override
@@ -108,5 +87,11 @@ public enum SerialShippingContainerCodeFormat implements ActualName, FormerActua
 	public Digit extract(@NotNull final DigitList digits, final int oneBasedPositionT)
 	{
 		return digits.digitAtPositionT(oneBasedPositionT);
+	}
+
+	@Override
+	public int size()
+	{
+		return MaximumOneBasedPositionT;
 	}
 }

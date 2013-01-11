@@ -6,17 +6,18 @@ import uk.nhs.hcdn.barcodes.Digit;
 import uk.nhs.hcdn.barcodes.DigitList;
 import uk.nhs.hcdn.barcodes.Digits;
 import uk.nhs.hcdn.barcodes.gs1.checkDigits.CheckDigitCalculator;
-import uk.nhs.hcdn.barcodes.gs1.keys.KeyFormat;
+import uk.nhs.hcdn.barcodes.gs1.keys.SerialComponentKeyFormat;
 
 import java.util.Set;
 
 import static uk.nhs.hcdn.common.VariableArgumentsHelper.unmodifiableSetOf;
 
-public enum GlobalReturnableAssetIdentifierFormat implements KeyFormat
+public enum GlobalReturnableAssetIdentifierFormat implements SerialComponentKeyFormat
 {
-	GDTI("Global Document Type Identifier"),
+	GRAI("Global Returnable Asset Identifier"),
 	;
-	public static final int MaximumOneBasedPositionT = 13;
+	public static final int MaximumOneBasedPositionT = 14; // leading is '0', but is ignored
+	public static final int MaximumSerialDigits = 16;
 
 	@NotNull
 	private final String actualName;
@@ -30,19 +31,8 @@ public enum GlobalReturnableAssetIdentifierFormat implements KeyFormat
 		checkDigitCalculator = new CheckDigitCalculator
 		(
 			MaximumOneBasedPositionT,
-			0,
-			1,
-			3,
-			1,
-			3,
-			1,
-			3,
-			1,
-			3,
-			1,
-			3,
-			1,
-			3
+			MaximumSerialDigits,
+			1
 		);
 		this.formerActualNames = unmodifiableSetOf(formerActualNames);
 	}
@@ -74,9 +64,9 @@ public enum GlobalReturnableAssetIdentifierFormat implements KeyFormat
 
 	@Override
 	@NotNull
-	public Digit calculateCheckDigit(@NotNull final Digits withoutCheckDigit)
+	public Digit calculateCheckDigit(@NotNull final Digits digits)
 	{
-		return checkDigitCalculator.calculateCheckDigit(withoutCheckDigit);
+		return checkDigitCalculator.calculateCheckDigit(digits);
 	}
 
 	@SuppressWarnings("RefusedBequest")

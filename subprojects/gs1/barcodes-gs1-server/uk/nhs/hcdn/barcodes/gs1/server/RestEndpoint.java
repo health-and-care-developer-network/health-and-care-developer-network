@@ -6,5 +6,5 @@ import org.jetbrains.annotations.NotNull;
 
 public interface RestEndpoint extends HttpHandler
 {
-	void register(@NotNull HttpServer httpServer);
+	void register(@NotNull final HttpServer httpServer);
 }

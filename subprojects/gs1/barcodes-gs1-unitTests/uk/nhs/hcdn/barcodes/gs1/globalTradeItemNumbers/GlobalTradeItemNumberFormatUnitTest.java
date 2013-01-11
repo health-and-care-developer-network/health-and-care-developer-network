@@ -3,6 +3,7 @@ package uk.nhs.hcdn.barcodes.gs1.globalTradeItemNumbers;
 import org.junit.Test;
 import uk.nhs.hcdn.barcodes.Digit;
 import uk.nhs.hcdn.barcodes.Digits;
+import uk.nhs.hcdn.barcodes.gs1.keys.globalTradeItemNumbers.DigitsCanNotbeCompressedException;
 
 import static junit.framework.TestCase.assertEquals;
 import static uk.nhs.hcdn.barcodes.Digit.*;
@@ -41,5 +42,21 @@ public final class GlobalTradeItemNumberFormatUnitTest
 		final Digits withoutCheckDigit = digits("4112345678991");
 		final Digit digit = GTIN_14.calculateCheckDigit(withoutCheckDigit);
 		assertEquals(Zero, digit);
+	}
+
+	@Test
+	public void gtin8ToGtin12()
+	{
+		final Digits gtin12 = upcEToUpcA(digits("03614504"));
+		assertEquals(digits("036000001457"), gtin12);
+	}
+
+	// Known to be broken - nothing can be done about it without better documentation
+	// try http://www.morovia.com/education/utility/upc-ean.asp#upca  or  http://www.nepc.gs1.org.sg/html/DataDictionary/EANCode.htm#_Toc463160351
+	@Test
+	public void gtin12ToGtin8() throws DigitsCanNotbeCompressedException
+	{
+		final Digits gtin8 = upcAToUpcE(digits("036000001457"));
+		assertEquals(digits("03614504"), gtin8);
 	}
 }

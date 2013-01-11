@@ -351,7 +351,7 @@
         </inspection_tool>
         <inspection_tool class="EnumeratedClassNamingConvention" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="m_regex" value="[A-Z][A-Za-z\d]*" />
-          <option name="m_minLength" value="8" />
+          <option name="m_minLength" value="2" />
           <option name="m_maxLength" value="64" />
         </inspection_tool>
         <inspection_tool class="EnumeratedConstantNamingConvention" enabled="false" level="WARNING" enabled_by_default="false">
@@ -394,7 +394,7 @@
         <inspection_tool class="FieldMayBeFinal" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="FieldMayBeStatic" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="FieldNotUsedInToString" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
-        <inspection_tool class="FieldRepeatedlyAccessed" enabled="true" level="WARNING" enabled_by_default="true">
+        <inspection_tool class="FieldRepeatedlyAccessed" enabled="false" level="WARNING" enabled_by_default="false">
           <option name="m_ignoreFinalFields" value="true" />
         </inspection_tool>
         <inspection_tool class="FinalMethodInFinalClass" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -437,7 +437,7 @@
         <inspection_tool class="IfStatementWithTooManyBranches" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="m_limit" value="3" />
         </inspection_tool>
-        <inspection_tool class="IgnoredJUnitTest" enabled="true" level="WARNING" enabled_by_default="true" />
+        <inspection_tool class="IgnoredJUnitTest" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
         <inspection_tool class="ImplicitNumericConversion" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="ignoreWideningConversions" value="false" />
           <option name="ignoreCharConversions" value="false" />
@@ -738,7 +738,6 @@
         </inspection_tool>
         <inspection_tool class="PointlessIndexOfComparison" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="PointlessNullCheck" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="ProtectedField" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ProtectedInnerClass" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="ignoreEnums" value="false" />
         </inspection_tool>
@@ -804,7 +803,6 @@
           <option name="ignorePrivateMethods" value="true" />
         </inspection_tool>
         <inspection_tool class="ReturnOfDateField" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="ReturnThis" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ReuseOfLocalVariable" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="RuntimeExec" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="RuntimeExecWithNonConstantString" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -1236,6 +1234,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/barcodes/barcodes.iml" filepath="$PROJECT_DIR$/barcodes/barcodes.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/barcodes-gs1/barcodes-gs1.iml" filepath="$PROJECT_DIR$/barcodes-gs1/barcodes-gs1.iml" group="barcodes" />
+      <module fileurl="file://$PROJECT_DIR$/barcodes-gs1-server/barcodes-gs1-server.iml" filepath="$PROJECT_DIR$/barcodes-gs1-server/barcodes-gs1-server.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/barcodes-gs1-unitTests/barcodes-gs1-unitTests.iml" filepath="$PROJECT_DIR$/barcodes-gs1-unitTests/barcodes-gs1-unitTests.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-comparison/common-comparison.iml" filepath="$PROJECT_DIR$/common-comparison/common-comparison.iml" group="common" />

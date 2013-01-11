@@ -5,7 +5,6 @@ import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.barcodes.Digit;
 import uk.nhs.hcdn.barcodes.DigitList;
 import uk.nhs.hcdn.barcodes.Digits;
-import uk.nhs.hcdn.barcodes.gs1.checkDigits.ExtractingCheckDigit;
 import uk.nhs.hcdn.common.comparison.ComparisonResult;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 
@@ -13,20 +12,20 @@ import static uk.nhs.hcdn.barcodes.gs1.keys.globalTradeItemNumbers.GlobalTradeIt
 import static uk.nhs.hcdn.common.comparison.ComparisonHelper.isNotEqualTo;
 import static uk.nhs.hcdn.common.comparison.ComparisonResult.EqualTo;
 
-public abstract class AbstractCheckDigitNumber extends AbstractToString implements CheckDigitNumber
+public abstract class AbstractCheckDigitNumber<F extends KeyFormat> extends AbstractToString implements CheckDigitNumber
 {
 	@NotNull
-	private final ExtractingCheckDigit extractingDigitCalculator;
+	protected final F keyFormat;
 
 	@NotNull
-	private final Digits digits;
+	protected final Digits digits;
 
-	protected AbstractCheckDigitNumber(@NotNull final ExtractingCheckDigit extractingCheckDigit, @NotNull final Digits digits)
+	protected AbstractCheckDigitNumber(@NotNull final F keyFormat, @NotNull final Digits digits)
 	{
-		extractingCheckDigit.guardCorrectNumberOfDigits(digits);
-		extractingCheckDigit.guardCheckDigitCorrect(digits);
+		keyFormat.guardCorrectNumberOfDigits(digits);
+		keyFormat.guardCheckDigitCorrect(digits);
 
-		extractingDigitCalculator = extractingCheckDigit;
+		this.keyFormat = keyFormat;
 		this.digits = digits;
 	}
 
@@ -34,7 +33,7 @@ public abstract class AbstractCheckDigitNumber extends AbstractToString implemen
 	@Override
 	public final Digit digitAtPositionT(final int oneBasedPositionT)
 	{
-		return extractingDigitCalculator.extract(digits, oneBasedPositionT);
+		return keyFormat.extract(digits, oneBasedPositionT);
 	}
 
 	@Override
@@ -62,6 +61,20 @@ public abstract class AbstractCheckDigitNumber extends AbstractToString implemen
 	}
 
 	@Override
+	public final int size()
+	{
+		return keyFormat.size();
+	}
+
+	@Override
+	@SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
+	@NotNull
+	public final Digit checkDigit()
+	{
+		return digitAtPositionT(size());
+	}
+
+	@Override
 	public boolean equals(@Nullable final Object obj)
 	{
 		if (this == obj)
@@ -75,7 +88,7 @@ public abstract class AbstractCheckDigitNumber extends AbstractToString implemen
 
 		final AbstractCheckDigitNumber that = (AbstractCheckDigitNumber) obj;
 
-		if (!extractingDigitCalculator.equals(that.extractingDigitCalculator))
+		if (!keyFormat.equals(that.keyFormat))
 		{
 			return false;
 		}
@@ -90,7 +103,7 @@ public abstract class AbstractCheckDigitNumber extends AbstractToString implemen
 	@Override
 	public int hashCode()
 	{
-		int result = extractingDigitCalculator.hashCode();
+		int result = keyFormat.hashCode();
 		result = 31 * result + digits.hashCode();
 		return result;
 	}

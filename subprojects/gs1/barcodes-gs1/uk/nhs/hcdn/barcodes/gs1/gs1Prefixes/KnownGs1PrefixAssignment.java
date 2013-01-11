@@ -3,7 +3,7 @@ package uk.nhs.hcdn.barcodes.gs1.gs1Prefixes;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.barcodes.Digit;
-import uk.nhs.hcdn.common.tuples.Pair;
+import uk.nhs.hcdn.common.tuples.ComparablePair;
 
 import static uk.nhs.hcdn.barcodes.Digit.Nine;
 import static uk.nhs.hcdn.barcodes.Digit.Zero;
@@ -11,10 +11,11 @@ import static uk.nhs.hcdn.barcodes.Digits.digits;
 import static uk.nhs.hcdn.common.IntegerHelper.power;
 
 @SuppressWarnings("UnusedDeclaration")
-public enum KnownGs1PrefixAssignment implements Gs1PrefixAssignment
+public enum KnownGs1PrefixAssignment implements Gs1PrefixAssignment // some of these are RCNs, Restricted Circulation Numbers
 {
 	GS1_US("GS1 US", "000", "019", "030", "039", "060", "139"),
-	Restricted_distribution_MO_defined("Restricted distribution (MO defined)", "020", "029", "040", "049", "200", "299"),
+	Restricted_distribution_MO_defined("Restricted distribution (MO defined)", "020", "029", "040", "049", "200", "299"), // 200-299 is usually for internal use, varies by MO
+	Must_Not_Be_Used_For_Internal_Applications("Must not be used for internal applications", "100", "199"), // http://helpdesk.gs1.org/ArticleDetails.aspx?GS1%20Identification%20Keys&id=b1fd1bf5-343a-e211-992c-00155d644635  KBA-01518-Y4S0Q5: How do I ensure I am using correctly assigned numbers?
 	GS1_France("GS1 France", "300", "379"),
 	GS1_Bulgaria("GS1 Bulgaria", "380"),
 	GS1_Slovenija("GS1 Slovenija", "383"),
@@ -131,7 +132,7 @@ public enum KnownGs1PrefixAssignment implements Gs1PrefixAssignment
 	Serial_publications_ISSN("Serial publications (ISSN)", "977"),
 	Bookland_ISBN("Bookland (ISBN)", "978", "979"),
 	Refund_receipts("Refund receipts", "980"),
-	Common_Currency_Coupons("Common Currency Coupons", "981", "983"),
+	Common_Currency_Coupons("Common Currency Coupons", "981", "983"), // 981 == Euro; 982 apparently according to FAQ
 	Coupons("Coupons", "050", "059", "990", "999"),
 	;
 
@@ -180,7 +181,7 @@ public enum KnownGs1PrefixAssignment implements Gs1PrefixAssignment
 		index(new Gs1Prefix(digits(from2)).to(digits(to2)));
 	}
 
-	private void index(final Pair<Gs1Prefix> pair)
+	private void index(final ComparablePair<Gs1Prefix> pair)
 	{
 		final Gs1Prefix lowerBoundInclusive = pair.a;
 		final int lowerBoundIndex = lowerBoundInclusive.to0To999();

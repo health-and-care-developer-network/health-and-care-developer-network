@@ -3,10 +3,16 @@ package uk.nhs.hcdn.barcodes.gs1.keys;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.barcodes.Digits;
 
-public class AbstractWithSerialComponentCheckDigitNumber extends AbstractCheckDigitNumber
+public abstract class AbstractWithSerialComponentCheckDigitNumber<F extends SerialComponentKeyFormat> extends AbstractCheckDigitNumber<F>
 {
-	protected AbstractWithSerialComponentCheckDigitNumber(@NotNull final KeyFormat keyFormat, @NotNull final Digits digits)
+	protected AbstractWithSerialComponentCheckDigitNumber(@SuppressWarnings("TypeMayBeWeakened") @NotNull final F serialComponentKeyFormat, @NotNull final Digits digits)
 	{
-		super(keyFormat, digits);
+		super(serialComponentKeyFormat, digits);
+	}
+
+	@NotNull
+	public Digits serialComponent()
+	{
+		return digits.slice(keyFormat.size(), digits.size());
 	}
 }

@@ -3,7 +3,7 @@ package uk.nhs.hcdn.barcodes.gs1.barCodeTypes;
 import uk.nhs.hcdn.barcodes.Alphanumeracy;
 import uk.nhs.hcdn.barcodes.Directionality;
 import uk.nhs.hcdn.barcodes.Numeracy;
-import uk.nhs.hcdn.barcodes.gs1.globalTradeItemNumbers.GlobalTradeItemNumberFormat;
+import uk.nhs.hcdn.barcodes.gs1.keys.globalTradeItemNumbers.GlobalTradeItemNumberFormat;
 import uk.nhs.hcdn.barcodes.gs1.Gs1BarCodeFamily;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
@@ -19,7 +19,7 @@ import static uk.nhs.hcdn.barcodes.Directionality.Omnidirectional;
 import static uk.nhs.hcdn.barcodes.Numeracy.FourteenNumeric;
 import static uk.nhs.hcdn.barcodes.Numeracy.SeventyFourNumeric;
 import static uk.nhs.hcdn.barcodes.gs1.Gs1BarCodeFamily.GS1DataBar;
-import static uk.nhs.hcdn.barcodes.gs1.globalTradeItemNumbers.GlobalTradeItemNumberFormat.*;
+import static uk.nhs.hcdn.barcodes.gs1.keys.globalTradeItemNumbers.GlobalTradeItemNumberFormat.*;
 
 @SuppressWarnings("UnusedDeclaration")
 public enum Gs1DataBarGs1BarCodeType implements Gs1BarCodeType
@@ -114,6 +114,12 @@ public enum Gs1DataBarGs1BarCodeType implements Gs1BarCodeType
 	public Set<GlobalTradeItemNumberFormat> gtins()
 	{
 		return globalTradeItemNumberFormats;
+	}
+
+	@Override
+	public boolean canCarryApplicationIdentifiers()
+	{
+		return true;
 	}
 
 	@NotNull
