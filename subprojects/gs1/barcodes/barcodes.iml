@@ -11,6 +11,7 @@
     <orderEntry type="module" module-name="common" />
     <orderEntry type="module" module-name="common-comparison" exported="" />
     <orderEntry type="module" module-name="common-naming" />
+    <orderEntry type="module" module-name="common-serialisers" />
   </component>
 </module>
 

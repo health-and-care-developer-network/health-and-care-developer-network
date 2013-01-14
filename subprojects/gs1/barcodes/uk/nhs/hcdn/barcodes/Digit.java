@@ -1,10 +1,19 @@
+/*
+ * © Crown copyright 2013
+ * Licensed under the Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.html)
+ */
+
 package uk.nhs.hcdn.barcodes;
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.common.comparison.ComparisonHelper;
 import uk.nhs.hcdn.common.comparison.ExtendedComparable;
+import uk.nhs.hcdn.common.serialisers.CouldNotSerialiseValueException;
+import uk.nhs.hcdn.common.serialisers.CouldNotWriteValueException;
+import uk.nhs.hcdn.common.serialisers.ValueSerialisable;
+import uk.nhs.hcdn.common.serialisers.ValueSerialiser;
 
-public enum Digit implements ExtendedComparable<Digit>
+public enum Digit implements ExtendedComparable<Digit>, ValueSerialisable
 {
 	Zero(0)
 	{
@@ -163,5 +172,18 @@ public enum Digit implements ExtendedComparable<Digit>
 	public boolean isGreaterThanOrEqualTo(@NotNull final Digit right)
 	{
 		return ComparisonHelper.isGreaterThanOrEqualTo(this, right);
+	}
+
+	@Override
+	public void serialiseValue(@NotNull final ValueSerialiser valueSerialiser) throws CouldNotSerialiseValueException
+	{
+		try
+		{
+			valueSerialiser.writeValue(digit);
+		}
+		catch (CouldNotWriteValueException e)
+		{
+			throw new CouldNotSerialiseValueException(this, e);
+		}
 	}
 }
