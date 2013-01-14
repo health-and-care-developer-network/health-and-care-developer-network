@@ -1,8 +1,17 @@
+/*
+ * © Crown copyright 2013
+ * Licensed under the Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.html)
+ */
+
 package uk.nhs.hcdn.barcodes;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.comparison.ComparisonResult;
+import uk.nhs.hcdn.common.serialisers.CouldNotSerialiseValueException;
+import uk.nhs.hcdn.common.serialisers.CouldNotWriteValueException;
+import uk.nhs.hcdn.common.serialisers.ValueSerialisable;
+import uk.nhs.hcdn.common.serialisers.ValueSerialiser;
 
 import java.util.Arrays;
 
@@ -13,7 +22,7 @@ import static uk.nhs.hcdn.common.VariableArgumentsHelper.copyOf;
 import static uk.nhs.hcdn.common.comparison.ComparisonHelper.compareInt;
 import static uk.nhs.hcdn.common.comparison.ComparisonHelper.isNotEqualTo;
 
-public final class Digits implements DigitList
+public final class Digits implements DigitList, ValueSerialisable
 {
 	private static final Digit[] EmptyDigits = new Digit[0];
 
@@ -272,5 +281,18 @@ public final class Digits implements DigitList
 		final Digit[] copy = Arrays.copyOf(digits, size + 1);
 		copy[size] = digit;
 		return new Digits(false, copy);
+	}
+
+	@Override
+	public void serialiseValue(@NotNull final ValueSerialiser valueSerialiser) throws CouldNotSerialiseValueException
+	{
+		try
+		{
+			valueSerialiser.writeValue(digits);
+		}
+		catch (CouldNotWriteValueException e)
+		{
+			throw new CouldNotSerialiseValueException(this, e);
+		}
 	}
 }

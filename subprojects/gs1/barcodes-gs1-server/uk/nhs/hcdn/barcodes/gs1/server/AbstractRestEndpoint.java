@@ -1,8 +1,14 @@
+/*
+ * © Crown copyright 2013
+ * Licensed under the Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.html)
+ */
+
 package uk.nhs.hcdn.barcodes.gs1.server;
 
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
@@ -18,7 +24,7 @@ public abstract class AbstractRestEndpoint extends AbstractToString implements R
 	@Nullable
 	private final Authenticator authenticator;
 
-	protected AbstractRestEndpoint(@NotNull final String relativePath, @Nullable final Authenticator authenticator)
+	protected AbstractRestEndpoint(@NonNls @NotNull final String relativePath, @Nullable final Authenticator authenticator)
 	{
 		this.relativePath = relativePath;
 		this.authenticator = authenticator;
@@ -27,7 +33,7 @@ public abstract class AbstractRestEndpoint extends AbstractToString implements R
 	@Override
 	public void register(@NotNull final HttpServer httpServer)
 	{
-		final HttpContext context = httpServer.createContext(relativePath);
+		final HttpContext context = httpServer.createContext(relativePath, this);
 		if (authenticator != null)
 		{
 			context.setAuthenticator(null);

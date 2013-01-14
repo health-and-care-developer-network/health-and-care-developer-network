@@ -1,3 +1,8 @@
+/*
+ * © Crown copyright 2013
+ * Licensed under the Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.html)
+ */
+
 package uk.nhs.hcdn.common;
 
 import org.jetbrains.annotations.NonNls;
@@ -13,9 +18,23 @@ public final class StringHelper
 
 	@NonNls
 	@NotNull
-	public static String pad(final int ordinal, final int padding)
+	public static String padAsDecimal(final int ordinal, final int padding)
 	{
 		final String unpadded = Integer.toString(ordinal);
+		return pad(unpadded, padding);
+	}
+
+	@NonNls
+	@NotNull
+	public static String padAsHexadecimal(final int ordinal, final int padding)
+	{
+		final String unpadded = Integer.toHexString(ordinal);
+		return pad(unpadded, padding);
+	}
+
+	@NotNull
+	public static String pad(@NotNull @NonNls final String unpadded, final int padding)
+	{
 		if (unpadded.length() == padding)
 		{
 			return unpadded;
