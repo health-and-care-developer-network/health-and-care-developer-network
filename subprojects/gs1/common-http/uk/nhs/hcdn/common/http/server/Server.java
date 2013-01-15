@@ -3,11 +3,12 @@
  * Licensed under the Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.html)
  */
 
-package uk.nhs.hcdn.barcodes.gs1.server;
+package uk.nhs.hcdn.common.http.server;
 
 import com.sun.net.httpserver.HttpServer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hcdn.common.http.RestEndpoint;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 
 import java.io.IOException;
@@ -15,7 +16,6 @@ import java.net.InetSocketAddress;
 import java.util.Arrays;
 
 import static com.sun.net.httpserver.HttpServer.create;
-import static uk.nhs.hcdn.common.VariableArgumentsHelper.copyOf;
 
 // Documentation: http://docs.oracle.com/javase/6/docs/jre/api/net/httpserver/spec/com/sun/net/httpserver/package-summary.html
 public final class Server extends AbstractToString
@@ -41,7 +41,7 @@ public final class Server extends AbstractToString
 		}
 		this.listenOn = listenOn;
 		this.backlog = backlog;
-		this.restEndpoints = copyOf(restEndpoints);
+		this.restEndpoints = coßpyOf(restEndpoints);
 		httpServer = null;
 	}
 
