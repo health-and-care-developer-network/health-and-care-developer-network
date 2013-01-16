@@ -5,6 +5,7 @@
 
 package uk.nhs.hcdn.barcodes.gs1.server;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.barcodes.gs1.server.parsing.Gs1CompanyPrefixResourceStateSnapshotUser;
 import uk.nhs.hcdn.barcodes.gs1.server.parsing.TuplesParserFactory;
@@ -35,7 +36,7 @@ public final class Gs1CompanyPrefixRestEndpoint extends AbstractRegisterableMeth
 	@NotNull
 	private volatile Gs1CompanyPrefixResourceStateSnapshot gs1CompanyPrefixResourceStateSnapshot;
 
-	public Gs1CompanyPrefixRestEndpoint(@NotNull final File containingFolder, @NotNull final String fileName)
+	public Gs1CompanyPrefixRestEndpoint(@NotNull final File containingFolder, @NonNls @NotNull final String fileName)
 	{
 		super("/gs1/organisation/", NoAuthentication);
 

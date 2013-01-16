@@ -1233,14 +1233,17 @@
       <module fileurl="file://$PROJECT_DIR$/barcodes-gs1/barcodes-gs1.iml" filepath="$PROJECT_DIR$/barcodes-gs1/barcodes-gs1.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/barcodes-gs1-integrationTests/barcodes-gs1-integrationTests.iml" filepath="$PROJECT_DIR$/barcodes-gs1-integrationTests/barcodes-gs1-integrationTests.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/barcodes-gs1-server/barcodes-gs1-server.iml" filepath="$PROJECT_DIR$/barcodes-gs1-server/barcodes-gs1-server.iml" group="barcodes" />
+      <module fileurl="file://$PROJECT_DIR$/barcodes-gs1-server-application/barcodes-gs1-server-application.iml" filepath="$PROJECT_DIR$/barcodes-gs1-server-application/barcodes-gs1-server-application.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/barcodes-gs1-unitTests/barcodes-gs1-unitTests.iml" filepath="$PROJECT_DIR$/barcodes-gs1-unitTests/barcodes-gs1-unitTests.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" group="common" />
+      <module fileurl="file://$PROJECT_DIR$/common-commandLine/common-commandLine.iml" filepath="$PROJECT_DIR$/common-commandLine/common-commandLine.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-comparison/common-comparison.iml" filepath="$PROJECT_DIR$/common-comparison/common-comparison.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-exceptions/common-exceptions.iml" filepath="$PROJECT_DIR$/common-exceptions/common-exceptions.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-fileWatching/common-fileWatching.iml" filepath="$PROJECT_DIR$/common-fileWatching/common-fileWatching.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-http/common-http.iml" filepath="$PROJECT_DIR$/common-http/common-http.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-http-server/common-http-server.iml" filepath="$PROJECT_DIR$/common-http-server/common-http-server.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-http-server-sun/common-http-server-sun.iml" filepath="$PROJECT_DIR$/common-http-server-sun/common-http-server-sun.iml" group="common" />
+      <module fileurl="file://$PROJECT_DIR$/common-http-server-sun-application/common-http-server-sun-application.iml" filepath="$PROJECT_DIR$/common-http-server-sun-application/common-http-server-sun-application.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-http-sun/common-http-sun.iml" filepath="$PROJECT_DIR$/common-http-sun/common-http-sun.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-internationalisation/common-internationalisation.iml" filepath="$PROJECT_DIR$/common-internationalisation/common-internationalisation.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-naming/common-naming.iml" filepath="$PROJECT_DIR$/common-naming/common-naming.iml" group="common" />
@@ -1347,6 +1350,20 @@
       </CLASSES>
       <JAVADOC />
       <SOURCES />
+    </library>
+    <library name="jopt-simple">
+      <ANNOTATIONS>
+        <root url="file://$PROJECT_DIR$/../../library/jopt-simple/4.4" />
+      </ANNOTATIONS>
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../../library/jopt-simple/4.4/jopt-simple-4.4.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$PROJECT_DIR$/../../library/jopt-simple/4.4/jopt-simple-4.4-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../../library/jopt-simple/4.4/jopt-simple-4.4-sources.jar!/" />
+      </SOURCES>
     </library>
     <library name="JUnit 4">
       <CLASSES>

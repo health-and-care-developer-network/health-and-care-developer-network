@@ -8,13 +8,9 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="IntelliJ Annotations" level="project" />
-    <orderEntry type="module" module-name="barcodes-gs1" />
-    <orderEntry type="module" module-name="common" />
-    <orderEntry type="module" module-name="common-http" />
-    <orderEntry type="module" module-name="common-serialisers-json" />
-    <orderEntry type="module" module-name="common-exceptions" />
-    <orderEntry type="module" module-name="common-fileWatching" />
-    <orderEntry type="module" module-name="common-parsers" />
+    <orderEntry type="library" name="jopt-simple" level="project" />
+    <orderEntry type="module" module-name="barcodes-gs1-server" />
+    <orderEntry type="module" module-name="common-http-server-sun-application" />
     <orderEntry type="module" module-name="common-http-server-sun" />
   </component>
 </module>
