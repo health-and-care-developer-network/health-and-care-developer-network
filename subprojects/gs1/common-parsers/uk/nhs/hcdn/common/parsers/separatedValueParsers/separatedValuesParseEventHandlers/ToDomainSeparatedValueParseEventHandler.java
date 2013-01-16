@@ -79,7 +79,7 @@ public final class ToDomainSeparatedValueParseEventHandler<V> extends AbstractTo
 		final FieldParser<?> fieldParser = fieldParsers[currentFieldIndex];
 
 		@Nullable final Object result;
-		if (fieldParser.skipIfEmpty())
+		if (value.isEmpty() && fieldParser.skipIfEmpty())
 		{
 			result = null;
 		}
