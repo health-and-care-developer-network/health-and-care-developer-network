@@ -16,6 +16,7 @@
     <orderEntry type="module" module-name="common-fileWatching" />
     <orderEntry type="module" module-name="common-parsers" />
     <orderEntry type="module" module-name="common-http-server-sun" />
+    <orderEntry type="module" module-name="common-serialisers-xml" />
   </component>
 </module>
 

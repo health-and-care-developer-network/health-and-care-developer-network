@@ -8,7 +8,7 @@ package uk.nhs.hcdn.common.http.server.sun.restEndpoints.methodEndpoints;
 import com.sun.net.httpserver.Headers;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.common.http.Method;
-import uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStates.ResourceStateSnapshot;
+import uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.ResourceStateSnapshot;
 
 import java.io.StringWriter;
 import java.util.Set;

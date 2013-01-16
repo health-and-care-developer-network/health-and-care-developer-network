@@ -5,6 +5,8 @@
 
 package uk.nhs.hcdn.common.commandLine;
 
+import org.jetbrains.annotations.NotNull;
+
 import static java.lang.Runtime.getRuntime;
 
 public enum ExitCode
@@ -30,5 +32,13 @@ public enum ExitCode
 	public void exit()
 	{
 		getRuntime().exit(exitCode);
+	}
+
+	@SuppressWarnings("RefusedBequest")
+	@Override
+	@NotNull
+	public String toString()
+	{
+		return Integer.toString(exitCode);
 	}
 }

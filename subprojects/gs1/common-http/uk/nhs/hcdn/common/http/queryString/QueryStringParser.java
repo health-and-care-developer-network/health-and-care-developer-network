@@ -16,7 +16,7 @@ public final class QueryStringParser
 	private QueryStringParser()
 	{}
 
-	public static void parse(@Nullable final String rawQueryString, @NotNull final QueryStringEventHandler queryStringEventHandler) throws InvalidQueryStringException
+	public static void parseQueryString(@Nullable final String rawQueryString, @NotNull final QueryStringEventHandler queryStringEventHandler) throws InvalidQueryStringException
 	{
 		if (rawQueryString == null)
 		{
@@ -60,7 +60,14 @@ public final class QueryStringParser
 
 					case Ampersand:
 						final String value = rawQueryString.substring(tokenStartsAtIndex, index);
-						queryStringEventHandler.keyValuePair(key, value);
+						try
+						{
+							queryStringEventHandler.keyValuePair(key, value);
+						}
+						catch (InvalidQueryStringKeyValuePairException e)
+						{
+							throw new InvalidQueryStringException(e);
+						}
 						tokenStartsAtIndex = index + 1;
 						parsingKey = true;
 						break;
@@ -81,7 +88,15 @@ public final class QueryStringParser
 		else
 		{
 			final String value = rawQueryString.substring(tokenStartsAtIndex, length);
-			queryStringEventHandler.keyValuePair(key, value);
+			try
+			{
+				queryStringEventHandler.keyValuePair(key, value);
+			}
+			catch (InvalidQueryStringKeyValuePairException e)
+			{
+				throw new InvalidQueryStringException(e);
+			}
 		}
+		queryStringEventHandler.validate();
 	}
 }

@@ -3,7 +3,7 @@
  * Licensed under the Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.html)
  */
 
-package uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStates.resourceContents;
+package uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.resourceContents;
 
 import com.sun.net.httpserver.HttpExchange;
 import org.jetbrains.annotations.NotNull;

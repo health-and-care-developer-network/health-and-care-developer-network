@@ -3,7 +3,7 @@
  * Licensed under the Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.html)
  */
 
-package uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStates;
+package uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStateSnapshots;
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.common.MillisecondsSince1970;

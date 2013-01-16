@@ -9,5 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 public interface QueryStringEventHandler
 {
-	void keyValuePair(@NotNull final String key, @NotNull final String value);
+	void keyValuePair(@NotNull final String key, @NotNull final String value) throws InvalidQueryStringKeyValuePairException;
+
+	void validate() throws InvalidQueryStringException;
 }

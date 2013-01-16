@@ -33,27 +33,23 @@ public final class XmlSerialiser extends AbstractSerialiser
 	@NotNull
 	private final String rootNodeName;
 
+	@SuppressWarnings("InstanceVariableMayNotBeInitialized")
 	@NotNull @ExcludeFromToString
-	private final XmlStringWriter xmlStringWriter;
+	private XmlStringWriter xmlStringWriter;
 
-	public XmlSerialiser(@NotNull final OutputStream outputStream, @NotNull final String rootNodeName)
+	public XmlSerialiser(@NonNls @NotNull final String rootNodeName)
 	{
-		this(outputStream, Utf8, rootNodeName);
-	}
-
-	public XmlSerialiser(@NotNull final OutputStream outputStream, @NotNull final Charset charset, @NotNull final String rootNodeName)
-	{
-		super(outputStream, charset);
 		this.rootNodeName = rootNodeName;
-		xmlStringWriter = new XmlStringWriter(writer);
 	}
 
 	@Override
-	public void start() throws CouldNotWriteDataException
+	public void start(@NotNull final OutputStream outputStream, @NotNull final Charset charset) throws CouldNotWriteDataException
 	{
+		super.start(outputStream, charset);
+		xmlStringWriter = new XmlStringWriter(writer);
 		try
 		{
-			writer.write(format(ENGLISH, "<?xml version=\"1.0\" encoding=\"%1$s\"?>", charset.name().toUpperCase(ENGLISH)));
+			writer.write(format(ENGLISH, "<?xml version=\"1.0\" encoding=\"%1$s\" standalone=\"yes\"?>", charset.name().toUpperCase(ENGLISH)));
 		}
 		catch (IOException e)
 		{

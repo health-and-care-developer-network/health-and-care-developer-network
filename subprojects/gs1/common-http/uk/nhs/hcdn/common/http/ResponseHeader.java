@@ -67,11 +67,11 @@ public @interface ResponseHeader
 
 	@NotNull
 	@ResponseHeader
-	String LastModifiedHeaderName = "LastModified";
+	String LastModifiedHeaderName = "Last-Modified";
 
 	@NotNull
 	@ResponseHeader
-	String CacheControlHeaderName = "CacheControl";
+	String CacheControlHeaderName = "Cache-Control";
 
 	@NotNull
 	@ResponseHeader

@@ -17,22 +17,24 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.Charset;
 
-import static java.nio.charset.Charset.forName;
-
 public abstract class AbstractSerialiser extends AbstractToString implements Serialiser
 {
+	@SuppressWarnings("InstanceVariableMayNotBeInitialized")
 	@NotNull
-	public static final Charset Utf8 = forName("UTF-8");
+	protected Charset charset;
 
-	@NotNull
-	protected final Charset charset;
-
+	@SuppressWarnings("InstanceVariableMayNotBeInitialized")
 	@NotNull
 	@ExcludeFromToString
-	protected final Writer writer;
+	protected Writer writer;
+
+	protected AbstractSerialiser()
+	{
+	}
 
 	@SuppressWarnings("IOResourceOpenedButNotSafelyClosed")
-	protected AbstractSerialiser(@NotNull final OutputStream outputStream, @NotNull final Charset charset)
+	@Override
+	public void start(@NotNull final OutputStream outputStream, @NotNull final Charset charset) throws CouldNotWriteDataException
 	{
 		this.charset = charset;
 		writer = new OutputStreamWriter(outputStream, charset);

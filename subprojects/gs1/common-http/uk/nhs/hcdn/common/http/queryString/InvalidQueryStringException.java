@@ -17,4 +17,9 @@ public class InvalidQueryStringException extends Exception
 	{
 		super(format(ENGLISH, "Invalid query string because %1$s", because));
 	}
+
+	public InvalidQueryStringException(@NotNull final InvalidQueryStringKeyValuePairException cause)
+	{
+		super("Invalid query string because key-value pair was incorrect", cause);
+	}
 }

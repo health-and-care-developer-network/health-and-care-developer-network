@@ -3,11 +3,12 @@
  * Licensed under the Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.html)
  */
 
-package uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStates.resourceContents;
+package uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.resourceContents;
 
 import com.sun.net.httpserver.HttpExchange;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hcdn.common.reflection.toString.ExcludeFromToString;
 
 import java.io.IOException;
@@ -20,7 +21,7 @@ import static uk.nhs.hcdn.common.http.ResponseCode.OkResponseCode;
 import static uk.nhs.hcdn.common.http.server.sun.helpers.ResponseHeadersHelper.withEntityHeaders;
 import static uk.nhs.hcdn.common.http.server.sun.restEndpoints.methodEndpoints.MethodEndpoint.CacheControlHeaderValueOneHour;
 
-public final class ByteArrayResourceContent implements ResourceContent
+public final class ByteArrayResourceContent extends AbstractToString implements ResourceContent
 {
 	private static final long OneHourInMilliseconds = 60 * 60 * 1000;
 
@@ -30,7 +31,6 @@ public final class ByteArrayResourceContent implements ResourceContent
 	@NotNull @ExcludeFromToString
 	private final byte[] content;
 
-	@ExcludeFromToString
 	private final long length;
 
 	@SuppressWarnings("AssignmentToCollectionOrArrayFieldFromParameter")

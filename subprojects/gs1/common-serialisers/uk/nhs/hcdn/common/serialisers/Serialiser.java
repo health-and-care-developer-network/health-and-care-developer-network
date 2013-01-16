@@ -5,9 +5,14 @@
 
 package uk.nhs.hcdn.common.serialisers;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.OutputStream;
+import java.nio.charset.Charset;
+
 public interface Serialiser extends ValueSerialiser, MapSerialiser
 {
-	void start() throws CouldNotWriteDataException;
+	void start(@NotNull final OutputStream outputStream, @NotNull final Charset charset) throws CouldNotWriteDataException;
 
 	void finish() throws CouldNotWriteDataException;
 }

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.http.Method;
-import uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStates.ResourceStateSnapshot;
+import uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.ResourceStateSnapshot;
 import uk.nhs.hcdn.common.http.server.sun.restEndpoints.methodEndpoints.MethodEndpoint;
 import uk.nhs.hcdn.common.http.server.sun.restEndpoints.methodEndpoints.OptionsMethodEndpoint;
 import uk.nhs.hcdn.common.http.server.sun.restEndpoints.methodEndpoints.UnsupportedMethodEndpoint;

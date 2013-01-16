@@ -8,6 +8,7 @@ package uk.nhs.hcdn.barcodes.gs1.server.application;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.barcodes.gs1.server.Gs1CompanyPrefixRestEndpoint;
 import uk.nhs.hcdn.common.http.server.sun.restEndpoints.RestEndpoint;
+import uk.nhs.hcdn.common.http.server.sun.restEndpoints.RootDenialRestEndpoint;
 import uk.nhs.hcdn.common.http.server.sun.restEndpointsFactories.RestEndpointsFactory;
 
 import java.io.File;
@@ -26,6 +27,7 @@ public final class Gs1BarcodesConsoleEntryPoint
 			{
 				return new RestEndpoint[]
 				{
+					new RootDenialRestEndpoint(),
 					new Gs1CompanyPrefixRestEndpoint(dataPath, "gs1-company-prefixes.tsv")
 				};
 			}

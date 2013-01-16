@@ -6,6 +6,7 @@
 package uk.nhs.hcdn.common.fileWatching;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 
 import java.io.File;
@@ -74,7 +75,7 @@ public final class FileWatcher extends AbstractToString implements Runnable
 	{
 		while(run.get())
 		{
-			final WatchKey watchKey;
+			@Nullable final WatchKey watchKey;
 			try
 			{
 				watchKey = watcher.poll(MillisecondsToWait, MILLISECONDS);
@@ -83,6 +84,10 @@ public final class FileWatcher extends AbstractToString implements Runnable
 			{
 				run.set(false);
 				return;
+			}
+			if (watchKey == null)
+			{
+				continue;
 			}
 			final List<WatchEvent<?>> watchEvents = watchKey.pollEvents();
 			for (final WatchEvent<?> watchEvent : watchEvents)

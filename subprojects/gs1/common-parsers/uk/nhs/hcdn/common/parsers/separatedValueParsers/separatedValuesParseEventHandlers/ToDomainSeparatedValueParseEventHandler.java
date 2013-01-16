@@ -108,9 +108,9 @@ public final class ToDomainSeparatedValueParseEventHandler<V> extends AbstractTo
 			{
 				throw new CouldNotParseLineException(currentLineIndex, "the number of fields differed to that in the header line");
 			}
-		}
+			lines.add(lineParser.parse(currentLineIndex, parsedFields));
 
-		lines.add(lineParser.parse(currentLineIndex, parsedFields));
+		}
 
 		currentLineIndex++;
 		currentFieldIndex = -1;

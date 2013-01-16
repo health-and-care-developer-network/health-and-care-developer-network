@@ -10,8 +10,8 @@ import com.sun.net.httpserver.HttpExchange;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStates.resourceContents.ResourceContent;
-import uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStates.ResourceStateSnapshot;
+import uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.resourceContents.ResourceContent;
+import uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.ResourceStateSnapshot;
 import uk.nhs.hcdn.common.http.server.sun.restEndpoints.NotFoundException;
 
 import java.io.IOException;
@@ -25,6 +25,9 @@ import static uk.nhs.hcdn.common.http.server.sun.helpers.ResponseHeadersHelper.w
 
 public abstract class AbstractHeadOrGetMethodEndpoint<R extends ResourceStateSnapshot> implements MethodEndpoint<R>
 {
+
+	private static final int EndOfFileOnRead = -1;
+
 	// last modified is starting to look quite egregious
 	@Override
 	public final void handle(@NotNull final String rawRelativeUriPath, @Nullable final String rawQueryString, @NotNull final HttpExchange httpExchange, @NotNull final R resourceStateSnapshot) throws IOException, BadRequestException
@@ -100,9 +103,11 @@ public abstract class AbstractHeadOrGetMethodEndpoint<R extends ResourceStateSna
 		final InputStream requestBody = httpExchange.getRequestBody();
 		try
 		{
-			//noinspection ResultOfMethodCallIgnored
-			requestBody.read();
-			throw new BadRequestException("HEAD and GET should not be sent a request body");
+			final int read = requestBody.read();
+			if (read != EndOfFileOnRead)
+			{
+				throw new BadRequestException("HEAD and GET should not be sent a request body");
+			}
 		}
 		catch (IOException ignored)
 		{

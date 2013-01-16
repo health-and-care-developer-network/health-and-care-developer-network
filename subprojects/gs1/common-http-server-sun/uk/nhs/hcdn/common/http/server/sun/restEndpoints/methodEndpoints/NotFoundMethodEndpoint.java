@@ -7,22 +7,27 @@ package uk.nhs.hcdn.common.http.server.sun.restEndpoints.methodEndpoints;
 
 import com.sun.net.httpserver.Headers;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hcdn.common.http.Method;
 import uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.ResourceStateSnapshot;
 
-import java.util.Set;
+import static uk.nhs.hcdn.common.http.ResponseCode.NotFoundResponseCode;
 
-import static uk.nhs.hcdn.common.http.ResponseCode.MethodNotAllowedResponseCode;
-
-public final class UnsupportedMethodEndpoint<R extends ResourceStateSnapshot> extends AbstractOptionsMethodEndpoint<R>
+public final class NotFoundMethodEndpoint extends AbstractBodylessMethodEndpoint<ResourceStateSnapshot>
 {
-	public UnsupportedMethodEndpoint(@SuppressWarnings("TypeMayBeWeakened") @Method @NotNull final Set<String> supportedMethodEndpoints)
+	@NotNull
+	public static final MethodEndpoint<?> NotFoundMethodEndpointInstance = new NotFoundMethodEndpoint();
+
+	private NotFoundMethodEndpoint()
 	{
-		super(MethodNotAllowedResponseCode, supportedMethodEndpoints);
 	}
 
 	@Override
 	protected void validateRequestHeaders(@NotNull final Headers requestHeaders)
 	{
+	}
+
+	@Override
+	protected int addResponseHeaders(@NotNull final Headers responseHeaders)
+	{
+		return NotFoundResponseCode;
 	}
 }

@@ -15,8 +15,6 @@ import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 
-import static java.nio.charset.Charset.forName;
-
 public final class FileSource extends AbstractToString implements Source
 {
 	private static final int Guess = 4096;
@@ -37,10 +35,6 @@ public final class FileSource extends AbstractToString implements Source
 	public void load(@NotNull final Parser parser) throws IOException, CouldNotParseException
 	{
 		final File file = filePath.toFile();
-		if (!file.canRead())
-		{
-			return;
-		}
 		@MillisecondsSince1970 final long lastModified = file.lastModified();
 
 		final InputStream inputStream = new FileInputStream(file);

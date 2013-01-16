@@ -36,7 +36,7 @@ public final class AdditionalInformation extends AbstractToString implements Map
 
 	public AdditionalInformation(@NotNull final Map<AdditionalInformationKey, Object> additionalInformation)
 	{
-		this.additionalInformation = new EnumMap<>(additionalInformation);
+		this.additionalInformation = additionalInformation.isEmpty() ? new EnumMap<>(AdditionalInformationKey.class) : new EnumMap<>(additionalInformation);
 	}
 
 	@Override
