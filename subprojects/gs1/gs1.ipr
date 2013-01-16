@@ -95,10 +95,9 @@
         <option name="myName" value="Project Default" />
         <option name="myLocal" value="false" />
         <inspection_tool class="AbsoluteAlignmentInUserInterface" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="AbstractClassExtendsConcreteClass" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="AbstractClassNeverImplemented" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="AbstractClassWithOnlyOneDirectInheritor" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="AbstractMethodCallInConstructor" enabled="true" level="WARNING" enabled_by_default="true" />
+        <inspection_tool class="AbstractMethodCallInConstructor" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
         <inspection_tool class="AbstractMethodOverridesAbstractMethod" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="AbstractMethodOverridesConcreteMethod" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="AbstractMethodWithMissingImplementations" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -113,7 +112,7 @@
         <inspection_tool class="AmbiguousMethodCall" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="AnnotationNamingConvention" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="m_regex" value="[A-Z][A-Za-z\d]*" />
-          <option name="m_minLength" value="8" />
+          <option name="m_minLength" value="2" />
           <option name="m_maxLength" value="64" />
         </inspection_tool>
         <inspection_tool class="AnonymousClassComplexity" enabled="true" level="WARNING" enabled_by_default="true">
@@ -173,7 +172,7 @@
           <option name="ignoreBooleanMethods" value="false" />
           <option name="ignoreInAnnotationInterface" value="false" />
           <option name="onlyWarnOnBaseMethods" value="true" />
-          <option name="questionString" value="is,can,has,should,could,will,shall,check,contains,equals,add,put,remove,startsWith,endsWith,doesNot" />
+          <option name="questionString" value="is,can,has,should,could,will,shall,check,contains,equals,add,put,remove,startsWith,endsWith,doesNot,if" />
         </inspection_tool>
         <inspection_tool class="BooleanVariableAlwaysNegated" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="BreakStatement" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -228,7 +227,7 @@
         <inspection_tool class="ClassInTopLevelPackage" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ClassIndependentOfModule" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ClassInheritanceDepth" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="m_limit" value="4" />
+          <option name="m_limit" value="5" />
         </inspection_tool>
         <inspection_tool class="ClassLoaderInstantiation" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ClassMayBeInterface" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -708,8 +707,8 @@
         <inspection_tool class="OverlyStrongTypeCast" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="ignoreInMatchingInstanceof" value="false" />
         </inspection_tool>
-        <inspection_tool class="OverridableMethodCallDuringObjectConstruction" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="OverriddenMethodCallDuringObjectConstruction" enabled="true" level="WARNING" enabled_by_default="true" />
+        <inspection_tool class="OverridableMethodCallDuringObjectConstruction" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
+        <inspection_tool class="OverriddenMethodCallDuringObjectConstruction" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
         <inspection_tool class="PackageDotHtmlMayBePackageInfo" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="PackageInMultipleModules" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="PackageNamingConvention" enabled="true" level="WARNING" enabled_by_default="true">
@@ -865,7 +864,7 @@
         <inspection_tool class="StaticInheritance" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="StaticMethodNamingConvention" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="m_regex" value="[a-z][A-Za-z\d]*" />
-          <option name="m_minLength" value="3" />
+          <option name="m_minLength" value="2" />
           <option name="m_maxLength" value="99" />
         </inspection_tool>
         <inspection_tool class="StaticMethodOnlyUsedInOneClass" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
@@ -930,9 +929,6 @@
         <inspection_tool class="SynchronizationOnStaticField" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="SynchronizeOnLock" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="SynchronizeOnThis" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="SynchronizedMethod" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="m_includeNativeMethods" value="true" />
-        </inspection_tool>
         <inspection_tool class="SynchronizedOnLiteralObject" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="SystemExit" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="SystemGC" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -961,7 +957,6 @@
         <inspection_tool class="ThreadDeathRethrown" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ThreadDumpStack" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ThreadLocalNotStaticFinal" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="ThreadPriority" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ThreadRun" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ThreadStartInConstruction" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ThreadStopSuspendResume" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -1238,12 +1233,21 @@
       <module fileurl="file://$PROJECT_DIR$/barcodes-gs1/barcodes-gs1.iml" filepath="$PROJECT_DIR$/barcodes-gs1/barcodes-gs1.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/barcodes-gs1-integrationTests/barcodes-gs1-integrationTests.iml" filepath="$PROJECT_DIR$/barcodes-gs1-integrationTests/barcodes-gs1-integrationTests.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/barcodes-gs1-server/barcodes-gs1-server.iml" filepath="$PROJECT_DIR$/barcodes-gs1-server/barcodes-gs1-server.iml" group="barcodes" />
+      <module fileurl="file://$PROJECT_DIR$/barcodes-gs1-server-application/barcodes-gs1-server-application.iml" filepath="$PROJECT_DIR$/barcodes-gs1-server-application/barcodes-gs1-server-application.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/barcodes-gs1-unitTests/barcodes-gs1-unitTests.iml" filepath="$PROJECT_DIR$/barcodes-gs1-unitTests/barcodes-gs1-unitTests.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" group="common" />
+      <module fileurl="file://$PROJECT_DIR$/common-commandLine/common-commandLine.iml" filepath="$PROJECT_DIR$/common-commandLine/common-commandLine.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-comparison/common-comparison.iml" filepath="$PROJECT_DIR$/common-comparison/common-comparison.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-exceptions/common-exceptions.iml" filepath="$PROJECT_DIR$/common-exceptions/common-exceptions.iml" group="common" />
+      <module fileurl="file://$PROJECT_DIR$/common-fileWatching/common-fileWatching.iml" filepath="$PROJECT_DIR$/common-fileWatching/common-fileWatching.iml" group="common" />
+      <module fileurl="file://$PROJECT_DIR$/common-http/common-http.iml" filepath="$PROJECT_DIR$/common-http/common-http.iml" group="common" />
+      <module fileurl="file://$PROJECT_DIR$/common-http-server/common-http-server.iml" filepath="$PROJECT_DIR$/common-http-server/common-http-server.iml" group="common" />
+      <module fileurl="file://$PROJECT_DIR$/common-http-server-sun/common-http-server-sun.iml" filepath="$PROJECT_DIR$/common-http-server-sun/common-http-server-sun.iml" group="common" />
+      <module fileurl="file://$PROJECT_DIR$/common-http-server-sun-application/common-http-server-sun-application.iml" filepath="$PROJECT_DIR$/common-http-server-sun-application/common-http-server-sun-application.iml" group="common" />
+      <module fileurl="file://$PROJECT_DIR$/common-http-sun/common-http-sun.iml" filepath="$PROJECT_DIR$/common-http-sun/common-http-sun.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-internationalisation/common-internationalisation.iml" filepath="$PROJECT_DIR$/common-internationalisation/common-internationalisation.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-naming/common-naming.iml" filepath="$PROJECT_DIR$/common-naming/common-naming.iml" group="common" />
+      <module fileurl="file://$PROJECT_DIR$/common-parsers/common-parsers.iml" filepath="$PROJECT_DIR$/common-parsers/common-parsers.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-reflection/common-reflection.iml" filepath="$PROJECT_DIR$/common-reflection/common-reflection.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-serialisers/common-serialisers.iml" filepath="$PROJECT_DIR$/common-serialisers/common-serialisers.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-serialisers-json/common-serialisers-json.iml" filepath="$PROJECT_DIR$/common-serialisers-json/common-serialisers-json.iml" group="common" />
@@ -1256,6 +1260,30 @@
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" assert-keyword="true" jdk-15="true" project-jdk-name="1.7" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
+  </component>
+  <component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="Gs1BarcodesConsoleEntryPoint" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hcdn.barcodes.gs1.server.application.Gs1BarcodesConsoleEntryPoint" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="barcodes-gs1-server-application" />
+      <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
   </component>
   <component name="ResourceManagerContainer">
     <option name="myResourceBundles">
@@ -1346,6 +1374,20 @@
       </CLASSES>
       <JAVADOC />
       <SOURCES />
+    </library>
+    <library name="jopt-simple">
+      <ANNOTATIONS>
+        <root url="file://$PROJECT_DIR$/../../library/jopt-simple/4.4" />
+      </ANNOTATIONS>
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../../library/jopt-simple/4.4/jopt-simple-4.4.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$PROJECT_DIR$/../../library/jopt-simple/4.4/jopt-simple-4.4-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../../library/jopt-simple/4.4/jopt-simple-4.4-sources.jar!/" />
+      </SOURCES>
     </library>
     <library name="JUnit 4">
       <CLASSES>

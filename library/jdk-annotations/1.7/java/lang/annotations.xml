@@ -15,4 +15,16 @@
         <annotation name='org.jetbrains.annotations.NonNls'>
         </annotation>
     </item>
+    <item name='java.lang.String boolean equalsIgnoreCase(java.lang.String) 0'>
+        <annotation name='org.jetbrains.annotations.NonNls'>
+        </annotation>
+    </item>
+    <item name='java.lang.IllegalStateException IllegalStateException(java.lang.String, java.lang.Throwable) 0'>
+        <annotation name='org.jetbrains.annotations.NonNls'>
+        </annotation>
+    </item>
+    <item name='java.lang.Exception Exception(java.lang.String, java.lang.Throwable) 0'>
+        <annotation name='org.jetbrains.annotations.NonNls'>
+        </annotation>
+    </item>
 </root>

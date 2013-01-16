@@ -1,0 +1,10 @@
+<root>
+    <item name='java.io.PrintStream void println(java.lang.String) 0'>
+        <annotation name='org.jetbrains.annotations.NonNls'>
+        </annotation>
+    </item>
+    <item name='java.io.PrintStream java.io.PrintStream format(java.util.Locale, java.lang.String, java.lang.Object...) 1'>
+        <annotation name='org.jetbrains.annotations.NonNls'>
+        </annotation>
+    </item>
+</root>

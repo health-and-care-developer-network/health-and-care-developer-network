@@ -1,0 +1,10 @@
+<root>
+    <item name='java.text.SimpleDateFormat SimpleDateFormat(java.lang.String, java.util.Locale) 0'>
+        <annotation name='org.jetbrains.annotations.NonNls'>
+        </annotation>
+    </item>
+    <item name='java.text.ParseException ParseException(java.lang.String, int) 0'>
+        <annotation name='org.jetbrains.annotations.NonNls'>
+        </annotation>
+    </item>
+</root>

@@ -5,7 +5,6 @@
 
 package uk.nhs.hcdn.common.serialisers.json;
 
-import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.common.serialisers.CouldNotWriteDataException;
 
@@ -21,14 +20,8 @@ public final class JsonPSerialiser extends JsonSerialiser
 	@NotNull
 	private final String jsonPPrefix;
 
-	public JsonPSerialiser(@NotNull final OutputStream outputStream, @NonNls @NotNull final String jsonPPrefix)
+	public JsonPSerialiser(@NotNull final String jsonPPrefix)
 	{
-		this(outputStream, Utf8, jsonPPrefix);
-	}
-
-	public JsonPSerialiser(@NotNull final OutputStream outputStream, @NotNull final Charset charset, @NotNull final String jsonPPrefix)
-	{
-		super(outputStream, charset);
 		if (jsonPPrefix.isEmpty())
 		{
 			throw new IllegalArgumentException("jsonPPrefix must be at least one character");
@@ -37,8 +30,9 @@ public final class JsonPSerialiser extends JsonSerialiser
 	}
 
 	@Override
-	public void start() throws CouldNotWriteDataException
+	public void start(@NotNull final OutputStream outputStream, @NotNull final Charset charset) throws CouldNotWriteDataException
 	{
+		super.start(outputStream, charset);
 		try
 		{
 			writer.write(jsonPPrefix);
@@ -48,7 +42,6 @@ public final class JsonPSerialiser extends JsonSerialiser
 		{
 			throw new CouldNotWriteDataException(e);
 		}
-		super.start();
 	}
 
 	@Override

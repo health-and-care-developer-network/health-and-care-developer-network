@@ -1,0 +1,18 @@
+<root>
+    <item name='joptsimple.OptionParser joptsimple.OptionSpecBuilder accepts(java.lang.String) 0'>
+        <annotation name='org.jetbrains.annotations.NonNls'>
+        </annotation>
+    </item>
+    <item name='joptsimple.ArgumentAcceptingOptionSpec joptsimple.ArgumentAcceptingOptionSpec<V> describedAs(java.lang.String) 0'>
+        <annotation name='org.jetbrains.annotations.NonNls'>
+        </annotation>
+    </item>
+    <item name='joptsimple.OptionSet boolean has(java.lang.String) 0'>
+        <annotation name='org.jetbrains.annotations.NonNls'>
+        </annotation>
+    </item>
+    <item name='joptsimple.OptionSet java.lang.Object valueOf(java.lang.String) 0'>
+        <annotation name='org.jetbrains.annotations.NonNls'>
+        </annotation>
+    </item>
+</root>

@@ -31,44 +31,28 @@ public class JsonSerialiser extends AbstractSerialiser
 	private static final int CloseArray = (int) ']';
 	private static final char[] Null = "null".toCharArray();
 
-	@NotNull @ExcludeFromToString
-	private final JsonStringWriter jsonStringWriter;
-
 	@NotNull
 	private final Stack<NodeState> depth;
 
 	@NotNull
 	private NodeState current;
 
-	public JsonSerialiser(@NotNull final OutputStream outputStream)
-	{
-		this(outputStream, Utf8);
-	}
+	@SuppressWarnings("InstanceVariableMayNotBeInitialized")
+	@NotNull
+	@ExcludeFromToString
+	private JsonStringWriter jsonStringWriter;
 
-	public JsonSerialiser(@NotNull final OutputStream outputStream, @NotNull final Charset charset)
+	public JsonSerialiser()
 	{
-		super(outputStream, charset);
-		jsonStringWriter = new JsonStringWriter(writer);
 		depth = new Stack<>();
 		current = new NodeState(Map);
 	}
 
 	@Override
-	public void start() throws CouldNotWriteDataException
+	public void start(@NotNull final OutputStream outputStream, @NotNull final Charset charset) throws CouldNotWriteDataException
 	{
-	}
-
-	public static final class NodeState
-	{
-		@NotNull
-		private final NodeValue nodeValue;
-		public boolean subsequentProperty;
-
-		public NodeState(@NotNull final NodeValue nodeValue)
-		{
-			this.nodeValue = nodeValue;
-			subsequentProperty = false;
-		}
+		super.start(outputStream, charset);
+		jsonStringWriter = new JsonStringWriter(writer);
 	}
 
 	@Override
@@ -184,7 +168,7 @@ public class JsonSerialiser extends AbstractSerialiser
 				for (int index = 1; index < length; index++)
 				{
 					write(Comma);
-					writeValue(values[0]);
+					writeValue(values[index]);
 				}
 			}
 			write(CloseArray);
@@ -212,7 +196,7 @@ public class JsonSerialiser extends AbstractSerialiser
 				for (int index = 1; index < length; index++)
 				{
 					write(Comma);
-					writeValue(values[0]);
+					writeValue(values[index]);
 				}
 			}
 			write(CloseArray);
