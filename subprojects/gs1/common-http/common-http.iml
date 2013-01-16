@@ -8,6 +8,9 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="IntelliJ Annotations" level="project" />
+    <orderEntry type="module" module-name="common-reflection" />
+    <orderEntry type="module" module-name="common" />
+    <orderEntry type="module" module-name="common-exceptions" />
   </component>
 </module>
 

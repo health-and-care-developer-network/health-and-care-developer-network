@@ -5,6 +5,7 @@
 
 package uk.nhs.hcdn.common.http.queryString;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public final class QueryStringParser
@@ -15,9 +16,9 @@ public final class QueryStringParser
 	private QueryStringParser()
 	{}
 
-	public static void parse(@Nullable final String queryString)
+	public static void parse(@Nullable final String rawQueryString, @NotNull final QueryStringEventHandler queryStringEventHandler) throws InvalidQueryStringException
 	{
-		if (queryString == null)
+		if (rawQueryString == null)
 		{
 			return;
 		}
@@ -25,39 +26,62 @@ public final class QueryStringParser
 		boolean parsingKey = true;
 		String key = null;
 		int tokenStartsAtIndex = 0;
-		for(int index = 0; index < queryString.length(); index+)
+		final int length = rawQueryString.length();
+		for(int index = 0; index < length; index++)
 		{
-			final int character = (int) queryString.charAt(index);
+			final int character = (int) rawQueryString.charAt(index);
 			if (parsingKey)
 			{
-				if (character == Equals)
+				switch (character)
 				{
-					key = queryString.substring(tokenStartsAtIndex, index);
-					if (key.isEmpty())
-					{
-						throw new InvalidQueryStringException("Empty key");
-					}
-					tokenStartsAtIndex = index + 1;
-					parsingKey = false;
-				}
-				else if (character == Ampersand)
-				{
-					throw new InvalidQueryStringException("Key contains ampersand");
+					case Equals:
+						key = rawQueryString.substring(tokenStartsAtIndex, index);
+						if (key.isEmpty())
+						{
+							throw new InvalidQueryStringException("there is an empty key");
+						}
+						tokenStartsAtIndex = index + 1;
+						parsingKey = false;
+						break;
+
+					case Ampersand:
+						throw new InvalidQueryStringException("a key contains an ampersand character");
+
+					default:
+						break;
 				}
 			}
 			else
 			{
-				if (character == Ampersand)
+				switch (character)
 				{
-					final String value = queryString.substring(tokenStartsAtIndex, index);
-					tokenStartsAtIndex = index + 1;
-					parsingKey = true;
-				}
-				else if (character == Equals)
-				{
-					throw new InvalidQueryStringException("Value contains equals");
+					case Equals:
+						throw new InvalidQueryStringException("a value contains an equals character");
+
+					case Ampersand:
+						final String value = rawQueryString.substring(tokenStartsAtIndex, index);
+						queryStringEventHandler.keyValuePair(key, value);
+						tokenStartsAtIndex = index + 1;
+						parsingKey = true;
+						break;
+
+					default:
+						break;
 				}
 			}
+		}
+
+		if (parsingKey)
+		{
+			if (tokenStartsAtIndex != length)
+			{
+				throw new InvalidQueryStringException("the query string ends with a key");
+			}
+		}
+		else
+		{
+			final String value = rawQueryString.substring(tokenStartsAtIndex, length);
+			queryStringEventHandler.keyValuePair(key, value);
 		}
 	}
 }

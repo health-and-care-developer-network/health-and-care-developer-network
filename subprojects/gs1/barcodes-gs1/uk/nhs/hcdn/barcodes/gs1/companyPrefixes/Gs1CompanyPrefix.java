@@ -15,6 +15,7 @@ import uk.nhs.hcdn.barcodes.Digits;
  */
 public final class Gs1CompanyPrefix extends AbstractCompanyPrefix
 {
+	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
 	@NotNull
 	public static Gs1CompanyPrefix gs1CompanyPrefix(@NotNull final CharSequence digits)
 	{
