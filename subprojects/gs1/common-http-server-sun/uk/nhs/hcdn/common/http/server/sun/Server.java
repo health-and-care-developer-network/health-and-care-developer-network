@@ -14,8 +14,12 @@ import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.Arrays;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import static com.sun.net.httpserver.HttpServer.create;
+import static java.lang.Runtime.getRuntime;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static uk.nhs.hcdn.common.VariableArgumentsHelper.copyOf;
 
 // Documentation: http://docs.oracle.com/javase/6/docs/jre/api/net/httpserver/spec/com/sun/net/httpserver/package-summary.html
@@ -53,9 +57,15 @@ public final class Server extends AbstractToString
 		{
 			restEndpoint.register(httpServer);
 		}
-		// TODO: threading
-		httpServer.setExecutor(null);
+		assert httpServer != null;
+		httpServer.setExecutor(executor());
 		httpServer.start();
+	}
+
+	@NotNull
+	private static ThreadPoolExecutor executor()
+	{
+		return new ThreadPoolExecutor(2, getRuntime().availableProcessors(), 15L, SECONDS, new ArrayBlockingQueue<Runnable>(1024 * 1024));
 	}
 
 	public void stop()
