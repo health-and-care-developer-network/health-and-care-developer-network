@@ -16,6 +16,7 @@
 
 package uk.nhs.hcdn.common.http.server.sun.restEndpoints;
 
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
@@ -110,8 +111,9 @@ public abstract class AbstractMethodRoutingRestEndpoint<R extends ResourceStateS
 
 	private MethodEndpoint<R> methodEndpoint(final HttpExchange httpExchange) throws BadRequestException
 	{
-		validateConnectionRequestHeader(httpExchange.getRequestHeaders());
-		validateTransferEncodingRequestHeader(httpExchange.getRequestHeaders());
+		final Headers requestHeaders = httpExchange.getRequestHeaders();
+		validateConnectionRequestHeader(requestHeaders);
+		validateTransferEncodingRequestHeader(requestHeaders);
 
 		return methodEndpoint(httpExchange.getRequestMethod());
 	}

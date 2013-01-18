@@ -22,38 +22,41 @@ import uk.nhs.hcdn.barcodes.gs1.companyPrefixes.remote.AdditionalInformation;
 import uk.nhs.hcdn.barcodes.gs1.companyPrefixes.remote.Tuple;
 import uk.nhs.hcdn.common.parsers.json.SchemaUsingParser;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.root.ArrayRootArrayConstructor;
-import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.NonNullFieldExpectation;
 
+import static uk.nhs.hcdn.barcodes.gs1.client.schema.AdditionalInformationObjectConstructor.AdditionalInformationObjectConstructorInstance;
+import static uk.nhs.hcdn.barcodes.gs1.client.schema.Gs1CompanyPrefixArrayConstructor.Gs1CompanyPrefixArrayConstructorInstance;
+import static uk.nhs.hcdn.barcodes.gs1.client.schema.TupleArrayCreator.TupleArray;
 import static uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.NonNullCollectToArrayObjectsOnlyForElementsArrayConstructor.nonNullArrayOfObjects;
 import static uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.root.NonNullArrayRootArrayConstructor.rootIsArrayOf;
 import static uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.JavaObjectConstructor.object;
 import static uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.NonEmptyStringFieldExpectation.nonEmptyStringField;
+import static uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.NonNullFieldExpectation.nonNullField;
 
 public final class TuplesSchemaUsingParser extends SchemaUsingParser<Tuple>
 {
 	@NotNull
 	public static final ArrayRootArrayConstructor<Tuple> TuplesSchema = rootIsArrayOf
 	(
-		TupleArrayCreator.TupleArray,
+		TupleArray,
 		nonNullArrayOfObjects
 		(
-			TupleArrayCreator.TupleArray,
+			TupleArray,
 			object
 			(
 				Tuple.class,
-				NonNullFieldExpectation.nonNullField
+				nonNullField
 				(
-						"gs1CompanyPrefix",
-						Gs1CompanyPrefix.class,
-						Gs1CompanyPrefixArrayConstructor.Gs1CompanyPrefixArrayConstructorInstance
+					"gs1CompanyPrefix",
+					Gs1CompanyPrefix.class,
+					Gs1CompanyPrefixArrayConstructorInstance
 				),
 				nonEmptyStringField("trust"),
 				nonEmptyStringField("organisationName"),
-				NonNullFieldExpectation.nonNullField
+				nonNullField
 				(
-						"additionalInformation",
-						AdditionalInformation.class,
-						AdditionalInformationObjectConstructor.AdditionalInformationObjectConstructorInstance
+					"additionalInformation",
+					AdditionalInformation.class,
+					AdditionalInformationObjectConstructorInstance
 				)
 			)
 		)

@@ -14,8 +14,20 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.barcodes.gs1.client;
+package uk.nhs.hcdn.common.http.client;
 
-public final class HttpRestClient
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+import java.net.URL;
+
+import static java.lang.String.format;
+import static java.util.Locale.ENGLISH;
+
+public final class CouldNotConnectHttpException extends Exception
 {
+	public CouldNotConnectHttpException(@NotNull final URL httpUrl, @NotNull final IOException cause)
+	{
+		super(format(ENGLISH, "Could not connect over HTTP(S) to %1$s because of exception %2$s", httpUrl, cause.getMessage()), cause);
+	}
 }

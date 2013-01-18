@@ -1,0 +1,10 @@
+<root>
+    <item name='java.net.URLConnection void setRequestProperty(java.lang.String, java.lang.String) 0'>
+        <annotation name='org.jetbrains.annotations.NonNls'>
+        </annotation>
+    </item>
+    <item name='java.net.URLConnection void setRequestProperty(java.lang.String, java.lang.String) 1'>
+        <annotation name='org.jetbrains.annotations.NonNls'>
+        </annotation>
+    </item>
+</root>
