@@ -17,35 +17,37 @@
 package uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.nodeStates;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.ArrayConstructor;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.ObjectConstructor;
+import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.schemaViolationInvalidJsonExceptions.SchemaViolationInvalidJsonException;
 
 import java.math.BigDecimal;
 
-public interface NodeState<A>
+public interface NodeState
 {
 	void key(@NotNull final String key);
 
 	@NotNull
-	ArrayConstructor<?> arrayValueStart();
+	ArrayConstructor<?> arrayValueStart() throws SchemaViolationInvalidJsonException;
 
 	@NotNull
-	ObjectConstructor<?> objectValueStart();
+	ObjectConstructor<?> objectValueStart() throws SchemaViolationInvalidJsonException;
 
-	void objectValue(@NotNull final Object value);
+	void objectValue(@Nullable final Object value) throws SchemaViolationInvalidJsonException;
 
-	void arrayValue(@NotNull final Object value);
+	void arrayValue(@Nullable final Object value) throws SchemaViolationInvalidJsonException;
 
-	void literalBooleanValue(final boolean value);
+	void literalBooleanValue(final boolean value) throws SchemaViolationInvalidJsonException;
 
-	void literalNullValue();
+	void literalNullValue() throws SchemaViolationInvalidJsonException;
 
-	void constantStringValue(@NotNull final String value);
+	void constantStringValue(@NotNull final String value) throws SchemaViolationInvalidJsonException;
 
-	void constantNumberValue(final long value);
+	void constantNumberValue(final long value) throws SchemaViolationInvalidJsonException;
 
-	void constantNumberValue(@NotNull final BigDecimal value);
+	void constantNumberValue(@NotNull final BigDecimal value) throws SchemaViolationInvalidJsonException;
 
-	@NotNull
-	Object collect();
+	@Nullable
+	Object collect() throws SchemaViolationInvalidJsonException;
 }

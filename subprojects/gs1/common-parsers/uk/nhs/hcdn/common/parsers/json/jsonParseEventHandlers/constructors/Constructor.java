@@ -17,14 +17,14 @@
 package uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.ArrayConstructor;
-import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.ObjectConstructor;
+import org.jetbrains.annotations.Nullable;
+import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.schemaViolationInvalidJsonExceptions.SchemaViolationInvalidJsonException;
 
 public interface Constructor<A>
 {
 	@NotNull
-	ArrayConstructor<?> arrayConstructor();
+	A newCollector();
 
-	@NotNull
-	ObjectConstructor<?> objectConstructor();
+	@Nullable
+	Object collect(@NotNull final A collector) throws SchemaViolationInvalidJsonException;
 }

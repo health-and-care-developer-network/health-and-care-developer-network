@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.common.parsers.json.InvalidJsonException;
 import uk.nhs.hcdn.common.parsers.json.charaterSets.CharacterSet;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.JsonParseEventHandler;
+import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.schemaViolationInvalidJsonExceptions.SchemaViolationInvalidJsonException;
 import uk.nhs.hcdn.common.parsers.json.jsonReaders.EndOfFileException;
 import uk.nhs.hcdn.common.parsers.json.jsonReaders.JsonReader;
 import uk.nhs.hcdn.common.parsers.json.parseModes.AbstractParseMode;
@@ -61,5 +62,5 @@ public abstract class AbstractLiteralParseMode extends AbstractParseMode
 		raiseEvent(jsonParseEventHandler);
 	}
 
-	protected abstract void raiseEvent(@NotNull final JsonParseEventHandler jsonParseEventHandler);
+	protected abstract void raiseEvent(@NotNull final JsonParseEventHandler jsonParseEventHandler) throws SchemaViolationInvalidJsonException;
 }

@@ -14,11 +14,19 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers;
+package uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.jsonParseResultUsers;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public interface JsonParseResultUser<V>
+public final class NonNullValueReturningJsonParseResultUser<V> extends ValueReturningJsonParseResultUser<V>
 {
-	void use(@NotNull final V value);
+	@Override
+	@NotNull
+	public V value()
+	{
+		@Nullable final V value = super.value();
+		assert value != null;
+		return value;
+	}
 }

@@ -49,7 +49,7 @@ public final class MapObjectConstructor extends AbstractToString implements Obje
 
 	@NotNull
 	@Override
-	public ArrayConstructor<?> arrayConstructor()
+	public ArrayConstructor<?> arrayConstructor(@NotNull final String key)
 	{
 		assert arrayConstructor != null;
 		return arrayConstructor;
@@ -57,9 +57,21 @@ public final class MapObjectConstructor extends AbstractToString implements Obje
 
 	@NotNull
 	@Override
-	public ObjectConstructor<?> objectConstructor()
+	public ObjectConstructor<?> objectConstructor(@NotNull final String key)
 	{
 		return this;
+	}
+
+	@Override
+	public void putObjectValue(@NotNull final Map<String, Object> objectCollector, @NotNull final String key, @Nullable final Object value)
+	{
+		objectCollector.put(key, value);
+	}
+
+	@Override
+	public void putArrayValue(@NotNull final Map<String, Object> objectCollector, @NotNull final String key, @Nullable final Object value)
+	{
+		objectCollector.put(key, value);
 	}
 
 	@Override
@@ -92,22 +104,10 @@ public final class MapObjectConstructor extends AbstractToString implements Obje
 		objectCollector.put(key, value);
 	}
 
-	@Override
-	public void putObjectValue(@NotNull final Map<String, Object> objectCollector, @NotNull final String key, @NotNull final Object value)
-	{
-		objectCollector.put(key, value);
-	}
-
-	@Override
-	public void putArrayValue(@NotNull final Map<String, Object> objectCollector, @NotNull final String key, @NotNull final Object value)
-	{
-		objectCollector.put(key, value);
-	}
-
 	@NotNull
 	@Override
-	public Object collect(@NotNull final Map<String, Object> objectCollector)
+	public Object collect(@NotNull final Map<String, Object> collector)
 	{
-		return objectCollector;
+		return collector;
 	}
 }

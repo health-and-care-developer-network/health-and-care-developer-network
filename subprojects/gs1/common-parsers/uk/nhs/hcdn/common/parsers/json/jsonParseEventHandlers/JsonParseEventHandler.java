@@ -17,6 +17,7 @@
 package uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers;
 
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.schemaViolationInvalidJsonExceptions.SchemaViolationInvalidJsonException;
 
 import java.math.BigDecimal;
 
@@ -24,25 +25,25 @@ public interface JsonParseEventHandler
 {
 	void startRoot();
 
-	void endRoot();
+	void endRoot() throws SchemaViolationInvalidJsonException;
 
-	void startObject();
+	void startObject() throws SchemaViolationInvalidJsonException;
 
-	void endObject();
+	void endObject() throws SchemaViolationInvalidJsonException;
 
-	void startArray();
+	void startArray() throws SchemaViolationInvalidJsonException;
 
-	void endArray();
+	void endArray() throws SchemaViolationInvalidJsonException;
 
-	void literalNullValue();
+	void literalNullValue() throws SchemaViolationInvalidJsonException;
 
-	void literalBooleanValue(final boolean value);
+	void literalBooleanValue(final boolean value) throws SchemaViolationInvalidJsonException;
 
-	void numberValue(final long integerComponent);
+	void numberValue(final long integerComponent) throws SchemaViolationInvalidJsonException;
 
-	void numberValue(@NotNull final BigDecimal fractionComponent);
+	void numberValue(@NotNull final BigDecimal fractionComponent) throws SchemaViolationInvalidJsonException;
 
-	void stringValue(@NotNull final String value);
+	void stringValue(@NotNull final String value) throws SchemaViolationInvalidJsonException;
 
 	void key(@NotNull final String key);
 }

@@ -32,31 +32,44 @@ public final class BitSetCharacterSet extends AbstractToString implements Charac
 	@ExcludeFromToString
 	private final boolean[] bitSet;
 
+	// Only for toString
+	private final String characters;
+
 	public BitSetCharacterSet(final int fromInclusive, final int inclusiveTo)
 	{
 		bitSet = new boolean[MaximumCharacterNumber];
+		final StringBuilder builder = new StringBuilder(inclusiveTo - fromInclusive + 1);
 		for(int index = fromInclusive; index <= inclusiveTo; index++)
 		{
 			bitSet[index] = true;
+			//noinspection NumericCastThatLosesPrecision
+			builder.append((char) index);
 		}
+		characters = builder.toString();
 	}
 
 	public BitSetCharacterSet(@NotNull final char... characters)
 	{
 		bitSet = new boolean[MaximumCharacterNumber];
+		final StringBuilder builder = new StringBuilder(characters.length);
 		for (final char character : characters)
 		{
 			bitSet[(int) character] = true;
+			builder.append(character);
 		}
+		this.characters = builder.toString();
 	}
 
 	public BitSetCharacterSet(@NotNull final BitSetCharacterSet existing, @NotNull final char... characters)
 	{
 		bitSet = copyOf(existing.bitSet, MaximumCharacterNumber);
+		final StringBuilder builder = new StringBuilder(existing.characters);
 		for (final char character : characters)
 		{
 			bitSet[(int) character] = true;
+			builder.append(character);
 		}
+		this.characters = builder.toString();
 	}
 
 	@Override

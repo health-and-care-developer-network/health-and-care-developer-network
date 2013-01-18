@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.common.parsers.json.InvalidJsonException;
 import uk.nhs.hcdn.common.parsers.json.charaterSets.CharacterSet;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.JsonParseEventHandler;
+import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.schemaViolationInvalidJsonExceptions.SchemaViolationInvalidJsonException;
 import uk.nhs.hcdn.common.parsers.json.jsonReaders.InvalidCodePointException;
 import uk.nhs.hcdn.common.parsers.json.jsonReaders.JsonReader;
 import uk.nhs.hcdn.common.parsers.json.parseModes.AbstractParseMode;
@@ -57,7 +58,7 @@ public abstract class AbstractStringParseMode extends AbstractParseMode
 		useStringValue(jsonParseEventHandler, value);
 	}
 
-	protected abstract void useStringValue(@NotNull final JsonParseEventHandler jsonParseEventHandler, @NonNls @NotNull final String value);
+	protected abstract void useStringValue(@NotNull final JsonParseEventHandler jsonParseEventHandler, @NonNls @NotNull final String value) throws SchemaViolationInvalidJsonException;
 
 	@SuppressWarnings("PublicField")
 	private static final class EscapedCharacterState extends AbstractToString

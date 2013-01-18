@@ -20,11 +20,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.ArrayConstructor;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.ObjectConstructor;
+import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.schemaViolationInvalidJsonExceptions.SchemaViolationInvalidJsonException;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 
 import java.math.BigDecimal;
 
-public final class ObjectNodeState<A> extends AbstractToString implements NodeState<A>
+public final class ObjectNodeState<A> extends AbstractToString implements NodeState
 {
 	@NotNull
 	private final ObjectConstructor<A> objectConstructor;
@@ -54,65 +55,72 @@ public final class ObjectNodeState<A> extends AbstractToString implements NodeSt
 
 	@NotNull
 	@Override
-	public ArrayConstructor<?> arrayValueStart()
+	public ArrayConstructor<?> arrayValueStart() throws SchemaViolationInvalidJsonException
 	{
-		return objectConstructor.arrayConstructor();
+		return objectConstructor.arrayConstructor(currentKeyPreserve());
 	}
 
 	@NotNull
 	@Override
-	public ObjectConstructor<?> objectValueStart()
+	public ObjectConstructor<?> objectValueStart() throws SchemaViolationInvalidJsonException
 	{
-		return objectConstructor.objectConstructor();
+		return objectConstructor.objectConstructor(currentKeyPreserve());
 	}
 
 	@Override
-	public void objectValue(@NotNull final Object value)
+	public void objectValue(@Nullable final Object value) throws SchemaViolationInvalidJsonException
 	{
 		objectConstructor.putObjectValue(objectCollector, currentKey(), value);
 	}
 
 	@Override
-	public void arrayValue(@NotNull final Object value)
+	public void arrayValue(@Nullable final Object value) throws SchemaViolationInvalidJsonException
 	{
 		objectConstructor.putArrayValue(objectCollector, currentKey(), value);
 	}
 
 	@Override
-	public void literalBooleanValue(final boolean value)
+	public void literalBooleanValue(final boolean value) throws SchemaViolationInvalidJsonException
 	{
 		objectConstructor.putLiteralBooleanValue(objectCollector, currentKey(), value);
 	}
 
 	@Override
-	public void literalNullValue()
+	public void literalNullValue() throws SchemaViolationInvalidJsonException
 	{
 		objectConstructor.putLiteralNullValue(objectCollector, currentKey());
 	}
 
 	@Override
-	public void constantStringValue(@NotNull final String value)
+	public void constantStringValue(@NotNull final String value) throws SchemaViolationInvalidJsonException
 	{
 		objectConstructor.putConstantStringValue(objectCollector, currentKey(), value);
 	}
 
 	@Override
-	public void constantNumberValue(final long value)
+	public void constantNumberValue(final long value) throws SchemaViolationInvalidJsonException
 	{
 		objectConstructor.putConstantNumberValue(objectCollector, currentKey(), value);
 	}
 
 	@Override
-	public void constantNumberValue(@NotNull final BigDecimal value)
+	public void constantNumberValue(@NotNull final BigDecimal value) throws SchemaViolationInvalidJsonException
 	{
 		objectConstructor.putConstantNumberValue(objectCollector, currentKey(), value);
 	}
 
 	@Override
-	@NotNull
-	public Object collect()
+	@Nullable
+	public Object collect() throws SchemaViolationInvalidJsonException
 	{
 		return objectConstructor.collect(objectCollector);
+	}
+
+	@NotNull
+	private String currentKeyPreserve()
+	{
+		assert currentKey != null;
+		return currentKey;
 	}
 
 	@NotNull

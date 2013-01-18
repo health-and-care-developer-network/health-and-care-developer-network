@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.common.parsers.json.InvalidJsonException;
 import uk.nhs.hcdn.common.parsers.json.charaterSets.CharacterSet;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.JsonParseEventHandler;
+import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.schemaViolationInvalidJsonExceptions.SchemaViolationInvalidJsonException;
 import uk.nhs.hcdn.common.parsers.json.jsonReaders.EndOfFileException;
 import uk.nhs.hcdn.common.parsers.json.jsonReaders.JsonReader;
 
@@ -256,7 +257,7 @@ public final class NumberParseMode extends AbstractParseMode
 		while(true);
 	}
 
-	private static void numberValue(final JsonParseEventHandler jsonParseEventHandler, final StringBuilder fraction)
+	private static void numberValue(final JsonParseEventHandler jsonParseEventHandler, final StringBuilder fraction) throws SchemaViolationInvalidJsonException
 	{
 		jsonParseEventHandler.numberValue(new BigDecimal(fraction.toString()));
 	}

@@ -17,29 +17,32 @@
 package uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.Constructor;
+import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.ObjectConstructor;
+import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.schemaViolationInvalidJsonExceptions.SchemaViolationInvalidJsonException;
 
 import java.math.BigDecimal;
 
 public interface ArrayConstructor<A> extends Constructor<A>
 {
-	@NotNull
-	A newCollector();
+	void addLiteralBooleanValue(@NotNull final A arrayCollector, final int index, final boolean value) throws SchemaViolationInvalidJsonException;
 
-	void addLiteralBooleanValue(@NotNull final A arrayCollector, final int index, final boolean value);
+	void addLiteralNullValue(@NotNull final A arrayCollector, final int index) throws SchemaViolationInvalidJsonException;
 
-	void addLiteralNullValue(@NotNull final A arrayCollector, final int index);
+	void addConstantStringValue(@NotNull final A arrayCollector, final int index, @NotNull final String value) throws SchemaViolationInvalidJsonException;
 
-	void addConstantStringValue(@NotNull final A arrayCollector, final int index, @NotNull final String value);
+	void addConstantNumberValue(@NotNull final A arrayCollector, final int index, final long value) throws SchemaViolationInvalidJsonException;
 
-	void addConstantNumberValue(@NotNull final A arrayCollector, final int index, final long value);
+	void addConstantNumberValue(@NotNull final A arrayCollector, final int index, @NotNull final BigDecimal value) throws SchemaViolationInvalidJsonException;
 
-	void addConstantNumberValue(@NotNull final A arrayCollector, final int index, @NotNull final BigDecimal value);
+	void addObjectValue(@NotNull final A arrayCollector, final int index, @Nullable final Object value) throws SchemaViolationInvalidJsonException;
 
-	void addObjectValue(@NotNull final A arrayCollector, final int index, @NotNull final Object value);
-
-	void addArrayValue(@NotNull final A arrayCollector, final int index, @NotNull final Object value);
+	void addArrayValue(@NotNull final A arrayCollector, final int index, @Nullable final Object value) throws SchemaViolationInvalidJsonException;
 
 	@NotNull
-	Object collect(@NotNull final A arrayCollector);
+	ArrayConstructor<?> arrayConstructor(final int index) throws SchemaViolationInvalidJsonException;
+
+	@NotNull
+	ObjectConstructor<?> objectConstructor(final int index) throws SchemaViolationInvalidJsonException;
 }

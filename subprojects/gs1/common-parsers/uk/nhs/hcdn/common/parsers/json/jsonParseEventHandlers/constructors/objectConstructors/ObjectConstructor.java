@@ -17,29 +17,32 @@
 package uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.Constructor;
+import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.ArrayConstructor;
+import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.schemaViolationInvalidJsonExceptions.SchemaViolationInvalidJsonException;
 
 import java.math.BigDecimal;
 
 public interface ObjectConstructor<A> extends Constructor<A>
 {
-	@NotNull
-	A newCollector();
+	void putObjectValue(@NotNull final A objectCollector, @NotNull final String key, @Nullable final Object value) throws SchemaViolationInvalidJsonException;
 
-	void putLiteralBooleanValue(@NotNull final A objectCollector, @NotNull final String key, final boolean value);
+	void putArrayValue(@NotNull final A objectCollector, @NotNull final String key, @Nullable final Object value) throws SchemaViolationInvalidJsonException;
 
-	void putLiteralNullValue(@NotNull final A objectCollector, @NotNull final String key);
+	void putLiteralBooleanValue(@NotNull final A objectCollector, @NotNull final String key, final boolean value) throws SchemaViolationInvalidJsonException;
 
-	void putConstantStringValue(@NotNull final A objectCollector, @NotNull final String key, @NotNull final String value);
+	void putLiteralNullValue(@NotNull final A objectCollector, @NotNull final String key) throws SchemaViolationInvalidJsonException;
 
-	void putConstantNumberValue(@NotNull final A objectCollector, @NotNull final String key, final long value);
+	void putConstantStringValue(@NotNull final A objectCollector, @NotNull final String key, @NotNull final String value) throws SchemaViolationInvalidJsonException;
 
-	void putConstantNumberValue(@NotNull final A objectCollector, @NotNull final String key, @NotNull final BigDecimal value);
+	void putConstantNumberValue(@NotNull final A objectCollector, @NotNull final String key, final long value) throws SchemaViolationInvalidJsonException;
 
-	void putObjectValue(@NotNull final A objectCollector, @NotNull final String key, @NotNull final Object value);
-
-	void putArrayValue(@NotNull final A objectCollector, @NotNull final String key, @NotNull final Object value);
+	void putConstantNumberValue(@NotNull final A objectCollector, @NotNull final String key, @NotNull final BigDecimal value) throws SchemaViolationInvalidJsonException;
 
 	@NotNull
-	Object collect(@NotNull final A objectCollector);
+	ArrayConstructor<?> arrayConstructor(@NotNull final String key) throws SchemaViolationInvalidJsonException;
+
+	@NotNull
+	ObjectConstructor<?> objectConstructor(@NotNull final String key) throws SchemaViolationInvalidJsonException;
 }

@@ -127,6 +127,14 @@ public enum Digit implements ExtendedComparable<Digit>, ValueSerialisable
 		return CompilerWorkaround.Index[zeroBased];
 	}
 
+	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
+	@NotNull
+	public static Digit digit(final long zeroBased)
+	{
+		//noinspection NumericCastThatLosesPrecision
+		return digit((int) zeroBased);
+	}
+
 	@NotNull
 	public static Digit digitFromUtf16Code(final char utf16Code)
 	{
