@@ -205,9 +205,6 @@
         </inspection_tool>
         <inspection_tool class="CharUsedInArithmeticContext" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="CharacterComparison" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="CheckForOutOfMemoryOnLargeArrayAllocation" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="m_limit" value="64" />
-        </inspection_tool>
         <inspection_tool class="ClassComplexity" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="m_limit" value="80" />
         </inspection_tool>
@@ -436,7 +433,7 @@
         </inspection_tool>
         <inspection_tool class="HtmlTagCanBeJavadocTag" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="IOResource" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="ignoredTypesString" value="java.io.ByteArrayOutputStream,java.io.ByteArrayInputStream,java.io.StringBufferInputStream,java.io.CharArrayWriter,java.io.CharArrayReader,java.io.StringWriter,java.io.StringReader" />
+          <option name="ignoredTypesString" value="java.io.ByteArrayOutputStream,java.io.ByteArrayInputStream,java.io.StringBufferInputStream,java.io.CharArrayWriter,java.io.CharArrayReader,java.io.StringWriter,java.io.StringReader,java.io.BufferedReader" />
           <option name="insideTryAllowed" value="false" />
         </inspection_tool>
         <inspection_tool class="IfMayBeConditional" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
@@ -637,7 +634,7 @@
         <inspection_tool class="NestingDepth" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="m_limit" value="5" />
         </inspection_tool>
-        <inspection_tool class="NewExceptionWithoutArguments" enabled="true" level="WARNING" enabled_by_default="true">
+        <inspection_tool class="NewExceptionWithoutArguments" enabled="true" level="WEAK WARNING" enabled_by_default="true">
           <option name="ignoreWithoutParameters" value="true" />
         </inspection_tool>
         <inspection_tool class="NonAtomicOperationOnVolatileField" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -1231,6 +1228,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/barcodes/barcodes.iml" filepath="$PROJECT_DIR$/barcodes/barcodes.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/barcodes-gs1/barcodes-gs1.iml" filepath="$PROJECT_DIR$/barcodes-gs1/barcodes-gs1.iml" group="barcodes" />
+      <module fileurl="file://$PROJECT_DIR$/barcodes-gs1-client/barcodes-gs1-client.iml" filepath="$PROJECT_DIR$/barcodes-gs1-client/barcodes-gs1-client.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/barcodes-gs1-integrationTests/barcodes-gs1-integrationTests.iml" filepath="$PROJECT_DIR$/barcodes-gs1-integrationTests/barcodes-gs1-integrationTests.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/barcodes-gs1-server/barcodes-gs1-server.iml" filepath="$PROJECT_DIR$/barcodes-gs1-server/barcodes-gs1-server.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/barcodes-gs1-server-application/barcodes-gs1-server-application.iml" filepath="$PROJECT_DIR$/barcodes-gs1-server-application/barcodes-gs1-server-application.iml" group="barcodes" />
