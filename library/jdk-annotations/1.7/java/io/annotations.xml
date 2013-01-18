@@ -11,4 +11,8 @@
         <annotation name='org.jetbrains.annotations.NonNls'>
         </annotation>
     </item>
+    <item name='java.io.IOException IOException(java.lang.String) 0'>
+        <annotation name='org.jetbrains.annotations.NonNls'>
+        </annotation>
+    </item>
 </root>
