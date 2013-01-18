@@ -22,9 +22,12 @@ import uk.nhs.hcdn.common.parsers.json.InvalidJsonException;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.ArrayConstructor;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.ListArrayConstructor;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.MapObjectConstructor;
+import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.jsonParseResultUsers.JsonParseResultUser;
+import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.jsonParseResultUsers.ValueReturningJsonParseResultUser;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.nodeStates.ArrayNodeState;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.nodeStates.NodeState;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.nodeStates.ObjectNodeState;
+import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.schemaViolationInvalidJsonExceptions.SchemaViolationInvalidJsonException;
 import uk.nhs.hcdn.common.parsers.json.jsonReaders.BufferedJsonReader;
 
 import java.io.BufferedReader;
@@ -41,25 +44,18 @@ public final class GenericJsonParseEventHandler<V> implements JsonParseEventHand
 	@NotNull
 	public static Object genericParse(@NotNull final Reader reader) throws InvalidJsonException
 	{
+		final ListArrayConstructor listArrayConstructor = new ListArrayConstructor();
+		final MapObjectConstructor mapObjectConstructor = new MapObjectConstructor();
+		listArrayConstructor.configure(mapObjectConstructor);
+		mapObjectConstructor.configure(listArrayConstructor);
+
 		try
 		{
-			final Object[] result = new Object[1];
-
-			final ListArrayConstructor listArrayConstructor = new ListArrayConstructor();
-			final MapObjectConstructor mapObjectConstructor = new MapObjectConstructor();
-			listArrayConstructor.configure(mapObjectConstructor);
-			mapObjectConstructor.configure(listArrayConstructor);
-
-			RootParseModeInstance.parse(new GenericJsonParseEventHandler<>(listArrayConstructor, new JsonParseResultUser<List<Object>>()
-			{
-				@Override
-				public void use(@NotNull final List<Object> value)
-				{
-					result[0] = value.get(0);
-				}
-			}), new BufferedJsonReader(new BufferedReader(reader)));
-
-			return result[0];
+			final ValueReturningJsonParseResultUser<List<Object>> objectValueReturningJsonParseResultUser = new ValueReturningJsonParseResultUser<>();
+			RootParseModeInstance.parse(new GenericJsonParseEventHandler<>(listArrayConstructor, objectValueReturningJsonParseResultUser), new BufferedJsonReader(new BufferedReader(reader)));
+			@Nullable final List<Object> value = objectValueReturningJsonParseResultUser.value();
+			assert value != null;
+			return value.get(0);
 		}
 		finally
 		{
@@ -77,10 +73,10 @@ public final class GenericJsonParseEventHandler<V> implements JsonParseEventHand
 	private final ArrayConstructor<V> rootArrayConstructor;
 	@NotNull
 	private final JsonParseResultUser<V> jsonParseResultUser;
-	private final Stack<NodeState<?>> depth;
+	private final Stack<NodeState> depth;
 
 	@Nullable
-	private NodeState<?> current;
+	private NodeState current;
 
 	public GenericJsonParseEventHandler(@NotNull final ArrayConstructor<V> rootArrayConstructor, @NotNull final JsonParseResultUser<V> jsonParseResultUser)
 	{
@@ -98,30 +94,30 @@ public final class GenericJsonParseEventHandler<V> implements JsonParseEventHand
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void endRoot()
+	public void endRoot() throws SchemaViolationInvalidJsonException
 	{
-		@NotNull final V value = (V) current().collect();
+		@Nullable final V value = (V) current().collect();
 		current = null;
 		jsonParseResultUser.use(value);
 	}
 
 	@Override
-	public void startArray()
+	public void startArray() throws SchemaViolationInvalidJsonException
 	{
 		depth.push(current);
 		current = new ArrayNodeState<>(current().arrayValueStart());
 	}
 
 	@Override
-	public void endArray()
+	public void endArray() throws SchemaViolationInvalidJsonException
 	{
-		final Object value = current().collect();
+		@Nullable final Object value = current().collect();
 		current = depth.pop();
 		current.arrayValue(value);
 	}
 
 	@Override
-	public void startObject()
+	public void startObject() throws SchemaViolationInvalidJsonException
 	{
 		depth.push(current);
 		current = new ObjectNodeState<>(current().objectValueStart());
@@ -134,45 +130,45 @@ public final class GenericJsonParseEventHandler<V> implements JsonParseEventHand
 	}
 
 	@Override
-	public void endObject()
+	public void endObject() throws SchemaViolationInvalidJsonException
 	{
-		final Object value = current().collect();
+		@Nullable final Object value = current().collect();
 		current = depth.pop();
 		current.objectValue(value);
 	}
 
 	@Override
-	public void literalBooleanValue(final boolean value)
+	public void literalBooleanValue(final boolean value) throws SchemaViolationInvalidJsonException
 	{
 		current().literalBooleanValue(value);
 	}
 
 	@Override
-	public void literalNullValue()
+	public void literalNullValue() throws SchemaViolationInvalidJsonException
 	{
 		current().literalNullValue();
 	}
 
 	@Override
-	public void stringValue(@NotNull final String value)
+	public void stringValue(@NotNull final String value) throws SchemaViolationInvalidJsonException
 	{
 		current().constantStringValue(value);
 	}
 
 	@Override
-	public void numberValue(final long integerComponent)
+	public void numberValue(final long integerComponent) throws SchemaViolationInvalidJsonException
 	{
 		current().constantNumberValue(integerComponent);
 	}
 
 	@Override
-	public void numberValue(@NotNull final BigDecimal fractionComponent)
+	public void numberValue(@NotNull final BigDecimal fractionComponent) throws SchemaViolationInvalidJsonException
 	{
 		current().constantNumberValue(fractionComponent);
 	}
 
 	@NotNull
-	private NodeState<?> current()
+	private NodeState current()
 	{
 		assert current != null;
 		return current;

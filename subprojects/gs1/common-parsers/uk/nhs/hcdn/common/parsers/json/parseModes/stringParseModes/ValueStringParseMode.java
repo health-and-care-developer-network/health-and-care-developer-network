@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.common.parsers.json.charaterSets.CharacterSet;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.JsonParseEventHandler;
+import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.schemaViolationInvalidJsonExceptions.SchemaViolationInvalidJsonException;
 import uk.nhs.hcdn.common.parsers.json.parseModes.ParseMode;
 
 import static uk.nhs.hcdn.common.parsers.json.CharacterHelper.*;
@@ -41,7 +42,7 @@ public final class ValueStringParseMode extends AbstractStringParseMode
 	}
 
 	@Override
-	protected void useStringValue(@NotNull final JsonParseEventHandler jsonParseEventHandler, @NonNls @NotNull final String value)
+	protected void useStringValue(@NotNull final JsonParseEventHandler jsonParseEventHandler, @NonNls @NotNull final String value) throws SchemaViolationInvalidJsonException
 	{
 		jsonParseEventHandler.stringValue(value);
 	}

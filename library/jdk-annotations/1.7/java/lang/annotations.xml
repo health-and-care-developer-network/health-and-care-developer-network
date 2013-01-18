@@ -27,4 +27,12 @@
         <annotation name='org.jetbrains.annotations.NonNls'>
         </annotation>
     </item>
+    <item name='java.lang.Throwable Throwable(java.lang.String) 0'>
+        <annotation name='org.jetbrains.annotations.NonNls'>
+        </annotation>
+    </item>
+    <item name='java.lang.IllegalArgumentException IllegalArgumentException(java.lang.String, java.lang.Throwable) 0'>
+        <annotation name='org.jetbrains.annotations.NonNls'>
+        </annotation>
+    </item>
 </root>

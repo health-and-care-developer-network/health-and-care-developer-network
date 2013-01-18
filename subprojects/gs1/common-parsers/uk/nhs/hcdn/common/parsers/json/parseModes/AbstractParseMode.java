@@ -68,14 +68,19 @@ public abstract class AbstractParseMode extends AbstractToString implements Pars
 
 	protected final void guardIsTerminatingCharacter(final char nextCharacter) throws InvalidJsonException
 	{
-		if (isTerminatingCharacter(nextCharacter))
+		if (isNotTerminatingCharacter(nextCharacter))
 		{
 			throw new InvalidJsonException("literal value not correctly terminated");
 		}
 	}
 
+	protected final boolean isNotTerminatingCharacter(final char nextCharacter)
+	{
+		return !isTerminatingCharacter(nextCharacter);
+	}
+
 	protected final boolean isTerminatingCharacter(final char nextCharacter)
 	{
-		return validTerminatingCharacters.doesNotContain(nextCharacter);
+		return validTerminatingCharacters.contains(nextCharacter);
 	}
 }

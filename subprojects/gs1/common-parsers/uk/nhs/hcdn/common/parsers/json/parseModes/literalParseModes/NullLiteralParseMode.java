@@ -19,6 +19,7 @@ package uk.nhs.hcdn.common.parsers.json.parseModes.literalParseModes;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.common.parsers.json.charaterSets.CharacterSet;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.JsonParseEventHandler;
+import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.schemaViolationInvalidJsonExceptions.SchemaViolationInvalidJsonException;
 
 import static uk.nhs.hcdn.common.parsers.json.CharacterHelper.*;
 
@@ -39,7 +40,7 @@ public final class NullLiteralParseMode extends AbstractLiteralParseMode
 	}
 
 	@Override
-	protected void raiseEvent(@NotNull final JsonParseEventHandler jsonParseEventHandler)
+	protected void raiseEvent(@NotNull final JsonParseEventHandler jsonParseEventHandler) throws SchemaViolationInvalidJsonException
 	{
 		jsonParseEventHandler.literalNullValue();
 	}

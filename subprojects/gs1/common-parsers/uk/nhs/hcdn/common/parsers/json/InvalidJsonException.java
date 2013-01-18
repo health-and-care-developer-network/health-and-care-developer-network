@@ -24,7 +24,7 @@ import uk.nhs.hcdn.common.exceptions.AbstractRethrowableException;
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
 
-public final class InvalidJsonException extends AbstractRethrowableException
+public class InvalidJsonException extends AbstractRethrowableException
 {
 	public InvalidJsonException(@NonNls @NotNull final String because)
 	{

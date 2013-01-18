@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.common.parsers.json.charaterSets.CharacterSet;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.JsonParseEventHandler;
+import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.schemaViolationInvalidJsonExceptions.SchemaViolationInvalidJsonException;
 
 import static uk.nhs.hcdn.common.parsers.json.CharacterHelper.Whitespace;
 import static uk.nhs.hcdn.common.parsers.json.CharacterHelper.WhitespaceCommaCloseObject;
@@ -56,7 +57,7 @@ public final class BooleanLiteralParseMode extends AbstractLiteralParseMode
 	}
 
 	@Override
-	protected void raiseEvent(@NotNull final JsonParseEventHandler jsonParseEventHandler)
+	protected void raiseEvent(@NotNull final JsonParseEventHandler jsonParseEventHandler) throws SchemaViolationInvalidJsonException
 	{
 		jsonParseEventHandler.literalBooleanValue(value);
 	}

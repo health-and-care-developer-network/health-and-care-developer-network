@@ -25,7 +25,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListArrayConstructor extends AbstractToString implements ArrayConstructor<List<Object>>
+public final class ListArrayConstructor extends AbstractToString implements ArrayConstructor<List<Object>>
 {
 	@Nullable
 	private ObjectConstructor<?> objectConstructor;
@@ -49,14 +49,14 @@ public class ListArrayConstructor extends AbstractToString implements ArrayConst
 
 	@NotNull
 	@Override
-	public ArrayConstructor<?> arrayConstructor()
+	public ArrayConstructor<?> arrayConstructor(final int index)
 	{
 		return this;
 	}
 
 	@NotNull
 	@Override
-	public ObjectConstructor<?> objectConstructor()
+	public ObjectConstructor<?> objectConstructor(final int index)
 	{
 		assert objectConstructor != null;
 		return objectConstructor;
@@ -93,21 +93,21 @@ public class ListArrayConstructor extends AbstractToString implements ArrayConst
 	}
 
 	@Override
-	public void addObjectValue(@NotNull final List<Object> arrayCollector, final int index, @NotNull final Object value)
+	public void addObjectValue(@NotNull final List<Object> arrayCollector, final int index, @Nullable final Object value)
 	{
 		arrayCollector.add(value);
 	}
 
 	@Override
-	public void addArrayValue(@NotNull final List<Object> arrayCollector, final int index, @NotNull final Object value)
+	public void addArrayValue(@NotNull final List<Object> arrayCollector, final int index, @Nullable final Object value)
 	{
 		arrayCollector.add(value);
 	}
 
-	@NotNull
+	@Nullable
 	@Override
-	public Object collect(@NotNull final List<Object> arrayCollector)
+	public Object collect(@NotNull final List<Object> collector)
 	{
-		return arrayCollector;
+		return collector;
 	}
 }

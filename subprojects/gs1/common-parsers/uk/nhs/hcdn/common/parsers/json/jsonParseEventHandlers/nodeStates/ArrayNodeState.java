@@ -17,13 +17,15 @@
 package uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.nodeStates;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.ArrayConstructor;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.ObjectConstructor;
+import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.schemaViolationInvalidJsonExceptions.SchemaViolationInvalidJsonException;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 
 import java.math.BigDecimal;
 
-public final class ArrayNodeState<A> extends AbstractToString implements NodeState<A>
+public final class ArrayNodeState<A> extends AbstractToString implements NodeState
 {
 	@NotNull
 	private final ArrayConstructor<A> arrayConstructor;
@@ -48,66 +50,66 @@ public final class ArrayNodeState<A> extends AbstractToString implements NodeSta
 
 	@NotNull
 	@Override
-	public ArrayConstructor<?> arrayValueStart()
+	public ArrayConstructor<?> arrayValueStart() throws SchemaViolationInvalidJsonException
 	{
-		return arrayConstructor.arrayConstructor();
+		return arrayConstructor.arrayConstructor(nextIndex);
 	}
 
 	@Override
-	public void arrayValue(@NotNull final Object value)
+	public void arrayValue(@Nullable final Object value) throws SchemaViolationInvalidJsonException
 	{
 		arrayConstructor.addArrayValue(arrayCollector, nextIndex, value);
 	}
 
 	@NotNull
 	@Override
-	public ObjectConstructor<?> objectValueStart()
+	public ObjectConstructor<?> objectValueStart() throws SchemaViolationInvalidJsonException
 	{
-		return arrayConstructor.objectConstructor();
+		return arrayConstructor.objectConstructor(nextIndex);
 	}
 
 	@Override
-	public void objectValue(@NotNull final Object value)
+	public void objectValue(@Nullable final Object value) throws SchemaViolationInvalidJsonException
 	{
 		arrayConstructor.addObjectValue(arrayCollector, nextIndex, value);
 	}
 
 	@Override
-	public void literalBooleanValue(final boolean value)
+	public void literalBooleanValue(final boolean value) throws SchemaViolationInvalidJsonException
 	{
 		arrayConstructor.addLiteralBooleanValue(arrayCollector, nextIndex, value);
 		nextIndex++;
 	}
 
 	@Override
-	public void literalNullValue()
+	public void literalNullValue() throws SchemaViolationInvalidJsonException
 	{
 		arrayConstructor.addLiteralNullValue(arrayCollector, nextIndex);
 		nextIndex++;
 	}
 
 	@Override
-	public void constantStringValue(@NotNull final String value)
+	public void constantStringValue(@NotNull final String value) throws SchemaViolationInvalidJsonException
 	{
 		arrayConstructor.addConstantStringValue(arrayCollector, nextIndex, value);
 		nextIndex++;
 	}
 
 	@Override
-	public void constantNumberValue(final long value)
+	public void constantNumberValue(final long value) throws SchemaViolationInvalidJsonException
 	{
 		arrayConstructor.addConstantNumberValue(arrayCollector, nextIndex, value);
 	}
 
 	@Override
-	public void constantNumberValue(@NotNull final BigDecimal value)
+	public void constantNumberValue(@NotNull final BigDecimal value) throws SchemaViolationInvalidJsonException
 	{
 		arrayConstructor.addConstantNumberValue(arrayCollector, nextIndex, value);
 	}
 
 	@Override
-	@NotNull
-	public Object collect()
+	@Nullable
+	public Object collect() throws SchemaViolationInvalidJsonException
 	{
 		return arrayConstructor.collect(arrayCollector);
 	}

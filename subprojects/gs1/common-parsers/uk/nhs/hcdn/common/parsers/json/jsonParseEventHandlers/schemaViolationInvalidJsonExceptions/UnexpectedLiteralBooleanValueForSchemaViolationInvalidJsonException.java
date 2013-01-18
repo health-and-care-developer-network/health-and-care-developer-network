@@ -14,19 +14,12 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors;
+package uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.schemaViolationInvalidJsonExceptions;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
-
-public final class GenericRootArrayConstructor extends ListArrayConstructor
+public final class UnexpectedLiteralBooleanValueForSchemaViolationInvalidJsonException extends SchemaViolationInvalidJsonException
 {
-	@SuppressWarnings("RefusedBequest")
-	@NotNull
-	@Override
-	public Object collect(@NotNull final List<Object> arrayCollector)
+	public UnexpectedLiteralBooleanValueForSchemaViolationInvalidJsonException()
 	{
-		return arrayCollector.get(0);
+		super("unexpected literal boolean value for schema");
 	}
 }

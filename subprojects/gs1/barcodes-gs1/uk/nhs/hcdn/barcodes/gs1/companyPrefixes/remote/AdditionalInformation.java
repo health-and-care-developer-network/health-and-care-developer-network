@@ -50,6 +50,19 @@ public final class AdditionalInformation extends AbstractToString implements Map
 		this.additionalInformation = additionalInformation.isEmpty() ? new EnumMap<>(AdditionalInformationKey.class) : new EnumMap<>(additionalInformation);
 	}
 
+	@SuppressWarnings("AssignmentToCollectionOrArrayFieldFromParameter")
+	public AdditionalInformation(final boolean defensiveCopy, @NotNull final Map<AdditionalInformationKey, Object> additionalInformation)
+	{
+		if (defensiveCopy)
+		{
+			this.additionalInformation = additionalInformation.isEmpty() ? new EnumMap<>(AdditionalInformationKey.class) : new EnumMap<>(additionalInformation);
+		}
+		else
+		{
+			this.additionalInformation = additionalInformation;
+		}
+	}
+
 	@Override
 	public void serialiseMap(@NotNull final MapSerialiser mapSerialiser) throws CouldNotSerialiseMapException
 	{
