@@ -91,24 +91,24 @@ public final class ServerApplication
 				return;
 			}
 
-			@NotNull final String hostName = (String) optionSet.valueOf(HostnameOption);
+			@NotNull final String hostname = (String) optionSet.valueOf(HostnameOption);
 
 			final int httpPort = (Integer) optionSet.valueOf(HttpPortOption);
 			if (httpPort < 1 || httpPort > MaximumPortNumber)
 			{
-				ExitHelper.exitWithErrorAndHelp("http-port %1$s must be between 1 and 65535 inclusive", httpPort);
+				ExitHelper.exitWithErrorAndHelp("--http-port %1$s must be between 1 and 65535 inclusive", httpPort);
 			}
 
 			final int backlog = (Integer) optionSet.valueOf(BacklogOption);
 			if (backlog < 0)
 			{
-				ExitHelper.exitWithErrorAndHelp("backlog %1$s must be positive", backlog);
+				ExitHelper.exitWithErrorAndHelp("--backlog %1$s must be positive", backlog);
 			}
 
 			final File dataPath = (File) optionSet.valueOf(DataPathOption);
 			if (!(dataPath.exists() && dataPath.canRead() && dataPath.isDirectory()))
 			{
-				ExitHelper.exitWithErrorAndHelp("data-path %1$s does not exist as a readable directory", dataPath);
+				ExitHelper.exitWithErrorAndHelp("--data-path %1$s does not exist as a readable directory", dataPath);
 				return;
 			}
 
@@ -122,7 +122,7 @@ public final class ServerApplication
 				exitWithException(e);
 				return;
 			}
-			final Server server = new Server(new InetSocketAddress(hostName, httpPort), backlog, restEndpoints);
+			final Server server = new Server(new InetSocketAddress(hostname, httpPort), backlog, restEndpoints);
 			server.start();
 		}
 		catch (IOException e)

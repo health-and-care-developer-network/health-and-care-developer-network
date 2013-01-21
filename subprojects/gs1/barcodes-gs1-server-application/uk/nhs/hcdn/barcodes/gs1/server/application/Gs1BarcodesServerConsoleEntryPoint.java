@@ -26,7 +26,7 @@ import java.io.File;
 
 import static uk.nhs.hcdn.common.http.server.sun.application.ServerApplication.start;
 
-public final class Gs1BarcodesConsoleEntryPoint
+public final class Gs1BarcodesServerConsoleEntryPoint
 {
 	public static void main(@NotNull final String... commandLineArguments)
 	{
@@ -45,7 +45,7 @@ public final class Gs1BarcodesConsoleEntryPoint
 		});
 	}
 
-	private Gs1BarcodesConsoleEntryPoint()
+	private Gs1BarcodesServerConsoleEntryPoint()
 	{
 	}
 }

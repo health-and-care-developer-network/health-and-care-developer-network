@@ -18,7 +18,7 @@ package uk.nhs.hcdn.barcodes.gs1.server.subResources;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hcdn.barcodes.gs1.companyPrefixes.remote.Tuple;
+import uk.nhs.hcdn.barcodes.gs1.organisation.Tuple;
 import uk.nhs.hcdn.barcodes.gs1.server.Gs1CompanyPrefxQueryStringEventHandler;
 import uk.nhs.hcdn.common.http.server.sun.restEndpoints.clientError4xxs.BadRequestException;
 import uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.resourceContents.ByteArrayResourceContent;

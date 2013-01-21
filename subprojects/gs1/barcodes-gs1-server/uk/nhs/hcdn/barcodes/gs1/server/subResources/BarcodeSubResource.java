@@ -17,7 +17,7 @@
 package uk.nhs.hcdn.barcodes.gs1.server.subResources;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hcdn.barcodes.gs1.companyPrefixes.remote.Tuple;
+import uk.nhs.hcdn.barcodes.gs1.organisation.Tuple;
 
 public final class BarcodeSubResource extends AbstractTuplesSubResource
 {

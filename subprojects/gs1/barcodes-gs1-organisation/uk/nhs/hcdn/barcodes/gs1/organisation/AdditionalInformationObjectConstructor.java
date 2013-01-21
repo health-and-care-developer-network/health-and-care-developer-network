@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.barcodes.gs1.client.schema;
+package uk.nhs.hcdn.barcodes.gs1.organisation;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hcdn.barcodes.gs1.companyPrefixes.remote.AdditionalInformation;
-import uk.nhs.hcdn.barcodes.gs1.companyPrefixes.remote.AdditionalInformationKey;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.ArrayConstructor;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.ListArrayConstructor;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.MapObjectConstructor;
@@ -33,7 +31,7 @@ import java.util.Map;
 
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
-import static uk.nhs.hcdn.barcodes.gs1.companyPrefixes.remote.AdditionalInformationKey.valueOf;
+import static uk.nhs.hcdn.barcodes.gs1.organisation.AdditionalInformationKey.valueOf;
 
 public final class AdditionalInformationObjectConstructor extends AbstractToString implements ObjectConstructor<Map<AdditionalInformationKey, Object>>
 {

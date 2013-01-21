@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.barcodes.gs1.companyPrefixes.remote;
+package uk.nhs.hcdn.barcodes.gs1.organisation;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;

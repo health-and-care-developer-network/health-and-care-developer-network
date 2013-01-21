@@ -277,7 +277,7 @@ public final class NumberParseMode extends AbstractParseMode
 				return 2L;
 
 			case ThreeDigit:
-				return 2L;
+				return 3L;
 
 			case FourDigit:
 				return 4L;

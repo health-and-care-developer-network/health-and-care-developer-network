@@ -14,20 +14,15 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.barcodes.gs1.companyPrefixes.remote;
+package uk.nhs.hcdn.barcodes.gs1.organisation.index;
 
-import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hcdn.common.tuples.Pair;
+import org.jetbrains.annotations.Nullable;
+import uk.nhs.hcdn.barcodes.gs1.Gs1CompanyPrefixAndItem;
+import uk.nhs.hcdn.barcodes.gs1.organisation.Tuple;
 
-public enum AdditionalInformationKey
+public interface Gs1CompanyPrefixIndex
 {
-	PostCode,
-	;
-
-	@NotNull
-	public Pair<AdditionalInformationKey, Object> with(@NonNls @NotNull final Object value)
-	{
-		return new Pair<>(this, value);
-	}
+	@Nullable
+	Tuple find(@NotNull final Gs1CompanyPrefixAndItem gs1CompanyPrefixAndItem);
 }

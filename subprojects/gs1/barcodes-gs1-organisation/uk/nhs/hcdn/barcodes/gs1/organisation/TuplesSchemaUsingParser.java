@@ -14,19 +14,17 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.barcodes.gs1.client.schema;
+package uk.nhs.hcdn.barcodes.gs1.organisation;
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.barcodes.gs1.companyPrefixes.Gs1CompanyPrefix;
-import uk.nhs.hcdn.barcodes.gs1.companyPrefixes.remote.AdditionalInformation;
-import uk.nhs.hcdn.barcodes.gs1.companyPrefixes.remote.Tuple;
 import uk.nhs.hcdn.common.parsers.json.SchemaUsingParser;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.root.ArrayRootArrayConstructor;
 
-import static uk.nhs.hcdn.barcodes.gs1.client.schema.AdditionalInformationObjectConstructor.AdditionalInformationObjectConstructorInstance;
-import static uk.nhs.hcdn.barcodes.gs1.client.schema.Gs1CompanyPrefixArrayConstructor.Gs1CompanyPrefixArrayConstructorInstance;
-import static uk.nhs.hcdn.barcodes.gs1.client.schema.TupleArrayCreator.TupleArray;
-import static uk.nhs.hcdn.barcodes.gs1.companyPrefixes.remote.Tuple.*;
+import static uk.nhs.hcdn.barcodes.gs1.organisation.AdditionalInformationObjectConstructor.AdditionalInformationObjectConstructorInstance;
+import static uk.nhs.hcdn.barcodes.gs1.organisation.Gs1CompanyPrefixArrayConstructor.Gs1CompanyPrefixArrayConstructorInstance;
+import static uk.nhs.hcdn.barcodes.gs1.organisation.Tuple.*;
+import static uk.nhs.hcdn.barcodes.gs1.organisation.TupleArrayCreator.TupleArray;
 import static uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.NonNullCollectToArrayObjectsOnlyForElementsArrayConstructor.nonNullArrayOfObjects;
 import static uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.root.NonNullArrayRootArrayConstructor.rootIsArrayOf;
 import static uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.JavaObjectConstructor.object;

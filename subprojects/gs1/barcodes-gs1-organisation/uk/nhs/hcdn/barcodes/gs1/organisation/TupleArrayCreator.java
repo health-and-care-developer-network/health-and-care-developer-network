@@ -14,15 +14,33 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.barcodes.gs1.companyPrefixes.index;
+package uk.nhs.hcdn.barcodes.gs1.organisation;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import uk.nhs.hcdn.barcodes.gs1.Gs1CompanyPrefixAndItem;
-import uk.nhs.hcdn.barcodes.gs1.companyPrefixes.remote.Tuple;
+import uk.nhs.hcdn.common.arrayCreators.AbstractArrayCreator;
+import uk.nhs.hcdn.common.arrayCreators.ArrayCreator;
 
-public interface Gs1CompanyPrefixIndex
+public final class TupleArrayCreator extends AbstractArrayCreator<Tuple>
 {
-	@Nullable
-	Tuple find(@NotNull final Gs1CompanyPrefixAndItem gs1CompanyPrefixAndItem);
+	@NotNull
+	public static final ArrayCreator<Tuple> TupleArray = new TupleArrayCreator();
+
+	private TupleArrayCreator()
+	{
+		super(Tuple.class, Tuple[].class);
+	}
+
+	@NotNull
+	@Override
+	public Tuple[] newInstance1(final int size)
+	{
+		return new Tuple[size];
+	}
+
+	@NotNull
+	@Override
+	public Tuple[][] newInstance2(final int size)
+	{
+		return new Tuple[size][];
+	}
 }

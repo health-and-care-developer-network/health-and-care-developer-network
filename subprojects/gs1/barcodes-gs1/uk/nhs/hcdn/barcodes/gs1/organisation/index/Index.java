@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.barcodes.gs1.companyPrefixes.index;
+package uk.nhs.hcdn.barcodes.gs1.organisation.index;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.barcodes.gs1.Gs1CompanyPrefixAndItem;
-import uk.nhs.hcdn.barcodes.gs1.companyPrefixes.remote.Tuple;
+import uk.nhs.hcdn.barcodes.gs1.organisation.Tuple;
 import uk.nhs.hcdn.barcodes.gs1.gs1Prefixes.Gs1Prefix;
 
 public final class Index implements Gs1CompanyPrefixIndex

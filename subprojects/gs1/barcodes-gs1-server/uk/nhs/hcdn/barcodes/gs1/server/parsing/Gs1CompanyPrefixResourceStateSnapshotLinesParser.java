@@ -17,7 +17,7 @@
 package uk.nhs.hcdn.barcodes.gs1.server.parsing;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hcdn.barcodes.gs1.companyPrefixes.remote.Tuple;
+import uk.nhs.hcdn.barcodes.gs1.organisation.Tuple;
 import uk.nhs.hcdn.barcodes.gs1.server.Gs1CompanyPrefixResourceStateSnapshot;
 import uk.nhs.hcdn.common.MillisecondsSince1970;
 import uk.nhs.hcdn.common.parsers.separatedValueParsers.linesParsers.LinesParser;

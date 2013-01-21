@@ -14,34 +14,20 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.barcodes.gs1.client.schema;
+package uk.nhs.hcdn.barcodes.gs1.organisation;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hcdn.barcodes.gs1.companyPrefixes.remote.Tuple;
-import uk.nhs.hcdn.common.arrayCreators.AbstractArrayCreator;
-import uk.nhs.hcdn.common.arrayCreators.ArrayCreator;
+import uk.nhs.hcdn.common.tuples.Pair;
 
-public final class TupleArrayCreator extends AbstractArrayCreator<Tuple>
+public enum AdditionalInformationKey
 {
-	@NotNull
-	public static final ArrayCreator<Tuple> TupleArray = new TupleArrayCreator();
-
-	private TupleArrayCreator()
-	{
-		super(Tuple.class, Tuple[].class);
-	}
+	PostCode,
+	;
 
 	@NotNull
-	@Override
-	public Tuple[] newInstance1(final int size)
+	public Pair<AdditionalInformationKey, Object> with(@NonNls @NotNull final Object value)
 	{
-		return new Tuple[size];
-	}
-
-	@NotNull
-	@Override
-	public Tuple[][] newInstance2(final int size)
-	{
-		return new Tuple[size][];
+		return new Pair<>(this, value);
 	}
 }
