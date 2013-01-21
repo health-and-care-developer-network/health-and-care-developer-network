@@ -21,11 +21,11 @@ import com.sun.net.httpserver.HttpExchange;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hcdn.common.exceptions.ShouldNeverHappenException;
 import uk.nhs.hcdn.common.http.ProtocolAndVersion;
-import uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.ResourceStateSnapshot;
-import uk.nhs.hcdn.common.http.server.sun.restEndpoints.methodEndpoints.BadRequestException;
+import uk.nhs.hcdn.common.http.server.sun.restEndpoints.clientError4xxs.BadRequestException;
+import uk.nhs.hcdn.common.http.server.sun.restEndpoints.methodEndpoints.BadRequestMethodEndpoint;
 import uk.nhs.hcdn.common.http.server.sun.restEndpoints.methodEndpoints.MethodEndpoint;
+import uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.ResourceStateSnapshot;
 
 import java.io.IOException;
 import java.net.Authenticator;
@@ -37,7 +37,6 @@ import static uk.nhs.hcdn.common.http.ProtocolAndVersion.HTTP10;
 import static uk.nhs.hcdn.common.http.ProtocolAndVersion.HTTP11;
 import static uk.nhs.hcdn.common.http.server.sun.helpers.RequestHeadersHelper.validateConnectionRequestHeader;
 import static uk.nhs.hcdn.common.http.server.sun.helpers.RequestHeadersHelper.validateTransferEncodingRequestHeader;
-import static uk.nhs.hcdn.common.http.server.sun.restEndpoints.methodEndpoints.BadRequestMethodEndpoint.badRequestMethodEndpoint;
 import static uk.nhs.hcdn.common.http.server.sun.restEndpoints.methodEndpoints.UnsupportedProtocolMethodEndpoint.unsupportedProtocolMethodEndpoint;
 
 public abstract class AbstractMethodRoutingRestEndpoint<R extends ResourceStateSnapshot> extends AbstractRestEndpoint
@@ -82,7 +81,7 @@ public abstract class AbstractMethodRoutingRestEndpoint<R extends ResourceStateS
 			{
 				if (isInvalidRelativePath(rawRelativePath))
 				{
-					methodEndpoint = badRequestMethodEndpoint();
+					methodEndpoint = new BadRequestMethodEndpoint<>("Invalid relative path");
 				}
 				else
 				{
@@ -96,16 +95,9 @@ public abstract class AbstractMethodRoutingRestEndpoint<R extends ResourceStateS
 
 			methodEndpoint.handle(rawRelativePath, rawQueryString, httpExchange, resourceStateSnapshot);
 		}
-		catch (BadRequestException ignored)
+		catch (BadRequestException e)
 		{
-			try
-			{
-				badRequestMethodEndpoint().handle(rawRelativePath, rawQueryString, httpExchange, resourceStateSnapshot);
-			}
-			catch (BadRequestException e)
-			{
-				throw new ShouldNeverHappenException(e);
-			}
+			new BadRequestMethodEndpoint<ResourceStateSnapshot>(e).handle(rawRelativePath, rawQueryString, httpExchange, resourceStateSnapshot);
 		}
 	}
 

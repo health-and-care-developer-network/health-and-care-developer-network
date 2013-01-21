@@ -19,29 +19,25 @@ package uk.nhs.hcdn.barcodes.gs1.server;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.barcodes.gs1.server.parsing.Gs1CompanyPrefixResourceStateSnapshotUser;
+import uk.nhs.hcdn.barcodes.gs1.server.parsing.ParsingFileReloader;
 import uk.nhs.hcdn.barcodes.gs1.server.parsing.TuplesParserFactory;
 import uk.nhs.hcdn.common.fileWatching.FailedToReloadException;
 import uk.nhs.hcdn.common.fileWatching.FileWatcher;
 import uk.nhs.hcdn.common.http.server.sun.restEndpoints.AbstractRegisterableMethodRoutingRestEndpoint;
-import uk.nhs.hcdn.common.http.server.sun.restEndpoints.methodEndpoints.AbstractGetMethodEndpoint;
-import uk.nhs.hcdn.common.http.server.sun.restEndpoints.methodEndpoints.AbstractHeadMethodEndpoint;
+import uk.nhs.hcdn.common.http.server.sun.restEndpoints.methodEndpoints.GetMethodEndpoint;
+import uk.nhs.hcdn.common.http.server.sun.restEndpoints.methodEndpoints.HeadMethodEndpoint;
 import uk.nhs.hcdn.common.http.server.sun.restEndpoints.methodEndpoints.MethodEndpoint;
 import uk.nhs.hcdn.common.parsers.ParserFactory;
 import uk.nhs.hcdn.common.parsers.sources.FileSource;
 
 import java.io.File;
-import java.nio.charset.Charset;
 import java.util.Map;
 
 import static java.lang.Thread.MIN_PRIORITY;
-import static java.nio.charset.Charset.forName;
-import static uk.nhs.hcdn.common.http.Method.GET;
-import static uk.nhs.hcdn.common.http.Method.HEAD;
+import static uk.nhs.hcdn.common.CharsetHelper.Utf8;
 
 public final class Gs1CompanyPrefixRestEndpoint extends AbstractRegisterableMethodRoutingRestEndpoint<Gs1CompanyPrefixResourceStateSnapshot> implements Gs1CompanyPrefixResourceStateSnapshotUser
 {
-	private static final Charset Utf8 = forName("UTF-8");
-
 	// volatile - it may be changed during a request
 	@SuppressWarnings("InstanceVariableMayNotBeInitialized") // Actually, it is - by callback
 	@NotNull
@@ -78,13 +74,8 @@ public final class Gs1CompanyPrefixRestEndpoint extends AbstractRegisterableMeth
 	@Override
 	protected void registerMethodEndpointsExcludingOptions(@NotNull final Map<String, MethodEndpoint<Gs1CompanyPrefixResourceStateSnapshot>> methodEndpointsRegister)
 	{
-		methodEndpointsRegister.put(HEAD, new AbstractHeadMethodEndpoint<Gs1CompanyPrefixResourceStateSnapshot>()
-		{
-		});
-
-		methodEndpointsRegister.put(GET, new AbstractGetMethodEndpoint<Gs1CompanyPrefixResourceStateSnapshot>()
-		{
-		});
+		HeadMethodEndpoint.<Gs1CompanyPrefixResourceStateSnapshot>headMethodEndpoint().register(methodEndpointsRegister);
+		GetMethodEndpoint.<Gs1CompanyPrefixResourceStateSnapshot>getMethodEndpoint().register(methodEndpointsRegister);
 	}
 
 	@NotNull

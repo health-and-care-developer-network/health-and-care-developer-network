@@ -144,4 +144,11 @@ public final class CheckDigitCalculator extends AbstractToString implements Chec
 		final boolean hasRemainder = remainder != 0;
 		return hasRemainder ? digit(10 - remainder) : Zero;
 	}
+
+	@NotNull
+	public Digits addCheckDigit(@NotNull final Digits withoutCheckDigits)
+	{
+		final Digit checkDigit = calculateCheckDigit(withoutCheckDigits);
+		return withoutCheckDigits.add(checkDigit);
+	}
 }

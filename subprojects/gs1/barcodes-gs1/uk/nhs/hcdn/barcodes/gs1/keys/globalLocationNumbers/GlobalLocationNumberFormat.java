@@ -82,6 +82,13 @@ public enum GlobalLocationNumberFormat implements KeyFormat
 		return checkDigitCalculator.calculateCheckDigit(digits);
 	}
 
+	@NotNull
+	@Override
+	public Digits addCheckDigit(@NotNull final Digits withoutCheckDigits)
+	{
+		return checkDigitCalculator.addCheckDigit(withoutCheckDigits);
+	}
+
 	@SuppressWarnings("RefusedBequest")
 	@Override
 	@NotNull

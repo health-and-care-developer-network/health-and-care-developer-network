@@ -19,9 +19,9 @@ package uk.nhs.hcdn.barcodes.gs1.server.parsing;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.barcodes.gs1.companyPrefixes.Gs1CompanyPrefix;
-import uk.nhs.hcdn.barcodes.gs1.companyPrefixes.remote.AdditionalInformation;
-import uk.nhs.hcdn.barcodes.gs1.companyPrefixes.remote.AdditionalInformationKey;
-import uk.nhs.hcdn.barcodes.gs1.companyPrefixes.remote.Tuple;
+import uk.nhs.hcdn.barcodes.gs1.organisation.AdditionalInformation;
+import uk.nhs.hcdn.barcodes.gs1.organisation.AdditionalInformationKey;
+import uk.nhs.hcdn.barcodes.gs1.organisation.Tuple;
 import uk.nhs.hcdn.common.parsers.separatedValueParsers.lineParsers.CouldNotParseLineException;
 import uk.nhs.hcdn.common.parsers.separatedValueParsers.lineParsers.LineParser;
 

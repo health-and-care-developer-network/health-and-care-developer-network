@@ -32,7 +32,7 @@ public final class UrlHelper
 	}
 
 	@NotNull
-	public static URL toUrl(final boolean isHttps, @NotNull final String server, final char port, @NotNull final String rawPath)
+	public static URL toUrl(final boolean isHttps, @NonNls @NotNull final String server, final char port, @NonNls @NotNull final String rawPath)
 	{
 		if ((int) port == 0)
 		{

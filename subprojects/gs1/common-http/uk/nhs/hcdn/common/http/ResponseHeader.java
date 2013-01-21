@@ -46,6 +46,10 @@ public @interface ResponseHeader
 
 	@NotNull
 	@ResponseHeader
+	String ContentEncodingHeaderName = "Content-Encoding";
+
+	@NotNull
+	@ResponseHeader
 	String ContentLanguageHeaderName = "Content-Language";
 
 	@NotNull

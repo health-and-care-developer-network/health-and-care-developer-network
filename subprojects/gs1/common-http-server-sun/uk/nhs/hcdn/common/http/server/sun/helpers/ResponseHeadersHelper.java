@@ -21,8 +21,10 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpsExchange;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hcdn.common.http.ContentTypeWithCharacterSet;
 
 import static uk.nhs.hcdn.common.GregorianCalendarHelper.rfc2822DateForNow;
+import static uk.nhs.hcdn.common.http.ContentTypeWithCharacterSet.TextContentTypeUtf8;
 import static uk.nhs.hcdn.common.http.ResponseHeader.*;
 import static uk.nhs.hcdn.common.http.server.sun.restEndpoints.methodEndpoints.MethodEndpoint.*;
 
@@ -35,11 +37,11 @@ public final class ResponseHeadersHelper
 	@NotNull
 	public static Headers emptyInvariantResponseHeaders(@NotNull final HttpExchange httpExchange, @NotNull final String lastModifiedInRfc2822Form)
 	{
-		return withEntityHeaders(httpExchange, "text/plain;charset=utf-8", CacheControlHeaderValueMaximum, ExpiresHeaderValueMaximum, lastModifiedInRfc2822Form);
+		return withEntityHeaders(httpExchange, TextContentTypeUtf8, CacheControlHeaderValueMaximum, ExpiresHeaderValueMaximum, lastModifiedInRfc2822Form);
 	}
 
 	@NotNull
-	public static Headers withEntityHeaders(@NotNull final HttpExchange httpExchange, @NonNls @NotNull final String contentTypeValue, @NotNull final String cacheControlHeaderValue, @NotNull final String expiresHeaderValue, @NotNull final String lastModifiedInRfc2822Form)
+	public static Headers withEntityHeaders(@NotNull final HttpExchange httpExchange, @ContentTypeWithCharacterSet @NonNls @NotNull final String contentTypeValue, @NotNull final String cacheControlHeaderValue, @NotNull final String expiresHeaderValue, @NotNull final String lastModifiedInRfc2822Form)
 	{
 		final Headers responseHeaders = withoutEntityHeaders(httpExchange, cacheControlHeaderValue);
 		responseHeaders.set(ContentTypeHeaderName, contentTypeValue);

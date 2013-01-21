@@ -16,36 +16,34 @@
 
 package uk.nhs.hcdn.common.http.server.sun.restEndpoints.methodEndpoints;
 
-import com.sun.net.httpserver.Headers;
+import com.sun.net.httpserver.HttpExchange;
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import uk.nhs.hcdn.common.http.server.sun.restEndpoints.clientError4xxs.BadRequestException;
 import uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.ResourceStateSnapshot;
+import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 
-import static uk.nhs.hcdn.common.http.ResponseCode.BadRequestResponseCode;
+import java.io.IOException;
 
-public final class BadRequestMethodEndpoint<R extends ResourceStateSnapshot> extends AbstractBodylessMethodEndpoint<R>
+public final class BadRequestMethodEndpoint<R extends ResourceStateSnapshot> extends AbstractToString implements MethodEndpoint<R>
 {
 	@NotNull
-	private static final MethodEndpoint<?> BadRequestMethodEndpointInstance = new BadRequestMethodEndpoint();
+	private final BadRequestException cause;
 
-	@SuppressWarnings({"unchecked", "MethodNamesDifferingOnlyByCase"})
-	@NotNull
-	public static <R extends ResourceStateSnapshot> MethodEndpoint<R> badRequestMethodEndpoint()
+	public BadRequestMethodEndpoint(@NonNls @NotNull final String santisedMessage)
 	{
-		return (MethodEndpoint<R>) BadRequestMethodEndpointInstance;
+		this(new BadRequestException(santisedMessage));
 	}
 
-	private BadRequestMethodEndpoint()
+	public BadRequestMethodEndpoint(@NotNull final BadRequestException cause)
 	{
-	}
-
-	@Override
-	protected void validateRequestHeaders(@NotNull final Headers requestHeaders)
-	{
+		this.cause = cause;
 	}
 
 	@Override
-	protected int addResponseHeaders(@NotNull final Headers responseHeaders)
+	public void handle(@NotNull final String rawRelativeUriPath, @Nullable final String rawQueryString, @NotNull final HttpExchange httpExchange, @NotNull final R resourceStateSnapshot) throws IOException
 	{
-		return BadRequestResponseCode;
+		cause.write4xxResponse(httpExchange);
 	}
 }

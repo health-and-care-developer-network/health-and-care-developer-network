@@ -376,7 +376,7 @@
         </inspection_tool>
         <inspection_tool class="ExceptionNameDoesntEndWithException" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ExpectedExceptionNeverThrown" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="ExtendsConcreteCollection" enabled="true" level="WARNING" enabled_by_default="true" />
+        <inspection_tool class="ExtendsConcreteCollection" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
         <inspection_tool class="ExtendsThread" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ExtendsUtilityClass" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ExternalizableWithSerializationMethods" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -1079,6 +1079,9 @@
     <option name="USE_PROJECT_PROFILE" value="true" />
     <version value="1.0" />
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_STRING" value="-Xlint:unchecked" />
+  </component>
   <component name="JavadocGenerationManager">
     <option name="OUTPUT_DIRECTORY" />
     <option name="OPTION_SCOPE" value="protected" />
@@ -1229,7 +1232,9 @@
       <module fileurl="file://$PROJECT_DIR$/barcodes/barcodes.iml" filepath="$PROJECT_DIR$/barcodes/barcodes.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/barcodes-gs1/barcodes-gs1.iml" filepath="$PROJECT_DIR$/barcodes-gs1/barcodes-gs1.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/barcodes-gs1-client/barcodes-gs1-client.iml" filepath="$PROJECT_DIR$/barcodes-gs1-client/barcodes-gs1-client.iml" group="barcodes" />
+      <module fileurl="file://$PROJECT_DIR$/barcodes-gs1-client-application/barcodes-gs1-client-application.iml" filepath="$PROJECT_DIR$/barcodes-gs1-client-application/barcodes-gs1-client-application.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/barcodes-gs1-integrationTests/barcodes-gs1-integrationTests.iml" filepath="$PROJECT_DIR$/barcodes-gs1-integrationTests/barcodes-gs1-integrationTests.iml" group="barcodes" />
+      <module fileurl="file://$PROJECT_DIR$/barcodes-gs1-organisation/barcodes-gs1-organisation.iml" filepath="$PROJECT_DIR$/barcodes-gs1-organisation/barcodes-gs1-organisation.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/barcodes-gs1-server/barcodes-gs1-server.iml" filepath="$PROJECT_DIR$/barcodes-gs1-server/barcodes-gs1-server.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/barcodes-gs1-server-application/barcodes-gs1-server-application.iml" filepath="$PROJECT_DIR$/barcodes-gs1-server-application/barcodes-gs1-server-application.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/barcodes-gs1-unitTests/barcodes-gs1-unitTests.iml" filepath="$PROJECT_DIR$/barcodes-gs1-unitTests/barcodes-gs1-unitTests.iml" group="barcodes" />
@@ -1238,18 +1243,22 @@
       <module fileurl="file://$PROJECT_DIR$/common-comparison/common-comparison.iml" filepath="$PROJECT_DIR$/common-comparison/common-comparison.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-exceptions/common-exceptions.iml" filepath="$PROJECT_DIR$/common-exceptions/common-exceptions.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-fileWatching/common-fileWatching.iml" filepath="$PROJECT_DIR$/common-fileWatching/common-fileWatching.iml" group="common" />
-      <module fileurl="file://$PROJECT_DIR$/common-http/common-http.iml" filepath="$PROJECT_DIR$/common-http/common-http.iml" group="common" />
-      <module fileurl="file://$PROJECT_DIR$/common-http-server/common-http-server.iml" filepath="$PROJECT_DIR$/common-http-server/common-http-server.iml" group="common" />
-      <module fileurl="file://$PROJECT_DIR$/common-http-server-sun/common-http-server-sun.iml" filepath="$PROJECT_DIR$/common-http-server-sun/common-http-server-sun.iml" group="common" />
-      <module fileurl="file://$PROJECT_DIR$/common-http-server-sun-application/common-http-server-sun-application.iml" filepath="$PROJECT_DIR$/common-http-server-sun-application/common-http-server-sun-application.iml" group="common" />
-      <module fileurl="file://$PROJECT_DIR$/common-http-sun/common-http-sun.iml" filepath="$PROJECT_DIR$/common-http-sun/common-http-sun.iml" group="common" />
+      <module fileurl="file://$PROJECT_DIR$/common-http/common-http.iml" filepath="$PROJECT_DIR$/common-http/common-http.iml" group="common/http" />
+      <module fileurl="file://$PROJECT_DIR$/common-http-client/common-http-client.iml" filepath="$PROJECT_DIR$/common-http-client/common-http-client.iml" group="common/http" />
+      <module fileurl="file://$PROJECT_DIR$/common-http-client-json/common-http-client-json.iml" filepath="$PROJECT_DIR$/common-http-client-json/common-http-client-json.iml" group="common/http" />
+      <module fileurl="file://$PROJECT_DIR$/common-http-server/common-http-server.iml" filepath="$PROJECT_DIR$/common-http-server/common-http-server.iml" group="common/http" />
+      <module fileurl="file://$PROJECT_DIR$/common-http-server-sun/common-http-server-sun.iml" filepath="$PROJECT_DIR$/common-http-server-sun/common-http-server-sun.iml" group="common/http" />
+      <module fileurl="file://$PROJECT_DIR$/common-http-server-sun-application/common-http-server-sun-application.iml" filepath="$PROJECT_DIR$/common-http-server-sun-application/common-http-server-sun-application.iml" group="common/http" />
+      <module fileurl="file://$PROJECT_DIR$/common-http-server-sun-helpers/common-http-server-sun-helpers.iml" filepath="$PROJECT_DIR$/common-http-server-sun-helpers/common-http-server-sun-helpers.iml" group="common/http" />
       <module fileurl="file://$PROJECT_DIR$/common-internationalisation/common-internationalisation.iml" filepath="$PROJECT_DIR$/common-internationalisation/common-internationalisation.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-naming/common-naming.iml" filepath="$PROJECT_DIR$/common-naming/common-naming.iml" group="common" />
-      <module fileurl="file://$PROJECT_DIR$/common-parsers/common-parsers.iml" filepath="$PROJECT_DIR$/common-parsers/common-parsers.iml" group="common" />
+      <module fileurl="file://$PROJECT_DIR$/common-parsers/common-parsers.iml" filepath="$PROJECT_DIR$/common-parsers/common-parsers.iml" group="common/parsers" />
+      <module fileurl="file://$PROJECT_DIR$/common-parsers-json/common-parsers-json.iml" filepath="$PROJECT_DIR$/common-parsers-json/common-parsers-json.iml" group="common/parsers" />
+      <module fileurl="file://$PROJECT_DIR$/common-parsers-separatedValueParsers/common-parsers-separatedValueParsers.iml" filepath="$PROJECT_DIR$/common-parsers-separatedValueParsers/common-parsers-separatedValueParsers.iml" group="common/parsers" />
       <module fileurl="file://$PROJECT_DIR$/common-reflection/common-reflection.iml" filepath="$PROJECT_DIR$/common-reflection/common-reflection.iml" group="common" />
-      <module fileurl="file://$PROJECT_DIR$/common-serialisers/common-serialisers.iml" filepath="$PROJECT_DIR$/common-serialisers/common-serialisers.iml" group="common" />
-      <module fileurl="file://$PROJECT_DIR$/common-serialisers-json/common-serialisers-json.iml" filepath="$PROJECT_DIR$/common-serialisers-json/common-serialisers-json.iml" group="common" />
-      <module fileurl="file://$PROJECT_DIR$/common-serialisers-xml/common-serialisers-xml.iml" filepath="$PROJECT_DIR$/common-serialisers-xml/common-serialisers-xml.iml" group="common" />
+      <module fileurl="file://$PROJECT_DIR$/common-serialisers/common-serialisers.iml" filepath="$PROJECT_DIR$/common-serialisers/common-serialisers.iml" group="common/serialisers" />
+      <module fileurl="file://$PROJECT_DIR$/common-serialisers-json/common-serialisers-json.iml" filepath="$PROJECT_DIR$/common-serialisers-json/common-serialisers-json.iml" group="common/serialisers" />
+      <module fileurl="file://$PROJECT_DIR$/common-serialisers-xml/common-serialisers-xml.iml" filepath="$PROJECT_DIR$/common-serialisers-xml/common-serialisers-xml.iml" group="common/serialisers" />
       <module fileurl="file://$PROJECT_DIR$/common-tuples/common-tuples.iml" filepath="$PROJECT_DIR$/common-tuples/common-tuples.iml" group="common" />
     </modules>
   </component>
@@ -1260,8 +1269,8 @@
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="ProjectRunConfigurationManager">
-    <configuration default="false" name="Gs1BarcodesConsoleEntryPoint" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="uk.nhs.hcdn.barcodes.gs1.server.application.Gs1BarcodesConsoleEntryPoint" />
+    <configuration default="false" name="Gs1BarcodesServerConsoleEntryPoint" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hcdn.barcodes.gs1.server.application.Gs1BarcodesServerConsoleEntryPoint" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
