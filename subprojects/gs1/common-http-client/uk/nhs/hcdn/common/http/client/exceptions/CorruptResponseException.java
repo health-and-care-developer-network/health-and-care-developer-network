@@ -14,39 +14,31 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.common.http;
+package uk.nhs.hcdn.common.http.client.exceptions;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hcdn.common.http.ResponseCodeOutsideOfValidRangeInvalidException;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.IOException;
 
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
 
-public final class UrlHelper
+public final class CorruptResponseException extends Exception
 {
-	private UrlHelper()
+	public CorruptResponseException(@NonNls final String because, @NotNull final IOException cause)
 	{
+		super(format(ENGLISH, "Corrupt response because %1$s caused by IOException %2$s", because, cause.getMessage()), cause);
 	}
 
-	@NotNull
-	public static URL toUrl(final boolean isHttps, @NonNls @NotNull final String server, final char port, @NonNls @NotNull final String rawPath)
+	public CorruptResponseException(@NonNls final String because)
 	{
-		if ((int) port == 0)
-		{
-			throw new IllegalArgumentException("port can not be zero");
-		}
-		@NonNls final String protocol = isHttps ? "https" : "http";
-		final String urlString = format(ENGLISH, "%1$s://%2$s:%3$s%4$s", protocol, server, Integer.toString((int) port), rawPath);
-		try
-		{
-			return new URL(urlString);
-		}
-		catch (MalformedURLException e)
-		{
-			throw new IllegalArgumentException("server or rawPath malformed", e);
-		}
+		super(format(ENGLISH, "Corrupt response because %1$s", because));
+	}
+
+	public CorruptResponseException(final ResponseCodeOutsideOfValidRangeInvalidException e)
+	{
+		super(format(ENGLISH, "Corrupt response because response code was outside of valid range"), e);
 	}
 }

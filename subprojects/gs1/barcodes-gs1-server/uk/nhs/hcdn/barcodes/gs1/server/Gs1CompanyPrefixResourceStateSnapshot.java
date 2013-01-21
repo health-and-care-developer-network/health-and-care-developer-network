@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.barcodes.gs1.companyPrefixes.remote.Tuple;
 import uk.nhs.hcdn.common.exceptions.ShouldNeverHappenException;
+import uk.nhs.hcdn.common.http.ContentTypeWithCharacterSet;
 import uk.nhs.hcdn.common.http.queryString.InvalidQueryStringException;
 import uk.nhs.hcdn.common.http.server.sun.restEndpoints.methodEndpoints.BadRequestException;
 import uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.AbstractResourceStateSnapshot;
@@ -40,14 +41,14 @@ import java.util.GregorianCalendar;
 
 import static java.nio.charset.Charset.forName;
 import static uk.nhs.hcdn.common.VariableArgumentsHelper.copyOf;
+import static uk.nhs.hcdn.common.http.ContentTypeWithCharacterSet.JsonUtf8ContentType;
+import static uk.nhs.hcdn.common.http.ContentTypeWithCharacterSet.XmlUtf8ContentType;
 import static uk.nhs.hcdn.common.http.queryString.QueryStringParser.parseQueryString;
 
 public final class Gs1CompanyPrefixResourceStateSnapshot extends AbstractResourceStateSnapshot
 {
 	private static final int Guess = 4096;
 	private static final Charset Utf8 = forName("UTF-8");
-	private static final String JsonUtf8ContentType = "application/json;charset=utf-8";
-	private static final String XmlUtf8ContentType = "application/xml;charset=utf-8";
 
 	private final Tuple[] tuples;
 	private final ByteArrayResourceContent jsonUtf8Content;
@@ -87,7 +88,7 @@ public final class Gs1CompanyPrefixResourceStateSnapshot extends AbstractResourc
 	}
 
 	@SafeVarargs
-	private static <S extends MapSerialisable> ByteArrayResourceContent resourceContent(@NonNls @NotNull final String contentType, @NotNull final Serialiser serialiser, final S... values)
+	private static <S extends MapSerialisable> ByteArrayResourceContent resourceContent(@ContentTypeWithCharacterSet @NonNls @NotNull final String contentType, @NotNull final Serialiser serialiser, final S... values)
 	{
 		return new ByteArrayResourceContent(contentType, serialise(serialiser, values));
 	}

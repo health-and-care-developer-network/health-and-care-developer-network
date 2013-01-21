@@ -18,11 +18,19 @@ package uk.nhs.hcdn.common.http.client;
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.common.exceptions.ShouldNeverHappenException;
+import uk.nhs.hcdn.common.http.ResponseCode;
+import uk.nhs.hcdn.common.http.ResponseCodeOutsideOfValidRangeInvalidException;
+import uk.nhs.hcdn.common.http.ResponseCodeRange;
 import uk.nhs.hcdn.common.http.client.connectionConfigurations.ChunkedUploadsConnectionConfiguration;
 import uk.nhs.hcdn.common.http.client.connectionConfigurations.CombinedConnectionConfiguration;
 import uk.nhs.hcdn.common.http.client.connectionConfigurations.ConnectionConfiguration;
 import uk.nhs.hcdn.common.http.client.connectionConfigurations.TcpConnectionConfiguration;
+import uk.nhs.hcdn.common.http.client.exceptions.CorruptResponseException;
+import uk.nhs.hcdn.common.http.client.exceptions.CouldNotConnectHttpException;
+import uk.nhs.hcdn.common.http.client.exceptions.UnacceptableResponseException;
 import uk.nhs.hcdn.common.http.client.getHttpResponseUsers.GetHttpResponseUser;
+import uk.nhs.hcdn.common.http.client.headHttpResponseUsers.HeadHttpResponseUser;
+import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hcdn.common.tuples.Pair;
 
 import java.io.IOException;
@@ -32,15 +40,15 @@ import java.net.URL;
 
 import static uk.nhs.hcdn.common.VariableArgumentsHelper.copyOf;
 import static uk.nhs.hcdn.common.http.ResponseCode.NoContentResponseCode;
+import static uk.nhs.hcdn.common.http.ResponseCodeRange.Successful2xx;
+import static uk.nhs.hcdn.common.http.ResponseCodeRange.responseCodeRange;
 import static uk.nhs.hcdn.common.http.client.connectionConfigurations.HttpMethodConnectionConfiguration.GET;
 import static uk.nhs.hcdn.common.http.client.connectionConfigurations.HttpMethodConnectionConfiguration.PUT;
 import static uk.nhs.hcdn.common.http.client.connectionConfigurations.TcpConnectionConfiguration.tcpConnectionConfiguration;
 import static uk.nhs.hcdn.common.inputStreams.EmptyInputStream.EmptyInputStreamInstance;
 
-public final class HttpRestClient
+public final class JavaHttpClient extends AbstractToString implements HttpClient
 {
-	private static final int FourHundred = 400;
-	private static final int FiveNineNine = 599;
 	@NotNull
 	private final URL httpUrl;
 	@NotNull
@@ -51,7 +59,7 @@ public final class HttpRestClient
 
 	@SuppressWarnings("FeatureEnvy")
 	@SafeVarargs
-	public HttpRestClient(@NotNull final URL httpUrl, @SuppressWarnings("TypeMayBeWeakened") @NotNull final ChunkedUploadsConnectionConfiguration supportsChunkedUploads, @NotNull final Pair<String, String>... httpHeaders)
+	public JavaHttpClient(@NotNull final URL httpUrl, @SuppressWarnings("TypeMayBeWeakened") @NotNull final ChunkedUploadsConnectionConfiguration supportsChunkedUploads, @NotNull final Pair<String, String>... httpHeaders)
 	{
 		this.httpUrl = httpUrl;
 		this.httpHeaders = copyOf(httpHeaders);
@@ -60,35 +68,42 @@ public final class HttpRestClient
 		putConfiguration = tcpConnectionConfiguration.with(PUT).with(supportsChunkedUploads);
 	}
 
-	@NotNull
-	public <V> V get(@NotNull final GetHttpResponseUser<V> httpResponseUser) throws CouldNotConnectHttpException, UnacceptableResponseException, CorruptResponseException
+	@Override
+	public void head(@NotNull final HeadHttpResponseUser headHttpResponseUser) throws CouldNotConnectHttpException, UnacceptableResponseException, CorruptResponseException
 	{
-		final HttpURLConnection httpConnection = newHttpConnection(getConfiguration);
+		final HttpURLConnection httpConnection = connectedHttpConnection();
 
 		try
 		{
-			httpConnection.connect();
+			final int responseCode = responseCode(httpConnection);
+			final ResponseCodeRange responseCodeRange = validateResponseCodeRange(responseCode);
+			final long contentLengthLong = httpConnection.getContentLengthLong();
+
+			headHttpResponseUser.response(responseCode, responseCodeRange, httpConnection.getDate(), httpConnection.getExpiration(), contentLengthLong, httpConnection.getContentType(), httpConnection.getContentEncoding());
 		}
-		catch (IOException e)
+		finally
 		{
-			// seems that 400 / 500 happens here...
-			throw new CouldNotConnectHttpException(httpUrl, e);
+			httpConnection.disconnect();
 		}
+	}
+
+	@Override
+	@NotNull
+	public <V> V get(@NotNull final GetHttpResponseUser<V> getHttpResponseUser) throws CouldNotConnectHttpException, UnacceptableResponseException, CorruptResponseException
+	{
+		final HttpURLConnection httpConnection = connectedHttpConnection();
 
 		// PUT, POST here
 
 		try
 		{
 			final int responseCode = responseCode(httpConnection);
-
-			final String responseMessage = responseMessage(httpConnection);
-
+			final ResponseCodeRange responseCodeRange = validateResponseCodeRange(responseCode);
 			final long contentLengthLong = httpConnection.getContentLengthLong();
-
-			final InputStream inputStream = inputStream(httpConnection, responseCode, contentLengthLong);
+			final InputStream inputStream = inputStream(httpConnection, responseCode, responseCodeRange, contentLengthLong);
 			try
 			{
-				return httpResponseUser.response(responseCode, responseMessage, httpConnection.getDate(), httpConnection.getExpiration(), contentLengthLong, httpConnection.getContentType(), httpConnection.getContentEncoding(), inputStream);
+				return getHttpResponseUser.response(responseCode, responseCodeRange, httpConnection.getDate(), httpConnection.getExpiration(), contentLengthLong, httpConnection.getContentType(), httpConnection.getContentEncoding(), inputStream);
 			}
 			finally
 			{
@@ -107,6 +122,36 @@ public final class HttpRestClient
 		}
 	}
 
+	private static ResponseCodeRange validateResponseCodeRange(final int responseCode) throws CorruptResponseException
+	{
+		final ResponseCodeRange responseCodeRange;
+		try
+		{
+			responseCodeRange = responseCodeRange(responseCode);
+		}
+		catch (ResponseCodeOutsideOfValidRangeInvalidException e)
+		{
+			throw new CorruptResponseException(e);
+		}
+		return responseCodeRange;
+	}
+
+	private HttpURLConnection connectedHttpConnection() throws CouldNotConnectHttpException
+	{
+		final HttpURLConnection httpConnection = newHttpConnection(getConfiguration);
+
+		try
+		{
+			httpConnection.connect();
+		}
+		catch (IOException e)
+		{
+			// seems that 400 / 500 happens here...
+			throw new CouldNotConnectHttpException(httpUrl, e);
+		}
+		return httpConnection;
+	}
+
 	private static int responseCode(final HttpURLConnection httpConnection) throws CorruptResponseException
 	{
 		final int responseCode;
@@ -118,39 +163,17 @@ public final class HttpRestClient
 		{
 			throw new CorruptResponseException("could not obtain response code", e);
 		}
-		if (responseCode == -1)
-		{
-			throw new CorruptResponseException("response code was -1");
-		}
 		return responseCode;
 	}
 
-	private static String responseMessage(final HttpURLConnection httpConnection) throws CorruptResponseException
-	{
-		final String responseMessage;
-		try
-		{
-			responseMessage = httpConnection.getResponseMessage();
-		}
-		catch (IOException e)
-		{
-			throw new CorruptResponseException("could not obtain response message", e);
-		}
-		return responseMessage;
-	}
-
-	private static InputStream inputStream(final HttpURLConnection httpConnection, final int responseCode, final long contentLengthLong) throws CorruptResponseException
+	private static InputStream inputStream(final HttpURLConnection httpConnection, @ResponseCode final int responseCode, final ResponseCodeRange responseCodeRange, final long contentLengthLong) throws CorruptResponseException
 	{
 		final InputStream inputStream;
 		if (responseCode == NoContentResponseCode || contentLengthLong == 0L)
 		{
 			inputStream = EmptyInputStreamInstance;
 		}
-		else if (responseCode >= FourHundred && responseCode <= FiveNineNine)
-		{
-			inputStream = httpConnection.getErrorStream();
-		}
-		else
+		else if (responseCodeRange == Successful2xx)
 		{
 			try
 			{
@@ -160,6 +183,10 @@ public final class HttpRestClient
 			{
 				throw new CorruptResponseException("could not obtain response body", e);
 			}
+		}
+		else
+		{
+			inputStream = httpConnection.getErrorStream();
 		}
 		return inputStream;
 	}

@@ -17,18 +17,20 @@
 package uk.nhs.hcdn.barcodes.gs1.client;
 
 import uk.nhs.hcdn.barcodes.gs1.companyPrefixes.remote.Tuple;
-import uk.nhs.hcdn.common.http.client.CorruptResponseException;
-import uk.nhs.hcdn.common.http.client.CouldNotConnectHttpException;
-import uk.nhs.hcdn.common.http.client.HttpRestClient;
-import uk.nhs.hcdn.common.http.client.UnacceptableResponseException;
+import uk.nhs.hcdn.common.http.client.HttpClient;
+import uk.nhs.hcdn.common.http.client.JavaHttpClient;
+import uk.nhs.hcdn.common.http.client.exceptions.CorruptResponseException;
+import uk.nhs.hcdn.common.http.client.exceptions.CouldNotConnectHttpException;
+import uk.nhs.hcdn.common.http.client.exceptions.UnacceptableResponseException;
 import uk.nhs.hcdn.common.http.client.getHttpResponseUsers.GetHttpResponseUser;
-import uk.nhs.hcdn.common.http.client.getHttpResponseUsers.JsonGetHttpResponseUser;
+import uk.nhs.hcdn.common.http.client.json.JsonGetHttpResponseUser;
 import uk.nhs.hcdn.common.parsers.json.InvalidJsonException;
 
 import java.io.StringReader;
 import java.net.URL;
 import java.util.Arrays;
 
+import static java.lang.System.out;
 import static uk.nhs.hcdn.barcodes.gs1.client.schema.TuplesSchemaUsingParser.TuplesSchemaUsingParserInstance;
 import static uk.nhs.hcdn.common.http.UrlHelper.toUrl;
 import static uk.nhs.hcdn.common.http.client.connectionConfigurations.ChunkedUploadsConnectionConfiguration.DoesNotSupportChunkedUploads;
@@ -38,10 +40,10 @@ public class Experiment
 	public static void main(String[] args) throws CouldNotConnectHttpException, CorruptResponseException, UnacceptableResponseException
 	{
 		final URL url = toUrl(false, "localhost", (char) 8080, "/gs1/organisation/");
-		final HttpRestClient httpRestClient = new HttpRestClient(url, DoesNotSupportChunkedUploads);
+		final HttpClient httpClient = new JavaHttpClient(url, DoesNotSupportChunkedUploads);
 		final GetHttpResponseUser<Tuple[]> httpResponseUser = new JsonGetHttpResponseUser<>(TuplesSchemaUsingParserInstance);
-		final Tuple[] tuples = httpRestClient.get(httpResponseUser);
-		System.out.println(Arrays.toString(tuples));
+		final Tuple[] tuples = httpClient.get(httpResponseUser);
+		out.println(Arrays.toString(tuples));
 	}
 
 	public static void x() throws InvalidJsonException

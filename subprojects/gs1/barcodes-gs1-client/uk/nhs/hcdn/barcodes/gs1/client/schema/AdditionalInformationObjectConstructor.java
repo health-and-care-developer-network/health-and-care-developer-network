@@ -25,6 +25,7 @@ import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.array
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.MapObjectConstructor;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.ObjectConstructor;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.schemaViolationInvalidJsonExceptions.SchemaViolationInvalidJsonException;
+import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 
 import java.math.BigDecimal;
 import java.util.EnumMap;
@@ -34,7 +35,7 @@ import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
 import static uk.nhs.hcdn.barcodes.gs1.companyPrefixes.remote.AdditionalInformationKey.valueOf;
 
-public final class AdditionalInformationObjectConstructor implements ObjectConstructor<Map<AdditionalInformationKey, Object>>
+public final class AdditionalInformationObjectConstructor extends AbstractToString implements ObjectConstructor<Map<AdditionalInformationKey, Object>>
 {
 	@NotNull
 	public static final ObjectConstructor<?> AdditionalInformationObjectConstructorInstance = new AdditionalInformationObjectConstructor();

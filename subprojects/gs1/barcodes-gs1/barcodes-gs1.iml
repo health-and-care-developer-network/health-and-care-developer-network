@@ -12,7 +12,7 @@
     <orderEntry type="module" module-name="common-tuples" exported="" />
     <orderEntry type="module" module-name="common" />
     <orderEntry type="module" module-name="common-naming" exported="" />
-    <orderEntry type="module" module-name="common-exceptions" />
+    <orderEntry type="module" module-name="common-exceptions" exported="" />
     <orderEntry type="module" module-name="common-comparison" />
     <orderEntry type="module" module-name="barcodes" exported="" />
     <orderEntry type="module" module-name="common-serialisers" exported="" />

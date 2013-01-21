@@ -14,25 +14,15 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.common.http.client;
-
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-
-import java.io.IOException;
+package uk.nhs.hcdn.common.http;
 
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
 
-public final class CorruptResponseException extends Exception
+public final class ResponseCodeOutsideOfValidRangeInvalidException extends Exception
 {
-	public CorruptResponseException(@NonNls final String because, @NotNull final IOException cause)
+	public ResponseCodeOutsideOfValidRangeInvalidException(final int responseCode)
 	{
-		super(format(ENGLISH, "Corrupt response because %1$s caused by IOException %2$s", because, cause.getMessage()), cause);
-	}
-
-	public CorruptResponseException(@NonNls final String because)
-	{
-		super(format(ENGLISH, "Corrupt response because %1$s", because));
+		super(format(ENGLISH, "Response code %1$s outside of valid range", responseCode));
 	}
 }

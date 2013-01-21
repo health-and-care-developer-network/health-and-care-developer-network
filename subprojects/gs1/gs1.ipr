@@ -1239,6 +1239,8 @@
       <module fileurl="file://$PROJECT_DIR$/common-exceptions/common-exceptions.iml" filepath="$PROJECT_DIR$/common-exceptions/common-exceptions.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-fileWatching/common-fileWatching.iml" filepath="$PROJECT_DIR$/common-fileWatching/common-fileWatching.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-http/common-http.iml" filepath="$PROJECT_DIR$/common-http/common-http.iml" group="common" />
+      <module fileurl="file://$PROJECT_DIR$/common-http-client/common-http-client.iml" filepath="$PROJECT_DIR$/common-http-client/common-http-client.iml" group="common" />
+      <module fileurl="file://$PROJECT_DIR$/common-http-client-json/common-http-client-json.iml" filepath="$PROJECT_DIR$/common-http-client-json/common-http-client-json.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-http-server/common-http-server.iml" filepath="$PROJECT_DIR$/common-http-server/common-http-server.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-http-server-sun/common-http-server-sun.iml" filepath="$PROJECT_DIR$/common-http-server-sun/common-http-server-sun.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-http-server-sun-application/common-http-server-sun-application.iml" filepath="$PROJECT_DIR$/common-http-server-sun-application/common-http-server-sun-application.iml" group="common" />

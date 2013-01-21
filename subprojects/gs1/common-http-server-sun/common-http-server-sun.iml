@@ -9,7 +9,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="IntelliJ Annotations" level="project" />
     <orderEntry type="module" module-name="common-http" />
-    <orderEntry type="module" module-name="common-exceptions" />
+    <orderEntry type="module" module-name="common-exceptions" exported="" />
     <orderEntry type="module" module-name="common-reflection" />
     <orderEntry type="module" module-name="common" />
   </component>

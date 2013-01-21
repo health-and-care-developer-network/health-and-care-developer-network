@@ -14,18 +14,16 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.common.http.client.getHttpResponseUsers;
+package uk.nhs.hcdn.common.http.client.headHttpResponseUsers;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.MillisecondsSince1970;
 import uk.nhs.hcdn.common.http.ResponseCode;
-import uk.nhs.hcdn.common.http.client.UnacceptableResponseException;
+import uk.nhs.hcdn.common.http.ResponseCodeRange;
+import uk.nhs.hcdn.common.http.client.exceptions.UnacceptableResponseException;
 
-import java.io.InputStream;
-
-public interface GetHttpResponseUser<X>
+public interface HeadHttpResponseUser
 {
-	@NotNull
-	X response(@ResponseCode final int responseCode, @NotNull String responseMessage, @MillisecondsSince1970 final long date, @MillisecondsSince1970 final long expires, final long contentLengthOrMinusOneIfNoneSupplied, @Nullable final String contentType, @Nullable final String contentEncoding, @NotNull final InputStream inputStream) throws UnacceptableResponseException;
+	void response(@ResponseCode final int responseCode, @NotNull final ResponseCodeRange responseCodeRange, @MillisecondsSince1970 final long date, @MillisecondsSince1970 final long expires, final long contentLengthOrMinusOneIfNoneSupplied, @Nullable final String contentType, @Nullable final String contentEncoding) throws UnacceptableResponseException;
 }

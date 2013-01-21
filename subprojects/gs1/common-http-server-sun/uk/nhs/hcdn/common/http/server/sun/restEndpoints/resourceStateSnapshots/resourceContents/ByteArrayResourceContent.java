@@ -19,6 +19,7 @@ package uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.
 import com.sun.net.httpserver.HttpExchange;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hcdn.common.http.ContentTypeWithCharacterSet;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hcdn.common.reflection.toString.ExcludeFromToString;
 
@@ -37,6 +38,8 @@ public final class ByteArrayResourceContent extends AbstractToString implements 
 	private static final long OneHourInMilliseconds = 60 * 60 * 1000;
 
 	@NotNull
+	@ContentTypeWithCharacterSet
+	@NonNls
 	private final String contentType;
 
 	@NotNull @ExcludeFromToString
@@ -45,7 +48,7 @@ public final class ByteArrayResourceContent extends AbstractToString implements 
 	private final long length;
 
 	@SuppressWarnings("AssignmentToCollectionOrArrayFieldFromParameter")
-	public ByteArrayResourceContent(@NonNls @NotNull final String contentType, @NotNull final byte... content)
+	public ByteArrayResourceContent(@ContentTypeWithCharacterSet @NonNls @NotNull final String contentType, @NotNull final byte... content)
 	{
 		this.contentType = contentType;
 		this.content = content;

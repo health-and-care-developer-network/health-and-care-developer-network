@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.common.http.client;
+package uk.nhs.hcdn.common.http.client.exceptions;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;

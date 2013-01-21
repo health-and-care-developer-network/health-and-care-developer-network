@@ -14,15 +14,20 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.common.http.client.headHttpResponseUsers;
+package uk.nhs.hcdn.common.http.client.exceptions;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import uk.nhs.hcdn.common.MillisecondsSince1970;
-import uk.nhs.hcdn.common.http.ResponseCode;
-import uk.nhs.hcdn.common.http.client.UnacceptableResponseException;
 
-public interface HeadHttpResponseUser
+import java.io.IOException;
+import java.net.URL;
+
+import static java.lang.String.format;
+import static java.util.Locale.ENGLISH;
+
+public final class CouldNotConnectHttpException extends Exception
 {
-	void response(@ResponseCode final int responseCode, @NotNull String responseMessage, @MillisecondsSince1970 final long date, @MillisecondsSince1970 final long expires, final long contentLengthOrMinusOneIfNoneSupplied, @Nullable final String contentType, @Nullable final String contentEncoding) throws UnacceptableResponseException;
+	public CouldNotConnectHttpException(@NotNull final URL httpUrl, @NotNull final IOException cause)
+	{
+		super(format(ENGLISH, "Could not connect over HTTP(S) to %1$s because of exception %2$s", httpUrl, cause.getMessage()), cause);
+	}
 }
