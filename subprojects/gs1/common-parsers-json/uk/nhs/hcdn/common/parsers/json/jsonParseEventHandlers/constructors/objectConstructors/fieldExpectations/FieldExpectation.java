@@ -16,12 +16,14 @@
 
 package uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.ArrayConstructor;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.ObjectConstructor;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.schemaViolationInvalidJsonExceptions.*;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
+import uk.nhs.hcdn.common.serialisers.FieldTokenName;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -29,6 +31,8 @@ import java.util.Map;
 public class FieldExpectation<X> extends AbstractToString
 {
 	@NotNull
+	@FieldTokenName
+	@NonNls
 	private final String key;
 	@NotNull
 	private final Class<X> constructorParameterType;
@@ -41,7 +45,7 @@ public class FieldExpectation<X> extends AbstractToString
 	private final ObjectConstructor<?> objectConstructor;
 	private int constructorParameterIndex;
 
-	public FieldExpectation(@NotNull final String key, @NotNull final Class<X> constructorParameterType, final boolean nullPermitted, @Nullable final ArrayConstructor<?> arrayConstructor, @Nullable final ObjectConstructor<?> objectConstructor)
+	public FieldExpectation(@FieldTokenName @NonNls @NotNull final String key, @NotNull final Class<X> constructorParameterType, final boolean nullPermitted, @Nullable final ArrayConstructor<?> arrayConstructor, @Nullable final ObjectConstructor<?> objectConstructor)
 	{
 		if (key.isEmpty())
 		{

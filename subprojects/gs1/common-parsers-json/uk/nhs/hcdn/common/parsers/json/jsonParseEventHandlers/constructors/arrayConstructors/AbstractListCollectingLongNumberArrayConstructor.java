@@ -18,7 +18,6 @@ package uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.arra
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.common.arrayCreators.ArrayCreator;
-import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.AbstractLongNumberArrayConstructor;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.schemaViolationInvalidJsonExceptions.SchemaViolationInvalidJsonException;
 
 import java.util.ArrayList;

@@ -22,13 +22,13 @@ import org.jetbrains.annotations.Nullable;
 
 public interface MapSerialiser
 {
-	void writeProperty(@NonNls @NotNull String name, @NotNull String value) throws CouldNotWritePropertyException;
+	void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final String value) throws CouldNotWritePropertyException;
 
-	void writeProperty(@NonNls @NotNull String name, @NotNull MapSerialisable value) throws CouldNotWritePropertyException;
+	void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final MapSerialisable value) throws CouldNotWritePropertyException;
 
-	void writeProperty(@NonNls @NotNull String name, @NotNull ValueSerialisable value) throws CouldNotWritePropertyException;
+	void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final ValueSerialisable value) throws CouldNotWritePropertyException;
 
-	void writeProperty(@NonNls @NotNull String name, @Nullable Object value) throws CouldNotWritePropertyException;
+	void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @Nullable final Object value) throws CouldNotWritePropertyException;
 
-	void writePropertyNull(@NonNls @NotNull String name) throws CouldNotWritePropertyException;
+	void writePropertyNull(@FieldTokenName @NonNls @NotNull final String name) throws CouldNotWritePropertyException;
 }

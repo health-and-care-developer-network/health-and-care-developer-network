@@ -25,6 +25,11 @@ import uk.nhs.hcdn.common.serialisers.*;
 
 public final class Tuple extends AbstractToString implements MapSerialisable
 {
+	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String gs1CompanyPrefixField = "gs1CompanyPrefix";
+	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String trustField = "trust";
+	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String organsationNameField = "organisationName";
+	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String additionalInformationField = "additionalInformation";
+
 	@NotNull
 	private final Gs1CompanyPrefix gs1CompanyPrefix;
 
@@ -53,10 +58,10 @@ public final class Tuple extends AbstractToString implements MapSerialisable
 	{
 		try
 		{
-			mapSerialiser.writeProperty("gs1CompanyPrefix", gs1CompanyPrefix);
-			mapSerialiser.writeProperty("trust", trust);
-			mapSerialiser.writeProperty("organisationName", organisationName);
-			mapSerialiser.writeProperty("additionalInformation", additionalInformation);
+			mapSerialiser.writeProperty(gs1CompanyPrefixField, gs1CompanyPrefix);
+			mapSerialiser.writeProperty(trustField, trust);
+			mapSerialiser.writeProperty(organsationNameField, organisationName);
+			mapSerialiser.writeProperty(additionalInformationField, additionalInformation);
 		}
 		catch (CouldNotWritePropertyException e)
 		{

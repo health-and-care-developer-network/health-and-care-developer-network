@@ -21,34 +21,35 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.ArrayConstructor;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.ObjectConstructor;
+import uk.nhs.hcdn.common.serialisers.FieldTokenName;
 
 public class NonNullFieldExpectation<X> extends FieldExpectation<X>
 {
 	@NotNull
-	public static <X> NonNullFieldExpectation<X> nonNullField(@NotNull final String key, @NotNull final Class<X> constructorParameterType)
+	public static <X> NonNullFieldExpectation<X> nonNullField(@FieldTokenName @NonNls @NotNull final String key, @NotNull final Class<X> constructorParameterType)
 	{
 		return new NonNullFieldExpectation<>(key, constructorParameterType, null, null);
 	}
 
 	@NotNull
-	public static <X> NonNullFieldExpectation<X> nonNullField(@NonNls @NotNull final String key, @NotNull final Class<X> constructorParameterType, @NotNull final ArrayConstructor<?> arrayConstructor)
+	public static <X> NonNullFieldExpectation<X> nonNullField(@FieldTokenName @NonNls @NotNull final String key, @NotNull final Class<X> constructorParameterType, @NotNull final ArrayConstructor<?> arrayConstructor)
 	{
 		return new NonNullFieldExpectation<>(key, constructorParameterType, arrayConstructor, null);
 	}
 
 	@NotNull
-	public static <X> NonNullFieldExpectation<X> nonNullField(@NonNls @NotNull final String key, @NotNull final Class<X> constructorParameterType, @NotNull final ObjectConstructor<?> objectConstructor)
+	public static <X> NonNullFieldExpectation<X> nonNullField(@FieldTokenName @NonNls @NotNull final String key, @NotNull final Class<X> constructorParameterType, @NotNull final ObjectConstructor<?> objectConstructor)
 	{
 		return new NonNullFieldExpectation<>(key, constructorParameterType, null, objectConstructor);
 	}
 
 	@NotNull
-	public static <X> NonNullFieldExpectation<X> nonNullField(@NotNull final String key, @NotNull final Class<X> constructorParameterType, @NotNull final ArrayConstructor<?> arrayConstructor, @NotNull final ObjectConstructor<?> objectConstructor)
+	public static <X> NonNullFieldExpectation<X> nonNullField(@FieldTokenName @NonNls @NotNull final String key, @NotNull final Class<X> constructorParameterType, @NotNull final ArrayConstructor<?> arrayConstructor, @NotNull final ObjectConstructor<?> objectConstructor)
 	{
 		return new NonNullFieldExpectation<>(key, constructorParameterType, arrayConstructor, objectConstructor);
 	}
 
-	public NonNullFieldExpectation(@NotNull final String key, @NotNull final Class<X> constructorParameterType, @Nullable final ArrayConstructor<?> arrayConstructor, @Nullable final ObjectConstructor<?> objectConstructor)
+	public NonNullFieldExpectation(@FieldTokenName @NonNls @NotNull final String key, @NotNull final Class<X> constructorParameterType, @Nullable final ArrayConstructor<?> arrayConstructor, @Nullable final ObjectConstructor<?> objectConstructor)
 	{
 		super(key, constructorParameterType, false, arrayConstructor, objectConstructor);
 	}

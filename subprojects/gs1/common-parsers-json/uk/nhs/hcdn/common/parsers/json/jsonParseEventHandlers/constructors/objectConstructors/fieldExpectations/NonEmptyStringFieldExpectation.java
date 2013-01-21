@@ -19,16 +19,17 @@ package uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.obje
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.schemaViolationInvalidJsonExceptions.SchemaViolationInvalidJsonException;
+import uk.nhs.hcdn.common.serialisers.FieldTokenName;
 
 public final class NonEmptyStringFieldExpectation extends NonNullFieldExpectation<String>
 {
 	@NotNull
-	public static FieldExpectation<String> nonEmptyStringField(@NonNls @NotNull final String key)
+	public static FieldExpectation<String> nonEmptyStringField(@FieldTokenName @NonNls @NotNull final String key)
 	{
 		return new NonEmptyStringFieldExpectation(key);
 	}
 
-	public NonEmptyStringFieldExpectation(@NotNull final String key)
+	public NonEmptyStringFieldExpectation(@FieldTokenName @NonNls @NotNull final String key)
 	{
 		super(key, String.class, null, null);
 	}

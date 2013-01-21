@@ -134,10 +134,15 @@ public final class ToStringHelper
 			{
 				notNullToStringGenerator = nullableToStringGenerator;
 			}
-			//noinspection unchecked
-			response = notNullToStringGenerator.toString(value);
+			response = notNullToString(value, notNullToStringGenerator);
 		}
 		stringWriter.write(response);
+	}
+
+	@SuppressWarnings({"rawtypes", "unchecked"})
+	private static String notNullToString(final Object value, final ToStringGenerator notNullToStringGenerator)
+	{
+		return notNullToStringGenerator.toString(value);
 	}
 
 }

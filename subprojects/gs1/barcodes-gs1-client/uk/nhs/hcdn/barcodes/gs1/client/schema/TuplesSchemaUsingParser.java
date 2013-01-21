@@ -26,6 +26,7 @@ import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.array
 import static uk.nhs.hcdn.barcodes.gs1.client.schema.AdditionalInformationObjectConstructor.AdditionalInformationObjectConstructorInstance;
 import static uk.nhs.hcdn.barcodes.gs1.client.schema.Gs1CompanyPrefixArrayConstructor.Gs1CompanyPrefixArrayConstructorInstance;
 import static uk.nhs.hcdn.barcodes.gs1.client.schema.TupleArrayCreator.TupleArray;
+import static uk.nhs.hcdn.barcodes.gs1.companyPrefixes.remote.Tuple.*;
 import static uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.NonNullCollectToArrayObjectsOnlyForElementsArrayConstructor.nonNullArrayOfObjects;
 import static uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.root.NonNullArrayRootArrayConstructor.rootIsArrayOf;
 import static uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.JavaObjectConstructor.object;
@@ -46,15 +47,15 @@ public final class TuplesSchemaUsingParser extends SchemaUsingParser<Tuple>
 				Tuple.class,
 				nonNullField
 				(
-					"gs1CompanyPrefix",
+					gs1CompanyPrefixField,
 					Gs1CompanyPrefix.class,
 					Gs1CompanyPrefixArrayConstructorInstance
 				),
-				nonEmptyStringField("trust"),
-				nonEmptyStringField("organisationName"),
+				nonEmptyStringField(trustField),
+				nonEmptyStringField(organsationNameField),
 				nonNullField
 				(
-					"additionalInformation",
+					additionalInformationField,
 					AdditionalInformation.class,
 					AdditionalInformationObjectConstructorInstance
 				)

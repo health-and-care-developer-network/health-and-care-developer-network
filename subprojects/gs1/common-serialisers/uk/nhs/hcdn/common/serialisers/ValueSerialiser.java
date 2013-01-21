@@ -22,12 +22,12 @@ import org.jetbrains.annotations.Nullable;
 public interface ValueSerialiser
 {
 	@SuppressWarnings("MethodCanBeVariableArityMethod")
-	<S extends MapSerialisable> void writeValue(@NotNull S[] values) throws CouldNotWriteValueException;
+	<S extends MapSerialisable> void writeValue(@NotNull final S[] values) throws CouldNotWriteValueException;
 
 	@SuppressWarnings("MethodCanBeVariableArityMethod")
-	<S extends ValueSerialisable> void writeValue(@NotNull S[] values) throws CouldNotWriteValueException;
+	<S extends ValueSerialisable> void writeValue(@NotNull final S[] values) throws CouldNotWriteValueException;
 
-	void writeValue(int value) throws CouldNotWriteValueException;
+	void writeValue(final int value) throws CouldNotWriteValueException;
 
 	void writeValue(@NotNull final MapSerialisable value) throws CouldNotWriteValueException;
 

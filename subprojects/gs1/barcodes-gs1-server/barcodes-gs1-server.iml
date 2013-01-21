@@ -14,9 +14,9 @@
     <orderEntry type="module" module-name="common-serialisers-json" />
     <orderEntry type="module" module-name="common-exceptions" exported="" />
     <orderEntry type="module" module-name="common-fileWatching" />
-    <orderEntry type="module" module-name="common-parsers" />
     <orderEntry type="module" module-name="common-http-server-sun" />
     <orderEntry type="module" module-name="common-serialisers-xml" />
+    <orderEntry type="module" module-name="common-parsers-separatedValueParsers" />
   </component>
 </module>
 
