@@ -21,23 +21,33 @@ import com.sun.net.httpserver.HttpExchange;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.resourceContents.ResourceContent;
+import uk.nhs.hcdn.common.http.Method;
+import uk.nhs.hcdn.common.http.server.sun.restEndpoints.clientError4xxs.BadRequestException;
+import uk.nhs.hcdn.common.http.server.sun.restEndpoints.clientError4xxs.NotFoundException;
 import uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.ResourceStateSnapshot;
-import uk.nhs.hcdn.common.http.server.sun.restEndpoints.NotFoundException;
+import uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.resourceContents.ResourceContent;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
+import java.util.Map;
 
 import static uk.nhs.hcdn.common.http.RequestHeader.*;
-import static uk.nhs.hcdn.common.http.server.sun.helpers.RequestHeadersHelper.*;
 import static uk.nhs.hcdn.common.http.ResponseCode.*;
+import static uk.nhs.hcdn.common.http.server.sun.helpers.RequestHeadersHelper.*;
 import static uk.nhs.hcdn.common.http.server.sun.helpers.ResponseHeadersHelper.withoutEntityHeaders;
 
-public abstract class AbstractHeadOrGetMethodEndpoint<R extends ResourceStateSnapshot> implements MethodEndpoint<R>
+public abstract class AbstractHeadOrGetRegisterableMethodEndpoint<R extends ResourceStateSnapshot> implements RegisterableMethodEndpoint<R>
 {
-
 	private static final int EndOfFileOnRead = -1;
+
+	@NotNull @NonNls @Method
+	private final String method;
+
+	protected AbstractHeadOrGetRegisterableMethodEndpoint(@NotNull @NonNls @Method final String method)
+	{
+		this.method = method;
+	}
 
 	// last modified is starting to look quite egregious
 	@Override
@@ -83,16 +93,21 @@ public abstract class AbstractHeadOrGetMethodEndpoint<R extends ResourceStateSna
 		{
 			content = resourceStateSnapshot.content(rawRelativeUriPath, rawQueryString);
 		}
-		catch (NotFoundException ignored)
+		catch (NotFoundException e)
 		{
-			httpExchange.sendResponseHeaders(NotFoundResponseCode, NoContentBodyMagicValue);
-			httpExchange.close();
+			e.write4xxResponse(httpExchange);
 			return;
 		}
 
 		content.setHeaders(httpExchange, resourceStateSnapshot.lastModifiedInRfc2822Form());
 		send(httpExchange, content);
 		httpExchange.close();
+	}
+
+	@Override
+	public final void register(@NotNull final Map<String, MethodEndpoint<R>> methodEndpointsRegister)
+	{
+		methodEndpointsRegister.put(method, this);
 	}
 
 	protected abstract void send(@NotNull final HttpExchange httpExchange, @NotNull final ResourceContent content) throws IOException;

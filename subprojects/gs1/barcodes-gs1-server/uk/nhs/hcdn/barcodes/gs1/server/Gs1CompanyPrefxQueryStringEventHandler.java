@@ -22,13 +22,31 @@ import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.http.queryString.InvalidQueryStringException;
 import uk.nhs.hcdn.common.http.queryString.InvalidQueryStringKeyValuePairException;
 import uk.nhs.hcdn.common.http.queryString.QueryStringEventHandler;
+import uk.nhs.hcdn.common.http.server.sun.restEndpoints.clientError4xxs.BadRequestException;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hcdn.common.serialisers.json.JsonFunctionNameInvalidException;
 
+import static uk.nhs.hcdn.common.http.queryString.QueryStringParser.parseQueryString;
 import static uk.nhs.hcdn.common.serialisers.json.JsonPFunctionNameValidator.validateJsonPFunctionName;
 
 public final class Gs1CompanyPrefxQueryStringEventHandler extends AbstractToString implements QueryStringEventHandler
 {
+	@NotNull
+	public static Gs1CompanyPrefxQueryStringEventHandler parseGs1QueryString(@Nullable final String rawQueryString) throws BadRequestException
+	{
+		final Gs1CompanyPrefxQueryStringEventHandler queryStringEventHandler = new Gs1CompanyPrefxQueryStringEventHandler();
+		try
+		{
+			parseQueryString(rawQueryString, queryStringEventHandler);
+		}
+		catch (InvalidQueryStringException e)
+		{
+			throw new BadRequestException(e.getMessage(), e);
+		}
+		return queryStringEventHandler;
+	}
+
+	@NotNull
 	private static final String JsonPAndXmlAreIncompatible = "jsonp and xml are incompatible";
 	private boolean formatSeen;
 	private boolean isXml;

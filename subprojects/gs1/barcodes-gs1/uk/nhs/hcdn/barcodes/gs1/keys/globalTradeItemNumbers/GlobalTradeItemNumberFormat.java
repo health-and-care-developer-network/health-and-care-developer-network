@@ -141,6 +141,13 @@ public enum GlobalTradeItemNumberFormat implements KeyFormat
 		return checkDigitCalculator.calculateCheckDigit(digits);
 	}
 
+	@NotNull
+	@Override
+	public Digits addCheckDigit(@NotNull final Digits withoutCheckDigits)
+	{
+		return checkDigitCalculator.addCheckDigit(withoutCheckDigits);
+	}
+
 	@Override
 	@NotNull
 	public Digit extract(@NotNull final DigitList digits, final int oneBasedPositionT)

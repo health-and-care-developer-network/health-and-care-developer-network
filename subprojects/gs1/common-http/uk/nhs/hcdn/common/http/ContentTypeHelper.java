@@ -14,21 +14,30 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.common.http.server.sun.restEndpoints.methodEndpoints;
+package uk.nhs.hcdn.common.http;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hcdn.common.exceptions.AbstractRethrowableException;
 
-public final class BadRequestException extends AbstractRethrowableException
+import java.nio.charset.Charset;
+
+import static java.lang.String.format;
+import static java.util.Locale.ENGLISH;
+
+public final class ContentTypeHelper
 {
-	public BadRequestException(@NonNls @NotNull final String message)
+	@NotNull @ContentTypeWithCharacterSet @NonNls
+	public static String withCharacterSet(@NotNull @NonNls final String contentType, @NotNull final Charset charset)
 	{
-		super(message);
+		return format(ENGLISH, "%s;charset=%s", toLowerCase(contentType), toLowerCase(charset.name()));
 	}
 
-	public BadRequestException(@NonNls @NotNull final String message, @NotNull final Exception cause)
+	private static String toLowerCase(@NonNls @NotNull final String contentType)
 	{
-		super(message, cause);
+		return contentType.toLowerCase(ENGLISH);
+	}
+
+	private ContentTypeHelper()
+	{
 	}
 }

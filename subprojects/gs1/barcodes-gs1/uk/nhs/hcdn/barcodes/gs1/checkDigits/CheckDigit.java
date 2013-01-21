@@ -30,4 +30,7 @@ public interface CheckDigit
 
 	@NotNull
 	Digit calculateCheckDigit(@NotNull final Digits digits);
+
+	@NotNull
+	Digits addCheckDigit(@NotNull final Digits withoutCheckDigits);
 }

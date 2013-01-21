@@ -19,20 +19,25 @@ package uk.nhs.hcdn.common.http;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
+import static uk.nhs.hcdn.common.http.ContentType.*;
+
 public @interface ContentTypeWithCharacterSet
 {
-	@NonNls
-	@ContentTypeWithCharacterSet
 	@NotNull
-	String JsonUtf8ContentType = "application/json;charset=utf-8";
+	String CharsetUtf8 = ";charset=utf-8";
 
 	@NonNls
 	@ContentTypeWithCharacterSet
 	@NotNull
-	String XmlUtf8ContentType = "application/xml;charset=utf-8";
+	String JsonContentTypeUtf8 = JsonUtf8ContentType + CharsetUtf8; // should use withCharacterSet() but there is a bug in the javac compiler
 
 	@NonNls
 	@ContentTypeWithCharacterSet
 	@NotNull
-	String TextUtf8ContentType = "text/plain;charset=utf-8";
+	String XmlContentTypeUtf8 = XmlUtf8ContentType + CharsetUtf8;
+
+	@NonNls
+	@ContentTypeWithCharacterSet
+	@NotNull
+	String TextContentTypeUtf8 = TextUtf8ContentType + CharsetUtf8;
 }

@@ -14,14 +14,19 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.common.http.server.sun.restEndpoints;
+package uk.nhs.hcdn.common;
 
-import uk.nhs.hcdn.common.exceptions.AbstractRethrowableException;
+import org.jetbrains.annotations.NotNull;
 
-public final class NotFoundException extends AbstractRethrowableException
+import java.nio.charset.Charset;
+
+import static java.nio.charset.Charset.forName;
+
+public final class CharsetHelper
 {
-	public NotFoundException()
-	{
-		super("Not found");
-	}
+	@NotNull
+	public static final Charset Utf8 = forName("UTF-8");
+
+	private CharsetHelper()
+	{}
 }

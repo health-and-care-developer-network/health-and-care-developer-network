@@ -18,16 +18,33 @@ package uk.nhs.hcdn.common.http.server.sun.restEndpoints.methodEndpoints;
 
 import com.sun.net.httpserver.HttpExchange;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.resourceContents.ResourceContent;
 import uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.ResourceStateSnapshot;
+import uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.resourceContents.ResourceContent;
 
 import java.io.IOException;
 
-public abstract class AbstractGetMethodEndpoint<R extends ResourceStateSnapshot> extends AbstractHeadOrGetMethodEndpoint<R>
+import static uk.nhs.hcdn.common.http.Method.HEAD;
+
+public final class HeadMethodEndpoint<R extends ResourceStateSnapshot> extends AbstractHeadOrGetRegisterableMethodEndpoint<R>
 {
-	@Override
-	protected final void send(@NotNull final HttpExchange httpExchange, @NotNull final ResourceContent content) throws IOException
+	@NotNull
+	private static final RegisterableMethodEndpoint<?> Instance = new HeadMethodEndpoint<>();
+
+	@SuppressWarnings({"unchecked", "MethodNamesDifferingOnlyByCase"})
+	@NotNull
+	public static <R extends ResourceStateSnapshot> RegisterableMethodEndpoint<R> headMethodEndpoint()
 	{
-		content.get(httpExchange);
+		return (RegisterableMethodEndpoint<R>) Instance;
+	}
+
+	private HeadMethodEndpoint()
+	{
+		super(HEAD);
+	}
+
+	@Override
+	protected void send(@NotNull final HttpExchange httpExchange, @NotNull final ResourceContent content) throws IOException
+	{
+		content.head(httpExchange);
 	}
 }

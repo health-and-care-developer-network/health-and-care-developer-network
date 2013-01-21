@@ -306,4 +306,14 @@ public final class Digits implements DigitList, ValueSerialisable
 			throw new CouldNotSerialiseValueException(this, e);
 		}
 	}
+
+	public int to0To999()
+	{
+		return scaleDigit(0, 100) + scaleDigit(1, 10) + scaleDigit(2, 1);
+	}
+
+	private int scaleDigit(final int index, final int scalar)
+	{
+		return digitAt(index).digit() * scalar;
+	}
 }

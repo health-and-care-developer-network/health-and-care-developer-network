@@ -19,9 +19,9 @@ package uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStateSnapshots;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hcdn.common.http.server.sun.restEndpoints.methodEndpoints.BadRequestException;
+import uk.nhs.hcdn.common.http.server.sun.restEndpoints.clientError4xxs.BadRequestException;
 import uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.resourceContents.ResourceContent;
-import uk.nhs.hcdn.common.http.server.sun.restEndpoints.NotFoundException;
+import uk.nhs.hcdn.common.http.server.sun.restEndpoints.clientError4xxs.NotFoundException;
 
 import java.util.Date;
 

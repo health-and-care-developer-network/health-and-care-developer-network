@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.barcodes.gs1.server;
+package uk.nhs.hcdn.barcodes.gs1.server.parsing;
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.common.fileWatching.FailedToReloadException;

@@ -16,15 +16,15 @@
 
 package uk.nhs.hcdn.barcodes.gs1;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.barcodes.Digits;
+import uk.nhs.hcdn.barcodes.gs1.companyPrefixes.Gs1CompanyPrefix;
 import uk.nhs.hcdn.barcodes.gs1.gs1Prefixes.Gs1Prefix;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
-import org.jetbrains.annotations.NotNull;
 
 public final class Gs1CompanyPrefixAndItem extends AbstractToString
 {
-	public static final int Gs1CompanyPrefixAndItemNumberOfDigits = 12;
-
 	@NotNull
 	private final Digits digits;
 
@@ -33,9 +33,54 @@ public final class Gs1CompanyPrefixAndItem extends AbstractToString
 		this.digits = digits;
 	}
 
+	public Gs1CompanyPrefixAndItem(@NotNull final Gs1CompanyPrefix gs1CompanyPrefix, @NotNull final Digits item)
+	{
+		digits = gs1CompanyPrefix.withDataAfterPrefix(item);
+	}
+
 	@NotNull
 	public Gs1Prefix gs1Prefix()
 	{
 		return new Gs1Prefix(digits.firstThree());
+	}
+
+	@NotNull
+	public Digits digitsWithoutGs1Prefix(final int withAMaximumOfTrailingDigits)
+	{
+		return digits.slice(4, 4 + withAMaximumOfTrailingDigits);
+	}
+
+	@NotNull
+	public Digits item(@NotNull final Gs1CompanyPrefix gs1CompanyPrefix)
+	{
+		return gs1CompanyPrefix.extractDataAfterPrefix(digits);
+	}
+
+	@Override
+	public boolean equals(@Nullable final Object obj)
+	{
+		if (this == obj)
+		{
+			return true;
+		}
+		if (obj == null || getClass() != obj.getClass())
+		{
+			return false;
+		}
+
+		final Gs1CompanyPrefixAndItem that = (Gs1CompanyPrefixAndItem) obj;
+
+		if (!digits.equals(that.digits))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return digits.hashCode();
 	}
 }

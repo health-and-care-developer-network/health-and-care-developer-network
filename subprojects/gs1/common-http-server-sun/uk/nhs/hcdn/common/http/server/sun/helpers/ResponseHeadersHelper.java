@@ -24,7 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.common.http.ContentTypeWithCharacterSet;
 
 import static uk.nhs.hcdn.common.GregorianCalendarHelper.rfc2822DateForNow;
-import static uk.nhs.hcdn.common.http.ContentTypeWithCharacterSet.TextUtf8ContentType;
+import static uk.nhs.hcdn.common.http.ContentTypeWithCharacterSet.TextContentTypeUtf8;
 import static uk.nhs.hcdn.common.http.ResponseHeader.*;
 import static uk.nhs.hcdn.common.http.server.sun.restEndpoints.methodEndpoints.MethodEndpoint.*;
 
@@ -37,7 +37,7 @@ public final class ResponseHeadersHelper
 	@NotNull
 	public static Headers emptyInvariantResponseHeaders(@NotNull final HttpExchange httpExchange, @NotNull final String lastModifiedInRfc2822Form)
 	{
-		return withEntityHeaders(httpExchange, TextUtf8ContentType, CacheControlHeaderValueMaximum, ExpiresHeaderValueMaximum, lastModifiedInRfc2822Form);
+		return withEntityHeaders(httpExchange, TextContentTypeUtf8, CacheControlHeaderValueMaximum, ExpiresHeaderValueMaximum, lastModifiedInRfc2822Form);
 	}
 
 	@NotNull

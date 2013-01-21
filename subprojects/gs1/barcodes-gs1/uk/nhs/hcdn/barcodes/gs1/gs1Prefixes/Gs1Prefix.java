@@ -89,11 +89,6 @@ public final class Gs1Prefix extends AbstractToString implements Comparable<Gs1P
 
 	public int to0To999()
 	{
-		return scaleDigit(0, 100) + scaleDigit(1, 10) + scaleDigit(2, 0);
-	}
-
-	private int scaleDigit(final int index, final int scalar)
-	{
-		return threeDigits.digitAt(index).digit() * scalar;
+		return threeDigits.to0To999();
 	}
 }

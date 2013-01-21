@@ -34,9 +34,9 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 
 import static java.lang.String.format;
-import static java.nio.charset.Charset.forName;
 import static java.util.Locale.ENGLISH;
-import static uk.nhs.hcdn.common.http.ContentTypeWithCharacterSet.JsonUtf8ContentType;
+import static uk.nhs.hcdn.common.CharsetHelper.Utf8;
+import static uk.nhs.hcdn.common.http.ContentTypeWithCharacterSet.JsonContentTypeUtf8;
 import static uk.nhs.hcdn.common.http.ResponseCode.NoContentResponseCode;
 import static uk.nhs.hcdn.common.http.ResponseCode.OkResponseCode;
 import static uk.nhs.hcdn.common.http.ResponseCodeRange.Successful2xx;
@@ -45,7 +45,6 @@ public final class JsonGetHttpResponseUser<V> extends AbstractToString implement
 {
 	@NotNull @NonNls
 	private static final String Identity = "identity";
-	private static final Charset Utf8 = forName("UTF-8");
 
 	@NotNull
 	private final SchemaUsingParser<V> schemaUsingParser;
@@ -112,9 +111,9 @@ public final class JsonGetHttpResponseUser<V> extends AbstractToString implement
 			throw new UnacceptableResponseException("no Content-Type supplied");
 		}
 		// Hideous. But until we have to parse anything other than JSON UTF-8, there's no point writing a content-type parser...
-		if (!contentType.replace(" ", "").equalsIgnoreCase(JsonUtf8ContentType))
+		if (!contentType.replace(" ", "").equalsIgnoreCase(JsonContentTypeUtf8))
 		{
-			throw new UnacceptableResponseException("content is not appliction/json;charset=utf-8");
+			throw new UnacceptableResponseException("content is not " + JsonContentTypeUtf8);
 		}
 
 		return Utf8;

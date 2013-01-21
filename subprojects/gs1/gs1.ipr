@@ -376,7 +376,7 @@
         </inspection_tool>
         <inspection_tool class="ExceptionNameDoesntEndWithException" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ExpectedExceptionNeverThrown" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="ExtendsConcreteCollection" enabled="true" level="WARNING" enabled_by_default="true" />
+        <inspection_tool class="ExtendsConcreteCollection" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
         <inspection_tool class="ExtendsThread" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ExtendsUtilityClass" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ExternalizableWithSerializationMethods" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -1247,6 +1247,7 @@
       <module fileurl="file://$PROJECT_DIR$/common-http-server/common-http-server.iml" filepath="$PROJECT_DIR$/common-http-server/common-http-server.iml" group="common/http" />
       <module fileurl="file://$PROJECT_DIR$/common-http-server-sun/common-http-server-sun.iml" filepath="$PROJECT_DIR$/common-http-server-sun/common-http-server-sun.iml" group="common/http" />
       <module fileurl="file://$PROJECT_DIR$/common-http-server-sun-application/common-http-server-sun-application.iml" filepath="$PROJECT_DIR$/common-http-server-sun-application/common-http-server-sun-application.iml" group="common/http" />
+      <module fileurl="file://$PROJECT_DIR$/common-http-server-sun-helpers/common-http-server-sun-helpers.iml" filepath="$PROJECT_DIR$/common-http-server-sun-helpers/common-http-server-sun-helpers.iml" group="common/http" />
       <module fileurl="file://$PROJECT_DIR$/common-internationalisation/common-internationalisation.iml" filepath="$PROJECT_DIR$/common-internationalisation/common-internationalisation.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-naming/common-naming.iml" filepath="$PROJECT_DIR$/common-naming/common-naming.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-parsers/common-parsers.iml" filepath="$PROJECT_DIR$/common-parsers/common-parsers.iml" group="common/parsers" />

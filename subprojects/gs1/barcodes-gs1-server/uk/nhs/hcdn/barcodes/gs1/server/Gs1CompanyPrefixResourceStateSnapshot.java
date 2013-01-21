@@ -16,105 +16,101 @@
 
 package uk.nhs.hcdn.barcodes.gs1.server;
 
-import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hcdn.barcodes.Digits;
+import uk.nhs.hcdn.barcodes.gs1.checkDigits.IncorrectCheckDigitIllegalStateException;
+import uk.nhs.hcdn.barcodes.gs1.checkDigits.IncorrectNumberOfDigitsIllegalStateException;
+import uk.nhs.hcdn.barcodes.gs1.companyPrefixes.index.Gs1CompanyPrefixIndex;
+import uk.nhs.hcdn.barcodes.gs1.companyPrefixes.index.Index;
 import uk.nhs.hcdn.barcodes.gs1.companyPrefixes.remote.Tuple;
-import uk.nhs.hcdn.common.exceptions.ShouldNeverHappenException;
-import uk.nhs.hcdn.common.http.ContentTypeWithCharacterSet;
-import uk.nhs.hcdn.common.http.queryString.InvalidQueryStringException;
-import uk.nhs.hcdn.common.http.server.sun.restEndpoints.methodEndpoints.BadRequestException;
-import uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.AbstractResourceStateSnapshot;
-import uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.resourceContents.ByteArrayResourceContent;
-import uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.resourceContents.ResourceContent;
-import uk.nhs.hcdn.common.serialisers.CouldNotWriteDataException;
-import uk.nhs.hcdn.common.serialisers.CouldNotWriteValueException;
-import uk.nhs.hcdn.common.serialisers.MapSerialisable;
-import uk.nhs.hcdn.common.serialisers.Serialiser;
-import uk.nhs.hcdn.common.serialisers.json.JsonPSerialiser;
-import uk.nhs.hcdn.common.serialisers.json.JsonSerialiser;
-import uk.nhs.hcdn.common.serialisers.xml.XmlSerialiser;
+import uk.nhs.hcdn.barcodes.gs1.keys.globalTradeItemNumbers.DigitsAreNotForAGlobalTradeItemNumberException;
+import uk.nhs.hcdn.barcodes.gs1.keys.globalTradeItemNumbers.GlobalTradeItemNumber;
+import uk.nhs.hcdn.barcodes.gs1.server.subResources.AllTuplesSubResource;
+import uk.nhs.hcdn.barcodes.gs1.server.subResources.BarcodeSubResource;
+import uk.nhs.hcdn.common.http.server.sun.restEndpoints.clientError4xxs.NotFoundException;
+import uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.AbstractWithSubResourcesResourceStateSnapshot;
+import uk.nhs.hcdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.subResources.SubResource;
 
-import java.io.ByteArrayOutputStream;
-import java.nio.charset.Charset;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 
-import static java.nio.charset.Charset.forName;
-import static uk.nhs.hcdn.common.VariableArgumentsHelper.copyOf;
-import static uk.nhs.hcdn.common.http.ContentTypeWithCharacterSet.JsonUtf8ContentType;
-import static uk.nhs.hcdn.common.http.ContentTypeWithCharacterSet.XmlUtf8ContentType;
-import static uk.nhs.hcdn.common.http.queryString.QueryStringParser.parseQueryString;
+import static uk.nhs.hcdn.barcodes.Digits.digits;
+import static uk.nhs.hcdn.barcodes.gs1.keys.globalTradeItemNumbers.GlobalTradeItemNumber.parseGlobalTradeItemNumber;
 
-public final class Gs1CompanyPrefixResourceStateSnapshot extends AbstractResourceStateSnapshot
+public final class Gs1CompanyPrefixResourceStateSnapshot extends AbstractWithSubResourcesResourceStateSnapshot
 {
-	private static final int Guess = 4096;
-	private static final Charset Utf8 = forName("UTF-8");
-
-	private final Tuple[] tuples;
-	private final ByteArrayResourceContent jsonUtf8Content;
-	private final ByteArrayResourceContent xmlUtf8Content;
+	@NotNull
+	private final AllTuplesSubResource allTuplesSubResource;
+	@NotNull
+	private final Gs1CompanyPrefixIndex gs1CompanyPrefixIndex;
+	@NotNull
+	private final Map<Tuple, BarcodeSubResource> barcodeSubResourceIndex;
 
 	public Gs1CompanyPrefixResourceStateSnapshot(@NotNull final GregorianCalendar lastModified, @NotNull final Tuple... tuples)
 	{
 		super(lastModified);
-		this.tuples = copyOf(tuples);
-		jsonUtf8Content = resourceContent(JsonUtf8ContentType, new JsonSerialiser(), tuples);
-		xmlUtf8Content = resourceContent(XmlUtf8ContentType, new XmlSerialiser("gs1"), tuples);
+		allTuplesSubResource = new AllTuplesSubResource(tuples);
+		gs1CompanyPrefixIndex = new Index(tuples);
+		barcodeSubResourceIndex = new HashMap<>(tuples.length);
+		for (final Tuple tuple : tuples)
+		{
+			barcodeSubResourceIndex.put(tuple, new BarcodeSubResource(tuple));
+		}
 	}
 
-	@SuppressWarnings("FeatureEnvy")
 	@NotNull
 	@Override
-	public ResourceContent content(@NotNull final String rawRelativeUriPath, @Nullable final String rawQueryString) throws BadRequestException
+	public SubResource find(@NotNull final String rawPath) throws NotFoundException
 	{
-		final Gs1CompanyPrefxQueryStringEventHandler queryStringEventHandler = new Gs1CompanyPrefxQueryStringEventHandler();
+		if (rawPath.isEmpty())
+		{
+			return allTuplesSubResource;
+		}
+		if (rawPath.contains("/"))
+		{
+			throw new NotFoundException("/ is not used");
+		}
+		return barcodeSubResource(rawPath);
+	}
+
+	@NotNull
+	private SubResource barcodeSubResource(@NotNull final CharSequence pathSegmentRepresentingBarcodeDigits) throws NotFoundException
+	{
+		final Digits digits;
 		try
 		{
-			parseQueryString(rawQueryString, queryStringEventHandler);
+			digits = digits(pathSegmentRepresentingBarcodeDigits);
 		}
-		catch (InvalidQueryStringException e)
+		catch (IllegalArgumentException e)
 		{
-			throw new BadRequestException(e.getMessage(), e);
+			throw new NotFoundException("Barcode is not composed of digits 0-9", e);
 		}
-		if (queryStringEventHandler.isXml())
-		{
-			return xmlUtf8Content;
-		}
-		if (queryStringEventHandler.isJsonP())
-		{
-			return resourceContent(JsonUtf8ContentType, new JsonPSerialiser(queryStringEventHandler.jsonp()), tuples);
-		}
-		return jsonUtf8Content;
-	}
 
-	@SafeVarargs
-	private static <S extends MapSerialisable> ByteArrayResourceContent resourceContent(@ContentTypeWithCharacterSet @NonNls @NotNull final String contentType, @NotNull final Serialiser serialiser, final S... values)
-	{
-		return new ByteArrayResourceContent(contentType, serialise(serialiser, values));
-	}
-
-	@SafeVarargs
-	private static <S extends MapSerialisable> byte[] serialise(@NotNull final Serialiser serialiser, @NotNull final S... values)
-	{
-		final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(Guess);
+		final GlobalTradeItemNumber globalTradeItemNumber;
 		try
 		{
-			serialiser.start(byteArrayOutputStream, Utf8);
-			try
-			{
-				serialiser.writeValue(values);
-			}
-			catch (CouldNotWriteValueException e)
-			{
-				throw new ShouldNeverHappenException(e);
-			}
-			serialiser.finish();
+			globalTradeItemNumber = parseGlobalTradeItemNumber(digits, true);
 		}
-		catch (CouldNotWriteDataException e)
+		catch (DigitsAreNotForAGlobalTradeItemNumberException e)
 		{
-			throw new ShouldNeverHappenException(e);
+			throw new NotFoundException("Digits are not for a GTIN", e);
 		}
-		return byteArrayOutputStream.toByteArray();
-	}
+		catch (IncorrectNumberOfDigitsIllegalStateException e)
+		{
+			throw new NotFoundException("Incorrect number of digits", e);
+		}
+		catch (IncorrectCheckDigitIllegalStateException e)
+		{
+			throw new NotFoundException("Incorrect check digit", e);
+		}
 
+		@Nullable final Tuple tuple = gs1CompanyPrefixIndex.find(globalTradeItemNumber.gs1CompanyPrefixAndItem());
+		if (tuple == null)
+		{
+			throw new NotFoundException("No matching GS1 Company Prefix");
+		}
+		return barcodeSubResourceIndex.get(tuple);
+	}
 }

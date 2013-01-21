@@ -23,6 +23,8 @@ import uk.nhs.hcdn.barcodes.gs1.companyPrefixes.Gs1CompanyPrefix;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hcdn.common.serialisers.*;
 
+import java.util.Set;
+
 public final class Tuple extends AbstractToString implements MapSerialisable
 {
 	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String gs1CompanyPrefixField = "gs1CompanyPrefix";
@@ -115,5 +117,17 @@ public final class Tuple extends AbstractToString implements MapSerialisable
 	public String organisationName()
 	{
 		return organisationName;
+	}
+
+	@NotNull
+	public Set<AdditionalInformationKey> addtionalInformationAvailableForKeys()
+	{
+		return additionalInformation.addtionalInformationAvailableForKeys();
+	}
+
+	@Nullable
+	public Object additionalInformationFor(@NotNull @NonNls final AdditionalInformationKey additionalInformationKey)
+	{
+		return additionalInformation.additionalInformationFor(additionalInformationKey);
 	}
 }

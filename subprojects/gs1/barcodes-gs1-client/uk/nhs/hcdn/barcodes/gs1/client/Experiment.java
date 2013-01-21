@@ -16,7 +16,12 @@
 
 package uk.nhs.hcdn.barcodes.gs1.client;
 
+import uk.nhs.hcdn.barcodes.Digits;
+import uk.nhs.hcdn.barcodes.gs1.Gs1CompanyPrefixAndItem;
+import uk.nhs.hcdn.barcodes.gs1.companyPrefixes.Gs1CompanyPrefix;
+import uk.nhs.hcdn.barcodes.gs1.companyPrefixes.index.Index;
 import uk.nhs.hcdn.barcodes.gs1.companyPrefixes.remote.Tuple;
+import uk.nhs.hcdn.barcodes.gs1.keys.globalTradeItemNumbers.GlobalTradeItemNumber;
 import uk.nhs.hcdn.common.http.client.HttpClient;
 import uk.nhs.hcdn.common.http.client.JavaHttpClient;
 import uk.nhs.hcdn.common.http.client.exceptions.CorruptResponseException;
@@ -28,10 +33,10 @@ import uk.nhs.hcdn.common.parsers.json.InvalidJsonException;
 
 import java.io.StringReader;
 import java.net.URL;
-import java.util.Arrays;
 
 import static java.lang.System.out;
 import static uk.nhs.hcdn.barcodes.gs1.client.schema.TuplesSchemaUsingParser.TuplesSchemaUsingParserInstance;
+import static uk.nhs.hcdn.barcodes.gs1.keys.globalTradeItemNumbers.GlobalTradeItemNumberFormat.GTIN_13;
 import static uk.nhs.hcdn.common.http.UrlHelper.toUrl;
 import static uk.nhs.hcdn.common.http.client.connectionConfigurations.ChunkedUploadsConnectionConfiguration.DoesNotSupportChunkedUploads;
 
@@ -39,11 +44,24 @@ public class Experiment
 {
 	public static void main(String[] args) throws CouldNotConnectHttpException, CorruptResponseException, UnacceptableResponseException
 	{
-		final URL url = toUrl(false, "localhost", (char) 8080, "/gs1/organisation/");
+		final Digits digits = Digits.digits("505522079876");
+		final Digits withCheckDigits = GTIN_13.addCheckDigit(digits);
+
+
+		final String s = withCheckDigits.toString();
+		final URL url = toUrl(false, "localhost", (char) 8080, "/gs1/organisation/" + s);
 		final HttpClient httpClient = new JavaHttpClient(url, DoesNotSupportChunkedUploads);
 		final GetHttpResponseUser<Tuple[]> httpResponseUser = new JsonGetHttpResponseUser<>(TuplesSchemaUsingParserInstance);
 		final Tuple[] tuples = httpClient.get(httpResponseUser);
-		out.println(Arrays.toString(tuples));
+
+		final Gs1CompanyPrefix gs1CompanyPrefix = tuples[0].gs1CompanyPrefix();
+		final Gs1CompanyPrefixAndItem gs1CompanyPrefixAndItem = new GlobalTradeItemNumber(GTIN_13, withCheckDigits).gs1CompanyPrefixAndItem();
+		final Digits item = gs1CompanyPrefixAndItem.item(gs1CompanyPrefix);
+
+		// Index all tuples
+		final Index index = new Index(tuples);
+
+		out.println(item);
 	}
 
 	public static void x() throws InvalidJsonException

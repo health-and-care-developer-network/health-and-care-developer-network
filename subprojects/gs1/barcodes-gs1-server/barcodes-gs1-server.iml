@@ -17,6 +17,7 @@
     <orderEntry type="module" module-name="common-http-server-sun" />
     <orderEntry type="module" module-name="common-serialisers-xml" />
     <orderEntry type="module" module-name="common-parsers-separatedValueParsers" />
+    <orderEntry type="module" module-name="common-http-server-sun-helpers" />
   </component>
 </module>
 
