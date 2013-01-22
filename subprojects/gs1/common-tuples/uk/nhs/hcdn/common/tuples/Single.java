@@ -16,6 +16,7 @@
 
 package uk.nhs.hcdn.common.tuples;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,46 +24,41 @@ import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
 
 @SuppressWarnings("StandardVariableNames")
-public class Pair<A, B> implements Tuple
+public class Single<A> implements Tuple
 {
 	@SuppressWarnings({"ClassEscapesDefinedScope", "PublicField"})
 	@NotNull
 	public final A a;
 
-	@SuppressWarnings({"ClassEscapesDefinedScope", "PublicField"})
-	@NotNull
-	public final B b;
-
 	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
 	@NotNull
-	public static <A, B> Pair<A, B> pair(@NotNull final A a, @NotNull final B b)
+	public static <A> Single<A> single(@NotNull final A a)
 	{
-		return new Pair<>(a, b);
+		return new Single<>(a);
 	}
 
-	public Pair(@NotNull final A a, @NotNull final B b)
+	public Single(@NotNull final A a)
 	{
 		this.a = a;
-		this.b = b;
 	}
 
 	@NotNull
 	@Override
 	public String toString()
 	{
-		return format(ENGLISH, "%1$s(%2$s, %3$s)", getClass().getSimpleName(), a, b);
+		return format(ENGLISH, "%1$s(%2$s)", getClass().getSimpleName(), a);
 	}
 
 	@Override
 	public int cardinality()
 	{
-		return 2;
+		return 1;
 	}
 
 	@NotNull
-	public <C> Triple<A, B, C> with(@NotNull final C c)
+	public <B> Pair<A, B> with(@NonNls @NotNull final B b)
 	{
-		return new Triple<>(a, b, c);
+		return new Pair<>(a, b);
 	}
 
 	@Override
@@ -77,13 +73,9 @@ public class Pair<A, B> implements Tuple
 			return false;
 		}
 
-		final Pair<?, ?> pair = (Pair<?, ?>) obj;
+		final Single<?> single = (Single<?>) obj;
 
-		if (!a.equals(pair.a))
-		{
-			return false;
-		}
-		if (!b.equals(pair.b))
+		if (!a.equals(single.a))
 		{
 			return false;
 		}
@@ -94,8 +86,6 @@ public class Pair<A, B> implements Tuple
 	@Override
 	public int hashCode()
 	{
-		int result = a.hashCode();
-		result = 31 * result + b.hashCode();
-		return result;
+		return a.hashCode();
 	}
 }

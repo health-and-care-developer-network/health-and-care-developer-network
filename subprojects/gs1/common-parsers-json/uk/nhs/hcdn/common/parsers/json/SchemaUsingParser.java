@@ -21,7 +21,7 @@ import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.GenericJsonParseEv
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.JsonParseEventHandler;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.ArrayConstructor;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.root.ArrayRootArrayConstructor;
-import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.jsonParseResultUsers.NonNullValueReturningJsonParseResultUser;
+import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.jsonParseResultUsers.NonNullValueReturningParseResultUser;
 import uk.nhs.hcdn.common.parsers.json.jsonReaders.BufferedJsonReader;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 
@@ -44,7 +44,7 @@ public class SchemaUsingParser<V> extends AbstractToString
 	@NotNull
 	public final V[] parse(@NotNull final Reader reader) throws InvalidJsonException
 	{
-		final NonNullValueReturningJsonParseResultUser<V[]> resultUser = new NonNullValueReturningJsonParseResultUser<>();
+		final NonNullValueReturningParseResultUser<V[]> resultUser = new NonNullValueReturningParseResultUser<>();
 		final JsonParseEventHandler jsonParseEventHandler = new GenericJsonParseEventHandler<>(schema, resultUser);
 		try
 		{

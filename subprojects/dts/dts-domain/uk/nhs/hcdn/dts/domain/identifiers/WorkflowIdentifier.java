@@ -14,11 +14,20 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.jsonParseResultUsers;
+package uk.nhs.hcdn.dts.domain.identifiers;
 
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
 
-public interface JsonParseResultUser<V>
+public final class WorkflowIdentifier extends AbstractIdentifier
 {
-	void use(@Nullable final V value);
+	private static final int MaximumCharacters = 32;
+
+	@NotNull
+	public static final WorkflowIdentifier EmptyWorkflowIdentifier = new WorkflowIdentifier("");
+
+	public WorkflowIdentifier(@NonNls @NotNull final String value)
+	{
+		super(value, MaximumCharacters);
+	}
 }

@@ -23,7 +23,7 @@ import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
 
 @SuppressWarnings("StandardVariableNames")
-public class Pair<A, B> implements Tuple
+public class Quadruple<A, B, C, D> implements Tuple
 {
 	@SuppressWarnings({"ClassEscapesDefinedScope", "PublicField"})
 	@NotNull
@@ -33,36 +33,41 @@ public class Pair<A, B> implements Tuple
 	@NotNull
 	public final B b;
 
+	@SuppressWarnings({"ClassEscapesDefinedScope", "PublicField"})
+	@NotNull
+	public final C c;
+
+	@SuppressWarnings({"ClassEscapesDefinedScope", "PublicField"})
+	@NotNull
+	public final D d;
+
 	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
 	@NotNull
-	public static <A, B> Pair<A, B> pair(@NotNull final A a, @NotNull final B b)
+	public static <A, B, C, D> Quadruple<A, B, C, D> quadruple(@NotNull final A a, @NotNull final B b, @NotNull final C c, @NotNull final D d)
 	{
-		return new Pair<>(a, b);
+		return new Quadruple<>(a, b, c, d);
 	}
 
-	public Pair(@NotNull final A a, @NotNull final B b)
+	public Quadruple(@NotNull final A a, @NotNull final B b, @NotNull final C c, @NotNull final D d)
 	{
 		this.a = a;
 		this.b = b;
-	}
-
-	@NotNull
-	@Override
-	public String toString()
-	{
-		return format(ENGLISH, "%1$s(%2$s, %3$s)", getClass().getSimpleName(), a, b);
+		this.c = c;
+		this.d = d;
 	}
 
 	@Override
 	public int cardinality()
 	{
-		return 2;
+		return 4;
 	}
 
+	@SuppressWarnings("RefusedBequest")
 	@NotNull
-	public <C> Triple<A, B, C> with(@NotNull final C c)
+	@Override
+	public String toString()
 	{
-		return new Triple<>(a, b, c);
+		return format(ENGLISH, "%1$s(%2$s, %3$s, %4$s, %5$s)", getClass().getSimpleName(), a, b, c, d);
 	}
 
 	@Override
@@ -77,13 +82,21 @@ public class Pair<A, B> implements Tuple
 			return false;
 		}
 
-		final Pair<?, ?> pair = (Pair<?, ?>) obj;
+		final Quadruple<?, ?, ?, ?> that = (Quadruple<?, ?, ?, ?>) obj;
 
-		if (!a.equals(pair.a))
+		if (!a.equals(that.a))
 		{
 			return false;
 		}
-		if (!b.equals(pair.b))
+		if (!b.equals(that.b))
+		{
+			return false;
+		}
+		if (!c.equals(that.c))
+		{
+			return false;
+		}
+		if (!d.equals(that.d))
 		{
 			return false;
 		}
@@ -96,6 +109,8 @@ public class Pair<A, B> implements Tuple
 	{
 		int result = a.hashCode();
 		result = 31 * result + b.hashCode();
+		result = 31 * result + c.hashCode();
+		result = 31 * result + d.hashCode();
 		return result;
 	}
 }

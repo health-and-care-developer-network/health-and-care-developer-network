@@ -14,19 +14,13 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.jsonParseResultUsers;
+package uk.nhs.hcdn.dts.domain.status;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-public final class NonNullValueReturningJsonParseResultUser<V> extends ValueReturningJsonParseResultUser<V>
+public enum Event
 {
-	@Override
-	@NotNull
-	public V value()
-	{
-		@Nullable final V value = super.value();
-		assert value != null;
-		return value;
-	}
+	COLLECT,
+	TRANSFER,
+	SEND,
+	RECEIVE,
+	;
 }

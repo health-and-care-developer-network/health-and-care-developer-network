@@ -14,30 +14,10 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.jsonParseResultUsers;
+package uk.nhs.hcdn.dts.domain.smtpAddresses;
 
-import org.jetbrains.annotations.Nullable;
-import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
+import uk.nhs.hcdn.dts.common.IsUnknownObject;
 
-public class ValueReturningJsonParseResultUser<V> extends AbstractToString implements JsonParseResultUser<V>
+public interface SmtpAddress extends IsUnknownObject
 {
-	@Nullable
-	private V value;
-
-	public ValueReturningJsonParseResultUser()
-	{
-		value = null;
-	}
-
-	@Override
-	public void use(@Nullable final V value)
-	{
-		this.value = value;
-	}
-
-	@Nullable
-	public V value()
-	{
-		return value;
-	}
 }

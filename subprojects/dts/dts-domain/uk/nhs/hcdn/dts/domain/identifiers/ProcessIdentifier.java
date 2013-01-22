@@ -1,0 +1,33 @@
+/*
+ * © Crown Copyright 2013
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package uk.nhs.hcdn.dts.domain.identifiers;
+
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
+
+public final class ProcessIdentifier extends AbstractIdentifier
+{
+	private static final int MaximumCharacters = 32;
+
+	@NotNull
+	public static final ProcessIdentifier EmptyWorkflowIdentifier = new ProcessIdentifier("");
+
+	public ProcessIdentifier(@NonNls @NotNull final String value)
+	{
+		super(value, MaximumCharacters);
+	}
+}

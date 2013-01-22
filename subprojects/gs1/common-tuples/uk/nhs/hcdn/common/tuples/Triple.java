@@ -16,6 +16,7 @@
 
 package uk.nhs.hcdn.common.tuples;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,7 +24,7 @@ import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
 
 @SuppressWarnings("StandardVariableNames")
-public class Pair<A, B> implements Tuple
+public class Triple<A, B, C> implements Tuple
 {
 	@SuppressWarnings({"ClassEscapesDefinedScope", "PublicField"})
 	@NotNull
@@ -33,36 +34,42 @@ public class Pair<A, B> implements Tuple
 	@NotNull
 	public final B b;
 
+	@SuppressWarnings({"ClassEscapesDefinedScope", "PublicField"})
+	@NotNull
+	public final C c;
+
 	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
 	@NotNull
-	public static <A, B> Pair<A, B> pair(@NotNull final A a, @NotNull final B b)
+	public static <A, B, C> Triple<A, B, C> triple(@NotNull final A a, @NotNull final B b, @NotNull final C c)
 	{
-		return new Pair<>(a, b);
+		return new Triple<>(a, b, c);
 	}
 
-	public Pair(@NotNull final A a, @NotNull final B b)
+	public Triple(@NotNull final A a, @NotNull final B b, @NotNull final C c)
 	{
 		this.a = a;
 		this.b = b;
-	}
-
-	@NotNull
-	@Override
-	public String toString()
-	{
-		return format(ENGLISH, "%1$s(%2$s, %3$s)", getClass().getSimpleName(), a, b);
+		this.c = c;
 	}
 
 	@Override
 	public int cardinality()
 	{
-		return 2;
+		return 3;
 	}
 
 	@NotNull
-	public <C> Triple<A, B, C> with(@NotNull final C c)
+	public <D> Quadruple<A, B, C, D> with(@NonNls @NotNull final D d)
 	{
-		return new Triple<>(a, b, c);
+		return new Quadruple<>(a, b, c, d);
+	}
+
+	@SuppressWarnings("RefusedBequest")
+	@NotNull
+	@Override
+	public String toString()
+	{
+		return format(ENGLISH, "%1$s(%2$s, %3$s, %4$s)", getClass().getSimpleName(), a, b, c);
 	}
 
 	@Override
@@ -77,13 +84,17 @@ public class Pair<A, B> implements Tuple
 			return false;
 		}
 
-		final Pair<?, ?> pair = (Pair<?, ?>) obj;
+		final Triple<?, ?, ?> triple = (Triple<?, ?, ?>) obj;
 
-		if (!a.equals(pair.a))
+		if (!a.equals(triple.a))
 		{
 			return false;
 		}
-		if (!b.equals(pair.b))
+		if (!b.equals(triple.b))
+		{
+			return false;
+		}
+		if (!c.equals(triple.c))
 		{
 			return false;
 		}
@@ -96,6 +107,7 @@ public class Pair<A, B> implements Tuple
 	{
 		int result = a.hashCode();
 		result = 31 * result + b.hashCode();
+		result = 31 * result + c.hashCode();
 		return result;
 	}
 }

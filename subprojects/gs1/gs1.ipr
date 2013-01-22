@@ -214,11 +214,11 @@
           <option name="m_limit" value="15" />
         </inspection_tool>
         <inspection_tool class="ClassEscapesItsScope" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="ClassHasNoToStringMethod" enabled="true" level="WARNING" enabled_by_default="true">
+        <inspection_tool class="ClassHasNoToStringMethod" enabled="true" level="WEAK WARNING" enabled_by_default="true">
           <option name="excludeClassNames" value="" />
           <option name="excludeException" value="true" />
           <option name="excludeDeprecated" value="true" />
-          <option name="excludeEnum" value="false" />
+          <option name="excludeEnum" value="true" />
           <option name="excludeAbstract" value="true" />
         </inspection_tool>
         <inspection_tool class="ClassInTopLevelPackage" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -840,7 +840,6 @@
         <inspection_tool class="SimplifiableJUnitAssertion" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="Since15" enabled="true" level="ERROR" enabled_by_default="true" />
         <inspection_tool class="SingleCharacterStartsWith" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="Singleton" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="SizeReplaceableByIsEmpty" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="SleepWhileHoldingLock" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="SocketResource" enabled="true" level="WARNING" enabled_by_default="true">
@@ -1255,11 +1254,13 @@
       <module fileurl="file://$PROJECT_DIR$/common-parsers/common-parsers.iml" filepath="$PROJECT_DIR$/common-parsers/common-parsers.iml" group="common/parsers" />
       <module fileurl="file://$PROJECT_DIR$/common-parsers-json/common-parsers-json.iml" filepath="$PROJECT_DIR$/common-parsers-json/common-parsers-json.iml" group="common/parsers" />
       <module fileurl="file://$PROJECT_DIR$/common-parsers-separatedValueParsers/common-parsers-separatedValueParsers.iml" filepath="$PROJECT_DIR$/common-parsers-separatedValueParsers/common-parsers-separatedValueParsers.iml" group="common/parsers" />
+      <module fileurl="file://$PROJECT_DIR$/common-parsers-xml/common-parsers-xml.iml" filepath="$PROJECT_DIR$/common-parsers-xml/common-parsers-xml.iml" group="common/parsers" />
       <module fileurl="file://$PROJECT_DIR$/common-reflection/common-reflection.iml" filepath="$PROJECT_DIR$/common-reflection/common-reflection.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-serialisers/common-serialisers.iml" filepath="$PROJECT_DIR$/common-serialisers/common-serialisers.iml" group="common/serialisers" />
       <module fileurl="file://$PROJECT_DIR$/common-serialisers-json/common-serialisers-json.iml" filepath="$PROJECT_DIR$/common-serialisers-json/common-serialisers-json.iml" group="common/serialisers" />
       <module fileurl="file://$PROJECT_DIR$/common-serialisers-xml/common-serialisers-xml.iml" filepath="$PROJECT_DIR$/common-serialisers-xml/common-serialisers-xml.iml" group="common/serialisers" />
       <module fileurl="file://$PROJECT_DIR$/common-tuples/common-tuples.iml" filepath="$PROJECT_DIR$/common-tuples/common-tuples.iml" group="common" />
+      <module fileurl="file://$PROJECT_DIR$/../dts/dts-domain/dts-domain.iml" filepath="$PROJECT_DIR$/../dts/dts-domain/dts-domain.iml" group="dts" />
     </modules>
   </component>
   <component name="ProjectResources">
