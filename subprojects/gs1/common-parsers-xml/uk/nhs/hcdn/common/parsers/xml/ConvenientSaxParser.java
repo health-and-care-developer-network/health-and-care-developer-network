@@ -17,11 +17,12 @@
 package uk.nhs.hcdn.common.parsers.xml;
 
 import org.jetbrains.annotations.NotNull;
+import org.xml.sax.SAXException;
 import uk.nhs.hcdn.common.parsers.xml.xmlEventHandlers.SimplifiedXmlEventHandler;
 import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.XmlParseEventHandler;
 
-import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import java.io.IOException;
 import java.io.InputStream;
 
 import static uk.nhs.hcdn.common.parsers.xml.SaxParserFactoryHelper.newNamespaceAwareNonValidatingSaxParserFactory;
@@ -32,13 +33,16 @@ public final class ConvenientSaxParser
 	@NotNull
 	private static final SAXParserFactory AppropriateSaxParserFactory = newNamespaceAwareNonValidatingSaxParserFactory();
 
+	@NotNull
+	private final XmlParseEventHandler xmlParseEventHandler;
+
 	public ConvenientSaxParser(@NotNull final XmlParseEventHandler xmlParseEventHandler)
 	{
+		this.xmlParseEventHandler = xmlParseEventHandler;
 	}
 
-	public void parser(@NotNull final InputStream inputStream)
+	public void parse(@NotNull final InputStream inputStream) throws IOException, SAXException
 	{
-		final SAXParser saxParser = newSaxParser(AppropriateSaxParserFactory);
-		saxParser.parse(inputStream, new SimplifiedXmlEventHandler());
+		newSaxParser(AppropriateSaxParserFactory).parse(inputStream, new SimplifiedXmlEventHandler(xmlParseEventHandler));
 	}
 }

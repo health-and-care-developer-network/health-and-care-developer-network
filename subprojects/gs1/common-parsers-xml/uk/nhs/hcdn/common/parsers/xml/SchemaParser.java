@@ -36,7 +36,7 @@ public class SchemaParser<V>
 	}
 
 	@NotNull
-	public V parse(@NotNull final InputStream inputStream) throws IOException, SAXException
+	public final V parse(@NotNull final InputStream inputStream) throws IOException, SAXException
 	{
 		final NonNullValueReturningParseResultUser<V> parseResultUser = new NonNullValueReturningParseResultUser<>();
 		final ConvenientSaxParser convenientSaxParser = new ConvenientSaxParser(new GenericXmlParseEventHandler<>(rootXmlConstructor, parseResultUser));

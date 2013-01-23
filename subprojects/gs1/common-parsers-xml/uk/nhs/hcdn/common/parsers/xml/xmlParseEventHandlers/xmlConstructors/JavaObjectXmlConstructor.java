@@ -31,28 +31,35 @@ import static java.util.Locale.ENGLISH;
 
 public final class JavaObjectXmlConstructor<V> extends AbstractToString implements XmlConstructor<Object[], V>
 {
+	@SafeVarargs
+	@NotNull
+	public static <V> JavaObjectXmlConstructor<V> schemaFor(@NotNull final Class<V> type, @NotNull final Pair<String, MissingFieldXmlConstructor<?, ?>>... xmlConstructorsForFields)
+	{
+		return new JavaObjectXmlConstructor<>(type, xmlConstructorsForFields);
+	}
+
 	@NotNull
 	private final Class<V> type;
 	@NotNull
 	private final Map<String, XmlConstructor<?, ?>> xmlConstructorsForFields;
-	private final XmlConstructor<?, ?>[] xmlConstructorsForFieldsByIndex;
+	private final MissingFieldXmlConstructor<?, ?>[] missingFieldHandlers;
 	private final Map<String, Integer> constructorParameterIndices;
 	@NotNull
 	private final Constructor<V> constructor;
 	private final int size;
 
 	@SafeVarargs
-	public JavaObjectXmlConstructor(@NotNull final Class<V> type, @NotNull final Pair<String, XmlConstructor<?, ?>>... xmlConstructorsForFields)
+	public JavaObjectXmlConstructor(@NotNull final Class<V> type, @NotNull final Pair<String, MissingFieldXmlConstructor<?, ?>>... xmlConstructorsForFields)
 	{
 		this.type = type;
 		size = xmlConstructorsForFields.length;
 		constructorParameterIndices = new HashMap<>(size);
 		final Class<?>[] constructorParameterTypes = new Class[size];
 		this.xmlConstructorsForFields = new HashMap<>(size);
-		xmlConstructorsForFieldsByIndex = new XmlConstructor<?, ?>[size];
+		missingFieldHandlers = new MissingFieldXmlConstructor<?, ?>[size];
 		for(int index = 0; index < size; index++)
 		{
-			final Pair<String, XmlConstructor<?, ?>> pair =  xmlConstructorsForFields[index];
+			final Pair<String, MissingFieldXmlConstructor<?, ?>> pair =  xmlConstructorsForFields[index];
 			final String key = pair.a;
 			final XmlConstructor<?, ?> xmlConstructor = pair.b;
 			this.xmlConstructorsForFields.put(key, xmlConstructor);
@@ -134,8 +141,7 @@ public final class JavaObjectXmlConstructor<V> extends AbstractToString implemen
 		{
 			if (collector[index] == null)
 			{
-				xxx;
-				// null handler
+				collector[index] = missingFieldHandlers[index].missingFieldValue();
 			}
 		}
 

@@ -24,7 +24,7 @@ public final class DtsIdentifier extends AbstractIdentifier
 	private static final int MaximumCharacters = 100;
 
 	@NotNull
-	public static final DtsIdentifier EmptyWorkflowIdentifier = new DtsIdentifier("");
+	public static final DtsIdentifier UnknownDtsIdentifier = new DtsIdentifier("");
 
 	public DtsIdentifier(@NonNls @NotNull final String value)
 	{

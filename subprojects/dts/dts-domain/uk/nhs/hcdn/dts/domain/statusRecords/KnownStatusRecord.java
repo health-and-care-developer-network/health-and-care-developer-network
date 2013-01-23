@@ -19,9 +19,9 @@ package uk.nhs.hcdn.dts.domain.statusRecords;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
+import uk.nhs.hcdn.common.unknown.AbstractIsUnknown;
 
-public final class KnownStatusRecord extends AbstractToString implements StatusRecord
+public final class KnownStatusRecord extends AbstractIsUnknown implements StatusRecord
 {
 	@NotNull
 	private final DateTime dateTime;
@@ -37,12 +37,65 @@ public final class KnownStatusRecord extends AbstractToString implements StatusR
 
 	public KnownStatusRecord(@NotNull final DateTime dateTime, @NotNull final Event event, @NotNull final Status status, @NotNull final StatusCode statusCode, @NonNls @NotNull final String description)
 	{
-
+		super(false);
 		this.dateTime = dateTime;
 		this.event = event;
 		this.status = status;
 		this.statusCode = statusCode;
 		this.description = description;
+	}
+
+	@NotNull
+	@Override
+	public DateTime dateTime()
+	{
+		return dateTime;
+	}
+
+	@NotNull
+	@Override
+	public Event event()
+	{
+		return event;
+	}
+
+	@Override
+	public boolean isEvent(@NotNull final Event event)
+	{
+		return this.event == event;
+	}
+
+	@NotNull
+	@Override
+	public Status status()
+	{
+		return status;
+	}
+
+	@Override
+	public boolean hasStatus(@NotNull final Status status)
+	{
+		return this.status == status;
+	}
+
+	@NotNull
+	@Override
+	public StatusCode statusCode()
+	{
+		return statusCode;
+	}
+
+	@Override
+	public boolean hasStatusCode(@NotNull final StatusCode statusCode)
+	{
+		return this.statusCode.equals(statusCode);
+	}
+
+	@NotNull
+	@Override
+	public String description()
+	{
+		return description;
 	}
 
 	@Override

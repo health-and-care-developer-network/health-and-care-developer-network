@@ -17,21 +17,25 @@
 package uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public final class MayBeMissingFieldXmlConstructor<C, V> implements MissingFieldXmlConstructor<C, V>
 {
 	@NotNull
 	private final XmlConstructor<C, V> underlyingXmlConstructor;
+	@Nullable
+	private final V valueIfMissing;
 
-	public MayBeMissingFieldXmlConstructor(@NotNull final XmlConstructor<C, V> underlyingXmlConstructor)
+	public MayBeMissingFieldXmlConstructor(@NotNull final XmlConstructor<C, V> underlyingXmlConstructor, @Nullable final V valueIfMissing)
 	{
 		this.underlyingXmlConstructor = underlyingXmlConstructor;
+		this.valueIfMissing = valueIfMissing;
 	}
 
 	@Override
 	public V missingFieldValue() throws XmlSchemaViolationException
 	{
-		throw new XmlSchemaViolationException("missing field is required");
+		return valueIfMissing;
 	}
 
 	@NotNull

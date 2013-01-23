@@ -24,7 +24,7 @@ public final class LocalIdentifier extends AbstractIdentifier
 	private static final int MaximumCharacters = 255;
 
 	@NotNull
-	public static final LocalIdentifier EmptyWorkflowIdentifier = new LocalIdentifier("");
+	public static final LocalIdentifier UnknownLocalIdentifier = new LocalIdentifier("");
 
 	public LocalIdentifier(@NonNls @NotNull final String value)
 	{

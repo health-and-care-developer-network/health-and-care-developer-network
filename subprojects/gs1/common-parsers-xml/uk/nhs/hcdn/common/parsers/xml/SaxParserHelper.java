@@ -17,31 +17,30 @@
 package uk.nhs.hcdn.common.parsers.xml;
 
 import org.jetbrains.annotations.NotNull;
+import org.xml.sax.SAXException;
+import uk.nhs.hcdn.common.exceptions.ShouldNeverHappenException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import static javax.xml.parsers.SAXParserFactory.newInstance;
-
 public final class SaxParserHelper
 {
-	private static void newSaxParser()
+	@NotNull
+	public static SAXParser newSaxParser(@NotNull final SAXParserFactory saxParserFactory)
 	{
-		final SAXParserFactory saxParserFactory = newNamespaceAwareNonValidatingSaxParser();
-		final SAXParser saxParser;
-		saxParser = saxParserFactory.newSAXParser();
+		try
+		{
+			return saxParserFactory.newSAXParser();
+		}
+		catch (ParserConfigurationException | SAXException e)
+		{
+			throw new ShouldNeverHappenException(e);
+		}
 	}
 
 	private SaxParserHelper()
 	{
-	}
-
-	@NotNull
-	public static SAXParserFactory newNamespaceAwareNonValidatingSaxParser()
-	{
-		final SAXParserFactory saxParserFactory = newInstance();
-		saxParserFactory.setNamespaceAware(true);
-		saxParserFactory.setValidating(false);
-		return saxParserFactory;
+		final SAXParser saxParser = newSaxParser(SaxParserFactoryHelper.newNamespaceAwareNonValidatingSaxParserFactory());
 	}
 }

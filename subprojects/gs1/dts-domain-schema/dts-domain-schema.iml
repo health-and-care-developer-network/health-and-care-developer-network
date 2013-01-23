@@ -8,6 +8,9 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="IntelliJ Annotations" level="project" />
+    <orderEntry type="module" module-name="common-parsers-xml" />
+    <orderEntry type="module" module-name="dts-domain" />
+    <orderEntry type="module" module-name="common-tuples" />
   </component>
 </module>
 

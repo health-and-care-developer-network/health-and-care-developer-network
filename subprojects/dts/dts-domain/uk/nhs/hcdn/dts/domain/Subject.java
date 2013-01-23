@@ -18,45 +18,15 @@ package uk.nhs.hcdn.dts.domain;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
+import uk.nhs.hcdn.common.unknown.AbstractStringIsUnknown;
 
-public final class Subject extends AbstractToString
+public final class Subject extends AbstractStringIsUnknown
 {
-	@NonNls
 	@NotNull
-	private final String smtpSubject;
+	public static final Subject UnknownSubject = new Subject("");
 
 	public Subject(@NonNls @NotNull final String smtpSubject)
 	{
-		this.smtpSubject = smtpSubject;
-	}
-
-	@Override
-	public boolean equals(@Nullable final Object obj)
-	{
-		if (this == obj)
-		{
-			return true;
-		}
-		if (obj == null || getClass() != obj.getClass())
-		{
-			return false;
-		}
-
-		final Subject that = (Subject) obj;
-
-		if (!smtpSubject.equals(that.smtpSubject))
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return smtpSubject.hashCode();
+		super(smtpSubject);
 	}
 }

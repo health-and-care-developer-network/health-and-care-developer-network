@@ -18,10 +18,13 @@ package uk.nhs.hcdn.dts.domain;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hcdn.dts.common.AbstractStringIsUnknownObject;
+import uk.nhs.hcdn.common.unknown.AbstractStringIsUnknown;
 
-public final class DtsName extends AbstractStringIsUnknownObject
+public final class DtsName extends AbstractStringIsUnknown
 {
+	@NotNull
+	public static final DtsName UnknownDtsName = new DtsName("");
+
 	public DtsName(@NonNls @NotNull final String assumedToBeValidDtsName)
 	{
 		super(assumedToBeValidDtsName);

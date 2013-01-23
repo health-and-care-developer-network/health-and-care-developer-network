@@ -24,7 +24,7 @@ public final class ProcessIdentifier extends AbstractIdentifier
 	private static final int MaximumCharacters = 32;
 
 	@NotNull
-	public static final ProcessIdentifier EmptyWorkflowIdentifier = new ProcessIdentifier("");
+	public static final ProcessIdentifier UnknownProcessIdentifier = new ProcessIdentifier("");
 
 	public ProcessIdentifier(@NonNls @NotNull final String value)
 	{

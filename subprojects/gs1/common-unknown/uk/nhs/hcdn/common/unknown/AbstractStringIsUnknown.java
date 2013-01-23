@@ -26,16 +26,20 @@ public abstract class AbstractStringIsUnknown extends AbstractIsUnknown
 	@NotNull
 	private final String value;
 
-	protected AbstractStringIsUnknown()
-	{
-		super(true);
-		value = "";
-	}
-
 	protected AbstractStringIsUnknown(@NonNls @NotNull final String value)
 	{
 		super(value.isEmpty());
 		this.value = value;
+	}
+
+	@NotNull
+	public final String value()
+	{
+		if (isUnknown())
+		{
+			throw new IsUnknownException();
+		}
+		return value;
 	}
 
 	@Override

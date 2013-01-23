@@ -747,9 +747,11 @@
         <inspection_tool class="ProtectedMemberInFinalClass" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="PublicConstructorInNonPublicClass" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="PublicField" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="ignoreEnums" value="false" />
+          <option name="ignoreEnums" value="true" />
           <option name="ignorableAnnotations">
-            <value />
+            <value>
+              <item value="org.jetbrains.annotations.NotNull" />
+            </value>
           </option>
         </inspection_tool>
         <inspection_tool class="PublicFieldAccessedInSynchronizedContext" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -1260,7 +1262,9 @@
       <module fileurl="file://$PROJECT_DIR$/common-serialisers-json/common-serialisers-json.iml" filepath="$PROJECT_DIR$/common-serialisers-json/common-serialisers-json.iml" group="common/serialisers" />
       <module fileurl="file://$PROJECT_DIR$/common-serialisers-xml/common-serialisers-xml.iml" filepath="$PROJECT_DIR$/common-serialisers-xml/common-serialisers-xml.iml" group="common/serialisers" />
       <module fileurl="file://$PROJECT_DIR$/common-tuples/common-tuples.iml" filepath="$PROJECT_DIR$/common-tuples/common-tuples.iml" group="common" />
+      <module fileurl="file://$PROJECT_DIR$/common-unknown/common-unknown.iml" filepath="$PROJECT_DIR$/common-unknown/common-unknown.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/../dts/dts-domain/dts-domain.iml" filepath="$PROJECT_DIR$/../dts/dts-domain/dts-domain.iml" group="dts" />
+      <module fileurl="file://$PROJECT_DIR$/dts-domain-schema/dts-domain-schema.iml" filepath="$PROJECT_DIR$/dts-domain-schema/dts-domain-schema.iml" group="dts" />
     </modules>
   </component>
   <component name="ProjectResources">

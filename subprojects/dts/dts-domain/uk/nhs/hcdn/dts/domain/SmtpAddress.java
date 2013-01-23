@@ -18,10 +18,13 @@ package uk.nhs.hcdn.dts.domain;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hcdn.dts.common.AbstractStringIsUnknownObject;
+import uk.nhs.hcdn.common.unknown.AbstractStringIsUnknown;
 
-public final class SmtpAddress extends AbstractStringIsUnknownObject
+public final class SmtpAddress extends AbstractStringIsUnknown
 {
+	@NotNull
+	public static final SmtpAddress UnknownSmtpAddress = new SmtpAddress("");
+
 	/*
 	 There is no way to validate the entire variety of SMTP addresses using a Regex, although many try:-
 	 	http://stackoverflow.com/questions/624581/what-is-the-best-java-email-address-validation-method

@@ -127,9 +127,14 @@ public final class FieldModifiers extends AbstractModifiers
 		return isProtectedFinalInstance() && isSerializable();
 	}
 
-	public boolean isPrivateOrProtectedFinalInstanceAndSerializable()
+	public boolean isPublicFinalInstanceAndSerializable()
 	{
-		return isPrivateFinalInstanceAndSerializable() || isProtectedFinalInstanceAndSerializable();
+		return isPublicFinalInstance() && isSerializable();
+	}
+
+	public boolean isPrivateOrProtectedOrPublicFinalInstanceAndSerializable()
+	{
+		return isPrivateFinalInstanceAndSerializable() || isProtectedFinalInstanceAndSerializable() || isPublicFinalInstanceAndSerializable();
 	}
 
 	public boolean isInstanceAndSerializable()

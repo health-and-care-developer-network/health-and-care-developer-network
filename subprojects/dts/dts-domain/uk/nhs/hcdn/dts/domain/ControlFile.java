@@ -19,58 +19,56 @@ package uk.nhs.hcdn.dts.domain;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
-import uk.nhs.hcdn.dts.domain.dtsNames.DtsName;
 import uk.nhs.hcdn.dts.domain.identifiers.DtsIdentifier;
 import uk.nhs.hcdn.dts.domain.identifiers.LocalIdentifier;
 import uk.nhs.hcdn.dts.domain.identifiers.ProcessIdentifier;
 import uk.nhs.hcdn.dts.domain.identifiers.WorkflowIdentifier;
-import uk.nhs.hcdn.dts.domain.smtpAddresses.SmtpAddress;
-import uk.nhs.hcdn.dts.domain.status.StatusRecord;
+import uk.nhs.hcdn.dts.domain.statusRecords.KnownStatusRecord;
 
 public final class ControlFile extends AbstractToString
 {
 	@NotNull
-	private final Version version;
+	public final Version version;
 	@NotNull
-	private final AddressType addressType;
+	public final AddressType addressType;
 	@NotNull
-	private final MessageType messageType;
+	public final MessageType messageType;
 	@NotNull
-	private final SmtpAddress fromSmtpAddress;
+	public final SmtpAddress fromSmtpAddress;
 	@NotNull
-	private final SmtpAddress toSmtpAddress;
+	public final DtsName fromDtsName;
 	@NotNull
-	private final DtsName fromDtsName;
+	public final SmtpAddress toSmtpAddress;
 	@NotNull
-	private final DtsName toDtsName;
+	public final DtsName toDtsName;
 	@NotNull
-	private final Subject subject;
+	public final Subject subject;
 	@NotNull
-	private final LocalIdentifier localIdentifier;
+	public final LocalIdentifier localIdentifier;
 	@NotNull
-	private final DtsIdentifier dtsIdentifier;
+	public final DtsIdentifier dtsIdentifier;
 	@NotNull
-	private final WorkflowIdentifier workflowIdentifier;
+	public final WorkflowIdentifier workflowIdentifier;
 	@NotNull
-	private final ProcessIdentifier processIdentifier;
+	public final ProcessIdentifier processIdentifier;
 	@NotNull
-	private final BooleanFlag compress;
+	public final BooleanFlag compress;
 	@NotNull
-	private final BooleanFlag encrypted;
+	public final BooleanFlag encrypted;
 	@NotNull
-	private final DataChecksum dataChecksum;
+	public final DataChecksum dataChecksum;
 	@NotNull
-	private final StatusRecord statusRecord;
+	public final KnownStatusRecord statusRecord;
 
-	@SuppressWarnings({"ConstructorWithTooManyParameters", "FeatureEnvy"})
-	public ControlFile(@NotNull final Version version, @NotNull final AddressType addressType, @NotNull final MessageType messageType, @NotNull final SmtpAddress fromSmtpAddress, @NotNull final SmtpAddress toSmtpAddress, @NotNull final DtsName fromDtsName, @NotNull final DtsName toDtsName, @NotNull final Subject subject, @NotNull final LocalIdentifier localIdentifier, @NotNull final DtsIdentifier dtsIdentifier, @NotNull final WorkflowIdentifier workflowIdentifier, @NotNull final ProcessIdentifier processIdentifier, @NotNull final BooleanFlag compress, @NotNull final BooleanFlag encrypted, @NotNull final DataChecksum dataChecksum, @NotNull final StatusRecord statusRecord)
+	@SuppressWarnings({"ConstructorWithTooManyParameters", "FeatureEnvy", "OverlyCoupledMethod"})
+	public ControlFile(@NotNull final Version version, @NotNull final AddressType addressType, @NotNull final MessageType messageType, @NotNull final SmtpAddress fromSmtpAddress, @NotNull final DtsName fromDtsName, @NotNull final SmtpAddress toSmtpAddress, @NotNull final DtsName toDtsName, @NotNull final Subject subject, @NotNull final LocalIdentifier localIdentifier, @NotNull final DtsIdentifier dtsIdentifier, @NotNull final WorkflowIdentifier workflowIdentifier, @NotNull final ProcessIdentifier processIdentifier, @NotNull final BooleanFlag compress, @NotNull final BooleanFlag encrypted, @NotNull final DataChecksum dataChecksum, @NotNull final KnownStatusRecord statusRecord)
 	{
 		this.version = version;
 		this.addressType = addressType;
 		this.messageType = messageType;
 		this.fromSmtpAddress = fromSmtpAddress;
-		this.toSmtpAddress = toSmtpAddress;
 		this.fromDtsName = fromDtsName;
+		this.toSmtpAddress = toSmtpAddress;
 		this.toDtsName = toDtsName;
 		this.subject = subject;
 		this.localIdentifier = localIdentifier;
@@ -85,17 +83,21 @@ public final class ControlFile extends AbstractToString
 		{
 			throw new IllegalArgumentException("fromSmtpAddress is required for address type");
 		}
-		if (addressType.isToSmtpAddressRequiredAndMissing(toSmtpAddress))
-		{
-			throw new IllegalArgumentException("toSmtpAddress is required for address type");
-		}
 		if (addressType.isFromDtsNameRequiredAndMissing(fromDtsName))
 		{
 			throw new IllegalArgumentException("fromDtsName is required for address type");
 		}
+		if (addressType.isToSmtpAddressRequiredAndMissing(toSmtpAddress))
+		{
+			throw new IllegalArgumentException("toSmtpAddress is required for address type");
+		}
 		if (addressType.isToDtsNameRequiredAndMissing(toDtsName))
 		{
 			throw new IllegalArgumentException("toDtsName is required for address type");
+		}
+		if (workflowIdentifier.isUnknown())
+		{
+			throw new IllegalArgumentException("workflowIdentifier is mandatory");
 		}
 	}
 

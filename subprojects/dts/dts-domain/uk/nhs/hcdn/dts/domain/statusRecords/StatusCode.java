@@ -46,6 +46,17 @@ public final class StatusCode
 		this.zeroPaddedDecimalUnsignedInteger = zeroPaddedDecimalUnsignedInteger;
 	}
 
+	public long value()
+	{
+		return zeroPaddedDecimalUnsignedInteger.value();
+	}
+
+	@NotNull
+	public String paddedValue()
+	{
+		return zeroPaddedDecimalUnsignedInteger.paddedValue();
+	}
+
 	@Override
 	public String toString()
 	{

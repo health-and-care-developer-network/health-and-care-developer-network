@@ -20,8 +20,6 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.naming.Description;
-import uk.nhs.hcdn.dts.domain.dtsNames.DtsName;
-import uk.nhs.hcdn.dts.domain.smtpAddresses.SmtpAddress;
 
 import java.util.HashMap;
 import java.util.Map;

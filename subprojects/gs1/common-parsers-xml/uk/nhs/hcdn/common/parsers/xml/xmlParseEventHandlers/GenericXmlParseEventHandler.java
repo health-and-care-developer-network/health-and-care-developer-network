@@ -18,9 +18,9 @@ package uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hcdn.common.parsers.ParseResultUser;
-import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlCollectors.XmlConstructor;
-import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlCollectors.XmlSchemaViolationException;
+import uk.nhs.hcdn.common.parsers.parseResultUsers.ParseResultUser;
+import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlConstructor;
+import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlSchemaViolationException;
 
 import java.util.Stack;
 

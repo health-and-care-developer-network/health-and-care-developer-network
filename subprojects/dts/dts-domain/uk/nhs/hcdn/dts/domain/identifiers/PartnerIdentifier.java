@@ -24,7 +24,7 @@ public final class PartnerIdentifier extends AbstractIdentifier
 	private static final int MaximumCharacters = 255;
 
 	@NotNull
-	public static final PartnerIdentifier EmptyWorkflowIdentifier = new PartnerIdentifier("");
+	public static final PartnerIdentifier UnknownWorkflowIdentifier = new PartnerIdentifier("");
 
 	public PartnerIdentifier(@NonNls @NotNull final String value)
 	{

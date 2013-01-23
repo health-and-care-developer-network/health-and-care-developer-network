@@ -18,17 +18,21 @@ package uk.nhs.hcdn.dts.domain;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hcdn.common.unknown.IsUnknown;
+import uk.nhs.hcdn.common.unknown.IsUnknownException;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public enum BooleanFlag
+public enum BooleanFlag implements IsUnknown
 {
+	UnknownBooleanFlag,
 	Y(true),
 	F(false),
 	;
 
-	public final boolean value;
+	private final boolean isUnknown;
+	private final boolean value;
 
 	@SuppressWarnings("UtilityClassWithoutPrivateConstructor")
 	private static final class CompilerWorkaround
@@ -37,10 +41,52 @@ public enum BooleanFlag
 	}
 
 	@SuppressWarnings("ThisEscapedInObjectConstruction")
+	BooleanFlag()
+	{
+		isUnknown = true;
+		value = false;
+		CompilerWorkaround.Index.put("", this);
+	}
+
+	@SuppressWarnings("ThisEscapedInObjectConstruction")
 	BooleanFlag(final boolean value)
 	{
+		isUnknown = false;
 		this.value = value;
 		CompilerWorkaround.Index.put(name(), this);
+	}
+
+	@Override
+	public boolean isUnknown()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isKnown()
+	{
+		return true;
+	}
+
+	@SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
+	@Nullable
+	public Boolean valueIfPotentiallyUnknown()
+	{
+		if (isUnknown)
+		{
+			return null;
+		}
+		return value;
+	}
+
+	@SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
+	public boolean value()
+	{
+		if (isUnknown)
+		{
+			throw new IsUnknownException();
+		}
+		return value;
 	}
 
 	@SuppressWarnings("MethodNamesDifferingOnlyByCase")

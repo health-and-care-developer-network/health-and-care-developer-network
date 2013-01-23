@@ -16,6 +16,7 @@
 
 package uk.nhs.hcdn.common.tuples;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -35,7 +36,7 @@ public class Pair<A, B> implements Tuple
 
 	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
 	@NotNull
-	public static <A, B> Pair<A, B> pair(@NotNull final A a, @NotNull final B b)
+	public static <A, B> Pair<A, B> pair(@NonNls @NotNull final A a, @NotNull final B b)
 	{
 		return new Pair<>(a, b);
 	}

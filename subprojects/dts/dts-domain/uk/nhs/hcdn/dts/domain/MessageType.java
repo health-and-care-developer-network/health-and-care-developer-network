@@ -18,7 +18,11 @@ package uk.nhs.hcdn.dts.domain;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.naming.Description;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public enum MessageType implements Description
 {
@@ -26,13 +30,21 @@ public enum MessageType implements Description
 	Report("Report will have a control file"),
 	;
 
+	@SuppressWarnings("UtilityClassWithoutPrivateConstructor")
+	private static final class CompilerWorkaround
+	{
+		private static final Map<String, MessageType> Index = new HashMap<>(3);
+	}
+
 	@NonNls
 	@NotNull
 	private final String description;
 
+	@SuppressWarnings("ThisEscapedInObjectConstruction")
 	MessageType(@NonNls @NotNull final String description)
 	{
 		this.description = description;
+		CompilerWorkaround.Index.put(name(), this);
 	}
 
 	@NotNull
@@ -40,5 +52,12 @@ public enum MessageType implements Description
 	public String description()
 	{
 		return description;
+	}
+
+	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
+	@Nullable
+	public static MessageType messageType(@NotNull final String value)
+	{
+		return CompilerWorkaround.Index.get(value);
 	}
 }

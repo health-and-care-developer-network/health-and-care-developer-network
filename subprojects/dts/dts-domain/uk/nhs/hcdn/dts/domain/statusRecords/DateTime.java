@@ -22,8 +22,12 @@ import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.MillisecondsSince1970;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
+import static uk.nhs.hcdn.common.GregorianCalendarHelper.utc;
 import static uk.nhs.hcdn.common.GregorianCalendarHelper.utcWithOneBasedMonth;
 
 public final class DateTime extends AbstractToString
@@ -86,6 +90,18 @@ public final class DateTime extends AbstractToString
 	public long asUtcMillisecondsSince1980()
 	{
 		return dateTime;
+	}
+
+	@NotNull
+	public GregorianCalendar asUtcGregorianCalendar()
+	{
+		return utc(dateTime);
+	}
+
+	@NotNull
+	public Date asDate()
+	{
+		return new Date(dateTime);
 	}
 
 	@Override

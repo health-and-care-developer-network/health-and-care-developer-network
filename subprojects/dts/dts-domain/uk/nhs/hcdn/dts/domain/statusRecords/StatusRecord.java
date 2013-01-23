@@ -16,8 +16,31 @@
 
 package uk.nhs.hcdn.dts.domain.statusRecords;
 
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.common.unknown.IsUnknown;
 
 public interface StatusRecord extends IsUnknown
 {
+	@NotNull
+	DateTime dateTime();
+
+	@NotNull
+	Event event();
+
+	@NotNull
+	Status status();
+
+	@NotNull
+	StatusCode statusCode();
+
+	@NotNull
+	@NonNls
+	String description();
+
+	boolean isEvent(@NotNull final Event event);
+
+	boolean hasStatus(@NotNull final Status status);
+
+	boolean hasStatusCode(@NotNull final StatusCode statusCode);
 }

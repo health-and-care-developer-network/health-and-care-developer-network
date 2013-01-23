@@ -18,6 +18,7 @@ package uk.nhs.hcdn.dts.domain.statusRecords;
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.common.unknown.AbstractIsUnknown;
+import uk.nhs.hcdn.common.unknown.IsUnknownException;
 
 public final class UnknownStatusRecord extends AbstractIsUnknown implements StatusRecord
 {
@@ -27,5 +28,58 @@ public final class UnknownStatusRecord extends AbstractIsUnknown implements Stat
 	private UnknownStatusRecord()
 	{
 		super(true);
+	}
+
+	@NotNull
+	@Override
+	public DateTime dateTime()
+	{
+		throw new IsUnknownException();
+	}
+
+	@NotNull
+	@Override
+	public Event event()
+	{
+		throw new IsUnknownException();
+	}
+
+	@NotNull
+	@Override
+	public Status status()
+	{
+		throw new IsUnknownException();
+	}
+
+	@NotNull
+	@Override
+	public StatusCode statusCode()
+	{
+		throw new IsUnknownException();
+	}
+
+	@NotNull
+	@Override
+	public String description()
+	{
+		throw new IsUnknownException();
+	}
+
+	@Override
+	public boolean isEvent(@NotNull final Event event)
+	{
+		return false;
+	}
+
+	@Override
+	public boolean hasStatus(@NotNull final Status status)
+	{
+		return false;
+	}
+
+	@Override
+	public boolean hasStatusCode(@NotNull final StatusCode statusCode)
+	{
+		return false;
 	}
 }

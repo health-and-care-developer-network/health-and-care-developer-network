@@ -18,45 +18,15 @@ package uk.nhs.hcdn.dts.domain;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
+import uk.nhs.hcdn.common.unknown.AbstractStringIsUnknown;
 
-public final class DataChecksum extends AbstractToString
+public final class DataChecksum extends AbstractStringIsUnknown
 {
-	@NonNls
 	@NotNull
-	private final String value;
+	public static final DataChecksum UnknownDataChecksum = new DataChecksum("");
 
 	public DataChecksum(@NonNls @NotNull final String value)
 	{
-		this.value = value;
-	}
-
-	@Override
-	public boolean equals(@Nullable final Object obj)
-	{
-		if (this == obj)
-		{
-			return true;
-		}
-		if (obj == null || getClass() != obj.getClass())
-		{
-			return false;
-		}
-
-		final DataChecksum that = (DataChecksum) obj;
-
-		if (!value.equals(that.value))
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return value.hashCode();
+		super(value);
 	}
 }

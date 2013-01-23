@@ -24,7 +24,7 @@ public final class WorkflowIdentifier extends AbstractIdentifier
 	private static final int MaximumCharacters = 32;
 
 	@NotNull
-	public static final WorkflowIdentifier EmptyWorkflowIdentifier = new WorkflowIdentifier("");
+	public static final WorkflowIdentifier UnknownWorkflowIdentifier = new WorkflowIdentifier("");
 
 	public WorkflowIdentifier(@NonNls @NotNull final String value)
 	{

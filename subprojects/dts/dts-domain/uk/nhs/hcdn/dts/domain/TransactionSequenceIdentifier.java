@@ -18,11 +18,10 @@ package uk.nhs.hcdn.dts.domain;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hcdn.dts.common.ZeroPaddedDecimalUnsignedInteger;
 
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
-import static uk.nhs.hcdn.dts.common.ZeroPaddedDecimalUnsignedInteger.fromPaddedValue;
+import static uk.nhs.hcdn.dts.domain.ZeroPaddedDecimalUnsignedInteger.fromPaddedValue;
 
 public final class TransactionSequenceIdentifier
 {

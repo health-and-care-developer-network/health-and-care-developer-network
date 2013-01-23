@@ -17,8 +17,8 @@
 package uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlCollectors.XmlConstructor;
-import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlCollectors.XmlSchemaViolationException;
+import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlConstructor;
+import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlSchemaViolationException;
 
 public final class NodeState<C, V>
 {

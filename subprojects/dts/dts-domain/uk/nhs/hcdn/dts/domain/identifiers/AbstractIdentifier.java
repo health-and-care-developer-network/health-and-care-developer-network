@@ -18,53 +18,20 @@ package uk.nhs.hcdn.dts.domain.identifiers;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
+import uk.nhs.hcdn.common.unknown.AbstractStringIsUnknown;
 
 import java.util.Locale;
 
-public abstract class AbstractIdentifier extends AbstractToString
+public abstract class AbstractIdentifier extends AbstractStringIsUnknown
 {
-	@NonNls
-	@NotNull
-	private final String value;
-
-	public AbstractIdentifier(@NonNls @NotNull final String value, final int maximumCharacters)
+	protected AbstractIdentifier(@NonNls @NotNull final String value, final int maximumCharacters)
 	{
+		super(value);
 		// Daft - does not check for unpaired or badly paired surrogates!
 		final int realLength = value.codePointCount(0, value.length());
 		if (realLength > maximumCharacters)
 		{
 			throw new IllegalArgumentException(String.format(Locale.ENGLISH, "Identifiers can not be more than %1$s characters long; %2$s was %3$s characters (we use code points)", maximumCharacters, value, value.length()));
 		}
-		this.value = value;
-	}
-
-	@Override
-	public boolean equals(@Nullable final Object obj)
-	{
-		if (this == obj)
-		{
-			return true;
-		}
-		if (obj == null || getClass() != obj.getClass())
-		{
-			return false;
-		}
-
-		final AbstractIdentifier that = (AbstractIdentifier) obj;
-
-		if (!value.equals(that.value))
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return value.hashCode();
 	}
 }

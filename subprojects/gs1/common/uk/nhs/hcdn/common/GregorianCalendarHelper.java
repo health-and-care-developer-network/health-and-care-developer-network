@@ -58,4 +58,14 @@ public final class GregorianCalendarHelper
 		instance.setTimeInMillis(millisecondsSince1970);
 		return instance;
 	}
+
+	@SuppressWarnings("MagicConstant")
+	@NotNull
+	public static GregorianCalendar utcWithOneBasedMonth(final int year, final int oneBasedMonth, final int day, final int hour, final int minute, final int second)
+	{
+		final GregorianCalendar instance = new GregorianCalendar(UTC, ROOT);
+		instance.setLenient(false);
+		instance.set(year, oneBasedMonth - 1, day, hour, minute, second);
+		return instance;
+	}
 }
