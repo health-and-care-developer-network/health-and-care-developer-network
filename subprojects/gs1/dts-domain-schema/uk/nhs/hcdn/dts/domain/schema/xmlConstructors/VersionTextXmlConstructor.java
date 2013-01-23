@@ -34,6 +34,7 @@ public final class VersionTextXmlConstructor extends TextXmlConstructor<Version>
 
 	private VersionTextXmlConstructor()
 	{
+		super(null);
 	}
 
 	@NotNull

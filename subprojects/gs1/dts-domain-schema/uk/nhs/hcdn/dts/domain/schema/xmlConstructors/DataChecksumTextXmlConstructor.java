@@ -22,6 +22,8 @@ import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlC
 import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlSchemaViolationException;
 import uk.nhs.hcdn.dts.domain.DataChecksum;
 
+import static uk.nhs.hcdn.dts.domain.DataChecksum.UnknownDataChecksum;
+
 public final class DataChecksumTextXmlConstructor extends TextXmlConstructor<DataChecksum>
 {
 	@NotNull
@@ -29,6 +31,7 @@ public final class DataChecksumTextXmlConstructor extends TextXmlConstructor<Dat
 
 	private DataChecksumTextXmlConstructor()
 	{
+		super(UnknownDataChecksum);
 	}
 
 	@NotNull

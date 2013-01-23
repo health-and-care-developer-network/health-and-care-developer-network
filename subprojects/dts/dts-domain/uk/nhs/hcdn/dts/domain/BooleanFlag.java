@@ -28,7 +28,7 @@ public enum BooleanFlag implements IsUnknown
 {
 	UnknownBooleanFlag,
 	Y(true),
-	F(false),
+	N(false),
 	;
 
 	private final boolean isUnknown;
@@ -100,6 +100,6 @@ public enum BooleanFlag implements IsUnknown
 	@NotNull
 	public static BooleanFlag booleanFlag(final boolean value)
 	{
-		return value ? Y : F;
+		return value ? Y : N;
 	}
 }

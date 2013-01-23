@@ -22,6 +22,8 @@ import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlC
 import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlSchemaViolationException;
 import uk.nhs.hcdn.dts.domain.Subject;
 
+import static uk.nhs.hcdn.dts.domain.Subject.UnknownSubject;
+
 public final class SubjectTextXmlConstructor extends TextXmlConstructor<Subject>
 {
 	@NotNull
@@ -29,6 +31,7 @@ public final class SubjectTextXmlConstructor extends TextXmlConstructor<Subject>
 
 	private SubjectTextXmlConstructor()
 	{
+		super(UnknownSubject);
 	}
 
 	@NotNull

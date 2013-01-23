@@ -29,6 +29,7 @@ public final class LocalIdentifierTextXmlConstructor extends TextXmlConstructor<
 
 	private LocalIdentifierTextXmlConstructor()
 	{
+		super(null);
 	}
 
 	@NotNull

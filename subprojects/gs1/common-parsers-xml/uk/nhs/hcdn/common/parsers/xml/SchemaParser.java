@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import org.xml.sax.SAXException;
 import uk.nhs.hcdn.common.parsers.parseResultUsers.NonNullValueReturningParseResultUser;
 import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.GenericXmlParseEventHandler;
-import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlConstructor;
+import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.RootXmlConstructor;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,9 +28,9 @@ import java.io.InputStream;
 public class SchemaParser<V>
 {
 	@NotNull
-	private final XmlConstructor<?, V> rootXmlConstructor;
+	private final RootXmlConstructor<V> rootXmlConstructor;
 
-	public SchemaParser(@NotNull final XmlConstructor<?, V> rootXmlConstructor)
+	public SchemaParser(@NotNull final RootXmlConstructor<V> rootXmlConstructor)
 	{
 		this.rootXmlConstructor = rootXmlConstructor;
 	}

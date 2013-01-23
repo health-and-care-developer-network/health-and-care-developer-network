@@ -16,13 +16,14 @@
 
 package uk.nhs.hcdn.common.parsers.xml.xmlEventHandlers;
 
-import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.XmlParseEventHandler;
 import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlSchemaViolationException;
+
+import static uk.nhs.hcdn.common.parsers.xml.SaxHelper.namespaceQualifiedNodeOrAttributeName;
 
 public final class SimplifiedXmlEventHandler extends AbstractNonDtdXmlEventHandler
 {
@@ -74,14 +75,7 @@ public final class SimplifiedXmlEventHandler extends AbstractNonDtdXmlEventHandl
 				xmlParseEventHandler.text(text);
 				currentText = null;
 			}
-			xmlParseEventHandler.startElement(key(uri, localName));
-			final int length = attributes.getLength();
-			for(int index = 0; index < length; index++)
-			{
-				final String attributeUri = attributes.getURI(index);
-				final String attributeLocalName = attributes.getLocalName(index);
-				xmlParseEventHandler.attribute(key(attributeUri, attributeLocalName), attributes.getValue(index));
-			}
+			xmlParseEventHandler.startElement(namespaceQualifiedNodeOrAttributeName(uri, localName), new IterableAttributes(attributes));
 		}
 		catch (XmlSchemaViolationException e)
 		{
@@ -101,7 +95,7 @@ public final class SimplifiedXmlEventHandler extends AbstractNonDtdXmlEventHandl
 				xmlParseEventHandler.text(text);
 				currentText = null;
 			}
-			xmlParseEventHandler.endElement(key(uri, localName));
+			xmlParseEventHandler.endElement(namespaceQualifiedNodeOrAttributeName(uri, localName));
 		}
 		catch (XmlSchemaViolationException e)
 		{
@@ -120,8 +114,4 @@ public final class SimplifiedXmlEventHandler extends AbstractNonDtdXmlEventHandl
 		currentText.append(ch, start, length);
 	}
 
-	private static String key(@NonNls final String uri, @NonNls final String localName)
-	{
-		return uri + localName;
-	}
 }

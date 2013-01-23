@@ -17,19 +17,35 @@
 package uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlSchemaViolationException;
-import uk.nhs.hcdn.common.tuples.Pair;
 
-public interface XmlParseEventHandler
+public final class RootValueHolder<V>
 {
-	void startDocument();
+	@Nullable
+	private V value;
 
-	void endDocument() throws XmlSchemaViolationException;
+	public RootValueHolder()
+	{
+		value = null;
+	}
 
-	void startElement(@NotNull final String name, @NotNull final Iterable<Pair<String, String>> attributes) throws XmlSchemaViolationException;
+	public void assign(@NotNull final V value)
+	{
+		if (this.value != null)
+		{
+			throw new IllegalStateException("Duplicate assignment");
+		}
+		this.value = value;
+	}
 
-	void endElement(@NotNull final String name) throws XmlSchemaViolationException;
-
-	// Text can occur more than once for an element
-	void text(@NotNull final String text) throws XmlSchemaViolationException;
+	@NotNull
+	public V retrieve() throws XmlSchemaViolationException
+	{
+		if (value == null)
+		{
+			throw new XmlSchemaViolationException("No root node");
+		}
+		return value;
+	}
 }

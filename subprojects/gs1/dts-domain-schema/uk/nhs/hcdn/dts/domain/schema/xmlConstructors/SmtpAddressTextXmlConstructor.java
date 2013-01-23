@@ -22,6 +22,8 @@ import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlC
 import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlSchemaViolationException;
 import uk.nhs.hcdn.dts.domain.SmtpAddress;
 
+import static uk.nhs.hcdn.dts.domain.SmtpAddress.UnknownSmtpAddress;
+
 public final class SmtpAddressTextXmlConstructor extends TextXmlConstructor<SmtpAddress>
 {
 	@NotNull
@@ -29,6 +31,7 @@ public final class SmtpAddressTextXmlConstructor extends TextXmlConstructor<Smtp
 
 	private SmtpAddressTextXmlConstructor()
 	{
+		super(UnknownSmtpAddress);
 	}
 
 	@NotNull

@@ -43,7 +43,7 @@ public enum Version implements ActualName
 	Version(@NonNls @NotNull final String actualName)
 	{
 		this.actualName = actualName;
-		CompilerWorkaround.Index.put(name(), this);
+		CompilerWorkaround.Index.put(actualName, this);
 	}
 
 	@NotNull

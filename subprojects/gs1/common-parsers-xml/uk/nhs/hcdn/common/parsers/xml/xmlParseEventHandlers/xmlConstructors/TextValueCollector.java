@@ -39,13 +39,10 @@ public final class TextValueCollector extends AbstractToString
 		value = text;
 	}
 
-	@NotNull
+	// null if text node not present
+	@Nullable
 	public String finish() throws XmlSchemaViolationException
 	{
-		if (value == null)
-		{
-			throw new XmlSchemaViolationException("text node was not present");
-		}
 		return value;
 	}
 }

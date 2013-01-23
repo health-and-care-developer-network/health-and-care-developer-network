@@ -17,6 +17,7 @@
 package uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors;
 
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hcdn.common.tuples.Pair;
 
 public interface XmlConstructor<C, V>
 {
@@ -27,11 +28,9 @@ public interface XmlConstructor<C, V>
 	C start();
 
 	@NotNull
-	XmlConstructor<?, ?> node(@NotNull final String name) throws XmlSchemaViolationException;
+	XmlConstructor<?, ?> node(@NotNull final String name, @NotNull final Iterable<Pair<String, String>> attributes) throws XmlSchemaViolationException;
 
-	void attribute(@NotNull final C collector, @NotNull final String key, @NotNull final String value) throws XmlSchemaViolationException;
-
-	void text(@NotNull final C collector, @NotNull final String text) throws XmlSchemaViolationException;
+	void text(@NotNull final C collector, @NotNull final String text, final boolean shouldPreserveWhitespace) throws XmlSchemaViolationException;
 
 	void node(@NotNull final C collector, @NotNull final String name, @NotNull final Object value) throws XmlSchemaViolationException;
 

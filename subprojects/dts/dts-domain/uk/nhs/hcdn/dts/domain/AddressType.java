@@ -65,22 +65,22 @@ public enum AddressType implements Description
 
 	public boolean isFromSmtpAddressRequiredAndMissing(@SuppressWarnings("TypeMayBeWeakened") @NotNull final SmtpAddress fromSmtpAddress)
 	{
-		return fromSmtpAddressRequired && fromSmtpAddress.isKnown();
+		return fromSmtpAddressRequired && fromSmtpAddress.isUnknown();
 	}
 
 	public boolean isToSmtpAddressRequiredAndMissing(@SuppressWarnings("TypeMayBeWeakened") @NotNull final SmtpAddress toSmtpAddress)
 	{
-		return toSmtpAddressRequired && toSmtpAddress.isKnown();
+		return toSmtpAddressRequired && toSmtpAddress.isUnknown();
 	}
 
 	public boolean isFromDtsNameRequiredAndMissing(@SuppressWarnings("TypeMayBeWeakened") @NotNull final DtsName fromDtsName)
 	{
-		return fromDtsNameRequired && fromDtsName.isKnown();
+		return fromDtsNameRequired && fromDtsName.isUnknown();
 	}
 
 	public boolean isToDtsNameRequiredAndMissing(@SuppressWarnings("TypeMayBeWeakened") @NotNull final DtsName toDtsName)
 	{
-		return toDtsNameRequired && toDtsName.isKnown();
+		return toDtsNameRequired && toDtsName.isUnknown();
 	}
 
 	@NotNull

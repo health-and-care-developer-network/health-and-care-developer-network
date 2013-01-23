@@ -18,6 +18,8 @@ package uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hcdn.common.parsers.charaterSets.BitSetCharacterSet;
+import uk.nhs.hcdn.common.parsers.charaterSets.CharacterSet;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hcdn.common.tuples.Pair;
 
@@ -29,29 +31,32 @@ import java.util.Map;
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
 
-public final class JavaObjectXmlConstructor<V> extends AbstractToString implements XmlConstructor<Object[], V>
+public final class JavaObjectXmlConstructor<V, W extends V> extends AbstractToString implements XmlConstructor<Object[], V>
 {
+	@NotNull
+	private static final CharacterSet WhitespaceCharacters = new BitSetCharacterSet(' ', '\t', '\r', '\n');
+
 	@SafeVarargs
 	@NotNull
-	public static <V> JavaObjectXmlConstructor<V> schemaFor(@NotNull final Class<V> type, @NotNull final Pair<String, MissingFieldXmlConstructor<?, ?>>... xmlConstructorsForFields)
+	public static <V, W extends V> JavaObjectXmlConstructor<V, W> schemaFor(@NotNull final Class<V> returnsType, @NotNull final Class<W> implementsType, @NotNull final Pair<String, MissingFieldXmlConstructor<?, ?>>... xmlConstructorsForFields)
 	{
-		return new JavaObjectXmlConstructor<>(type, xmlConstructorsForFields);
+		return new JavaObjectXmlConstructor<>(returnsType, implementsType, xmlConstructorsForFields);
 	}
 
 	@NotNull
-	private final Class<V> type;
+	private final Class<V> returnsType;
 	@NotNull
 	private final Map<String, XmlConstructor<?, ?>> xmlConstructorsForFields;
 	private final MissingFieldXmlConstructor<?, ?>[] missingFieldHandlers;
 	private final Map<String, Integer> constructorParameterIndices;
 	@NotNull
-	private final Constructor<V> constructor;
+	private final Constructor<W> constructor;
 	private final int size;
 
 	@SafeVarargs
-	public JavaObjectXmlConstructor(@NotNull final Class<V> type, @NotNull final Pair<String, MissingFieldXmlConstructor<?, ?>>... xmlConstructorsForFields)
+	public JavaObjectXmlConstructor(@NotNull final Class<V> returnsType, @NotNull final Class<W> implementsType, @NotNull final Pair<String, MissingFieldXmlConstructor<?, ?>>... xmlConstructorsForFields)
 	{
-		this.type = type;
+		this.returnsType = returnsType;
 		size = xmlConstructorsForFields.length;
 		constructorParameterIndices = new HashMap<>(size);
 		final Class<?>[] constructorParameterTypes = new Class[size];
@@ -67,15 +72,16 @@ public final class JavaObjectXmlConstructor<V> extends AbstractToString implemen
 			{
 				throw new IllegalArgumentException("Duplicate keys");
 			}
+			missingFieldHandlers[index] = (MissingFieldXmlConstructor<?, ?>) xmlConstructor;
 			constructorParameterTypes[index] = xmlConstructor.type();
 		}
 		try
 		{
-			constructor = type.getDeclaredConstructor(constructorParameterTypes);
+			constructor = implementsType.getDeclaredConstructor(constructorParameterTypes);
 		}
 		catch (NoSuchMethodException e)
 		{
-			throw new IllegalArgumentException("type %1$s has no constructor for provided xmlConstructors", e);
+			throw new IllegalArgumentException(format(ENGLISH, "implementsType %1$s has no constructor for provided xmlConstructors", implementsType.getSimpleName()), e);
 		}
 	}
 
@@ -83,7 +89,7 @@ public final class JavaObjectXmlConstructor<V> extends AbstractToString implemen
 	@Override
 	public Class<V> type()
 	{
-		return type;
+		return returnsType;
 	}
 
 	@Override
@@ -95,7 +101,7 @@ public final class JavaObjectXmlConstructor<V> extends AbstractToString implemen
 
 	@NotNull
 	@Override
-	public XmlConstructor<?, ?> node(@NotNull final String name) throws XmlSchemaViolationException
+	public XmlConstructor<?, ?> node(@NotNull final String name, @NotNull final Iterable<Pair<String, String>> attributes) throws XmlSchemaViolationException
 	{
 		@Nullable final XmlConstructor<?, ?> xmlConstructor = xmlConstructorsForFields.get(name);
 		if (xmlConstructor == null)
@@ -106,15 +112,29 @@ public final class JavaObjectXmlConstructor<V> extends AbstractToString implemen
 	}
 
 	@Override
-	public void attribute(@NotNull final Object[] collector, @NotNull final String key, @NotNull final String value) throws XmlSchemaViolationException
+	public void text(@NotNull final Object[] collector, @NotNull final String text, final boolean shouldPreserveWhitespace) throws XmlSchemaViolationException
 	{
-		throw new XmlSchemaViolationException(format(ENGLISH, "attribute key %1$s, value %2$s was unexpected", key, value));
+		if (text.isEmpty())
+		{
+			return;
+		}
+		if (!shouldPreserveWhitespace && isOnlyWhitespace(text))
+		{
+			return;
+		}
+		throw new XmlSchemaViolationException(format(ENGLISH, "text value %1$s was unexpected", text));
 	}
 
-	@Override
-	public void text(@NotNull final Object[] collector, @NotNull final String text) throws XmlSchemaViolationException
+	private static boolean isOnlyWhitespace(@NotNull final CharSequence text)
 	{
-		throw new XmlSchemaViolationException(format(ENGLISH, "text value %1$s was unexpected", text));
+		for(int index = 0; index < text.length(); index++)
+		{
+			if (!WhitespaceCharacters.contains(text.charAt(index)))
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@Override
@@ -149,7 +169,7 @@ public final class JavaObjectXmlConstructor<V> extends AbstractToString implemen
 		{
 			return constructor.newInstance(collector);
 		}
-		catch (InstantiationException | IllegalAccessException e)
+		catch (InstantiationException | IllegalAccessException | IllegalArgumentException e)
 		{
 			throw new XmlSchemaViolationException(e);
 		}

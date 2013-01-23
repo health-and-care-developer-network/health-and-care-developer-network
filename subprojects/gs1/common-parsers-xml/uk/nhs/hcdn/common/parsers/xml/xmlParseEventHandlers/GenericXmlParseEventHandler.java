@@ -19,8 +19,9 @@ package uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.parsers.parseResultUsers.ParseResultUser;
-import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlConstructor;
+import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.RootXmlConstructor;
 import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlSchemaViolationException;
+import uk.nhs.hcdn.common.tuples.Pair;
 
 import java.util.Stack;
 
@@ -36,11 +37,11 @@ public final class GenericXmlParseEventHandler<V> implements XmlParseEventHandle
 	private final ParseResultUser<V> parseResultUser;
 
 	@SuppressWarnings("unchecked")
-	public GenericXmlParseEventHandler(@NotNull final XmlConstructor<?, V> rootXmlConstructor, @NotNull final ParseResultUser<V> parseResultUser)
+	public GenericXmlParseEventHandler(@NotNull final RootXmlConstructor<V> rootXmlConstructor, @NotNull final ParseResultUser<V> parseResultUser)
 	{
 		this.parseResultUser = parseResultUser;
 		nodeStates = new Stack<>();
-		current = new NodeState(rootXmlConstructor);
+		current = new NodeState(rootXmlConstructor, rootXmlConstructor.shouldPreserveWhitespace());
 	}
 
 	@Override
@@ -57,10 +58,10 @@ public final class GenericXmlParseEventHandler<V> implements XmlParseEventHandle
 	}
 
 	@Override
-	public void startElement(@NotNull final String name) throws XmlSchemaViolationException
+	public void startElement(@NotNull final String name, @NotNull final Iterable<Pair<String, String>> attributes) throws XmlSchemaViolationException
 	{
 		nodeStates.push(current);
-		current = current().node(name);
+		current = current().node(name, attributes);
 	}
 
 	@Override
@@ -69,12 +70,6 @@ public final class GenericXmlParseEventHandler<V> implements XmlParseEventHandle
 		final Object result = current().finish();
 		current = nodeStates.pop();
 		current.node(name, result);
-	}
-
-	@Override
-	public void attribute(@NotNull final String key, @NotNull final String value) throws XmlSchemaViolationException
-	{
-		current().attribute(key, value);
 	}
 
 	@Override

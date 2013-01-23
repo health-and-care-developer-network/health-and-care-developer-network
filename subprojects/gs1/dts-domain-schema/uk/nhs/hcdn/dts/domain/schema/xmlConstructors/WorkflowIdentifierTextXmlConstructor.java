@@ -29,6 +29,7 @@ public final class WorkflowIdentifierTextXmlConstructor extends TextXmlConstruct
 
 	private WorkflowIdentifierTextXmlConstructor()
 	{
+		super(null);
 	}
 
 	@NotNull

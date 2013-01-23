@@ -31,6 +31,7 @@ public final class DateTimeTextXmlConstructor extends TextXmlConstructor<DateTim
 
 	private DateTimeTextXmlConstructor()
 	{
+		super(null);
 	}
 
 	@NotNull

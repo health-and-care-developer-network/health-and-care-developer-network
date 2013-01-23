@@ -24,8 +24,10 @@ import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.*;
 import uk.nhs.hcdn.common.tuples.Pair;
 import uk.nhs.hcdn.dts.domain.ControlFile;
 import uk.nhs.hcdn.dts.domain.statusRecords.KnownStatusRecord;
+import uk.nhs.hcdn.dts.domain.statusRecords.StatusRecord;
 
 import static uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.JavaObjectXmlConstructor.schemaFor;
+import static uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.RootXmlConstructor.rootSchemaFor;
 import static uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.StringXmlConstructor.StringXmlConstructorInstance;
 import static uk.nhs.hcdn.dts.domain.BooleanFlag.UnknownBooleanFlag;
 import static uk.nhs.hcdn.dts.domain.DataChecksum.UnknownDataChecksum;
@@ -34,6 +36,7 @@ import static uk.nhs.hcdn.dts.domain.SmtpAddress.UnknownSmtpAddress;
 import static uk.nhs.hcdn.dts.domain.Subject.UnknownSubject;
 import static uk.nhs.hcdn.dts.domain.identifiers.DtsIdentifier.UnknownDtsIdentifier;
 import static uk.nhs.hcdn.dts.domain.identifiers.LocalIdentifier.UnknownLocalIdentifier;
+import static uk.nhs.hcdn.dts.domain.identifiers.PartnerIdentifier.UnknownPartnerIdentifier;
 import static uk.nhs.hcdn.dts.domain.identifiers.ProcessIdentifier.UnknownProcessIdentifier;
 import static uk.nhs.hcdn.dts.domain.schema.xmlConstructors.AddressTypeTextXmlConstructor.AddressTypeTextXmlConstructorInstance;
 import static uk.nhs.hcdn.dts.domain.schema.xmlConstructors.BooleanFlagTextXmlConstructor.BooleanFlagTextXmlConstructorInstance;
@@ -44,6 +47,7 @@ import static uk.nhs.hcdn.dts.domain.schema.xmlConstructors.DtsNameTextXmlConstr
 import static uk.nhs.hcdn.dts.domain.schema.xmlConstructors.EventTextXmlConstructor.EventTextXmlConstructorInstance;
 import static uk.nhs.hcdn.dts.domain.schema.xmlConstructors.LocalIdentifierTextXmlConstructor.LocalIdentifierTextXmlConstructorInstance;
 import static uk.nhs.hcdn.dts.domain.schema.xmlConstructors.MessageTypeTextXmlConstructor.MessageTypeTextXmlConstructorInstance;
+import static uk.nhs.hcdn.dts.domain.schema.xmlConstructors.PartnerIdentifierTextXmlConstructor.PartnerIdentifierTextXmlConstructorInstance;
 import static uk.nhs.hcdn.dts.domain.schema.xmlConstructors.ProcessIdentifierTextXmlConstructor.ProcessIdentifierTextXmlConstructorInstance;
 import static uk.nhs.hcdn.dts.domain.schema.xmlConstructors.SmtpAddressTextXmlConstructor.SmtpAddressTextXmlConstructorInstance;
 import static uk.nhs.hcdn.dts.domain.schema.xmlConstructors.StatusCodeTextXmlConstructor.StatusCodeTextXmlConstructorInstance;
@@ -56,8 +60,11 @@ import static uk.nhs.hcdn.dts.domain.statusRecords.UnknownStatusRecord.UnknownSt
 public final class ControlFileSchemaParser extends SchemaParser<ControlFile>
 {
 	@NotNull
-	public static final XmlConstructor<?, ControlFile> ControlFileSchema = schemaFor
+	public static final RootXmlConstructor<ControlFile> ControlFileSchema = rootSchemaFor
 	(
+		"DTSControl",
+		false,
+		ControlFile.class,
 		ControlFile.class,
 		node("Version", VersionTextXmlConstructorInstance),
 		node("AddressType", AddressTypeTextXmlConstructorInstance),
@@ -73,10 +80,12 @@ public final class ControlFileSchemaParser extends SchemaParser<ControlFile>
 		nodeMayBeMissing("ProcessId", UnknownProcessIdentifier, ProcessIdentifierTextXmlConstructorInstance),
 		nodeMayBeMissing("Compress", UnknownBooleanFlag, BooleanFlagTextXmlConstructorInstance),
 		nodeMayBeMissing("Encrypted", UnknownBooleanFlag, BooleanFlagTextXmlConstructorInstance),
-		nodeMayBeMissing("DataChecksum", UnknownDataChecksum, DataChecksumTextXmlConstructorInstance),
 		nodeMayBeMissing("IsCompressed", UnknownBooleanFlag, BooleanFlagTextXmlConstructorInstance),
+		nodeMayBeMissing("DataChecksum", UnknownDataChecksum, DataChecksumTextXmlConstructorInstance),
+		nodeMayBeMissing("PartnerIdentifier", UnknownPartnerIdentifier, PartnerIdentifierTextXmlConstructorInstance),
 		nodeMayBeMissing("StatusRecord", UnknownStatusRecordInstance, schemaFor
 		(
+			StatusRecord.class,
 			KnownStatusRecord.class,
 			node("DateTime", DateTimeTextXmlConstructorInstance),
 			node("Event", EventTextXmlConstructorInstance),
@@ -87,7 +96,7 @@ public final class ControlFileSchemaParser extends SchemaParser<ControlFile>
 	);
 
 	@NotNull
-	public static final SchemaParser<ControlFile> ControlFileSchemaParser = new ControlFileSchemaParser();
+	public static final SchemaParser<ControlFile> ControlFileSchemaParserInstance = new ControlFileSchemaParser();
 
 	private ControlFileSchemaParser()
 	{

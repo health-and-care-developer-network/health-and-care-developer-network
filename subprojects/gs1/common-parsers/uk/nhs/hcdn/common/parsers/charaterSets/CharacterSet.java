@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.common.parsers.json.charaterSets;
+package uk.nhs.hcdn.common.parsers.charaterSets;
 
 public interface CharacterSet
 {

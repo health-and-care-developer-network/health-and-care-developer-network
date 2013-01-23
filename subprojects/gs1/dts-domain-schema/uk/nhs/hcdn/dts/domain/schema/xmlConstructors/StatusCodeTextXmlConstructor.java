@@ -31,6 +31,7 @@ public final class StatusCodeTextXmlConstructor extends TextXmlConstructor<Statu
 
 	private StatusCodeTextXmlConstructor()
 	{
+		super(null);
 	}
 
 	@NotNull

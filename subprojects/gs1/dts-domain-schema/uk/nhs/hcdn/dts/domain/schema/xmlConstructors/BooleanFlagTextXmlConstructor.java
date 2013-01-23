@@ -33,6 +33,7 @@ public final class BooleanFlagTextXmlConstructor extends TextXmlConstructor<Bool
 
 	private BooleanFlagTextXmlConstructor()
 	{
+		super(null);
 	}
 
 	@NotNull

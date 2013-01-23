@@ -34,6 +34,7 @@ public final class AddressTypeTextXmlConstructor extends TextXmlConstructor<Addr
 
 	private AddressTypeTextXmlConstructor()
 	{
+		super(null);
 	}
 
 	@NotNull

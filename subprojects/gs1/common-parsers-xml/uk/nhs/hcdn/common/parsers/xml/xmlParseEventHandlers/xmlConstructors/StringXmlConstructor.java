@@ -25,6 +25,7 @@ public final class StringXmlConstructor extends TextXmlConstructor<String>
 
 	private StringXmlConstructor()
 	{
+		super("");
 	}
 
 	@NotNull

@@ -34,6 +34,7 @@ public final class EventTextXmlConstructor extends TextXmlConstructor<Event>
 
 	private EventTextXmlConstructor()
 	{
+		super(null);
 	}
 
 	@NotNull

@@ -22,6 +22,8 @@ import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlC
 import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlSchemaViolationException;
 import uk.nhs.hcdn.dts.domain.identifiers.DtsIdentifier;
 
+import static uk.nhs.hcdn.dts.domain.identifiers.DtsIdentifier.UnknownDtsIdentifier;
+
 public final class DtsIdentifierTextXmlConstructor extends TextXmlConstructor<DtsIdentifier>
 {
 	@NotNull
@@ -29,6 +31,7 @@ public final class DtsIdentifierTextXmlConstructor extends TextXmlConstructor<Dt
 
 	private DtsIdentifierTextXmlConstructor()
 	{
+		super(UnknownDtsIdentifier);
 	}
 
 	@NotNull

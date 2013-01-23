@@ -17,14 +17,23 @@
 package uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
+import uk.nhs.hcdn.common.tuples.Pair;
 
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
 
-public abstract class TextXmlConstructor<V> implements XmlConstructor<TextValueCollector, V>
+public abstract class TextXmlConstructor<V> extends AbstractToString implements XmlConstructor<TextValueCollector, V>
 {
-	protected TextXmlConstructor()
+	@Nullable
+	private final V defaultIfTextNodeMissing;
+	private final boolean defaultUnacceptable;
+
+	protected TextXmlConstructor(@Nullable final V defaultIfTextNodeMissing)
 	{
+		this.defaultIfTextNodeMissing = defaultIfTextNodeMissing;
+		defaultUnacceptable = defaultIfTextNodeMissing == null;
 	}
 
 	@Override
@@ -36,19 +45,13 @@ public abstract class TextXmlConstructor<V> implements XmlConstructor<TextValueC
 
 	@NotNull
 	@Override
-	public XmlConstructor<?, ?> node(@NotNull final String name) throws XmlSchemaViolationException
+	public XmlConstructor<?, ?> node(@NotNull final String name, @NotNull final Iterable<Pair<String, String>> attributes) throws XmlSchemaViolationException
 	{
 		throw new XmlSchemaViolationException(format(ENGLISH, "text node should not have child %1$s", name));
 	}
 
 	@Override
-	public void attribute(@NotNull final TextValueCollector collector, @NotNull final String key, @NotNull final String value) throws XmlSchemaViolationException
-	{
-		throw new XmlSchemaViolationException(format(ENGLISH, "attribute key %1$s, value %2$s was unexpected", key, value));
-	}
-
-	@Override
-	public void text(@NotNull final TextValueCollector collector, @NotNull final String text) throws XmlSchemaViolationException
+	public void text(@NotNull final TextValueCollector collector, @NotNull final String text, final boolean shouldPreserveWhitespace) throws XmlSchemaViolationException
 	{
 		collector.text(text);
 	}
@@ -63,7 +66,17 @@ public abstract class TextXmlConstructor<V> implements XmlConstructor<TextValueC
 	@Override
 	public V finish(@NotNull final TextValueCollector collector) throws XmlSchemaViolationException
 	{
-		return convert(collector.finish());
+		@Nullable final String finish = collector.finish();
+		if (finish == null)
+		{
+			if (defaultUnacceptable)
+			{
+				throw new XmlSchemaViolationException("text node missing");
+			}
+			assert defaultIfTextNodeMissing != null;
+			return defaultIfTextNodeMissing;
+		}
+		return convert(finish);
 	}
 
 	@NotNull

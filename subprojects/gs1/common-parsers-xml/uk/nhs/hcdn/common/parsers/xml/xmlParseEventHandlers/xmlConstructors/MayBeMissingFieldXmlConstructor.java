@@ -18,6 +18,7 @@ package uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hcdn.common.tuples.Pair;
 
 public final class MayBeMissingFieldXmlConstructor<C, V> implements MissingFieldXmlConstructor<C, V>
 {
@@ -54,21 +55,15 @@ public final class MayBeMissingFieldXmlConstructor<C, V> implements MissingField
 
 	@NotNull
 	@Override
-	public XmlConstructor<?, ?> node(@NotNull final String name) throws XmlSchemaViolationException
+	public XmlConstructor<?, ?> node(@NotNull final String name, @NotNull final Iterable<Pair<String, String>> attributes) throws XmlSchemaViolationException
 	{
-		return underlyingXmlConstructor.node(name);
+		return underlyingXmlConstructor.node(name, attributes);
 	}
 
 	@Override
-	public void attribute(@NotNull final C collector, @NotNull final String key, @NotNull final String value) throws XmlSchemaViolationException
+	public void text(@NotNull final C collector, @NotNull final String text, final boolean shouldPreserveWhitespace) throws XmlSchemaViolationException
 	{
-		underlyingXmlConstructor.attribute(collector, key, value);
-	}
-
-	@Override
-	public void text(@NotNull final C collector, @NotNull final String text) throws XmlSchemaViolationException
-	{
-		underlyingXmlConstructor.text(collector, text);
+		underlyingXmlConstructor.text(collector, text, shouldPreserveWhitespace);
 	}
 
 	@Override

@@ -14,20 +14,26 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.dts.domain.identifiers;
+package uk.nhs.hcdn.common.parsers.xml;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
-public final class PartnerIdentifier extends AbstractIdentifier
+public final class SaxHelper
 {
-	private static final int MaximumCharacters = 255;
+	private static final char Colon = ':';
+
+	private SaxHelper()
+	{
+	}
 
 	@NotNull
-	public static final PartnerIdentifier UnknownPartnerIdentifier = new PartnerIdentifier("");
-
-	public PartnerIdentifier(@NonNls @NotNull final String value)
+	public static String namespaceQualifiedNodeOrAttributeName(@NonNls @NotNull final String uri, @NonNls @NotNull final String localName)
 	{
-		super(value, MaximumCharacters);
+		if (uri.isEmpty())
+		{
+			return localName;
+		}
+		return uri + Colon + localName;
 	}
 }

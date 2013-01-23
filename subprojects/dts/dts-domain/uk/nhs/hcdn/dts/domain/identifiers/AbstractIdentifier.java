@@ -20,7 +20,8 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.common.unknown.AbstractStringIsUnknown;
 
-import java.util.Locale;
+import static java.lang.String.format;
+import static java.util.Locale.ENGLISH;
 
 public abstract class AbstractIdentifier extends AbstractStringIsUnknown
 {
@@ -31,7 +32,7 @@ public abstract class AbstractIdentifier extends AbstractStringIsUnknown
 		final int realLength = value.codePointCount(0, value.length());
 		if (realLength > maximumCharacters)
 		{
-			throw new IllegalArgumentException(String.format(Locale.ENGLISH, "Identifiers can not be more than %1$s characters long; %2$s was %3$s characters (we use code points)", maximumCharacters, value, value.length()));
+			throw new IllegalArgumentException(format(ENGLISH, "Identifiers can not be more than %1$s characters long; %2$s was %3$s characters (we use code points)", maximumCharacters, value, value.length()));
 		}
 	}
 }

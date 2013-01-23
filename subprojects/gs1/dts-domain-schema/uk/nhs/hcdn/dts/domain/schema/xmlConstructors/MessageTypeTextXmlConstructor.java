@@ -34,6 +34,7 @@ public final class MessageTypeTextXmlConstructor extends TextXmlConstructor<Mess
 
 	private MessageTypeTextXmlConstructor()
 	{
+		super(null);
 	}
 
 	@NotNull

@@ -22,6 +22,8 @@ import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlC
 import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlSchemaViolationException;
 import uk.nhs.hcdn.dts.domain.identifiers.ProcessIdentifier;
 
+import static uk.nhs.hcdn.dts.domain.identifiers.ProcessIdentifier.UnknownProcessIdentifier;
+
 public final class ProcessIdentifierTextXmlConstructor extends TextXmlConstructor<ProcessIdentifier>
 {
 	@NotNull
@@ -29,6 +31,7 @@ public final class ProcessIdentifierTextXmlConstructor extends TextXmlConstructo
 
 	private ProcessIdentifierTextXmlConstructor()
 	{
+		super(UnknownProcessIdentifier);
 	}
 
 	@NotNull

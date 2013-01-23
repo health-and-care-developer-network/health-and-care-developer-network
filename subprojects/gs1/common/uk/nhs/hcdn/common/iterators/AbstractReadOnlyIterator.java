@@ -14,20 +14,15 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.dts.domain.identifiers;
+package uk.nhs.hcdn.common.iterators;
 
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+import java.util.Iterator;
 
-public final class PartnerIdentifier extends AbstractIdentifier
+public abstract class AbstractReadOnlyIterator<E> implements Iterator<E>
 {
-	private static final int MaximumCharacters = 255;
-
-	@NotNull
-	public static final PartnerIdentifier UnknownPartnerIdentifier = new PartnerIdentifier("");
-
-	public PartnerIdentifier(@NonNls @NotNull final String value)
+	@Override
+	public final void remove()
 	{
-		super(value, MaximumCharacters);
+		throw new UnsupportedOperationException();
 	}
 }
