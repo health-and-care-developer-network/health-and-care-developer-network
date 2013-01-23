@@ -18,12 +18,12 @@ package uk.nhs.hcdn.dts.domain.identifiers;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hcdn.common.unknown.AbstractStringIsUnknown;
+import uk.nhs.hcdn.dts.domain.AbstractValueSerialisableStringIsUnknown;
 
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
 
-public abstract class AbstractIdentifier extends AbstractStringIsUnknown
+public abstract class AbstractIdentifier extends AbstractValueSerialisableStringIsUnknown
 {
 	protected AbstractIdentifier(@NonNls @NotNull final String value, final int maximumCharacters)
 	{

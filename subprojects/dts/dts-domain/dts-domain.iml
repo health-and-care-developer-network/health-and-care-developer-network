@@ -13,6 +13,7 @@
     <orderEntry type="module" module-name="common" />
     <orderEntry type="module" module-name="common-tuples" />
     <orderEntry type="module" module-name="common-unknown" exported="" />
+    <orderEntry type="module" module-name="common-serialisers" exported="" />
   </component>
 </module>
 

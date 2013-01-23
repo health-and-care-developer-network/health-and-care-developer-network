@@ -17,6 +17,7 @@
 package uk.nhs.hcdn.dts.domain.statusRecords;
 
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hcdn.common.serialisers.MapSerialiser;
 import uk.nhs.hcdn.common.unknown.AbstractIsUnknown;
 import uk.nhs.hcdn.common.unknown.IsUnknownException;
 
@@ -28,6 +29,11 @@ public final class UnknownStatusRecord extends AbstractIsUnknown implements Stat
 	private UnknownStatusRecord()
 	{
 		super(true);
+	}
+
+	@Override
+	public void serialiseMap(@NotNull final MapSerialiser mapSerialiser)
+	{
 	}
 
 	@NotNull

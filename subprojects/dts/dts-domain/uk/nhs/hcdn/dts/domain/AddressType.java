@@ -20,11 +20,15 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.naming.Description;
+import uk.nhs.hcdn.common.serialisers.CouldNotSerialiseValueException;
+import uk.nhs.hcdn.common.serialisers.CouldNotWriteValueException;
+import uk.nhs.hcdn.common.serialisers.ValueSerialisable;
+import uk.nhs.hcdn.common.serialisers.ValueSerialiser;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public enum AddressType implements Description
+public enum AddressType implements Description, ValueSerialisable
 {
 	SMTP(true, true, false, false, "SMTP address"),
 	DTS(false, false, true, true, "DTSname addressing"),
@@ -56,11 +60,44 @@ public enum AddressType implements Description
 		CompilerWorkaround.Index.put(name(), this);
 	}
 
+	@Override
+	public void serialiseValue(@NotNull final ValueSerialiser valueSerialiser) throws CouldNotSerialiseValueException
+	{
+		try
+		{
+			valueSerialiser.writeValue(name());
+		}
+		catch (CouldNotWriteValueException e)
+		{
+			throw new CouldNotSerialiseValueException(this, e);
+		}
+	}
+
 	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
 	@Nullable
 	public static AddressType addressType(@NotNull final CharSequence value)
 	{
 		return CompilerWorkaround.Index.get(value);
+	}
+
+	public boolean isFromSmtpAddressRequired()
+	{
+		return fromSmtpAddressRequired;
+	}
+
+	public boolean isToSmtpAddressRequired()
+	{
+		return toSmtpAddressRequired;
+	}
+
+	public boolean isFromDtsNameRequired()
+	{
+		return fromDtsNameRequired;
+	}
+
+	public boolean isToDtsNameRequired()
+	{
+		return toDtsNameRequired;
 	}
 
 	public boolean isFromSmtpAddressRequiredAndMissing(@SuppressWarnings("TypeMayBeWeakened") @NotNull final SmtpAddress fromSmtpAddress)

@@ -18,13 +18,17 @@ package uk.nhs.hcdn.dts.domain;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hcdn.common.serialisers.CouldNotSerialiseValueException;
+import uk.nhs.hcdn.common.serialisers.CouldNotWriteValueException;
+import uk.nhs.hcdn.common.serialisers.ValueSerialisable;
+import uk.nhs.hcdn.common.serialisers.ValueSerialiser;
 import uk.nhs.hcdn.common.unknown.IsUnknown;
 import uk.nhs.hcdn.common.unknown.IsUnknownException;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public enum BooleanFlag implements IsUnknown
+public enum BooleanFlag implements IsUnknown, ValueSerialisable
 {
 	UnknownBooleanFlag,
 	Y(true),
@@ -87,6 +91,19 @@ public enum BooleanFlag implements IsUnknown
 			throw new IsUnknownException();
 		}
 		return value;
+	}
+
+	@Override
+	public void serialiseValue(@NotNull final ValueSerialiser valueSerialiser) throws CouldNotSerialiseValueException
+	{
+		try
+		{
+			valueSerialiser.writeValue(name());
+		}
+		catch (CouldNotWriteValueException e)
+		{
+			throw new CouldNotSerialiseValueException(this, e);
+		}
 	}
 
 	@SuppressWarnings("MethodNamesDifferingOnlyByCase")

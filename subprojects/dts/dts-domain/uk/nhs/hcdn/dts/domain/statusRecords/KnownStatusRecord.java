@@ -19,6 +19,9 @@ package uk.nhs.hcdn.dts.domain.statusRecords;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hcdn.common.serialisers.CouldNotSerialiseMapException;
+import uk.nhs.hcdn.common.serialisers.CouldNotWritePropertyException;
+import uk.nhs.hcdn.common.serialisers.MapSerialiser;
 import uk.nhs.hcdn.common.unknown.AbstractIsUnknown;
 
 public final class KnownStatusRecord extends AbstractIsUnknown implements StatusRecord
@@ -43,6 +46,24 @@ public final class KnownStatusRecord extends AbstractIsUnknown implements Status
 		this.status = status;
 		this.statusCode = statusCode;
 		this.description = description;
+	}
+
+	@SuppressWarnings("FeatureEnvy")
+	@Override
+	public void serialiseMap(@NotNull final MapSerialiser mapSerialiser) throws CouldNotSerialiseMapException
+	{
+		try
+		{
+			mapSerialiser.writeProperty("DateTime", dateTime);
+			mapSerialiser.writeProperty("Event", event);
+			mapSerialiser.writeProperty("Status", status);
+			mapSerialiser.writeProperty("StatusCode", statusCode);
+			mapSerialiser.writeProperty("Description", description);
+		}
+		catch (CouldNotWritePropertyException e)
+		{
+			throw new CouldNotSerialiseMapException(this, e);
+		}
 	}
 
 	@NotNull

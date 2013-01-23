@@ -21,16 +21,22 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.MillisecondsSince1970;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
+import uk.nhs.hcdn.common.serialisers.CouldNotSerialiseValueException;
+import uk.nhs.hcdn.common.serialisers.CouldNotWriteValueException;
+import uk.nhs.hcdn.common.serialisers.ValueSerialisable;
+import uk.nhs.hcdn.common.serialisers.ValueSerialiser;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
+import static java.util.Locale.ROOT;
 import static uk.nhs.hcdn.common.GregorianCalendarHelper.utc;
 import static uk.nhs.hcdn.common.GregorianCalendarHelper.utcWithOneBasedMonth;
 
-public final class DateTime extends AbstractToString
+public final class DateTime extends AbstractToString implements ValueSerialisable
 {
 	private static final int Size = 14;
 	private static final int PlusSign = (int) '+';
@@ -84,6 +90,20 @@ public final class DateTime extends AbstractToString
 	public DateTime(@MillisecondsSince1970 final long dateTime)
 	{
 		this.dateTime = dateTime;
+	}
+
+	@Override
+	public void serialiseValue(@NotNull final ValueSerialiser valueSerialiser) throws CouldNotSerialiseValueException
+	{
+		final GregorianCalendar utc = utc(dateTime);
+		try
+		{
+			valueSerialiser.writeValue(new SimpleDateFormat("yyyyMMddHHmmss", ROOT).format(utc.getTime()));
+		}
+		catch (CouldNotWriteValueException e)
+		{
+			throw new CouldNotSerialiseValueException(this, e);
+		}
 	}
 
 	@MillisecondsSince1970

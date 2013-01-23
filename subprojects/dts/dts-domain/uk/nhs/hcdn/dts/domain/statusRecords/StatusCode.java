@@ -19,13 +19,16 @@ package uk.nhs.hcdn.dts.domain.statusRecords;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hcdn.common.serialisers.CouldNotSerialiseValueException;
+import uk.nhs.hcdn.common.serialisers.ValueSerialisable;
+import uk.nhs.hcdn.common.serialisers.ValueSerialiser;
 import uk.nhs.hcdn.dts.domain.ZeroPaddedDecimalUnsignedInteger;
 
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
 import static uk.nhs.hcdn.dts.domain.ZeroPaddedDecimalUnsignedInteger.fromPaddedValue;
 
-public final class StatusCode
+public final class StatusCode implements ValueSerialisable
 {
 	@NotNull
 	private final ZeroPaddedDecimalUnsignedInteger zeroPaddedDecimalUnsignedInteger;
@@ -44,6 +47,12 @@ public final class StatusCode
 			throw new IllegalArgumentException(format(ENGLISH, "zeroPaddedDecimalUnsignedInteger must be of width 2, so %1$s is invalid", zeroPaddedDecimalUnsignedInteger));
 		}
 		this.zeroPaddedDecimalUnsignedInteger = zeroPaddedDecimalUnsignedInteger;
+	}
+
+	@Override
+	public void serialiseValue(@NotNull final ValueSerialiser valueSerialiser) throws CouldNotSerialiseValueException
+	{
+		zeroPaddedDecimalUnsignedInteger.serialiseValue(valueSerialiser);
 	}
 
 	public long value()

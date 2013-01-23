@@ -16,13 +16,16 @@
 
 package uk.nhs.hcdn.dts.domain;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
+import uk.nhs.hcdn.common.serialisers.*;
+import uk.nhs.hcdn.common.unknown.IsUnknown;
 import uk.nhs.hcdn.dts.domain.identifiers.*;
 import uk.nhs.hcdn.dts.domain.statusRecords.StatusRecord;
 
-public final class ControlFile extends AbstractToString
+public final class ControlFile extends AbstractToString implements MapSerialisable
 {
 	@NotNull
 	public final Version version;
@@ -101,6 +104,66 @@ public final class ControlFile extends AbstractToString
 		if (workflowIdentifier.isUnknown())
 		{
 			throw new IllegalArgumentException("workflowIdentifier is mandatory");
+		}
+	}
+
+	@SuppressWarnings("FeatureEnvy")
+	@Override
+	public void serialiseMap(@NotNull final MapSerialiser mapSerialiser) throws CouldNotSerialiseMapException
+	{
+		try
+		{
+			mapSerialiser.writeProperty("Version", version);
+			mapSerialiser.writeProperty("AddressType", addressType);
+			mapSerialiser.writeProperty("MessageType", messageType);
+			mapSerialiser.writeProperty("WorkflowId", workflowIdentifier);
+			if (addressType.isFromSmtpAddressRequired())
+			{
+				mapSerialiser.writeProperty("From_ESMTP", fromSmtpAddress);
+			}
+			if (addressType.isFromDtsNameRequired())
+			{
+				mapSerialiser.writeProperty("From_DTS", fromDtsName);
+			}
+			if (addressType.isToSmtpAddressRequired())
+			{
+				mapSerialiser.writeProperty("To_ESMTP", toSmtpAddress);
+			}
+			if (addressType.isToDtsNameRequired())
+			{
+				mapSerialiser.writeProperty("To_DTS", toDtsName);
+			}
+			writePropertyIfKnown(mapSerialiser, "Subject", subject);
+			writePropertyIfKnown(mapSerialiser, "LocalId", localIdentifier);
+			writePropertyIfKnown(mapSerialiser, "DtsId", dtsIdentifier);
+			writePropertyIfKnown(mapSerialiser, "ProcessId", processIdentifier);
+			writePropertyIfKnown(mapSerialiser, "Compress", compress);
+			writePropertyIfKnown(mapSerialiser, "Encrypted", encrypted);
+			writePropertyIfKnown(mapSerialiser, "IsCompressed", isCompressed);
+			writePropertyIfKnown(mapSerialiser, "DataChecksum", dataChecksum);
+			writePropertyIfKnown(mapSerialiser, "PartnerIdentifier", partnerIdentifier);
+			writePropertyIfKnown(mapSerialiser, "StatusRecord", statusRecord);
+		}
+		catch (CouldNotWritePropertyException e)
+		{
+			throw new CouldNotSerialiseMapException(this, e);
+
+		}
+	}
+
+	private static <V extends ValueSerialisable & IsUnknown> void writePropertyIfKnown(final MapSerialiser mapSerialiser, @NonNls final String name, final V value) throws CouldNotWritePropertyException
+	{
+		if (value.isKnown())
+		{
+			mapSerialiser.writeProperty(name, value);
+		}
+	}
+
+	private static <V extends MapSerialisable & IsUnknown> void writePropertyIfKnown(final MapSerialiser mapSerialiser, @NonNls final String name, final V value) throws CouldNotWritePropertyException
+	{
+		if (value.isKnown())
+		{
+			mapSerialiser.writeProperty(name, value);
 		}
 	}
 

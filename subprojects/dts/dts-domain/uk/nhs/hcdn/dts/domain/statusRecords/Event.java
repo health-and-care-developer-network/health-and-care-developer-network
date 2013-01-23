@@ -18,17 +18,34 @@ package uk.nhs.hcdn.dts.domain.statusRecords;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hcdn.common.serialisers.CouldNotSerialiseValueException;
+import uk.nhs.hcdn.common.serialisers.CouldNotWriteValueException;
+import uk.nhs.hcdn.common.serialisers.ValueSerialisable;
+import uk.nhs.hcdn.common.serialisers.ValueSerialiser;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public enum Event
+public enum Event implements ValueSerialisable
 {
 	COLLECT,
 	TRANSFER,
 	SEND,
 	RECEIVE,
 	;
+
+	@Override
+	public void serialiseValue(@NotNull final ValueSerialiser valueSerialiser) throws CouldNotSerialiseValueException
+	{
+		try
+		{
+			valueSerialiser.writeValue(name());
+		}
+		catch (CouldNotWriteValueException e)
+		{
+			throw new CouldNotSerialiseValueException(this, e);
+		}
+	}
 
 	@SuppressWarnings("UtilityClassWithoutPrivateConstructor")
 	private static final class CompilerWorkaround
@@ -41,6 +58,7 @@ public enum Event
 	{
 		CompilerWorkaround.Index.put(name(), this);
 	}
+
 
 	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
 	@Nullable

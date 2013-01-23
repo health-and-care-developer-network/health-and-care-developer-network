@@ -23,13 +23,40 @@ import uk.nhs.hcdn.common.serialisers.*;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.nio.charset.Charset;
 
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
+import static uk.nhs.hcdn.common.CharsetHelper.Utf8;
 
 public final class XmlSerialiser extends AbstractSerialiser
 {
+	public static void serialise(@NotNull final String rootNodeName, @NotNull final MapSerialisable graph, @NotNull final OutputStream outputStream) throws CouldNotSerialiseException
+	{
+		serialise(rootNodeName, graph, outputStream, true, Utf8);
+	}
+
+	public static void serialise(@NotNull final String rootNodeName, @NotNull final MapSerialisable graph, @NotNull final OutputStream outputStream, final boolean xmlDeclaration) throws CouldNotSerialiseException
+	{
+		serialise(rootNodeName, graph, outputStream, xmlDeclaration, Utf8);
+	}
+
+	public static void serialise(@NotNull final String rootNodeName, @NotNull final MapSerialisable graph, @NotNull final OutputStream outputStream, final boolean xmlDeclaration, @NotNull final Charset charset) throws CouldNotSerialiseException
+	{
+		final XmlSerialiser xmlSerialiser = new XmlSerialiser(rootNodeName, xmlDeclaration);
+		try
+		{
+			xmlSerialiser.start(outputStream, charset);
+			xmlSerialiser.writeValue(graph);
+			xmlSerialiser.finish();
+		}
+		catch (CouldNotWriteDataException | CouldNotWriteValueException e)
+		{
+			throw new CouldNotSerialiseException(graph, e);
+		}
+	}
+
 	private static final int LessThan = (int) '<';
 	private static final int GreaterThan = (int) '>';
 	private static final char[] LessThanSlash = characters("</");
@@ -43,14 +70,16 @@ public final class XmlSerialiser extends AbstractSerialiser
 
 	@NotNull
 	private final String rootNodeName;
+	private final boolean xmlDeclaration;
 
 	@SuppressWarnings("InstanceVariableMayNotBeInitialized")
 	@NotNull @ExcludeFromToString
 	private XmlStringWriter xmlStringWriter;
 
-	public XmlSerialiser(@NonNls @NotNull final String rootNodeName)
+	public XmlSerialiser(@NonNls @NotNull final String rootNodeName, final boolean xmlDeclaration)
 	{
 		this.rootNodeName = rootNodeName;
+		this.xmlDeclaration = xmlDeclaration;
 	}
 
 	@Override
@@ -58,13 +87,16 @@ public final class XmlSerialiser extends AbstractSerialiser
 	{
 		super.start(outputStream, charset);
 		xmlStringWriter = new XmlStringWriter(writer);
-		try
+		if (xmlDeclaration)
 		{
-			writer.write(format(ENGLISH, "<?xml version=\"1.0\" encoding=\"%1$s\" standalone=\"yes\"?>", charset.name().toUpperCase(ENGLISH)));
-		}
-		catch (IOException e)
-		{
-			throw new CouldNotWriteDataException(e);
+			try
+			{
+				writer.write(format(ENGLISH, "<?xml version=\"1.0\" encoding=\"%1$s\" standalone=\"yes\"?>", charset.name().toUpperCase(ENGLISH)));
+			}
+			catch (IOException e)
+			{
+				throw new CouldNotWriteDataException(e);
+			}
 		}
 		try
 		{
@@ -200,9 +232,27 @@ public final class XmlSerialiser extends AbstractSerialiser
 	@Override
 	public void writeValue(final int value) throws CouldNotWriteValueException
 	{
+		writeValue(Integer.toString(value));
+	}
+
+	@Override
+	public void writeValue(final long value) throws CouldNotWriteValueException
+	{
+		writeValue(Long.toString(value));
+	}
+
+	@Override
+	public void writeValue(@NotNull final BigDecimal value) throws CouldNotWriteValueException
+	{
+		writeValue(value.toString());
+	}
+
+	@Override
+	public void writeValue(@NotNull final String value) throws CouldNotWriteValueException
+	{
 		try
 		{
-			writeText(Integer.toString(value));
+			writeText(value);
 		}
 		catch (CouldNotWriteDataException | CouldNotEncodeDataException e)
 		{

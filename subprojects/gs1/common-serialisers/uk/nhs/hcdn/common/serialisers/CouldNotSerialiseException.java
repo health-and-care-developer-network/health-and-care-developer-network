@@ -14,34 +14,17 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.dts.domain.statusRecords;
+package uk.nhs.hcdn.common.serialisers;
 
-import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hcdn.common.serialisers.MapSerialisable;
-import uk.nhs.hcdn.common.unknown.IsUnknown;
 
-public interface StatusRecord extends IsUnknown, MapSerialisable
+import static java.lang.String.format;
+import static java.util.Locale.ENGLISH;
+
+public final class CouldNotSerialiseException extends AbstractDataException
 {
-	@NotNull
-	DateTime dateTime();
-
-	@NotNull
-	Event event();
-
-	@NotNull
-	Status status();
-
-	@NotNull
-	StatusCode statusCode();
-
-	@NotNull
-	@NonNls
-	String description();
-
-	boolean isEvent(@NotNull final Event event);
-
-	boolean hasStatus(@NotNull final Status status);
-
-	boolean hasStatusCode(@NotNull final StatusCode statusCode);
+	public CouldNotSerialiseException(@NotNull final MapSerialisable value, @NotNull final AbstractDataException cause)
+	{
+		super(format(ENGLISH, "Could not serialise %1$s", value), cause);
+	}
 }

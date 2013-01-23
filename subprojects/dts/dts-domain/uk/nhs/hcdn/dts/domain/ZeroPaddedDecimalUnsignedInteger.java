@@ -19,13 +19,17 @@ package uk.nhs.hcdn.dts.domain;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
+import uk.nhs.hcdn.common.serialisers.CouldNotSerialiseValueException;
+import uk.nhs.hcdn.common.serialisers.CouldNotWriteValueException;
+import uk.nhs.hcdn.common.serialisers.ValueSerialisable;
+import uk.nhs.hcdn.common.serialisers.ValueSerialiser;
 
 import static java.lang.StrictMath.pow;
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
 import static uk.nhs.hcdn.common.StringHelper.padAsDecimal;
 
-public final class ZeroPaddedDecimalUnsignedInteger extends AbstractToString
+public final class ZeroPaddedDecimalUnsignedInteger extends AbstractToString implements ValueSerialisable
 {
 	private static final int MaximumWidth = 18;
 
@@ -94,6 +98,19 @@ public final class ZeroPaddedDecimalUnsignedInteger extends AbstractToString
 
 		this.width = width;
 		this.value = value;
+	}
+
+	@Override
+	public void serialiseValue(@NotNull final ValueSerialiser valueSerialiser) throws CouldNotSerialiseValueException
+	{
+		try
+		{
+			valueSerialiser.writeValue(paddedValue());
+		}
+		catch (CouldNotWriteValueException e)
+		{
+			throw new CouldNotSerialiseValueException(this, e);
+		}
 	}
 
 	public int width()

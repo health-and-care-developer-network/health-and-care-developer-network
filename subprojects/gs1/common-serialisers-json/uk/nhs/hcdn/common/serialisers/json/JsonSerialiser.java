@@ -23,6 +23,7 @@ import uk.nhs.hcdn.common.serialisers.*;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.util.Stack;
 
@@ -222,9 +223,27 @@ public class JsonSerialiser extends AbstractSerialiser
 	@Override
 	public void writeValue(final int value) throws CouldNotWriteValueException
 	{
+		writeValue(Integer.toString(value));
+	}
+
+	@Override
+	public void writeValue(final long value) throws CouldNotWriteValueException
+	{
+		writeValue(Long.toString(value));
+	}
+
+	@Override
+	public void writeValue(@NotNull final BigDecimal value) throws CouldNotWriteValueException
+	{
+		writeValue(value.toString());
+	}
+
+	@Override
+	public void writeValue(@NotNull final String value) throws CouldNotWriteValueException
+	{
 		try
 		{
-			write(Integer.toString(value));
+			write(value);
 		}
 		catch (CouldNotWriteDataException e)
 		{

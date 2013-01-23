@@ -18,9 +18,8 @@ package uk.nhs.hcdn.dts.domain;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hcdn.common.unknown.AbstractStringIsUnknown;
 
-public final class SmtpAddress extends AbstractStringIsUnknown
+public final class SmtpAddress extends AbstractValueSerialisableStringIsUnknown
 {
 	@NotNull
 	public static final SmtpAddress UnknownSmtpAddress = new SmtpAddress("");

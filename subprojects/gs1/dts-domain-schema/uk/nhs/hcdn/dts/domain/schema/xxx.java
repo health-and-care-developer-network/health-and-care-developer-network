@@ -17,18 +17,28 @@
 package uk.nhs.hcdn.dts.domain.schema;
 
 import org.xml.sax.SAXException;
+import uk.nhs.hcdn.common.CharsetHelper;
+import uk.nhs.hcdn.common.serialisers.CouldNotSerialiseException;
 import uk.nhs.hcdn.dts.domain.ControlFile;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class xxx
 {
-	public static void main(String[] args) throws IOException, SAXException
+	public static void main(String[] args) throws IOException, SAXException, CouldNotSerialiseException
 	{
 		final byte[] bytes = x.getBytes("UTF-8");
 		final ControlFile parse = ControlFileSchemaParser.ControlFileSchemaParserInstance.parse(new ByteArrayInputStream(bytes));
-		System.out.println("parse = " + parse);
+		//System.out.println("parse = " + parse);
+
+		final ByteArrayOutputStream outputStream = new ByteArrayOutputStream(1000);
+		ControlFileSchemaParser.serialiseControlFile(parse, outputStream);
+		final byte[] bytes1 = outputStream.toByteArray();
+		final String s = new String(bytes1, CharsetHelper.Utf8);
+		System.out.println("s = " + s);
+
 	}
 
 	private static final String x = "<DTSControl>\n" +

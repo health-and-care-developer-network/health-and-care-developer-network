@@ -18,9 +18,8 @@ package uk.nhs.hcdn.dts.domain;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hcdn.common.unknown.AbstractStringIsUnknown;
 
-public final class DataChecksum extends AbstractStringIsUnknown
+public final class DataChecksum extends AbstractValueSerialisableStringIsUnknown
 {
 	@NotNull
 	public static final DataChecksum UnknownDataChecksum = new DataChecksum("");

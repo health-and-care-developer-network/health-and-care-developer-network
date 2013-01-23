@@ -18,9 +18,8 @@ package uk.nhs.hcdn.dts.domain;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hcdn.common.unknown.AbstractStringIsUnknown;
 
-public final class Subject extends AbstractStringIsUnknown
+public final class Subject extends AbstractValueSerialisableStringIsUnknown
 {
 	@NotNull
 	public static final Subject UnknownSubject = new Subject("");

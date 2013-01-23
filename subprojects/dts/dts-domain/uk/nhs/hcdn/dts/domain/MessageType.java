@@ -20,11 +20,15 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.naming.Description;
+import uk.nhs.hcdn.common.serialisers.CouldNotSerialiseValueException;
+import uk.nhs.hcdn.common.serialisers.CouldNotWriteValueException;
+import uk.nhs.hcdn.common.serialisers.ValueSerialisable;
+import uk.nhs.hcdn.common.serialisers.ValueSerialiser;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public enum MessageType implements Description
+public enum MessageType implements Description, ValueSerialisable
 {
 	Data("Data will have a data file and a control file"),
 	Report("Report will have a control file"),
@@ -45,6 +49,19 @@ public enum MessageType implements Description
 	{
 		this.description = description;
 		CompilerWorkaround.Index.put(name(), this);
+	}
+
+	@Override
+	public void serialiseValue(@NotNull final ValueSerialiser valueSerialiser) throws CouldNotSerialiseValueException
+	{
+		try
+		{
+			valueSerialiser.writeValue(name());
+		}
+		catch (CouldNotWriteValueException e)
+		{
+			throw new CouldNotSerialiseValueException(this, e);
+		}
 	}
 
 	@NotNull
