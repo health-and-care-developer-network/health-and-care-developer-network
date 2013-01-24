@@ -1230,7 +1230,11 @@
   </component>
   <component name="ProjectCodeStyleSettingsManager">
     <option name="PER_PROJECT_SETTINGS">
-      <value />
+      <value>
+        <XML>
+          <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
+        </XML>
+      </value>
     </option>
   </component>
   <component name="ProjectDictionaryState">
@@ -1272,6 +1276,7 @@
       <module fileurl="file://$PROJECT_DIR$/common-tuples/common-tuples.iml" filepath="$PROJECT_DIR$/common-tuples/common-tuples.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-unknown/common-unknown.iml" filepath="$PROJECT_DIR$/common-unknown/common-unknown.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/dts-client-create/dts-client-create.iml" filepath="$PROJECT_DIR$/dts-client-create/dts-client-create.iml" group="dts" />
+      <module fileurl="file://$PROJECT_DIR$/dts-client-read/dts-client-read.iml" filepath="$PROJECT_DIR$/dts-client-read/dts-client-read.iml" group="dts" />
       <module fileurl="file://$PROJECT_DIR$/../dts/dts-domain/dts-domain.iml" filepath="$PROJECT_DIR$/../dts/dts-domain/dts-domain.iml" group="dts" />
       <module fileurl="file://$PROJECT_DIR$/dts-domain-schema/dts-domain-schema.iml" filepath="$PROJECT_DIR$/dts-domain-schema/dts-domain-schema.iml" group="dts" />
     </modules>
@@ -1379,7 +1384,13 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="dts-client-create" />
       <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
       <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>

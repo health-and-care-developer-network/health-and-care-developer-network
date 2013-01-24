@@ -184,7 +184,7 @@ public final class ControlFile extends AbstractToString implements MapSerialisab
 			}
 			writePropertyIfKnown(mapSerialiser, "Subject", subject);
 			writePropertyIfKnown(mapSerialiser, "LocalId", localIdentifier);
-			writePropertyIfKnown(mapSerialiser, "DtsId", dtsIdentifier);
+			writePropertyIfKnown(mapSerialiser, "DTSId", dtsIdentifier);
 			writePropertyIfKnown(mapSerialiser, "ProcessId", processIdentifier);
 			writePropertyIfKnown(mapSerialiser, "Compress", compress);
 			writePropertyIfKnown(mapSerialiser, "Encrypted", encrypted);

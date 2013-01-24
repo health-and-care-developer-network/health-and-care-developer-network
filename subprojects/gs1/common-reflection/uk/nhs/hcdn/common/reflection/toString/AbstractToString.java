@@ -23,7 +23,7 @@ public abstract class AbstractToString
 	}
 
 	@Override
-	public final String toString()
+	public String toString()
 	{
 		return ToStringHelper.toString(this);
 	}

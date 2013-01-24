@@ -21,6 +21,9 @@ import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hcdn.common.reflection.toString.ExcludeFromToString;
 
+import static java.lang.String.format;
+import static java.util.Locale.ENGLISH;
+
 public class AbstractIsUnknown extends AbstractToString implements IsUnknown
 {
 	@ExcludeFromToString
@@ -29,6 +32,17 @@ public class AbstractIsUnknown extends AbstractToString implements IsUnknown
 	protected AbstractIsUnknown(final boolean isUnknown)
 	{
 		this.isUnknown = isUnknown;
+	}
+
+	@Override
+	@NotNull
+	public String toString()
+	{
+		if (isUnknown)
+		{
+			return format(ENGLISH, "Unknown%1$s", getClass().getSimpleName());
+		}
+		return super.toString();
 	}
 
 	@Override
