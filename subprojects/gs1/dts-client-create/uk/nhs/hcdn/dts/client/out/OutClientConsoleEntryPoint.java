@@ -73,8 +73,8 @@ public final class OutClientConsoleEntryPoint extends AbstractConsoleEntryPoint
 		options.accepts(ToDtsNameOption).requiredIf(FromDtsNameOption).withRequiredArg().ofType(DtsName.class).defaultsTo(UnknownDtsName).describedAs("to DTS name");
 		options.accepts(OutOption).withRequiredArg().ofType(File.class).describedAs("a folder to create the control file in");
 		options.accepts(InOption).requiredIf(OutOption).withRequiredArg().ofType(File.class).defaultsTo(new File(getProperty("user.dir"))).describedAs("path to a file containing data");
-		options.accepts(SiteIdentifierOption).requiredIf(OutOption).withRequiredArg().ofType(String.class).describedAs("SiteId including APP");
-		options.accepts(SequenceIdentifierOption).requiredIf(OutOption).withRequiredArg().ofType(TransactionSequenceIdentifier.class).defaultsTo(One).describedAs("transaction sequence identifier (zero padded)");
+		options.accepts(SiteIdentifierOption).requiredIf(OutOption, InOption).withRequiredArg().ofType(String.class).describedAs("SiteId including APP");
+		options.accepts(SequenceIdentifierOption).requiredIf(OutOption, InOption, SequenceIdentifierOption).withRequiredArg().ofType(TransactionSequenceIdentifier.class).defaultsTo(One).describedAs("transaction sequence identifier (zero padded)");
 		return true;
 	}
 
