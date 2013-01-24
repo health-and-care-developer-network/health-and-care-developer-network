@@ -17,8 +17,8 @@
 package uk.nhs.hcdn.common.parsers.json;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hcdn.common.parsers.json.charaterSets.BitSetCharacterSet;
-import uk.nhs.hcdn.common.parsers.json.charaterSets.CharacterSet;
+import uk.nhs.hcdn.common.parsers.charaterSets.BitSetCharacterSet;
+import uk.nhs.hcdn.common.parsers.charaterSets.CharacterSet;
 
 public final class CharacterHelper
 {

@@ -31,29 +31,25 @@ import static uk.nhs.hcdn.common.commandLine.ExitCode.Help;
 
 public final class ExitHelper extends AbstractToString
 {
-	@NotNull
-	private final OptionParser options;
-
-	public ExitHelper(@NotNull final OptionParser options)
+	private ExitHelper()
 	{
-		this.options = options;
 	}
 
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
-	public void exitWithHelp() throws IOException
+	public static void exitWithHelp(@NotNull final OptionParser options) throws IOException
 	{
 		options.printHelpOn(err);
 		Help.exit();
 	}
 
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
-	public void exitWithErrorAndHelp(@NonNls @NotNull final String template, @NonNls @NotNull final Object... values) throws IOException
+	public static void exitWithErrorAndHelp(@NotNull final OptionParser options, @NonNls @NotNull final String template, @NonNls @NotNull final Object... values) throws IOException
 	{
-		exitWithErrorAndHelp(format(ENGLISH, template, values));
+		exitWithErrorAndHelp(options, format(ENGLISH, template, values));
 	}
 
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
-	public void exitWithErrorAndHelp(@NonNls @NotNull final String message) throws IOException
+	public static void exitWithErrorAndHelp(@NotNull final OptionParser options, @NonNls @NotNull final String message) throws IOException
 	{
 		err.println(message);
 		options.printHelpOn(err);

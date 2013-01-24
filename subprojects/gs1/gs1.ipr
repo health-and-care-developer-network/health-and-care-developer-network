@@ -45,7 +45,11 @@
       <entry name="?*.dtd" />
       <entry name="?*.tld" />
     </wildcardResourcePatterns>
-    <annotationProcessing enabled="false" useClasspath="true" />
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="false">
+        <processorPath useClasspath="true" />
+      </profile>
+    </annotationProcessing>
   </component>
   <component name="CopyrightManager" default="Crown Copyright">
     <copyright>
@@ -157,6 +161,7 @@
             <value />
           </option>
           <option name="ignoreTestCases" value="false" />
+          <option name="ignoreLibraryOverrides" value="false" />
         </inspection_tool>
         <inspection_tool class="BadExceptionThrown" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="exceptionsString" value="" />
@@ -214,11 +219,11 @@
           <option name="m_limit" value="15" />
         </inspection_tool>
         <inspection_tool class="ClassEscapesItsScope" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="ClassHasNoToStringMethod" enabled="true" level="WARNING" enabled_by_default="true">
+        <inspection_tool class="ClassHasNoToStringMethod" enabled="true" level="WEAK WARNING" enabled_by_default="true">
           <option name="excludeClassNames" value="" />
           <option name="excludeException" value="true" />
           <option name="excludeDeprecated" value="true" />
-          <option name="excludeEnum" value="false" />
+          <option name="excludeEnum" value="true" />
           <option name="excludeAbstract" value="true" />
         </inspection_tool>
         <inspection_tool class="ClassInTopLevelPackage" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -306,7 +311,6 @@
         <inspection_tool class="CyclicClassDependency" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="CyclicPackageDependency" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="CyclomaticComplexity" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="ignoreEqualsMethod" value="false" />
           <option name="m_limit" value="10" />
         </inspection_tool>
         <inspection_tool class="DateToString" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -322,7 +326,6 @@
           <option name="ignoreOnVolatileVariables" value="false" />
         </inspection_tool>
         <inspection_tool class="DoubleLiteralMayBeFloatLiteral" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="DoubleNegation" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="DriverManagerGetConnection" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="DuplicateBooleanBranch" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="DuplicateCondition" enabled="true" level="WARNING" enabled_by_default="true">
@@ -550,10 +553,7 @@
         <inspection_tool class="LoopWithImplicitTerminationCondition" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="LossyEncoding" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="MagicCharacter" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="MagicNumber" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="ignoreInHashCode" value="true" />
-          <option name="ignoreInTestCode" value="false" />
-        </inspection_tool>
+        <inspection_tool class="MagicNumber" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="MalformedFormatString" enabled="true" level="ERROR" enabled_by_default="true" />
         <inspection_tool class="MapReplaceableByEnumMap" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="MarkerInterface" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -626,6 +626,7 @@
         </inspection_tool>
         <inspection_tool class="NegatedIfElse" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="m_ignoreNegatedNullComparison" value="true" />
+          <option name="m_ignoreNegatedZeroComparison" value="false" />
         </inspection_tool>
         <inspection_tool class="NestedAssignment" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="NestedConditionalExpression" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -716,6 +717,7 @@
         <inspection_tool class="PackageVisibleField" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="PackageVisibleInnerClass" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="ignoreEnums" value="false" />
+          <option name="ignoreInterfaces" value="false" />
         </inspection_tool>
         <inspection_tool class="PackageWithTooFewClasses" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="limit" value="3" />
@@ -743,18 +745,22 @@
         <inspection_tool class="PointlessNullCheck" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ProtectedInnerClass" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="ignoreEnums" value="false" />
+          <option name="ignoreInterfaces" value="false" />
         </inspection_tool>
         <inspection_tool class="ProtectedMemberInFinalClass" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="PublicConstructorInNonPublicClass" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="PublicField" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="ignoreEnums" value="false" />
+          <option name="ignoreEnums" value="true" />
           <option name="ignorableAnnotations">
-            <value />
+            <value>
+              <item value="org.jetbrains.annotations.NotNull" />
+            </value>
           </option>
         </inspection_tool>
         <inspection_tool class="PublicFieldAccessedInSynchronizedContext" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="PublicInnerClass" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="ignoreEnums" value="false" />
+          <option name="ignoreInterfaces" value="false" />
         </inspection_tool>
         <inspection_tool class="PublicMethodNotExposedInInterface" enabled="false" level="WARNING" enabled_by_default="false">
           <option name="onlyWarnIfContainingClassImplementsAnInterface" value="true" />
@@ -768,10 +774,7 @@
           <option name="nameString" value="aa,abc,bad,bar,bar2,baz,baz1,baz2,baz3,bb,blah,bogus,bool,cc,dd,defau1t,dummy,dummy2,ee,fa1se,ff,foo,foo1,foo2,foo3,foobar,four,fred,fred1,fred2,gg,hh,hello,hello1,hello2,hello3,ii,nu11,one,silly,silly2,string,two,then,three,whi1e,var" />
         </inspection_tool>
         <inspection_tool class="RandomDoubleForRandomInteger" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="RawUseOfParameterizedType" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="ignoreObjectConstruction" value="true" />
-          <option name="ignoreTypeCasts" value="false" />
-        </inspection_tool>
+        <inspection_tool class="RawUseOfParameterizedType" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ReadObjectAndWriteObjectPrivate" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ReadObjectInitialization" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ReadResolveAndWriteReplaceProtected" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -840,7 +843,6 @@
         <inspection_tool class="SimplifiableJUnitAssertion" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="Since15" enabled="true" level="ERROR" enabled_by_default="true" />
         <inspection_tool class="SingleCharacterStartsWith" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="Singleton" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="SizeReplaceableByIsEmpty" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="SleepWhileHoldingLock" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="SocketResource" enabled="true" level="WARNING" enabled_by_default="true">
@@ -890,6 +892,7 @@
           <option name="ignoreThrowableArguments" value="false" />
           <option name="ignoreConstantInitializers" value="false" />
           <option name="ignoreInTestCode" value="false" />
+          <option name="ignoreInToString" value="false" />
         </inspection_tool>
         <inspection_tool class="StringConcatenationInFormatCall" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="StringConcatenationInLoops" enabled="true" level="WARNING" enabled_by_default="true">
@@ -931,7 +934,6 @@
         <inspection_tool class="SystemGC" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="SystemGetenv" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="SystemOutErr" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="SystemProperties" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="SystemRunFinalizersOnExit" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="SystemSetSecurityManager" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="TailRecursion" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -961,6 +963,7 @@
         <inspection_tool class="ThreadYield" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ThreeNegationsPerMethod" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="m_ignoreInEquals" value="true" />
+          <option name="ignoreInAssert" value="false" />
         </inspection_tool>
         <inspection_tool class="ThrowFromFinallyBlock" enabled="false" level="WARNING" enabled_by_default="false" />
         <inspection_tool class="ThrowablePrintStackTrace" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -970,10 +973,7 @@
         <inspection_tool class="ThrowsRuntimeException" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="TimeToString" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="TodoComment" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="TooBroadCatch" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="onlyWarnOnRootExceptions" value="false" />
-          <option name="ignoreInTestCode" value="false" />
-        </inspection_tool>
+        <inspection_tool class="TooBroadCatch" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="TooBroadScope" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="m_allowConstructorAsInitializer" value="false" />
           <option name="m_onlyLookAtBlocks" value="false" />
@@ -1028,6 +1028,7 @@
         <inspection_tool class="UnnecessaryParentheses" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="ignoreClarifyingParentheses" value="true" />
           <option name="ignoreParenthesesOnConditionals" value="true" />
+          <option name="ignoreParenthesesOnLambdaParameter" value="false" />
         </inspection_tool>
         <inspection_tool class="UnnecessaryQualifierForThis" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="UnnecessarySuperConstructor" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -1059,6 +1060,9 @@
         <inspection_tool class="UtilityClassWithPublicConstructor" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="UtilityClassWithoutPrivateConstructor" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="ignoreClassesWithOnlyMain" value="false" />
+          <option name="ignorableAnnotations">
+            <value />
+          </option>
         </inspection_tool>
         <inspection_tool class="VariableNotUsedInsideIf" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="VolatileArrayField" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -1224,6 +1228,11 @@
       </item>
     </group>
   </component>
+  <component name="ProjectCodeStyleSettingsManager">
+    <option name="PER_PROJECT_SETTINGS">
+      <value />
+    </option>
+  </component>
   <component name="ProjectDictionaryState">
     <dictionary name="raph" />
   </component>
@@ -1255,11 +1264,16 @@
       <module fileurl="file://$PROJECT_DIR$/common-parsers/common-parsers.iml" filepath="$PROJECT_DIR$/common-parsers/common-parsers.iml" group="common/parsers" />
       <module fileurl="file://$PROJECT_DIR$/common-parsers-json/common-parsers-json.iml" filepath="$PROJECT_DIR$/common-parsers-json/common-parsers-json.iml" group="common/parsers" />
       <module fileurl="file://$PROJECT_DIR$/common-parsers-separatedValueParsers/common-parsers-separatedValueParsers.iml" filepath="$PROJECT_DIR$/common-parsers-separatedValueParsers/common-parsers-separatedValueParsers.iml" group="common/parsers" />
+      <module fileurl="file://$PROJECT_DIR$/common-parsers-xml/common-parsers-xml.iml" filepath="$PROJECT_DIR$/common-parsers-xml/common-parsers-xml.iml" group="common/parsers" />
       <module fileurl="file://$PROJECT_DIR$/common-reflection/common-reflection.iml" filepath="$PROJECT_DIR$/common-reflection/common-reflection.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-serialisers/common-serialisers.iml" filepath="$PROJECT_DIR$/common-serialisers/common-serialisers.iml" group="common/serialisers" />
       <module fileurl="file://$PROJECT_DIR$/common-serialisers-json/common-serialisers-json.iml" filepath="$PROJECT_DIR$/common-serialisers-json/common-serialisers-json.iml" group="common/serialisers" />
       <module fileurl="file://$PROJECT_DIR$/common-serialisers-xml/common-serialisers-xml.iml" filepath="$PROJECT_DIR$/common-serialisers-xml/common-serialisers-xml.iml" group="common/serialisers" />
       <module fileurl="file://$PROJECT_DIR$/common-tuples/common-tuples.iml" filepath="$PROJECT_DIR$/common-tuples/common-tuples.iml" group="common" />
+      <module fileurl="file://$PROJECT_DIR$/common-unknown/common-unknown.iml" filepath="$PROJECT_DIR$/common-unknown/common-unknown.iml" group="common" />
+      <module fileurl="file://$PROJECT_DIR$/dts-client-create/dts-client-create.iml" filepath="$PROJECT_DIR$/dts-client-create/dts-client-create.iml" group="dts" />
+      <module fileurl="file://$PROJECT_DIR$/../dts/dts-domain/dts-domain.iml" filepath="$PROJECT_DIR$/../dts/dts-domain/dts-domain.iml" group="dts" />
+      <module fileurl="file://$PROJECT_DIR$/dts-domain-schema/dts-domain-schema.iml" filepath="$PROJECT_DIR$/dts-domain-schema/dts-domain-schema.iml" group="dts" />
     </modules>
   </component>
   <component name="ProjectResources">
@@ -1292,6 +1306,82 @@
       <method>
         <option name="BuildArtifacts" enabled="true" />
       </method>
+    </configuration>
+    <configuration default="false" name="Gs1BarcodesClientConsoleEntryPoint (5055220798768)" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hcdn.barcodes.gs1.client.application.Gs1BarcodesClientConsoleEntryPoint" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="--gtin 5055220798768" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="barcodes-gs1-client-application" />
+      <envs />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Gs1BarcodesClientConsoleEntryPoint (5055220798768 Cached)" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hcdn.barcodes.gs1.client.application.Gs1BarcodesClientConsoleEntryPoint" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="--gtin 5055220798768 --cache" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="barcodes-gs1-client-application" />
+      <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Gs1BarcodesClientConsoleEntryPoint" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hcdn.barcodes.gs1.client.application.Gs1BarcodesClientConsoleEntryPoint" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="barcodes-gs1-client-application" />
+      <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="OutClientConsoleEntryPoint" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hcdn.dts.client.out.OutClientConsoleEntryPoint" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="--workflow-identifier &quot;hello&quot; --from-smtp &quot;r@b.com&quot; --to-smtp &quot;r@f.com&quot;" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="dts-client-create" />
+      <envs />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
     </configuration>
   </component>
   <component name="ResourceManagerContainer">

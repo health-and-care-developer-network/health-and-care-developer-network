@@ -25,6 +25,6 @@ public final class CouldNotCreateRestEndpointsException extends Exception
 {
 	public CouldNotCreateRestEndpointsException(@NotNull final Exception cause)
 	{
-		super(format(ENGLISH, "Could not create rest endpoints because of exception %1$s", cause.getMessage()), cause);
+		super(format(ENGLISH, "Could not out rest endpoints because of exception %1$s", cause.getMessage()), cause);
 	}
 }

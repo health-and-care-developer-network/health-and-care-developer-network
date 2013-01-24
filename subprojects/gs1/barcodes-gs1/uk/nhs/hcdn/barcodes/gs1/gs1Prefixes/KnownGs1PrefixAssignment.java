@@ -230,6 +230,7 @@ public enum KnownGs1PrefixAssignment implements Gs1PrefixAssignment // some of t
 		return actualName;
 	}
 
+	@SuppressWarnings("RefusedBequest")
 	@Override
 	@NotNull
 	public String toString()

@@ -16,6 +16,7 @@
 
 package uk.nhs.hcdn.common.serialisers;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractDataException extends Exception
@@ -25,7 +26,7 @@ public abstract class AbstractDataException extends Exception
 		super(message);
 	}
 
-	protected AbstractDataException(@NotNull final String message, @NotNull final Exception cause)
+	protected AbstractDataException(@NonNls @NotNull final String message, @NotNull final Exception cause)
 	{
 		super(message, cause);
 	}

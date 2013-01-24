@@ -12,6 +12,8 @@
     <orderEntry type="module" module-name="barcodes-gs1-server" />
     <orderEntry type="module" module-name="common-http-server-sun-application" />
     <orderEntry type="module" module-name="common-http-server-sun" />
+    <orderEntry type="module" module-name="common-commandLine" />
+    <orderEntry type="module" module-name="common" />
   </component>
 </module>
 

@@ -18,7 +18,7 @@ package uk.nhs.hcdn.common.parsers.json.parseModes;
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.common.parsers.json.InvalidJsonException;
-import uk.nhs.hcdn.common.parsers.json.charaterSets.CharacterSet;
+import uk.nhs.hcdn.common.parsers.charaterSets.CharacterSet;
 import uk.nhs.hcdn.common.parsers.json.jsonReaders.EndOfFileException;
 import uk.nhs.hcdn.common.parsers.json.jsonReaders.JsonReader;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;

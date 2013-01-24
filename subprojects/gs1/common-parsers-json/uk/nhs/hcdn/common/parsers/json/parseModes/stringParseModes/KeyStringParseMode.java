@@ -18,7 +18,7 @@ package uk.nhs.hcdn.common.parsers.json.parseModes.stringParseModes;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hcdn.common.parsers.json.charaterSets.CharacterSet;
+import uk.nhs.hcdn.common.parsers.charaterSets.CharacterSet;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.JsonParseEventHandler;
 import uk.nhs.hcdn.common.parsers.json.parseModes.ParseMode;
 

@@ -37,9 +37,25 @@ public final class StringHelper
 
 	@NonNls
 	@NotNull
+	public static String padAsDecimal(final long ordinal, final int padding)
+	{
+		final String unpadded = Long.toString(ordinal);
+		return pad(unpadded, padding);
+	}
+
+	@NonNls
+	@NotNull
 	public static String padAsHexadecimal(final int ordinal, final int padding)
 	{
 		final String unpadded = Integer.toHexString(ordinal);
+		return pad(unpadded, padding);
+	}
+
+	@NonNls
+	@NotNull
+	public static String padAsHexadecimal(final long ordinal, final int padding)
+	{
+		final String unpadded = Long.toHexString(ordinal);
 		return pad(unpadded, padding);
 	}
 

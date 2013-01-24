@@ -48,9 +48,10 @@ public abstract class AbstractTuplesSubResource extends AbstractToString impleme
 		this.tuples = copyOf(tuples);
 		this.guess = guess;
 		jsonUtf8Content = resourceContent(JsonContentTypeUtf8, new JsonSerialiser(), guess, tuples);
-		xmlUtf8Content = resourceContent(XmlContentTypeUtf8, new XmlSerialiser("gs1"), guess * 4, tuples);
+		xmlUtf8Content = resourceContent(XmlContentTypeUtf8, new XmlSerialiser("gs1", true), guess * 4, tuples);
 	}
 
+	@SuppressWarnings("FeatureEnvy")
 	@NotNull
 	@Override
 	public final ResourceContent content(@Nullable final String rawQueryString) throws BadRequestException

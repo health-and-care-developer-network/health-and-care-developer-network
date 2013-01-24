@@ -19,6 +19,8 @@ package uk.nhs.hcdn.common.serialisers;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.math.BigDecimal;
+
 public interface ValueSerialiser
 {
 	@SuppressWarnings("MethodCanBeVariableArityMethod")
@@ -28,6 +30,12 @@ public interface ValueSerialiser
 	<S extends ValueSerialisable> void writeValue(@NotNull final S[] values) throws CouldNotWriteValueException;
 
 	void writeValue(final int value) throws CouldNotWriteValueException;
+
+	void writeValue(final long value) throws CouldNotWriteValueException;
+
+	void writeValue(@NotNull final BigDecimal value) throws CouldNotWriteValueException;
+
+	void writeValue(@NotNull final String value) throws CouldNotWriteValueException;
 
 	void writeValue(@NotNull final MapSerialisable value) throws CouldNotWriteValueException;
 

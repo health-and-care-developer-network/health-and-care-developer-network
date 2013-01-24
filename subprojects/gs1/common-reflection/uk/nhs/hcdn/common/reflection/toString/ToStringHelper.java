@@ -88,7 +88,7 @@ public final class ToStringHelper
 		stringWriter.write("(");
 
 		boolean afterFirstField = false;
-		for (final Field field : classInformation.allPrivateOrProtectedFinalFields())
+		for (final Field field : classInformation.allPrivateOrProtectedOrPublicFinalFields())
 		{
 			if (fieldInformation(field).hasAnnotation(ExcludeFromToString.class))
 			{

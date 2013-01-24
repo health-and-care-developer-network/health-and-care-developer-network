@@ -81,7 +81,7 @@ public final class ClassInformation extends AbstractToString
 	}
 
 	@NotNull
-	public List<Field> allPrivateOrProtectedFinalFields()
+	public List<Field> allPrivateOrProtectedOrPublicFinalFields()
 	{
 		if (!isRegularClass())
 		{
@@ -110,7 +110,7 @@ public final class ClassInformation extends AbstractToString
 			{
 				for (final Field declaredField : aClass.getDeclaredFields())
 				{
-					if (fieldModifiers(declaredField).isPrivateOrProtectedFinalInstanceAndSerializable())
+					if (fieldModifiers(declaredField).isPrivateOrProtectedOrPublicFinalInstanceAndSerializable())
 					{
 						declaredField.setAccessible(true);
 						add(declaredField);

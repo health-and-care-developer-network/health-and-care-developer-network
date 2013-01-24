@@ -22,8 +22,8 @@ import uk.nhs.hcdn.common.parsers.json.InvalidJsonException;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.ArrayConstructor;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.ListArrayConstructor;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.MapObjectConstructor;
-import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.jsonParseResultUsers.JsonParseResultUser;
-import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.jsonParseResultUsers.ValueReturningJsonParseResultUser;
+import uk.nhs.hcdn.common.parsers.parseResultUsers.ParseResultUser;
+import uk.nhs.hcdn.common.parsers.parseResultUsers.ValueReturningParseResultUser;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.nodeStates.ArrayNodeState;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.nodeStates.NodeState;
 import uk.nhs.hcdn.common.parsers.json.jsonParseEventHandlers.nodeStates.ObjectNodeState;
@@ -51,7 +51,7 @@ public final class GenericJsonParseEventHandler<V> implements JsonParseEventHand
 
 		try
 		{
-			final ValueReturningJsonParseResultUser<List<Object>> objectValueReturningJsonParseResultUser = new ValueReturningJsonParseResultUser<>();
+			final ValueReturningParseResultUser<List<Object>> objectValueReturningJsonParseResultUser = new ValueReturningParseResultUser<>();
 			RootParseModeInstance.parse(new GenericJsonParseEventHandler<>(listArrayConstructor, objectValueReturningJsonParseResultUser), new BufferedJsonReader(new BufferedReader(reader)));
 			@Nullable final List<Object> value = objectValueReturningJsonParseResultUser.value();
 			assert value != null;
@@ -72,16 +72,16 @@ public final class GenericJsonParseEventHandler<V> implements JsonParseEventHand
 	@NotNull
 	private final ArrayConstructor<V> rootArrayConstructor;
 	@NotNull
-	private final JsonParseResultUser<V> jsonParseResultUser;
+	private final ParseResultUser<V> parseResultUser;
 	private final Stack<NodeState> depth;
 
 	@Nullable
 	private NodeState current;
 
-	public GenericJsonParseEventHandler(@NotNull final ArrayConstructor<V> rootArrayConstructor, @NotNull final JsonParseResultUser<V> jsonParseResultUser)
+	public GenericJsonParseEventHandler(@NotNull final ArrayConstructor<V> rootArrayConstructor, @NotNull final ParseResultUser<V> parseResultUser)
 	{
 		this.rootArrayConstructor = rootArrayConstructor;
-		this.jsonParseResultUser = jsonParseResultUser;
+		this.parseResultUser = parseResultUser;
 		depth = new Stack<>();
 		current = null;
 	}
@@ -98,7 +98,7 @@ public final class GenericJsonParseEventHandler<V> implements JsonParseEventHand
 	{
 		@Nullable final V value = (V) current().collect();
 		current = null;
-		jsonParseResultUser.use(value);
+		parseResultUser.use(value);
 	}
 
 	@Override

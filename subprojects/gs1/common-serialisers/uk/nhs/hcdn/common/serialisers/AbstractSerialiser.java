@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.math.BigDecimal;
 import java.nio.charset.Charset;
 
 public abstract class AbstractSerialiser extends AbstractToString implements Serialiser
@@ -103,6 +104,36 @@ public abstract class AbstractSerialiser extends AbstractToString implements Ser
 			return;
 		}
 
+		if (value instanceof Integer)
+		{
+			writeValue((int) (Integer) value);
+			return;
+		}
+
+		if (value instanceof Long)
+		{
+			writeValue((long) (Long) value);
+			return;
+		}
+
+		if (value instanceof BigDecimal)
+		{
+			writeValue((BigDecimal) value);
+			return;
+		}
+
+		if (value instanceof String)
+		{
+			writeValue((String) value);
+			return;
+		}
+
+		if (value instanceof Enum)
+		{
+			writeValue(((Enum<?>) value).name());
+			return;
+		}
+
 		if (value instanceof MapSerialisable)
 		{
 			writeValue((MapSerialisable) value);
@@ -113,11 +144,6 @@ public abstract class AbstractSerialiser extends AbstractToString implements Ser
 		{
 			writeValue((ValueSerialisable) value);
 			return;
-		}
-
-		if (value instanceof Integer)
-		{
-			writeValue((int) (Integer) value);
 		}
 
 		throw new CouldNotWriteValueException(value, "do not know how to write values for this class");

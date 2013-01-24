@@ -16,12 +16,15 @@
 
 package uk.nhs.hcdn.common.tuples;
 
-import org.jetbrains.annotations.Nullable;
-import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import static java.lang.String.format;
+import static java.util.Locale.ENGLISH;
 
 @SuppressWarnings("StandardVariableNames")
-public class Pair<A, B> extends AbstractToString
+public class Pair<A, B> implements Tuple
 {
 	@SuppressWarnings({"ClassEscapesDefinedScope", "PublicField"})
 	@NotNull
@@ -33,7 +36,7 @@ public class Pair<A, B> extends AbstractToString
 
 	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
 	@NotNull
-	public static <A, B> Pair<A, B> pair(@NotNull final A a, @NotNull final B b)
+	public static <A, B> Pair<A, B> pair(@NonNls @NotNull final A a, @NotNull final B b)
 	{
 		return new Pair<>(a, b);
 	}
@@ -42,6 +45,25 @@ public class Pair<A, B> extends AbstractToString
 	{
 		this.a = a;
 		this.b = b;
+	}
+
+	@NotNull
+	@Override
+	public String toString()
+	{
+		return format(ENGLISH, "%1$s(%2$s, %3$s)", getClass().getSimpleName(), a, b);
+	}
+
+	@Override
+	public int cardinality()
+	{
+		return 2;
+	}
+
+	@NotNull
+	public <C> Triple<A, B, C> with(@NotNull final C c)
+	{
+		return new Triple<>(a, b, c);
 	}
 
 	@Override
