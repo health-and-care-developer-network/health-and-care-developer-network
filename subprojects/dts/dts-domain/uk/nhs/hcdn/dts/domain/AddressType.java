@@ -80,6 +80,25 @@ public enum AddressType implements Description, ValueSerialisable
 		return CompilerWorkaround.Index.get(value);
 	}
 
+	@SuppressWarnings("FeatureEnvy")
+	@NotNull
+	public static AddressType determineAddressType(@SuppressWarnings("TypeMayBeWeakened") @NotNull final AddressPair<SmtpAddress> smtpAddresses, @SuppressWarnings("TypeMayBeWeakened") @NotNull final AddressPair<DtsName> dtsNames)
+	{
+		if (smtpAddresses.isKnown())
+		{
+			if (dtsNames.isKnown())
+			{
+				return ALL;
+			}
+			return SMTP;
+		}
+		if (dtsNames.isKnown())
+		{
+			return DTS;
+		}
+		throw new IllegalArgumentException("There are no known smtpAddresses and dtsNames");
+	}
+
 	public boolean isFromSmtpAddressRequired()
 	{
 		return fromSmtpAddressRequired;

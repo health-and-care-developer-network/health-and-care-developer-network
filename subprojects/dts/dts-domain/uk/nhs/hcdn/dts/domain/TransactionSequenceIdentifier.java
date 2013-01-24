@@ -25,9 +25,20 @@ import static uk.nhs.hcdn.dts.domain.ZeroPaddedDecimalUnsignedInteger.fromPadded
 
 public final class TransactionSequenceIdentifier
 {
+	@NotNull
+	public static final TransactionSequenceIdentifier One = fromPaddedTransactionSequenceIdentifer("00000001");
+
 	public static final int Width = 8;
 	private static final TransactionSequenceIdentifier BeginningOfSequence = new TransactionSequenceIdentifier(new ZeroPaddedDecimalUnsignedInteger(Width, 1L));
 	private static final long Maximum = 99999999L;
+
+	// Used by jopt-simple via reflection in command line parsing
+	@SuppressWarnings("UnusedDeclaration")
+	@NotNull
+	public static TransactionSequenceIdentifier valueOf(@SuppressWarnings("TypeMayBeWeakened") @NotNull final String value)
+	{
+		return fromPaddedTransactionSequenceIdentifer(value);
+	}
 
 	@NotNull
 	public static TransactionSequenceIdentifier fromPaddedTransactionSequenceIdentifer(@NotNull final CharSequence value)

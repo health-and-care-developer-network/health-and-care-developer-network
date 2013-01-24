@@ -8,10 +8,10 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="IntelliJ Annotations" level="project" />
-    <orderEntry type="module" module-name="common-parsers-xml" />
-    <orderEntry type="module" module-name="dts-domain" />
-    <orderEntry type="module" module-name="common-tuples" />
-    <orderEntry type="module" module-name="common-serialisers-xml" />
+    <orderEntry type="module" module-name="common-parsers-xml" exported="" />
+    <orderEntry type="module" module-name="dts-domain" exported="" />
+    <orderEntry type="module" module-name="common-tuples" exported="" />
+    <orderEntry type="module" module-name="common-serialisers-xml" exported="" />
     <orderEntry type="module" module-name="common" />
   </component>
 </module>

@@ -67,7 +67,7 @@ public final class RootXmlConstructor<V> extends AbstractToString implements Xml
 	}
 
 	@Override
-	public void text(@NotNull final RootValueHolder<V> collector, @NotNull final String text, final boolean shouldPreserveWhitespace)
+	public void collectText(@NotNull final RootValueHolder<V> collector, @NotNull final String text, final boolean shouldPreserveWhitespace)
 	{
 		throw new IllegalStateException("text should not occur before or after a root node");
 	}
@@ -81,18 +81,22 @@ public final class RootXmlConstructor<V> extends AbstractToString implements Xml
 
 	@NotNull
 	@Override
-	public XmlConstructor<?, ?> node(@NotNull final String name, @NotNull final Iterable<Pair<String, String>> attributes) throws XmlSchemaViolationException
+	public XmlConstructor<?, ?> childNode(@NotNull final String name, @NotNull final Iterable<Pair<String, String>> attributes, final boolean isNil) throws XmlSchemaViolationException
 	{
 		if (!name.equals(rootNodeName))
 		{
 			throw new XmlSchemaViolationException(format(ENGLISH, "expected root node %1$s not %2$s", rootNodeName, name));
+		}
+		if (isNil)
+		{
+			throw new XmlSchemaViolationException(format(ENGLISH, "Root node %1$s should not be nil", rootNodeName));
 		}
 		return xmlConstructor;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void node(@NotNull final RootValueHolder<V> collector, @NotNull final String name, @NotNull final Object value) throws XmlSchemaViolationException
+	public void collectNode(@NotNull final RootValueHolder<V> collector, @NotNull final String name, @NotNull final Object value)
 	{
 		collector.assign((V) value);
 	}

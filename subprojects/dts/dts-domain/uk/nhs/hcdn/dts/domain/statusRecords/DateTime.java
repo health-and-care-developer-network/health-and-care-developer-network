@@ -95,10 +95,9 @@ public final class DateTime extends AbstractToString implements ValueSerialisabl
 	@Override
 	public void serialiseValue(@NotNull final ValueSerialiser valueSerialiser) throws CouldNotSerialiseValueException
 	{
-		final GregorianCalendar utc = utc(dateTime);
 		try
 		{
-			valueSerialiser.writeValue(new SimpleDateFormat("yyyyMMddHHmmss", ROOT).format(utc.getTime()));
+			valueSerialiser.writeValue(asYYYYMMDDhhmmss());
 		}
 		catch (CouldNotWriteValueException e)
 		{
@@ -122,6 +121,15 @@ public final class DateTime extends AbstractToString implements ValueSerialisabl
 	public Date asDate()
 	{
 		return new Date(dateTime);
+	}
+
+	// Note: The DTS specifications use a different convention for naming the parts compared to Java's DateFormat or GNU / POSIX date function
+	@NonNls
+	@NotNull
+	public String asYYYYMMDDhhmmss()
+	{
+		final GregorianCalendar utc = utc(dateTime);
+		return new SimpleDateFormat("yyyyMMddHHmmss", ROOT).format(utc.getTime());
 	}
 
 	@Override

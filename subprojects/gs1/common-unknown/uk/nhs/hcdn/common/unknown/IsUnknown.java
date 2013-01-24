@@ -16,9 +16,15 @@
 
 package uk.nhs.hcdn.common.unknown;
 
+import org.jetbrains.annotations.NotNull;
+
 public interface IsUnknown
 {
 	boolean isUnknown();
 
 	boolean isKnown();
+
+	boolean isSameKnownessAs(@NotNull final IsUnknown that);
+
+	boolean isDifferentKnownessAs(@NotNull final IsUnknown that);
 }

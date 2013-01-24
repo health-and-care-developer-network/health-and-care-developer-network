@@ -18,7 +18,6 @@ package uk.nhs.hcdn.dts.domain.schema;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.parsers.xml.SchemaParser;
 import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.*;
 import uk.nhs.hcdn.common.serialisers.CouldNotSerialiseException;
@@ -33,7 +32,7 @@ import static uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructo
 import static uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.RootXmlConstructor.rootSchemaFor;
 import static uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.StringXmlConstructor.StringXmlConstructorInstance;
 import static uk.nhs.hcdn.common.serialisers.xml.XmlSerialiser.serialise;
-import static uk.nhs.hcdn.dts.domain.BooleanFlag.UnknownBooleanFlag;
+import static uk.nhs.hcdn.dts.domain.BooleanFlag.*;
 import static uk.nhs.hcdn.dts.domain.DataChecksum.UnknownDataChecksum;
 import static uk.nhs.hcdn.dts.domain.DtsName.UnknownDtsName;
 import static uk.nhs.hcdn.dts.domain.SmtpAddress.UnknownSmtpAddress;
@@ -82,8 +81,8 @@ public final class ControlFileSchemaParser extends SchemaParser<ControlFile>
 		nodeMayBeMissing("LocalId", UnknownLocalIdentifier, LocalIdentifierTextXmlConstructorInstance),
 		nodeMayBeMissing("DTSId", UnknownDtsIdentifier, DtsIdentifierTextXmlConstructorInstance),
 		nodeMayBeMissing("ProcessId", UnknownProcessIdentifier, ProcessIdentifierTextXmlConstructorInstance),
-		nodeMayBeMissing("Compress", UnknownBooleanFlag, BooleanFlagTextXmlConstructorInstance),
-		nodeMayBeMissing("Encrypted", UnknownBooleanFlag, BooleanFlagTextXmlConstructorInstance),
+		nodeMayBeMissing("Compress", Y, BooleanFlagTextXmlConstructorInstance),
+		nodeMayBeMissing("Encrypted", N, BooleanFlagTextXmlConstructorInstance),
 		nodeMayBeMissing("IsCompressed", UnknownBooleanFlag, BooleanFlagTextXmlConstructorInstance),
 		nodeMayBeMissing("DataChecksum", UnknownDataChecksum, DataChecksumTextXmlConstructorInstance),
 		nodeMayBeMissing("PartnerIdentifier", UnknownPartnerIdentifier, PartnerIdentifierTextXmlConstructorInstance),
@@ -113,7 +112,7 @@ public final class ControlFileSchemaParser extends SchemaParser<ControlFile>
 	}
 
 	@SuppressWarnings("unchecked")
-	private static <C, V, X, Y extends V> Pair<String, MissingFieldXmlConstructor<?, ?>> nodeMayBeMissing(@NonNls final String value, @Nullable final X valueIfMissing, final XmlConstructor<C, Y> xmlConstructor)
+	private static <C, V, X, Y extends V> Pair<String, MissingFieldXmlConstructor<?, ?>> nodeMayBeMissing(@NonNls final String value, @NotNull final X valueIfMissing, final XmlConstructor<C, Y> xmlConstructor)
 	{
 		return new Pair<String, MissingFieldXmlConstructor<?, ?>>(value, new MayBeMissingFieldXmlConstructor(xmlConstructor, valueIfMissing));
 	}

@@ -25,8 +25,57 @@ import uk.nhs.hcdn.common.unknown.IsUnknown;
 import uk.nhs.hcdn.dts.domain.identifiers.*;
 import uk.nhs.hcdn.dts.domain.statusRecords.StatusRecord;
 
+import static uk.nhs.hcdn.dts.domain.AddressPair.UnknownDtsNames;
+import static uk.nhs.hcdn.dts.domain.AddressPair.UnknownSmtpAddresses;
+import static uk.nhs.hcdn.dts.domain.AddressType.determineAddressType;
+import static uk.nhs.hcdn.dts.domain.BooleanFlag.UnknownBooleanFlag;
+import static uk.nhs.hcdn.dts.domain.DataChecksum.UnknownDataChecksum;
+import static uk.nhs.hcdn.dts.domain.MessageType.Data;
+import static uk.nhs.hcdn.dts.domain.Version.VersionMajor1Minor0;
+import static uk.nhs.hcdn.dts.domain.identifiers.PartnerIdentifier.UnknownPartnerIdentifier;
+import static uk.nhs.hcdn.dts.domain.identifiers.ProcessIdentifier.UnknownProcessIdentifier;
+import static uk.nhs.hcdn.dts.domain.statusRecords.UnknownStatusRecord.UnknownStatusRecordInstance;
+
 public final class ControlFile extends AbstractToString implements MapSerialisable
 {
+	@NotNull
+	public static ControlFile dataControlFileForSmtpNames(@NotNull final WorkflowIdentifier workflowIdentifier, @NotNull final Subject subject, @NotNull final LocalIdentifier localIdentifier, @NotNull final DtsIdentifier dtsIdentifier, @NotNull final ContentEncoding contentEncoding, @NotNull final AddressPair<SmtpAddress> smtpAddresses)
+	{
+		return dataControlFile(workflowIdentifier, subject, localIdentifier, dtsIdentifier, contentEncoding, smtpAddresses, UnknownDtsNames);
+	}
+
+	@NotNull
+	public static ControlFile dataControlFileForDtsNames(@NotNull final WorkflowIdentifier workflowIdentifier, @NotNull final Subject subject, @NotNull final LocalIdentifier localIdentifier, @NotNull final DtsIdentifier dtsIdentifier, @NotNull final ContentEncoding contentEncoding, @NotNull final AddressPair<DtsName> dtsNames)
+	{
+		return dataControlFile(workflowIdentifier, subject, localIdentifier, dtsIdentifier, contentEncoding, UnknownSmtpAddresses, dtsNames);
+	}
+
+	@NotNull
+	public static ControlFile dataControlFile(@NotNull final WorkflowIdentifier workflowIdentifier, @NotNull final Subject subject, @NotNull final LocalIdentifier localIdentifier, @NotNull final DtsIdentifier dtsIdentifier, @NotNull final ContentEncoding contentEncoding, @NotNull final AddressPair<SmtpAddress> smtpAddresses, @NotNull final AddressPair<DtsName> dtsNames)
+	{
+		return new ControlFile
+		(
+			VersionMajor1Minor0,
+			determineAddressType(smtpAddresses, dtsNames),
+			Data,
+			workflowIdentifier,
+			smtpAddresses.a,
+			dtsNames.a,
+			smtpAddresses.b,
+			dtsNames.b,
+			subject,
+			localIdentifier,
+			dtsIdentifier,
+			UnknownProcessIdentifier,
+			contentEncoding.compression,
+			contentEncoding.encryption,
+			UnknownBooleanFlag,
+			UnknownDataChecksum,
+			UnknownPartnerIdentifier,
+			UnknownStatusRecordInstance
+		);
+	}
+
 	@NotNull
 	public final Version version;
 	@NotNull

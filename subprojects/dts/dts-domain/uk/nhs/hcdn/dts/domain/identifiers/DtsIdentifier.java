@@ -18,6 +18,10 @@ package uk.nhs.hcdn.dts.domain.identifiers;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hcdn.dts.domain.statusRecords.DateTime;
+
+import static java.lang.String.format;
+import static java.util.Locale.ENGLISH;
 
 public final class DtsIdentifier extends AbstractIdentifier
 {
@@ -29,5 +33,20 @@ public final class DtsIdentifier extends AbstractIdentifier
 	public DtsIdentifier(@NonNls @NotNull final String value)
 	{
 		super(value, MaximumCharacters);
+		// it seems there is a format for these...
+	}
+
+	public DtsIdentifier(@NonNls @NotNull final String serverName, @NotNull final DateTime dateTime, @NotNull @NonNls final String xxxx)
+	{
+		super(serverName + '-' + dateTime.asYYYYMMDDhhmmss() + xxxx, MaximumCharacters);
+		if (serverName.contains("-"))
+		{
+			throw new IllegalArgumentException(format(ENGLISH, "Server name %1$s contains a hyphen", serverName));
+		}
+		dateTime.asYYYYMMDDhhmmss();
+		if (xxxx.length() != 4)
+		{
+			throw new IllegalArgumentException("DTSUNC-02 defines the format for a DTS Identifier");
+		}
 	}
 }

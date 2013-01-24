@@ -37,6 +37,13 @@ public final class RequiredMissingFieldXmlConstructor<C, V> implements MissingFi
 
 	@NotNull
 	@Override
+	public XmlConstructor<?, ?> nilFieldConstructor() throws XmlSchemaViolationException
+	{
+		throw new XmlSchemaViolationException("nil field is required");
+	}
+
+	@NotNull
+	@Override
 	public Class<V> type()
 	{
 		return underlyingXmlConstructor.type();
@@ -51,21 +58,21 @@ public final class RequiredMissingFieldXmlConstructor<C, V> implements MissingFi
 
 	@NotNull
 	@Override
-	public XmlConstructor<?, ?> node(@NotNull final String name, @NotNull final Iterable<Pair<String, String>> attributes) throws XmlSchemaViolationException
+	public XmlConstructor<?, ?> childNode(@NotNull final String name, @NotNull final Iterable<Pair<String, String>> attributes, final boolean isNil) throws XmlSchemaViolationException
 	{
-		return underlyingXmlConstructor.node(name, attributes);
+		return underlyingXmlConstructor.childNode(name, attributes, isNil);
 	}
 
 	@Override
-	public void text(@NotNull final C collector, @NotNull final String text, final boolean shouldPreserveWhitespace) throws XmlSchemaViolationException
+	public void collectText(@NotNull final C collector, @NotNull final String text, final boolean shouldPreserveWhitespace) throws XmlSchemaViolationException
 	{
-		underlyingXmlConstructor.text(collector, text, shouldPreserveWhitespace);
+		underlyingXmlConstructor.collectText(collector, text, shouldPreserveWhitespace);
 	}
 
 	@Override
-	public void node(@NotNull final C collector, @NotNull final String name, @NotNull final Object value) throws XmlSchemaViolationException
+	public void collectNode(@NotNull final C collector, @NotNull final String name, @NotNull final Object value) throws XmlSchemaViolationException
 	{
-		underlyingXmlConstructor.node(collector, name, value);
+		underlyingXmlConstructor.collectNode(collector, name, value);
 	}
 
 	@NotNull

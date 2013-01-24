@@ -14,17 +14,30 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.common.http.server.sun.restEndpointsFactories;
+package uk.nhs.hcdn.dts.domain;
 
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hcdn.dts.domain.BooleanFlag;
 
-import static java.lang.String.format;
-import static java.util.Locale.ENGLISH;
+import static uk.nhs.hcdn.dts.domain.BooleanFlag.N;
+import static uk.nhs.hcdn.dts.domain.BooleanFlag.Y;
 
-public final class CouldNotCreateRestEndpointsException extends Exception
+// Data can not be both compressed and encrypted
+public enum ContentEncoding
 {
-	public CouldNotCreateRestEndpointsException(@NotNull final Exception cause)
+	AsIs(N, N),
+	Compressed(Y, N),
+	Encrypted(N, Y),
+	;
+
+	@NotNull
+	public final BooleanFlag compression;
+	@NotNull
+	public final BooleanFlag encryption;
+
+	ContentEncoding(@NotNull final BooleanFlag compression, @NotNull final BooleanFlag encryption)
 	{
-		super(format(ENGLISH, "Could not out rest endpoints because of exception %1$s", cause.getMessage()), cause);
+		this.compression = compression;
+		this.encryption = encryption;
 	}
 }

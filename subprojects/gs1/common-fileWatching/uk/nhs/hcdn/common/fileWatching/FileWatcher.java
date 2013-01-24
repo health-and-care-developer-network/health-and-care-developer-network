@@ -68,7 +68,7 @@ public final class FileWatcher extends AbstractToString implements Runnable
 		}
 		catch (IOException e)
 		{
-			throw new IllegalStateException("Could not create a watch service", e);
+			throw new IllegalStateException("Could not out a watch service", e);
 		}
 		folderPath = folder.toPath();
 		try

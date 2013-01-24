@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.dts.domain.TransactionSequenceIdentifier;
 
+import java.io.File;
 import java.nio.file.Path;
 
 import static java.lang.String.format;
@@ -137,6 +138,12 @@ public final class FileName
 	public Path onPath(@NotNull final Path path)
 	{
 		return path.resolve(toFileNameString());
+	}
+
+	@NotNull
+	public File onPath(@NotNull final File parentFolder)
+	{
+		return new File(parentFolder, toFileNameString());
 	}
 
 	@NotNull

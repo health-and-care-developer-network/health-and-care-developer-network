@@ -18,31 +18,33 @@ package uk.nhs.hcdn.barcodes.gs1.server.application;
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.barcodes.gs1.server.Gs1CompanyPrefixRestEndpoint;
+import uk.nhs.hcdn.common.http.server.sun.application.RestServerConsoleEntryPoint;
 import uk.nhs.hcdn.common.http.server.sun.restEndpoints.RestEndpoint;
 import uk.nhs.hcdn.common.http.server.sun.restEndpoints.RootDenialRestEndpoint;
 import uk.nhs.hcdn.common.http.server.sun.restEndpointsFactories.RestEndpointsFactory;
 
 import java.io.File;
 
-import static uk.nhs.hcdn.common.http.server.sun.application.ServerApplication.start;
+import static uk.nhs.hcdn.common.VariableArgumentsHelper.of;
+import static uk.nhs.hcdn.common.commandLine.AbstractConsoleEntryPoint.execute;
 
 public final class Gs1BarcodesServerConsoleEntryPoint
 {
 	public static void main(@NotNull final String... commandLineArguments)
 	{
-		start(commandLineArguments, new RestEndpointsFactory()
+		execute(new RestServerConsoleEntryPoint(new RestEndpointsFactory()
 		{
 			@NotNull
 			@Override
 			public RestEndpoint[] restEndpoints(@NotNull final File dataPath)
 			{
-				return new RestEndpoint[]
-				{
+				return of
+				(
 					new RootDenialRestEndpoint(),
 					new Gs1CompanyPrefixRestEndpoint(dataPath, "gs1-company-prefixes.tsv")
-				};
+				);
 			}
-		});
+		}));
 	}
 
 	private Gs1BarcodesServerConsoleEntryPoint()

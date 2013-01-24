@@ -16,6 +16,7 @@
 
 package uk.nhs.hcdn.common.unknown;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hcdn.common.reflection.toString.ExcludeFromToString;
@@ -40,6 +41,25 @@ public class AbstractIsUnknown extends AbstractToString implements IsUnknown
 	public final boolean isKnown()
 	{
 		return !isUnknown;
+	}
+
+	@Override
+	public final boolean isSameKnownessAs(@NotNull final IsUnknown that)
+	{
+		if (isUnknown)
+		{
+			return that.isUnknown();
+		}
+		else
+		{
+			return that.isKnown();
+		}
+	}
+
+	@Override
+	public final boolean isDifferentKnownessAs(@NotNull final IsUnknown that)
+	{
+		return !isSameKnownessAs(that);
 	}
 
 	@Override

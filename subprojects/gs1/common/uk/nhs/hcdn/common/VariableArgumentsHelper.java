@@ -28,6 +28,13 @@ public final class VariableArgumentsHelper
 {
 	@SafeVarargs
 	@NotNull
+	public static <E> E[] of(@NotNull final E... values)
+	{
+		return values;
+	}
+
+	@SafeVarargs
+	@NotNull
 	public static <E> E[] copyOf(@NotNull final E... values)
 	{
 		final int length = values.length;

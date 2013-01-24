@@ -14,17 +14,19 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.common.http.server.sun.restEndpointsFactories;
+package uk.nhs.hcdn.common.commandLine;
 
 import org.jetbrains.annotations.NotNull;
 
-import static java.lang.String.format;
-import static java.util.Locale.ENGLISH;
-
-public final class CouldNotCreateRestEndpointsException extends Exception
+public final class ShouldHaveExitedException extends IllegalStateException
 {
-	public CouldNotCreateRestEndpointsException(@NotNull final Exception cause)
+	public ShouldHaveExitedException()
 	{
-		super(format(ENGLISH, "Could not out rest endpoints because of exception %1$s", cause.getMessage()), cause);
+		super("Impossible state");
+	}
+
+	public ShouldHaveExitedException(@NotNull final Throwable shouldNotBePossible)
+	{
+		super("Impossible state violated", shouldNotBePossible);
 	}
 }

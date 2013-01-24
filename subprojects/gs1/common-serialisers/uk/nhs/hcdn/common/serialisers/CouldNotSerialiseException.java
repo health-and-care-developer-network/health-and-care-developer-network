@@ -18,6 +18,8 @@ package uk.nhs.hcdn.common.serialisers;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
 
@@ -26,5 +28,10 @@ public final class CouldNotSerialiseException extends AbstractDataException
 	public CouldNotSerialiseException(@NotNull final MapSerialisable value, @NotNull final AbstractDataException cause)
 	{
 		super(format(ENGLISH, "Could not serialise %1$s", value), cause);
+	}
+
+	public CouldNotSerialiseException(@NotNull final IOException cause)
+	{
+		super("Could not serialise because of IOException", cause);
 	}
 }

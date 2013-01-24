@@ -28,11 +28,11 @@ public interface XmlConstructor<C, V>
 	C start();
 
 	@NotNull
-	XmlConstructor<?, ?> node(@NotNull final String name, @NotNull final Iterable<Pair<String, String>> attributes) throws XmlSchemaViolationException;
+	XmlConstructor<?, ?> childNode(@NotNull final String name, @NotNull final Iterable<Pair<String, String>> attributes, final boolean isNil) throws XmlSchemaViolationException;
 
-	void text(@NotNull final C collector, @NotNull final String text, final boolean shouldPreserveWhitespace) throws XmlSchemaViolationException;
+	void collectText(@NotNull final C collector, @NotNull final String text, final boolean shouldPreserveWhitespace) throws XmlSchemaViolationException;
 
-	void node(@NotNull final C collector, @NotNull final String name, @NotNull final Object value) throws XmlSchemaViolationException;
+	void collectNode(@NotNull final C collector, @NotNull final String name, @NotNull final Object value) throws XmlSchemaViolationException;
 
 	@NotNull
 	V finish(@NotNull final C collector) throws XmlSchemaViolationException;

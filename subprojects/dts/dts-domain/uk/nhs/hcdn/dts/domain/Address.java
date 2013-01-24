@@ -14,17 +14,10 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.common.http.server.sun.restEndpointsFactories;
+package uk.nhs.hcdn.dts.domain;
 
-import org.jetbrains.annotations.NotNull;
+import uk.nhs.hcdn.common.unknown.IsUnknown;
 
-import static java.lang.String.format;
-import static java.util.Locale.ENGLISH;
-
-public final class CouldNotCreateRestEndpointsException extends Exception
+public interface Address extends IsUnknown
 {
-	public CouldNotCreateRestEndpointsException(@NotNull final Exception cause)
-	{
-		super(format(ENGLISH, "Could not out rest endpoints because of exception %1$s", cause.getMessage()), cause);
-	}
 }

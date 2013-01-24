@@ -28,10 +28,10 @@ import java.util.Stack;
 public final class GenericXmlParseEventHandler<V> implements XmlParseEventHandler
 {
 	@NotNull
-	private final Stack<NodeState<?, ?>> nodeStates;
+	private final Stack<XmlNodeState<?, ?>> xmlNodeStates;
 
 	@Nullable
-	private NodeState<?, ?> current;
+	private XmlNodeState<?, ?> current;
 
 	@NotNull
 	private final ParseResultUser<V> parseResultUser;
@@ -40,8 +40,8 @@ public final class GenericXmlParseEventHandler<V> implements XmlParseEventHandle
 	public GenericXmlParseEventHandler(@NotNull final RootXmlConstructor<V> rootXmlConstructor, @NotNull final ParseResultUser<V> parseResultUser)
 	{
 		this.parseResultUser = parseResultUser;
-		nodeStates = new Stack<>();
-		current = new NodeState(rootXmlConstructor, rootXmlConstructor.shouldPreserveWhitespace());
+		xmlNodeStates = new Stack<>();
+		current = new XmlNodeState(rootXmlConstructor, rootXmlConstructor.shouldPreserveWhitespace());
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public final class GenericXmlParseEventHandler<V> implements XmlParseEventHandle
 	@Override
 	public void startElement(@NotNull final String name, @NotNull final Iterable<Pair<String, String>> attributes) throws XmlSchemaViolationException
 	{
-		nodeStates.push(current);
+		xmlNodeStates.push(current);
 		current = current().node(name, attributes);
 	}
 
@@ -68,7 +68,7 @@ public final class GenericXmlParseEventHandler<V> implements XmlParseEventHandle
 	public void endElement(@NotNull final String name) throws XmlSchemaViolationException
 	{
 		final Object result = current().finish();
-		current = nodeStates.pop();
+		current = xmlNodeStates.pop();
 		current.node(name, result);
 	}
 
@@ -79,7 +79,7 @@ public final class GenericXmlParseEventHandler<V> implements XmlParseEventHandle
 	}
 
 	@NotNull
-	private NodeState<? ,?> current()
+	private XmlNodeState<? ,?> current()
 	{
 		assert current != null;
 		return current;

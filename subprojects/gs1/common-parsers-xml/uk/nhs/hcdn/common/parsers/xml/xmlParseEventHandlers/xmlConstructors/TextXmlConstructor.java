@@ -38,33 +38,33 @@ public abstract class TextXmlConstructor<V> extends AbstractToString implements 
 
 	@Override
 	@NotNull
-	public TextValueCollector start()
+	public final TextValueCollector start()
 	{
 		return new TextValueCollector();
 	}
 
 	@NotNull
 	@Override
-	public XmlConstructor<?, ?> node(@NotNull final String name, @NotNull final Iterable<Pair<String, String>> attributes) throws XmlSchemaViolationException
+	public final XmlConstructor<?, ?> childNode(@NotNull final String name, @NotNull final Iterable<Pair<String, String>> attributes, final boolean isNil) throws XmlSchemaViolationException
 	{
 		throw new XmlSchemaViolationException(format(ENGLISH, "text node should not have child %1$s", name));
 	}
 
 	@Override
-	public void text(@NotNull final TextValueCollector collector, @NotNull final String text, final boolean shouldPreserveWhitespace) throws XmlSchemaViolationException
+	public final void collectText(@NotNull final TextValueCollector collector, @NotNull final String text, final boolean shouldPreserveWhitespace) throws XmlSchemaViolationException
 	{
 		collector.text(text);
 	}
 
 	@Override
-	public void node(@NotNull final TextValueCollector collector, @NotNull final String name, @NotNull final Object value) throws XmlSchemaViolationException
+	public final void collectNode(@NotNull final TextValueCollector collector, @NotNull final String name, @NotNull final Object value) throws XmlSchemaViolationException
 	{
 		throw new XmlSchemaViolationException(format(ENGLISH, "node key %1$s, value %2$s was unexpected", name, value));
 	}
 
 	@NotNull
 	@Override
-	public V finish(@NotNull final TextValueCollector collector) throws XmlSchemaViolationException
+	public final V finish(@NotNull final TextValueCollector collector) throws XmlSchemaViolationException
 	{
 		@Nullable final String finish = collector.finish();
 		if (finish == null)

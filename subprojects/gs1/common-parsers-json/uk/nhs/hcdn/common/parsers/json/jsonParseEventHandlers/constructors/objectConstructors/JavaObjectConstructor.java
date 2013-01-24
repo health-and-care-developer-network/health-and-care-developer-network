@@ -154,7 +154,7 @@ public final class JavaObjectConstructor<X> implements ObjectConstructor<Object[
 		}
 		catch (InvocationTargetException e)
 		{
-			throw new SchemaViolationInvalidJsonException("Could not create object", e);
+			throw new SchemaViolationInvalidJsonException("Could not out object", e);
 		}
 	}
 }

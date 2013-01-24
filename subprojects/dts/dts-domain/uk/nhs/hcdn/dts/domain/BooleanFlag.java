@@ -72,6 +72,25 @@ public enum BooleanFlag implements IsUnknown, ValueSerialisable
 		return true;
 	}
 
+	@Override
+	public boolean isSameKnownessAs(@NotNull final IsUnknown that)
+	{
+		if (isUnknown)
+		{
+			return that.isUnknown();
+		}
+		else
+		{
+			return that.isKnown();
+		}
+	}
+
+	@Override
+	public final boolean isDifferentKnownessAs(@NotNull final IsUnknown that)
+	{
+		return !isSameKnownessAs(that);
+	}
+
 	@SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
 	@Nullable
 	public Boolean valueIfPotentiallyUnknown()

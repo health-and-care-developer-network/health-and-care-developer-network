@@ -17,26 +17,35 @@
 package uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.tuples.Pair;
 
 public final class MayBeMissingFieldXmlConstructor<C, V> implements MissingFieldXmlConstructor<C, V>
 {
 	@NotNull
 	private final XmlConstructor<C, V> underlyingXmlConstructor;
-	@Nullable
+	@NotNull
 	private final V valueIfMissing;
+	@NotNull
+	private final NilXmlConstructor<C,V> nilXmlConstructor;
 
-	public MayBeMissingFieldXmlConstructor(@NotNull final XmlConstructor<C, V> underlyingXmlConstructor, @Nullable final V valueIfMissing)
+	public MayBeMissingFieldXmlConstructor(@NotNull final XmlConstructor<C, V> underlyingXmlConstructor, @NotNull final V valueIfMissing)
 	{
 		this.underlyingXmlConstructor = underlyingXmlConstructor;
 		this.valueIfMissing = valueIfMissing;
+		nilXmlConstructor = new NilXmlConstructor<>(underlyingXmlConstructor.type(), valueIfMissing);
 	}
 
 	@Override
-	public V missingFieldValue() throws XmlSchemaViolationException
+	public V missingFieldValue()
 	{
 		return valueIfMissing;
+	}
+
+	@NotNull
+	@Override
+	public XmlConstructor<?, ?> nilFieldConstructor()
+	{
+		return nilXmlConstructor;
 	}
 
 	@NotNull
@@ -55,21 +64,25 @@ public final class MayBeMissingFieldXmlConstructor<C, V> implements MissingField
 
 	@NotNull
 	@Override
-	public XmlConstructor<?, ?> node(@NotNull final String name, @NotNull final Iterable<Pair<String, String>> attributes) throws XmlSchemaViolationException
+	public XmlConstructor<?, ?> childNode(@NotNull final String name, @NotNull final Iterable<Pair<String, String>> attributes, final boolean isNil) throws XmlSchemaViolationException
 	{
-		return underlyingXmlConstructor.node(name, attributes);
+		if (isNil)
+		{
+			return nilXmlConstructor;
+		}
+		return underlyingXmlConstructor.childNode(name, attributes, isNil);
 	}
 
 	@Override
-	public void text(@NotNull final C collector, @NotNull final String text, final boolean shouldPreserveWhitespace) throws XmlSchemaViolationException
+	public void collectText(@NotNull final C collector, @NotNull final String text, final boolean shouldPreserveWhitespace) throws XmlSchemaViolationException
 	{
-		underlyingXmlConstructor.text(collector, text, shouldPreserveWhitespace);
+		underlyingXmlConstructor.collectText(collector, text, shouldPreserveWhitespace);
 	}
 
 	@Override
-	public void node(@NotNull final C collector, @NotNull final String name, @NotNull final Object value) throws XmlSchemaViolationException
+	public void collectNode(@NotNull final C collector, @NotNull final String name, @NotNull final Object value) throws XmlSchemaViolationException
 	{
-		underlyingXmlConstructor.node(collector, name, value);
+		underlyingXmlConstructor.collectNode(collector, name, value);
 	}
 
 	@NotNull
@@ -78,4 +91,5 @@ public final class MayBeMissingFieldXmlConstructor<C, V> implements MissingField
 	{
 		return underlyingXmlConstructor.finish(collector);
 	}
+
 }

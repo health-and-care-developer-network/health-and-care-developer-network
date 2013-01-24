@@ -7,13 +7,11 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="IntelliJ Annotations" level="project" />
     <orderEntry type="library" name="jopt-simple" level="project" />
-    <orderEntry type="module" module-name="barcodes-gs1-server" />
-    <orderEntry type="module" module-name="common-http-server-sun-application" />
-    <orderEntry type="module" module-name="common-http-server-sun" />
+    <orderEntry type="library" name="IntelliJ Annotations" level="project" />
     <orderEntry type="module" module-name="common-commandLine" />
-    <orderEntry type="module" module-name="common" />
+    <orderEntry type="module" module-name="dts-domain" />
+    <orderEntry type="module" module-name="dts-domain-schema" />
   </component>
 </module>
 

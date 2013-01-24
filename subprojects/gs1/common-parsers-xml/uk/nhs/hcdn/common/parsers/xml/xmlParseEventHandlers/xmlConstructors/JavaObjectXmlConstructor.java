@@ -46,7 +46,7 @@ public final class JavaObjectXmlConstructor<V, W extends V> extends AbstractToSt
 	@NotNull
 	private final Class<V> returnsType;
 	@NotNull
-	private final Map<String, XmlConstructor<?, ?>> xmlConstructorsForFields;
+	private final Map<String, MissingFieldXmlConstructor<?, ?>> xmlConstructorsForFields;
 	private final MissingFieldXmlConstructor<?, ?>[] missingFieldHandlers;
 	private final Map<String, Integer> constructorParameterIndices;
 	@NotNull
@@ -66,13 +66,13 @@ public final class JavaObjectXmlConstructor<V, W extends V> extends AbstractToSt
 		{
 			final Pair<String, MissingFieldXmlConstructor<?, ?>> pair =  xmlConstructorsForFields[index];
 			final String key = pair.a;
-			final XmlConstructor<?, ?> xmlConstructor = pair.b;
+			final MissingFieldXmlConstructor<?, ?> xmlConstructor = pair.b;
 			this.xmlConstructorsForFields.put(key, xmlConstructor);
 			if (constructorParameterIndices.put(key, index) != null)
 			{
 				throw new IllegalArgumentException("Duplicate keys");
 			}
-			missingFieldHandlers[index] = (MissingFieldXmlConstructor<?, ?>) xmlConstructor;
+			missingFieldHandlers[index] = xmlConstructor;
 			constructorParameterTypes[index] = xmlConstructor.type();
 		}
 		try
@@ -101,18 +101,22 @@ public final class JavaObjectXmlConstructor<V, W extends V> extends AbstractToSt
 
 	@NotNull
 	@Override
-	public XmlConstructor<?, ?> node(@NotNull final String name, @NotNull final Iterable<Pair<String, String>> attributes) throws XmlSchemaViolationException
+	public XmlConstructor<?, ?> childNode(@NotNull final String name, @NotNull final Iterable<Pair<String, String>> attributes, final boolean isNil) throws XmlSchemaViolationException
 	{
-		@Nullable final XmlConstructor<?, ?> xmlConstructor = xmlConstructorsForFields.get(name);
+		@Nullable final MissingFieldXmlConstructor<?, ?> xmlConstructor = xmlConstructorsForFields.get(name);
 		if (xmlConstructor == null)
 		{
 			throw new XmlSchemaViolationException(format(ENGLISH, "no known field for name %1$s", name));
+		}
+		if (isNil)
+		{
+			return xmlConstructor.nilFieldConstructor();
 		}
 		return xmlConstructor;
 	}
 
 	@Override
-	public void text(@NotNull final Object[] collector, @NotNull final String text, final boolean shouldPreserveWhitespace) throws XmlSchemaViolationException
+	public void collectText(@NotNull final Object[] collector, @NotNull final String text, final boolean shouldPreserveWhitespace) throws XmlSchemaViolationException
 	{
 		if (text.isEmpty())
 		{
@@ -138,7 +142,7 @@ public final class JavaObjectXmlConstructor<V, W extends V> extends AbstractToSt
 	}
 
 	@Override
-	public void node(@NotNull final Object[] collector, @NotNull final String name, @NotNull final Object value) throws XmlSchemaViolationException
+	public void collectNode(@NotNull final Object[] collector, @NotNull final String name, @NotNull final Object value) throws XmlSchemaViolationException
 	{
 		@Nullable final Integer integer = constructorParameterIndices.get(name);
 		if (integer == null)

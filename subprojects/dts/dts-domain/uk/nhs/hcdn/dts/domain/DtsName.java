@@ -19,7 +19,7 @@ package uk.nhs.hcdn.dts.domain;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
-public final class DtsName extends AbstractValueSerialisableStringIsUnknown
+public final class DtsName extends AbstractValueSerialisableStringIsUnknown implements Address
 {
 	@NotNull
 	public static final DtsName UnknownDtsName = new DtsName("");

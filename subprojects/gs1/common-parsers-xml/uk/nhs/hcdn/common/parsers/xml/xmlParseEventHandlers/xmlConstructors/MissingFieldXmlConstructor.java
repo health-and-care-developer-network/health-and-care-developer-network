@@ -16,10 +16,14 @@
 
 package uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public interface MissingFieldXmlConstructor<C, V> extends XmlConstructor<C, V>
 {
 	@Nullable
 	V missingFieldValue() throws XmlSchemaViolationException;
+
+	@NotNull
+	XmlConstructor<?,?> nilFieldConstructor() throws XmlSchemaViolationException;
 }
