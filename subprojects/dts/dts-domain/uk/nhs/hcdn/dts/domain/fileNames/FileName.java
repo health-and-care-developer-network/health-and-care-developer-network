@@ -62,7 +62,7 @@ public final class FileName
 
 		final String siteIdentifierIncludingApp = fileNameIncludingExtension.substring(0, lengthOfFilenameExcludingExtension - Width);
 
-		final String paddedSequenceIdentifier = fileNameIncludingExtension.substring(lengthOfFilenameExcludingExtension - Width, Width);
+		final String paddedSequenceIdentifier = fileNameIncludingExtension.substring(lengthOfFilenameExcludingExtension - Width, lastIndex);
 		final TransactionSequenceIdentifier sequenceIdentifier = fromPaddedTransactionSequenceIdentifer(paddedSequenceIdentifier);
 
 		return new FileName(siteIdentifierIncludingApp, sequenceIdentifier, fileExtension);
@@ -240,5 +240,10 @@ public final class FileName
 		result = 31 * result + sequenceIdentifier.hashCode();
 		result = 31 * result + fileExtension.hashCode();
 		return result;
+	}
+
+	public boolean hasFileExtension(@NotNull final FileExtension fileExtension)
+	{
+		return this.fileExtension == fileExtension;
 	}
 }

@@ -140,7 +140,7 @@ public abstract class AbstractConsoleEntryPoint extends AbstractToString
 	@NotNull
 	public final File readableDirectory(@NotNull final OptionSet optionSet, @NonNls @NotNull final String optionName)
 	{
-		final File dataPath = (File) optionSet.valueOf(optionName);
+		final File dataPath = (File) defaulted(optionSet, optionName);
 		if (!(dataPath.exists() && dataPath.canRead() && dataPath.isDirectory()))
 		{
 			exitWithErrorAndHelp(optionName, dataPath, "does not exist as a readable directory");

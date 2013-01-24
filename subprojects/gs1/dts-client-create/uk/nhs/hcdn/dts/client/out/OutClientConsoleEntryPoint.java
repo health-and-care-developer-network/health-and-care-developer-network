@@ -34,7 +34,7 @@ import java.io.OutputStream;
 import static java.lang.System.getProperty;
 import static java.lang.System.out;
 import static uk.nhs.hcdn.dts.client.out.ControlFileWriter.copyDataFileAndCreateEmptyControlFile;
-import static uk.nhs.hcdn.dts.domain.ContentEncoding.AsIs;
+import static uk.nhs.hcdn.dts.domain.ContentEncoding.Compressed;
 import static uk.nhs.hcdn.dts.domain.DtsName.UnknownDtsName;
 import static uk.nhs.hcdn.dts.domain.SmtpAddress.UnknownSmtpAddress;
 import static uk.nhs.hcdn.dts.domain.Subject.UnknownSubject;
@@ -66,7 +66,7 @@ public final class OutClientConsoleEntryPoint extends AbstractConsoleEntryPoint
 		options.accepts(SubjectOption).withRequiredArg().ofType(Subject.class).defaultsTo(UnknownSubject).describedAs("subject of data");
 		options.accepts(LocalIdentifierOption).withRequiredArg().ofType(LocalIdentifier.class).defaultsTo(UnknownLocalIdentifier).describedAs("local identifier");
 		options.accepts(DtsIdentifierOption).withRequiredArg().ofType(DtsIdentifier.class).defaultsTo(UnknownDtsIdentifier).describedAs("DTS identifier");
-		options.accepts(ContentEncodingOption).withRequiredArg().ofType(ContentEncoding.class).defaultsTo(AsIs).describedAs("compress or encrypt");
+		options.accepts(ContentEncodingOption).withRequiredArg().ofType(ContentEncoding.class).defaultsTo(Compressed).describedAs("compress or encrypt");
 		options.accepts(FromSmtpOption).withRequiredArg().ofType(SmtpAddress.class).defaultsTo(UnknownSmtpAddress).describedAs("from SMTP address");
 		options.accepts(ToSmtpOption).requiredIf(FromSmtpOption).withRequiredArg().ofType(SmtpAddress.class).defaultsTo(UnknownSmtpAddress).describedAs("to SMTP address");
 		options.accepts(FromDtsNameOption).withRequiredArg().ofType(DtsName.class).defaultsTo(UnknownDtsName).describedAs("from DTS name");

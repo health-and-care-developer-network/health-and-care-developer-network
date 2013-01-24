@@ -63,13 +63,13 @@ public enum BooleanFlag implements IsUnknown, ValueSerialisable
 	@Override
 	public boolean isUnknown()
 	{
-		return false;
+		return isUnknown;
 	}
 
 	@Override
 	public boolean isKnown()
 	{
-		return true;
+		return !isUnknown;
 	}
 
 	@Override
