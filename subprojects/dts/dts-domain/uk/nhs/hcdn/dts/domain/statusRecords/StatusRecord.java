@@ -20,11 +20,12 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.common.serialisers.MapSerialisable;
 import uk.nhs.hcdn.common.unknown.IsUnknown;
+import uk.nhs.hcdn.dts.domain.statusRecords.dateTime.KnownDateTime;
 
 public interface StatusRecord extends IsUnknown, MapSerialisable
 {
 	@NotNull
-	DateTime dateTime();
+	KnownDateTime dateTime();
 
 	@NotNull
 	Event event();

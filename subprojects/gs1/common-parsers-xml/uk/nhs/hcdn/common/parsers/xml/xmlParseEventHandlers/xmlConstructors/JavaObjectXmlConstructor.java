@@ -22,6 +22,7 @@ import uk.nhs.hcdn.common.parsers.charaterSets.BitSetCharacterSet;
 import uk.nhs.hcdn.common.parsers.charaterSets.CharacterSet;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hcdn.common.tuples.Pair;
+import uk.nhs.hcdn.common.xml.XmlSchemaViolationException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -35,6 +36,13 @@ public final class JavaObjectXmlConstructor<V, W extends V> extends AbstractToSt
 {
 	@NotNull
 	private static final CharacterSet WhitespaceCharacters = new BitSetCharacterSet(' ', '\t', '\r', '\n');
+
+	@SafeVarargs
+	@NotNull
+	public static <V> JavaObjectXmlConstructor<V, V> schemaFor(@NotNull final Class<V> returnsType, @NotNull final Pair<String, MissingFieldXmlConstructor<?, ?>>... xmlConstructorsForFields)
+	{
+		return new JavaObjectXmlConstructor<>(returnsType, returnsType, xmlConstructorsForFields);
+	}
 
 	@SafeVarargs
 	@NotNull
@@ -101,7 +109,7 @@ public final class JavaObjectXmlConstructor<V, W extends V> extends AbstractToSt
 
 	@NotNull
 	@Override
-	public XmlConstructor<?, ?> childNode(@NotNull final String name, @NotNull final Iterable<Pair<String, String>> attributes, final boolean isNil) throws XmlSchemaViolationException
+	public XmlConstructor<?, ?> childNode(@NotNull final String name, @NotNull final Iterable<Pair<String, String>> attributes, final boolean isNil, @Nullable final String type) throws XmlSchemaViolationException
 	{
 		@Nullable final MissingFieldXmlConstructor<?, ?> xmlConstructor = xmlConstructorsForFields.get(name);
 		if (xmlConstructor == null)

@@ -14,22 +14,23 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers;
+package uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.rootValueHolders;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlSchemaViolationException;
+import uk.nhs.hcdn.common.xml.XmlSchemaViolationException;
 
-public final class RootValueHolder<V>
+public final class SingleRootValueHolder<V> implements RootValueHolder<V, V>
 {
 	@Nullable
 	private V value;
 
-	public RootValueHolder()
+	public SingleRootValueHolder()
 	{
 		value = null;
 	}
 
+	@Override
 	public void assign(@NotNull final V value)
 	{
 		if (this.value != null)
@@ -39,6 +40,7 @@ public final class RootValueHolder<V>
 		this.value = value;
 	}
 
+	@Override
 	@NotNull
 	public V retrieve() throws XmlSchemaViolationException
 	{

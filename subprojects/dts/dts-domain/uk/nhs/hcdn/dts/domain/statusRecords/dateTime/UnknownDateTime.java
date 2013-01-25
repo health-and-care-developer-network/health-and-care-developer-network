@@ -14,12 +14,24 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.common.serialisers.json;
+package uk.nhs.hcdn.dts.domain.statusRecords.dateTime;
 
-public enum NodeValue
+import org.jetbrains.annotations.NotNull;
+import uk.nhs.hcdn.common.serialisers.ValueSerialiser;
+import uk.nhs.hcdn.common.unknown.AbstractIsUnknown;
+
+public final class UnknownDateTime extends AbstractIsUnknown implements DateTime
 {
-	Map,
-	List,
-	;
+	@NotNull
+	public static final DateTime UnknownDateTimeInstance = new UnknownDateTime();
 
+	private UnknownDateTime()
+	{
+		super(true);
+	}
+
+	@Override
+	public void serialiseValue(@NotNull final ValueSerialiser valueSerialiser)
+	{
+	}
 }

@@ -27,9 +27,6 @@ import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.util.Stack;
 
-import static uk.nhs.hcdn.common.serialisers.json.NodeValue.List;
-import static uk.nhs.hcdn.common.serialisers.json.NodeValue.Map;
-
 public class JsonSerialiser extends AbstractSerialiser
 {
 	private static final int DoubleQuote = (int) '\"';
@@ -44,10 +41,10 @@ public class JsonSerialiser extends AbstractSerialiser
 	private static final char[] Null = "null".toCharArray();
 
 	@NotNull
-	private final Stack<NodeState> depth;
+	private final Stack<JsonNodeState> depth;
 
 	@NotNull
-	private NodeState current;
+	private JsonNodeState current;
 
 	@SuppressWarnings("InstanceVariableMayNotBeInitialized")
 	@NotNull
@@ -57,7 +54,7 @@ public class JsonSerialiser extends AbstractSerialiser
 	public JsonSerialiser()
 	{
 		depth = new Stack<>();
-		current = new NodeState(Map);
+		current = new JsonNodeState();
 	}
 
 	@Override
@@ -72,14 +69,14 @@ public class JsonSerialiser extends AbstractSerialiser
 	{
 		try
 		{
-			if (current.subsequentProperty)
+			if (current.hasSubsequentProperty())
 			{
 				write(CommaDoubleQuote);
 			}
 			else
 			{
 				write(DoubleQuote);
-				current.subsequentProperty = true;
+				current.setHasSubsequentProperty();
 			}
 			jsonStringWriter.writeString(name);
 			write(DoubleQuoteColonDoubleQuote);
@@ -97,14 +94,14 @@ public class JsonSerialiser extends AbstractSerialiser
 	{
 		try
 		{
-			if (current.subsequentProperty)
+			if (current.hasSubsequentProperty())
 			{
 				write(CommaDoubleQuote);
 			}
 			else
 			{
 				write(DoubleQuote);
-				current.subsequentProperty = true;
+				current.setHasSubsequentProperty();
 			}
 			jsonStringWriter.writeString(name);
 			write(DoubleQuoteColon);
@@ -121,14 +118,14 @@ public class JsonSerialiser extends AbstractSerialiser
 	{
 		try
 		{
-			if (current.subsequentProperty)
+			if (current.hasSubsequentProperty())
 			{
 				write(CommaDoubleQuote);
 			}
 			else
 			{
 				write(DoubleQuote);
-				current.subsequentProperty = true;
+				current.setHasSubsequentProperty();
 			}
 			jsonStringWriter.writeString(name);
 			write(DoubleQuoteColon);
@@ -145,14 +142,14 @@ public class JsonSerialiser extends AbstractSerialiser
 	{
 		try
 		{
-			if (current.subsequentProperty)
+			if (current.hasSubsequentProperty())
 			{
 				write(CommaDoubleQuote);
 			}
 			else
 			{
 				write(DoubleQuote);
-				current.subsequentProperty = true;
+				current.setHasSubsequentProperty();
 			}
 			jsonStringWriter.writeString(name);
 			write(DoubleQuoteColon);
@@ -171,7 +168,7 @@ public class JsonSerialiser extends AbstractSerialiser
 		depth.push(current);
 		try
 		{
-			current = new NodeState(List);
+			current = new JsonNodeState();
 			write(OpenArray);
 			final int length = values.length;
 			if (length != 0)
@@ -199,7 +196,7 @@ public class JsonSerialiser extends AbstractSerialiser
 		depth.push(current);
 		try
 		{
-			current = new NodeState(List);
+			current = new JsonNodeState();
 			write(OpenArray);
 			final int length = values.length;
 			if (length != 0)
@@ -257,7 +254,7 @@ public class JsonSerialiser extends AbstractSerialiser
 		try
 		{
 			depth.push(current);
-			current = new NodeState(Map);
+			current = new JsonNodeState();
 			write(OpenObject);
 			value.serialiseMap(this);
 			write(CloseObject);

@@ -60,7 +60,7 @@ public final class Gs1BarcodesClientConsoleEntryPoint extends AbstractConsoleEnt
 	@Override
 	protected void execute(@NotNull final OptionSet optionSet) throws CouldNotConnectHttpException, CorruptResponseException, UnacceptableResponseException
 	{
-		@NotNull final String hostname = (String) optionSet.valueOf(HostnameOption);
+		@NotNull final String hostname = defaulted(optionSet, HostnameOption);
 
 		final char httpPort = portNumber(optionSet, PortOption);
 

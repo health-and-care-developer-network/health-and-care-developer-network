@@ -13,6 +13,7 @@
     <orderEntry type="module" module-name="common-tuples" exported="" />
     <orderEntry type="module" module-name="common-serialisers-xml" exported="" />
     <orderEntry type="module" module-name="common" />
+    <orderEntry type="module" module-name="common-xml" />
   </component>
 </module>
 

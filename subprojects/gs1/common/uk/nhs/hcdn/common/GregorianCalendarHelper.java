@@ -20,10 +20,13 @@ import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import static java.lang.System.currentTimeMillis;
 import static java.util.Locale.ENGLISH;
 import static java.util.Locale.ROOT;
+import static uk.nhs.hcdn.common.TimeZoneHelper.BST;
 import static uk.nhs.hcdn.common.TimeZoneHelper.UTC;
 
 public final class GregorianCalendarHelper
@@ -51,21 +54,49 @@ public final class GregorianCalendarHelper
 	}
 
 	@NotNull
-	public static GregorianCalendar utc(final long millisecondsSince1970)
+	public static GregorianCalendar utc(@MillisecondsSince1970 final long millisecondsSince1970)
 	{
-		final GregorianCalendar instance = new GregorianCalendar(UTC, ROOT);
-		instance.setLenient(false);
+		return fromMillisecondsSince1970(millisecondsSince1970, UTC);
+	}
+
+	@NotNull
+	public static GregorianCalendar bst(@MillisecondsSince1970 final long millisecondsSince1970)
+	{
+		return fromMillisecondsSince1970(millisecondsSince1970, BST);
+	}
+
+	@NotNull
+	public static GregorianCalendar utcWithOneBasedMonth(final int year, final int oneBasedMonth, final int day, final int hour, final int minute, final int second)
+	{
+		return fromComponents(year, oneBasedMonth, day, hour, minute, second, UTC);
+	}
+
+	@NotNull
+	public static GregorianCalendar bstWithOneBasedMonth(final int year, final int oneBasedMonth, final int day, final int hour, final int minute, final int second)
+	{
+		return fromComponents(year, oneBasedMonth, day, hour, minute, second, BST);
+	}
+
+	private static GregorianCalendar fromMillisecondsSince1970(@MillisecondsSince1970 final long millisecondsSince1970, final TimeZone timeZone)
+	{
+		final GregorianCalendar instance = newGregorianCalendar(timeZone, ROOT);
 		instance.setTimeInMillis(millisecondsSince1970);
 		return instance;
 	}
 
 	@SuppressWarnings("MagicConstant")
-	@NotNull
-	public static GregorianCalendar utcWithOneBasedMonth(final int year, final int oneBasedMonth, final int day, final int hour, final int minute, final int second)
+	private static GregorianCalendar fromComponents(final int year, final int oneBasedMonth, final int day, final int hour, final int minute, final int second, final TimeZone timeZone)
 	{
-		final GregorianCalendar instance = new GregorianCalendar(UTC, ROOT);
-		instance.setLenient(false);
+		final GregorianCalendar instance = newGregorianCalendar(timeZone, ROOT);
 		instance.set(year, oneBasedMonth - 1, day, hour, minute, second);
+		return instance;
+	}
+
+	@NotNull
+	private static GregorianCalendar newGregorianCalendar(@NotNull final TimeZone timeZone, @NotNull final Locale locale)
+	{
+		final GregorianCalendar instance = new GregorianCalendar(timeZone, locale);
+		instance.setLenient(false);
 		return instance;
 	}
 }

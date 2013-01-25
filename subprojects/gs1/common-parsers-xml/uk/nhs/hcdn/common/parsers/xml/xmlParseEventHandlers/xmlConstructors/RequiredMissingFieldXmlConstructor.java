@@ -17,7 +17,9 @@
 package uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.tuples.Pair;
+import uk.nhs.hcdn.common.xml.XmlSchemaViolationException;
 
 public final class RequiredMissingFieldXmlConstructor<C, V> implements MissingFieldXmlConstructor<C, V>
 {
@@ -58,9 +60,9 @@ public final class RequiredMissingFieldXmlConstructor<C, V> implements MissingFi
 
 	@NotNull
 	@Override
-	public XmlConstructor<?, ?> childNode(@NotNull final String name, @NotNull final Iterable<Pair<String, String>> attributes, final boolean isNil) throws XmlSchemaViolationException
+	public XmlConstructor<?, ?> childNode(@NotNull final String name, @NotNull final Iterable<Pair<String, String>> attributes, final boolean isNil, @Nullable final String type) throws XmlSchemaViolationException
 	{
-		return underlyingXmlConstructor.childNode(name, attributes, isNil);
+		return underlyingXmlConstructor.childNode(name, attributes, isNil, type);
 	}
 
 	@Override

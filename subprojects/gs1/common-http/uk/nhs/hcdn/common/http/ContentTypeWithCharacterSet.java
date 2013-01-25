@@ -29,15 +29,20 @@ public @interface ContentTypeWithCharacterSet
 	@NonNls
 	@ContentTypeWithCharacterSet
 	@NotNull
-	String JsonContentTypeUtf8 = JsonUtf8ContentType + CharsetUtf8; // should use withCharacterSet() but there is a bug in the javac compiler
+	String JsonContentTypeUtf8 = JsonContentType + CharsetUtf8; // should use withCharacterSet() but there is a bug in the javac compiler
 
 	@NonNls
 	@ContentTypeWithCharacterSet
 	@NotNull
-	String XmlContentTypeUtf8 = XmlUtf8ContentType + CharsetUtf8;
+	String XmlContentTypeUtf8 = XmlContentType + CharsetUtf8;
 
 	@NonNls
 	@ContentTypeWithCharacterSet
 	@NotNull
-	String TextContentTypeUtf8 = TextUtf8ContentType + CharsetUtf8;
+	String LegacyXmlContentTypeUtf8 = LegacyXmlContentType + CharsetUtf8;
+
+	@NonNls
+	@ContentTypeWithCharacterSet
+	@NotNull
+	String TextContentTypeUtf8 = TextContentType + CharsetUtf8;
 }

@@ -24,15 +24,20 @@ public @interface ContentType
 	@NonNls
 	@ContentType
 	@NotNull
-	String JsonUtf8ContentType = "application/json";
+	String JsonContentType = "application/json";
 
 	@NonNls
 	@ContentType
 	@NotNull
-	String XmlUtf8ContentType = "application/xml";
+	String XmlContentType = "application/xml";
 
 	@NonNls
 	@ContentType
 	@NotNull
-	String TextUtf8ContentType = "text/plain";
+	String LegacyXmlContentType = "text/xml";
+
+	@NonNls
+	@ContentType
+	@NotNull
+	String TextContentType = "text/plain";
 }

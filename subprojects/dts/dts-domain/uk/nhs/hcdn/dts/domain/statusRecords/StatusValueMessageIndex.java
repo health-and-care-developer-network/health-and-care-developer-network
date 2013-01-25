@@ -25,8 +25,6 @@ import uk.nhs.hcdn.common.tuples.Quadruple;
 import java.util.HashMap;
 import java.util.Map;
 
-import static java.lang.String.format;
-import static java.util.Locale.ENGLISH;
 import static uk.nhs.hcdn.common.tuples.Empty.Tuple;
 import static uk.nhs.hcdn.dts.domain.statusRecords.Event.*;
 import static uk.nhs.hcdn.dts.domain.statusRecords.Status.ERROR;
@@ -72,10 +70,7 @@ public final class StatusValueMessageIndex extends AbstractToString
 		descriptions = new HashMap<>(entries.length);
 		for (final Pair<Quadruple<StatusType, Event, Status, StatusCode>, String> entry : entries)
 		{
-			if (descriptions.put(entry.a, entry.b) != null)
-			{
-				throw new IllegalArgumentException(format(ENGLISH, "Entry %1$s was a duplicate", entry.a));
-			}
+			entry.putUniquelyInMap(descriptions);
 		}
 	}
 

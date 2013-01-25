@@ -103,6 +103,10 @@ public @interface RequestHeader
 
 	@NotNull
 	@RequestHeader
+	String ContentEncodingHeaderName = "Content-Encoding";
+
+	@NotNull
+	@RequestHeader
 	String TransferEncodingHeaderName = "TE";
 
 	@NotNull

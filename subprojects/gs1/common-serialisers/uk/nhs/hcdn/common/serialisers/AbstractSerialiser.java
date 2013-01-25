@@ -104,15 +104,40 @@ public abstract class AbstractSerialiser extends AbstractToString implements Ser
 			return;
 		}
 
+		if (value instanceof Serialisable)
+		{
+			try
+			{
+				((Serialisable) value).serialise(this);
+			}
+			catch (CouldNotSerialiseException e)
+			{
+				throw new CouldNotWriteValueException(value, e);
+			}
+			return;
+		}
+
+		if (value instanceof MapSerialisable)
+		{
+			writeValue((MapSerialisable) value);
+			return;
+		}
+
+		if (value instanceof ValueSerialisable)
+		{
+			writeValue((ValueSerialisable) value);
+			return;
+		}
+
 		if (value instanceof Integer)
 		{
-			writeValue((int) (Integer) value);
+			writeValue((int) value);
 			return;
 		}
 
 		if (value instanceof Long)
 		{
-			writeValue((long) (Long) value);
+			writeValue((long) value);
 			return;
 		}
 
@@ -131,18 +156,6 @@ public abstract class AbstractSerialiser extends AbstractToString implements Ser
 		if (value instanceof Enum)
 		{
 			writeValue(((Enum<?>) value).name());
-			return;
-		}
-
-		if (value instanceof MapSerialisable)
-		{
-			writeValue((MapSerialisable) value);
-			return;
-		}
-
-		if (value instanceof ValueSerialisable)
-		{
-			writeValue((ValueSerialisable) value);
 			return;
 		}
 

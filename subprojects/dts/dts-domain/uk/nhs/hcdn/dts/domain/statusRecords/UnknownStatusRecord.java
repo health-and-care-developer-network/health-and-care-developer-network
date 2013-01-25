@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.common.serialisers.MapSerialiser;
 import uk.nhs.hcdn.common.unknown.AbstractIsUnknown;
 import uk.nhs.hcdn.common.unknown.IsUnknownException;
+import uk.nhs.hcdn.dts.domain.statusRecords.dateTime.KnownDateTime;
 
 public final class UnknownStatusRecord extends AbstractIsUnknown implements StatusRecord
 {
@@ -38,7 +39,7 @@ public final class UnknownStatusRecord extends AbstractIsUnknown implements Stat
 
 	@NotNull
 	@Override
-	public DateTime dateTime()
+	public KnownDateTime dateTime()
 	{
 		throw new IsUnknownException();
 	}

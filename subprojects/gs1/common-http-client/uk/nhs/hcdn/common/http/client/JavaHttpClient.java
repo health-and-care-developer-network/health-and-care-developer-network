@@ -27,9 +27,11 @@ import uk.nhs.hcdn.common.http.client.connectionConfigurations.ConnectionConfigu
 import uk.nhs.hcdn.common.http.client.connectionConfigurations.TcpConnectionConfiguration;
 import uk.nhs.hcdn.common.http.client.exceptions.CorruptResponseException;
 import uk.nhs.hcdn.common.http.client.exceptions.CouldNotConnectHttpException;
+import uk.nhs.hcdn.common.http.client.exceptions.CouldNotUploadException;
 import uk.nhs.hcdn.common.http.client.exceptions.UnacceptableResponseException;
 import uk.nhs.hcdn.common.http.client.getHttpResponseUsers.GetHttpResponseUser;
 import uk.nhs.hcdn.common.http.client.headHttpResponseUsers.HeadHttpResponseUser;
+import uk.nhs.hcdn.common.http.client.uploadContents.UploadContent;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hcdn.common.tuples.Pair;
 
@@ -93,8 +95,29 @@ public final class JavaHttpClient extends AbstractToString implements HttpClient
 	{
 		final HttpURLConnection httpConnection = connectedHttpConnection();
 
-		// PUT, POST here
+		return receive(httpConnection, getHttpResponseUser);
+	}
 
+	@NotNull
+	@Override
+	public <V> V post(@NotNull final UploadContent uploadContent, @NotNull final GetHttpResponseUser<V> getHttpResponseUser) throws CouldNotConnectHttpException, UnacceptableResponseException, CorruptResponseException, CouldNotUploadException
+	{
+		final HttpURLConnection httpConnection = connectedHttpConnection();
+
+		try
+		{
+			uploadContent.upload(httpConnection);
+		}
+		catch (IOException e)
+		{
+			throw new CouldNotUploadException("IOException whilst uploading", e);
+		}
+
+		return receive(httpConnection, getHttpResponseUser);
+	}
+
+	private static <V> V receive(final HttpURLConnection httpConnection, final GetHttpResponseUser<V> getHttpResponseUser) throws CorruptResponseException, UnacceptableResponseException
+	{
 		try
 		{
 			final int responseCode = responseCode(httpConnection);

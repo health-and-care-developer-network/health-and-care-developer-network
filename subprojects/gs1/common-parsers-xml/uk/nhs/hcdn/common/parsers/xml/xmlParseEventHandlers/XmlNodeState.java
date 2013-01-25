@@ -16,23 +16,16 @@
 
 package uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers;
 
-import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlConstructor;
-import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlSchemaViolationException;
+import uk.nhs.hcdn.common.xml.XmlSchemaViolationException;
 import uk.nhs.hcdn.common.tuples.Pair;
 
-import static java.lang.String.format;
-import static java.util.Locale.ENGLISH;
+import static uk.nhs.hcdn.common.xml.XmlAttributesHelper.*;
 
 public final class XmlNodeState<C, V>
 {
-	@NonNls
-	private static final String XmlSpaceAttribute = "http://www.w3.org/XML/1998/namespace:space";
-
-	@NonNls
-	private static final String XmlSchemaNilAttribute = "http://www.w3.org/2001/XMLSchema:nil";
-
 	private final XmlConstructor<C, V> xmlConstructor;
 	private final boolean shouldPreserveWhitespace;
 	private final C collector;
@@ -50,50 +43,23 @@ public final class XmlNodeState<C, V>
 	{
 		boolean childShouldPreserveWhitespace = shouldPreserveWhitespace;
 		boolean isNil = false;
+		@Nullable String type = null;
 		for (final Pair<String, String> attribute : attributes)
 		{
 			if (attribute.a.equals(XmlSpaceAttribute))
 			{
-				childShouldPreserveWhitespace = shouldPreserveWhitespace(attribute.b);
+				childShouldPreserveWhitespace = shouldPreserveWhitespace(attribute.b, shouldPreserveWhitespace);
 			}
 			else if (attribute.a.equals(XmlSchemaNilAttribute))
 			{
 				isNil = isNil(attribute.b);
 			}
+			else if (attribute.a.equals(XmlSchemaTypeAttribute))
+			{
+				type = attribute.b;
+			}
 		}
-		return new XmlNodeState(xmlConstructor.childNode(name, attributes, isNil), childShouldPreserveWhitespace);
-	}
-
-	@SuppressWarnings({"HardCodedStringLiteral", "DuplicateStringLiteralInspection"})
-	private boolean shouldPreserveWhitespace(final String attributeValue) throws XmlSchemaViolationException
-	{
-		switch (attributeValue)
-		{
-			case "preserve":
-				return true;
-
-			case "default":
-				return shouldPreserveWhitespace;
-
-			default:
-				throw new XmlSchemaViolationException(format(ENGLISH, "Unknown value '%1$s' for xml:space", attributeValue));
-		}
-	}
-
-	@SuppressWarnings({"HardCodedStringLiteral", "DuplicateStringLiteralInspection"})
-	private static boolean isNil(final String attributeValue) throws XmlSchemaViolationException
-	{
-		switch(attributeValue)
-		{
-			case "true":
-				return true;
-
-			case "false":
-				return false;
-
-			default:
-				throw new XmlSchemaViolationException(format(ENGLISH, "Unknown value '%1$s' for xsi:nil", attributeValue));
-		}
+		return new XmlNodeState(xmlConstructor.childNode(name, attributes, isNil, type), childShouldPreserveWhitespace);
 	}
 
 	public void text(@NotNull final String text) throws XmlSchemaViolationException

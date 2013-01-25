@@ -14,26 +14,26 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.common.parsers.xml;
+package uk.nhs.hcdn.common.serialisers.json;
 
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 
-public final class SaxHelper
+public final class JsonNodeState extends AbstractToString
 {
-	private static final char Colon = ':';
+	private boolean subsequentProperty;
 
-	private SaxHelper()
+	public JsonNodeState()
 	{
+		subsequentProperty = false;
 	}
 
-	@NotNull
-	public static String namespaceQualifiedNodeOrAttributeName(@NonNls @NotNull final String uri, @NonNls @NotNull final String localName)
+	public boolean hasSubsequentProperty()
 	{
-		if (uri.isEmpty())
-		{
-			return localName;
-		}
-		return uri + Colon + localName;
+		return subsequentProperty;
+	}
+
+	public void setHasSubsequentProperty()
+	{
+		subsequentProperty = true;
 	}
 }

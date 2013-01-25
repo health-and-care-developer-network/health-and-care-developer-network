@@ -25,13 +25,13 @@ import static java.util.Locale.ENGLISH;
 
 public final class CouldNotSerialiseException extends AbstractDataException
 {
-	public CouldNotSerialiseException(@NotNull final MapSerialisable value, @NotNull final AbstractDataException cause)
+	public CouldNotSerialiseException(@NotNull final Serialisable value, @NotNull final AbstractDataException cause)
 	{
 		super(format(ENGLISH, "Could not serialise %1$s", value), cause);
 	}
 
-	public CouldNotSerialiseException(@NotNull final IOException cause)
+	public CouldNotSerialiseException(@NotNull final Serialisable value, @NotNull final IOException cause)
 	{
-		super("Could not serialise because of IOException", cause);
+		super(format(ENGLISH, "Could not serialise %1$s because of IOException", value), cause);
 	}
 }

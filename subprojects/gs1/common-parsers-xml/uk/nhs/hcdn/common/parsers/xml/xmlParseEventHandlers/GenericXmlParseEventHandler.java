@@ -19,13 +19,13 @@ package uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.parsers.parseResultUsers.ParseResultUser;
-import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.RootXmlConstructor;
-import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlSchemaViolationException;
+import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.AbstractRootXmlConstructor;
 import uk.nhs.hcdn.common.tuples.Pair;
+import uk.nhs.hcdn.common.xml.XmlSchemaViolationException;
 
 import java.util.Stack;
 
-public final class GenericXmlParseEventHandler<V> implements XmlParseEventHandler
+public final class GenericXmlParseEventHandler<V, F> implements XmlParseEventHandler
 {
 	@NotNull
 	private final Stack<XmlNodeState<?, ?>> xmlNodeStates;
@@ -34,10 +34,10 @@ public final class GenericXmlParseEventHandler<V> implements XmlParseEventHandle
 	private XmlNodeState<?, ?> current;
 
 	@NotNull
-	private final ParseResultUser<V> parseResultUser;
+	private final ParseResultUser<F> parseResultUser;
 
 	@SuppressWarnings("unchecked")
-	public GenericXmlParseEventHandler(@NotNull final RootXmlConstructor<V> rootXmlConstructor, @NotNull final ParseResultUser<V> parseResultUser)
+	public GenericXmlParseEventHandler(@NotNull final AbstractRootXmlConstructor<V, F> rootXmlConstructor, @NotNull final ParseResultUser<F> parseResultUser)
 	{
 		this.parseResultUser = parseResultUser;
 		xmlNodeStates = new Stack<>();
@@ -53,8 +53,8 @@ public final class GenericXmlParseEventHandler<V> implements XmlParseEventHandle
 	@Override
 	public void endDocument() throws XmlSchemaViolationException
 	{
-		final Object result = current().finish();
-		parseResultUser.use((V) result);
+		final F result = (F) current().finish();
+		parseResultUser.use(result);
 	}
 
 	@Override

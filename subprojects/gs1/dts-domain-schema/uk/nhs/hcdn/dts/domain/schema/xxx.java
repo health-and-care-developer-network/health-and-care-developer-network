@@ -41,7 +41,9 @@ public class xxx
 
 	}
 
-	private static final String x = "<DTSControl>\n" +
+	private static final String x = "<DTSControl Version=\"1.0\"\n" +
+			"xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n" +
+			"xsi:noNamespaceSchemaLocation=\"D:\\NHSRegSys\\Backend\\www\\Schema\\dts response.xsd\">\n" +
 			"  <Version>1.0</Version>\n" +
 			"  <AddressType>ALL</AddressType>\n" +
 			"  <MessageType>Data</MessageType>\n" +

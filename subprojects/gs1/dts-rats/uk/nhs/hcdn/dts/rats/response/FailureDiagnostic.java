@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.common.serialisers.json;
+package uk.nhs.hcdn.dts.rats.response;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
+import uk.nhs.hcdn.dts.domain.AbstractValueSerialisableStringIsUnknown;
 
-public final class NodeState extends AbstractToString
+public final class FailureDiagnostic extends AbstractValueSerialisableStringIsUnknown
 {
 	@NotNull
-	private final NodeValue nodeValue;
-	public boolean subsequentProperty;
+	public static final FailureDiagnostic UnknownDiagnostic = new FailureDiagnostic("");
 
-	public NodeState(@NotNull final NodeValue nodeValue)
+	public FailureDiagnostic(@NonNls @NotNull final String smtpSubject)
 	{
-		this.nodeValue = nodeValue;
-		subsequentProperty = false;
+		super(smtpSubject);
 	}
 }

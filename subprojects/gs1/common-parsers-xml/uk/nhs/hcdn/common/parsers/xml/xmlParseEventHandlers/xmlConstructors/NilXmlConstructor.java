@@ -17,7 +17,9 @@
 package uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.tuples.Pair;
+import uk.nhs.hcdn.common.xml.XmlSchemaViolationException;
 
 public final class NilXmlConstructor<C, V> implements XmlConstructor<Object, V>
 {
@@ -51,7 +53,7 @@ public final class NilXmlConstructor<C, V> implements XmlConstructor<Object, V>
 
 	@NotNull
 	@Override
-	public XmlConstructor<?, ?> childNode(@NotNull final String name, @NotNull final Iterable<Pair<String, String>> attributes, final boolean isNil) throws XmlSchemaViolationException
+	public XmlConstructor<?, ?> childNode(@NotNull final String name, @NotNull final Iterable<Pair<String, String>> attributes, final boolean isNil, @Nullable final String type) throws XmlSchemaViolationException
 	{
 		throw new XmlSchemaViolationException("node has xsi:nil set and so should not have a child node");
 	}

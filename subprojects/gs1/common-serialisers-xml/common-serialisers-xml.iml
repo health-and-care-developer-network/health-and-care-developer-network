@@ -12,6 +12,7 @@
     <orderEntry type="module" module-name="common-reflection" />
     <orderEntry type="module" module-name="common" />
     <orderEntry type="module" module-name="common-tuples" />
+    <orderEntry type="module" module-name="common-xml" />
   </component>
 </module>
 

@@ -19,14 +19,19 @@ package uk.nhs.hcdn.common.http.client;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.common.http.client.exceptions.CorruptResponseException;
 import uk.nhs.hcdn.common.http.client.exceptions.CouldNotConnectHttpException;
+import uk.nhs.hcdn.common.http.client.exceptions.CouldNotUploadException;
 import uk.nhs.hcdn.common.http.client.exceptions.UnacceptableResponseException;
 import uk.nhs.hcdn.common.http.client.getHttpResponseUsers.GetHttpResponseUser;
 import uk.nhs.hcdn.common.http.client.headHttpResponseUsers.HeadHttpResponseUser;
+import uk.nhs.hcdn.common.http.client.uploadContents.UploadContent;
 
 public interface HttpClient
 {
-	void head(@NotNull HeadHttpResponseUser headHttpResponseUser) throws CouldNotConnectHttpException, UnacceptableResponseException, CorruptResponseException;
+	void head(@NotNull final HeadHttpResponseUser headHttpResponseUser) throws CouldNotConnectHttpException, UnacceptableResponseException, CorruptResponseException;
 
 	@NotNull
-	<V> V get(@NotNull GetHttpResponseUser<V> getHttpResponseUser) throws CouldNotConnectHttpException, UnacceptableResponseException, CorruptResponseException;
+	<V> V get(@NotNull final GetHttpResponseUser<V> getHttpResponseUser) throws CouldNotConnectHttpException, UnacceptableResponseException, CorruptResponseException;
+
+	@NotNull
+	<V> V post(@NotNull final UploadContent uploadContent, @NotNull final GetHttpResponseUser<V> getHttpResponseUser) throws CouldNotConnectHttpException, UnacceptableResponseException, CorruptResponseException, CouldNotUploadException;
 }

@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hcdn.common.tuples.Pair;
+import uk.nhs.hcdn.common.xml.XmlSchemaViolationException;
 
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
@@ -45,7 +46,7 @@ public abstract class TextXmlConstructor<V> extends AbstractToString implements 
 
 	@NotNull
 	@Override
-	public final XmlConstructor<?, ?> childNode(@NotNull final String name, @NotNull final Iterable<Pair<String, String>> attributes, final boolean isNil) throws XmlSchemaViolationException
+	public final XmlConstructor<?, ?> childNode(@NotNull final String name, @NotNull final Iterable<Pair<String, String>> attributes, final boolean isNil, @Nullable final String type) throws XmlSchemaViolationException
 	{
 		throw new XmlSchemaViolationException(format(ENGLISH, "text node should not have child %1$s", name));
 	}

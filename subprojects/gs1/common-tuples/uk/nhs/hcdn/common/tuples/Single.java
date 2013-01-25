@@ -56,7 +56,7 @@ public class Single<A> implements Tuple
 	}
 
 	@NotNull
-	public <B> Pair<A, B> with(@NonNls @NotNull final B b)
+	public final <B> Pair<A, B> with(@NonNls @NotNull final B b)
 	{
 		return new Pair<>(a, b);
 	}
