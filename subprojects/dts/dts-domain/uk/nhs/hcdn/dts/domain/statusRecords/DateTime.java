@@ -33,8 +33,7 @@ import java.util.GregorianCalendar;
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
 import static java.util.Locale.ROOT;
-import static uk.nhs.hcdn.common.GregorianCalendarHelper.utc;
-import static uk.nhs.hcdn.common.GregorianCalendarHelper.utcWithOneBasedMonth;
+import static uk.nhs.hcdn.common.GregorianCalendarHelper.*;
 
 public final class DateTime extends AbstractToString implements ValueSerialisable
 {
@@ -53,7 +52,7 @@ public final class DateTime extends AbstractToString implements ValueSerialisabl
 
 		return new DateTime
 		(
-			utcWithOneBasedMonth
+			bstWithOneBasedMonth
 			(
 				paddedDecimalValueToInteger(dateTime, 0, 4, "year"),
 				paddedDecimalValueToInteger(dateTime, 4, 6, "month"),
@@ -128,8 +127,8 @@ public final class DateTime extends AbstractToString implements ValueSerialisabl
 	@NotNull
 	public String asYYYYMMDDhhmmss()
 	{
-		final GregorianCalendar utc = utc(dateTime);
-		return new SimpleDateFormat("yyyyMMddHHmmss", ROOT).format(utc.getTime());
+		final GregorianCalendar bst = bst(dateTime);
+		return new SimpleDateFormat("yyyyMMddHHmmss", ROOT).format(bst.getTime());
 	}
 
 	@Override

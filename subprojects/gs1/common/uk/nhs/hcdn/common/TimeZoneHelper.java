@@ -31,4 +31,8 @@ public final class TimeZoneHelper
 	@NonNls
 	@NotNull
 	public static final TimeZone UTC = getTimeZone("Etc/UTC");
+
+	@NonNls
+	@NotNull
+	public static final TimeZone BST = getTimeZone("Europe/London");
 }
