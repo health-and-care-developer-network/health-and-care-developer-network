@@ -24,7 +24,7 @@ import uk.nhs.hcdn.common.tuples.Pair;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import static uk.nhs.hcdn.common.parsers.xml.SaxHelper.namespaceQualifiedNodeOrAttributeName;
+import static uk.nhs.hcdn.common.xml.XmlNamespaceUriHelper.namespaceQualifiedNodeOrAttributeName;
 
 public final class IterableAttributes extends AbstractReadOnlyIterator<Pair<String, String>> implements Iterable<Pair<String, String>>
 {

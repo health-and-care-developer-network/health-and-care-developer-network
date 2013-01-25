@@ -19,7 +19,7 @@ package uk.nhs.hcdn.dts.domain.schema.xmlConstructors;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.TextXmlConstructor;
 import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlConstructor;
-import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlSchemaViolationException;
+import uk.nhs.hcdn.common.xml.XmlSchemaViolationException;
 import uk.nhs.hcdn.dts.domain.identifiers.WorkflowIdentifier;
 
 public final class WorkflowIdentifierTextXmlConstructor extends TextXmlConstructor<WorkflowIdentifier>

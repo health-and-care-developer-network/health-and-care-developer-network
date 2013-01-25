@@ -23,11 +23,12 @@ import uk.nhs.hcdn.common.serialisers.CouldNotSerialiseMapException;
 import uk.nhs.hcdn.common.serialisers.CouldNotWritePropertyException;
 import uk.nhs.hcdn.common.serialisers.MapSerialiser;
 import uk.nhs.hcdn.common.unknown.AbstractIsUnknown;
+import uk.nhs.hcdn.dts.domain.statusRecords.dateTime.KnownDateTime;
 
 public final class KnownStatusRecord extends AbstractIsUnknown implements StatusRecord
 {
 	@NotNull
-	private final DateTime dateTime;
+	private final KnownDateTime dateTime;
 	@NotNull
 	private final Event event;
 	@NotNull
@@ -38,7 +39,7 @@ public final class KnownStatusRecord extends AbstractIsUnknown implements Status
 	@NonNls
 	private final String description;
 
-	public KnownStatusRecord(@NotNull final DateTime dateTime, @NotNull final Event event, @NotNull final Status status, @NotNull final StatusCode statusCode, @NonNls @NotNull final String description)
+	public KnownStatusRecord(@NotNull final KnownDateTime dateTime, @NotNull final Event event, @NotNull final Status status, @NotNull final StatusCode statusCode, @NonNls @NotNull final String description)
 	{
 		super(false);
 		this.dateTime = dateTime;
@@ -68,7 +69,7 @@ public final class KnownStatusRecord extends AbstractIsUnknown implements Status
 
 	@NotNull
 	@Override
-	public DateTime dateTime()
+	public KnownDateTime dateTime()
 	{
 		return dateTime;
 	}

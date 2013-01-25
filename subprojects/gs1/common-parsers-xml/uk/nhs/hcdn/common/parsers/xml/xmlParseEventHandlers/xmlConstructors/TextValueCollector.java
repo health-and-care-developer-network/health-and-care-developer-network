@@ -19,6 +19,7 @@ package uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
+import uk.nhs.hcdn.common.xml.XmlSchemaViolationException;
 
 public final class TextValueCollector extends AbstractToString
 {

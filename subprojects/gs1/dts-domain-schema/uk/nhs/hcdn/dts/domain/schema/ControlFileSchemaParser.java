@@ -28,8 +28,9 @@ import uk.nhs.hcdn.dts.domain.statusRecords.StatusRecord;
 
 import java.io.OutputStream;
 
+import static uk.nhs.hcdn.common.CharsetHelper.Utf8;
 import static uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.JavaObjectXmlConstructor.schemaFor;
-import static uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.RootXmlConstructor.rootSchemaFor;
+import static uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.SingleRootXmlConstructor.rootSchemaFor;
 import static uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.StringXmlConstructor.StringXmlConstructorInstance;
 import static uk.nhs.hcdn.common.serialisers.xml.XmlSerialiser.serialise;
 import static uk.nhs.hcdn.dts.domain.BooleanFlag.*;
@@ -60,10 +61,10 @@ import static uk.nhs.hcdn.dts.domain.schema.xmlConstructors.VersionTextXmlConstr
 import static uk.nhs.hcdn.dts.domain.schema.xmlConstructors.WorkflowIdentifierTextXmlConstructor.WorkflowIdentifierTextXmlConstructorInstance;
 import static uk.nhs.hcdn.dts.domain.statusRecords.UnknownStatusRecord.UnknownStatusRecordInstance;
 
-public final class ControlFileSchemaParser extends SchemaParser<ControlFile>
+public final class ControlFileSchemaParser extends SchemaParser<ControlFile, ControlFile>
 {
 	@NotNull
-	public static final RootXmlConstructor<ControlFile> ControlFileSchema = rootSchemaFor
+	public static final SingleRootXmlConstructor<ControlFile> ControlFileSchema = rootSchemaFor
 	(
 		"DTSControl",
 		false,
@@ -99,11 +100,15 @@ public final class ControlFileSchemaParser extends SchemaParser<ControlFile>
 	);
 
 	@NotNull
-	public static final SchemaParser<ControlFile> ControlFileSchemaParserInstance = new ControlFileSchemaParser();
+	public static final SchemaParser<ControlFile, ControlFile> ControlFileSchemaParserInstance = new ControlFileSchemaParser();
+
+	@SuppressWarnings("unchecked")
+	@NotNull
+	private static final Pair<String, String>[] Empty = new Pair[0];
 
 	public static void serialiseControlFile(@SuppressWarnings("TypeMayBeWeakened") @NotNull final ControlFile controlFile, @NotNull final OutputStream outputStream) throws CouldNotSerialiseException
 	{
-		serialise("DTSControl", controlFile, outputStream, false);
+		serialise(false, "DTSControl", controlFile, outputStream, Utf8, Empty, Empty);
 	}
 
 	private ControlFileSchemaParser()

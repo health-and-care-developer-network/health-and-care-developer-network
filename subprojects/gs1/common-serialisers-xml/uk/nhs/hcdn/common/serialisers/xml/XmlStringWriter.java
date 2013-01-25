@@ -32,7 +32,6 @@ import static uk.nhs.hcdn.common.StringHelper.padAsDecimal;
 @SuppressWarnings("ConstantNamingConvention")
 public final class XmlStringWriter extends AbstractToString
 {
-	private static final char[] x00 = replacement(0x00);
 	private static final char[] x01 = replacement(0x01);
 	private static final char[] x02 = replacement(0x02);
 	private static final char[] x03 = replacement(0x03);
@@ -122,6 +121,16 @@ public final class XmlStringWriter extends AbstractToString
 		writeText(value);
 	}
 
+	public void writeAttributeName(@NotNull final CharSequence attributeName) throws CouldNotEncodeDataException, CouldNotWriteDataException
+	{
+		writeText(attributeName);
+	}
+
+	public void writeAttributeValue(@NotNull final CharSequence attributeValue) throws CouldNotEncodeDataException, CouldNotWriteDataException
+	{
+		writeText(attributeValue);
+	}
+
 	public void writeText(@NotNull final CharSequence value) throws CouldNotWriteDataException, CouldNotEncodeDataException
 	{
 		final int length = value.length();
@@ -153,16 +162,13 @@ public final class XmlStringWriter extends AbstractToString
 		}
 	}
 
+	// Strictly speaking, these are only valid in XML 1.1. Frankly, XML's rules on character data are pretty broken - it wouldn't have been very hard to support anything in Unicode for names, attributes and text
 	@SuppressWarnings({"SwitchStatementWithTooManyBranches", "OverlyComplexMethod", "OverlyLongMethod", "MagicNumber", "MagicCharacter"})
 	public void writeCharacter(final char character) throws CouldNotWriteDataException, CouldNotEncodeDataException
 	{
 		final char[] replacement;
 		switch (character)
 		{
-			case 0x00:
-				replacement = x00;
-				break;
-
 			case 0x01:
 				replacement = x01;
 				break;
@@ -415,9 +421,10 @@ public final class XmlStringWriter extends AbstractToString
 				replacement = x9F;
 				break;
 
+			case 0x0000:
 			case 0xFFFE:
 			case 0xFFFF:
-				throw new CouldNotEncodeDataException("0xFFFF and 0xFFFE are not valid in XML");
+				throw new CouldNotEncodeDataException("0x0000, 0xFFFF and 0xFFFE are not valid in XML");
 
 			default:
 				try

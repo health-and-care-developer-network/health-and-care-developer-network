@@ -14,26 +14,24 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.common.parsers.xml;
+package uk.nhs.hcdn.dts.domain.statusRecords.dateTime;
 
-import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hcdn.common.serialisers.ValueSerialiser;
+import uk.nhs.hcdn.common.unknown.AbstractIsUnknown;
 
-public final class SaxHelper
+public final class UnknownDateTime extends AbstractIsUnknown implements DateTime
 {
-	private static final char Colon = ':';
+	@NotNull
+	public static final DateTime UnknownDateTimeInstance = new UnknownDateTime();
 
-	private SaxHelper()
+	private UnknownDateTime()
 	{
+		super(true);
 	}
 
-	@NotNull
-	public static String namespaceQualifiedNodeOrAttributeName(@NonNls @NotNull final String uri, @NonNls @NotNull final String localName)
+	@Override
+	public void serialiseValue(@NotNull final ValueSerialiser valueSerialiser)
 	{
-		if (uri.isEmpty())
-		{
-			return localName;
-		}
-		return uri + Colon + localName;
 	}
 }

@@ -18,6 +18,7 @@ package uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hcdn.common.xml.XmlSchemaViolationException;
 
 public interface MissingFieldXmlConstructor<C, V> extends XmlConstructor<C, V>
 {

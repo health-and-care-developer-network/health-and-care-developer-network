@@ -59,7 +59,7 @@ public class Triple<A, B, C> implements Tuple
 	}
 
 	@NotNull
-	public <D> Quadruple<A, B, C, D> with(@NonNls @NotNull final D d)
+	public final <D> Quadruple<A, B, C, D> with(@NonNls @NotNull final D d)
 	{
 		return new Quadruple<>(a, b, c, d);
 	}

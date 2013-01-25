@@ -14,38 +14,19 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers;
+package uk.nhs.hcdn.dts.rats.response;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlSchemaViolationException;
+import uk.nhs.hcdn.dts.domain.AbstractValueSerialisableStringIsUnknown;
 
-public final class RootValueHolder<V>
+public final class FailureDiagnostic extends AbstractValueSerialisableStringIsUnknown
 {
-	@Nullable
-	private V value;
-
-	public RootValueHolder()
-	{
-		value = null;
-	}
-
-	public void assign(@NotNull final V value)
-	{
-		if (this.value != null)
-		{
-			throw new IllegalStateException("Duplicate assignment");
-		}
-		this.value = value;
-	}
-
 	@NotNull
-	public V retrieve() throws XmlSchemaViolationException
+	public static final FailureDiagnostic UnknownDiagnostic = new FailureDiagnostic("");
+
+	public FailureDiagnostic(@NonNls @NotNull final String smtpSubject)
 	{
-		if (value == null)
-		{
-			throw new XmlSchemaViolationException("No root node");
-		}
-		return value;
+		super(smtpSubject);
 	}
 }

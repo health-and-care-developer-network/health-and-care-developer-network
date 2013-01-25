@@ -16,14 +16,16 @@
 
 package uk.nhs.hcdn.common.parsers.xml.xmlEventHandlers;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+import uk.nhs.hcdn.common.xml.XmlNamespaceUri;
 import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.XmlParseEventHandler;
-import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlSchemaViolationException;
+import uk.nhs.hcdn.common.xml.XmlSchemaViolationException;
 
-import static uk.nhs.hcdn.common.parsers.xml.SaxHelper.namespaceQualifiedNodeOrAttributeName;
+import static uk.nhs.hcdn.common.xml.XmlNamespaceUriHelper.namespaceQualifiedNodeOrAttributeName;
 
 public final class SimplifiedXmlEventHandler extends AbstractNonDtdXmlEventHandler
 {
@@ -65,7 +67,7 @@ public final class SimplifiedXmlEventHandler extends AbstractNonDtdXmlEventHandl
 
 	@SuppressWarnings({"RefusedBequest", "FeatureEnvy"})
 	@Override
-	public void startElement(@NotNull final String uri, @NotNull final String localName, @NotNull final String qName, @NotNull final Attributes attributes) throws SAXException
+	public void startElement(@XmlNamespaceUri @NonNls @NotNull final String uri, @NotNull final String localName, @NotNull final String qName, @NotNull final Attributes attributes) throws SAXException
 	{
 		try
 		{
@@ -85,7 +87,7 @@ public final class SimplifiedXmlEventHandler extends AbstractNonDtdXmlEventHandl
 
 	@SuppressWarnings("RefusedBequest")
 	@Override
-	public void endElement(@NotNull final String uri, @NotNull final String localName, @NotNull final String qName) throws SAXException
+	public void endElement(@XmlNamespaceUri @NonNls @NotNull final String uri, @NotNull final String localName, @NotNull final String qName) throws SAXException
 	{
 		try
 		{

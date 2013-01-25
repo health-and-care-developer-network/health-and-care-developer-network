@@ -95,7 +95,7 @@ public final class ControlFileWriter
 			{
 				if (firstTimeExceptionThrown)
 				{
-					throw new CouldNotSerialiseException(e);
+					throw new CouldNotSerialiseException(controlFile, e);
 				}
 			}
 		}

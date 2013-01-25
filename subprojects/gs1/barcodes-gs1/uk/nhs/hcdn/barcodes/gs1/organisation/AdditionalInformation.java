@@ -37,7 +37,7 @@ public final class AdditionalInformation extends AbstractToString implements Map
 		final EnumMap<AdditionalInformationKey, Object> map = new EnumMap<>(AdditionalInformationKey.class);
 		for (final Pair<AdditionalInformationKey, Object> value : values)
 		{
-			map.put(value.a, value.b);
+			value.putUniquelyInMap(map);
 		}
 		return new AdditionalInformation(map);
 	}

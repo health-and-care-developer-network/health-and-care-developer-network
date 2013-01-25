@@ -17,7 +17,7 @@
 package uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlSchemaViolationException;
+import uk.nhs.hcdn.common.xml.XmlSchemaViolationException;
 import uk.nhs.hcdn.common.tuples.Pair;
 
 public interface XmlParseEventHandler

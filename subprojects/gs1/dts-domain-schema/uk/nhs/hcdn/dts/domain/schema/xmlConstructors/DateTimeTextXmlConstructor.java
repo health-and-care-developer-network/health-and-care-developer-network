@@ -19,12 +19,12 @@ package uk.nhs.hcdn.dts.domain.schema.xmlConstructors;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.TextXmlConstructor;
 import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlConstructor;
-import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlSchemaViolationException;
-import uk.nhs.hcdn.dts.domain.statusRecords.DateTime;
+import uk.nhs.hcdn.common.xml.XmlSchemaViolationException;
+import uk.nhs.hcdn.dts.domain.statusRecords.dateTime.KnownDateTime;
 
-import static uk.nhs.hcdn.dts.domain.statusRecords.DateTime.parseDateTime;
+import static uk.nhs.hcdn.dts.domain.statusRecords.dateTime.KnownDateTime.parseDateTime;
 
-public final class DateTimeTextXmlConstructor extends TextXmlConstructor<DateTime>
+public final class DateTimeTextXmlConstructor extends TextXmlConstructor<KnownDateTime>
 {
 	@NotNull
 	public static final XmlConstructor<?, ?> DateTimeTextXmlConstructorInstance = new DateTimeTextXmlConstructor();
@@ -36,7 +36,7 @@ public final class DateTimeTextXmlConstructor extends TextXmlConstructor<DateTim
 
 	@NotNull
 	@Override
-	protected DateTime convert(@NotNull final String text) throws XmlSchemaViolationException
+	protected KnownDateTime convert(@NotNull final String text) throws XmlSchemaViolationException
 	{
 		try
 		{
@@ -50,8 +50,8 @@ public final class DateTimeTextXmlConstructor extends TextXmlConstructor<DateTim
 
 	@NotNull
 	@Override
-	public Class<DateTime> type()
+	public Class<KnownDateTime> type()
 	{
-		return DateTime.class;
+		return KnownDateTime.class;
 	}
 }

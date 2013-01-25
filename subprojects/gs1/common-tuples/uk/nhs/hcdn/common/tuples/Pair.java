@@ -20,23 +20,26 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
+
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
 
 @SuppressWarnings("StandardVariableNames")
-public class Pair<A, B> implements Tuple
+public class Pair<A, B> implements Tuple, Map.Entry<A, B>
 {
 	@SuppressWarnings({"ClassEscapesDefinedScope", "PublicField"})
 	@NotNull
 	public final A a;
 
+	@NonNls
 	@SuppressWarnings({"ClassEscapesDefinedScope", "PublicField"})
 	@NotNull
 	public final B b;
 
 	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
 	@NotNull
-	public static <A, B> Pair<A, B> pair(@NonNls @NotNull final A a, @NotNull final B b)
+	public static <A, B> Pair<A, B> pair(@NonNls @NotNull final A a, @NonNls @NotNull final B b)
 	{
 		return new Pair<>(a, b);
 	}
@@ -45,6 +48,18 @@ public class Pair<A, B> implements Tuple
 	{
 		this.a = a;
 		this.b = b;
+	}
+
+	public Pair(@NotNull final Map.Entry<A, B> entry)
+	{
+		@Nullable final A key = entry.getKey();
+		@Nullable final B value = entry.getValue();
+		if (key == null || value == null)
+		{
+			throw new IllegalArgumentException("entry must have non-null key and value");
+		}
+		a = key;
+		b = value;
 	}
 
 	@NotNull
@@ -61,9 +76,36 @@ public class Pair<A, B> implements Tuple
 	}
 
 	@NotNull
-	public <C> Triple<A, B, C> with(@NotNull final C c)
+	public final <C> Triple<A, B, C> with(@NotNull final C c)
 	{
 		return new Triple<>(a, b, c);
+	}
+
+	public final void putUniquelyInMap(@NotNull final Map<A, B> map)
+	{
+		if (map.put(a, b) != null)
+		{
+			throw new IllegalArgumentException("Already present in map");
+		}
+	}
+
+	@Override
+	public A getKey()
+	{
+		return a;
+	}
+
+	@Override
+	@NotNull
+	public B getValue()
+	{
+		return b;
+	}
+
+	@Override
+	public B setValue(final B value)
+	{
+		throw new UnsupportedOperationException("Immutable");
 	}
 
 	@Override

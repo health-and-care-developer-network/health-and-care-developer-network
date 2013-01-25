@@ -14,23 +14,11 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors;
+package uk.nhs.hcdn.common.serialisers;
 
-import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
-import static java.lang.String.format;
-import static java.util.Locale.ENGLISH;
-
-public class XmlSchemaViolationException extends Exception
+public interface Serialisable
 {
-	public XmlSchemaViolationException(@NonNls @NotNull final String message)
-	{
-		super(format(ENGLISH, "XML schema violation because %1$s", message));
-	}
-
-	public XmlSchemaViolationException(@NotNull final Throwable e)
-	{
-		super(format(ENGLISH, "XML schema violation because of exception %1$s", e.getMessage()), e);
-	}
+	void serialise(@NotNull Serialiser serialiser) throws CouldNotSerialiseException;
 }

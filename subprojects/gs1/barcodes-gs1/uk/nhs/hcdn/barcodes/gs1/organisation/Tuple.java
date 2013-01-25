@@ -25,7 +25,7 @@ import uk.nhs.hcdn.common.serialisers.*;
 
 import java.util.Set;
 
-public final class Tuple extends AbstractToString implements MapSerialisable
+public final class Tuple extends AbstractToString implements MapSerialisable, Serialisable
 {
 	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String gs1CompanyPrefixField = "gs1CompanyPrefix";
 	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String trustField = "trust";
@@ -52,6 +52,19 @@ public final class Tuple extends AbstractToString implements MapSerialisable
 		this.trust = trust;
 		this.organisationName = organisationName;
 		this.additionalInformation = additionalInformation;
+	}
+
+	@Override
+	public void serialise(@NotNull final Serialiser serialiser) throws CouldNotSerialiseException
+	{
+		try
+		{
+			serialiseMap(serialiser);
+		}
+		catch (CouldNotSerialiseMapException e)
+		{
+			throw new CouldNotSerialiseException(this, e);
+		}
 	}
 
 	@SuppressWarnings("FeatureEnvy")

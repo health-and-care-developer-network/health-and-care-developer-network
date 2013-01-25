@@ -18,45 +18,55 @@ package uk.nhs.hcdn.common.serialisers.xml;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.reflection.toString.ExcludeFromToString;
 import uk.nhs.hcdn.common.serialisers.*;
+import uk.nhs.hcdn.common.tuples.Pair;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
 
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
 import static uk.nhs.hcdn.common.CharsetHelper.Utf8;
+import static uk.nhs.hcdn.common.VariableArgumentsHelper.of;
+import static uk.nhs.hcdn.common.tuples.Pair.pair;
+import static uk.nhs.hcdn.common.xml.XmlNamespaceUri.XmlSchemaInstanceNamespace;
 
 public final class XmlSerialiser extends AbstractSerialiser
 {
-	public static void serialise(@NotNull final String rootNodeName, @NotNull final MapSerialisable graph, @NotNull final OutputStream outputStream) throws CouldNotSerialiseException
+	@SafeVarargs
+	public static void serialise(@NonNls @NotNull final String rootNodeName, @NotNull final Serialisable graph, @NotNull final OutputStream outputStream, @NotNull final Pair<String, String>... rootAttributes) throws CouldNotSerialiseException
 	{
-		serialise(rootNodeName, graph, outputStream, true, Utf8);
+		serialise(true, rootNodeName, graph, outputStream, Utf8, of(pair(XmlSchemaInstanceNamespace, "xsi")), rootAttributes);
 	}
 
-	public static void serialise(@NotNull final String rootNodeName, @NotNull final MapSerialisable graph, @NotNull final OutputStream outputStream, final boolean xmlDeclaration) throws CouldNotSerialiseException
+	@SuppressWarnings("MethodCanBeVariableArityMethod")
+	public static void serialise(final boolean xmlDeclaration, @NotNull final String rootNodeName, @NotNull final Serialisable graph, @NotNull final OutputStream outputStream, @NotNull final Charset charset, @NotNull final Pair<String, String>[] namespaceUriToPrefixes, @NotNull final Pair<String, String>[] rootAttributes) throws CouldNotSerialiseException
 	{
-		serialise(rootNodeName, graph, outputStream, xmlDeclaration, Utf8);
-	}
-
-	public static void serialise(@NotNull final String rootNodeName, @NotNull final MapSerialisable graph, @NotNull final OutputStream outputStream, final boolean xmlDeclaration, @NotNull final Charset charset) throws CouldNotSerialiseException
-	{
-		final XmlSerialiser xmlSerialiser = new XmlSerialiser(rootNodeName, xmlDeclaration);
+		final XmlSerialiser xmlSerialiser = new XmlSerialiser(xmlDeclaration, rootNodeName, namespaceUriToPrefixes, rootAttributes);
 		try
 		{
 			xmlSerialiser.start(outputStream, charset);
-			xmlSerialiser.writeValue(graph);
+			graph.serialise(xmlSerialiser);
 			xmlSerialiser.finish();
 		}
-		catch (CouldNotWriteDataException | CouldNotWriteValueException e)
+		catch (CouldNotWriteDataException e)
 		{
 			throw new CouldNotSerialiseException(graph, e);
 		}
 	}
 
+	@NonNls
+	@NotNull
+	private static final String XmlnsPrefixColon = "xmlns:";
+	private static final int Space = (int) ' ';
+	private static final int DoubleQuote = (int) '"';
+	private static final char[] DoubleQuoteEqualsDoubleQuote = {'"', '=', '"'};
 	private static final int LessThan = (int) '<';
 	private static final int GreaterThan = (int) '>';
 	private static final char[] LessThanSlash = characters("</");
@@ -71,15 +81,52 @@ public final class XmlSerialiser extends AbstractSerialiser
 	@NotNull
 	private final String rootNodeName;
 	private final boolean xmlDeclaration;
+	@Nullable
+	private final Pair<String, String> xsiNilAttribute;
+	@NotNull
+	private final Pair<String, String>[] rootAttributes;
 
 	@SuppressWarnings("InstanceVariableMayNotBeInitialized")
 	@NotNull @ExcludeFromToString
 	private XmlStringWriter xmlStringWriter;
 
-	public XmlSerialiser(@NonNls @NotNull final String rootNodeName, final boolean xmlDeclaration)
+	@SuppressWarnings("unchecked")
+	@SafeVarargs
+	public XmlSerialiser(final boolean xmlDeclaration, @NonNls @NotNull final String rootNodeName, @NotNull final Pair<String, String>[] namespaceUriToPrefixes, @NotNull final Pair<String, String>... rootAttributes)
 	{
 		this.rootNodeName = rootNodeName;
 		this.xmlDeclaration = xmlDeclaration;
+		@Nullable String xmlSchemaInstancePrefix = null;
+		final Map<String, String> rootNodeAttributes = new HashMap<>(namespaceUriToPrefixes.length + rootAttributes.length);
+		for (final Pair<String, String> namespaceUriToPrefix : namespaceUriToPrefixes)
+		{
+			final String uri = namespaceUriToPrefix.a;
+			final String prefix = namespaceUriToPrefix.b;
+			if (prefix.startsWith("xml"))
+			{
+				throw new IllegalArgumentException("namespace prefixes can not start with xml");
+			}
+			if (rootNodeAttributes.put(XmlnsPrefixColon + uri, prefix) != null)
+			{
+				throw new IllegalArgumentException("Duplicate namespace");
+			}
+			if (uri.equals(XmlSchemaInstanceNamespace))
+			{
+				xmlSchemaInstancePrefix = prefix;
+			}
+		}
+		for (final Pair<String, String> rootAttribute : rootAttributes)
+		{
+			rootAttribute.putUniquelyInMap(rootNodeAttributes);
+		}
+		this.rootAttributes = new Pair[rootNodeAttributes.size()];
+		int index = 0;
+		for (final Map.Entry<String, String> toPair : rootNodeAttributes.entrySet())
+		{
+			rootAttributes[index] = new Pair<>(toPair);
+			index++;
+		}
+		xsiNilAttribute = xmlSchemaInstancePrefix == null ? null : pair(xmlSchemaInstancePrefix + ":nil", "true");
 	}
 
 	@Override
@@ -98,9 +145,13 @@ public final class XmlSerialiser extends AbstractSerialiser
 				throw new CouldNotWriteDataException(e);
 			}
 		}
+		else if (!charset.equals(Utf8))
+		{
+			throw new IllegalStateException("If a XML declaration is omitted, then the charset must be UTF-8");
+		}
 		try
 		{
-			writeOpen(rootNodeName);
+			writeOpen(rootNodeName, rootAttributes);
 		}
 		catch (CouldNotEncodeDataException e)
 		{
@@ -178,7 +229,14 @@ public final class XmlSerialiser extends AbstractSerialiser
 	@Override
 	public void writePropertyNull(@NonNls @NotNull final String name) throws CouldNotWritePropertyException
 	{
-		writeEmptyProperty(name);
+		if (xsiNilAttribute == null)
+		{
+			writeEmptyProperty(name);
+		}
+		else
+		{
+			writeEmptyProperty(name, xsiNilAttribute);
+		}
 	}
 
 	@SuppressWarnings("MethodCanBeVariableArityMethod")
@@ -291,10 +349,13 @@ public final class XmlSerialiser extends AbstractSerialiser
 	{
 	}
 
-	private void writeOpen(final CharSequence name) throws CouldNotWriteDataException, CouldNotEncodeDataException
+	@SuppressWarnings("FinalMethodInFinalClass") // final is required for @SafeVarargs
+	@SafeVarargs
+	private final void writeOpen(final CharSequence name, final Pair<String, String>... attributes) throws CouldNotWriteDataException, CouldNotEncodeDataException
 	{
 		write(LessThan);
 		writeNodeName(name);
+		writeAttributes(attributes);
 		write(GreaterThan);
 	}
 
@@ -305,18 +366,37 @@ public final class XmlSerialiser extends AbstractSerialiser
 		write(GreaterThan);
 	}
 
-	private void writeEmpty(final CharSequence name) throws CouldNotWriteDataException, CouldNotEncodeDataException
+	@SuppressWarnings("FinalMethodInFinalClass") // final is required for @SafeVarargs
+	@SafeVarargs
+	private final void writeEmpty(final CharSequence name, final Pair<String, String>... attributes) throws CouldNotWriteDataException, CouldNotEncodeDataException
 	{
 		write(LessThan);
 		writeNodeName(name);
+		writeAttributes(attributes);
 		write(SlashGreaterThan);
 	}
 
-	private void writeEmptyProperty(final String name) throws CouldNotWritePropertyException
+	@SuppressWarnings("FinalMethodInFinalClass") // final is required for @SafeVarargs
+	@SafeVarargs
+	private final void writeAttributes(final Pair<String, String>... attributes) throws CouldNotWriteDataException, CouldNotEncodeDataException
+	{
+		for (final Pair<String, String> attribute : attributes)
+		{
+			write(Space);
+			xmlStringWriter.writeAttributeName(attribute.a);
+			write(DoubleQuoteEqualsDoubleQuote);
+			xmlStringWriter.writeAttributeValue(attribute.b);
+			write(DoubleQuote);
+		}
+	}
+
+	@SuppressWarnings("FinalMethodInFinalClass") // final is required for @SafeVarargs
+	@SafeVarargs
+	private final void writeEmptyProperty(final String name, final Pair<String, String>... attributes) throws CouldNotWritePropertyException
 	{
 		try
 		{
-			writeEmpty(name);
+			writeEmpty(name, attributes);
 		}
 		catch (CouldNotWriteDataException | CouldNotEncodeDataException e)
 		{

@@ -18,7 +18,7 @@ package uk.nhs.hcdn.dts.domain.identifiers;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hcdn.dts.domain.statusRecords.DateTime;
+import uk.nhs.hcdn.dts.domain.statusRecords.dateTime.KnownDateTime;
 
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
@@ -36,7 +36,7 @@ public final class DtsIdentifier extends AbstractIdentifier
 		// it seems there is a format for these...
 	}
 
-	public DtsIdentifier(@NonNls @NotNull final String serverName, @NotNull final DateTime dateTime, @NotNull @NonNls final String xxxx)
+	public DtsIdentifier(@NonNls @NotNull final String serverName, @NotNull final KnownDateTime dateTime, @NotNull @NonNls final String xxxx)
 	{
 		super(serverName + '-' + dateTime.asYYYYMMDDhhmmss() + xxxx, MaximumCharacters);
 		if (serverName.contains("-"))

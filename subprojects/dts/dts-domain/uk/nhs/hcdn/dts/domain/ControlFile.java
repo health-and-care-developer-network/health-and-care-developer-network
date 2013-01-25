@@ -36,7 +36,7 @@ import static uk.nhs.hcdn.dts.domain.identifiers.PartnerIdentifier.UnknownPartne
 import static uk.nhs.hcdn.dts.domain.identifiers.ProcessIdentifier.UnknownProcessIdentifier;
 import static uk.nhs.hcdn.dts.domain.statusRecords.UnknownStatusRecord.UnknownStatusRecordInstance;
 
-public final class ControlFile extends AbstractToString implements MapSerialisable
+public final class ControlFile extends AbstractToString implements MapSerialisable, Serialisable
 {
 	@NotNull
 	public static ControlFile dataControlFileForSmtpNames(@NotNull final WorkflowIdentifier workflowIdentifier, @NotNull final Subject subject, @NotNull final LocalIdentifier localIdentifier, @NotNull final DtsIdentifier dtsIdentifier, @NotNull final ContentEncoding contentEncoding, @NotNull final AddressPair<SmtpAddress> smtpAddresses)
@@ -153,6 +153,19 @@ public final class ControlFile extends AbstractToString implements MapSerialisab
 		if (workflowIdentifier.isUnknown())
 		{
 			throw new IllegalArgumentException("workflowIdentifier is mandatory");
+		}
+	}
+
+	@Override
+	public void serialise(@NotNull final Serialiser serialiser) throws CouldNotSerialiseException
+	{
+		try
+		{
+			serialiseMap(serialiser);
+		}
+		catch (CouldNotSerialiseMapException e)
+		{
+			throw new CouldNotSerialiseException(this, e);
 		}
 	}
 

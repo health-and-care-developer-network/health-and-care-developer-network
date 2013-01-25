@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.dts.domain.statusRecords;
+package uk.nhs.hcdn.dts.domain.statusRecords.dateTime;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.MillisecondsSince1970;
-import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hcdn.common.serialisers.CouldNotSerialiseValueException;
 import uk.nhs.hcdn.common.serialisers.CouldNotWriteValueException;
-import uk.nhs.hcdn.common.serialisers.ValueSerialisable;
 import uk.nhs.hcdn.common.serialisers.ValueSerialiser;
+import uk.nhs.hcdn.common.unknown.AbstractIsUnknown;
 
+import javax.xml.bind.DatatypeConverter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -35,7 +35,7 @@ import static java.util.Locale.ENGLISH;
 import static java.util.Locale.ROOT;
 import static uk.nhs.hcdn.common.GregorianCalendarHelper.*;
 
-public final class DateTime extends AbstractToString implements ValueSerialisable
+public final class KnownDateTime extends AbstractIsUnknown implements DateTime
 {
 	private static final int Size = 14;
 	private static final int PlusSign = (int) '+';
@@ -43,14 +43,14 @@ public final class DateTime extends AbstractToString implements ValueSerialisabl
 
 	@SuppressWarnings("MagicNumber")
 	@NotNull
-	public static DateTime parseDateTime(@NonNls @NotNull final String dateTime)
+	public static KnownDateTime parseDateTime(@NonNls @NotNull final String dateTime)
 	{
 		if (dateTime.length() != Size)
 		{
 			throw new IllegalArgumentException(format(ENGLISH, "DateTime %1$s must be %2$s characters", dateTime, Size));
 		}
 
-		return new DateTime
+		return new KnownDateTime
 		(
 			bstWithOneBasedMonth
 			(
@@ -62,6 +62,12 @@ public final class DateTime extends AbstractToString implements ValueSerialisabl
 				paddedDecimalValueToInteger(dateTime, 12, Size, "seconds")
 			).getTimeInMillis()
 		);
+	}
+
+	@NotNull
+	public static KnownDateTime parseXmlSchemaDateTime(@NonNls @NotNull final String dateTime)
+	{
+		return new KnownDateTime(DatatypeConverter.parseDateTime(dateTime).getTimeInMillis());
 	}
 
 	private static int paddedDecimalValueToInteger(@NotNull final String value, final int from, final int to, @NonNls @NotNull final String fieldName)
@@ -86,8 +92,9 @@ public final class DateTime extends AbstractToString implements ValueSerialisabl
 	@MillisecondsSince1970
 	private final long dateTime;
 
-	public DateTime(@MillisecondsSince1970 final long dateTime)
+	public KnownDateTime(@MillisecondsSince1970 final long dateTime)
 	{
+		super(false);
 		this.dateTime = dateTime;
 	}
 
@@ -143,7 +150,7 @@ public final class DateTime extends AbstractToString implements ValueSerialisabl
 			return false;
 		}
 
-		final DateTime dateTime1 = (DateTime) obj;
+		final KnownDateTime dateTime1 = (KnownDateTime) obj;
 
 		if (dateTime != dateTime1.dateTime)
 		{
