@@ -12,6 +12,7 @@ import uk.nhs.hcdn.dts.domain.identifiers.ProcessIdentifier;
 import uk.nhs.hcdn.dts.domain.identifiers.WorkflowIdentifier;
 import uk.nhs.hcdn.dts.domain.statusRecords.dateTime.DateTime;
 import uk.nhs.hcdn.dts.domain.statusRecords.dateTime.KnownDateTime;
+import uk.nhs.hcdn.dts.rats.response.FailureDiagnostic;
 import uk.nhs.hcdn.dts.rats.response.MessageIdentifier;
 import uk.nhs.hcdn.dts.rats.response.Status;
 
@@ -35,10 +36,10 @@ public final class KnownDetails extends AbstractIsUnknown implements Details
 	@NotNull
 	private final DateTime sentDateTime;
 	@NotNull
-	private final KnownDateTime failureDateTime;
+	private final DateTime failureDateTime;
 	@NotNull
 	@NonNls
-	private final String failureDiagnostic;
+	private final FailureDiagnostic failureDiagnostic;
 	@NotNull
 	private final DtsIdentifier failureMessageDtsIdentifier;
 	@NotNull
@@ -49,7 +50,7 @@ public final class KnownDetails extends AbstractIsUnknown implements Details
 	private final ProcessIdentifier processIdentifier;
 
 	@SuppressWarnings("ConstructorWithTooManyParameters")
-	public KnownDetails(@NotNull final MessageIdentifier messageIdentifier, @NotNull final DtsName toDtsName, @NotNull final SmtpAddress fromSmtpAddress, @NotNull final SmtpAddress toSmtpAddress, @NotNull final KnownDateTime transferDateTime, @NotNull @NonNls final String messageReport, @NotNull final Status status, @NotNull final DateTime sentDateTime, @Nullable final KnownDateTime failureDateTime, @Nullable @NonNls final String failureDiagnostic, @Nullable final DtsIdentifier failureMessageDtsIdentifier, @NotNull final Subject subject, @NotNull final WorkflowIdentifier workflowIdentifier, @NotNull final ProcessIdentifier processIdentifier)
+	public KnownDetails(@NotNull final MessageIdentifier messageIdentifier, @NotNull final DtsName toDtsName, @NotNull final SmtpAddress fromSmtpAddress, @NotNull final SmtpAddress toSmtpAddress, @NotNull final KnownDateTime transferDateTime, @NotNull @NonNls final String messageReport, @NotNull final Status status, @NotNull final DateTime sentDateTime, @NotNull final DateTime failureDateTime, @NotNull @NonNls final FailureDiagnostic failureDiagnostic, @NotNull final DtsIdentifier failureMessageDtsIdentifier, @NotNull final Subject subject, @NotNull final WorkflowIdentifier workflowIdentifier, @NotNull final ProcessIdentifier processIdentifier)
 	{
 		super(false);
 		if (messageIdentifier.isUnknown())

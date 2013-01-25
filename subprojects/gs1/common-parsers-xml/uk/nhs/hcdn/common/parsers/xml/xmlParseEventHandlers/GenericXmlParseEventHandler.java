@@ -34,10 +34,10 @@ public final class GenericXmlParseEventHandler<V, F> implements XmlParseEventHan
 	private XmlNodeState<?, ?> current;
 
 	@NotNull
-	private final ParseResultUser<V> parseResultUser;
+	private final ParseResultUser<F> parseResultUser;
 
 	@SuppressWarnings("unchecked")
-	public GenericXmlParseEventHandler(@NotNull final AbstractRootXmlConstructor<V, F> rootXmlConstructor, @NotNull final ParseResultUser<V> parseResultUser)
+	public GenericXmlParseEventHandler(@NotNull final AbstractRootXmlConstructor<V, F> rootXmlConstructor, @NotNull final ParseResultUser<F> parseResultUser)
 	{
 		this.parseResultUser = parseResultUser;
 		xmlNodeStates = new Stack<>();
@@ -53,8 +53,8 @@ public final class GenericXmlParseEventHandler<V, F> implements XmlParseEventHan
 	@Override
 	public void endDocument() throws XmlSchemaViolationException
 	{
-		final Object result = current().finish();
-		parseResultUser.use((V) result);
+		final F result = (F) current().finish();
+		parseResultUser.use(result);
 	}
 
 	@Override

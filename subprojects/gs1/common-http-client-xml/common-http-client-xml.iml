@@ -8,13 +8,13 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="IntelliJ Annotations" level="project" />
-    <orderEntry type="module" module-name="dts-domain" exported="" />
-    <orderEntry type="module" module-name="common-parsers-xml" exported="" />
-    <orderEntry type="module" module-name="common-serialisers-xml" exported="" />
+    <orderEntry type="module" module-name="common-reflection" />
+    <orderEntry type="module" module-name="common-http-client" />
+    <orderEntry type="module" module-name="common-http" />
     <orderEntry type="module" module-name="common" />
-    <orderEntry type="module" module-name="common-tuples" />
-    <orderEntry type="module" module-name="dts-domain-schema" exported="" />
-    <orderEntry type="module" module-name="common-xml" exported="" />
+    <orderEntry type="module" module-name="common-parsers-xml" />
+    <orderEntry type="module" module-name="common-serialisers-xml" />
+    <orderEntry type="module" module-name="common-serialisers" />
   </component>
 </module>
 

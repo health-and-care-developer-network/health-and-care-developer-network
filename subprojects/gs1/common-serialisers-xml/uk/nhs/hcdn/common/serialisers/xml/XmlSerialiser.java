@@ -49,16 +49,7 @@ public final class XmlSerialiser extends AbstractSerialiser
 	public static void serialise(final boolean xmlDeclaration, @NotNull final String rootNodeName, @NotNull final Serialisable graph, @NotNull final OutputStream outputStream, @NotNull final Charset charset, @NotNull final Pair<String, String>[] namespaceUriToPrefixes, @NotNull final Pair<String, String>[] rootAttributes) throws CouldNotSerialiseException
 	{
 		final XmlSerialiser xmlSerialiser = new XmlSerialiser(xmlDeclaration, rootNodeName, namespaceUriToPrefixes, rootAttributes);
-		try
-		{
-			xmlSerialiser.start(outputStream, charset);
-			graph.serialise(xmlSerialiser);
-			xmlSerialiser.finish();
-		}
-		catch (CouldNotWriteDataException e)
-		{
-			throw new CouldNotSerialiseException(graph, e);
-		}
+		xmlSerialiser.serialise(graph, outputStream, charset);
 	}
 
 	@NonNls
@@ -127,6 +118,20 @@ public final class XmlSerialiser extends AbstractSerialiser
 			index++;
 		}
 		xsiNilAttribute = xmlSchemaInstancePrefix == null ? null : pair(xmlSchemaInstancePrefix + ":nil", "true");
+	}
+
+	public void serialise(@NotNull final Serialisable graph, @NotNull final OutputStream outputStream, @NotNull final Charset charset) throws CouldNotSerialiseException
+	{
+		try
+		{
+			start(outputStream, charset);
+			graph.serialise(this);
+			finish();
+		}
+		catch (CouldNotWriteDataException e)
+		{
+			throw new CouldNotSerialiseException(graph, e);
+		}
 	}
 
 	@Override

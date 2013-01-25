@@ -968,7 +968,7 @@
         <inspection_tool class="ThrowFromFinallyBlock" enabled="false" level="WARNING" enabled_by_default="false" />
         <inspection_tool class="ThrowablePrintStackTrace" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ThrownExceptionsPerMethod" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="m_limit" value="3" />
+          <option name="m_limit" value="4" />
         </inspection_tool>
         <inspection_tool class="ThrowsRuntimeException" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="TimeToString" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -1259,6 +1259,7 @@
       <module fileurl="file://$PROJECT_DIR$/common-http/common-http.iml" filepath="$PROJECT_DIR$/common-http/common-http.iml" group="common/http" />
       <module fileurl="file://$PROJECT_DIR$/common-http-client/common-http-client.iml" filepath="$PROJECT_DIR$/common-http-client/common-http-client.iml" group="common/http" />
       <module fileurl="file://$PROJECT_DIR$/common-http-client-json/common-http-client-json.iml" filepath="$PROJECT_DIR$/common-http-client-json/common-http-client-json.iml" group="common/http" />
+      <module fileurl="file://$PROJECT_DIR$/common-http-client-xml/common-http-client-xml.iml" filepath="$PROJECT_DIR$/common-http-client-xml/common-http-client-xml.iml" group="common/http" />
       <module fileurl="file://$PROJECT_DIR$/common-http-server/common-http-server.iml" filepath="$PROJECT_DIR$/common-http-server/common-http-server.iml" group="common/http" />
       <module fileurl="file://$PROJECT_DIR$/common-http-server-sun/common-http-server-sun.iml" filepath="$PROJECT_DIR$/common-http-server-sun/common-http-server-sun.iml" group="common/http" />
       <module fileurl="file://$PROJECT_DIR$/common-http-server-sun-application/common-http-server-sun-application.iml" filepath="$PROJECT_DIR$/common-http-server-sun-application/common-http-server-sun-application.iml" group="common/http" />
@@ -1277,6 +1278,7 @@
       <module fileurl="file://$PROJECT_DIR$/common-unknown/common-unknown.iml" filepath="$PROJECT_DIR$/common-unknown/common-unknown.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-xml/common-xml.iml" filepath="$PROJECT_DIR$/common-xml/common-xml.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/dts-client-create/dts-client-create.iml" filepath="$PROJECT_DIR$/dts-client-create/dts-client-create.iml" group="dts" />
+      <module fileurl="file://$PROJECT_DIR$/dts-client-rats/dts-client-rats.iml" filepath="$PROJECT_DIR$/dts-client-rats/dts-client-rats.iml" group="dts" />
       <module fileurl="file://$PROJECT_DIR$/dts-client-read/dts-client-read.iml" filepath="$PROJECT_DIR$/dts-client-read/dts-client-read.iml" group="dts" />
       <module fileurl="file://$PROJECT_DIR$/../dts/dts-domain/dts-domain.iml" filepath="$PROJECT_DIR$/../dts/dts-domain/dts-domain.iml" group="dts" />
       <module fileurl="file://$PROJECT_DIR$/dts-domain-schema/dts-domain-schema.iml" filepath="$PROJECT_DIR$/dts-domain-schema/dts-domain-schema.iml" group="dts" />

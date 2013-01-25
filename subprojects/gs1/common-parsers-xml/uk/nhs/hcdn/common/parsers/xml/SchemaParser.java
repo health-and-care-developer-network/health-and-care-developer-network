@@ -36,9 +36,9 @@ public class SchemaParser<V, F>
 	}
 
 	@NotNull
-	public final V parse(@NotNull final InputStream inputStream) throws IOException, SAXException
+	public final F parse(@NotNull final InputStream inputStream) throws IOException, SAXException
 	{
-		final NonNullValueReturningParseResultUser<V> parseResultUser = new NonNullValueReturningParseResultUser<>();
+		final NonNullValueReturningParseResultUser<F> parseResultUser = new NonNullValueReturningParseResultUser<>();
 		final ConvenientSaxParser convenientSaxParser = new ConvenientSaxParser(new GenericXmlParseEventHandler<>(rootXmlConstructor, parseResultUser));
 		convenientSaxParser.parse(inputStream);
 

@@ -10,13 +10,14 @@ import uk.nhs.hcdn.common.serialisers.Serialiser;
 import uk.nhs.hcdn.common.serialisers.xml.XmlSerialiser;
 import uk.nhs.hcdn.dts.rats.Message;
 
-import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.List;
 
 import static java.util.Arrays.asList;
 import static uk.nhs.hcdn.common.VariableArgumentsHelper.copyOf;
+import static uk.nhs.hcdn.common.VariableArgumentsHelper.of;
 import static uk.nhs.hcdn.common.tuples.Pair.pair;
+import static uk.nhs.hcdn.common.xml.XmlNamespaceUri.XmlSchemaInstanceNamespace;
 import static uk.nhs.hcdn.dts.domain.Version.VersionMajor1Minor0;
 
 public final class Messages extends AbstractToString implements Serialisable
@@ -29,20 +30,22 @@ public final class Messages extends AbstractToString implements Serialisable
 		this.messages = copyOf(messages);
 	}
 
-	public static void serialiseMessages(@NotNull final OutputStream outputStream, @NotNull final Message... messages) throws CouldNotSerialiseException
+	@NotNull
+	public static XmlSerialiser messagesXmlSerialiser()
 	{
-		serialiseMessages(outputStream, new Messages(messages));
-	}
-
-	public static void serialiseMessages(@NotNull final OutputStream outputStream, @SuppressWarnings("TypeMayBeWeakened") @NotNull final Messages messages) throws CouldNotSerialiseException
-	{
-		XmlSerialiser.serialise
+		return new XmlSerialiser
 		(
+			true,
 			"DTSRequest",
-			messages,
-			outputStream,
-			pair("xsi:noNamespaceSchemaLocation", "D:\\NHSRegSys\\Backend\\www\\Schema\\dts request.xsd"),
-			pair("Version", VersionMajor1Minor0.actualName())
+			of
+			(
+				pair(XmlSchemaInstanceNamespace, "xsi")
+			),
+			of
+			(
+				pair("xsi:noNamespaceSchemaLocation", "D:\\NHSRegSys\\Backend\\www\\Schema\\dts request.xsd"),
+				pair("Version", VersionMajor1Minor0.actualName())
+			)
 		);
 	}
 

@@ -14,30 +14,18 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.common.http;
+package uk.nhs.hcdn.common.http.client.exceptions;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
-public @interface ContentType
+import static java.lang.String.format;
+import static java.util.Locale.ENGLISH;
+
+public final class CouldNotUploadException extends Exception
 {
-	@NonNls
-	@ContentType
-	@NotNull
-	String JsonContentType = "application/json";
-
-	@NonNls
-	@ContentType
-	@NotNull
-	String XmlContentType = "application/xml";
-
-	@NonNls
-	@ContentType
-	@NotNull
-	String LegacyXmlContentType = "text/xml";
-
-	@NonNls
-	@ContentType
-	@NotNull
-	String TextContentType = "text/plain";
+	public CouldNotUploadException(@NonNls @NotNull final String because, @NotNull final Exception cause)
+	{
+		super(format(ENGLISH, "Could not upload because %1$s of exception %2$s", because, cause.getMessage()), cause);
+	}
 }
