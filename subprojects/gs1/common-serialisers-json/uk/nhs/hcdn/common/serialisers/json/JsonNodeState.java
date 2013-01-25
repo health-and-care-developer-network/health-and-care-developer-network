@@ -16,10 +16,24 @@
 
 package uk.nhs.hcdn.common.serialisers.json;
 
-public enum NodeValue
-{
-	Map,
-	List,
-	;
+import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 
+public final class JsonNodeState extends AbstractToString
+{
+	private boolean subsequentProperty;
+
+	public JsonNodeState()
+	{
+		subsequentProperty = false;
+	}
+
+	public boolean hasSubsequentProperty()
+	{
+		return subsequentProperty;
+	}
+
+	public void setHasSubsequentProperty()
+	{
+		subsequentProperty = true;
+	}
 }

@@ -1279,6 +1279,7 @@
       <module fileurl="file://$PROJECT_DIR$/dts-client-read/dts-client-read.iml" filepath="$PROJECT_DIR$/dts-client-read/dts-client-read.iml" group="dts" />
       <module fileurl="file://$PROJECT_DIR$/../dts/dts-domain/dts-domain.iml" filepath="$PROJECT_DIR$/../dts/dts-domain/dts-domain.iml" group="dts" />
       <module fileurl="file://$PROJECT_DIR$/dts-domain-schema/dts-domain-schema.iml" filepath="$PROJECT_DIR$/dts-domain-schema/dts-domain-schema.iml" group="dts" />
+      <module fileurl="file://$PROJECT_DIR$/dts-rats/dts-rats.iml" filepath="$PROJECT_DIR$/dts-rats/dts-rats.iml" group="dts" />
     </modules>
   </component>
   <component name="ProjectResources">
