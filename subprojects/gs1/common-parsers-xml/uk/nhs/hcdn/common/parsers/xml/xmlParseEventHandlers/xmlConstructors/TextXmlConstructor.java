@@ -29,12 +29,22 @@ public abstract class TextXmlConstructor<V> extends AbstractToString implements 
 {
 	@Nullable
 	private final V defaultIfTextNodeMissing;
+	@NotNull
+	private final Class<V> type;
 	private final boolean defaultUnacceptable;
 
-	protected TextXmlConstructor(@Nullable final V defaultIfTextNodeMissing)
+	protected TextXmlConstructor(@Nullable final V defaultIfTextNodeMissing, @NotNull final Class<V> type)
 	{
 		this.defaultIfTextNodeMissing = defaultIfTextNodeMissing;
+		this.type = type;
 		defaultUnacceptable = defaultIfTextNodeMissing == null;
+	}
+
+	@NotNull
+	@Override
+	public final Class<?> type()
+	{
+		return type;
 	}
 
 	@Override

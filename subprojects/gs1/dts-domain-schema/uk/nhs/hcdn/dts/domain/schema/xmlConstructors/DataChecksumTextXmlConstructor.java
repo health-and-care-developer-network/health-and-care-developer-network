@@ -31,7 +31,7 @@ public final class DataChecksumTextXmlConstructor extends TextXmlConstructor<Dat
 
 	private DataChecksumTextXmlConstructor()
 	{
-		super(UnknownDataChecksum);
+		super(UnknownDataChecksum, DataChecksum.class);
 	}
 
 	@NotNull
@@ -46,12 +46,5 @@ public final class DataChecksumTextXmlConstructor extends TextXmlConstructor<Dat
 		{
 			throw new XmlSchemaViolationException(e);
 		}
-	}
-
-	@NotNull
-	@Override
-	public Class<DataChecksum> type()
-	{
-		return DataChecksum.class;
 	}
 }

@@ -14,37 +14,48 @@
  * limitations under the License.
  */
 
-package uk.nhs.hcdn.dts.domain.schema.xmlConstructors;
+package uk.nhs.hcdn.dts.rats.response.schema;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.TextXmlConstructor;
 import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlConstructor;
 import uk.nhs.hcdn.common.xml.XmlSchemaViolationException;
-import uk.nhs.hcdn.dts.domain.statusRecords.Event;
+import uk.nhs.hcdn.dts.rats.response.StatusValue;
 
+import static java.lang.Integer.parseInt;
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
-import static uk.nhs.hcdn.dts.domain.statusRecords.Event.event;
+import static uk.nhs.hcdn.dts.rats.response.StatusValue.statusValue;
 
-public final class EventTextXmlConstructor extends TextXmlConstructor<Event>
+public final class StatusValueTextXmlConstructor extends TextXmlConstructor<StatusValue>
 {
 	@NotNull
-	public static final XmlConstructor<?, ?> EventTextXmlConstructorInstance = new EventTextXmlConstructor();
+	public static final XmlConstructor<?, ?> StatusValueTextXmlConstructorInstance = new StatusValueTextXmlConstructor();
 
-	private EventTextXmlConstructor()
+	private StatusValueTextXmlConstructor()
 	{
-		super(null, Event.class);
+		super(null, StatusValue.class);
 	}
 
 	@NotNull
 	@Override
-	protected Event convert(@NotNull final String text) throws XmlSchemaViolationException
+	protected StatusValue convert(@NotNull final String text) throws XmlSchemaViolationException
 	{
-		@Nullable final Event result = event(text);
+		final int integer;
+		try
+		{
+			integer = parseInt(text);
+		}
+		catch(NumberFormatException ignored)
+		{
+			throw new XmlSchemaViolationException(format(ENGLISH, "text %1$s is not a valid StatusValue because it is not an integer", text));
+		}
+
+		@Nullable final StatusValue result = statusValue(integer);
 		if (result == null)
 		{
-			throw new XmlSchemaViolationException(format(ENGLISH, "text %1$s is not a valid Event", text));
+			throw new XmlSchemaViolationException(format(ENGLISH, "text %1$s is not a valid StatusValue", text));
 		}
 		return result;
 	}

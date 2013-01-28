@@ -28,13 +28,21 @@ public final class MayBeMissingFieldXmlConstructor<C, V> implements MissingField
 	@NotNull
 	private final V valueIfMissing;
 	@NotNull
-	private final NilXmlConstructor<C,V> nilXmlConstructor;
+	private final NilXmlConstructor<?, ?> nilXmlConstructor;
+	@NotNull
+	private final Class<?> type;
 
 	public MayBeMissingFieldXmlConstructor(@NotNull final XmlConstructor<C, V> underlyingXmlConstructor, @NotNull final V valueIfMissing)
 	{
+		this(underlyingXmlConstructor, valueIfMissing, underlyingXmlConstructor.type());
+	}
+
+	public MayBeMissingFieldXmlConstructor(@NotNull final XmlConstructor<C, V> underlyingXmlConstructor, @NotNull final V valueIfMissing, @NotNull final Class<?> type)
+	{
 		this.underlyingXmlConstructor = underlyingXmlConstructor;
 		this.valueIfMissing = valueIfMissing;
-		nilXmlConstructor = new NilXmlConstructor<>(underlyingXmlConstructor.type(), valueIfMissing);
+		nilXmlConstructor = new NilXmlConstructor<>(type, valueIfMissing);
+		this.type = type;
 	}
 
 	@Override
@@ -52,9 +60,9 @@ public final class MayBeMissingFieldXmlConstructor<C, V> implements MissingField
 
 	@NotNull
 	@Override
-	public Class<V> type()
+	public Class<?> type()
 	{
-		return underlyingXmlConstructor.type();
+		return type;
 	}
 
 	@NotNull

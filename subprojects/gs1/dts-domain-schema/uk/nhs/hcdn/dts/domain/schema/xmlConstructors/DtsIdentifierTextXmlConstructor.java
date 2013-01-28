@@ -31,7 +31,7 @@ public final class DtsIdentifierTextXmlConstructor extends TextXmlConstructor<Dt
 
 	private DtsIdentifierTextXmlConstructor()
 	{
-		super(UnknownDtsIdentifier);
+		super(UnknownDtsIdentifier, DtsIdentifier.class);
 	}
 
 	@NotNull
@@ -46,12 +46,5 @@ public final class DtsIdentifierTextXmlConstructor extends TextXmlConstructor<Dt
 		{
 			throw new XmlSchemaViolationException(e);
 		}
-	}
-
-	@NotNull
-	@Override
-	public Class<DtsIdentifier> type()
-	{
-		return DtsIdentifier.class;
 	}
 }

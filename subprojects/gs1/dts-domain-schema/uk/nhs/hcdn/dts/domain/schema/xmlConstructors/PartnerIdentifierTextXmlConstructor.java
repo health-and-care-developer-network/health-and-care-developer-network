@@ -31,7 +31,7 @@ public final class PartnerIdentifierTextXmlConstructor extends TextXmlConstructo
 
 	private PartnerIdentifierTextXmlConstructor()
 	{
-		super(UnknownPartnerIdentifier);
+		super(UnknownPartnerIdentifier, PartnerIdentifier.class);
 	}
 
 	@NotNull
@@ -46,12 +46,5 @@ public final class PartnerIdentifierTextXmlConstructor extends TextXmlConstructo
 		{
 			throw new XmlSchemaViolationException(e);
 		}
-	}
-
-	@NotNull
-	@Override
-	public Class<PartnerIdentifier> type()
-	{
-		return PartnerIdentifier.class;
 	}
 }

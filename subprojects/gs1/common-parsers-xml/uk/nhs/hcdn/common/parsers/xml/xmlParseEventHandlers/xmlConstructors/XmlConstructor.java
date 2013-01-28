@@ -24,7 +24,7 @@ import uk.nhs.hcdn.common.xml.XmlSchemaViolationException;
 public interface XmlConstructor<C, V>
 {
 	@NotNull
-	Class<V> type();
+	Class<?> type();
 
 	@NotNull
 	C start();

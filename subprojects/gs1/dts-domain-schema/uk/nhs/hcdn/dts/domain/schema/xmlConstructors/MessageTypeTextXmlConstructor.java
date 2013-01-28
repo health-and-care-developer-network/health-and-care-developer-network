@@ -34,7 +34,7 @@ public final class MessageTypeTextXmlConstructor extends TextXmlConstructor<Mess
 
 	private MessageTypeTextXmlConstructor()
 	{
-		super(null);
+		super(null, MessageType.class);
 	}
 
 	@NotNull
@@ -47,12 +47,5 @@ public final class MessageTypeTextXmlConstructor extends TextXmlConstructor<Mess
 			throw new XmlSchemaViolationException(format(ENGLISH, "text %1$s is not a valid MessageType", text));
 		}
 		return result;
-	}
-
-	@NotNull
-	@Override
-	public Class<MessageType> type()
-	{
-		return MessageType.class;
 	}
 }

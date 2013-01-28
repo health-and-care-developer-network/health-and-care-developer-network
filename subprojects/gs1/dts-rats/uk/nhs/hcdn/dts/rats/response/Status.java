@@ -7,11 +7,12 @@ import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 
 public final class Status extends AbstractToString
 {
-	private final int statusValue;
+	@NotNull
+	public final StatusValue statusValue;
 	@NotNull @NonNls
-	private final String statusText;
+	public final String statusText;
 
-	public Status(final int statusValue, @NonNls @NotNull final String statusText)
+	public Status(@NotNull final StatusValue statusValue, @NonNls @NotNull final String statusText)
 	{
 		this.statusValue = statusValue;
 		this.statusText = statusText;
@@ -31,11 +32,11 @@ public final class Status extends AbstractToString
 
 		final Status status = (Status) obj;
 
-		if (statusValue != status.statusValue)
+		if (!statusText.equals(status.statusText))
 		{
 			return false;
 		}
-		if (!statusText.equals(status.statusText))
+		if (statusValue != status.statusValue)
 		{
 			return false;
 		}
@@ -46,7 +47,7 @@ public final class Status extends AbstractToString
 	@Override
 	public int hashCode()
 	{
-		int result = statusValue;
+		int result = statusValue.hashCode();
 		result = 31 * result + statusText.hashCode();
 		return result;
 	}

@@ -21,10 +21,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import uk.nhs.hcdn.common.xml.XmlNamespaceUri;
 import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.XmlParseEventHandler;
+import uk.nhs.hcdn.common.xml.XmlNamespaceUri;
 import uk.nhs.hcdn.common.xml.XmlSchemaViolationException;
 
+import static java.lang.String.format;
+import static java.util.Locale.ENGLISH;
 import static uk.nhs.hcdn.common.xml.XmlNamespaceUriHelper.namespaceQualifiedNodeOrAttributeName;
 
 public final class SimplifiedXmlEventHandler extends AbstractNonDtdXmlEventHandler
@@ -61,7 +63,7 @@ public final class SimplifiedXmlEventHandler extends AbstractNonDtdXmlEventHandl
 		}
 		catch (XmlSchemaViolationException e)
 		{
-			throw new SAXException(e);
+			throw new SAXException("endDocument XML schema violated", e);
 		}
 	}
 
@@ -69,19 +71,29 @@ public final class SimplifiedXmlEventHandler extends AbstractNonDtdXmlEventHandl
 	@Override
 	public void startElement(@XmlNamespaceUri @NonNls @NotNull final String uri, @NotNull final String localName, @NotNull final String qName, @NotNull final Attributes attributes) throws SAXException
 	{
-		try
-		{
-			if (currentText != null)
+		final String fullName = namespaceQualifiedNodeOrAttributeName(uri, localName);
+		final IterableAttributes iterableAttributes = new IterableAttributes(attributes);
+
+		if (currentText != null)
 			{
 				final String text = currentText.toString();
-				xmlParseEventHandler.text(text);
+				try
+				{
+					xmlParseEventHandler.text(text);
+				}
+				catch (XmlSchemaViolationException e)
+				{
+					throw new SAXException(format(ENGLISH, "startElement %1$s(%2$s) preceeded by invalid text %3$s", fullName, iterableAttributes, text), e);
+				}
 				currentText = null;
 			}
-			xmlParseEventHandler.startElement(namespaceQualifiedNodeOrAttributeName(uri, localName), new IterableAttributes(attributes));
+		try
+		{
+			xmlParseEventHandler.startElement(fullName, iterableAttributes);
 		}
 		catch (XmlSchemaViolationException e)
 		{
-			throw new SAXException(e);
+			throw new SAXException(format(ENGLISH, "startElement %1$s(%2$s) XML schema violated", fullName, iterableAttributes), e);
 		}
 	}
 
@@ -89,19 +101,27 @@ public final class SimplifiedXmlEventHandler extends AbstractNonDtdXmlEventHandl
 	@Override
 	public void endElement(@XmlNamespaceUri @NonNls @NotNull final String uri, @NotNull final String localName, @NotNull final String qName) throws SAXException
 	{
+		final String fullName = namespaceQualifiedNodeOrAttributeName(uri, localName);
+		if (currentText != null)
+		{
+			final String text = currentText.toString();
+			try
+			{
+				xmlParseEventHandler.text(text);
+			}
+			catch (XmlSchemaViolationException e)
+			{
+				throw new SAXException(format(ENGLISH, "endElement %1$s preceeded by invalid text %2$s", fullName, text), e);
+			}
+			currentText = null;
+		}
 		try
 		{
-			if (currentText != null)
-			{
-				final String text = currentText.toString();
-				xmlParseEventHandler.text(text);
-				currentText = null;
-			}
-			xmlParseEventHandler.endElement(namespaceQualifiedNodeOrAttributeName(uri, localName));
+			xmlParseEventHandler.endElement(fullName);
 		}
 		catch (XmlSchemaViolationException e)
 		{
-			throw new SAXException(e);
+			throw new SAXException(format(ENGLISH, "endElement %1$s XML schema violated", fullName), e);
 		}
 	}
 

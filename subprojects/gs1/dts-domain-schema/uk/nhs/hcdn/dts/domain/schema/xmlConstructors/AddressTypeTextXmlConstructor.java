@@ -34,7 +34,7 @@ public final class AddressTypeTextXmlConstructor extends TextXmlConstructor<Addr
 
 	private AddressTypeTextXmlConstructor()
 	{
-		super(null);
+		super(null, AddressType.class);
 	}
 
 	@NotNull
@@ -47,12 +47,5 @@ public final class AddressTypeTextXmlConstructor extends TextXmlConstructor<Addr
 			throw new XmlSchemaViolationException(format(ENGLISH, "text %1$s is not a valid AddressType", text));
 		}
 		return result;
-	}
-
-	@NotNull
-	@Override
-	public Class<AddressType> type()
-	{
-		return AddressType.class;
 	}
 }

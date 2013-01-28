@@ -44,8 +44,7 @@ import static uk.nhs.hcdn.common.VariableArgumentsHelper.copyOf;
 import static uk.nhs.hcdn.common.http.ResponseCode.NoContentResponseCode;
 import static uk.nhs.hcdn.common.http.ResponseCodeRange.Successful2xx;
 import static uk.nhs.hcdn.common.http.ResponseCodeRange.responseCodeRange;
-import static uk.nhs.hcdn.common.http.client.connectionConfigurations.HttpMethodConnectionConfiguration.GET;
-import static uk.nhs.hcdn.common.http.client.connectionConfigurations.HttpMethodConnectionConfiguration.PUT;
+import static uk.nhs.hcdn.common.http.client.connectionConfigurations.HttpMethodConnectionConfiguration.*;
 import static uk.nhs.hcdn.common.http.client.connectionConfigurations.TcpConnectionConfiguration.tcpConnectionConfiguration;
 import static uk.nhs.hcdn.common.inputStreams.EmptyInputStream.EmptyInputStreamInstance;
 
@@ -56,7 +55,9 @@ public final class JavaHttpClient extends AbstractToString implements HttpClient
 	@NotNull
 	private final Pair<String, String>[] httpHeaders;
 
+	private final CombinedConnectionConfiguration headConfiguration;
 	private final CombinedConnectionConfiguration getConfiguration;
+	private final CombinedConnectionConfiguration postConfiguration;
 	private final CombinedConnectionConfiguration putConfiguration;
 
 	@SuppressWarnings("FeatureEnvy")
@@ -66,14 +67,16 @@ public final class JavaHttpClient extends AbstractToString implements HttpClient
 		this.httpUrl = httpUrl;
 		this.httpHeaders = copyOf(httpHeaders);
 		final TcpConnectionConfiguration tcpConnectionConfiguration = tcpConnectionConfiguration(true, 10 * 1000, 10 * 1000);
+		headConfiguration = tcpConnectionConfiguration.with(HEAD);
 		getConfiguration = tcpConnectionConfiguration.with(GET);
+		postConfiguration = tcpConnectionConfiguration.with(POST).with(supportsChunkedUploads);
 		putConfiguration = tcpConnectionConfiguration.with(PUT).with(supportsChunkedUploads);
 	}
 
 	@Override
 	public void head(@NotNull final HeadHttpResponseUser headHttpResponseUser) throws CouldNotConnectHttpException, UnacceptableResponseException, CorruptResponseException
 	{
-		final HttpURLConnection httpConnection = connectedHttpConnection();
+		final HttpURLConnection httpConnection = connectedHttpConnection(headConfiguration);
 
 		try
 		{
@@ -93,7 +96,7 @@ public final class JavaHttpClient extends AbstractToString implements HttpClient
 	@NotNull
 	public <V> V get(@NotNull final GetHttpResponseUser<V> getHttpResponseUser) throws CouldNotConnectHttpException, UnacceptableResponseException, CorruptResponseException
 	{
-		final HttpURLConnection httpConnection = connectedHttpConnection();
+		final HttpURLConnection httpConnection = connectedHttpConnection(getConfiguration);
 
 		return receive(httpConnection, getHttpResponseUser);
 	}
@@ -102,7 +105,7 @@ public final class JavaHttpClient extends AbstractToString implements HttpClient
 	@Override
 	public <V> V post(@NotNull final UploadContent uploadContent, @NotNull final GetHttpResponseUser<V> getHttpResponseUser) throws CouldNotConnectHttpException, UnacceptableResponseException, CorruptResponseException, CouldNotUploadException
 	{
-		final HttpURLConnection httpConnection = connectedHttpConnection();
+		final HttpURLConnection httpConnection = connectedHttpConnection(postConfiguration);
 
 		try
 		{
@@ -159,9 +162,9 @@ public final class JavaHttpClient extends AbstractToString implements HttpClient
 		return responseCodeRange;
 	}
 
-	private HttpURLConnection connectedHttpConnection() throws CouldNotConnectHttpException
+	private HttpURLConnection connectedHttpConnection(final ConnectionConfiguration configuration) throws CouldNotConnectHttpException
 	{
-		final HttpURLConnection httpConnection = newHttpConnection(getConfiguration);
+		final HttpURLConnection httpConnection = newHttpConnection(configuration);
 
 		try
 		{

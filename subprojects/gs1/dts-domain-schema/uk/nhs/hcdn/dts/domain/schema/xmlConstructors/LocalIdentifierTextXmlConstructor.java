@@ -29,7 +29,7 @@ public final class LocalIdentifierTextXmlConstructor extends TextXmlConstructor<
 
 	private LocalIdentifierTextXmlConstructor()
 	{
-		super(null);
+		super(null, LocalIdentifier.class);
 	}
 
 	@NotNull
@@ -44,12 +44,5 @@ public final class LocalIdentifierTextXmlConstructor extends TextXmlConstructor<
 		{
 			throw new XmlSchemaViolationException(e);
 		}
-	}
-
-	@NotNull
-	@Override
-	public Class<LocalIdentifier> type()
-	{
-		return LocalIdentifier.class;
 	}
 }

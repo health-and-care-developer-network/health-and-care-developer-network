@@ -31,7 +31,7 @@ public final class SubjectTextXmlConstructor extends TextXmlConstructor<Subject>
 
 	private SubjectTextXmlConstructor()
 	{
-		super(UnknownSubject);
+		super(UnknownSubject, Subject.class);
 	}
 
 	@NotNull
@@ -46,12 +46,5 @@ public final class SubjectTextXmlConstructor extends TextXmlConstructor<Subject>
 		{
 			throw new XmlSchemaViolationException(e);
 		}
-	}
-
-	@NotNull
-	@Override
-	public Class<Subject> type()
-	{
-		return Subject.class;
 	}
 }

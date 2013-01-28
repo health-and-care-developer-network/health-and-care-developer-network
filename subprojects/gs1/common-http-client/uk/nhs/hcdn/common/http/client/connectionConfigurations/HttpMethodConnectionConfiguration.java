@@ -27,7 +27,7 @@ public enum HttpMethodConnectionConfiguration implements ConnectionConfiguration
 {
 	HEAD(false, false, Method.GET),
 	GET(true, false, Method.GET),
-	PUT(true, false, Method.GET),
+	PUT(true, true, Method.GET),
 	POST(true, true, Method.GET),
 	;
 
@@ -35,22 +35,22 @@ public enum HttpMethodConnectionConfiguration implements ConnectionConfiguration
 	private final boolean output;
 	@NotNull
 	private final String method;
-	private final boolean doesNotSendBody;
 
 	HttpMethodConnectionConfiguration(final boolean input, final boolean output, @NotNull @Method final String method)
 	{
 		this.input = input;
 		this.output = output;
 		this.method = method;
-		doesNotSendBody = !output;
 	}
 
 	@Override
 	public void configure(@NotNull final HttpURLConnection httpConnection)
 	{
 		httpConnection.setInstanceFollowRedirects(true);
-//		httpConnection.setDoInput(true);
-//		httpConnection.setDoOutput(true);
+		if (output)
+		{
+			httpConnection.setDoOutput(true);
+		}
 
 		try
 		{
@@ -60,11 +60,5 @@ public enum HttpMethodConnectionConfiguration implements ConnectionConfiguration
 		{
 			throw new ShouldNeverHappenException(e);
 		}
-//
-//		if (doesNotSendBody)
-//		{
-//			httpConnection.setFixedLengthStreamingMode(0);
-//			httpConnection.setFixedLengthStreamingMode(0L);
-//		}
 	}
 }

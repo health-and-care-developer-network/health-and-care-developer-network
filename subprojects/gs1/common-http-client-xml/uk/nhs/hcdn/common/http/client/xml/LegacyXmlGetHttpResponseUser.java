@@ -40,22 +40,22 @@ import static uk.nhs.hcdn.common.http.ResponseCode.NoContentResponseCode;
 import static uk.nhs.hcdn.common.http.ResponseCode.OkResponseCode;
 import static uk.nhs.hcdn.common.http.ResponseCodeRange.Successful2xx;
 
-public final class LegacyXmlGetHttpResponseUser<V, F> extends AbstractToString implements GetHttpResponseUser<F>
+public final class LegacyXmlGetHttpResponseUser<V> extends AbstractToString implements GetHttpResponseUser<V>
 {
 	@NotNull @NonNls
 	private static final String Identity = "identity";
 
 	@NotNull
-	private final SchemaParser<V, F> schemaUsingParser;
+	private final SchemaParser<V> schemaUsingParser;
 
-	public LegacyXmlGetHttpResponseUser(@NotNull final SchemaParser<V, F> schemaUsingParser)
+	public LegacyXmlGetHttpResponseUser(@NotNull final SchemaParser<V> schemaUsingParser)
 	{
 		this.schemaUsingParser = schemaUsingParser;
 	}
 
 	@Override
 	@NotNull
-	public F response(@ResponseCode final int responseCode, @NotNull final ResponseCodeRange responseCodeRange, @MillisecondsSince1970 final long date, @MillisecondsSince1970 final long expires, final long contentLengthOrMinusOneIfNoneSupplied, @Nullable final String contentType, @NonNls @Nullable final String contentEncoding, @NotNull final InputStream inputStream) throws UnacceptableResponseException
+	public V response(@ResponseCode final int responseCode, @NotNull final ResponseCodeRange responseCodeRange, @MillisecondsSince1970 final long date, @MillisecondsSince1970 final long expires, final long contentLengthOrMinusOneIfNoneSupplied, @Nullable final String contentType, @NonNls @Nullable final String contentEncoding, @NotNull final InputStream inputStream) throws UnacceptableResponseException
 	{
 		guardResponseIsValid(responseCode, responseCodeRange, contentLengthOrMinusOneIfNoneSupplied, contentType, contentEncoding);
 		try

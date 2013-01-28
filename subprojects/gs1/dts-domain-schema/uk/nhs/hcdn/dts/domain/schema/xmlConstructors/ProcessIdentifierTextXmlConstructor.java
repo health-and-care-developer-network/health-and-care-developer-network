@@ -31,7 +31,7 @@ public final class ProcessIdentifierTextXmlConstructor extends TextXmlConstructo
 
 	private ProcessIdentifierTextXmlConstructor()
 	{
-		super(UnknownProcessIdentifier);
+		super(UnknownProcessIdentifier, ProcessIdentifier.class);
 	}
 
 	@NotNull
@@ -46,12 +46,5 @@ public final class ProcessIdentifierTextXmlConstructor extends TextXmlConstructo
 		{
 			throw new XmlSchemaViolationException(e);
 		}
-	}
-
-	@NotNull
-	@Override
-	public Class<ProcessIdentifier> type()
-	{
-		return ProcessIdentifier.class;
 	}
 }

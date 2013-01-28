@@ -23,10 +23,15 @@ public class ByteArrayUploadContent extends AbstractUploadContent
 	}
 
 	@Override
+	public void configure(@NotNull final HttpURLConnection httpConnection)
+	{
+		super.configure(httpConnection);
+		httpConnection.setFixedLengthStreamingMode(length);
+	}
+
+	@Override
 	public final void upload(@NotNull final HttpURLConnection httpConnection) throws IOException
 	{
-		super.upload(httpConnection);
-		httpConnection.setFixedLengthStreamingMode(length);
 		final OutputStream outputStream = httpConnection.getOutputStream();
 		boolean firstExceptionThrown = false;
 		try

@@ -22,8 +22,6 @@ import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlC
 import uk.nhs.hcdn.common.xml.XmlSchemaViolationException;
 import uk.nhs.hcdn.dts.rats.response.MessageIdentifier;
 
-import static java.lang.String.format;
-
 public final class MessageIdentifierTextXmlConstructor extends TextXmlConstructor<MessageIdentifier>
 {
 	@NotNull
@@ -31,7 +29,7 @@ public final class MessageIdentifierTextXmlConstructor extends TextXmlConstructo
 
 	private MessageIdentifierTextXmlConstructor()
 	{
-		super(null);
+		super(null, MessageIdentifier.class);
 	}
 
 	@NotNull
@@ -46,12 +44,5 @@ public final class MessageIdentifierTextXmlConstructor extends TextXmlConstructo
 		{
 			throw new XmlSchemaViolationException(e);
 		}
-	}
-
-	@NotNull
-	@Override
-	public Class<MessageIdentifier> type()
-	{
-		return MessageIdentifier.class;
 	}
 }

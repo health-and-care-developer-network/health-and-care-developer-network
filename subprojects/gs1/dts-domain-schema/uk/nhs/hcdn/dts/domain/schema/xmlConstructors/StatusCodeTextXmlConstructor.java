@@ -31,7 +31,7 @@ public final class StatusCodeTextXmlConstructor extends TextXmlConstructor<Statu
 
 	private StatusCodeTextXmlConstructor()
 	{
-		super(null);
+		super(null, StatusCode.class);
 	}
 
 	@NotNull
@@ -46,12 +46,5 @@ public final class StatusCodeTextXmlConstructor extends TextXmlConstructor<Statu
 		{
 			throw new XmlSchemaViolationException(e);
 		}
-	}
-
-	@NotNull
-	@Override
-	public Class<StatusCode> type()
-	{
-		return StatusCode.class;
 	}
 }

@@ -16,10 +16,9 @@
 
 package uk.nhs.hcdn.dts.domain.schema;
 
-import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.common.parsers.xml.SchemaParser;
-import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.*;
+import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.rootValueHolders.XRootXmlConstructor;
 import uk.nhs.hcdn.common.serialisers.CouldNotSerialiseException;
 import uk.nhs.hcdn.common.tuples.Pair;
 import uk.nhs.hcdn.dts.domain.ControlFile;
@@ -30,8 +29,8 @@ import java.io.OutputStream;
 
 import static uk.nhs.hcdn.common.CharsetHelper.Utf8;
 import static uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.JavaObjectXmlConstructor.schemaFor;
-import static uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.SingleRootXmlConstructor.rootSchemaFor;
 import static uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.StringXmlConstructor.StringXmlConstructorInstance;
+import static uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.rootValueHolders.XRootXmlConstructor.xml;
 import static uk.nhs.hcdn.common.serialisers.xml.XmlSerialiser.serialise;
 import static uk.nhs.hcdn.dts.domain.BooleanFlag.*;
 import static uk.nhs.hcdn.dts.domain.DataChecksum.UnknownDataChecksum;
@@ -61,46 +60,49 @@ import static uk.nhs.hcdn.dts.domain.schema.xmlConstructors.VersionTextXmlConstr
 import static uk.nhs.hcdn.dts.domain.schema.xmlConstructors.WorkflowIdentifierTextXmlConstructor.WorkflowIdentifierTextXmlConstructorInstance;
 import static uk.nhs.hcdn.dts.domain.statusRecords.UnknownStatusRecord.UnknownStatusRecordInstance;
 
-public final class ControlFileSchemaParser extends SchemaParser<ControlFile, ControlFile>
+public final class ControlFileSchemaParser extends SchemaParser<ControlFile>
 {
 	@NotNull
-	public static final SingleRootXmlConstructor<ControlFile> ControlFileSchema = rootSchemaFor
+	public static final XRootXmlConstructor<ControlFile> ControlFileSchema = xml
 	(
 		"DTSControl",
 		false,
-		ControlFile.class,
-		ControlFile.class,
-		node("Version", VersionTextXmlConstructorInstance),
-		node("AddressType", AddressTypeTextXmlConstructorInstance),
-		node("MessageType", MessageTypeTextXmlConstructorInstance),
-		node("WorkflowId", WorkflowIdentifierTextXmlConstructorInstance),
-		nodeMayBeMissing("From_ESMTP", UnknownSmtpAddress, SmtpAddressTextXmlConstructorInstance),
-		nodeMayBeMissing("From_DTS", UnknownDtsName, DtsNameTextXmlConstructorInstance),
-		nodeMayBeMissing("To_ESMTP", UnknownSmtpAddress, SmtpAddressTextXmlConstructorInstance),
-		nodeMayBeMissing("To_DTS", UnknownDtsName, DtsNameTextXmlConstructorInstance),
-		nodeMayBeMissing("Subject", UnknownSubject, SubjectTextXmlConstructorInstance),
-		nodeMayBeMissing("LocalId", UnknownLocalIdentifier, LocalIdentifierTextXmlConstructorInstance),
-		nodeMayBeMissing("DTSId", UnknownDtsIdentifier, DtsIdentifierTextXmlConstructorInstance),
-		nodeMayBeMissing("ProcessId", UnknownProcessIdentifier, ProcessIdentifierTextXmlConstructorInstance),
-		nodeMayBeMissing("Compress", Y, BooleanFlagTextXmlConstructorInstance),
-		nodeMayBeMissing("Encrypted", N, BooleanFlagTextXmlConstructorInstance),
-		nodeMayBeMissing("IsCompressed", UnknownBooleanFlag, BooleanFlagTextXmlConstructorInstance),
-		nodeMayBeMissing("DataChecksum", UnknownDataChecksum, DataChecksumTextXmlConstructorInstance),
-		nodeMayBeMissing("PartnerIdentifier", UnknownPartnerIdentifier, PartnerIdentifierTextXmlConstructorInstance),
-		nodeMayBeMissing("StatusRecord", UnknownStatusRecordInstance, schemaFor
+		schemaFor
 		(
-			StatusRecord.class,
-			KnownStatusRecord.class,
-			node("DateTime", DateTimeTextXmlConstructorInstance),
-			node("Event", EventTextXmlConstructorInstance),
-			node("Status", StatusTextXmlConstructorInstance),
-			node("StatusCode", StatusCodeTextXmlConstructorInstance),
-			node("Description", StringXmlConstructorInstance)
-		))
+			ControlFile.class,
+			ControlFile.class,
+			node("Version", VersionTextXmlConstructorInstance),
+			node("AddressType", AddressTypeTextXmlConstructorInstance),
+			node("MessageType", MessageTypeTextXmlConstructorInstance),
+			node("WorkflowId", WorkflowIdentifierTextXmlConstructorInstance),
+			nodeMayBeMissing("From_ESMTP", UnknownSmtpAddress, SmtpAddressTextXmlConstructorInstance),
+			nodeMayBeMissing("From_DTS", UnknownDtsName, DtsNameTextXmlConstructorInstance),
+			nodeMayBeMissing("To_ESMTP", UnknownSmtpAddress, SmtpAddressTextXmlConstructorInstance),
+			nodeMayBeMissing("To_DTS", UnknownDtsName, DtsNameTextXmlConstructorInstance),
+			nodeMayBeMissing("Subject", UnknownSubject, SubjectTextXmlConstructorInstance),
+			nodeMayBeMissing("LocalId", UnknownLocalIdentifier, LocalIdentifierTextXmlConstructorInstance),
+			nodeMayBeMissing("DTSId", UnknownDtsIdentifier, DtsIdentifierTextXmlConstructorInstance),
+			nodeMayBeMissing("ProcessId", UnknownProcessIdentifier, ProcessIdentifierTextXmlConstructorInstance),
+			nodeMayBeMissing("Compress", Y, BooleanFlagTextXmlConstructorInstance),
+			nodeMayBeMissing("Encrypted", N, BooleanFlagTextXmlConstructorInstance),
+			nodeMayBeMissing("IsCompressed", UnknownBooleanFlag, BooleanFlagTextXmlConstructorInstance),
+			nodeMayBeMissing("DataChecksum", UnknownDataChecksum, DataChecksumTextXmlConstructorInstance),
+			nodeMayBeMissing("PartnerIdentifier", UnknownPartnerIdentifier, PartnerIdentifierTextXmlConstructorInstance),
+			nodeMayBeMissing("StatusRecord", UnknownStatusRecordInstance, schemaFor
+			(
+				StatusRecord.class,
+				KnownStatusRecord.class,
+				node("DateTime", DateTimeTextXmlConstructorInstance),
+				node("Event", EventTextXmlConstructorInstance),
+				node("Status", StatusTextXmlConstructorInstance),
+				node("StatusCode", StatusCodeTextXmlConstructorInstance),
+				node("Description", StringXmlConstructorInstance)
+			))
+		)
 	);
 
 	@NotNull
-	public static final SchemaParser<ControlFile, ControlFile> ControlFileSchemaParserInstance = new ControlFileSchemaParser();
+	public static final SchemaParser<ControlFile> ControlFileSchemaParserInstance = new ControlFileSchemaParser();
 
 	@SuppressWarnings("unchecked")
 	@NotNull
@@ -116,14 +118,4 @@ public final class ControlFileSchemaParser extends SchemaParser<ControlFile, Con
 		super(ControlFileSchema);
 	}
 
-	@SuppressWarnings("unchecked")
-	private static <C, V, X, Y extends V> Pair<String, MissingFieldXmlConstructor<?, ?>> nodeMayBeMissing(@NonNls final String value, @NotNull final X valueIfMissing, final XmlConstructor<C, Y> xmlConstructor)
-	{
-		return new Pair<String, MissingFieldXmlConstructor<?, ?>>(value, new MayBeMissingFieldXmlConstructor(xmlConstructor, valueIfMissing));
-	}
-
-	private static <C, V> Pair<String, MissingFieldXmlConstructor<?, ?>> node(@NonNls @NotNull final String value, @NotNull final XmlConstructor<C, V> xmlConstructor)
-	{
-		return new Pair<String, MissingFieldXmlConstructor<?, ?>>(value, new RequiredMissingFieldXmlConstructor<>(xmlConstructor));
-	}
 }

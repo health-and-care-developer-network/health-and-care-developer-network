@@ -31,7 +31,7 @@ public final class FailureDiagnosticTextXmlConstructor extends TextXmlConstructo
 
 	private FailureDiagnosticTextXmlConstructor()
 	{
-		super(UnknownDiagnostic);
+		super(UnknownDiagnostic, FailureDiagnostic.class);
 	}
 
 	@NotNull
@@ -46,12 +46,5 @@ public final class FailureDiagnosticTextXmlConstructor extends TextXmlConstructo
 		{
 			throw new XmlSchemaViolationException(e);
 		}
-	}
-
-	@NotNull
-	@Override
-	public Class<FailureDiagnostic> type()
-	{
-		return FailureDiagnostic.class;
 	}
 }

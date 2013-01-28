@@ -137,7 +137,7 @@ public final class JavaObjectXmlConstructor<V, W extends V> extends AbstractToSt
 		throw new XmlSchemaViolationException(format(ENGLISH, "text value %1$s was unexpected", text));
 	}
 
-	private static boolean isOnlyWhitespace(@NotNull final CharSequence text)
+	public static boolean isOnlyWhitespace(@NotNull final CharSequence text)
 	{
 		for(int index = 0; index < text.length(); index++)
 		{

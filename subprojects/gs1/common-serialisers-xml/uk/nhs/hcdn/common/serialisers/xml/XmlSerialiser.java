@@ -39,6 +39,7 @@ import static uk.nhs.hcdn.common.xml.XmlNamespaceUri.XmlSchemaInstanceNamespace;
 
 public final class XmlSerialiser extends AbstractSerialiser
 {
+
 	@SafeVarargs
 	public static void serialise(@NonNls @NotNull final String rootNodeName, @NotNull final Serialisable graph, @NotNull final OutputStream outputStream, @NotNull final Pair<String, String>... rootAttributes) throws CouldNotSerialiseException
 	{
@@ -51,6 +52,10 @@ public final class XmlSerialiser extends AbstractSerialiser
 		final XmlSerialiser xmlSerialiser = new XmlSerialiser(xmlDeclaration, rootNodeName, namespaceUriToPrefixes, rootAttributes);
 		xmlSerialiser.serialise(graph, outputStream, charset);
 	}
+
+	@SuppressWarnings("unchecked")
+	@NotNull
+	private static final Pair<String, String>[] Empty = new Pair[0];
 
 	@NonNls
 	@NotNull
@@ -83,6 +88,13 @@ public final class XmlSerialiser extends AbstractSerialiser
 
 	@SuppressWarnings("unchecked")
 	@SafeVarargs
+	public XmlSerialiser(final boolean xmlDeclaration, @NonNls @NotNull final String rootNodeName, @NotNull final Pair<String, String>... namespaceUriToPrefixes)
+	{
+		this(xmlDeclaration, rootNodeName, namespaceUriToPrefixes, Empty);
+	}
+
+	@SuppressWarnings("unchecked")
+	@SafeVarargs
 	public XmlSerialiser(final boolean xmlDeclaration, @NonNls @NotNull final String rootNodeName, @NotNull final Pair<String, String>[] namespaceUriToPrefixes, @NotNull final Pair<String, String>... rootAttributes)
 	{
 		this.rootNodeName = rootNodeName;
@@ -110,11 +122,12 @@ public final class XmlSerialiser extends AbstractSerialiser
 		{
 			rootAttribute.putUniquelyInMap(rootNodeAttributes);
 		}
-		this.rootAttributes = new Pair[rootNodeAttributes.size()];
+		final int size = rootNodeAttributes.size();
+		this.rootAttributes = new Pair[size];
 		int index = 0;
 		for (final Map.Entry<String, String> toPair : rootNodeAttributes.entrySet())
 		{
-			rootAttributes[index] = new Pair<>(toPair);
+			this.rootAttributes[index] = new Pair<>(toPair);
 			index++;
 		}
 		xsiNilAttribute = xmlSchemaInstancePrefix == null ? null : pair(xmlSchemaInstancePrefix + ":nil", "true");

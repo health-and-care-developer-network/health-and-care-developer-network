@@ -21,7 +21,6 @@ import joptsimple.OptionSet;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.common.commandLine.AbstractConsoleEntryPoint;
 import uk.nhs.hcdn.common.commandLine.ShouldHaveExitedException;
-import uk.nhs.hcdn.common.http.UrlHelper;
 import uk.nhs.hcdn.common.http.client.HttpClient;
 import uk.nhs.hcdn.common.http.client.JavaHttpClient;
 import uk.nhs.hcdn.common.http.client.exceptions.CorruptResponseException;
@@ -40,11 +39,12 @@ import java.net.URL;
 import java.util.Arrays;
 
 import static java.lang.System.out;
+import static uk.nhs.hcdn.common.http.UrlHelper.toUrl;
 import static uk.nhs.hcdn.common.http.client.connectionConfigurations.ChunkedUploadsConnectionConfiguration.DoesNotSupportChunkedUploads;
 import static uk.nhs.hcdn.dts.domain.DtsName.UnknownDtsName;
 import static uk.nhs.hcdn.dts.domain.identifiers.LocalIdentifier.UnknownLocalIdentifier;
 import static uk.nhs.hcdn.dts.rats.request.Messages.messagesXmlSerialiser;
-import static uk.nhs.hcdn.dts.rats.response.ResponsesSchemaParser.ResponsesSchemaParserInstance;
+import static uk.nhs.hcdn.dts.rats.response.schema.ResponsesSchemaParser.ResponsesSchemaParserInstance;
 
 public final class RatsClientConsoleEntryPoint extends AbstractConsoleEntryPoint
 {
@@ -104,8 +104,7 @@ public final class RatsClientConsoleEntryPoint extends AbstractConsoleEntryPoint
 		final boolean useHttps = optionSet.has(UseHttpsOption);
 		@NotNull final String path = defaulted(optionSet, PathOption);
 
-		final URL url = UrlHelper.toUrl(useHttps, hostname, httpPort, path);
-
+		final URL url = toUrl(useHttps, hostname, httpPort, path);
 
 		final Response[] responses = demonstrateRequest(message, url);
 

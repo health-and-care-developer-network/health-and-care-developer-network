@@ -1,9 +1,9 @@
-package uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors;
+package uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.rootValueHolders;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.rootValueHolders.RootValueHolder;
+import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlConstructor;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hcdn.common.tuples.Pair;
 import uk.nhs.hcdn.common.xml.XmlSchemaViolationException;
@@ -11,23 +11,29 @@ import uk.nhs.hcdn.common.xml.XmlSchemaViolationException;
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
 
-public abstract class AbstractRootXmlConstructor<V, F> extends AbstractToString implements XmlConstructor<RootValueHolder<V, F>, F>
+public final class XRootXmlConstructor<V> extends AbstractToString implements XmlConstructor<RootValueHolder<V>, V>
 {
+	@NotNull
+	public static <V> XRootXmlConstructor<V> xml(@NotNull @NonNls final String rootNodeName, final boolean shouldPreserveWhitespace, @NotNull final XmlConstructor<?, V> xmlConstructor)
+	{
+		return new XRootXmlConstructor<>(rootNodeName, shouldPreserveWhitespace, xmlConstructor);
+	}
+
 	@NonNls
 	@NotNull
 	private final String rootNodeName;
 	private final boolean shouldPreserveWhitespace;
 	@NotNull
-	private final XmlConstructor<?, V> xmlConstructor;
+	private final Class<?> type;
 	@NotNull
-	private final Class<F> type;
+	private final XmlConstructor<?, V> xmlConstructor;
 
-	protected AbstractRootXmlConstructor(@NotNull @NonNls final String rootNodeName, final boolean shouldPreserveWhitespace, @NotNull final XmlConstructor<?, V> xmlConstructor, @NotNull final Class<F> type)
+	public XRootXmlConstructor(@NotNull @NonNls final String rootNodeName, final boolean shouldPreserveWhitespace, @NotNull final XmlConstructor<?, V> xmlConstructor)
 	{
 		this.shouldPreserveWhitespace = shouldPreserveWhitespace;
 		this.rootNodeName = rootNodeName;
+		type = xmlConstructor.type();
 		this.xmlConstructor = xmlConstructor;
-		this.type = type;
 	}
 
 	public boolean shouldPreserveWhitespace()
@@ -37,20 +43,23 @@ public abstract class AbstractRootXmlConstructor<V, F> extends AbstractToString 
 
 	@NotNull
 	@Override
-	public Class<F> type()
+	public Class<?> type()
 	{
 		return type;
 	}
 
 	@Override
-	public void collectText(@NotNull final RootValueHolder<V, F> collector, @NotNull final String text, final boolean shouldPreserveWhitespace)
+	public void collectText(@NotNull final RootValueHolder<V> collector, @NotNull final String text, final boolean shouldPreserveWhitespace)
 	{
 		throw new IllegalStateException("text should not occur before or after a root node");
 	}
 
 	@NotNull
 	@Override
-	public abstract RootValueHolder<V, F> start();
+	public RootValueHolder<V> start()
+	{
+		return new RootValueHolder<>();
+	}
 
 	@NotNull
 	@Override
@@ -69,14 +78,14 @@ public abstract class AbstractRootXmlConstructor<V, F> extends AbstractToString 
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void collectNode(@NotNull final RootValueHolder<V, F> collector, @NotNull final String name, @NotNull final Object value)
+	public void collectNode(@NotNull final RootValueHolder<V> collector, @NotNull final String name, @NotNull final Object value)
 	{
 		collector.assign((V) value);
 	}
 
 	@NotNull
 	@Override
-	public F finish(@NotNull final RootValueHolder<V, F> collector) throws XmlSchemaViolationException
+	public V finish(@NotNull final RootValueHolder<V> collector) throws XmlSchemaViolationException
 	{
 		return collector.retrieve();
 	}

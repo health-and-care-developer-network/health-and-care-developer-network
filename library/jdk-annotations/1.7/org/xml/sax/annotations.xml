@@ -3,4 +3,7 @@
         <annotation name='org.jetbrains.annotations.NonNls'>
         </annotation>
     </item>
+    <item name='org.xml.sax.SAXException SAXException(java.lang.String, java.lang.Exception) 0'>
+        <annotation name='org.jetbrains.annotations.NonNls'/>
+    </item>
 </root>

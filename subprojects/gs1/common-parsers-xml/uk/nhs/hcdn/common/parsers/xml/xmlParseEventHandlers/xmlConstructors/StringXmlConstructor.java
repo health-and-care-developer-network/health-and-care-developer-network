@@ -25,7 +25,7 @@ public final class StringXmlConstructor extends TextXmlConstructor<String>
 
 	private StringXmlConstructor()
 	{
-		super("");
+		super("", String.class);
 	}
 
 	@NotNull
@@ -33,12 +33,5 @@ public final class StringXmlConstructor extends TextXmlConstructor<String>
 	protected String convert(@NotNull final String text)
 	{
 		return text;
-	}
-
-	@NotNull
-	@Override
-	public Class<String> type()
-	{
-		return String.class;
 	}
 }

@@ -18,10 +18,11 @@ package uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hcdn.common.tuples.Pair;
 import uk.nhs.hcdn.common.xml.XmlSchemaViolationException;
 
-public final class RequiredMissingFieldXmlConstructor<C, V> implements MissingFieldXmlConstructor<C, V>
+public final class RequiredMissingFieldXmlConstructor<C, V> extends AbstractToString implements MissingFieldXmlConstructor<C, V>
 {
 	@NotNull
 	private final XmlConstructor<C, V> underlyingXmlConstructor;
@@ -46,7 +47,7 @@ public final class RequiredMissingFieldXmlConstructor<C, V> implements MissingFi
 
 	@NotNull
 	@Override
-	public Class<V> type()
+	public Class<?> type()
 	{
 		return underlyingXmlConstructor.type();
 	}

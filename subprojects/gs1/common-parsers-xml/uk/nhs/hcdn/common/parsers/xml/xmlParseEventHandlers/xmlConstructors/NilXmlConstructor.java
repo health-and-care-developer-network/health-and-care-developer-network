@@ -27,11 +27,11 @@ public final class NilXmlConstructor<C, V> implements XmlConstructor<Object, V>
 	private static final Object IrrelevantCollector = new Object();
 
 	@NotNull
-	private final Class<V> type;
+	private final Class<?> type;
 	@NotNull
 	private final V valueIfMissing;
 
-	public NilXmlConstructor(@NotNull final Class<V> type, @NotNull final V valueIfMissing)
+	public NilXmlConstructor(@NotNull final Class<?> type, @NotNull final V valueIfMissing)
 	{
 		this.type = type;
 		this.valueIfMissing = valueIfMissing;
@@ -39,7 +39,7 @@ public final class NilXmlConstructor<C, V> implements XmlConstructor<Object, V>
 
 	@NotNull
 	@Override
-	public Class<V> type()
+	public Class<?> type()
 	{
 		return type;
 	}

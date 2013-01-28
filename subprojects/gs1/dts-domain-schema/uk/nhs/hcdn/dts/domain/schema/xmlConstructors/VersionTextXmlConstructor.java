@@ -34,7 +34,7 @@ public final class VersionTextXmlConstructor extends TextXmlConstructor<Version>
 
 	private VersionTextXmlConstructor()
 	{
-		super(null);
+		super(null, Version.class);
 	}
 
 	@NotNull
@@ -47,12 +47,5 @@ public final class VersionTextXmlConstructor extends TextXmlConstructor<Version>
 			throw new XmlSchemaViolationException(format(ENGLISH, "text %1$s is not a valid Version", text));
 		}
 		return result;
-	}
-
-	@NotNull
-	@Override
-	public Class<Version> type()
-	{
-		return Version.class;
 	}
 }

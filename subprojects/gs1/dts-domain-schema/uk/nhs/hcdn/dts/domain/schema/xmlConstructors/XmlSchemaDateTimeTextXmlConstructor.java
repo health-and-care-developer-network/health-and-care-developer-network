@@ -31,7 +31,7 @@ public final class XmlSchemaDateTimeTextXmlConstructor extends TextXmlConstructo
 
 	private XmlSchemaDateTimeTextXmlConstructor()
 	{
-		super(null);
+		super(null, KnownDateTime.class);
 	}
 
 	@NotNull
@@ -46,12 +46,5 @@ public final class XmlSchemaDateTimeTextXmlConstructor extends TextXmlConstructo
 		{
 			throw new XmlSchemaViolationException(e);
 		}
-	}
-
-	@NotNull
-	@Override
-	public Class<KnownDateTime> type()
-	{
-		return KnownDateTime.class;
 	}
 }

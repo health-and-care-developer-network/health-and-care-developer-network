@@ -34,14 +34,7 @@ public final class StatusTextXmlConstructor extends TextXmlConstructor<Status>
 
 	private StatusTextXmlConstructor()
 	{
-		super(null);
-	}
-
-	@NotNull
-	@Override
-	public Class<Status> type()
-	{
-		return Status.class;
+		super(null, Status.class);
 	}
 
 	@NotNull

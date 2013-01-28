@@ -27,7 +27,7 @@ public final class IntegerXmlConstructor extends TextXmlConstructor<Integer>
 
 	private IntegerXmlConstructor()
 	{
-		super(0);
+		super(0, Integer.class);
 	}
 
 	@NotNull
@@ -35,12 +35,5 @@ public final class IntegerXmlConstructor extends TextXmlConstructor<Integer>
 	protected Integer convert(@NotNull final String text)
 	{
 		return parseInt(text);
-	}
-
-	@NotNull
-	@Override
-	public Class<Integer> type()
-	{
-		return Integer.class;
 	}
 }

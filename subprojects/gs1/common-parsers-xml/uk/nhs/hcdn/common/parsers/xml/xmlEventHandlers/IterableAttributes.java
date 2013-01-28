@@ -21,13 +21,17 @@ import org.xml.sax.Attributes;
 import uk.nhs.hcdn.common.iterators.AbstractReadOnlyIterator;
 import uk.nhs.hcdn.common.tuples.Pair;
 
+import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import static uk.nhs.hcdn.common.tuples.Pair.pair;
 import static uk.nhs.hcdn.common.xml.XmlNamespaceUriHelper.namespaceQualifiedNodeOrAttributeName;
 
 public final class IterableAttributes extends AbstractReadOnlyIterator<Pair<String, String>> implements Iterable<Pair<String, String>>
 {
+	private static final int Colon = (int) ':';
+	private static final int Equals = (int) '=';
 	@NotNull
 	private final Attributes attributes;
 	private final int length;
@@ -38,6 +42,32 @@ public final class IterableAttributes extends AbstractReadOnlyIterator<Pair<Stri
 		this.attributes = attributes;
 		length = attributes.getLength();
 		index = 0;
+	}
+
+	@Override
+	public String toString()
+	{
+		final StringWriter writer = new StringWriter(100);
+		writer.write(getClass().getSimpleName());
+		writer.write("(");
+		for(int localIndex = 0; localIndex < length; localIndex++)
+		{
+			if (localIndex != 0)
+			{
+				writer.write(", ");
+			}
+			final String uri = attributes.getURI(localIndex);
+			if (!uri.isEmpty())
+			{
+				writer.write(uri);
+				writer.write(Colon);
+			}
+			writer.write(attributes.getLocalName(localIndex));
+			writer.write(Equals);
+			writer.write(attributes.getValue(localIndex));
+		}
+		writer.write(")");
+		return writer.toString();
 	}
 
 	@Override
@@ -64,7 +94,7 @@ public final class IterableAttributes extends AbstractReadOnlyIterator<Pair<Stri
 		final String attributeLocalName = attributes.getLocalName(index);
 		try
 		{
-			return Pair.pair(namespaceQualifiedNodeOrAttributeName(attributeUri, attributeLocalName), attributes.getValue(index));
+			return pair(namespaceQualifiedNodeOrAttributeName(attributeUri, attributeLocalName), attributes.getValue(index));
 		}
 		finally
 		{

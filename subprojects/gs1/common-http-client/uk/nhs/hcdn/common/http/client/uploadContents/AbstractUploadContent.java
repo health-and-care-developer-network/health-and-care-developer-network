@@ -5,7 +5,6 @@ import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.common.http.ContentTypeWithCharacterSet;
 import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 
-import java.io.IOException;
 import java.net.HttpURLConnection;
 
 import static uk.nhs.hcdn.common.http.RequestHeader.ContentTypeHeaderName;
@@ -24,9 +23,8 @@ public abstract class AbstractUploadContent extends AbstractToString implements 
 	}
 
 	@Override
-	public void upload(@NotNull final HttpURLConnection httpConnection) throws IOException
+	public void configure(@NotNull final HttpURLConnection httpConnection)
 	{
-		httpConnection.setDoOutput(true);
 		httpConnection.setRequestProperty(ContentTypeHeaderName, contentType);
 	}
 }

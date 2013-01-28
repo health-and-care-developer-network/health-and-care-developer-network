@@ -19,12 +19,13 @@ package uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlConstructor;
+import uk.nhs.hcdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hcdn.common.xml.XmlSchemaViolationException;
 import uk.nhs.hcdn.common.tuples.Pair;
 
 import static uk.nhs.hcdn.common.xml.XmlAttributesHelper.*;
 
-public final class XmlNodeState<C, V>
+public final class XmlNodeState<C, V> extends AbstractToString
 {
 	private final XmlConstructor<C, V> xmlConstructor;
 	private final boolean shouldPreserveWhitespace;

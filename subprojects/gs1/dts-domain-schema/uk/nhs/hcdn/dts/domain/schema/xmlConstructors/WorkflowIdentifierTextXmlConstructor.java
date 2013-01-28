@@ -29,7 +29,7 @@ public final class WorkflowIdentifierTextXmlConstructor extends TextXmlConstruct
 
 	private WorkflowIdentifierTextXmlConstructor()
 	{
-		super(null);
+		super(null, WorkflowIdentifier.class);
 	}
 
 	@NotNull
@@ -44,12 +44,5 @@ public final class WorkflowIdentifierTextXmlConstructor extends TextXmlConstruct
 		{
 			throw new XmlSchemaViolationException(e);
 		}
-	}
-
-	@NotNull
-	@Override
-	public Class<WorkflowIdentifier> type()
-	{
-		return WorkflowIdentifier.class;
 	}
 }

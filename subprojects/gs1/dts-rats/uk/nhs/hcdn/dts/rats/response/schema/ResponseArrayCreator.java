@@ -1,8 +1,9 @@
-package uk.nhs.hcdn.dts.rats.response;
+package uk.nhs.hcdn.dts.rats.response.schema;
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hcdn.common.arrayCreators.AbstractArrayCreator;
 import uk.nhs.hcdn.common.arrayCreators.ArrayCreator;
+import uk.nhs.hcdn.dts.rats.response.Response;
 
 public final class ResponseArrayCreator extends AbstractArrayCreator<Response>
 {

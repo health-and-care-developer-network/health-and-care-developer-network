@@ -31,7 +31,7 @@ public final class DtsNameTextXmlConstructor extends TextXmlConstructor<DtsName>
 
 	private DtsNameTextXmlConstructor()
 	{
-		super(UnknownDtsName);
+		super(UnknownDtsName, DtsName.class);
 	}
 
 	@NotNull
@@ -46,12 +46,5 @@ public final class DtsNameTextXmlConstructor extends TextXmlConstructor<DtsName>
 		{
 			throw new XmlSchemaViolationException(e);
 		}
-	}
-
-	@NotNull
-	@Override
-	public Class<DtsName> type()
-	{
-		return DtsName.class;
 	}
 }

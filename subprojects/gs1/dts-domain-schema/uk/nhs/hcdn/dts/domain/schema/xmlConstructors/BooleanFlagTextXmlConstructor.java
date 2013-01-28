@@ -33,14 +33,7 @@ public final class BooleanFlagTextXmlConstructor extends TextXmlConstructor<Bool
 
 	private BooleanFlagTextXmlConstructor()
 	{
-		super(null);
-	}
-
-	@NotNull
-	@Override
-	public Class<BooleanFlag> type()
-	{
-		return BooleanFlag.class;
+		super(null, BooleanFlag.class);
 	}
 
 	@NotNull

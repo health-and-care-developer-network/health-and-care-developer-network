@@ -31,7 +31,7 @@ public final class SmtpAddressTextXmlConstructor extends TextXmlConstructor<Smtp
 
 	private SmtpAddressTextXmlConstructor()
 	{
-		super(UnknownSmtpAddress);
+		super(UnknownSmtpAddress, SmtpAddress.class);
 	}
 
 	@NotNull
@@ -46,12 +46,5 @@ public final class SmtpAddressTextXmlConstructor extends TextXmlConstructor<Smtp
 		{
 			throw new XmlSchemaViolationException(e);
 		}
-	}
-
-	@NotNull
-	@Override
-	public Class<SmtpAddress> type()
-	{
-		return SmtpAddress.class;
 	}
 }

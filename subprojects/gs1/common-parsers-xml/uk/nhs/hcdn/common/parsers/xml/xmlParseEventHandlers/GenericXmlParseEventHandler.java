@@ -19,7 +19,7 @@ package uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hcdn.common.parsers.parseResultUsers.ParseResultUser;
-import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.AbstractRootXmlConstructor;
+import uk.nhs.hcdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.rootValueHolders.XRootXmlConstructor;
 import uk.nhs.hcdn.common.tuples.Pair;
 import uk.nhs.hcdn.common.xml.XmlSchemaViolationException;
 
@@ -37,7 +37,7 @@ public final class GenericXmlParseEventHandler<V, F> implements XmlParseEventHan
 	private final ParseResultUser<F> parseResultUser;
 
 	@SuppressWarnings("unchecked")
-	public GenericXmlParseEventHandler(@NotNull final AbstractRootXmlConstructor<V, F> rootXmlConstructor, @NotNull final ParseResultUser<F> parseResultUser)
+	public GenericXmlParseEventHandler(@NotNull final XRootXmlConstructor<V> rootXmlConstructor, @NotNull final ParseResultUser<F> parseResultUser)
 	{
 		this.parseResultUser = parseResultUser;
 		xmlNodeStates = new Stack<>();

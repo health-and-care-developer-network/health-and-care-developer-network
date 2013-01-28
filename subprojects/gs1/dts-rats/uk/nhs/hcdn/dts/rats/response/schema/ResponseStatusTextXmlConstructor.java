@@ -34,7 +34,7 @@ public final class ResponseStatusTextXmlConstructor extends TextXmlConstructor<R
 
 	private ResponseStatusTextXmlConstructor()
 	{
-		super(null);
+		super(null, ResponseStatus.class);
 	}
 
 	@NotNull
@@ -47,12 +47,5 @@ public final class ResponseStatusTextXmlConstructor extends TextXmlConstructor<R
 			throw new XmlSchemaViolationException(format(ENGLISH, "text %1$s is not a valid ResponseStatus", text));
 		}
 		return result;
-	}
-
-	@NotNull
-	@Override
-	public Class<ResponseStatus> type()
-	{
-		return ResponseStatus.class;
 	}
 }
