@@ -18,6 +18,7 @@
     <orderEntry type="module" module-name="common-serialisers-xml" />
     <orderEntry type="module" module-name="common-parsers-separatedValueParsers" />
     <orderEntry type="module" module-name="common-http-server-sun-helpers" />
+    <orderEntry type="module" module-name="common-serialisers-separatedValues" />
   </component>
 </module>
 

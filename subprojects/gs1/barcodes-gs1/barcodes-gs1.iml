@@ -16,6 +16,7 @@
     <orderEntry type="module" module-name="common-comparison" />
     <orderEntry type="module" module-name="barcodes" exported="" />
     <orderEntry type="module" module-name="common-serialisers" exported="" />
+    <orderEntry type="module" module-name="common-serialisers-separatedValues" />
   </component>
 </module>
 

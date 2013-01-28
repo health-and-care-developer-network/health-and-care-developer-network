@@ -45,4 +45,14 @@ public @interface ContentTypeWithCharacterSet
 	@ContentTypeWithCharacterSet
 	@NotNull
 	String TextContentTypeUtf8 = TextContentType + CharsetUtf8;
+
+	@NonNls
+	@ContentTypeWithCharacterSet
+	@NotNull
+	String TsvContentTypeUtf8 = TsvContentType + CharsetUtf8;
+
+	@NonNls
+	@ContentTypeWithCharacterSet
+	@NotNull
+	String CsvContentTypeUtf8 = CsvContentType + CharsetUtf8;
 }

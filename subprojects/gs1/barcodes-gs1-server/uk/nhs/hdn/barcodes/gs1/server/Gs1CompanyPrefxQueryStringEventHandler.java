@@ -48,8 +48,12 @@ public final class Gs1CompanyPrefxQueryStringEventHandler extends AbstractToStri
 
 	@NotNull
 	private static final String JsonPAndXmlAreIncompatible = "jsonp and xml are incompatible";
+	private static final String JsonPAndTsvAreIncompatible = "jsonp and tsv are incompatible";
+	private static final String JsonPAndCsvAreIncompatible = "jsonp and csv are incompatible";
 	private boolean formatSeen;
 	private boolean isXml;
+	private boolean isTsv;
+	private boolean isCsv;
 	@Nullable
 	private String jsonp;
 
@@ -57,6 +61,8 @@ public final class Gs1CompanyPrefxQueryStringEventHandler extends AbstractToStri
 	{
 		formatSeen = false;
 		isXml = false;
+		isTsv = false;
+		isCsv = false;
 		jsonp = null;
 	}
 
@@ -78,6 +84,14 @@ public final class Gs1CompanyPrefxQueryStringEventHandler extends AbstractToStri
 			{
 				isXml = true;
 			}
+			if ("tsv".equals(value))
+			{
+				isTsv = true;
+			}
+			if ("csv".equals(value))
+			{
+				isCsv = true;
+			}
 			return;
 		}
 
@@ -88,6 +102,14 @@ public final class Gs1CompanyPrefxQueryStringEventHandler extends AbstractToStri
 				if (isXml)
 				{
 					throw new InvalidQueryStringKeyValuePairException(key, value, JsonPAndXmlAreIncompatible);
+				}
+				if (isTsv)
+				{
+					throw new InvalidQueryStringKeyValuePairException(key, value, JsonPAndTsvAreIncompatible);
+				}
+				if (isCsv)
+				{
+					throw new InvalidQueryStringKeyValuePairException(key, value, JsonPAndCsvAreIncompatible);
 				}
 			}
 			try
@@ -116,11 +138,29 @@ public final class Gs1CompanyPrefxQueryStringEventHandler extends AbstractToStri
 		{
 			throw new InvalidQueryStringException(JsonPAndXmlAreIncompatible);
 		}
+		if (isTsv && isJsonP())
+		{
+			throw new InvalidQueryStringException(JsonPAndTsvAreIncompatible);
+		}
+		if (isCsv && isJsonP())
+		{
+			throw new InvalidQueryStringException(JsonPAndCsvAreIncompatible);
+		}
 	}
 
 	public boolean isXml()
 	{
 		return isXml;
+	}
+
+	public boolean isTsv()
+	{
+		return isTsv;
+	}
+
+	public boolean isCsv()
+	{
+		return isCsv;
 	}
 
 	@NotNull
@@ -131,5 +171,15 @@ public final class Gs1CompanyPrefxQueryStringEventHandler extends AbstractToStri
 			throw new IllegalStateException("Please call isJsonP() first");
 		}
 		return jsonp;
+	}
+
+	public boolean isFormatSeen()
+	{
+		return formatSeen;
+	}
+
+	public void setFormatSeen(final boolean formatSeen)
+	{
+		this.formatSeen = formatSeen;
 	}
 }

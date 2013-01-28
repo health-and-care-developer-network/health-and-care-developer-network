@@ -16,6 +16,8 @@
     <orderEntry type="module" module-name="common-http" />
     <orderEntry type="module" module-name="common-http-client-json" />
     <orderEntry type="module" module-name="barcodes-gs1-organisation" />
+    <orderEntry type="module" module-name="common-serialisers-separatedValues" />
+    <orderEntry type="module" module-name="common" />
   </component>
 </module>
 

@@ -14,33 +14,19 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.common.parsers.separatedValueParsers.fieldParsers;
+package uk.nhs.hdn.common.serialisers.separatedValues.fieldEscapers;
 
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.common.serialisers.CouldNotEncodeDataException;
+import uk.nhs.hdn.common.serialisers.CouldNotWriteDataException;
 
-public final class StringNonMandatoryPrefixFieldParser extends AbstractNonMandatoryPrefixFieldParser<String>
+import java.io.Writer;
+
+public interface FieldEscaper
 {
-	private final boolean trimWhitespace;
+	void escape(@NotNull final String field, @NotNull final Writer writer) throws CouldNotWriteDataException, CouldNotEncodeDataException;
 
-	public StringNonMandatoryPrefixFieldParser(final boolean trimWhitespace)
-	{
-		this.trimWhitespace = trimWhitespace;
-	}
+	void writeLineEnding(@NotNull final Writer writer) throws CouldNotWriteDataException;
 
-	@NotNull
-	@Override
-	public String parse(final int fieldIndex, @NotNull final String fieldValue)
-	{
-		final String trimmed;
-		if (trimWhitespace)
-		{
-			trimmed = fieldValue.trim();
-		}
-		else
-		{
-			trimmed = fieldValue;
-		}
-		guardIsNotEmpty(trimmed);
-		return trimmed;
-	}
+	void writeFieldSeparator(@NotNull final Writer writer) throws CouldNotWriteDataException;
 }

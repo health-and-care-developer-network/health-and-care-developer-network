@@ -22,6 +22,9 @@ import org.jetbrains.annotations.NotNull;
 import org.xml.sax.SAXException;
 import uk.nhs.hdn.common.commandLine.AbstractConsoleEntryPoint;
 import uk.nhs.hdn.common.commandLine.ShouldHaveExitedException;
+import uk.nhs.hdn.common.serialisers.CouldNotWriteDataException;
+import uk.nhs.hdn.common.serialisers.CouldNotWriteValueException;
+import uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser;
 import uk.nhs.hdn.dts.domain.ControlFile;
 import uk.nhs.hdn.dts.domain.fileNames.FileName;
 
@@ -30,6 +33,8 @@ import java.io.*;
 import static java.lang.String.format;
 import static java.lang.System.out;
 import static java.util.Locale.ENGLISH;
+import static uk.nhs.hdn.common.CharsetHelper.Utf8;
+import static uk.nhs.hdn.dts.domain.ControlFile.tsvSerialiserForControlFiles;
 import static uk.nhs.hdn.dts.domain.fileNames.FileExtension.ctl;
 import static uk.nhs.hdn.dts.domain.fileNames.FileName.parseFileName;
 import static uk.nhs.hdn.dts.domain.schema.ControlFileSchemaParser.ControlFileSchemaParserInstance;
@@ -106,8 +111,18 @@ public final class ReadClientConsoleEntryPoint extends AbstractConsoleEntryPoint
 			{
 			}
 		}
-		printStream.println(controlFile);
-		printStream.flush();
+
+		final SeparatedValueSerialiser separatedValueSerialiser = tsvSerialiserForControlFiles();
+		try
+		{
+			separatedValueSerialiser.start(printStream, Utf8);
+			separatedValueSerialiser.writeValue(new ControlFile[]{controlFile});
+			separatedValueSerialiser.finish();
+		}
+		catch (CouldNotWriteDataException | CouldNotWriteValueException e)
+		{
+			throw new IOException(e);
+		}
 	}
 
 	public static void main(@NotNull final String... commandLineArguments)

@@ -40,4 +40,14 @@ public @interface ContentType
 	@ContentType
 	@NotNull
 	String TextContentType = "text/plain";
+
+	@NonNls
+	@ContentType
+	@NotNull
+	String TsvContentType = "text/tab-separated-values";
+
+	@NonNls
+	@ContentType
+	@NotNull
+	String CsvContentType = "text/csv";
 }

@@ -1273,6 +1273,7 @@
       <module fileurl="file://$PROJECT_DIR$/common-reflection/common-reflection.iml" filepath="$PROJECT_DIR$/common-reflection/common-reflection.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-serialisers/common-serialisers.iml" filepath="$PROJECT_DIR$/common-serialisers/common-serialisers.iml" group="common/serialisers" />
       <module fileurl="file://$PROJECT_DIR$/common-serialisers-json/common-serialisers-json.iml" filepath="$PROJECT_DIR$/common-serialisers-json/common-serialisers-json.iml" group="common/serialisers" />
+      <module fileurl="file://$PROJECT_DIR$/common-serialisers-separatedValues/common-serialisers-separatedValues.iml" filepath="$PROJECT_DIR$/common-serialisers-separatedValues/common-serialisers-separatedValues.iml" group="common/serialisers" />
       <module fileurl="file://$PROJECT_DIR$/common-serialisers-xml/common-serialisers-xml.iml" filepath="$PROJECT_DIR$/common-serialisers-xml/common-serialisers-xml.iml" group="common/serialisers" />
       <module fileurl="file://$PROJECT_DIR$/common-tuples/common-tuples.iml" filepath="$PROJECT_DIR$/common-tuples/common-tuples.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common-unknown/common-unknown.iml" filepath="$PROJECT_DIR$/common-unknown/common-unknown.iml" group="common" />
@@ -1417,6 +1418,22 @@
       </RunnerSettings>
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="ReadClientConsoleEntryPoint" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.dts.client.read.ReadClientConsoleEntryPoint" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="--validate --in /srv/hdn/dtsapp05-201301201947406678.ctl" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="dts-client-read" />
+      <envs />
+      <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>

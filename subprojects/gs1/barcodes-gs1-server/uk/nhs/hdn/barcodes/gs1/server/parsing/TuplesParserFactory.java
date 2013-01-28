@@ -53,7 +53,7 @@ public final class TuplesParserFactory implements ParserFactory
 				new NonEmptyStringFieldParser(),
 
 				// PostCode
-				new StringNonMandatoryPrefixFieldParser()
+				new StringNonMandatoryPrefixFieldParser(true)
 			)
 		);
 	}

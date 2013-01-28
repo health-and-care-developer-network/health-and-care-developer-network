@@ -15,6 +15,7 @@
     <orderEntry type="module" module-name="common-tuples" />
     <orderEntry type="module" module-name="dts-domain-schema" exported="" />
     <orderEntry type="module" module-name="common-xml" exported="" />
+    <orderEntry type="module" module-name="common-serialisers-separatedValues" />
   </component>
 </module>
 

@@ -15,6 +15,8 @@
     <orderEntry type="module" module-name="common-commandLine" />
     <orderEntry type="library" name="jopt-simple" level="project" />
     <orderEntry type="module" module-name="dts-domain" />
+    <orderEntry type="module" module-name="common-serialisers-separatedValues" />
+    <orderEntry type="module" module-name="common" />
   </component>
 </module>
 

@@ -29,6 +29,10 @@ import uk.nhs.hdn.common.http.client.exceptions.CouldNotUploadException;
 import uk.nhs.hdn.common.http.client.exceptions.UnacceptableResponseException;
 import uk.nhs.hdn.common.http.client.xml.LegacyXmlByteArrayUploadContent;
 import uk.nhs.hdn.common.http.client.xml.LegacyXmlGetHttpResponseUser;
+import uk.nhs.hdn.common.serialisers.CouldNotWriteDataException;
+import uk.nhs.hdn.common.serialisers.CouldNotWriteValueException;
+import uk.nhs.hdn.common.serialisers.MapSerialisable;
+import uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser;
 import uk.nhs.hdn.dts.domain.DtsName;
 import uk.nhs.hdn.dts.domain.identifiers.LocalIdentifier;
 import uk.nhs.hdn.dts.rats.Message;
@@ -36,9 +40,9 @@ import uk.nhs.hdn.dts.rats.request.Messages;
 import uk.nhs.hdn.dts.rats.response.Response;
 
 import java.net.URL;
-import java.util.Arrays;
 
 import static java.lang.System.out;
+import static uk.nhs.hdn.common.CharsetHelper.Utf8;
 import static uk.nhs.hdn.common.http.UrlHelper.toUrl;
 import static uk.nhs.hdn.common.http.client.connectionConfigurations.ChunkedUploadsConnectionConfiguration.DoesNotSupportChunkedUploads;
 import static uk.nhs.hdn.dts.domain.DtsName.UnknownDtsName;
@@ -121,6 +125,17 @@ public final class RatsClientConsoleEntryPoint extends AbstractConsoleEntryPoint
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	private static void outputResponses(final Response... responses)
 	{
-		out.println(Arrays.toString(responses));
+		final SeparatedValueSerialiser separatedValueSerialiser = Response.tsvSerialiserForResponse();
+		try
+		{
+			separatedValueSerialiser.start(out, Utf8);
+			final MapSerialisable[] responses1 = responses;
+			separatedValueSerialiser.writeValue(responses1);
+			separatedValueSerialiser.finish();
+		}
+		catch (CouldNotWriteDataException | CouldNotWriteValueException e)
+		{
+			throw new IllegalStateException(e);
+		}
 	}
 }

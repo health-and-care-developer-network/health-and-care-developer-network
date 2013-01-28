@@ -21,8 +21,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.naming.ActualName;
 import uk.nhs.hdn.common.naming.Description;
+import uk.nhs.hdn.common.serialisers.CouldNotSerialiseValueException;
+import uk.nhs.hdn.common.serialisers.CouldNotWriteValueException;
+import uk.nhs.hdn.common.serialisers.ValueSerialisable;
+import uk.nhs.hdn.common.serialisers.ValueSerialiser;
 
-public enum StatusValue implements ActualName, Description
+public enum StatusValue implements ActualName, Description, ValueSerialisable
 {
 	DtsSendFailed(1, "DTS Send Failed", "The DTS cannot send the Transfer to another DTS Client mailbox or to the SMTP Service"),
 	DtsReceivedTransfer(2, "DTS Received Transfer", "The data transfer has been received from the originating client"),
@@ -79,6 +83,19 @@ public enum StatusValue implements ActualName, Description
 	public String description()
 	{
 		return description;
+	}
+
+	@Override
+	public void serialiseValue(@NotNull final ValueSerialiser valueSerialiser) throws CouldNotSerialiseValueException
+	{
+		try
+		{
+			valueSerialiser.writeValue(actualName);
+		}
+		catch (CouldNotWriteValueException e)
+		{
+			throw new CouldNotSerialiseValueException(this, e);
+		}
 	}
 
 	@SuppressWarnings("MethodNamesDifferingOnlyByCase")

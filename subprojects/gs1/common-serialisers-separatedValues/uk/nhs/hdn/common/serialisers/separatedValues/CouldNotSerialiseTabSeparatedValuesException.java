@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.common.serialisers;
+package uk.nhs.hdn.common.serialisers.separatedValues;
 
-public interface Serialiser extends ValueSerialiser, MapSerialiser, StartFinish
+public final class CouldNotSerialiseTabSeparatedValuesException
 {
 }

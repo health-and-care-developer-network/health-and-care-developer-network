@@ -22,15 +22,61 @@ import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.barcodes.gs1.companyPrefixes.Gs1CompanyPrefix;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hdn.common.serialisers.*;
+import uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser;
+import uk.nhs.hdn.common.serialisers.separatedValues.matchers.RecurseMatcher;
 
 import java.util.Set;
+
+import static uk.nhs.hdn.barcodes.gs1.organisation.AdditionalInformationKey.PostCode;
+import static uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser.commaSeparatedValueSerialiser;
+import static uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser.tabSeparatedValueSerialiser;
+import static uk.nhs.hdn.common.serialisers.separatedValues.matchers.LeafMatcher.leaf;
+import static uk.nhs.hdn.common.serialisers.separatedValues.matchers.RecurseMatcher.recurse;
+import static uk.nhs.hdn.common.serialisers.separatedValues.matchers.RecurseMatcher.rootMatcher;
 
 public final class Tuple extends AbstractToString implements MapSerialisable, Serialisable
 {
 	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String gs1CompanyPrefixField = "gs1CompanyPrefix";
 	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String trustField = "trust";
 	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String organsationNameField = "organisationName";
-	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String additionalInformationField = "additionalInformation";
+	@SuppressWarnings("ConstantNamingConvention")
+	@FieldTokenName
+	@NonNls
+	@NotNull
+	public static final String additionalInformationField = "additionalInformation";
+
+	@NotNull
+	public static SeparatedValueSerialiser csvSerialiserForTuples()
+	{
+		return commaSeparatedValueSerialiser(SeparatedValuesSchema, true, SeparatedValuesHeadings);
+	}
+
+	@NotNull
+	public static SeparatedValueSerialiser tsvSerialiserForTuples()
+	{
+		return tabSeparatedValueSerialiser(SeparatedValuesSchema, SeparatedValuesHeadings);
+	}
+
+	@SuppressWarnings("PublicStaticArrayField")
+	@NotNull
+	public static final String[] SeparatedValuesHeadings =
+	{
+		gs1CompanyPrefixField,
+		trustField,
+		organsationNameField,
+		PostCode.name()
+	};
+
+	@NotNull
+	public static final RecurseMatcher SeparatedValuesSchema = rootMatcher
+	(
+		leaf(gs1CompanyPrefixField, 0),
+		leaf(trustField, 1),
+		leaf(organsationNameField, 2),
+		recurse(additionalInformationField,
+			leaf(PostCode.name(), 3)
+		)
+	);
 
 	@NotNull
 	private final Gs1CompanyPrefix gs1CompanyPrefix;

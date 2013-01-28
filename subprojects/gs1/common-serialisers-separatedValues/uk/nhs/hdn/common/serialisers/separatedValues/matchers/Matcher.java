@@ -14,8 +14,20 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.common.serialisers;
+package uk.nhs.hdn.common.serialisers.separatedValues.matchers;
 
-public interface Serialiser extends ValueSerialiser, MapSerialiser, StartFinish
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValuesLine;
+
+import java.util.Map;
+
+public interface Matcher
 {
+	void register(@NotNull final Map<String, Matcher> index);
+
+	@NotNull
+	Matcher matchChild(@NotNull @NonNls final String name);
+
+	void recordValue(@NotNull final String rawValue, @NotNull final SeparatedValuesLine separatedValuesLine);
 }

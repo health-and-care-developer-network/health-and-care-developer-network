@@ -4,8 +4,12 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
+import uk.nhs.hdn.common.serialisers.CouldNotSerialiseMapException;
+import uk.nhs.hdn.common.serialisers.CouldNotWritePropertyException;
+import uk.nhs.hdn.common.serialisers.MapSerialisable;
+import uk.nhs.hdn.common.serialisers.MapSerialiser;
 
-public final class Status extends AbstractToString
+public final class Status extends AbstractToString implements MapSerialisable
 {
 	@NotNull
 	public final StatusValue statusValue;
@@ -16,6 +20,20 @@ public final class Status extends AbstractToString
 	{
 		this.statusValue = statusValue;
 		this.statusText = statusText;
+	}
+
+	@Override
+	public void serialiseMap(@NotNull final MapSerialiser mapSerialiser) throws CouldNotSerialiseMapException
+	{
+		try
+		{
+			mapSerialiser.writeProperty("StatusVal", statusValue);
+			mapSerialiser.writeProperty("StatusText", statusText);
+		}
+		catch (CouldNotWritePropertyException e)
+		{
+			throw new CouldNotSerialiseMapException(this, e);
+		}
 	}
 
 	@Override

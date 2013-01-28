@@ -14,6 +14,7 @@
     <orderEntry type="module" module-name="common-tuples" />
     <orderEntry type="module" module-name="common-unknown" exported="" />
     <orderEntry type="module" module-name="common-serialisers" exported="" />
+    <orderEntry type="module" module-name="common-serialisers-separatedValues" />
   </component>
 </module>
 

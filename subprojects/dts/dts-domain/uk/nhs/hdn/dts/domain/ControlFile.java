@@ -16,15 +16,20 @@
 
 package uk.nhs.hdn.dts.domain;
 
-import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hdn.common.serialisers.*;
-import uk.nhs.hdn.common.unknown.IsUnknown;
+import uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser;
+import uk.nhs.hdn.common.serialisers.separatedValues.matchers.RecurseMatcher;
 import uk.nhs.hdn.dts.domain.identifiers.*;
 import uk.nhs.hdn.dts.domain.statusRecords.StatusRecord;
 
+import static uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser.commaSeparatedValueSerialiser;
+import static uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser.tabSeparatedValueSerialiser;
+import static uk.nhs.hdn.common.serialisers.separatedValues.matchers.LeafMatcher.leaf;
+import static uk.nhs.hdn.common.serialisers.separatedValues.matchers.RecurseMatcher.recurse;
+import static uk.nhs.hdn.common.serialisers.separatedValues.matchers.RecurseMatcher.rootMatcher;
 import static uk.nhs.hdn.dts.domain.AddressPair.UnknownDtsNames;
 import static uk.nhs.hdn.dts.domain.AddressPair.UnknownSmtpAddresses;
 import static uk.nhs.hdn.dts.domain.AddressType.determineAddressType;
@@ -38,6 +43,75 @@ import static uk.nhs.hdn.dts.domain.statusRecords.UnknownStatusRecord.UnknownSta
 
 public final class ControlFile extends AbstractToString implements MapSerialisable, Serialisable
 {
+	@NotNull
+	public static SeparatedValueSerialiser csvSerialiserForControlFiles()
+	{
+		return commaSeparatedValueSerialiser(SeparatedValuesSchema, true, SeparatedValuesHeadings);
+	}
+
+	@NotNull
+	public static SeparatedValueSerialiser tsvSerialiserForControlFiles()
+	{
+		return tabSeparatedValueSerialiser(SeparatedValuesSchema, SeparatedValuesHeadings);
+	}
+
+	@SuppressWarnings("PublicStaticArrayField")
+	@NotNull
+	public static final String[] SeparatedValuesHeadings =
+	{
+		"Version",
+		"AddressType",
+		"MessageType",
+		"WorkflowIdentifier",
+		"FromSmtpAddress",
+		"ToSmtpAddress",
+		"FromDtsName",
+		"ToDtsName",
+		"Subject",
+		"LocalIdentifier",
+		"DtsIdentifier",
+		"ProcessIdentifier",
+		"Compress",
+		"Encrypted",
+		"IsCompressed",
+		"DataChecksum",
+		"PartnerIdentifier",
+		"StatusRecordDateTime",
+		"StatusRecordEvent",
+		"StatusRecordStatus",
+		"StatusRecordStatusCode",
+		"StatusRecordDescription",
+	};
+
+	@NotNull
+	public static final RecurseMatcher SeparatedValuesSchema = rootMatcher
+	(
+		leaf("Version", 0),
+		leaf("AddressType", 1),
+		leaf("MessageType", 2),
+		leaf("WorkflowId", 3),
+		leaf("From_ESMTP", 4),
+		leaf("From_DTS", 5),
+		leaf("To_ESMTP", 6),
+		leaf("To_DTS", 7),
+		leaf("Subject", 8),
+		leaf("LocalId", 9),
+		leaf("DTSId", 10),
+		leaf("ProcessId", 11),
+		leaf("Compress", 12),
+		leaf("Encrypted", 13),
+		leaf("IsCompressed", 14),
+		leaf("DataChecksum", 15),
+		leaf("PartnerId", 16),
+		recurse("StatusRecord",
+			leaf("DateTime", 17),
+			leaf("Event", 18),
+			leaf("Status", 19),
+			leaf("StatusCode", 20),
+			leaf("Description", 21)
+		)
+	);
+
 	@NotNull
 	public static ControlFile dataControlFileForSmtpNames(@NotNull final WorkflowIdentifier workflowIdentifier, @NotNull final Subject subject, @NotNull final LocalIdentifier localIdentifier, @NotNull final DtsIdentifier dtsIdentifier, @NotNull final ContentEncoding contentEncoding, @NotNull final AddressPair<SmtpAddress> smtpAddresses)
 	{
@@ -195,37 +269,21 @@ public final class ControlFile extends AbstractToString implements MapSerialisab
 			{
 				mapSerialiser.writeProperty("To_DTS", toDtsName);
 			}
-			writePropertyIfKnown(mapSerialiser, "Subject", subject);
-			writePropertyIfKnown(mapSerialiser, "LocalId", localIdentifier);
-			writePropertyIfKnown(mapSerialiser, "DTSId", dtsIdentifier);
-			writePropertyIfKnown(mapSerialiser, "ProcessId", processIdentifier);
-			writePropertyIfKnown(mapSerialiser, "Compress", compress);
-			writePropertyIfKnown(mapSerialiser, "Encrypted", encrypted);
-			writePropertyIfKnown(mapSerialiser, "IsCompressed", isCompressed);
-			writePropertyIfKnown(mapSerialiser, "DataChecksum", dataChecksum);
-			writePropertyIfKnown(mapSerialiser, "PartnerIdentifier", partnerIdentifier);
-			writePropertyIfKnown(mapSerialiser, "StatusRecord", statusRecord);
+			AbstractSerialiser.writePropertyIfKnown(mapSerialiser, "Subject", subject);
+			AbstractSerialiser.writePropertyIfKnown(mapSerialiser, "LocalId", localIdentifier);
+			AbstractSerialiser.writePropertyIfKnown(mapSerialiser, "DTSId", dtsIdentifier);
+			AbstractSerialiser.writePropertyIfKnown(mapSerialiser, "ProcessId", processIdentifier);
+			AbstractSerialiser.writePropertyIfKnown(mapSerialiser, "Compress", compress);
+			AbstractSerialiser.writePropertyIfKnown(mapSerialiser, "Encrypted", encrypted);
+			AbstractSerialiser.writePropertyIfKnown(mapSerialiser, "IsCompressed", isCompressed);
+			AbstractSerialiser.writePropertyIfKnown(mapSerialiser, "DataChecksum", dataChecksum);
+			AbstractSerialiser.writePropertyIfKnown(mapSerialiser, "PartnerId", partnerIdentifier);
+			AbstractSerialiser.writePropertyIfKnown(mapSerialiser, "StatusRecord", statusRecord);
 		}
 		catch (CouldNotWritePropertyException e)
 		{
 			throw new CouldNotSerialiseMapException(this, e);
 
-		}
-	}
-
-	private static <V extends ValueSerialisable & IsUnknown> void writePropertyIfKnown(final MapSerialiser mapSerialiser, @NonNls final String name, final V value) throws CouldNotWritePropertyException
-	{
-		if (value.isKnown())
-		{
-			mapSerialiser.writeProperty(name, value);
-		}
-	}
-
-	private static <V extends MapSerialisable & IsUnknown> void writePropertyIfKnown(final MapSerialiser mapSerialiser, @NonNls final String name, final V value) throws CouldNotWritePropertyException
-	{
-		if (value.isKnown())
-		{
-			mapSerialiser.writeProperty(name, value);
 		}
 	}
 

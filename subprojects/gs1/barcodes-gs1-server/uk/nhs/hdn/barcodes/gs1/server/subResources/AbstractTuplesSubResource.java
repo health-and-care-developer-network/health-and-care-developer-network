@@ -29,26 +29,33 @@ import uk.nhs.hdn.common.serialisers.json.JsonPSerialiser;
 import uk.nhs.hdn.common.serialisers.json.JsonSerialiser;
 import uk.nhs.hdn.common.serialisers.xml.XmlSerialiser;
 
+import static uk.nhs.hdn.barcodes.gs1.organisation.Tuple.*;
 import static uk.nhs.hdn.barcodes.gs1.server.Gs1CompanyPrefxQueryStringEventHandler.parseGs1QueryString;
 import static uk.nhs.hdn.common.VariableArgumentsHelper.copyOf;
-import static uk.nhs.hdn.common.http.ContentTypeWithCharacterSet.JsonContentTypeUtf8;
-import static uk.nhs.hdn.common.http.ContentTypeWithCharacterSet.XmlContentTypeUtf8;
+import static uk.nhs.hdn.common.http.ContentTypeWithCharacterSet.*;
 import static uk.nhs.hdn.common.http.server.sun.helpers.ByteArrayResourceContentHelper.resourceContent;
 
 public abstract class AbstractTuplesSubResource extends AbstractToString implements SubResource
 {
+
 	private final int guess;
 
 	private final Tuple[] tuples;
 	private final ByteArrayResourceContent jsonUtf8Content;
 	private final ByteArrayResourceContent xmlUtf8Content;
+	private final ByteArrayResourceContent tsvUtf8Content;
+	private final ByteArrayResourceContent csvUtf8Content;
 
+	@SuppressWarnings("FeatureEnvy")
 	protected AbstractTuplesSubResource(final int guess, @NotNull final Tuple... tuples)
 	{
 		this.tuples = copyOf(tuples);
 		this.guess = guess;
 		jsonUtf8Content = resourceContent(JsonContentTypeUtf8, new JsonSerialiser(), guess, tuples);
 		xmlUtf8Content = resourceContent(XmlContentTypeUtf8, new XmlSerialiser(true, "gs1"), guess * 4, tuples);
+		tsvUtf8Content = resourceContent(TsvContentTypeUtf8, tsvSerialiserForTuples(), guess * 4, tuples);
+		// Note: does not check for IANA mime type attribute to include or exclude the heading
+		csvUtf8Content = resourceContent(CsvContentTypeUtf8, csvSerialiserForTuples(), guess * 4, tuples);
 	}
 
 	@SuppressWarnings("FeatureEnvy")
@@ -61,6 +68,14 @@ public abstract class AbstractTuplesSubResource extends AbstractToString impleme
 		if (queryStringEventHandler.isXml())
 		{
 			return xmlUtf8Content;
+		}
+		if (queryStringEventHandler.isTsv())
+		{
+			return tsvUtf8Content;
+		}
+		if (queryStringEventHandler.isCsv())
+		{
+			return csvUtf8Content;
 		}
 		if (queryStringEventHandler.isJsonP())
 		{

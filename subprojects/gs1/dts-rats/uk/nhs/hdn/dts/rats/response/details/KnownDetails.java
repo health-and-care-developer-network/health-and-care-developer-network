@@ -3,6 +3,9 @@ package uk.nhs.hdn.dts.rats.response.details;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hdn.common.serialisers.CouldNotSerialiseMapException;
+import uk.nhs.hdn.common.serialisers.CouldNotWritePropertyException;
+import uk.nhs.hdn.common.serialisers.MapSerialiser;
 import uk.nhs.hdn.common.unknown.AbstractIsUnknown;
 import uk.nhs.hdn.dts.domain.DtsName;
 import uk.nhs.hdn.dts.domain.SmtpAddress;
@@ -15,6 +18,8 @@ import uk.nhs.hdn.dts.domain.statusRecords.dateTime.KnownDateTime;
 import uk.nhs.hdn.dts.rats.response.FailureDiagnostic;
 import uk.nhs.hdn.dts.rats.response.MessageIdentifier;
 import uk.nhs.hdn.dts.rats.response.Status;
+
+import static uk.nhs.hdn.common.serialisers.AbstractSerialiser.writePropertyIfKnown;
 
 public final class KnownDetails extends AbstractIsUnknown implements Details
 {
@@ -71,6 +76,33 @@ public final class KnownDetails extends AbstractIsUnknown implements Details
 		this.subject = subject;
 		this.workflowIdentifier = workflowIdentifier;
 		this.processIdentifier = processIdentifier;
+	}
+
+	@SuppressWarnings("FeatureEnvy")
+	@Override
+	public void serialiseMap(@NotNull final MapSerialiser mapSerialiser) throws CouldNotSerialiseMapException
+	{
+		try
+		{
+			mapSerialiser.writeProperty("MsgID", messageIdentifier);
+			mapSerialiser.writeProperty("ToDTSName", toDtsName);
+			mapSerialiser.writeProperty("FromSMTPAddr", fromSmtpAddress);
+			mapSerialiser.writeProperty("ToSMTPAddr", toSmtpAddress);
+			mapSerialiser.writeProperty("TransferDateTime", transferDateTime);
+			mapSerialiser.writeProperty("MsgReport", messageReport);
+			mapSerialiser.writeProperty("Status", status);
+			writePropertyIfKnown(mapSerialiser, "SentDateTime", sentDateTime);
+			writePropertyIfKnown(mapSerialiser, "FailureDateTime", failureDateTime);
+			writePropertyIfKnown(mapSerialiser, "FailureDiagnostic", failureDiagnostic);
+			writePropertyIfKnown(mapSerialiser, "FailureMsgDTSID", failureMessageDtsIdentifier);
+			writePropertyIfKnown(mapSerialiser, "Subject", subject);
+			writePropertyIfKnown(mapSerialiser, "WorkflowID", workflowIdentifier);
+			writePropertyIfKnown(mapSerialiser, "ProcessID", processIdentifier);
+		}
+		catch (CouldNotWritePropertyException e)
+		{
+			throw new CouldNotSerialiseMapException(this, e);
+		}
 	}
 
 	@SuppressWarnings({"FeatureEnvy", "OverlyComplexMethod", "OverlyLongMethod"})

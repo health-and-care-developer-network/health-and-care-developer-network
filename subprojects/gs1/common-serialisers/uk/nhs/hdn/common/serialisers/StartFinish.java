@@ -16,6 +16,14 @@
 
 package uk.nhs.hdn.common.serialisers;
 
-public interface Serialiser extends ValueSerialiser, MapSerialiser, StartFinish
+import org.jetbrains.annotations.NotNull;
+
+import java.io.OutputStream;
+import java.nio.charset.Charset;
+
+public interface StartFinish
 {
+	void start(@NotNull final OutputStream outputStream, @NotNull final Charset charset) throws CouldNotWriteDataException;
+
+	void finish() throws CouldNotWriteDataException;
 }
