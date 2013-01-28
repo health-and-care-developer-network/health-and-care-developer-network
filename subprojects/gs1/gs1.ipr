@@ -1293,7 +1293,7 @@
   </component>
   <component name="ProjectRunConfigurationManager">
     <configuration default="false" name="Gs1BarcodesServerConsoleEntryPoint" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="uk.nhs.hcdn.barcodes.gs1.server.application.Gs1BarcodesServerConsoleEntryPoint" />
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.barcodes.gs1.server.application.Gs1BarcodesServerConsoleEntryPoint" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
@@ -1317,7 +1317,7 @@
       </method>
     </configuration>
     <configuration default="false" name="Gs1BarcodesClientConsoleEntryPoint (5055220798768)" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="uk.nhs.hcdn.barcodes.gs1.client.application.Gs1BarcodesClientConsoleEntryPoint" />
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.barcodes.gs1.client.application.Gs1BarcodesClientConsoleEntryPoint" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="--gtin 5055220798768" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
@@ -1333,7 +1333,7 @@
       <method />
     </configuration>
     <configuration default="false" name="Gs1BarcodesClientConsoleEntryPoint (5055220798768 Cached)" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="uk.nhs.hcdn.barcodes.gs1.client.application.Gs1BarcodesClientConsoleEntryPoint" />
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.barcodes.gs1.client.application.Gs1BarcodesClientConsoleEntryPoint" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="--gtin 5055220798768 --cache" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
@@ -1355,7 +1355,7 @@
       <method />
     </configuration>
     <configuration default="false" name="Gs1BarcodesClientConsoleEntryPoint" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="uk.nhs.hcdn.barcodes.gs1.client.application.Gs1BarcodesClientConsoleEntryPoint" />
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.barcodes.gs1.client.application.Gs1BarcodesClientConsoleEntryPoint" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
@@ -1377,7 +1377,7 @@
       <method />
     </configuration>
     <configuration default="false" name="OutClientConsoleEntryPoint" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="uk.nhs.hcdn.dts.client.out.OutClientConsoleEntryPoint" />
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.dts.client.out.OutClientConsoleEntryPoint" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="--workflow-identifier &quot;hello&quot; --from-smtp &quot;r@b.com&quot; --to-smtp &quot;r@f.com&quot;" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
@@ -1387,6 +1387,28 @@
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="dts-client-create" />
+      <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="RatsClientConsoleEntryPoint" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.dts.client.rats.RatsClientConsoleEntryPoint" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="--from-dts-name msg5678 --local-identifier will" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="dts-client-rats" />
       <envs />
       <RunnerSettings RunnerId="Debug">
         <option name="DEBUG_PORT" value="" />
