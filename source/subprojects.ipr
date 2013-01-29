@@ -1245,14 +1245,14 @@
   </component>
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/gs1/barcodes/barcodes.iml" filepath="$PROJECT_DIR$/gs1/barcodes/barcodes.iml" group="barcodes" />
-      <module fileurl="file://$PROJECT_DIR$/gs1/barcodes-gs1/barcodes-gs1.iml" filepath="$PROJECT_DIR$/gs1/barcodes-gs1/barcodes-gs1.iml" group="barcodes" />
-      <module fileurl="file://$PROJECT_DIR$/gs1/barcodes-gs1-client/barcodes-gs1-client.iml" filepath="$PROJECT_DIR$/gs1/barcodes-gs1-client/barcodes-gs1-client.iml" group="barcodes" />
-      <module fileurl="file://$PROJECT_DIR$/gs1/barcodes-gs1-client-application/barcodes-gs1-client-application.iml" filepath="$PROJECT_DIR$/gs1/barcodes-gs1-client-application/barcodes-gs1-client-application.iml" group="barcodes" />
-      <module fileurl="file://$PROJECT_DIR$/gs1/barcodes-gs1-organisation/barcodes-gs1-organisation.iml" filepath="$PROJECT_DIR$/gs1/barcodes-gs1-organisation/barcodes-gs1-organisation.iml" group="barcodes" />
-      <module fileurl="file://$PROJECT_DIR$/gs1/barcodes-gs1-server/barcodes-gs1-server.iml" filepath="$PROJECT_DIR$/gs1/barcodes-gs1-server/barcodes-gs1-server.iml" group="barcodes" />
-      <module fileurl="file://$PROJECT_DIR$/gs1/barcodes-gs1-server-application/barcodes-gs1-server-application.iml" filepath="$PROJECT_DIR$/gs1/barcodes-gs1-server-application/barcodes-gs1-server-application.iml" group="barcodes" />
-      <module fileurl="file://$PROJECT_DIR$/gs1/barcodes-gs1-unitTests/barcodes-gs1-unitTests.iml" filepath="$PROJECT_DIR$/gs1/barcodes-gs1-unitTests/barcodes-gs1-unitTests.iml" group="barcodes" />
+      <module fileurl="file://$PROJECT_DIR$/barcodes/barcodes/barcodes.iml" filepath="$PROJECT_DIR$/barcodes/barcodes/barcodes.iml" group="barcodes" />
+      <module fileurl="file://$PROJECT_DIR$/barcodes/barcodes-gs1/barcodes-gs1.iml" filepath="$PROJECT_DIR$/barcodes/barcodes-gs1/barcodes-gs1.iml" group="barcodes" />
+      <module fileurl="file://$PROJECT_DIR$/barcodes/barcodes-gs1-client/barcodes-gs1-client.iml" filepath="$PROJECT_DIR$/barcodes/barcodes-gs1-client/barcodes-gs1-client.iml" group="barcodes" />
+      <module fileurl="file://$PROJECT_DIR$/barcodes/barcodes-gs1-client-application/barcodes-gs1-client-application.iml" filepath="$PROJECT_DIR$/barcodes/barcodes-gs1-client-application/barcodes-gs1-client-application.iml" group="barcodes" />
+      <module fileurl="file://$PROJECT_DIR$/barcodes/barcodes-gs1-organisation/barcodes-gs1-organisation.iml" filepath="$PROJECT_DIR$/barcodes/barcodes-gs1-organisation/barcodes-gs1-organisation.iml" group="barcodes" />
+      <module fileurl="file://$PROJECT_DIR$/barcodes/barcodes-gs1-server/barcodes-gs1-server.iml" filepath="$PROJECT_DIR$/barcodes/barcodes-gs1-server/barcodes-gs1-server.iml" group="barcodes" />
+      <module fileurl="file://$PROJECT_DIR$/barcodes/barcodes-gs1-server-application/barcodes-gs1-server-application.iml" filepath="$PROJECT_DIR$/barcodes/barcodes-gs1-server-application/barcodes-gs1-server-application.iml" group="barcodes" />
+      <module fileurl="file://$PROJECT_DIR$/barcodes/barcodes-gs1-unitTests/barcodes-gs1-unitTests.iml" filepath="$PROJECT_DIR$/barcodes/barcodes-gs1-unitTests/barcodes-gs1-unitTests.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/build/build/build.iml" filepath="$PROJECT_DIR$/build/build/build.iml" />
       <module fileurl="file://$PROJECT_DIR$/common/common/common.iml" filepath="$PROJECT_DIR$/common/common/common.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-commandLine/common-commandLine.iml" filepath="$PROJECT_DIR$/common/common-commandLine/common-commandLine.iml" group="common" />

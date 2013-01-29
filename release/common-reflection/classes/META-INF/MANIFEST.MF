@@ -1,5 +1,0 @@
-Manifest-Version: 1.0
-Class-Path: annotations.jar common-exceptions.jar common.jar
-Sealed: false
-Created-By: 1.7.0-u4-b13 (Oracle Corporation)
-

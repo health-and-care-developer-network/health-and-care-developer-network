@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Class-Path: annotations.jar common-exceptions.jar common.jar common-re
- flection.jar common-unknown.jar common-serialisers.jar common-compari
- son.jar common-tuples.jar common-xml.jar common-serialisers-xml.jar c
- ommon-parsers.jar common-parsers-xml.jar common-http.jar common-http-
- client.jar
-Sealed: false
-Created-By: 1.7.0-u4-b13 (Oracle Corporation)
-
