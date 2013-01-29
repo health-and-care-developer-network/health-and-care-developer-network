@@ -304,6 +304,7 @@
         </inspection_tool>
         <inspection_tool class="ContinueStatementWithLabel" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ControlFlowStatementWithoutBraces" enabled="true" level="WARNING" enabled_by_default="true" />
+        <inspection_tool class="Convert to string" enabled="true" level="INFO" enabled_by_default="true" />
         <inspection_tool class="CovariantCompareTo" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="CovariantEquals" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="CustomClassloader" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -410,6 +411,7 @@
           <option name="ignoreTrivialFinalizers" value="true" />
         </inspection_tool>
         <inspection_tool class="FinalizeNotProtected" enabled="true" level="WARNING" enabled_by_default="true" />
+        <inspection_tool class="Fix shebang" enabled="true" level="WARNING" enabled_by_default="true">/bin/sh#/bin/bash</inspection_tool>
         <inspection_tool class="FloatingPointEquality" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ForLoopReplaceableByWhile" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="m_ignoreLoopsWithoutConditions" value="false" />
@@ -778,6 +780,7 @@
         <inspection_tool class="ReadObjectAndWriteObjectPrivate" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ReadObjectInitialization" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ReadResolveAndWriteReplaceProtected" enabled="true" level="WARNING" enabled_by_default="true" />
+        <inspection_tool class="Readonly variable" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="RecordStoreResource" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="RedundantFieldInitialization" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="RedundantImplements" enabled="true" level="WARNING" enabled_by_default="true">
@@ -792,6 +795,7 @@
         <inspection_tool class="RefusedBequest" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="ignoreEmptySuperMethods" value="false" />
         </inspection_tool>
+        <inspection_tool class="Replace with subshell" enabled="true" level="INFO" enabled_by_default="true" />
         <inspection_tool class="ReplaceAllDot" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ReplaceAssignmentWithOperatorAssignment" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="ignoreLazyOperators" value="true" />
@@ -1251,6 +1255,7 @@
       <module fileurl="file://$PROJECT_DIR$/gs1/barcodes-gs1-server/barcodes-gs1-server.iml" filepath="$PROJECT_DIR$/gs1/barcodes-gs1-server/barcodes-gs1-server.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/gs1/barcodes-gs1-server-application/barcodes-gs1-server-application.iml" filepath="$PROJECT_DIR$/gs1/barcodes-gs1-server-application/barcodes-gs1-server-application.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/gs1/barcodes-gs1-unitTests/barcodes-gs1-unitTests.iml" filepath="$PROJECT_DIR$/gs1/barcodes-gs1-unitTests/barcodes-gs1-unitTests.iml" group="barcodes" />
+      <module fileurl="file://$PROJECT_DIR$/build/build/build.iml" filepath="$PROJECT_DIR$/build/build/build.iml" />
       <module fileurl="file://$PROJECT_DIR$/common/common/common.iml" filepath="$PROJECT_DIR$/common/common/common.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-commandLine/common-commandLine.iml" filepath="$PROJECT_DIR$/common/common-commandLine/common-commandLine.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-comparison/common-comparison.iml" filepath="$PROJECT_DIR$/common/common-comparison/common-comparison.iml" group="common" />
@@ -1528,7 +1533,7 @@
       <JAVADOC />
       <SOURCES />
     </library>
-    <library name="jopt-simple">
+    <library name="JOpt Simple">
       <ANNOTATIONS>
         <root url="file://$PROJECT_DIR$/../library/jopt-simple/4.4" />
       </ANNOTATIONS>
@@ -1552,6 +1557,17 @@
       <SOURCES>
         <root url="jar://$PROJECT_DIR$/../library/junit/4.11/junit-4.11-src.jar!/" />
       </SOURCES>
+    </library>
+    <library name="Orogeny">
+      <ANNOTATIONS>
+        <root url="file://$PROJECT_DIR$/../library/orogeny/external-annotations" />
+      </ANNOTATIONS>
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../library/orogeny/orogeny-without-dependencies.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../library/orogeny/jna.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
     </library>
   </component>
 </project>

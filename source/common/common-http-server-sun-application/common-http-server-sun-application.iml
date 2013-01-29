@@ -8,7 +8,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="IntelliJ Annotations" level="project" />
-    <orderEntry type="library" exported="" name="jopt-simple" level="project" />
+    <orderEntry type="library" exported="" name="JOpt Simple" level="project" />
     <orderEntry type="module" module-name="common-reflection" exported="" />
     <orderEntry type="module" module-name="common-http-server-sun" />
     <orderEntry type="module" module-name="common-commandLine" />

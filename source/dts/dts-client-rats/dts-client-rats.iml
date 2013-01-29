@@ -13,7 +13,7 @@
     <orderEntry type="module" module-name="common-http-client" />
     <orderEntry type="module" module-name="common-http-client-xml" />
     <orderEntry type="module" module-name="common-commandLine" />
-    <orderEntry type="library" name="jopt-simple" level="project" />
+    <orderEntry type="library" name="JOpt Simple" level="project" />
     <orderEntry type="module" module-name="dts-domain" />
     <orderEntry type="module" module-name="common-serialisers-separatedValues" />
     <orderEntry type="module" module-name="common" />
