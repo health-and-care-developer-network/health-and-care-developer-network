@@ -2,5 +2,5 @@
 readonly crudePath="$(dirname "$0")"
 cd "$crudePath" >/dev/null
 
-git checkout -- .
-exec source/build/build-script "$@"
+#git checkout -- .
+exec source/build/build/build-script "$@"

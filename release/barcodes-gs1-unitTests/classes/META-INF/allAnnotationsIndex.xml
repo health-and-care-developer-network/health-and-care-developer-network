@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.7.0-u4-b13" class="java.beans.XMLDecoder">
+ <object class="java.util.LinkedHashMap">
+  <void method="put">
+   <string>PACKAGE</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>CLASS</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>ENUM</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>INTERFACE</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>ANNOTATION_TYPE</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>FIELD</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>CONSTRUCTOR</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>INSTANCE_INIT</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>STATIC_INIT</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>METHOD</string>
+   <object class="java.util.LinkedHashMap">
+    <void method="put">
+     <string>org.junit.Test</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.gs1.globalTradeItemNumbers.GlobalTradeItemNumberFormatUnitTest</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>gtin8CalculatesCorrectCheckDigit</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.gs1.globalTradeItemNumbers.GlobalTradeItemNumberFormatUnitTest</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>gtin12CalculatesCorrectCheckDigit</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.gs1.globalTradeItemNumbers.GlobalTradeItemNumberFormatUnitTest</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>gtin13CalculatesCorrectCheckDigit</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.gs1.globalTradeItemNumbers.GlobalTradeItemNumberFormatUnitTest</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>gtin14CalculatesCorrectCheckDigit</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.gs1.globalTradeItemNumbers.GlobalTradeItemNumberFormatUnitTest</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>gtin8ToGtin12</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.gs1.globalTradeItemNumbers.GlobalTradeItemNumberFormatUnitTest</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>gtin12ToGtin8</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.gs1.globalTradeItemNumbers.GlobalTradeItemNumberUnitTest</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>gtin8ExtractsIndicatorDigit</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.gs1.globalTradeItemNumbers.GlobalTradeItemNumberUnitTest</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>gtin8ExtractsCheckDigit</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.gs1.globalTradeItemNumbers.GlobalTradeItemNumberUnitTest</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>gtin8NormalisesToCorrectGlobalTradeItemNumber</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.gs1.globalTradeItemNumbers.GlobalTradeItemNumberUnitTest</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>gtin12ExtractsIndicatorDigit</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.gs1.globalTradeItemNumbers.GlobalTradeItemNumberUnitTest</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>gtin12ExtractsCheckDigit</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.gs1.globalTradeItemNumbers.GlobalTradeItemNumberUnitTest</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>gtin12NormalisesToCorrectGlobalTradeItemNumber</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.gs1.globalTradeItemNumbers.GlobalTradeItemNumberUnitTest</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>gtin13ExtractsIndicatorDigit</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.gs1.globalTradeItemNumbers.GlobalTradeItemNumberUnitTest</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>gtin13ExtractsCheckDigit</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.gs1.globalTradeItemNumbers.GlobalTradeItemNumberUnitTest</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>gtin13NormalisesToCorrectGlobalTradeItemNumber</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.gs1.globalTradeItemNumbers.GlobalTradeItemNumberUnitTest</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>gtin14ExtractsIndicatorDigit</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.gs1.globalTradeItemNumbers.GlobalTradeItemNumberUnitTest</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>gtin14ExtractsCheckDigit</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.gs1.globalTradeItemNumbers.GlobalTradeItemNumberUnitTest</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>gtin14NormalisesToCorrectGlobalTradeItemNumber</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.gs1.serialShippingContainerCodes.SerialShippingContainerCodeFormatUnitTest</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>sscnCalculatesCorrectCheckDigit</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.gs1.serialShippingContainerCodes.SerialShippingContainerCodeUnitTest</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>gtin8ExtractsCheckDigit</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+   </object>
+  </void>
+ </object>
+</java>

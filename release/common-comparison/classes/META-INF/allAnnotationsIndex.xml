@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.7.0-u4-b13" class="java.beans.XMLDecoder">
+ <object class="java.util.LinkedHashMap">
+  <void method="put">
+   <string>PACKAGE</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>CLASS</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>ENUM</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>INTERFACE</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>ANNOTATION_TYPE</string>
+   <object class="java.util.LinkedHashMap">
+    <void method="put">
+     <string>java.lang.annotation.Target</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <string>uk.nhs.hdn.common.comparison.ComparisonResult</string>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>java.lang.annotation.Retention</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <string>uk.nhs.hdn.common.comparison.ComparisonResult</string>
+      </void>
+     </object>
+    </void>
+   </object>
+  </void>
+  <void method="put">
+   <string>FIELD</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>CONSTRUCTOR</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>INSTANCE_INIT</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>STATIC_INIT</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>METHOD</string>
+   <object class="java.util.LinkedHashMap">
+    <void method="put">
+     <string>uk.nhs.hdn.common.comparison.ComparisonResult</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.comparison.ComparisonHelper</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>compareInt</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>int</string>
+          </void>
+          <void method="add">
+           <string>int</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+   </object>
+  </void>
+ </object>
+</java>

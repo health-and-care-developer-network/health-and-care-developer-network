@@ -411,7 +411,6 @@
           <option name="ignoreTrivialFinalizers" value="true" />
         </inspection_tool>
         <inspection_tool class="FinalizeNotProtected" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="Fix shebang" enabled="true" level="WARNING" enabled_by_default="true">/bin/sh#/bin/bash</inspection_tool>
         <inspection_tool class="FloatingPointEquality" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ForLoopReplaceableByWhile" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="m_ignoreLoopsWithoutConditions" value="false" />
@@ -1250,7 +1249,6 @@
       <module fileurl="file://$PROJECT_DIR$/gs1/barcodes-gs1/barcodes-gs1.iml" filepath="$PROJECT_DIR$/gs1/barcodes-gs1/barcodes-gs1.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/gs1/barcodes-gs1-client/barcodes-gs1-client.iml" filepath="$PROJECT_DIR$/gs1/barcodes-gs1-client/barcodes-gs1-client.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/gs1/barcodes-gs1-client-application/barcodes-gs1-client-application.iml" filepath="$PROJECT_DIR$/gs1/barcodes-gs1-client-application/barcodes-gs1-client-application.iml" group="barcodes" />
-      <module fileurl="file://$PROJECT_DIR$/gs1/barcodes-gs1-integrationTests/barcodes-gs1-integrationTests.iml" filepath="$PROJECT_DIR$/gs1/barcodes-gs1-integrationTests/barcodes-gs1-integrationTests.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/gs1/barcodes-gs1-organisation/barcodes-gs1-organisation.iml" filepath="$PROJECT_DIR$/gs1/barcodes-gs1-organisation/barcodes-gs1-organisation.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/gs1/barcodes-gs1-server/barcodes-gs1-server.iml" filepath="$PROJECT_DIR$/gs1/barcodes-gs1-server/barcodes-gs1-server.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/gs1/barcodes-gs1-server-application/barcodes-gs1-server-application.iml" filepath="$PROJECT_DIR$/gs1/barcodes-gs1-server-application/barcodes-gs1-server-application.iml" group="barcodes" />
@@ -1265,7 +1263,6 @@
       <module fileurl="file://$PROJECT_DIR$/common/common-http-client/common-http-client.iml" filepath="$PROJECT_DIR$/common/common-http-client/common-http-client.iml" group="common/http" />
       <module fileurl="file://$PROJECT_DIR$/common/common-http-client-json/common-http-client-json.iml" filepath="$PROJECT_DIR$/common/common-http-client-json/common-http-client-json.iml" group="common/http" />
       <module fileurl="file://$PROJECT_DIR$/common/common-http-client-xml/common-http-client-xml.iml" filepath="$PROJECT_DIR$/common/common-http-client-xml/common-http-client-xml.iml" group="common/http" />
-      <module fileurl="file://$PROJECT_DIR$/common/common-http-server/common-http-server.iml" filepath="$PROJECT_DIR$/common/common-http-server/common-http-server.iml" group="common/http" />
       <module fileurl="file://$PROJECT_DIR$/common/common-http-server-sun/common-http-server-sun.iml" filepath="$PROJECT_DIR$/common/common-http-server-sun/common-http-server-sun.iml" group="common/http" />
       <module fileurl="file://$PROJECT_DIR$/common/common-http-server-sun-application/common-http-server-sun-application.iml" filepath="$PROJECT_DIR$/common/common-http-server-sun-application/common-http-server-sun-application.iml" group="common/http" />
       <module fileurl="file://$PROJECT_DIR$/common/common-http-server-sun-helpers/common-http-server-sun-helpers.iml" filepath="$PROJECT_DIR$/common/common-http-server-sun-helpers/common-http-server-sun-helpers.iml" group="common/http" />
@@ -1442,6 +1439,28 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
+    <configuration default="false" name="Build (Debug Only)" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="com.softwarecraftsmen.orogeny.executable.ConsoleEntryPoint" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="--script BuildScript.java --task &quot;compile&quot;" />
+      <option name="WORKING_DIRECTORY" value="file://$MODULE_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="build" />
+      <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
   </component>
   <component name="ResourceManagerContainer">
     <option name="myResourceBundles">
@@ -1567,7 +1586,9 @@
         <root url="jar://$PROJECT_DIR$/../library/orogeny/jna.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../library/orogeny/orogeny.sources.zip!/" />
+      </SOURCES>
     </library>
   </component>
 </project>

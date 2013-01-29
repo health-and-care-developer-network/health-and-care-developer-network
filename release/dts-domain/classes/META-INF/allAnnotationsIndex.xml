@@ -1,0 +1,3920 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.7.0-u4-b13" class="java.beans.XMLDecoder">
+ <object class="java.util.LinkedHashMap">
+  <void method="put">
+   <string>PACKAGE</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>CLASS</string>
+   <object class="java.util.LinkedHashMap">
+    <void method="put">
+     <string>java.lang.SuppressWarnings</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <string>uk.nhs.hdn.dts.domain.fileNames.FileExtension.CompilerWorkaround</string>
+      </void>
+      <void method="add">
+       <string>uk.nhs.hdn.dts.domain.statusRecords.Event.CompilerWorkaround</string>
+      </void>
+      <void method="add">
+       <string>uk.nhs.hdn.dts.domain.statusRecords.Status.CompilerWorkaround</string>
+      </void>
+      <void method="add">
+       <string>uk.nhs.hdn.dts.domain.AddressType.CompilerWorkaround</string>
+      </void>
+      <void method="add">
+       <string>uk.nhs.hdn.dts.domain.BooleanFlag.CompilerWorkaround</string>
+      </void>
+      <void method="add">
+       <string>uk.nhs.hdn.dts.domain.MessageType.CompilerWorkaround</string>
+      </void>
+      <void method="add">
+       <string>uk.nhs.hdn.dts.domain.Version.CompilerWorkaround</string>
+      </void>
+     </object>
+    </void>
+   </object>
+  </void>
+  <void method="put">
+   <string>ENUM</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>INTERFACE</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>ANNOTATION_TYPE</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>FIELD</string>
+   <object class="java.util.LinkedHashMap">
+    <void method="put">
+     <string>org.jetbrains.annotations.NonNls</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.fileNames.FileName</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>siteIdentifier</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.fileNames.FileName</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>app</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.KnownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>description</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.StatusType</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>actualName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.AddressType</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>description</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.MessageType</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>description</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.Version</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>actualName</string>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>uk.nhs.hdn.common.MillisecondsSince1970</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.dateTime.KnownDateTime</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>dateTime</string>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>org.jetbrains.annotations.NotNull</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.fileNames.FileName</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>siteIdentifier</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.fileNames.FileName</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>app</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.fileNames.FileName</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>sequenceIdentifier</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.fileNames.FileName</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>fileExtension</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.identifiers.DtsIdentifier</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>UnknownDtsIdentifier</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.identifiers.LocalIdentifier</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>UnknownLocalIdentifier</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.identifiers.PartnerIdentifier</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>UnknownPartnerIdentifier</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.identifiers.ProcessIdentifier</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>UnknownProcessIdentifier</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.identifiers.WorkflowIdentifier</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>UnknownWorkflowIdentifier</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.dateTime.UnknownDateTime</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>UnknownDateTimeInstance</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.KnownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>dateTime</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.KnownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>event</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.KnownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>status</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.KnownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>statusCode</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.KnownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>description</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.StatusCode</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>zeroPaddedDecimalUnsignedInteger</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.StatusType</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>actualName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.StatusValueMessageIndex</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>CurrentKnownStatusValueIndex</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.StatusValueMessageIndex</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>descriptions</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.UnknownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>UnknownStatusRecordInstance</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.AddressPair</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>UnknownSmtpAddresses</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.AddressPair</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>UnknownDtsNames</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.AddressType</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>description</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ContentEncoding</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>compression</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ContentEncoding</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>encryption</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>SeparatedValuesHeadings</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>SeparatedValuesSchema</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>version</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>addressType</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>messageType</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>workflowIdentifier</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>fromSmtpAddress</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>fromDtsName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>toSmtpAddress</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>toDtsName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>subject</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>localIdentifier</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>dtsIdentifier</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>processIdentifier</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>compress</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>encrypted</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>isCompressed</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>dataChecksum</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>partnerIdentifier</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>statusRecord</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.DataChecksum</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>UnknownDataChecksum</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.DtsName</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>UnknownDtsName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.MessageType</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>description</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.SmtpAddress</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>UnknownSmtpAddress</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.Subject</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>UnknownSubject</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.TransactionSequenceIdentifier</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>One</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.TransactionSequenceIdentifier</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>value</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.Version</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>actualName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ZeroPaddedDecimalUnsignedInteger</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>MaximumValuesForWidths</string>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>java.lang.SuppressWarnings</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>SeparatedValuesHeadings</string>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+   </object>
+  </void>
+  <void method="put">
+   <string>CONSTRUCTOR</string>
+   <object class="java.util.LinkedHashMap">
+    <void method="put">
+     <string>java.lang.SafeVarargs</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.StatusValueMessageIndex</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>&lt;init&gt;</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.tuples.Pair[]</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>java.lang.SuppressWarnings</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.fileNames.FileExtension</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>&lt;init&gt;</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.Event</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>&lt;init&gt;</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.Status</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>&lt;init&gt;</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.AddressType</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>&lt;init&gt;</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>boolean</string>
+          </void>
+          <void method="add">
+           <string>boolean</string>
+          </void>
+          <void method="add">
+           <string>boolean</string>
+          </void>
+          <void method="add">
+           <string>boolean</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.BooleanFlag</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>&lt;init&gt;</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.BooleanFlag</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>&lt;init&gt;</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>boolean</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>&lt;init&gt;</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.Version</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.AddressType</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.MessageType</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.identifiers.WorkflowIdentifier</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.SmtpAddress</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.DtsName</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.SmtpAddress</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.DtsName</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.Subject</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.identifiers.LocalIdentifier</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.identifiers.DtsIdentifier</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.identifiers.ProcessIdentifier</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.BooleanFlag</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.BooleanFlag</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.BooleanFlag</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.DataChecksum</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.identifiers.PartnerIdentifier</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.statusRecords.StatusRecord</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.MessageType</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>&lt;init&gt;</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.Version</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>&lt;init&gt;</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+   </object>
+  </void>
+  <void method="put">
+   <string>INSTANCE_INIT</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>STATIC_INIT</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>METHOD</string>
+   <object class="java.util.LinkedHashMap">
+    <void method="put">
+     <string>org.jetbrains.annotations.NonNls</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.fileNames.FileName</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>siteIdentifierIncludingApp</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.dateTime.KnownDateTime</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>asYYYYMMDDhhmmss</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.StatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>description</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>uk.nhs.hdn.common.MillisecondsSince1970</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.dateTime.KnownDateTime</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>asUtcMillisecondsSince1980</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>java.lang.Override</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.fileNames.FileName</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toString</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.fileNames.FileName</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>equals</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.Object</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.fileNames.FileName</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>hashCode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.dateTime.KnownDateTime</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>serialiseValue</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.serialisers.ValueSerialiser</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.dateTime.KnownDateTime</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>equals</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.Object</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.dateTime.KnownDateTime</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>hashCode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.dateTime.UnknownDateTime</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>serialiseValue</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.serialisers.ValueSerialiser</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.Event</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>serialiseValue</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.serialisers.ValueSerialiser</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.KnownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>serialiseMap</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.serialisers.MapSerialiser</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.KnownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>dateTime</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.KnownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>event</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.KnownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>isEvent</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.statusRecords.Event</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.KnownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>status</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.KnownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>hasStatus</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.statusRecords.Status</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.KnownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>statusCode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.KnownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>hasStatusCode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.statusRecords.StatusCode</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.KnownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>description</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.KnownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>equals</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.Object</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.KnownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>hashCode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.Status</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>serialiseValue</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.serialisers.ValueSerialiser</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.StatusCode</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>serialiseValue</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.serialisers.ValueSerialiser</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.StatusCode</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toString</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.StatusCode</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>equals</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.Object</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.StatusCode</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>hashCode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.StatusType</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>actualName</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.StatusType</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toString</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.StatusValueMessageIndex</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>equals</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.Object</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.StatusValueMessageIndex</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>hashCode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.UnknownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>serialiseMap</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.serialisers.MapSerialiser</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.UnknownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>dateTime</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.UnknownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>event</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.UnknownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>status</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.UnknownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>statusCode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.UnknownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>description</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.UnknownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>isEvent</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.statusRecords.Event</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.UnknownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>hasStatus</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.statusRecords.Status</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.UnknownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>hasStatusCode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.statusRecords.StatusCode</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.AbstractValueSerialisableStringIsUnknown</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>serialiseValue</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.serialisers.ValueSerialiser</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.AddressPair</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>isUnknown</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.AddressPair</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>isKnown</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.AddressPair</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>isSameKnownessAs</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.unknown.IsUnknown</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.AddressPair</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>isDifferentKnownessAs</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.unknown.IsUnknown</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.AddressType</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>serialiseValue</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.serialisers.ValueSerialiser</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.AddressType</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>description</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.BooleanFlag</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>isUnknown</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.BooleanFlag</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>isKnown</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.BooleanFlag</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>isSameKnownessAs</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.unknown.IsUnknown</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.BooleanFlag</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>isDifferentKnownessAs</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.unknown.IsUnknown</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.BooleanFlag</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>serialiseValue</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.serialisers.ValueSerialiser</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>serialise</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.serialisers.Serialiser</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>serialiseMap</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.serialisers.MapSerialiser</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>equals</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.Object</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>hashCode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.MessageType</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>serialiseValue</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.serialisers.ValueSerialiser</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.MessageType</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>description</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.TransactionSequenceIdentifier</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toString</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.TransactionSequenceIdentifier</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>equals</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.Object</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.TransactionSequenceIdentifier</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>hashCode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.Version</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>actualName</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.Version</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toString</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.Version</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>serialiseValue</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.serialisers.ValueSerialiser</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ZeroPaddedDecimalUnsignedInteger</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>serialiseValue</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.serialisers.ValueSerialiser</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ZeroPaddedDecimalUnsignedInteger</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>equals</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.Object</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ZeroPaddedDecimalUnsignedInteger</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>hashCode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>org.jetbrains.annotations.NotNull</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.fileNames.FileName</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>parseFileName</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.fileNames.FileName</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>onPath</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.nio.file.Path</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.fileNames.FileName</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>onPath</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.io.File</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.fileNames.FileName</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toFileNameString</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.fileNames.FileName</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toControlFileName</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.fileNames.FileName</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toDataFileName</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.fileNames.FileName</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toFileName</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.fileNames.FileExtension</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.fileNames.FileName</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toString</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.fileNames.FileName</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>siteIdentifierIncludingApp</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.dateTime.KnownDateTime</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>parseDateTime</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.dateTime.KnownDateTime</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>parseXmlSchemaDateTime</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.dateTime.KnownDateTime</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>asUtcGregorianCalendar</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.dateTime.KnownDateTime</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>asDate</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.dateTime.KnownDateTime</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>asYYYYMMDDhhmmss</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.KnownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>dateTime</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.KnownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>event</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.KnownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>status</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.KnownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>statusCode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.KnownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>description</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.StatusCode</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>statusCode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.CharSequence</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.StatusCode</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>paddedValue</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.StatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>dateTime</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.StatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>event</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.StatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>status</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.StatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>statusCode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.StatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>description</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.StatusType</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>actualName</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.StatusType</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toString</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.UnknownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>dateTime</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.UnknownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>event</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.UnknownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>status</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.UnknownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>statusCode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.UnknownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>description</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.AddressType</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>determineAddressType</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.AddressPair</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.AddressPair</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.AddressType</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>description</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.BooleanFlag</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>booleanFlag</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>boolean</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>csvSerialiserForControlFiles</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>tsvSerialiserForControlFiles</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>dataControlFileForSmtpNames</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.identifiers.WorkflowIdentifier</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.Subject</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.identifiers.LocalIdentifier</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.identifiers.DtsIdentifier</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.ContentEncoding</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.AddressPair</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>dataControlFileForDtsNames</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.identifiers.WorkflowIdentifier</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.Subject</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.identifiers.LocalIdentifier</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.identifiers.DtsIdentifier</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.ContentEncoding</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.AddressPair</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>dataControlFile</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.identifiers.WorkflowIdentifier</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.Subject</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.identifiers.LocalIdentifier</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.identifiers.DtsIdentifier</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.ContentEncoding</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.AddressPair</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.AddressPair</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.MessageType</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>description</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.TransactionSequenceIdentifier</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>valueOf</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.TransactionSequenceIdentifier</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>fromPaddedTransactionSequenceIdentifer</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.CharSequence</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.TransactionSequenceIdentifier</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>next</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.TransactionSequenceIdentifier</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toPaddedValue</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.TransactionSequenceIdentifier</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toString</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.Version</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>actualName</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.Version</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toString</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ZeroPaddedDecimalUnsignedInteger</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>fromPaddedValue</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.CharSequence</string>
+          </void>
+          <void method="add">
+           <string>int</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ZeroPaddedDecimalUnsignedInteger</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>paddedValue</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ZeroPaddedDecimalUnsignedInteger</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>next</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>org.jetbrains.annotations.Nullable</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.fileNames.FileExtension</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>fileExtension</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.Event</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>event</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.Status</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>status</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.StatusValueMessageIndex</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>findDescription</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.statusRecords.StatusType</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.statusRecords.Event</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.statusRecords.Status</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.statusRecords.StatusCode</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.AddressType</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>addressType</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.CharSequence</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.BooleanFlag</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>valueIfPotentiallyUnknown</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.BooleanFlag</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>booleanFlag</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.CharSequence</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.MessageType</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>messageType</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.Version</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>version</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>java.lang.SuppressWarnings</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.fileNames.FileExtension</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>fileExtension</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.dateTime.KnownDateTime</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>parseDateTime</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.dateTime.KnownDateTime</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>hashCode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.Event</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>event</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.KnownStatusRecord</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>serialiseMap</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.serialisers.MapSerialiser</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.Status</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>status</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.StatusCode</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>statusCode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.CharSequence</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.statusRecords.StatusType</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toString</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.AddressType</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>addressType</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.CharSequence</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.AddressType</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>determineAddressType</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.AddressPair</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.dts.domain.AddressPair</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.BooleanFlag</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>valueIfPotentiallyUnknown</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.BooleanFlag</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>value</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.BooleanFlag</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>booleanFlag</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.CharSequence</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.BooleanFlag</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>booleanFlag</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>boolean</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>serialiseMap</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.serialisers.MapSerialiser</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>equals</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.Object</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ControlFile</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>hashCode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.MessageType</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>messageType</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.TransactionSequenceIdentifier</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>valueOf</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.Version</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toString</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.Version</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>version</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ZeroPaddedDecimalUnsignedInteger</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>maximumValuesForWidths</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.dts.domain.ZeroPaddedDecimalUnsignedInteger</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>hashCode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+   </object>
+  </void>
+ </object>
+</java>

@@ -1,0 +1,1126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.7.0-u4-b13" class="java.beans.XMLDecoder">
+ <object class="java.util.LinkedHashMap">
+  <void method="put">
+   <string>PACKAGE</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>CLASS</string>
+   <object class="java.util.LinkedHashMap">
+    <void method="put">
+     <string>java.lang.SuppressWarnings</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <string>uk.nhs.hdn.barcodes.Digit.CompilerWorkaround</string>
+      </void>
+     </object>
+    </void>
+   </object>
+  </void>
+  <void method="put">
+   <string>ENUM</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>INTERFACE</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>ANNOTATION_TYPE</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>FIELD</string>
+   <object class="java.util.LinkedHashMap">
+    <void method="put">
+     <string>org.jetbrains.annotations.NotNull</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digits</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>Empty</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digits</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>digits</string>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+   </object>
+  </void>
+  <void method="put">
+   <string>CONSTRUCTOR</string>
+   <object class="java.util.LinkedHashMap">
+    <void method="put">
+     <string>java.lang.SuppressWarnings</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digit</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>&lt;init&gt;</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>int</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+   </object>
+  </void>
+  <void method="put">
+   <string>INSTANCE_INIT</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>STATIC_INIT</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>METHOD</string>
+   <object class="java.util.LinkedHashMap">
+    <void method="put">
+     <string>uk.nhs.hdn.common.comparison.ComparisonResult</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digits</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>compareTo</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.barcodes.DigitList</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digits</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>compareDigitsAtIndex</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.barcodes.DigitList</string>
+          </void>
+          <void method="add">
+           <string>int</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digits</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>compareDigitAtIndexWith</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>int</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.barcodes.Digit</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>java.lang.SuppressWarnings</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Alphanumeracy</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toString</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digit</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>digit</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digit</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toString</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digit</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>digit</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>int</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digit</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>digit</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>long</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digits</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>digits</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>int[]</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digits</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>digits</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.CharSequence</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digits</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>compareTo</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.barcodes.DigitList</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Numeracy</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>numeracy</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Numeracy</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toString</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>java.lang.Override</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Alphanumeracy</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toString</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digit</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toString</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digit</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>isLessThan</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.barcodes.Digit</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digit</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>isEqualTo</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.barcodes.Digit</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digit</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>isNotEqualTo</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.barcodes.Digit</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digit</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>isGreaterThan</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.barcodes.Digit</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digit</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>isLessThanOrEqualTo</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.barcodes.Digit</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digit</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>isGreaterThanOrEqualTo</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.barcodes.Digit</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digit</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>serialiseValue</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.serialisers.ValueSerialiser</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digits</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toString</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digits</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>equals</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.Object</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digits</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>hashCode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digits</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>compareTo</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.barcodes.DigitList</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digits</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>digitAt</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>int</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digits</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>digitAtPositionT</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>int</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digits</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>size</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digits</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>serialiseValue</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.serialisers.ValueSerialiser</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Numeracy</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toString</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>org.jetbrains.annotations.NotNull</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Alphanumeracy</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toString</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.BarCodeType</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>barCodeFamily</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.BarCodeType</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>numeracy</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.BarCodeType</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>alphanumeracy</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.BarCodeType</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>directionality</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digit</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toString</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digit</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>digit</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>int</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digit</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>digit</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>long</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digit</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>digitFromUtf16Code</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>char</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digit</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>digitFromCodepoint</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>int</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.DigitList</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>digitAt</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>int</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.DigitList</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>digitAtPositionT</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>int</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digits</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>slice</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.barcodes.DigitList</string>
+          </void>
+          <void method="add">
+           <string>int</string>
+          </void>
+          <void method="add">
+           <string>int</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digits</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>firstThree</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digits</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toString</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digits</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>digitAt</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>int</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digits</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>digitAtPositionT</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>int</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digits</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>slice</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>int</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digits</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>slice</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>int</string>
+          </void>
+          <void method="add">
+           <string>int</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digits</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>add</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.barcodes.Digits</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Digits</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>add</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.barcodes.Digit</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.barcodes.Numeracy</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toString</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+   </object>
+  </void>
+ </object>
+</java>

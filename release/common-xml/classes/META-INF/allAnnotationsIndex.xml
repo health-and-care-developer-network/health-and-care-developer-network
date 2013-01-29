@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.7.0-u4-b13" class="java.beans.XMLDecoder">
+ <object class="java.util.LinkedHashMap">
+  <void method="put">
+   <string>PACKAGE</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>CLASS</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>ENUM</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>INTERFACE</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>ANNOTATION_TYPE</string>
+   <object class="java.util.LinkedHashMap">
+    <void method="put">
+     <string>java.lang.annotation.Target</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <string>uk.nhs.hdn.common.xml.XmlNamespaceUri</string>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>java.lang.annotation.Retention</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <string>uk.nhs.hdn.common.xml.XmlNamespaceUri</string>
+      </void>
+     </object>
+    </void>
+   </object>
+  </void>
+  <void method="put">
+   <string>FIELD</string>
+   <object class="java.util.LinkedHashMap">
+    <void method="put">
+     <string>uk.nhs.hdn.common.xml.XmlNamespaceUri</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.xml.XmlNamespaceUri</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XmlNamespace</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.xml.XmlNamespaceUri</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XmlnsNamespace</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.xml.XmlNamespaceUri</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XmlSchemaNamesapce</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.xml.XmlNamespaceUri</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XmlSchemaInstanceNamespace</string>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>org.jetbrains.annotations.NonNls</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.xml.XmlAttributesHelper</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XmlSpaceAttribute</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.xml.XmlAttributesHelper</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XmlSchemaNilAttribute</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.xml.XmlAttributesHelper</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XmlSchemaTypeAttribute</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.xml.XmlAttributesHelper</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XmlSchemaSchemaLocationAttribute</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.xml.XmlAttributesHelper</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XmlSchemaNoNamespaceSchemaLocationAttribute</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.xml.XmlNamespaceUri</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XmlNamespace</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.xml.XmlNamespaceUri</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XmlnsNamespace</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.xml.XmlNamespaceUri</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XmlSchemaNamesapce</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.xml.XmlNamespaceUri</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XmlSchemaInstanceNamespace</string>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>org.jetbrains.annotations.NotNull</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.xml.XmlAttributesHelper</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XmlSpaceAttribute</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.xml.XmlAttributesHelper</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XmlSchemaNilAttribute</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.xml.XmlAttributesHelper</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XmlSchemaTypeAttribute</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.xml.XmlAttributesHelper</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XmlSchemaSchemaLocationAttribute</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.xml.XmlAttributesHelper</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XmlSchemaNoNamespaceSchemaLocationAttribute</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.xml.XmlNamespaceUri</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XmlNamespace</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.xml.XmlNamespaceUri</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XmlnsNamespace</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.xml.XmlNamespaceUri</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XmlSchemaNamesapce</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.xml.XmlNamespaceUri</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XmlSchemaInstanceNamespace</string>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+   </object>
+  </void>
+  <void method="put">
+   <string>CONSTRUCTOR</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>INSTANCE_INIT</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>STATIC_INIT</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>METHOD</string>
+   <object class="java.util.LinkedHashMap">
+    <void method="put">
+     <string>java.lang.SuppressWarnings</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.xml.XmlAttributesHelper</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>isNil</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.xml.XmlAttributesHelper</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>shouldPreserveWhitespace</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>boolean</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>org.jetbrains.annotations.NotNull</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.xml.XmlNamespaceUriHelper</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>namespaceQualifiedNodeOrAttributeName</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+   </object>
+  </void>
+ </object>
+</java>

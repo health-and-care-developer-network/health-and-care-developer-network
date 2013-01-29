@@ -28,7 +28,6 @@ import static uk.nhs.hdn.barcodes.Digit.Zero;
 import static uk.nhs.hdn.barcodes.Digits.digits;
 import static uk.nhs.hdn.common.IntegerHelper.power;
 
-@SuppressWarnings("UnusedDeclaration")
 public enum KnownGs1PrefixAssignment implements Gs1PrefixAssignment // some of these are RCNs, Restricted Circulation Numbers
 {
 	GS1_US("GS1 US", "000", "019", "030", "039", "060", "139"),

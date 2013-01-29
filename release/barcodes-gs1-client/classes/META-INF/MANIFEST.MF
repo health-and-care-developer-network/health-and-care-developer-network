@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Class-Path: annotations.jar common-exceptions.jar common.jar common-re
+ flection.jar common-http.jar common-unknown.jar common-serialisers.ja
+ r common-parsers.jar common-parsers-json.jar common-serialisers-separ
+ atedValues.jar common-naming.jar common-comparison.jar barcodes.jar c
+ ommon-tuples.jar barcodes-gs1.jar barcodes-gs1-organisation.jar commo
+ n-http-client.jar common-http-client-json.jar
+Sealed: false
+Created-By: 1.7.0-u4-b13 (Oracle Corporation)
+

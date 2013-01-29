@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Class-Path: annotations.jar common.jar common-exceptions.jar common-re
+ flection.jar common-unknown.jar common-serialisers.jar common-http.ja
+ r common-http-server-sun.jar
+Sealed: false
+Created-By: 1.7.0-u4-b13 (Oracle Corporation)
+

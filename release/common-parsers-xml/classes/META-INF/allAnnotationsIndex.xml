@@ -1,0 +1,3481 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.7.0-u4-b13" class="java.beans.XMLDecoder">
+ <object class="java.util.LinkedHashMap">
+  <void method="put">
+   <string>PACKAGE</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>CLASS</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>ENUM</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>INTERFACE</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>ANNOTATION_TYPE</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>FIELD</string>
+   <object class="java.util.LinkedHashMap">
+    <void method="put">
+     <string>org.jetbrains.annotations.NonNls</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.rootValueHolders.XRootXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>rootNodeName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.ArrayXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>elementNodeName</string>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>org.jetbrains.annotations.NotNull</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlEventHandlers.IterableAttributes</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>attributes</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlEventHandlers.SimplifiedXmlEventHandler</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>xmlParseEventHandler</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.rootValueHolders.XRootXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>rootNodeName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.rootValueHolders.XRootXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>type</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.rootValueHolders.XRootXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>xmlConstructor</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.ArrayXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>elementNodeName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.ArrayXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>arrayCreator</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.ArrayXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>elementXmlConstructor</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.ArrayXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>elementType</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.IntegerXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>IntegerXmlConstructorInstance</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.JavaObjectXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>WhitespaceCharacters</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.JavaObjectXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>returnsType</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.JavaObjectXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>xmlConstructorsForFields</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.JavaObjectXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>constructor</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.MayBeMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>underlyingXmlConstructor</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.MayBeMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>valueIfMissing</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.MayBeMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>nilXmlConstructor</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.MayBeMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>type</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.NilXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>IrrelevantCollector</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.NilXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>type</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.NilXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>valueIfMissing</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.RequiredMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>underlyingXmlConstructor</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.StringXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>StringXmlConstructorInstance</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.TextXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>type</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.GenericXmlParseEventHandler</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>xmlNodeStates</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.GenericXmlParseEventHandler</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>parseResultUser</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.ConvenientSaxParser</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>AppropriateSaxParserFactory</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.ConvenientSaxParser</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>xmlParseEventHandler</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.SchemaParser</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>rootXmlConstructor</string>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>org.jetbrains.annotations.Nullable</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlEventHandlers.SimplifiedXmlEventHandler</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>currentText</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.rootValueHolders.RootValueHolder</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>value</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.TextValueCollector</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>value</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.TextXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>defaultIfTextNodeMissing</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.GenericXmlParseEventHandler</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>current</string>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>java.lang.SuppressWarnings</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlEventHandlers.SimplifiedXmlEventHandler</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>currentText</string>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+   </object>
+  </void>
+  <void method="put">
+   <string>CONSTRUCTOR</string>
+   <object class="java.util.LinkedHashMap">
+    <void method="put">
+     <string>java.lang.SafeVarargs</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.JavaObjectXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>&lt;init&gt;</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.Class</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Class</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.common.tuples.Pair[]</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>java.lang.SuppressWarnings</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.GenericXmlParseEventHandler</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>&lt;init&gt;</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.rootValueHolders.XRootXmlConstructor</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.common.parsers.parseResultUsers.ParseResultUser</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+   </object>
+  </void>
+  <void method="put">
+   <string>INSTANCE_INIT</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>STATIC_INIT</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>METHOD</string>
+   <object class="java.util.LinkedHashMap">
+    <void method="put">
+     <string>java.lang.Override</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlEventHandlers.AbstractNonDtdXmlEventHandler</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>startDTD</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlEventHandlers.AbstractNonDtdXmlEventHandler</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>notationDecl</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlEventHandlers.AbstractNonDtdXmlEventHandler</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>unparsedEntityDecl</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlEventHandlers.AbstractNonDtdXmlEventHandler</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>skippedEntity</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlEventHandlers.AbstractNonDtdXmlEventHandler</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toString</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlEventHandlers.IterableAttributes</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toString</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlEventHandlers.IterableAttributes</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>iterator</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlEventHandlers.IterableAttributes</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>hasNext</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlEventHandlers.IterableAttributes</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>next</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlEventHandlers.SimplifiedXmlEventHandler</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>startDocument</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlEventHandlers.SimplifiedXmlEventHandler</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>endDocument</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlEventHandlers.SimplifiedXmlEventHandler</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>startElement</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>org.xml.sax.Attributes</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlEventHandlers.SimplifiedXmlEventHandler</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>endElement</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlEventHandlers.SimplifiedXmlEventHandler</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>characters</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>char[]</string>
+          </void>
+          <void method="add">
+           <string>int</string>
+          </void>
+          <void method="add">
+           <string>int</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.rootValueHolders.XRootXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>type</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.rootValueHolders.XRootXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>collectText</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.rootValueHolders.RootValueHolder</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>boolean</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.rootValueHolders.XRootXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>start</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.rootValueHolders.XRootXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>childNode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Iterable</string>
+          </void>
+          <void method="add">
+           <string>boolean</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.rootValueHolders.XRootXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>collectNode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.rootValueHolders.RootValueHolder</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Object</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.rootValueHolders.XRootXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>finish</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.rootValueHolders.RootValueHolder</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.ArrayXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>type</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.ArrayXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>start</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.ArrayXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>childNode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Iterable</string>
+          </void>
+          <void method="add">
+           <string>boolean</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.ArrayXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>collectText</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.util.List</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>boolean</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.ArrayXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>collectNode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.util.List</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Object</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.ArrayXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>finish</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.util.List</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.IntegerXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>convert</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.JavaObjectXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>type</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.JavaObjectXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>start</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.JavaObjectXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>childNode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Iterable</string>
+          </void>
+          <void method="add">
+           <string>boolean</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.JavaObjectXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>collectText</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.Object[]</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>boolean</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.JavaObjectXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>collectNode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.Object[]</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Object</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.JavaObjectXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>finish</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.Object[]</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.MayBeMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>missingFieldValue</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.MayBeMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>nilFieldConstructor</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.MayBeMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>type</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.MayBeMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>start</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.MayBeMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>childNode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Iterable</string>
+          </void>
+          <void method="add">
+           <string>boolean</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.MayBeMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>collectText</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string></string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>boolean</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.MayBeMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>collectNode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string></string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Object</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.MayBeMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>finish</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string></string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.NilXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>type</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.NilXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>start</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.NilXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>childNode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Iterable</string>
+          </void>
+          <void method="add">
+           <string>boolean</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.NilXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>collectText</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.Object</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>boolean</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.NilXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>collectNode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.Object</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Object</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.NilXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>finish</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.Object</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.RequiredMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>missingFieldValue</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.RequiredMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>nilFieldConstructor</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.RequiredMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>type</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.RequiredMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>start</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.RequiredMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>childNode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Iterable</string>
+          </void>
+          <void method="add">
+           <string>boolean</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.RequiredMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>collectText</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string></string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>boolean</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.RequiredMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>collectNode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string></string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Object</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.RequiredMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>finish</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string></string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.StringXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>convert</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.TextXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>type</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.TextXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>start</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.TextXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>childNode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Iterable</string>
+          </void>
+          <void method="add">
+           <string>boolean</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.TextXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>collectText</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.TextValueCollector</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>boolean</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.TextXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>collectNode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.TextValueCollector</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Object</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.TextXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>finish</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.TextValueCollector</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.GenericXmlParseEventHandler</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>startDocument</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.GenericXmlParseEventHandler</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>endDocument</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.GenericXmlParseEventHandler</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>startElement</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Iterable</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.GenericXmlParseEventHandler</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>endElement</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.GenericXmlParseEventHandler</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>text</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>org.jetbrains.annotations.NotNull</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlEventHandlers.AbstractNonDtdXmlEventHandler</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toString</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.rootValueHolders.RootValueHolder</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>retrieve</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.rootValueHolders.XRootXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>xml</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>boolean</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlConstructor</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.rootValueHolders.XRootXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>type</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.rootValueHolders.XRootXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>start</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.rootValueHolders.XRootXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>childNode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Iterable</string>
+          </void>
+          <void method="add">
+           <string>boolean</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.rootValueHolders.XRootXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>finish</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.rootValueHolders.RootValueHolder</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.ArrayXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>arrayOf</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.common.arrayCreators.ArrayCreator</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlConstructor</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.ArrayXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>type</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.ArrayXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>start</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.ArrayXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>childNode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Iterable</string>
+          </void>
+          <void method="add">
+           <string>boolean</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.ArrayXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>finish</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.util.List</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.IntegerXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>convert</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.JavaObjectXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>schemaFor</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.Class</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.common.tuples.Pair[]</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.JavaObjectXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>schemaFor</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.Class</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Class</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.common.tuples.Pair[]</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.JavaObjectXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>type</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.JavaObjectXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>start</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.JavaObjectXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>childNode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Iterable</string>
+          </void>
+          <void method="add">
+           <string>boolean</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.JavaObjectXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>finish</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.Object[]</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.MayBeMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>nilFieldConstructor</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.MayBeMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>type</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.MayBeMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>start</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.MayBeMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>childNode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Iterable</string>
+          </void>
+          <void method="add">
+           <string>boolean</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.MayBeMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>finish</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string></string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.MissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>nilFieldConstructor</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.NilXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>type</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.NilXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>start</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.NilXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>childNode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Iterable</string>
+          </void>
+          <void method="add">
+           <string>boolean</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.NilXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>finish</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.Object</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.RequiredMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>nilFieldConstructor</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.RequiredMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>type</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.RequiredMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>start</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.RequiredMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>childNode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Iterable</string>
+          </void>
+          <void method="add">
+           <string>boolean</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.RequiredMissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>finish</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string></string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.StringXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>convert</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.TextXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>type</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.TextXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>start</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.TextXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>childNode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Iterable</string>
+          </void>
+          <void method="add">
+           <string>boolean</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.TextXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>finish</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.TextValueCollector</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.TextXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>convert</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>type</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>start</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>childNode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Iterable</string>
+          </void>
+          <void method="add">
+           <string>boolean</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>finish</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string></string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.GenericXmlParseEventHandler</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>current</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.XmlNodeState</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>node</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Iterable</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.XmlNodeState</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>finish</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.SaxParserFactoryHelper</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>newNamespaceAwareNonValidatingSaxParserFactory</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.SaxParserHelper</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>newSaxParser</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>javax.xml.parsers.SAXParserFactory</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.SchemaParser</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>parse</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.io.InputStream</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>java.lang.SafeVarargs</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.JavaObjectXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>schemaFor</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.Class</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.common.tuples.Pair[]</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.JavaObjectXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>schemaFor</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.Class</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Class</string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.common.tuples.Pair[]</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>org.jetbrains.annotations.Nullable</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.MissingFieldXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>missingFieldValue</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.TextValueCollector</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>finish</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>java.lang.SuppressWarnings</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlEventHandlers.AbstractNonDtdXmlEventHandler</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>startDTD</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlEventHandlers.AbstractNonDtdXmlEventHandler</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>notationDecl</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlEventHandlers.AbstractNonDtdXmlEventHandler</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>unparsedEntityDecl</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlEventHandlers.AbstractNonDtdXmlEventHandler</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>skippedEntity</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlEventHandlers.SimplifiedXmlEventHandler</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>startDocument</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlEventHandlers.SimplifiedXmlEventHandler</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>endDocument</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlEventHandlers.SimplifiedXmlEventHandler</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>startElement</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>org.xml.sax.Attributes</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlEventHandlers.SimplifiedXmlEventHandler</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>endElement</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlEventHandlers.SimplifiedXmlEventHandler</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>characters</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>char[]</string>
+          </void>
+          <void method="add">
+           <string>int</string>
+          </void>
+          <void method="add">
+           <string>int</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.rootValueHolders.XRootXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>collectNode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.rootValueHolders.RootValueHolder</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Object</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.ArrayXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>collectNode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.util.List</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Object</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.JavaObjectXmlConstructor</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>finish</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.Object[]</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.GenericXmlParseEventHandler</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>endDocument</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList"/>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.XmlNodeState</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>node</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Iterable</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.SchemaParser</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>nodeMayBeMissing</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string></string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlConstructor</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.parsers.xml.SchemaParser</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>nodeMayBeMissing</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.lang.Class</string>
+          </void>
+          <void method="add">
+           <string></string>
+          </void>
+          <void method="add">
+           <string>uk.nhs.hdn.common.parsers.xml.xmlParseEventHandlers.xmlConstructors.XmlConstructor</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+   </object>
+  </void>
+ </object>
+</java>

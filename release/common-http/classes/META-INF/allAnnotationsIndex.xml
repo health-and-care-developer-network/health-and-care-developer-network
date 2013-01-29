@@ -1,0 +1,2163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.7.0-u4-b13" class="java.beans.XMLDecoder">
+ <object class="java.util.LinkedHashMap">
+  <void method="put">
+   <string>PACKAGE</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>CLASS</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>ENUM</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>INTERFACE</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>ANNOTATION_TYPE</string>
+   <object class="java.util.LinkedHashMap">
+    <void method="put">
+     <string>java.lang.annotation.Target</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <string>uk.nhs.hdn.common.http.Method</string>
+      </void>
+      <void method="add">
+       <string>uk.nhs.hdn.common.http.ProtocolAndVersion</string>
+      </void>
+      <void method="add">
+       <string>uk.nhs.hdn.common.http.RequestHeader</string>
+      </void>
+      <void method="add">
+       <string>uk.nhs.hdn.common.http.ResponseCode</string>
+      </void>
+      <void method="add">
+       <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>java.lang.annotation.Retention</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <string>uk.nhs.hdn.common.http.Method</string>
+      </void>
+      <void method="add">
+       <string>uk.nhs.hdn.common.http.ProtocolAndVersion</string>
+      </void>
+      <void method="add">
+       <string>uk.nhs.hdn.common.http.RequestHeader</string>
+      </void>
+      <void method="add">
+       <string>uk.nhs.hdn.common.http.ResponseCode</string>
+      </void>
+      <void method="add">
+       <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+      </void>
+     </object>
+    </void>
+   </object>
+  </void>
+  <void method="put">
+   <string>FIELD</string>
+   <object class="java.util.LinkedHashMap">
+    <void method="put">
+     <string>uk.nhs.hdn.common.http.ContentType</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentType</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>JsonContentType</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentType</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XmlContentType</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentType</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>LegacyXmlContentType</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentType</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>TextContentType</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentType</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>TsvContentType</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentType</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>CsvContentType</string>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>org.jetbrains.annotations.NonNls</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentType</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>JsonContentType</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentType</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XmlContentType</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentType</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>LegacyXmlContentType</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentType</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>TextContentType</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentType</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>TsvContentType</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentType</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>CsvContentType</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentTypeWithCharacterSet</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>JsonContentTypeUtf8</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentTypeWithCharacterSet</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XmlContentTypeUtf8</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentTypeWithCharacterSet</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>LegacyXmlContentTypeUtf8</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentTypeWithCharacterSet</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>TextContentTypeUtf8</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentTypeWithCharacterSet</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>TsvContentTypeUtf8</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentTypeWithCharacterSet</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>CsvContentTypeUtf8</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.Method</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>OPTIONS</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.Method</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>TRACE</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.Method</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>HEAD</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.Method</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>GET</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.Method</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>POST</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.Method</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>PUT</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.Method</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>DELETE</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.Method</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>CONNECT</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.Method</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>PATCH</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ProtocolAndVersion</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>HTTP10</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ProtocolAndVersion</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>HTTP11</string>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>ServerHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>AllowHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>DateHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>ContentTypeHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>ContentEncodingHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>ContentLanguageHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>ConnectionHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>StrictTransportSecurityHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XFrameOptionsHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XXssProtectionHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XRimAutoMatchHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XRobotsTagHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>AccessControlAllowOriginHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>LastModifiedHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>CacheControlHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>ExpiresHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>AcceptRangesHeaderName</string>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>uk.nhs.hdn.common.http.ResponseCode</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseCode</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>OkResponseCode</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseCode</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>NoContentResponseCode</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseCode</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>NotModifiedResponseCode</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseCode</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>BadRequestResponseCode</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseCode</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>NotFoundResponseCode</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseCode</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>MethodNotAllowedResponseCode</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseCode</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>PreconditionFailedResponseCode</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseCode</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>ExpectationFailedResponseCode</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseCode</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>HttpVersionNotSupportedResponseCode</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseCodeRange.CompilerWorkaround</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>MinimumResponseCode</string>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>uk.nhs.hdn.common.http.ProtocolAndVersion</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ProtocolAndVersion</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>HTTP10</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ProtocolAndVersion</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>HTTP11</string>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>uk.nhs.hdn.common.http.RequestHeader</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>HostHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>RefererHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>UserAgentHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>DateHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>ExpectHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>IfMatchHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>IfNoneMatchHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>IfModifiedSinceHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>IfUnmodifiedSinceHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>RangeHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>IfRangeHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>AcceptHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>AcceptLanguageHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>AcceptEncodingHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>AcceptDatetimeHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>AuthorizationHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>ContentTypeHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>ContentLengthHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>ContentEncodingHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>TransferEncodingHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>ConnectionHeaderName</string>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>org.jetbrains.annotations.NotNull</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentType</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>JsonContentType</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentType</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XmlContentType</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentType</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>LegacyXmlContentType</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentType</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>TextContentType</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentType</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>TsvContentType</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentType</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>CsvContentType</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentTypeWithCharacterSet</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>CharsetUtf8</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentTypeWithCharacterSet</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>JsonContentTypeUtf8</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentTypeWithCharacterSet</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XmlContentTypeUtf8</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentTypeWithCharacterSet</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>LegacyXmlContentTypeUtf8</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentTypeWithCharacterSet</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>TextContentTypeUtf8</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentTypeWithCharacterSet</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>TsvContentTypeUtf8</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentTypeWithCharacterSet</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>CsvContentTypeUtf8</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.Method</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>OPTIONS</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.Method</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>TRACE</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.Method</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>HEAD</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.Method</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>GET</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.Method</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>POST</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.Method</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>PUT</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.Method</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>DELETE</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.Method</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>CONNECT</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.Method</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>PATCH</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ProtocolAndVersion</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>HTTP10</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ProtocolAndVersion</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>HTTP11</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>HostHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>RefererHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>UserAgentHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>DateHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>ExpectHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>IfMatchHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>IfNoneMatchHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>IfModifiedSinceHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>IfUnmodifiedSinceHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>RangeHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>IfRangeHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>AcceptHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>AcceptLanguageHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>AcceptEncodingHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>AcceptDatetimeHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>AuthorizationHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>ContentTypeHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>ContentLengthHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>ContentEncodingHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>TransferEncodingHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.RequestHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>ConnectionHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>ServerHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>AllowHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>DateHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>ContentTypeHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>ContentEncodingHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>ContentLanguageHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>ConnectionHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>StrictTransportSecurityHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XFrameOptionsHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XXssProtectionHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XRimAutoMatchHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XRobotsTagHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>AccessControlAllowOriginHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>LastModifiedHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>CacheControlHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>ExpiresHeaderName</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseHeader</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>AcceptRangesHeaderName</string>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>uk.nhs.hdn.common.http.ContentTypeWithCharacterSet</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentTypeWithCharacterSet</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>JsonContentTypeUtf8</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentTypeWithCharacterSet</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>XmlContentTypeUtf8</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentTypeWithCharacterSet</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>LegacyXmlContentTypeUtf8</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentTypeWithCharacterSet</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>TextContentTypeUtf8</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentTypeWithCharacterSet</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>TsvContentTypeUtf8</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentTypeWithCharacterSet</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>CsvContentTypeUtf8</string>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>uk.nhs.hdn.common.http.Method</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.Method</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>OPTIONS</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.Method</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>TRACE</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.Method</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>HEAD</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.Method</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>GET</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.Method</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>POST</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.Method</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>PUT</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.Method</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>DELETE</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.Method</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>CONNECT</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.Method</string>
+        </void>
+        <void method="put">
+         <string>field</string>
+         <string>PATCH</string>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+   </object>
+  </void>
+  <void method="put">
+   <string>CONSTRUCTOR</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>INSTANCE_INIT</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>STATIC_INIT</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>METHOD</string>
+   <object class="java.util.LinkedHashMap">
+    <void method="put">
+     <string>org.jetbrains.annotations.NonNls</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentTypeHelper</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>withCharacterSet</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.nio.charset.Charset</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>uk.nhs.hdn.common.http.ResponseCode</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseCodeRange</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>validateResponseCode</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>int</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>org.jetbrains.annotations.NotNull</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentTypeHelper</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>withCharacterSet</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.nio.charset.Charset</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ResponseCodeRange</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>responseCodeRange</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>int</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.UrlHelper</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>toUrl</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>boolean</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>char</string>
+          </void>
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>uk.nhs.hdn.common.http.ContentTypeWithCharacterSet</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <object class="java.util.LinkedHashMap">
+        <void method="put">
+         <string>class</string>
+         <string>uk.nhs.hdn.common.http.ContentTypeHelper</string>
+        </void>
+        <void method="put">
+         <string>method</string>
+         <string>withCharacterSet</string>
+        </void>
+        <void method="put">
+         <string>parameters</string>
+         <object class="java.util.ArrayList">
+          <void method="add">
+           <string>java.lang.String</string>
+          </void>
+          <void method="add">
+           <string>java.nio.charset.Charset</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+   </object>
+  </void>
+ </object>
+</java>

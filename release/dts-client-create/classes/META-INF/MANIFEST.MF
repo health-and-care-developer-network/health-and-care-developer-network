@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Class-Path: annotations.jar common-comparison.jar common-exceptions.ja
+ r common.jar common-reflection.jar common-tuples.jar common-xml.jar c
+ ommon-unknown.jar common-serialisers.jar common-serialisers-xml.jar c
+ ommon-serialisers-separatedValues.jar common-naming.jar dts-domain.ja
+ r common-parsers.jar common-parsers-xml.jar dts-domain-schema.jar jop
+ t-simple-4.4.jar common-commandLine.jar
+Sealed: false
+Created-By: 1.7.0-u4-b13 (Oracle Corporation)
+

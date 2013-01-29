@@ -31,7 +31,7 @@ import static com.softwarecraftsmen.orogeny.filing.findFileFilters.AbstractFindF
 import static com.softwarecraftsmen.orogeny.filing.findFileFilters.FileHasExtensionFindFilesFilter.fileHasExtension;
 
 @SuppressWarnings({"ClassWithoutPackageStatement", "HardCodedStringLiteral", "ClassNameSameAsAncestorName", "DuplicateStringLiteralInspection", "ZeroLengthArrayAllocation", "StringConcatenation"})
-@BaseDirectory("..")
+@BaseDirectory("../../health-and-care-developer-network")
 @UpperCaseEnvironmentVariableOnWindows("PATH")
 @TasksExecuteInParallel(true)
 public final class BuildScript extends AbstractIntelliJConvenientBuildScript
@@ -49,7 +49,7 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		packageTemplateSubFolders("source", "package-templates");
 
-		intellijLibrary("IntelliJ Annotations", library("annotations", "unversioned").file("annotations.jar"));
+		intellijLibrary("IntelliJ Annotations", library("intellij-annotations", "unversioned").file("annotations.jar"));
 
 		intellijLibrary("JOpt Simple", library("jopt-simple", "4.4").file("jopt-simple-4.4.jar"));
 
@@ -77,7 +77,7 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 			makeDirectory(output())
 		);
 
-		intellijProject("source", "build");
+		intellijProject("subprojects", ".");
 
 		compile();
 

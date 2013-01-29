@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.7.0-u4-b13" class="java.beans.XMLDecoder">
+ <object class="java.util.LinkedHashMap">
+  <void method="put">
+   <string>PACKAGE</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>CLASS</string>
+   <object class="java.util.LinkedHashMap">
+    <void method="put">
+     <string>com.softwarecraftsmen.orogeny.UpperCaseEnvironmentVariableOnWindows</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <string>BuildScript</string>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>com.softwarecraftsmen.orogeny.BaseDirectory</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <string>BuildScript</string>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>com.softwarecraftsmen.orogeny.TasksExecuteInParallel</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <string>BuildScript</string>
+      </void>
+     </object>
+    </void>
+    <void method="put">
+     <string>java.lang.SuppressWarnings</string>
+     <object class="java.util.LinkedHashSet">
+      <void method="add">
+       <string>BuildScript</string>
+      </void>
+     </object>
+    </void>
+   </object>
+  </void>
+  <void method="put">
+   <string>ENUM</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>INTERFACE</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>ANNOTATION_TYPE</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>FIELD</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>CONSTRUCTOR</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>INSTANCE_INIT</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>STATIC_INIT</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+  <void method="put">
+   <string>METHOD</string>
+   <object class="java.util.LinkedHashMap"/>
+  </void>
+ </object>
+</java>
