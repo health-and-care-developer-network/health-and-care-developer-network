@@ -7,4 +7,4 @@
 .DS_Store
 
 # IntelliJ Build
-subprojects/gs1/out/
+intellij/
