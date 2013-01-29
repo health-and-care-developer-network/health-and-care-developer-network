@@ -1,12 +1,10 @@
 *.class
 
-# Package Files #
-*.jar
-*.war
-*.ear
-
 # IntelliJ
 *.iws
 
 # Mac OS X
 .DS_Store
+
+# IntelliJ Build
+subprojects/gs1/out/
