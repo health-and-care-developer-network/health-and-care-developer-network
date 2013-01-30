@@ -1,0 +1,44 @@
+.TH hdn\-template 1 "30 January 2013" "HDN" "hdn-template"
+.SH NAME
+hdn\-template \- Fill in templates using environment variables
+.
+.SH SYNOPSIS
+.B hdn\-template [\-h]
+.PP
+.B hdn\-template [\-\-help]
+.PP
+.B hdn\-template \fIfilenames\fP
+.PP
+.B hdn\-template
+.PP
+.
+.SH DESCRIPTION
+.PP
+This program reads from \fIfilenames\fP or standard in, replacing
+all occurrences of a recognised environment variable in the form
+${variable}. If the curly braces are omitted substitution does not
+occur.
+.
+.SH OPTIONS
+.PP
+The first and second forms show help.
+.PP
+The third form templates a set of files. Use \fI\-\fP for standard in.
+.PP
+The fourth form reads solely from standard in.
+.
+.SH AUTHOR
+Written by Raphael Cohn (raphael.cohn@stormmq.com)
+.SH "SEE ALSO"
+.BR env (1)
+.SH BUGS
+No known bugs but you may need to export variables when called from bash.
+On Mac OS X when using sudo, you will need to invoke env first.
+.SH AUTHOR
+Raphael Cohn (raphael.cohn@stormmq.com)
+.SH COPYRIGHT
+Crown Copyright \(co 2013
+.BR
+This is licensed software; see the package copyright for copying conditions.
+.SH AVAILABILITY
+The hdn\-template command is part of the hdn\-template package.

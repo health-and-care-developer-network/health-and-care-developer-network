@@ -1,0 +1,17 @@
+Source: hdn-template
+Section: utils
+Priority: optional
+Maintainer: Raphael Cohn <raphael.cohn@stormmq.com>
+Uploaders: Mike Kelly <mike.kelly1@nhs.net>
+Homepage: http://hdn.nhs.uk/
+Build-Depends: debhelper (>= 7), fakeroot, openjdk-7-jdk,, git-core, apt-utils, gnupg, devscripts
+Standards-Version: 3.8.4.0
+
+Package: hdn-template
+Architecture: all
+Depends: bash (>= 4.1-2ubuntu3), sed (>= 4.2.1-6), ${misc:Depends}
+Homepage: http://hdn.nhs.uk/
+Description: HDN hdn-template
+ This package provides hdn-template, which is used to fill in
+ file templates by substituting environment variables. It works on
+ regular files or on standard in (or both).
