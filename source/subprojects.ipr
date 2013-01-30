@@ -1253,7 +1253,7 @@
       <module fileurl="file://$PROJECT_DIR$/barcodes/barcodes-gs1-server/barcodes-gs1-server.iml" filepath="$PROJECT_DIR$/barcodes/barcodes-gs1-server/barcodes-gs1-server.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/barcodes/barcodes-gs1-server-application/barcodes-gs1-server-application.iml" filepath="$PROJECT_DIR$/barcodes/barcodes-gs1-server-application/barcodes-gs1-server-application.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/barcodes/barcodes-gs1-unitTests/barcodes-gs1-unitTests.iml" filepath="$PROJECT_DIR$/barcodes/barcodes-gs1-unitTests/barcodes-gs1-unitTests.iml" group="barcodes" />
-      <module fileurl="file://$PROJECT_DIR$/build/build/build.iml" filepath="$PROJECT_DIR$/build/build/build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/build/build/build.iml" filepath="$PROJECT_DIR$/build/build/build.iml" group="build" />
       <module fileurl="file://$PROJECT_DIR$/common/common/common.iml" filepath="$PROJECT_DIR$/common/common/common.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-commandLine/common-commandLine.iml" filepath="$PROJECT_DIR$/common/common-commandLine/common-commandLine.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-comparison/common-comparison.iml" filepath="$PROJECT_DIR$/common/common-comparison/common-comparison.iml" group="common" />
@@ -1286,6 +1286,8 @@
       <module fileurl="file://$PROJECT_DIR$/dts/dts-domain/dts-domain.iml" filepath="$PROJECT_DIR$/dts/dts-domain/dts-domain.iml" group="dts" />
       <module fileurl="file://$PROJECT_DIR$/dts/dts-domain-schema/dts-domain-schema.iml" filepath="$PROJECT_DIR$/dts/dts-domain-schema/dts-domain-schema.iml" group="dts" />
       <module fileurl="file://$PROJECT_DIR$/dts/dts-rats/dts-rats.iml" filepath="$PROJECT_DIR$/dts/dts-rats/dts-rats.iml" group="dts" />
+      <module fileurl="file://$PROJECT_DIR$/build/package-templates/package-templates.iml" filepath="$PROJECT_DIR$/build/package-templates/package-templates.iml" group="build" />
+      <module fileurl="file://$PROJECT_DIR$/build/prepare-to-build/prepare-to-build.iml" filepath="$PROJECT_DIR$/build/prepare-to-build/prepare-to-build.iml" group="build" />
     </modules>
   </component>
   <component name="ProjectResources">
