@@ -51,15 +51,15 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 		packageTemplateSubFolders("source", "package-templates");
 
 
-		final String barcodesClientModule = "barcodes-gs1-client-application";
+		final String barcodesClientConsoleEntryPoint = intellijModuleHasMainClassByConvention("barcodes-gs1-client-application", "Gs1BarcodesClientConsoleEntryPoint");
 
-		final String gs1BarcodesClientConsoleEntryPoint = intellijModuleHasMainClass(barcodesClientModule, "uk.nhs.hdn.barcodes.gs1.client.application", "Gs1BarcodesClientConsoleEntryPoint");
+		final String barcodesServerConsoleEntryPoint = intellijModuleHasMainClassByConvention("barcodes-gs1-server-application", "Gs1BarcodesServerConsoleEntryPoint");
 
-		final String barcodesServerModule = "barcodes-gs1-server-application";
+		final String dtsClientOutConsoleEntryPoint = intellijModuleHasMainClassByConvention("dts-client-out", "OutClientConsoleEntryPoint");
 
-		final String gs1BarcodesServerConsoleEntryPoint = intellijModuleHasMainClass(barcodesServerModule, "uk.nhs.hdn.barcodes.gs1.server.application", "Gs1BarcodesServerConsoleEntryPoint");
+		final String dtsClientReadConsoleEntryPoint = intellijModuleHasMainClassByConvention("dts-client-read", "ReadClientConsoleEntryPoint");
 
-
+		final String dtsClientRatsConsoleEntryPoint = intellijModuleHasMainClassByConvention("dts-client-rats", "RatsClientConsoleEntryPoint");
 
 
 		task("clean").does
@@ -76,61 +76,43 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		compile();
 
-		executable("hdn-gs1-client", barcodesClientModule, gs1BarcodesClientConsoleEntryPoint);
+		executable("hdn-gs1-client", "barcodes-gs1-client-application", barcodesClientConsoleEntryPoint);
 
-		executable("hdn-gs1-server", barcodesServerModule, gs1BarcodesServerConsoleEntryPoint);
+		executable("hdn-gs1-server", "barcodes-gs1-server-application", barcodesServerConsoleEntryPoint);
 
-		task("executables").dependsOn("hdn-gs1-client", "hdn-gs1-server");
+		executable("hdn-dts-out", "dts-client-out", dtsClientOutConsoleEntryPoint);
 
-		/*
-		task("generate changelog template").dependsOn("make output").does
-		(
-			ExecuteAction.execute(source("build").file("generate-changelog-template")).inWorkingDirectory(source("build")).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArguments()
-		);
+		executable("hdn-dts-read", "dts-client-read", dtsClientReadConsoleEntryPoint);
 
-		debianPackagesPackageTask("stormmq-kernel", "generate changelog template");
+		executable("hdn-dts-rats", "dts-client-rats", dtsClientRatsConsoleEntryPoint);
 
-		debianNonRepositoryPackageTask("stormmq-keyring-private", "generate changelog template");
-
-		task("package packages").dependsOn(debianPackagesPackageTasks).does
-		(
-			ExecuteAction.execute(source("build").file("create-insecure-apt-repository")).inWorkingDirectory(output()).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArguments("packages")
-		);
-
-		task("package servers").dependsOn("generate changelog template").does
-		(
-			ExecuteAction.execute(source("build").file("create-server-packages")).inWorkingDirectory(output()).forUpTo(TenMinutes).withInheritedEnvironmentVariables(),
-			ExecuteAction.execute(source("build").file("create-insecure-apt-repository")).inWorkingDirectory(output()).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArguments("servers")
-		);
-
-		task("package non-repository").dependsOn(debianNonRepositoryPackageTasks).does
-		(
-			ExecuteAction.execute(source("build").file("create-insecure-apt-repository")).inWorkingDirectory(output()).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArguments("non-repository")
-		);
-
-		task("all").dependsOn("package packages", "package servers", "package non-repository").does
-		(
-			echo("execute source/build/rsync-build-to-stormmq-repository-queues")
-		);
-		*/
+		task("executables").dependsOn("hdn-gs1-client", "hdn-gs1-server", "hdn-dts-out", "hdn-dts-read", "hdn-dts-rats");
 	}
 
-	private void executable(@NotNull final String taskName, @NotNull final String barcodesClientModule, @NotNull final String consoleEntryPoint)
+	private String intellijModuleHasMainClassByConvention(final String moduleName, final String consoleEntryPoint)
+	{
+		return intellijModuleHasMainClass(moduleName, getPackageName(moduleName), consoleEntryPoint);
+	}
+
+	private static String getPackageName(@NotNull final String moduleName)
+	{
+		return "uk.nhs.hdn." + moduleName.replace("-", ".");
+	}
+
+	private void executable(@NotNull final String taskName, @NotNull final String moduleName, @NotNull final String consoleEntryPoint)
 	{
 		final FindFilesFilter isInLibrary = isInRoot(library());
 		final FindFilesFilter dependentJarFilesExcludingLibraries = isInLibrary.not().and(Jar);
 
-		final AbsoluteDirectory application = output(taskName);
-		final AbsoluteDirectory applicationDistribution = application.subDirectory("distribution");
-		final AbsoluteDirectory applicationJars = applicationDistribution.subDirectory("jars");
+		final AbsoluteDirectory distributionFolder = output(taskName);
 
-		task(taskName).dependsOn("compile " + barcodesClientModule).does
+		task(taskName).dependsOn("compile " + moduleName).does
 		(
-			makeDirectory(applicationJars),
-			jarTogether(registeredPaths(barcodesClientModule)).capturing(dependentJarFilesExcludingLibraries).to(applicationJars.file(taskName + ".jar")).withClassPath(filesFilteredAbsolutePaths(registeredPaths(barcodesClientModule), isInLibrary)).withMainClass(consoleEntryPoint),
-			flatHardLinkFiles(isInLibrary.and(Jar)).from(registeredPaths(barcodesClientModule)).to(applicationJars),
-			zipTogether(registeredPaths(barcodesClientModule + ".source.zip")).capturing(fileHasExtension("source.zip")).to(applicationJars.file(taskName + ".source.zip"))
-			//flatHardLinkFiles(Jar).from(registeredPaths("nio-bootclasspath")).to(barcodesGs1ClientApplicationJars),
+			makeDirectory(distributionFolder),
+			jarTogether(registeredPaths(moduleName)).capturing(dependentJarFilesExcludingLibraries).to(distributionFolder.file(taskName + "-without-depdencies.jar")).withClassPath(filesFilteredAbsolutePaths(registeredPaths(moduleName), isInLibrary)).withMainClass(consoleEntryPoint),
+			flatHardLinkFiles(isInLibrary.and(Jar)).from(registeredPaths(moduleName)).to(distributionFolder),
+			zipTogether(registeredPaths(moduleName + ".source.zip")).capturing(fileHasExtension("source.zip")).to(distributionFolder.file(taskName + ".source.zip")),
+			jarTogether(registeredPaths(moduleName)).capturing(Jar).to(distributionFolder.file(taskName + ".jar")).withoutClassPath().withMainClass(consoleEntryPoint)
 		);
 	}
 }

@@ -30,13 +30,13 @@ import static uk.nhs.hdn.barcodes.gs1.client.application.Demonstration.demonstra
 
 public final class Gs1BarcodesClientConsoleEntryPoint extends AbstractConsoleEntryPoint
 {
-	private static final String HostnameOption = "hostname";
+	private static final String DomainNameOption = "domain-name";
 	private static final String PortOption = "port";
 	private static final String UseHttpsOption = "use-https";
 	private static final String GtinOption = "gtin";
 	private static final String CacheOption = "cache";
 
-	private static final String DefaultHostName = "localhost";
+	private static final String DefaultDomainName = "localhost";
 	private static final int DefaultPort = 8080;
 	private static final String DefaultImaginaryBarcodeButRealCompanyPrefix = "5055220798768";
 
@@ -49,7 +49,7 @@ public final class Gs1BarcodesClientConsoleEntryPoint extends AbstractConsoleEnt
 	@Override
 	protected boolean options(@NotNull final OptionParser options)
 	{
-		options.accepts(HostnameOption).withRequiredArg().ofType(String.class).defaultsTo(DefaultHostName).describedAs("hostname to connect to");
+		options.accepts(DomainNameOption).withRequiredArg().ofType(String.class).defaultsTo(DefaultDomainName).describedAs("domain name to connect to");
 		options.accepts(PortOption).withRequiredArg().ofType(Integer.class).defaultsTo(DefaultPort).describedAs("port to connect to HTTP(S) on");
 		options.accepts(UseHttpsOption);
 		options.accepts(CacheOption);
@@ -60,7 +60,7 @@ public final class Gs1BarcodesClientConsoleEntryPoint extends AbstractConsoleEnt
 	@Override
 	protected void execute(@NotNull final OptionSet optionSet) throws CouldNotConnectHttpException, CorruptResponseException, UnacceptableResponseException
 	{
-		@NotNull final String hostname = defaulted(optionSet, HostnameOption);
+		@NotNull final String domainName = defaulted(optionSet, DomainNameOption);
 
 		final char httpPort = portNumber(optionSet, PortOption);
 
@@ -71,7 +71,7 @@ public final class Gs1BarcodesClientConsoleEntryPoint extends AbstractConsoleEnt
 		@Nullable final CharSequence gtin = optionSet.has(GtinOption) ? (CharSequence) optionSet.valueOf(GtinOption) : null;
 
 		//noinspection NumericCastThatLosesPrecision
-		final ClientApplication clientApplication = new ClientApplication(useHttps, hostname, httpPort);
+		final ClientApplication clientApplication = new ClientApplication(useHttps, domainName, httpPort);
 		demonstrateClientApplication(cache, gtin, clientApplication);
 	}
 }

@@ -27,15 +27,19 @@ import static uk.nhs.hdn.barcodes.gs1.organisation.TuplesSchemaUsingParser.Tuple
 import static uk.nhs.hdn.common.http.UrlHelper.toUrl;
 import static uk.nhs.hdn.common.http.client.connectionConfigurations.ChunkedUploadsConnectionConfiguration.DoesNotSupportChunkedUploads;
 
-public class HttpClientHelper
+public final class HttpClientHelper
 {
 	@NotNull
 	public static final GetHttpResponseUser<Tuple[]> ResponseUser = new JsonGetHttpResponseUser<>(TuplesSchemaUsingParserInstance);
 
-	@NotNull
-	public static HttpClient forListAllKnownCompanyPrefixes(final boolean useHttps, @NotNull final String hostname, final char portNumber)
+	private HttpClientHelper()
 	{
-		return new JavaHttpClient(toUrl(useHttps, hostname, portNumber, "/gs1/organisation/"), DoesNotSupportChunkedUploads);
+	}
+
+	@NotNull
+	public static HttpClient forListAllKnownCompanyPrefixes(final boolean useHttps, @NotNull final String domainName, final char portNumber)
+	{
+		return new JavaHttpClient(toUrl(useHttps, domainName, portNumber, "/gs1/organisation/"), DoesNotSupportChunkedUploads);
 	}
 
 	@NotNull

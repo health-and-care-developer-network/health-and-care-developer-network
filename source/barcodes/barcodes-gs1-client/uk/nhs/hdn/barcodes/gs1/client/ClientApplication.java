@@ -30,19 +30,19 @@ public final class ClientApplication extends AbstractToString
 {
 	private final boolean useHttps;
 	@NotNull
-	private final String hostname;
+	private final String domainName;
 	private final char portNumber;
 	@NotNull
 	private final HttpClient allHttpClient;
 
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
-	public ClientApplication(final boolean useHttps, @NotNull final String hostname, final char portNumber)
+	public ClientApplication(final boolean useHttps, @NotNull final String domainName, final char portNumber)
 	{
 		this.useHttps = useHttps;
-		this.hostname = hostname;
+		this.domainName = domainName;
 		this.portNumber = portNumber;
 
-		allHttpClient = forListAllKnownCompanyPrefixes(useHttps, hostname, portNumber);
+		allHttpClient = forListAllKnownCompanyPrefixes(useHttps, domainName, portNumber);
 	}
 
 	@NotNull
@@ -54,6 +54,6 @@ public final class ClientApplication extends AbstractToString
 	@NotNull
 	public Tuple listCompanyPrefixForGlobalTradeItemNumber(@NotNull final CharSequence digits) throws CouldNotConnectHttpException, CorruptResponseException, UnacceptableResponseException
 	{
-		return forACompanyPrefix(useHttps, hostname, portNumber, digits).get(ResponseUser)[0];
+		return forACompanyPrefix(useHttps, domainName, portNumber, digits).get(ResponseUser)[0];
 	}
 }

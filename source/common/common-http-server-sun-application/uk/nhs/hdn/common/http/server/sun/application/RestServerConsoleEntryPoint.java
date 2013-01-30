@@ -33,7 +33,7 @@ import static uk.nhs.hdn.common.commandLine.ExitHelper.exitWithException;
 
 public final class RestServerConsoleEntryPoint extends AbstractConsoleEntryPoint
 {
-	private static final String HostnameOption = "hostname";
+	private static final String DomainNameOption = "domain-name";
 	private static final String HttpPortOption = "http-port";
 	private static final String BacklogOption = "backlog";
 	private static final String DataPathOption = "data-path";
@@ -54,7 +54,7 @@ public final class RestServerConsoleEntryPoint extends AbstractConsoleEntryPoint
 	@Override
 	protected boolean options(@NotNull final OptionParser options)
 	{
-		options.accepts(HostnameOption).withRequiredArg().ofType(String.class).defaultsTo(DefaultHostName).describedAs("hostname to list on");
+		options.accepts(DomainNameOption).withRequiredArg().ofType(String.class).defaultsTo(DefaultHostName).describedAs("domain name to list on");
 		options.accepts(HttpPortOption).withRequiredArg().ofType(Integer.class).defaultsTo(DefaultHttpPort).describedAs("port to listen for HTTP on");
 		options.accepts(BacklogOption).withRequiredArg().ofType(Integer.class).defaultsTo(DefaultBacklog).describedAs("TCP connection backlog");
 		options.accepts(DataPathOption).withRequiredArg().ofType(File.class).defaultsTo(new File(DefaultDataPath)).describedAs("Folder path containing data to server");
@@ -64,7 +64,7 @@ public final class RestServerConsoleEntryPoint extends AbstractConsoleEntryPoint
 	@Override
 	protected void execute(@NotNull final OptionSet optionSet) throws IOException
 	{
-		final String hostname = defaulted(optionSet, HostnameOption);
+		final String domainName = defaulted(optionSet, DomainNameOption);
 
 		final char httpPort = portNumber(optionSet, HttpPortOption);
 
@@ -82,7 +82,7 @@ public final class RestServerConsoleEntryPoint extends AbstractConsoleEntryPoint
 			exitWithException(e);
 			return;
 		}
-		final Server server = new Server(new InetSocketAddress(hostname, (int) httpPort), backlog, restEndpoints);
+		final Server server = new Server(new InetSocketAddress(domainName, (int) httpPort), backlog, restEndpoints);
 		server.start();
 	}
 

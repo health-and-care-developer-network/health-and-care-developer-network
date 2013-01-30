@@ -54,12 +54,12 @@ public final class RatsClientConsoleEntryPoint extends AbstractConsoleEntryPoint
 {
 	private static final String FromDtsNameOption = "from-dts-name";
 	private static final String LocalIdentifierOption = "local-identifier";
-	private static final String HostnameOption = "hostname";
+	private static final String DomainNameOption = "domain-name";
 	private static final String PortOption = "port";
 	private static final String UseHttpsOption = "use-https";
 	private static final String PathOption = "path";
 
-	private static final String DefaultHostName = "nww.reg.nhs.uk";
+	private static final String DefaultDomainName = "nww.reg.nhs.uk";
 	private static final int DefaultPort = 80;
 	private static final String DefaultPath = "/dts/message_tracking_api.asp";
 
@@ -75,7 +75,7 @@ public final class RatsClientConsoleEntryPoint extends AbstractConsoleEntryPoint
 		options.accepts(FromDtsNameOption).withRequiredArg().ofType(DtsName.class).defaultsTo(UnknownDtsName).describedAs("DTS name");
 		options.accepts(LocalIdentifierOption).withRequiredArg().ofType(LocalIdentifier.class).defaultsTo(UnknownLocalIdentifier).describedAs("local identifier");
 
-		options.accepts(HostnameOption).withRequiredArg().ofType(String.class).defaultsTo(DefaultHostName).describedAs("hostname to connect to");
+		options.accepts(DomainNameOption).withRequiredArg().ofType(String.class).defaultsTo(DefaultDomainName).describedAs("domain name to connect to");
 		options.accepts(PortOption).withRequiredArg().ofType(Integer.class).defaultsTo(DefaultPort).describedAs("port to connect to HTTP(S) on");
 		options.accepts(UseHttpsOption);
 		options.accepts(PathOption).withRequiredArg().ofType(String.class).defaultsTo(DefaultPath).describedAs("path to RATS service on hostname");
@@ -103,12 +103,12 @@ public final class RatsClientConsoleEntryPoint extends AbstractConsoleEntryPoint
 		final Message message = new Message(fromDtsName, localIdentifier);
 
 
-		@NotNull final String hostname = defaulted(optionSet, HostnameOption);
+		@NotNull final String domainName = defaulted(optionSet, DomainNameOption);
 		final char httpPort = portNumber(optionSet, PortOption);
 		final boolean useHttps = optionSet.has(UseHttpsOption);
 		@NotNull final String path = defaulted(optionSet, PathOption);
 
-		final URL url = toUrl(useHttps, hostname, httpPort, path);
+		final URL url = toUrl(useHttps, domainName, httpPort, path);
 
 		final Response[] responses = demonstrateRequest(message, url);
 
