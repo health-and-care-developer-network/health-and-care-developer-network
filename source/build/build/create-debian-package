@@ -1,0 +1,177 @@
+#!/bin/bash -
+
+# © Crown Copyright 2013
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+set -e
+
+readonly ourName="$(basename "$0")"
+
+cd "$(dirname "$0")" 1>/dev/null
+readonly crudeOurPath="$(pwd)"
+cd - 1>/dev/null
+
+function exitHelp()
+{
+	echo "Usage: $ourName [--help] <packagesFolder> <packageName>" 1>&2
+	exit $1
+}
+
+function exitError()
+{
+	local -r error="$1"
+	echo "$ourName: $error" 1>&2
+	exitHelp 1
+}
+
+function setPaths()
+{
+	readonly sourcePath="$crudeOurPath"/../..
+	readonly packageTemplatesPath="$sourcePath"/build/package-templates
+	readonly packageTemplatesOurPackagePath="$packageTemplatesPath"/"$packageName"
+	readonly releasePath="$sourcePath"/../release
+	readonly packagesPath="$releasePath"/"$packagesFolder"
+	readonly packagePath="$packagesPath"/"$packageName"
+	readonly packageSourcePath="$packagePath"/debian
+	readonly keyring="hdn"
+	readonly originalGnupgHome="$packageTemplatesPath"/hdn-keyring-private/hdn-keyring-private/etc/hdn-keyring-private/"$keyring"
+	readonly packageGnupgHome="$packagePath"/gnupghome
+	
+	readonly changelogTemplatesPath="$releasePath"/changelog-templates
+	readonly changelogOutputFile="$changelogTemplatesPath"/changelog.template
+	readonly NEWSOutputFile="$changelogTemplatesPath"/NEWS.template
+}
+
+function verifyPaths()
+{
+	if [ ! -d "$originalGnupgHome" ]; then
+		exitError "Orginal GNUPGHOME folder does not exist as path $originalGnupgHome"
+	fi
+}
+
+function removeDestinationInCaseRunningOutsideOfHdnBuildScript()
+{
+	if [ -d "$packagePath" ]; then
+		rm -rf "$packagePath"
+	fi
+}
+
+function synchronisePackageFiles()
+{
+	mkdir -p "$packageSourcePath"
+	rsync --archive --verbose --delete-after --delete-excluded --exclude=".hg.emptyfolder" "$packageTemplatesOurPackagePath"/ "$packageSourcePath"/
+	
+	if [ ! -e "$packageSourcePath"/rules ]; then
+		exitError "$packageName debian/rules is not executable"
+	fi
+}
+
+function copyGnupgHomeToAvoidLockRaceIssues()
+{
+	mkdir -p "$packageGnupgHome"
+	cp "$originalGnupgHome"/*.gpg "$packageGnupgHome"
+	chmod 0600 "$packageGnupgHome"/*.gpg
+	chmod 0700 "$packageGnupgHome"
+}
+
+function preparePackage()
+{
+	if [ -x "$packagePath"/debian/build/prepare ]; then
+		"$packagePath"/debian/build/prepare
+	fi
+}
+
+function installChangelog()
+{
+	local -r templateFile="$1"
+	local -r fileName="$2"
+	if  [ ! -f "$packageSourcePath"/"$fileName" ]; then
+		sed -e "s/hdn-changelog/${packageName}/g" "$templateFile" >"$packageSourcePath"/"$fileName"
+	fi
+}
+
+function installChangelogs()
+{
+	# Dangerous to run this multi-threaded - designed to be used outside of regular build
+	if [ ! -f "$changelogOutputFile" ]; then
+		cd "$crudeOurPath" >/dev/null
+		"$crudeOurPath"/generate-changelog-template
+		cd - >/dev/null
+	fi
+	
+	installChangelog "$changelogOutputFile" "changelog"
+	installChangelog "$NEWSOutputFile" "NEWS"
+}
+
+function buildPackage()
+{
+	cd "$packagePath" >/dev/null
+	DH_VERBOSE=1 GNUPGHOME="$packageGnupgHome" debuild --no-conf --rootcmd="fakeroot" \
+	-nc -D -b \
+	--lintian-opts --info --verbose --fail-on-warnings --checksums --display-info --pedantic
+	cd - >/dev/null
+}
+
+function findSourcePackageName()
+{
+	readonly sourcePackageName="$(grep '^Source: ' "$packageSourcePath"/control | cut -d' ' -f2)"
+}
+
+function removeBuildLog()
+{
+	rm "$packagesPath"/"$sourcePackageName"_*_*.build
+}
+
+function removePackageContents()
+{
+	cd "$packagesPath" >/dev/null
+	rm -rf "$packageName"
+	# no cd back at this point
+}
+
+function parseCommandLine()
+{
+	if [ $# -eq 1 ]; then
+		if [ "$1" = "--help" ]; then
+			exitHelp 2
+		elif  [ "$1" = "-h" ]; then
+			exitHelp 2
+		else
+			exitError "Invalid options"
+		fi
+	elif [ $# -eq 2 ]; then
+		readonly packagesFolder="$1"
+		readonly packageName="$2"
+	else
+		exitError "Invalid options"
+	fi
+}
+
+function main()
+{
+	parseCommandLine "$@"
+	setPaths
+	verifyPaths
+	removeDestinationInCaseRunningOutsideOfHdnBuildScript
+	synchronisePackageFiles
+	copyGnupgHomeToAvoidLockRaceIssues
+	preparePackage
+	installChangelogs
+	buildPackage
+	findSourcePackageName
+	removeBuildLog
+	removePackageContents
+}
+
+main "$@"

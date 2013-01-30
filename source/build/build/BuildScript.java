@@ -20,16 +20,21 @@ import com.softwarecraftsmen.orogeny.TasksExecuteInParallel;
 import com.softwarecraftsmen.orogeny.UpperCaseEnvironmentVariableOnWindows;
 import com.softwarecraftsmen.orogeny.filing.AbsoluteDirectory;
 import com.softwarecraftsmen.orogeny.filing.findFileFilters.FindFilesFilter;
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
 import static com.softwarecraftsmen.orogeny.actions.CopyFilesAction.flatHardLinkFiles;
 import static com.softwarecraftsmen.orogeny.actions.DeleteDirectoryAction.deleteDirectory;
+import static com.softwarecraftsmen.orogeny.actions.ExecuteAction.TenMinutes;
+import static com.softwarecraftsmen.orogeny.actions.ExecuteAction.execute;
 import static com.softwarecraftsmen.orogeny.actions.JarTogetherAction.jarTogether;
 import static com.softwarecraftsmen.orogeny.actions.MakeDirectoryAction.makeDirectory;
 import static com.softwarecraftsmen.orogeny.actions.ZipTogetherAction.zipTogether;
 import static com.softwarecraftsmen.orogeny.filing.FilesFilteredAbsolutePaths.filesFilteredAbsolutePaths;
-import static com.softwarecraftsmen.orogeny.filing.findFileFilters.AbstractFindFilesFilter.*;
+import static com.softwarecraftsmen.orogeny.filing.findFileFilters.AbstractFindFilesFilter.Jar;
+import static com.softwarecraftsmen.orogeny.filing.findFileFilters.AbstractFindFilesFilter.isInRoot;
 import static com.softwarecraftsmen.orogeny.filing.findFileFilters.FileHasExtensionFindFilesFilter.fileHasExtension;
+import static java.lang.System.arraycopy;
 
 @SuppressWarnings({"ClassWithoutPackageStatement", "HardCodedStringLiteral", "ClassNameSameAsAncestorName", "DuplicateStringLiteralInspection", "ZeroLengthArrayAllocation", "StringConcatenation"})
 @BaseDirectory("../../health-and-care-developer-network")
@@ -87,6 +92,20 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 		executable("hdn-dts-rats", "dts-client-rats", dtsClientRatsConsoleEntryPoint);
 
 		task("executables").dependsOn("hdn-gs1-client", "hdn-gs1-server", "hdn-dts-out", "hdn-dts-read", "hdn-dts-rats");
+
+		task("generate changelog template").dependsOn("executables").does
+		(
+			execute(source("build", "build").file("generate-changelog-template")).inWorkingDirectory(source("build")).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArguments()
+		);
+
+		debianPackagesPackageTask("stormmq-kernel", "generate changelog template");
+
+		debianNonRepositoryPackageTask("stormmq-keyring-private", "generate changelog template");
+
+		task("packages").dependsOn(debianPackagesPackageTasks).does
+		(
+			execute(source("build", "build").file("create-insecure-apt-repository")).inWorkingDirectory(output()).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArguments("packages")
+		);
 	}
 
 	private String intellijModuleHasMainClassByConvention(final String moduleName, final String consoleEntryPoint)
@@ -114,5 +133,37 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 			zipTogether(registeredPaths(moduleName + ".source.zip")).capturing(fileHasExtension("source.zip")).to(distributionFolder.file(taskName + ".source.zip")),
 			jarTogether(registeredPaths(moduleName)).capturing(Jar).to(distributionFolder.file(taskName + ".jar")).withoutClassPath().withMainClass(consoleEntryPoint)
 		);
+	}
+
+	private void debianPackagesPackageTask(@NotNull @NonNls final String packageName, @NotNull @NonNls final String... dependsOnTaskNames)
+	{
+		debianPackagesPackageTasks = debianPackageTaskInternal(debianPackagesPackageTasks, "packages", packageName, dependsOnTaskNames);
+	}
+
+	private void debianNonRepositoryPackageTask(@NotNull @NonNls final String packageName, @NotNull @NonNls final String... dependsOnTaskNames)
+	{
+		debianNonRepositoryPackageTasks = debianPackageTaskInternal(debianNonRepositoryPackageTasks, "non-repository", packageName, dependsOnTaskNames);
+	}
+
+	@NotNull
+	private String[] debianPackageTaskInternal(@NotNull final String[] debianPackageTasks, @NotNull @NonNls final String packagesFolder, @NotNull final String packageName, @NotNull final String... dependsOnTaskNames)
+	{
+		@NonNls final String taskName = "package " + packageName;
+		final int oldLength = debianPackageTasks.length;
+		final String[] expandedDebianPackageTasks = new String[oldLength + 1];
+		arraycopy(debianPackageTasks, 0, expandedDebianPackageTasks, 0, oldLength);
+		expandedDebianPackageTasks[oldLength] = taskName;
+
+		task(taskName).dependsOn(dependsOnTaskNames).does
+		(
+			execute(source("build").file("create-debian-package")).inWorkingDirectory(output()).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArguments(packagesFolder, packageName)
+		);
+
+		return expandedDebianPackageTasks;
+	}
+
+	static
+	{
+		configure();
 	}
 }

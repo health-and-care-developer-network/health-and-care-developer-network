@@ -9,3 +9,7 @@
 # IntelliJ Build
 intellij/
 release/
+
+# GNU Privacy Guard (GPG)
+*.gpg
+*.gpg~

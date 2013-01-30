@@ -1,0 +1,115 @@
+#!/bin/bash -
+
+# © Crown Copyright 2013
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+set -e
+
+readonly ourName="$(basename "$0")"
+
+cd "$(dirname "$0")" 1>/dev/null
+readonly crudeOurPath="$(pwd)"
+cd - 1>/dev/null
+
+function exitHelp()
+{
+	echo "Usage: $ourName [--help]" 1>&2
+	exit $1
+}
+
+function exitError()
+{
+	local -r error="$1"
+	echo "$ourName: $error" 1>&2
+	exitHelp 1
+}
+
+function checkRunningOnMacOSX()
+{
+	local -r os="$(uname)"
+	if [ "$os" != "Darwin" ]; then
+		exitError "Only to be used on Mac OS X"
+	fi
+}
+
+function installHomebrewDependency()
+{
+	local -r dependency="$1"
+	echo "$ourName: Installing or Updating $dependency"
+	set +e
+	brew install "$dependency" 1>/dev/null 2>/dev/null
+	brew update "$dependency" 1>/dev/null 2>/dev/null
+	set -e
+}
+
+function installDependencies()
+{
+	if which -s java; then
+		if java -version 2>&1 | head -n 1 | grep -v -q "1.7.0"; then
+			exitError "Ensure java 1.7.0 is installed"
+		fi
+	else
+		exitError "Ensure java is installed"
+	fi
+	
+	if which -s brew; then
+		brew update
+	else
+		echo "$ourName: Installing homebrew"
+		ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"
+	fi
+	
+	installHomebrewDependency "git"
+	installHomebrewDependency "gpg"
+}
+
+function parseCommandLine()
+{
+	if [ $# -eq 1 ]; then
+		if [ "$1" = "--help" ]; then
+			exitHelp 2
+		elif  [ "$1" = "-h" ]; then
+			exitHelp 2
+		else
+			exitError "Invalid options"
+		fi
+	elif [ $# -eq 0 ]; then
+		:
+	else
+		exitError "Invalid options"
+	fi
+}
+
+function cloneSource()
+{
+	cd ~/Documents 1>/dev/null 2>/dev/null
+
+	git clone https://github.com/health-and-care-developer-network/health-and-care-developer-network.git
+
+	cd health-and-care-developer-network 1>/dev/null 2>/dev/null
+	git checkout development
+	
+	git branch local
+	git checkout local
+}
+
+function main()
+{
+	parseCommandLine "$@"
+	checkRunningOnMacOSX
+	installDependencies
+	cloneSource
+}
+
+main "$@"

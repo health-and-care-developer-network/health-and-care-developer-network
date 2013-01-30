@@ -24,11 +24,7 @@ cd - 1>/dev/null
 
 function exitHelp()
 {
-	echo "Usage: $ourName -h" 1>&2
-	echo "Usage: $ourName --help" 1>&2
-	echo "Usage: $ourName" 1>&2
-	echo "Usage: $ourName <taskName>" 1>&2
-	echo "When <taskName> is omitted, the default is to use task 'all'"
+	echo "Usage: $ourName [--help]" 1>&2
 	exit $1
 }
 
@@ -39,46 +35,48 @@ function exitError()
 	exitHelp 1
 }
 
-function setPaths()
-{
-	readonly sourcePath="$crudeOurPath"/../..
-	readonly rootPath="$sourcePath"/..
-	readonly libraryPath="$rootPath"/library
-}
-
 function parseCommandLine()
 {
 	if [ $# -eq 0 ]; then
-		readonly taskName="packages"
+		:
 	elif [ $# -eq 1 ]; then
-		if [ "$1" = "--help" ]; then
+		if [ "$1" = "-h" ]; then
 			exitHelp 2
-		elif  [ "$1" = "-h" ]; then
+		elif [ "$1" = "--help "]; then
 			exitHelp 2
 		else
-			readonly taskName="$1"
+			exitError "Invalid options"
 		fi
-	else
+	else	
 		exitError "Invalid options"
 	fi
 }
 
-function changeToSourceControlRoot()
+function setPaths()
 {
-	cd "$crudeOurPath" >/dev/null
+	readonly sourcePath="$crudeOurPath"/../..
+	readonly packageTemplatesPath="$sourcePath"/build/package-templates
+	readonly lastReleasedCommitFilePath="$packageTemplatesPath"/last-released-commit
 }
 
-function executeBuildScript()
+function verifyPaths()
 {
-	exec -a build java -server -d64 -Xms1024m -Xmx2048m -jar "$libraryPath"/orogeny/orogeny-with-dependencies.jar --script BuildScript.java --task "$taskName"
+	if [ ! -d "$packageTemplatesPath" ]; then
+		exitError "path $packageTemplatesPath does not exist"
+	fi
+}
+
+function updateCommit()
+{
+	git log -n 1 --format="format:%H%n" >"$lastReleasedCommitFilePath"
 }
 
 function main()
 {
 	parseCommandLine "$@"
 	setPaths
-	changeToSourceControlRoot
-	executeBuildScript
+	verifyPaths
+	updateCommit
 }
 
 main "$@"

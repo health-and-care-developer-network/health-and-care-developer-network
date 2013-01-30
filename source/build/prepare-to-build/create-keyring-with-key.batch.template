@@ -1,0 +1,10 @@
+Key-Type: RSA
+Key-Length: 2048
+Key-Usage: sign
+Subkey-Type: ELG-E
+Subkey-Length: 1024
+Subkey-Usage: encrypt
+Name-Real: ${keyUser}
+Name-Email: ${keyEmail}
+Expire-Date: 0
+%commit
