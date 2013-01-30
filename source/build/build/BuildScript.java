@@ -20,6 +20,7 @@ import com.softwarecraftsmen.orogeny.TasksExecuteInParallel;
 import com.softwarecraftsmen.orogeny.UpperCaseEnvironmentVariableOnWindows;
 import com.softwarecraftsmen.orogeny.filing.AbsoluteDirectory;
 import com.softwarecraftsmen.orogeny.filing.findFileFilters.FindFilesFilter;
+import org.jetbrains.annotations.NotNull;
 
 import static com.softwarecraftsmen.orogeny.actions.CopyFilesAction.flatHardLinkFiles;
 import static com.softwarecraftsmen.orogeny.actions.DeleteDirectoryAction.deleteDirectory;
@@ -49,20 +50,14 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		packageTemplateSubFolders("source", "package-templates");
 
-		intellijLibrary("IntelliJ Annotations", library("intellij-annotations", "unversioned").file("annotations.jar"));
 
-		intellijLibrary("JOpt Simple", library("jopt-simple", "4.4").file("jopt-simple-4.4.jar"));
+		final String barcodesClientModule = "barcodes-gs1-client-application";
 
-		intellijLibrary("Orogeny", library("orogeny").file("jna.jar").and(library("orogeny").file("orogeny-without-dependencies.jar")));
+		final String gs1BarcodesClientConsoleEntryPoint = intellijModuleHasMainClass(barcodesClientModule, "uk.nhs.hdn.barcodes.gs1.client.application", "Gs1BarcodesClientConsoleEntryPoint");
 
-		intellijLibrary("JUnit 4", library("junit", "4.11").file("junit-4.11.jar"));
+		final String barcodesServerModule = "barcodes-gs1-server-application";
 
-
-
-
-		intellijModuleHasMainClass("barcodes-gs1-client-application", "uk.nhs.hdn.barcodes.gs1.client.application" + "Gs1BarcodesClientConsoleEntryPoint");
-
-		intellijModuleHasMainClass("barcodes-gs1-server-application", "uk.nhs.hdn.barcodes.gs1.server.application" + "Gs1BarcodesServerConsoleEntryPoint");
+		final String gs1BarcodesServerConsoleEntryPoint = intellijModuleHasMainClass(barcodesServerModule, "uk.nhs.hdn.barcodes.gs1.server.application", "Gs1BarcodesServerConsoleEntryPoint");
 
 
 
@@ -77,24 +72,15 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 			makeDirectory(output())
 		);
 
-		intellijProject("subprojects", ".");
+		intellijProject("subprojects", "make output", "build");
 
 		compile();
 
-		final FindFilesFilter isInLibrary = isInRoot(library());
-		final FindFilesFilter dependentJarFilesExcludingLibraries = isInLibrary.not().and(Jar);
+		executable("hdn-gs1-client", barcodesClientModule, gs1BarcodesClientConsoleEntryPoint);
 
-		final AbsoluteDirectory barcodesGs1ClientApplication = output("client-java");
-		final AbsoluteDirectory barcodesGs1ClientApplicationDistribution = barcodesGs1ClientApplication.subDirectory("distribution");
-		final AbsoluteDirectory barcodesGs1ClientApplicationJars = barcodesGs1ClientApplicationDistribution.subDirectory("jars");
-		task("client-java").dependsOn("compile " + "barcodes-gs1-client-application").does
-		(
-			makeDirectory(barcodesGs1ClientApplicationJars),
-			jarTogether(registeredPaths("barcodes-gs1-client-application")).capturing(dependentJarFilesExcludingLibraries).to(barcodesGs1ClientApplicationJars.file("xxx" + ".jar")).withClassPath(filesFilteredAbsolutePaths(registeredPaths("barcodes-gs1-client-application"), isInLibrary)).withMainClass("uk.nhs.hdn.barcodes.gs1.client.application" + "Gs1BarcodesClientConsoleEntryPoint"),
-			flatHardLinkFiles(isInLibrary.and(Jar)).from(registeredPaths("barcodes-gs1-client-application")).to(barcodesGs1ClientApplicationJars),
-			zipTogether(registeredPaths("barcodes-gs1-client-application" + ".source.zip")).capturing(fileHasExtension("source.zip")).to(barcodesGs1ClientApplicationJars.file("xxx" + ".source.zip"))
-			//flatHardLinkFiles(Jar).from(registeredPaths("nio-bootclasspath")).to(barcodesGs1ClientApplicationJars),
-		);
+		executable("hdn-gs1-server", barcodesServerModule, gs1BarcodesServerConsoleEntryPoint);
+
+		task("executables").dependsOn("hdn-gs1-client", "hdn-gs1-server");
 
 		/*
 		task("generate changelog template").dependsOn("make output").does
@@ -102,71 +88,9 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 			ExecuteAction.execute(source("build").file("generate-changelog-template")).inWorkingDirectory(source("build")).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArguments()
 		);
 
-		debianPackagesPackageTask("stormmq-apt", "generate changelog template");
-
-		debianPackagesPackageTask("stormmq-broker", "compile amqp-server-application", "compile amqp-administrator-application", "compile jmx-agent");
-
-		debianPackagesPackageTask("stormmq-client-java", "client-java");
-
-		debianPackagesPackageTask("stormmq-client-java-source", "client-java");
-
-		debianPackagesPackageTask("stormmq-date", "generate changelog template");
-
-		debianPackagesPackageTask("stormmq-debugging", "generate changelog template");
-
-		debianPackagesPackageTask("stormmq-firewall", "generate changelog template");
-
-		debianPackagesPackageTask("stormmq-generate-password", "generate changelog template");
-
-		debianPackagesPackageTask("stormmq-harden", "generate changelog template");
-
-		debianPackagesPackageTask("stormmq-hardware", "generate changelog template");
-
-		debianPackagesPackageTask("stormmq-ipmitool", "generate changelog template");
-
-		debianPackagesPackageTask("stormmq-ipsec", "generate changelog template");
-
-		debianPackagesPackageTask("stormmq-java-common", "generate changelog template");
-
-		debianPackagesPackageTask("stormmq-java6-6.30", "make output");
-
-		debianPackagesPackageTask("stormmq-jstatd", "generate changelog template");
-
 		debianPackagesPackageTask("stormmq-kernel", "generate changelog template");
 
 		debianNonRepositoryPackageTask("stormmq-keyring-private", "generate changelog template");
-
-		debianPackagesPackageTask("stormmq-keyring-public", "generate changelog template");
-
-		debianPackagesPackageTask("stormmq-locale", "generate changelog template");
-
-		debianPackagesPackageTask("stormmq-logging", "generate changelog template");
-
-		debianPackagesPackageTask("stormmq-minimal", "generate changelog template");
-
-		debianPackagesPackageTask("stormmq-nginx", "make output");
-
-		debianPackagesPackageTask("stormmq-nginx-website", "make output");
-
-		debianPackagesPackageTask("stormmq-pxeboot", "generate changelog template");
-
-		debianPackagesPackageTask("stormmq-repository", "generate changelog template");
-
-		debianPackagesPackageTask("stormmq-required", "generate changelog template");
-
-		debianPackagesPackageTask("stormmq-smtp", "generate changelog template");
-
-		debianPackagesPackageTask("stormmq-ssh-client", "generate changelog template");
-
-		debianPackagesPackageTask("stormmq-ssh-server", "generate changelog template");
-
-		debianPackagesPackageTask("stormmq-ssh-server-denyhosts", "generate changelog template");
-
-		debianPackagesPackageTask("stormmq-sysctl", "generate changelog template");
-
-		debianPackagesPackageTask("stormmq-template", "generate changelog template");
-
-		debianPackagesPackageTask("stormmq-tty", "generate changelog template");
 
 		task("package packages").dependsOn(debianPackagesPackageTasks).does
 		(
@@ -189,5 +113,24 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 			echo("execute source/build/rsync-build-to-stormmq-repository-queues")
 		);
 		*/
+	}
+
+	private void executable(@NotNull final String taskName, @NotNull final String barcodesClientModule, @NotNull final String consoleEntryPoint)
+	{
+		final FindFilesFilter isInLibrary = isInRoot(library());
+		final FindFilesFilter dependentJarFilesExcludingLibraries = isInLibrary.not().and(Jar);
+
+		final AbsoluteDirectory application = output(taskName);
+		final AbsoluteDirectory applicationDistribution = application.subDirectory("distribution");
+		final AbsoluteDirectory applicationJars = applicationDistribution.subDirectory("jars");
+
+		task(taskName).dependsOn("compile " + barcodesClientModule).does
+		(
+			makeDirectory(applicationJars),
+			jarTogether(registeredPaths(barcodesClientModule)).capturing(dependentJarFilesExcludingLibraries).to(applicationJars.file(taskName + ".jar")).withClassPath(filesFilteredAbsolutePaths(registeredPaths(barcodesClientModule), isInLibrary)).withMainClass(consoleEntryPoint),
+			flatHardLinkFiles(isInLibrary.and(Jar)).from(registeredPaths(barcodesClientModule)).to(applicationJars),
+			zipTogether(registeredPaths(barcodesClientModule + ".source.zip")).capturing(fileHasExtension("source.zip")).to(applicationJars.file(taskName + ".source.zip"))
+			//flatHardLinkFiles(Jar).from(registeredPaths("nio-bootclasspath")).to(barcodesGs1ClientApplicationJars),
+		);
 	}
 }
