@@ -1,0 +1,8 @@
+# This is a bug in lintian
+hdn-keyring-private binary: lzma-deb-archive
+
+# Gnu Privacy Guard requires these unusual permissions
+hdn-keyring-private binary: non-standard-dir-perm etc/hdn-keyring-private/hdn/ 0700 != 0755
+hdn-keyring-private binary: non-standard-file-perm etc/hdn-keyring-private/hdn/pubring.gpg 0600 != 0644
+hdn-keyring-private binary: non-standard-file-perm etc/hdn-keyring-private/hdn/secring.gpg 0600 != 0644
+hdn-keyring-private binary: non-standard-file-perm etc/hdn-keyring-private/hdn/trustdb.gpg 0600 != 0644

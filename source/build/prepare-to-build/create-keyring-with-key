@@ -1,0 +1,126 @@
+#!/bin/bash -
+
+# © Crown Copyright 2013
+*
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+*
+#     http://www.apache.org/licenses/LICENSE-2.0
+*
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+set -e
+
+readonly ourName="$(basename "$0")"
+
+cd "$(dirname "$0")" 1>/dev/null
+readonly crudeOurPath="$(pwd)"
+cd - 1>/dev/null
+
+function exitHelp()
+{
+	echo "Usage: $ourName [--help] <keyring> <userName including spaces, eg Raphael Cohn>" 1>&2
+	exit $1
+}
+
+function exitError()
+{
+	local -r error="$1"
+	echo "$ourName: $error" 1>&2
+	exitHelp 1
+}
+
+function setEmail()
+{
+	local -r keyEmailUser="$(echo "$keyUser" | tr '[:upper:]' '[:lower:]' | tr ' ' '.')"
+	readonly keyEmail="${keyEmailUser}@nhs.net"
+}
+
+function setPaths()
+{
+	readonly sourcePath="$crudeOurPath"/../..
+	readonly packageTemplatesPath="$sourcePath"/build/package-templates
+	readonly keyringsPath="$packageTemplatesPath"/hdn-keyring-private/hdn-keyring-private/etc/hdn-keyring-private
+	readonly keyringPath="$keyringsPath"/"$keyring"
+}
+
+function verifyPaths()
+{
+	if [ ! -d "$keyringsPath" ]; then
+		exitError "path $keyringsPath does not exist"
+	fi
+	if [ ! -d "$keyringPath" ]; then
+		mkdir "$keyringPath"
+	fi
+}
+
+function setKeyringFolderPermissionsAsGitDoesNotRecordThese()
+{
+	chown "$UID" "$keyringPath"
+	chmod 700 "$keyringPath"
+}
+
+function checkKeyDoesNotAlreadyExist()
+{
+	if gpg --quiet --no-greeting --no-permission-warning --no-random-seed-file --homedir "$keyringPath" --list-keys | grep 'uid' | grep -q -m 1 "$keyUser <$keyEmail>"; then
+		echo "Key already exists for $keyUser <$keyEmail>"
+		exit 0
+	fi
+}
+
+function generateTemporaryBatchFile()
+{
+	readonly batchFile="$(mktemp -t XXXXXX."$ourName.$keyring")"
+	env keyUser="$keyUser" keyEmail="$keyEmail" "$sourcePath"/package-templates/hdn-template/hdn-template/usr/bin/hdn-template "$crudeOurPath"/create-keyring-with-key.batch.template >"$batchFile"
+}
+
+function createPrivateKey()
+{
+	echo " "
+	echo "Making key"
+	gpg --verbose --no-greeting --no-permission-warning --no-random-seed-file --homedir "$keyringPath" --gen-key --batch "$batchFile" </dev/null
+	echo " "
+	echo "Key created in $keyringPath"
+}
+
+function deleteTemporaryBatchFile()
+{
+	rm -f "$batchFile"
+}
+
+function setKeyringFilePermissionsAsGitDoesNotRecordThese()
+{
+	chown -R "$UID" "$keyringPath"
+	chmod 600 "$keyringPath"/*
+}
+
+if [ $# -eq 1 ]; then
+	if [ "$1" = "--help" ]; then
+		exitHelp 2
+	elif  [ "$1" = "-h" ]; then
+		exitHelp 2
+	else
+		exitHelp 1
+	fi
+elif [ $# -eq 2 ]; then
+	readonly keyring="$1"
+	readonly keyUser="$2"
+else
+	exitError "Invalid options"
+fi
+
+setEmail
+setPaths
+verifyPaths
+setKeyringFolderPermissionsAsGitDoesNotRecordThese
+checkKeyDoesNotAlreadyExist
+generateTemporaryBatchFile
+createPrivateKey
+deleteTemporaryBatchFile
+setKeyringFilePermissionsAsGitDoesNotRecordThese
+

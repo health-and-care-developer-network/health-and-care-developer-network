@@ -1,0 +1,98 @@
+#!/bin/bash -
+
+# © Crown Copyright 2013
+*
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+*
+#     http://www.apache.org/licenses/LICENSE-2.0
+*
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+set -e
+
+readonly ourName="$(basename "$0")"
+
+cd "$(dirname "$0")" 1>/dev/null
+readonly crudeOurPath="$(pwd)"
+cd - 1>/dev/null
+
+function exitHelp()
+{
+	echo "Usage: $ourName [--help]" 1>&2
+	exit $1
+}
+
+function exitError()
+{
+	local -r error="$1"
+	echo "$ourName: $error" 1>&2
+	exitHelp 1
+}
+
+function checkRunningOnDebianOrUbuntu()
+{
+	local -r os="$(uname)"
+	if [ "$os" != "Linux" ]; then
+		exitError "Only to be used on Linux"
+	fi
+	if [ ! -f "/etc/debian_version" ]; then
+		exitError "Only to be used on Debian or Ubuntu derivatives"
+	fi
+}
+
+function updateAptRepositories()
+{
+	sudo -p "Password to update apt: " apt-get -y --no-install-recommends update
+	sudo -p "Password to dist-upgrade apt: " apt-get -y --no-install-recommends dist-upgrade
+}
+
+function installDependencies()
+{
+	sudo -p "Password to install build dependencies: " apt-get -y --no-install-recommends install openssh-client ssh-blacklist ssh-blacklist-extra git-core lsb-invalid-mta apt-utils build-essential lintian fakeroot gnupg debhelper devscripts dpkg dpkg-dev openjdk-7-jdk openjdk-7-doc openjdk-7-source
+}
+
+function cloneSource()
+{
+	mkdir -p ~/Documents
+	
+	cd ~/Documents 1>/dev/null 2>/dev/null
+	
+	git clone https://github.com/health-and-care-developer-network/health-and-care-developer-network.git
+	
+	cd health-and-care-developer-network 1>/dev/null 2>/dev/null
+	git checkout development
+}
+
+function parseCommandLine()
+{
+	if [ $# -eq 1 ]; then
+		if [ "$1" = "--help" ]; then
+			exitHelp 2
+		elif  [ "$1" = "-h" ]; then
+			exitHelp 2
+		else
+			exitError "Invalid options"
+		fi
+	elif [ $# -eq 0 ]; then
+		:
+	else
+		exitError "Invalid options"
+	fi
+}
+
+function main()
+{
+	parseCommandLine "$@"
+	checkRunningOnDebianOrUbuntu
+	updateAptRepositories
+	installDependencies
+	cloneSource
+}
+
+main "$@"
