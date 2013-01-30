@@ -49,7 +49,7 @@ function setPaths()
 function parseCommandLine()
 {
 	if [ $# -eq 0 ]; then
-		readonly taskName="all"
+		readonly taskName="packages"
 	elif [ $# -eq 1 ]; then
 		if [ "$1" = "--help" ]; then
 			exitHelp 2
@@ -76,6 +76,7 @@ function executeBuildScript()
 function main()
 {
 	parseCommandLine "$@"
+	setPaths
 	changeToSourceControlRoot
 	executeBuildScript
 }
