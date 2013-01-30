@@ -48,13 +48,13 @@ function checkRunningOnDebianOrUbuntu()
 
 function updateAptRepositories()
 {
-	sudo -p "Password to update apt: " apt-get -y -o Dpkg::Options::='--force-confold' --force-yes --no-install-recommends update
-	sudo -p "Password to dist-upgrade apt: " apt-get -y -o Dpkg::Options::='--force-confold' --force-yes --no-install-recommends dist-upgrade
+	sudo -p "Password to update apt: "  DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confold" --force-yes --no-install-recommends update
+	sudo -p "Password to dist-upgrade apt: "  DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confold" --force-yes --no-install-recommends dist-upgrade
 }
 
 function installDependencies()
 {
-	sudo -p "Password to install build dependencies: " apt-get -y -o Dpkg::Options::='--force-confold' --force-yes --no-install-recommends install openssh-client ssh-blacklist ssh-blacklist-extra git-core lsb-invalid-mta apt-utils build-essential lintian fakeroot gnupg debhelper devscripts dpkg dpkg-dev openjdk-7-jdk openjdk-7-doc openjdk-7-source
+	sudo -p "Password to install build dependencies: "  DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confold" --force-yes --no-install-recommends install openssh-client git-core lsb-invalid-mta apt-utils build-essential lintian fakeroot gnupg debhelper devscripts dpkg dpkg-dev openjdk-7-jdk openjdk-7-doc openjdk-7-source
 }
 
 function cloneSource()
