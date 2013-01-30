@@ -98,9 +98,9 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 			execute(source("build", "build").file("generate-changelog-template")).inWorkingDirectory(source("build")).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArguments()
 		);
 
-		debianPackagesPackageTask("stormmq-kernel", "generate changelog template");
+		debianPackagesPackageTask("hdn-template", "generate changelog template");
 
-		debianNonRepositoryPackageTask("stormmq-keyring-private", "generate changelog template");
+		debianNonRepositoryPackageTask("hdn-keyring-private", "generate changelog template");
 
 		task("packages").dependsOn(debianPackagesPackageTasks).does
 		(
