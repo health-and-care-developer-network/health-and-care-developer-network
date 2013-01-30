@@ -109,6 +109,7 @@ function main()
 	parseCommandLine "$@"
 	checkRunningOnMacOSX
 	installDependencies
+	cloneSource
 }
 
 main "$@"
