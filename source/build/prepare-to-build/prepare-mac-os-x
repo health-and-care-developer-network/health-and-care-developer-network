@@ -43,6 +43,16 @@ function checkRunningOnMacOSX()
 	fi
 }
 
+function installHomebrewDependency()
+{
+	local -r dependency="$1"
+	echo "$ourName: Installing or Updating $dependency"
+	set +e
+	brew install "$dependency" 1>/dev/null 2>/dev/null
+	brew update "$dependency" 1>/dev/null 2>/dev/null
+	set -e
+}
+
 function installDependencies()
 {
 	if which -s java; then
@@ -60,11 +70,8 @@ function installDependencies()
 		ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"
 	fi
 	
-	echo "$ourName: Installing or Updating git"
-	set +e
-	brew install git 1>/dev/null 2>/dev/null
-	brew update git 1>/dev/null 2>/dev/null
-	set -e
+	installHomebrewDependency "git"
+	installHomebrewDependency "gpg"
 }
 
 function parseCommandLine()
