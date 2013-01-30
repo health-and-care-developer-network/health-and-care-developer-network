@@ -156,7 +156,7 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		task(taskName).dependsOn(dependsOnTaskNames).does
 		(
-			execute(source("build").file("create-debian-package")).inWorkingDirectory(output()).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArguments(packagesFolder, packageName)
+			execute(source("build", "build").file("create-debian-package")).inWorkingDirectory(output()).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArguments(packagesFolder, packageName)
 		);
 
 		return expandedDebianPackageTasks;
