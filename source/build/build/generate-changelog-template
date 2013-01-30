@@ -41,13 +41,13 @@ function setPaths()
 	readonly releasePath="$sourcePath"/../release
 	readonly packageTemplatesPath="$sourcePath"/build/package-templates
 	readonly lastReleasedCommitFile="$packageTemplatesPath"/last-released-commit
-	
+
 	readonly changelogTemplatesPath="$releasePath"/changelog-templates
 	readonly changelogOutputFile="$changelogTemplatesPath"/changelog.template
 	readonly NEWSOutputFile="$changelogTemplatesPath"/NEWS.template
-	readonly changelogTemplateTemplateFile="$sourcePath"/package-templates/changelog.template
-	readonly NEWSTemplateTemplateFile="$sourcePath"/package-templates/NEWS.template
-	
+	readonly changelogTemplateTemplateFile="$packageTemplatesPath"/changelog.template
+	readonly NEWSTemplateTemplateFile="$packageTemplatesPath"/NEWS.template
+
 	mkdir -p "$changelogTemplatesPath"
 	cp "$changelogTemplateTemplateFile" "$changelogOutputFile"
 	cp "$NEWSTemplateTemplateFile" "$NEWSOutputFile"
@@ -78,7 +78,7 @@ function mostRecentChange()
 {
 	readonly mostRecentChangeMessage="$(git log -n 1 --pretty="format:%H %aD %an: %s")"
 	readonly currentBranch="$(git branch | grep '^\* ' | cut -c3-)"
-	
+
 	DEBEMAIL="$authorEmail" DEBFULLNAME="$authorName" debchange --no-auto-nmu --preserve --no-query --distribution "experimental" --force-distribution --urgency low --newversion "$packageVersion" --changelog "$changelogOutputFile" "$mostRecentChangeMessage"
 	DEBEMAIL="$authorEmail" DEBFULLNAME="$authorName" debchange --no-auto-nmu --preserve --no-query --distribution "experimental" --force-distribution --urgency low --newversion "$packageVersion" --changelog "$changelogOutputFile" --news "$NEWSOutputFile" "$mostRecentChangeMessage (branch $currentBranch)"
 }
