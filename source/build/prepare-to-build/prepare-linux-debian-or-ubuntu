@@ -48,23 +48,23 @@ function checkRunningOnDebianOrUbuntu()
 
 function updateAptRepositories()
 {
-	sudo -p "Password to update apt: " apt-get -y --no-install-recommends update
-	sudo -p "Password to dist-upgrade apt: " apt-get -y --no-install-recommends dist-upgrade
+	sudo -p "Password to update apt: " apt-get -y -o Dpkg::Options::='--force-confold' --force-yes --no-install-recommends update
+	sudo -p "Password to dist-upgrade apt: " apt-get -y -o Dpkg::Options::='--force-confold' --force-yes --no-install-recommends dist-upgrade
 }
 
 function installDependencies()
 {
-	sudo -p "Password to install build dependencies: " apt-get -y --no-install-recommends install openssh-client ssh-blacklist ssh-blacklist-extra git-core lsb-invalid-mta apt-utils build-essential lintian fakeroot gnupg debhelper devscripts dpkg dpkg-dev openjdk-7-jdk openjdk-7-doc openjdk-7-source
+	sudo -p "Password to install build dependencies: " apt-get -y -o Dpkg::Options::='--force-confold' --force-yes --no-install-recommends install openssh-client ssh-blacklist ssh-blacklist-extra git-core lsb-invalid-mta apt-utils build-essential lintian fakeroot gnupg debhelper devscripts dpkg dpkg-dev openjdk-7-jdk openjdk-7-doc openjdk-7-source
 }
 
 function cloneSource()
 {
 	mkdir -p ~/Documents
-	
+
 	cd ~/Documents 1>/dev/null 2>/dev/null
-	
+
 	git clone https://github.com/health-and-care-developer-network/health-and-care-developer-network.git
-	
+
 	cd health-and-care-developer-network 1>/dev/null 2>/dev/null
 	git checkout development
 }
