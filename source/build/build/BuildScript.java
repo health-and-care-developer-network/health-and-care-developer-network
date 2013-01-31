@@ -98,7 +98,7 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 			execute(source("build", "build").file("generate-changelog-template")).inWorkingDirectory(source("build")).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArguments()
 		);
 
-		debianPackagesPackageTask("hdn-gs1-client", "generate changelog template");
+		debianPackagesPackageTask("hdn-gs1-client", "generate changelog template", "hdn-gs1-client");
 
 		debianPackagesPackageTask("hdn-template", "generate changelog template");
 
