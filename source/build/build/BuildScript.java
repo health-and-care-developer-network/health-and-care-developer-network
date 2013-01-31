@@ -60,7 +60,7 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		final String barcodesServerConsoleEntryPoint = intellijModuleHasMainClassByConvention("barcodes-gs1-server-application", "Gs1BarcodesServerConsoleEntryPoint");
 
-		final String dtsClientOutConsoleEntryPoint = intellijModuleHasMainClassByConvention("dts-clientHDN_FIREWALL_hostname", "OutClientConsoleEntryPoint");
+		final String dtsClientOutConsoleEntryPoint = intellijModuleHasMainClassByConvention("dts-client-out", "OutClientConsoleEntryPoint");
 
 		final String dtsClientReadConsoleEntryPoint = intellijModuleHasMainClassByConvention("dts-client-read", "ReadClientConsoleEntryPoint");
 
@@ -85,13 +85,13 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		executable("hdn-gs1-server", "barcodes-gs1-server-application", barcodesServerConsoleEntryPoint);
 
-		executable("hdn-dtsHDN_FIREWALL_hostname", "dts-clientHDN_FIREWALL_hostname", dtsClientOutConsoleEntryPoint);
+		executable("hdn-dts-out", "dts-client-out", dtsClientOutConsoleEntryPoint);
 
 		executable("hdn-dts-read", "dts-client-read", dtsClientReadConsoleEntryPoint);
 
 		executable("hdn-dts-rats", "dts-client-rats", dtsClientRatsConsoleEntryPoint);
 
-		task("executables").dependsOn("hdn-gs1-client", "hdn-gs1-server", "hdn-dtsHDN_FIREWALL_hostname", "hdn-dts-read", "hdn-dts-rats");
+		task("executables").dependsOn("hdn-gs1-client", "hdn-gs1-server", "hdn-dts-out", "hdn-dts-read", "hdn-dts-rats");
 
 		task("generate changelog template").dependsOn("make output").does
 		(
@@ -100,7 +100,7 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		debianPackagesPackageTask("hdn-gs1-client", "generate changelog template", "hdn-gs1-client");
 
-		debianPackagesPackageTask("hdn-gs1HDN_FIREWALL_hostnamever", "generate changelog template", "hdn-HDN_FIREWALL_hostnameserver");
+		debianPackagesPackageTask("hdn-gs1-out", "generate changelog template", "hdn-gs1-server");
 
 		debianPackagesPackageTask("hdn-dts-out", "generate changelog template", "hdn-dts-out");
 
