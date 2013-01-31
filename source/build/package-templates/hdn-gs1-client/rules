@@ -1,0 +1,53 @@
+#!/usr/bin/make -f
+PACKAGE=$(shell dh_listpackages)
+ROOT=../../..
+RELEASE=$(ROOT)/release
+SOURCE=$(ROOT)/source
+
+build: build-stamp
+build-stamp:
+	dh_testdir
+
+clean:
+	dh_testdir
+	dh_testroot
+	dh_clean
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_prep --exclude=debian/$(PACKAGE)
+	dh_installdirs
+
+binary-indep: build install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs
+
+	# Copy the packages's files.
+	rsync -v $(RELEASE)/$(PACKAGE)/$(PACKAGE).jar debian/$(PACKAGE)/usr/lib/$(PACKAGE)/$(PACKAGE).jar
+	find debian/$(PACKAGE)/usr/lib/$(PACKAGE) -type f -exec chmod 0644 {} \;
+	find debian/$(PACKAGE)/usr/lib/$(PACKAGE) -type d -exec chmod 0755 {} \;
+	rsync -v $(RELEASE)/$(PACKAGE)/$(PACKAGE).zip debian/$(PACKAGE)/usr/src/$(PACKAGE)/$(PACKAGE).zip
+	find debian/$(PACKAGE)/usr/src/$(PACKAGE) -type f -exec chmod 0644 {} \;
+	find debian/$(PACKAGE)/usr/src/$(PACKAGE) -type d -exec chmod 0755 {} \;
+
+	dh_installdocs
+	dh_installexamples
+	dh_installman
+	dh_lintian
+	dh_link
+	dh_compress
+	dh_fixperms
+
+	# Executable perms
+
+	dh_installdeb
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb -- -z9 -Zlzma
+
+binary-arch: build install
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install

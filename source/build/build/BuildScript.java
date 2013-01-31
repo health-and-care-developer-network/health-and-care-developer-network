@@ -98,6 +98,8 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 			execute(source("build", "build").file("generate-changelog-template")).inWorkingDirectory(source("build")).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArguments()
 		);
 
+		debianPackagesPackageTask("hdn-gs1-client", "generate changelog template");
+
 		debianPackagesPackageTask("hdn-template", "generate changelog template");
 
 		debianPackagesPackageTask("hdn-apt", "generate changelog template");
@@ -113,6 +115,8 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 		debianPackagesPackageTask("hdn-jstatd", "generate changelog template");
 
 		debianNonRepositoryPackageTask("hdn-keyring-private", "generate changelog template");
+
+		debianPackagesPackageTask("hdn-ssh-server", "generate changelog template");
 
 		task("packages").dependsOn(debianPackagesPackageTasks).does
 		(

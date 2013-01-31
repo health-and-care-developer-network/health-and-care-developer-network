@@ -1,0 +1,16 @@
+Source: hdn-ssh-server
+Section: admin
+Priority: important
+Maintainer: Raphael Cohn <raphael.cohn@stormmq.com>
+Uploaders: Mike Kelly <mike.kelly1@nhs.net>
+Homepage: http://hdn.nhs.uk/
+Build-Depends: debhelper (>= 7), fakeroot, openjdk-7-jdk, git-core, apt-utils, gnupg, devscripts
+Standards-Version: 3.8.4.0
+
+Package: hdn-ssh-server
+Architecture: all
+Depends: openssh-server, openssh-blacklist, openssh-blacklist-extra, rsync, hdn-firewall, ${misc:Depends}
+Homepage: http://hdn.nhs.uk/
+Description: HDN hdn-ssh-server
+ This package provides the necessary support
+ to use ssh as a server securely.
