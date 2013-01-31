@@ -13,4 +13,5 @@ Depends: coreutils (>= 7.4-2ubuntu3), openjdk-7-jdk | openjdk-7-jre, libc6, zlib
 Recommends: hdn-java-common
 Homepage: http://hdn.nhs.uk/
 Description: GS1 Client
- This package provides the GS1 client
+ This package provides the GS1 client java
+ client and source.

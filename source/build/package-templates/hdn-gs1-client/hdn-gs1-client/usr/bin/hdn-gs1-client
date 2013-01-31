@@ -28,5 +28,5 @@ exec -a "$ourName" java \
 -client \
 $HDN_GS1_CLIENT_JAVA_DEBUG_SWITCHES \
 $HDN_GS1_CLIENT_JAVA_ADDITIONAL_SWITCHES \
--jar /usr/lib/hdn-gs1-client/hdn-gs1-client.jar \
+-jar /usr/share/hdn-gs1-client/hdn-gs1-client.jar \
 "$@"

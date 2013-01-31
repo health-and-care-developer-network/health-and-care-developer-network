@@ -25,9 +25,9 @@ binary-indep: build install
 	dh_installchangelogs
 
 	# Copy the packages's files.
-	rsync -v $(RELEASE)/$(PACKAGE)/$(PACKAGE).jar debian/$(PACKAGE)/usr/lib/$(PACKAGE)/$(PACKAGE).jar
-	find debian/$(PACKAGE)/usr/lib/$(PACKAGE) -type f -exec chmod 0644 {} \;
-	find debian/$(PACKAGE)/usr/lib/$(PACKAGE) -type d -exec chmod 0755 {} \;
+	rsync -v $(RELEASE)/$(PACKAGE)/$(PACKAGE).jar debian/$(PACKAGE)/usr/share/$(PACKAGE)/$(PACKAGE).jar
+	find debian/$(PACKAGE)/usr/share/$(PACKAGE) -type f -exec chmod 0644 {} \;
+	find debian/$(PACKAGE)/usr/share/$(PACKAGE) -type d -exec chmod 0755 {} \;
 	rsync -v $(RELEASE)/$(PACKAGE)/$(PACKAGE).source.zip debian/$(PACKAGE)/usr/src/$(PACKAGE)/$(PACKAGE).zip
 	find debian/$(PACKAGE)/usr/src/$(PACKAGE) -type f -exec chmod 0644 {} \;
 	find debian/$(PACKAGE)/usr/src/$(PACKAGE) -type d -exec chmod 0755 {} \;
