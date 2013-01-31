@@ -83,11 +83,11 @@ function createAptSourcesSnippet()
 {
 	cd "$packagesPath" >/dev/null
 	local -r path="$(pwd)"
-    cat >hdn.sources.list <<-EOF
-        # To use this sources.list do:-
-        # sudo ln -s $packagesPath/hdn.sources.list /etc/apt/sources.list.d/00hdn.sources.list
-        deb file:$packagesPath /
-    EOF
+    cat >hdn.sources.list <<END
+# To use this sources.list do:-
+# sudo ln -s $packagesPath/hdn.sources.list /etc/apt/sources.list.d/00hdn.sources.list
+deb file:$packagesPath /
+END
 	cd - >/dev/null
 }
 
