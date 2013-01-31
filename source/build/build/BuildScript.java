@@ -100,6 +100,12 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		debianPackagesPackageTask("hdn-gs1-client", "generate changelog template", "hdn-gs1-client");
 
+		debianPackagesPackageTask("hdn-dts-out", "generate changelog template", "hdn-dts-out");
+
+		debianPackagesPackageTask("hdn-dts-read", "generate changelog template", "hdn-dts-read");
+
+		debianPackagesPackageTask("hdn-dts-rats", "generate changelog template", "hdn-dts-rats");
+
 		debianPackagesPackageTask("hdn-template", "generate changelog template");
 
 		debianPackagesPackageTask("hdn-apt", "generate changelog template");
