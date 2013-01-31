@@ -9,9 +9,11 @@ Standards-Version: 3.8.4.0
 
 Package: hdn-gs1-client
 Architecture: all
-Depends: coreutils (>= 7.4-2ubuntu3), openjdk-7-jdk | openjdk-7-jre, libc6, zlib1g, libgmp3c2, libonig2, ${misc:Depends}
+Depends: coreutils (>= 7.4-2ubuntu3), openjdk-7-jdk | openjdk-7-jre, ${misc:Depends}
 Recommends: hdn-java-common
 Homepage: http://hdn.nhs.uk/
 Description: GS1 Client
  This package provides the GS1 client java
  client and source.
+ .
+ To run it, call /usr/bin/hdn-gs1-client .
