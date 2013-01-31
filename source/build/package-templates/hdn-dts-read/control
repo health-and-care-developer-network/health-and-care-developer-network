@@ -1,4 +1,4 @@
-Source: hdn-dts-out
+Source: hdn-dts-read
 Section: java
 Priority: optional
 Maintainer: Raphael Cohn <raphael.cohn@stormmq.com>
@@ -7,7 +7,7 @@ Homepage: http://hdn.nhs.uk/
 Build-Depends: debhelper (>= 7), fakeroot, openjdk-7-jdk, git-core, apt-utils, gnupg, devscripts
 Standards-Version: 3.8.4.0
 
-Package: hdn-dts-out
+Package: hdn-dts-read
 Architecture: all
 Depends: coreutils (>= 7.4-2ubuntu3), openjdk-7-jdk | openjdk-7-jre, ${misc:Depends}
 Recommends: hdn-java-common
