@@ -137,7 +137,7 @@ function touchLogFilesToEnsureCorrectPermissionsBeforeUserSwitchInsideBroker()
 
 function executeHdnServer()
 {
-	LD_PRELOAD=/usr/lib/libtcmalloc_minimal.so.0 exec -a hdn-gs1-server "$JAVA_HOME"/bin/java \
+	exec -a hdn-gs1-server "$JAVA_HOME"/bin/java \
 	-server \
 	-d64 \
 	-Xmn256m \
@@ -183,7 +183,7 @@ function executeHdnServer()
 	-Dcom.sun.management.jmxremote.port=$HDN_GS1_SERVER_JMX_REMOTE_PORT \
 	-Duser.home=/var/lib/hdn-gs1-server \
 	$HDN_GS1_SERVER_JAVA_ADDITIONAL_SWITCHES \
-	-jar /usr/lib/hdn-gs1-server/jars/amqp-server-application.jar \
+	-jar /usr/share/hdn-gs1-server/hdn-gs1-server.jar \
 	$HDN_GS1_SERVER_COMMAND_LINE_SWITCHES 1>>"$stdoutLog" 2>>"$stderrLog"
 }
 
