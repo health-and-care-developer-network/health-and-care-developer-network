@@ -19,9 +19,27 @@ set -e
 
 source "/usr/lib/hdn-apt/functions"
 
-function startOrRestartUpstartJob4Store()
+function createHdnDatabaseIfMissing()
 {
-	:
+	# azure instances are 2 CPU, hence 4 segments. Of course, in a sophisticated set-up, we'd have machine profiles...
+	if [ ! -f /var/lib/4store/hdn/metadata.nt ]; then
+		4s-backend-setup --node 0 --cluster 1 --segments 4 hdn
+	fi
+}
+
+function cleanUpFolderPermissions()
+{
+	chown --preserve-root --recursive fourstore:fourstore /var/lib/4store
+}
+
+function divert4StoreFiles()
+{
+	divertFile "hdn-4store" "/etc/default" "4store"
+}
+
+function startOrRestart4Store()
+{
+	invoke-rc.d 4store restart
 }
 
 case "$1" in
@@ -29,7 +47,10 @@ case "$1" in
 		readonly postinst_Instance="any"
 		readonly mostRecentlyConfiguredVersion="$2"
 		
-		startOrRestartUpstartJob4Store
+		createHdnDatabaseIfMissing
+		cleanUpFolderPermissions
+		divert4StoreFiles
+		startOrRestart4Store
 	;;
 
 	abort-upgrade)

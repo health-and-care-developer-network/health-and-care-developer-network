@@ -19,10 +19,20 @@ set -e
 
 source "/usr/lib/hdn-apt/functions"
 
-function stopServer()
+function revertFiles()
 {
-	#stopUpstartJob "hdn-gs1-server"
-	:
+	revertFile "hdn-4store" "/etc/default" "4store"
+}
+
+function stop4Store()
+{
+	if [ ! -x /usr/sbin/invoke-rc.d ]; then
+		return
+	fi
+	if [ ! -f /etc/init.d/4store ]; then
+		return
+	fi
+	invoke-rc.d 4store stop
 }
 
 case "$1" in
@@ -34,14 +44,16 @@ case "$1" in
 			readonly newVersion="$5"
 		fi
 		
-		stopServer
+		revertFiles
+		stop4Store
 	;;
 
 	upgrade)
 		readonly prerm_Instance="old"
 		readonly newVersion="$2"
 		
-		stopServer
+		revertFiles
+		stop4Store
 	;;
 
 	# This target implies the old prerm script was run with the 'upgrade' target and failed.
@@ -56,6 +68,7 @@ case "$1" in
 		readonly packageBeingInstalled="$3"
 		readonly version="$4"
 		
-		stopServer
+		revertFiles
+		stop4Store
 	;;
 esac
