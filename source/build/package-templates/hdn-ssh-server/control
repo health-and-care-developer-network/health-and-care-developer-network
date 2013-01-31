@@ -13,4 +13,5 @@ Depends: openssh-server, openssh-blacklist, openssh-blacklist-extra, rsync, hdn-
 Homepage: http://hdn.nhs.uk/
 Description: HDN hdn-ssh-server
  This package provides the necessary support
- to use ssh as a server securely.
+ to use ssh as a server securely, including
+ rules for hdn-firewall.
