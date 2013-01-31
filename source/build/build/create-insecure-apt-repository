@@ -54,8 +54,9 @@ function parseCommandLine()
 
 function setPaths()
 {
-	readonly sourcePath="$crudeOurPath"/..
-	readonly releasePath="$sourcePath"/../release
+	readonly sourcePath="$crudeOurPath"/../..
+	readonly rootPath="$sourcePath"/..
+	readonly releasePath="$rootPath"/release
 	readonly packagesPath="$releasePath"/"$packagesFolder"
 }
 
@@ -67,7 +68,26 @@ function createPackagesFolder()
 function createPackagesFile()
 {
 	cd "$packagesPath" >/dev/null
-	dpkg-scanpackages . >Packages
+	dpkg-scanpackages -t deb . >Packages
+	cd - >/dev/null
+}
+
+function compressPackagesFile()
+{
+    readonly packagesFile="$packagesPath"/Packages
+    gzip --stdout --best "$packagesFile" >"$packagesFile".gz
+    bzip2 --stdout --best "$packagesFile" >"$packagesFile".gz
+}
+
+function createAptSourcesSnippet()
+{
+	cd "$packagesPath" >/dev/null
+	local -r path="$(pwd)"
+    cat <<-EOF >hdn.sources.list
+        # To use this sources.list do:-
+        # sudo ln -s ${packagesPath}/hdn.sources.list /etc/apt/sources.list.d/00hdn.sources.list
+        deb file:${packagesPath} /
+    EOF
 	cd - >/dev/null
 }
 
@@ -77,6 +97,8 @@ function main()
 	setPaths
 	createPackagesFolder
 	createPackagesFile
+	compressPackagesFile
+	createAptSourcesSnippet
 }
 
 main "$@"
