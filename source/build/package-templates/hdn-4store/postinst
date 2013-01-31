@@ -19,9 +19,9 @@ set -e
 
 source "/usr/lib/hdn-apt/functions"
 
-function startOrRestartUpstartJobHdnServer()
+function startOrRestartUpstartJob4Store()
 {
-	startOrRestartUpstartJob "hdn-gs1-server"
+	:
 }
 
 case "$1" in
@@ -29,7 +29,7 @@ case "$1" in
 		readonly postinst_Instance="any"
 		readonly mostRecentlyConfiguredVersion="$2"
 		
-		startOrRestartUpstartJobHdnServer
+		startOrRestartUpstartJob4Store
 	;;
 
 	abort-upgrade)

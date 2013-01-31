@@ -19,44 +19,43 @@ set -e
 
 source "/usr/lib/hdn-apt/functions"
 
-function startOrRestartUpstartJobHdnServer()
+function stopServer()
 {
-	startOrRestartUpstartJob "hdn-gs1-server"
+	#stopUpstartJob "hdn-gs1-server"
+	:
 }
 
 case "$1" in
-	configure)
-		readonly postinst_Instance="any"
-		readonly mostRecentlyConfiguredVersion="$2"
+	remove)
+		if [ $# -gt 0 ]; then
+			readonly prerm_Instance="conflictors"
+			readonly inFavour="$3"
+			readonly package="$4"
+			readonly newVersion="$5"
+		fi
 		
-		startOrRestartUpstartJobHdnServer
+		stopServer
 	;;
 
-	abort-upgrade)
-		readonly postinst_Instance="old"
+	upgrade)
+		readonly prerm_Instance="old"
 		readonly newVersion="$2"
+		
+		stopServer
 	;;
 
-	abort-remove)
-		if [ $# -gt 0 ]; then
-			if [ "$2" = "in-favour" ]; then
-				readonly postinst_Instance="conflictors"
-				readonly package="$3"
-				readonly newVersion="$4"
-			fi
-		else
-			readonly postinst_Instance="any"
-		fi
+	# This target implies the old prerm script was run with the 'upgrade' target and failed.
+	failed-upgrade)
+		readonly prerm_Instance="new"
+		readonly oldVersion="$2"
 	;;
 
-	abort-deconfigure)
-		if [ $# -gt 0 ]; then
-			if [ "$2" = "in-favour" ]; then
-				readonly postinst_Instance="deconfigureds"
-				readonly failedInstallPackage="$3"
-				readonly version="$4"
-			fi
-		fi
-		# [removing conflicting-package version]
+	deconfigure)
+		readonly prerm_Instance="deconfigureds"
+		readonly inFavour="$2"
+		readonly packageBeingInstalled="$3"
+		readonly version="$4"
+		
+		stopServer
 	;;
 esac
