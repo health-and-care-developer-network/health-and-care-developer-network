@@ -39,7 +39,9 @@ function divert4StoreFiles()
 
 function startOrRestart4Store()
 {
+	set +e
 	invoke-rc.d 4store restart
+	set -e
 }
 
 case "$1" in

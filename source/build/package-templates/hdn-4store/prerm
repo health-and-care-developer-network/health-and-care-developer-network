@@ -32,7 +32,9 @@ function stop4Store()
 	if [ ! -f /etc/init.d/4store ]; then
 		return
 	fi
+	set +e
 	invoke-rc.d 4store stop
+	set -e
 }
 
 case "$1" in
