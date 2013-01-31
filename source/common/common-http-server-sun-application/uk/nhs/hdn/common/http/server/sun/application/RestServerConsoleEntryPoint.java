@@ -41,7 +41,7 @@ public final class RestServerConsoleEntryPoint extends AbstractConsoleEntryPoint
 	private static final String DefaultHostName = "localhost";
 	private static final int DefaultHttpPort = 8080;
 	private static final int DefaultBacklog = 20;
-	private static final String DefaultDataPath = "/srv/hdn/http";
+	private static final String DefaultDataPath = "/srv/hdn-gs1-server";
 
 	@NotNull
 	private final RestEndpointsFactory restEndpointsFactory;

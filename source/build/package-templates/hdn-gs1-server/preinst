@@ -1,0 +1,57 @@
+#!/bin/bash -
+
+# © Crown Copyright 2013
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Disable errors stopping the script
+set -e
+
+source "/usr/lib/hdn-apt/functions"
+
+function createUserAndGroup()
+{
+	# Command does not fail if user already exists with same UID
+	adduser --system --uid 498 --group --shell /bin/false --home /var/lib/hdn-gs1-server --no-create-home hdn-gs1-server
+}
+
+function stopServer()
+{
+	stopUpstartJob "hdn-gs1-server"
+}
+
+case "$1" in
+	install)
+		readonly newPreinstOrOldPreinst="new"
+		if [ $# -gt 1 ]; then
+			readonly oldVersion="$2"
+		fi
+		
+		createUserAndGroup
+		stopServer
+	;;
+
+	upgrade)
+		readonly newPreinstOrOldPreinst="new"
+		readonly oldVersion="$2"
+		
+		stopServer
+	;;
+
+	abort-upgrade)
+		readonly newPreinstOrOldPreinst="old"
+		readonly newVersion="$2"
+		
+		stopServer
+	;;
+esac

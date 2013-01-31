@@ -1,0 +1,10 @@
+/var/log/hdn-gs1-server/*.log {
+	daily
+	missingok
+	rotate 32
+	compress
+	delaycompress
+	notifempty
+	copytruncate
+	sharedscripts
+}

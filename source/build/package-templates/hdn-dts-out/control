@@ -1,4 +1,4 @@
-Source: hdn-dts-out
+Source: hdn-dtsHDN_FIREWALL_hostname
 Section: java
 Priority: optional
 Maintainer: Raphael Cohn <raphael.cohn@stormmq.com>
@@ -7,7 +7,7 @@ Homepage: http://hdn.nhs.uk/
 Build-Depends: debhelper (>= 7), fakeroot, openjdk-7-jdk, git-core, apt-utils, gnupg, devscripts
 Standards-Version: 3.8.4.0
 
-Package: hdn-dts-out
+Package: hdn-dtsHDN_FIREWALL_hostname
 Architecture: all
 Depends: coreutils (>= 7.4-2ubuntu3), openjdk-7-jdk | openjdk-7-jre, ${misc:Depends}
 Recommends: hdn-java-common
@@ -16,4 +16,4 @@ Description: GS1 DTS out client
  This package provides the HDN Data
  Transfer Service (DTS) out client
  .
- To run it, call /usr/bin/hdn-dts-out .
+ To run it, call /usr/bin/hdn-dtsHDN_FIREWALL_hostname .

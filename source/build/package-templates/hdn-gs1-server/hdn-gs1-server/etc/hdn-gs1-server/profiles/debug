@@ -1,0 +1,4 @@
+source /etc/hdn-gs1-server/profiles/ordinary
+HDN_GS1_SERVER_JAVA_DEBUG_SUSPEND="y"
+HDN_GS1_SERVER_JAVA_DEBUG_ADDRESS="127.0.0.1:5001"
+HDN_GS1_SERVER_JAVA_DEBUG_SWITCHES="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=$HDN_GS1_SERVER_JAVA_DEBUG_SUSPEND,address=$HDN_GS1_SERVER_JAVA_DEBUG_ADDRESS"

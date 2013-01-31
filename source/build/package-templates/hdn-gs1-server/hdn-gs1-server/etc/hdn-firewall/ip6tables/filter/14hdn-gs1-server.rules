@@ -1,0 +1,3 @@
+# Accept inbound HTTP and HTTPS connection
+--append INPUT ! --in-interface lo --destination ${HDN_FIREWALL_hostname} --protocol tcp --match multiport --destination-ports 80,443 --match state --state NEW --jump LOG --log-prefix "iptables_AmqpsConnection " --log-level info --log-ip-options --log-tcp-options --log-uid
+--append INPUT ! --in-interface lo --destination ${HDN_FIREWALL_hostname} --protocol tcp --match multiport --destination-ports 80,443 --match state --state NEW --jump ACCEPT
