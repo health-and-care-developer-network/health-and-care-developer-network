@@ -1,0 +1,20 @@
+Source: hdn-sysctl
+Section: admin
+Priority: important
+Maintainer: Raphael Cohn <raphael.cohn@stormmq.com>
+Uploaders: Mike Kelly <mike.kelly1@nhs.net>
+Homepage: http://hdn.nhs.uk/
+Build-Depends: debhelper (>= 7), fakeroot, openjdk-7-jdk,, git-core, apt-utils, gnupg, devscripts
+Standards-Version: 3.8.4.0
+
+Package: hdn-sysctl
+Architecture: all
+Depends: hdn-apt, ${misc:Depends}
+Pre-Depends: procps
+Homepage: http://hdn.nhs.uk/
+Description: HDN hdn-sysctl
+ This package provides a way to allow
+ dependent packages to change sysctl
+ values using configuration and to
+ cause these values to be updated using
+ dpkg-trigger.

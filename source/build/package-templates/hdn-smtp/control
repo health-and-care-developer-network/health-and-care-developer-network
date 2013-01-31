@@ -1,0 +1,23 @@
+Source: hdn-smtp
+Section: kernel
+Priority: required
+Maintainer: Raphael Cohn <raphael.cohn@stormmq.com>
+Uploaders: Mike Kelly <mike.kelly1@nhs.net>
+Homepage: http://hdn.nhs.uk/
+Build-Depends: debhelper (>= 7), fakeroot, openjdk-7-jdk, git-core, apt-utils, gnupg, devscripts
+Standards-Version: 3.8.4.0
+
+Package: hdn-smtp
+Architecture: all
+Depends: lsb-invalid-mta, hdn-firewall, ${misc:Depends}
+Homepage: http://hdn.nhs.uk/
+Description: HDN hdn-smtp
+ This package provides essential smtp mail
+ services to be used by HDN.
+ .
+ It also provides firewall rules for outbound
+ mail.
+ .
+ Currently, it references in an invalid
+ mail server configuration, but it could be
+ changed to forward to a SMTP relay.

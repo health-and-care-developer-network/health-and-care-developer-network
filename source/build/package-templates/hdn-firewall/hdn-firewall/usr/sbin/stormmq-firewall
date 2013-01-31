@@ -1,0 +1,308 @@
+#!/bin/bash -
+set -e
+
+readonly ourName="$(basename "$0")"
+
+cd "$(dirname "$0")" 1>/dev/null
+readonly crudeOurPath="$(pwd)"
+cd - 1>/dev/null
+
+function exitHelp()
+{
+	cat 1>&2 <<-EOF
+		Usage: $ourName -h
+		Usage: $ourName --help
+		Usage: $ourName <command>
+	
+		Options
+		<command>
+		    on               resets the firewall as if for off
+		                     then re-reads all iptables & iptables6 rules and sets the
+		                     state of the firewall. Existing connections are preserved
+		                     only if the firewall configuration explicitly does so.
+		
+		    dry-run          outputs what on would set firewall rules to, suitable for use
+		                     with iptables-restore and ip6tables-restore
+		
+		    interactive      pauses for upto 5s and expects user input to apply rules on,
+		                     otherwise reverts to off. Will pause once for iptables and
+		                     once for ip6tables.
+		
+		    off              resets the firewall to ACCEPT for all tables and chains.
+		
+		    status           status of firewall
+		
+	EOF
+	exit $1
+}
+
+function exitError()
+{
+	local -r error="$1"
+	echo "$ourName: $error" 1>&2
+	exitHelp 1
+}
+
+function parseCommandLine()
+{
+	if [ $# -eq 0 ]; then
+		exitError "Invalid options"
+	elif [ $# -eq 1 ]; then
+		if [ "$1" = "--help" ]; then
+			exitHelp 2
+		elif  [ "$1" = "-h" ]; then
+			exitHelp 2
+		else
+			readonly command="$1"
+		fi
+	fi
+}
+
+function guardSuperUserPrivileges()
+{
+	if [ $EUID != 0 ]; then
+		exec sudo -p "$ourName requires your password to run as root: " "$0" "$@"
+	fi
+}
+
+function setTableNames()
+{
+	readonly iptableNames="raw nat mangle filter"
+	readonly iptable6Names="raw mangle filter"
+}
+
+function exportVariablesForHdnTemplate()
+{
+	export HDN_FIREWALL_hostname="$(hostname)"
+}
+
+function executeCommandOnWith()
+{
+	local -r standardOutIptablesReceiver="$1"
+	local -r standardOutIp6tablesReceiver="$2"
+	
+	if ! modprobe ip_tables; then
+		echo "Can not perform iptables (v4) actions as ip_tables kernel module missing or did not load"
+	else
+		# Note lack of quotes to allow expansion
+		(
+			for tableName in $iptableNames
+			do
+				echo "# Applying rules for iptables table $tableName"
+				cat /etc/hdn-firewall/iptables/"$tableName".preamble
+				for rulesFragmentFilePath in $(run-parts --lsbsysinit --list --regex '.*\.rules' -- /etc/hdn-firewall/iptables/"$tableName")
+				do
+					if [ ! -r "$rulesFragmentFilePath" ]; then
+						continue
+					fi
+					printf "\n# ${rulesFragmentFilePath}\n"
+					hdn-template "$rulesFragmentFilePath"
+					printf "\n"
+				done
+				printf "\nCOMMIT\n\n"
+			done
+		) | $standardOutIptablesReceiver
+		# Above not quoted to allow expansion
+	fi
+	
+	if ! modprobe ip6_tables; then
+		echo "Can not perform iptables (v6) actions as ip6_tables kernel module missing or did not load"
+	else
+		# Note lack of quotes to allow expansion
+		(
+			for tableName in $iptable6Names
+			do
+				echo "# Applying rules for ip6tables table $tableName"
+				cat /etc/hdn-firewall/ip6tables/"$tableName".preamble
+				for rulesFragmentFilePath in $(run-parts --lsbsysinit --list --regex '.*\.rules' -- /etc/hdn-firewall/ip6tables/"$tableName")
+				do
+					if [ ! -r "$rulesFragmentFilePath" ]; then
+						continue
+					fi
+					printf "\n# ${rulesFragmentFilePath}\n"
+					hdn-template "$rulesFragmentFilePath"
+					printf "\n"
+				done
+				printf "\nCOMMIT\n\n"
+			done
+		) | $standardOutIp6tablesReceiver
+		# Above not quoted to allow expansion
+	fi
+}
+
+function executeCommandOn()
+{
+	executeCommandOff
+	executeCommandOnWith "iptables-restore --counters" "ip6tables-restore --counters"
+}
+
+function executeCommandDryRun()
+{
+	executeCommandOnWith "cat" "cat"
+}
+
+function executeCommandInteractive()
+{
+	executeCommandOff
+	executeCommandOnWith "iptables-apply --timeout 5 /dev/stdin" "ip6tables-apply --timeout 5 /dev/stdin"
+}
+
+function executeCommandOff()
+{
+	if ! modprobe ip_tables; then
+		echo "Can not perform iptables (v4) actions as ip_tables kernel module missing or did not load"
+	else
+		# Note lack of quotes to allow expansion
+		for tableName in $iptableNames
+		do
+			iptables --table "$tableName" --flush
+			iptables --table "$tableName" --delete-chain
+			iptables --table "$tableName" --zero
+			
+			case "$tableName" in
+				
+				raw)
+					iptables --table "$tableName" --policy PREROUTING ACCEPT
+					iptables --table "$tableName" --policy OUTPUT ACCEPT
+				;;
+				
+				nat)
+					iptables --table "$tableName" --policy PREROUTING ACCEPT
+					iptables --table "$tableName" --policy POSTROUTING ACCEPT
+					iptables --table "$tableName" --policy OUTPUT ACCEPT
+				;;
+				
+				mangle)
+					iptables --table "$tableName" --policy PREROUTING ACCEPT
+					iptables --table "$tableName" --policy INPUT ACCEPT
+					iptables --table "$tableName" --policy FORWARD ACCEPT
+					iptables --table "$tableName" --policy OUTPUT ACCEPT
+					iptables --table "$tableName" --policy POSTROUTING ACCEPT
+				;;
+				
+				filter)
+					iptables --table "$tableName" --policy INPUT ACCEPT
+					iptables --table "$tableName" --policy FORWARD ACCEPT
+					iptables --table "$tableName" --policy OUTPUT ACCEPT
+				;;
+				
+				*)
+					exitError "Unknown iptables table $tableName"
+				;;
+				
+			esac
+		done
+	fi
+
+	if ! modprobe ip6_tables; then
+		echo "Can not perform iptables (v6) actions as ip6_tables kernel module missing or did not load"
+	else
+		# Note lack of quotes to allow expansion
+		for tableName in $iptable6Names
+		do
+			ip6tables --table "$tableName" --flush
+			ip6tables --table "$tableName" --delete-chain
+			ip6tables --table "$tableName" --zero
+			
+			case "$tableName" in
+				
+				raw)
+					ip6tables --table "$tableName" --policy PREROUTING ACCEPT
+					ip6tables --table "$tableName" --policy OUTPUT ACCEPT
+				;;
+				
+				mangle)
+					ip6tables --table "$tableName" --policy PREROUTING ACCEPT
+					ip6tables --table "$tableName" --policy INPUT ACCEPT
+					ip6tables --table "$tableName" --policy FORWARD ACCEPT
+					ip6tables --table "$tableName" --policy OUTPUT ACCEPT
+					ip6tables --table "$tableName" --policy POSTROUTING ACCEPT
+				;;
+				
+				filter)
+					ip6tables --table "$tableName" --policy INPUT ACCEPT
+					ip6tables --table "$tableName" --policy FORWARD ACCEPT
+					ip6tables --table "$tableName" --policy OUTPUT ACCEPT
+				;;
+				
+				*)
+					exitError "Unknown ip6tables table $tableName"
+				;;
+				
+			esac
+		done
+	fi
+}
+
+function executeCommandStatus()
+{
+	if ! modprobe ip_tables; then
+		echo "Can not perform iptables (v4) actions as ip_tables kernel module missing or did not load"
+	else
+		echo "# iptables status"
+		printf "\n"
+		# Note lack of quotes to allow expansion
+		for tableName in $iptableNames
+		do
+			iptables-save --counters --table "$tableName" | grep --invert-match '^# '
+			printf "\n"
+		done
+		printf "\n"
+	fi
+
+	if ! modprobe ip6_tables; then
+		echo "Can not perform iptables (v6) actions as ip6_tables kernel module missing or did not load"
+	else
+		echo "# ip6tables status"
+		printf "\n"
+		# Note lack of quotes to allow expansion
+		for tableName in $iptable6Names
+		do
+			ip6tables-save --counters --table "$tableName" | grep --invert-match '^# '
+			printf "\n"
+		done
+		printf "\n"
+	fi
+}
+
+function executeCommand()
+{
+	case "$command" in
+		
+		on)
+			executeCommandOn
+		;;
+		
+		dry-run)
+			executeCommandDryRun
+		;;
+		
+		interactive)
+			executeCommandInteractive
+		;;
+		
+		off)
+			executeCommandOff
+		;;
+		
+		status)
+			executeCommandStatus
+		;;
+		
+		*)
+			exitError "Unrecognised command $command"
+		;;
+		
+	esac
+}
+
+function main()
+{
+	parseCommandLine "$@"
+	guardSuperUserPrivileges "$@"
+	setTableNames
+	exportVariablesForHdnTemplate
+	executeCommand
+}
+
+main "$@"

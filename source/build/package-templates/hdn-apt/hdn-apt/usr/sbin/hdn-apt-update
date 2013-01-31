@@ -1,0 +1,98 @@
+#!/bin/bash -
+set -e
+
+readonly ourName="$(basename "$0")"
+
+cd "$(dirname "$0")" 1>/dev/null
+readonly crudeOurPath="$(pwd)"
+cd - 1>/dev/null
+
+function exitHelp()
+{
+	cat 1>&2 <<-EOF
+		Usage: $ourName -h
+		Usage: $ourName --help
+		Usage: $ourName
+		
+		Does update, download, autoclean, dist-upgrade and autoclean
+		
+	EOF
+	exit $1
+}
+
+function exitError()
+{
+	local -r error="$1"
+	echo "$ourName: $error" 1>&2
+	exitHelp 1
+}
+
+function informationMessage()
+{
+	echo "$ourName: $1" 1>&2
+}
+
+function parseCommandLine()
+{
+	if [ $# -eq 0 ]; then
+		readonly snapshot="HEAD"
+		readonly serverSnapshot="HEAD"
+	elif [ $# -eq 1 ]; then
+		if [ "$1" = "--help" ]; then
+			exitHelp 2
+		elif  [ "$1" = "-h" ]; then
+			exitHelp 2
+		else
+			exitError "Invalid options"
+		fi
+	elif [ $# -eq 2 ]; then
+		readonly snapshot="$1"
+		readonly serverSnapshot="$2"
+	else
+		exitError "Invalid options"
+	fi
+}
+
+function sudoWrapper()
+{
+	if [ "$EUID" -ne 0 ]; then
+		exec sudo -p "$ourName: sudo needed for $ourName. Enter password: " "$0" "$@"
+	fi
+}
+
+function aptGetUpdateDownloadAndClean()
+{
+	informationMessage "Updating"
+	apt-get --quiet update
+
+	informationMessage "Downloading"
+	apt-get --quiet --download-only --no-install-recommends --yes --show-upgraded --verbose-versions --auto-remove --purge dist-upgrade
+
+	informationMessage "Autoremoving"
+	apt-get --quiet autoremove
+
+	informationMessage "Autocleaning"
+	apt-get --quiet autoclean
+}
+
+function aptGetDistUpgradeAndAutoclean()
+{
+	informationMessage "Dist Upgrading"
+	apt-get --quiet --no-install-recommends --yes --show-upgraded --auto-remove --purge -o Debug::pkgProblemResolver=yes dist-upgrade
+
+	informationMessage "Autoremoving"
+	apt-get --quiet autoremove
+	
+	informationMessage "Autocleaning"
+	apt-get --quiet autoclean
+}
+
+function main()
+{
+	parseCommandLine "$@"
+	sudoWrapper "$@"
+	aptGetUpdateDownloadAndClean
+	aptGetDistUpgradeAndAutoclean
+}
+
+main "$@"

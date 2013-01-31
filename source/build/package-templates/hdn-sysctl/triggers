@@ -1,0 +1,5 @@
+# sysctl files have changed
+interest /etc/sysctl.d
+
+# sysctl.conf has changed
+interest /etc/sysctl.conf

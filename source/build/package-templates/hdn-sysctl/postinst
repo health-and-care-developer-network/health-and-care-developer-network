@@ -1,0 +1,100 @@
+#!/bin/bash -
+
+# © Crown Copyright 2013
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+set -e
+
+function processTriggers()
+{
+	# triggers are coalesced
+	local -i reloadSysctl=0
+	
+	# Not quoted as iterableTriggers is a space-separated list
+	for triggerName in $iterableTriggers
+	do
+		case "$triggerName" in
+			
+			"/etc/sysctl.d")
+				reloadSysctl=1
+			;;
+
+			"/etc/sysctl.conf")
+				reloadSysctl=1
+			;;
+			
+			*)
+				echo "Trigger $triggerName not known" 1>&2
+			;;
+			
+		esac
+	done
+	
+	if [ $reloadSysctl -eq 1 ]; then
+		startOrRestartUpstartJob "procps"
+	fi
+}
+
+case "$1" in
+	configure)
+		readonly postinst_Instance="any"
+		readonly mostRecentlyConfiguredVersion="$2"
+		
+		# Execute all known triggers
+		processTriggers "/etc/sysctl.d /etc/sysctl.conf"
+	;;
+
+	triggered)
+		if [ $# -ne 2 ]; then
+			echo "Syntax not understood" 1>&2
+			exit 1
+		fi
+		
+		processTriggers "$2"
+	;;
+
+	abort-upgrade)
+		readonly postinst_Instance="old"
+		readonly newVersion="$2"
+		
+		:
+	;;
+
+	abort-remove)
+		if [ $# -gt 0 ]; then
+			if [ "$2" = "in-favour" ]; then
+				readonly postinst_Instance="conflictors"
+				readonly package="$3"
+				readonly newVersion="$4"
+			fi
+		else
+			readonly postinst_Instance="any"
+		fi
+		
+		:
+	;;
+
+	abort-deconfigure)
+		if [ $# -gt 0 ]; then
+			if [ "$2" = "in-favour" ]; then
+				readonly postinst_Instance="deconfigureds"
+				readonly failedInstallPackage="$3"
+				readonly version="$4"
+			fi
+		fi
+		# [removing conflicting-package version]
+		
+		:
+	;;
+esac

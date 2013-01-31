@@ -1,0 +1,3 @@
+grant codebase "file:${java.home}/../Classes/classes.jar" {
+	permission java.security.AllPermission;
+};

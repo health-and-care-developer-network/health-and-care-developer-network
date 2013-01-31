@@ -1,0 +1,132 @@
+# Forwarding
+
+# Forward is just dropped (but should not be enabled in sysctl)
+--new-chain LogAndDropForwardAll
+--append LogAndDropForwardAll --jump LOG --log-prefix "iptables_ForwardAll " --log-level warning --log-ip-options --log-tcp-options --log-uid
+--append LogAndDropForwardAll --jump DROP
+--append FORWARD --jump LogAndDropForwardAll
+
+
+
+# TCP Portscanners
+
+
+# Special chains
+--new-chain DropPortscanWhitelist
+--append DropPortscanWhitelist --jump LOG --log-prefix "iptables_PortscanWhitelist " --log-level notice --log-ip-options --log-tcp-options --log-uid
+--append DropPortscanWhitelist --jump DROP
+--new-chain LogAndDropPortscan
+#--append LogAndDropPortscan ! --in-interface lo --source 10.0.0.0/8      --jump DropPortscanWhitelist
+#--append LogAndDropPortscan ! --in-interface lo --source 195.20.214.0/24 --jump DropPortscanWhitelist
+#--append LogAndDropPortscan ! --in-interface lo --source 195.20.215.0/24 --jump DropPortscanWhitelist
+#--append LogAndDropPortscan ! --in-interface lo --source 94.193.215.144  --jump DropPortscanWhitelist
+--append LogAndDropPortscan --jump LOG --log-prefix "iptables_Portscan " --log-level warning --log-ip-options --log-tcp-options --log-uid
+--append LogAndDropPortscan --jump DROP
+
+# Invalid TCP flag combinations are dropped immediately (All new TCP connections begin with SYN)
+--append INPUT --protocol tcp ! --syn                     --match state --state NEW     --jump LogAndDropPortscan
+
+# Detect nmap Null scan as portscan
+--append INPUT --protocol tcp --tcp-flags ALL NONE        --match state --state INVALID --jump LogAndDropPortscan
+
+# Detect nmap FIN scan as portscan
+--append INPUT --protocol tcp --tcp-flags ALL FIN         --match state --state INVALID --jump LogAndDropPortscan
+
+# Detect nmap Xmas scan as portscan
+--append INPUT --protocol tcp --tcp-flags ALL FIN,PSH,URG --match state --state INVALID --jump LogAndDropPortscan
+
+# Detect nmap Maimon scan as portscan
+--append INPUT --protocol tcp --tcp-flags ALL FIN,ACK     --match state --state INVALID --jump LogAndDropPortscan
+
+# Detect SYN ACK scan as portscan
+--append INPUT --protocol tcp --tcp-flags SYN,ACK SYN,ACK --match state --state INVALID --jump LogAndDropPortscan
+
+# Will be matched when "possible SYN flooding on port 517. Sending cookies." is in the kernel log (or similar)
+# Catches nmap NULL, FIN and XMAS scans, as well as SYN,RST and SYN,FIN scans (but already caught, to differentiate SYN floods)
+# Problem is that a synflood could use a spoofed source ip to knock out legit access, consequently we do not add these to our blacklist list
+--new-chain LogAndDropInvalid
+--append LogAndDropInvalid --jump LOG --log-prefix "iptables_Invalid " --log-level warning --log-ip-options --log-tcp-options --log-uid
+--append LogAndDropInvalid --jump DROP
+--append INPUT  --match state --state INVALID --jump LogAndDropInvalid
+--append OUTPUT --match state --state INVALID --jump LogAndDropInvalid
+
+# Of established connections, only TCP, UDP and IPsec are allowed generically (separate specific rules for ICMP)
+--append INPUT  --protocol tcp --match state --state RELATED,ESTABLISHED --jump ACCEPT
+--append INPUT  --protocol udp --match state --state RELATED,ESTABLISHED --jump ACCEPT
+--append INPUT  --protocol esp --match state --state RELATED,ESTABLISHED --jump ACCEPT
+--append OUTPUT --protocol tcp --match state --state RELATED,ESTABLISHED --jump ACCEPT
+--append OUTPUT --protocol udp --match state --state RELATED,ESTABLISHED --jump ACCEPT
+--append OUTPUT --protocol esp --match state --state RELATED,ESTABLISHED --jump ACCEPT
+
+# No restrictions on loopback interface for 127.0.0.0/8 addresses or assigned addresses
+--append INPUT --in-interface lo --source ::1                          --destination ::1                          --jump ACCEPT
+--append INPUT --in-interface lo --source ${HDN_FIREWALL_hostname} --destination ${HDN_FIREWALL_hostname} --jump ACCEPT
+--append OUTPUT --out-interface lo --source ::1                        --destination ::1                            --jump ACCEPT
+--append OUTPUT --out-interface lo --source ${HDN_FIREWALL_hostname} --destination ${HDN_FIREWALL_hostname} --jump ACCEPT
+
+# Other loopback addresses destroyed
+--new-chain LogAndDropStrangeLoopback
+--append LogAndDropStrangeLoopback --jump LOG --log-prefix "iptables_StrangeLoopback " --log-level warning --log-ip-options --log-tcp-options --log-uid
+--append LogAndDropStrangeLoopback --jump DROP
+--append INPUT --in-interface lo --jump LogAndDropStrangeLoopback
+--append OUTPUT --out-interface lo --jump LogAndDropStrangeLoopback
+
+
+# Spoofing
+
+# All Private Address Ranges except 10.0.0.0/8, 192.168.1.0/24 and 192.168.10.0/24 are banned; connections from ourself are spoofed. (Refer RFC5735 http://tools.ietf.org/html/rfc5735)
+--new-chain LogAndDropSpoofedSourceIp
+--append LogAndDropSpoofedSourceIp --jump LOG --log-prefix "iptables_SpoofedSourceIp " --log-level warning --log-ip-options --log-tcp-options --log-uid
+--append LogAndDropSpoofedSourceIp --jump DROP
+#--append INPUT ! --in-interface lo --source 0.0.0.0/8 --destination 255.255.255.255 --jump ACCEPT
+--append INPUT ! --in-interface lo --source ${HDN_FIREWALL_hostname}                    --jump LogAndDropSpoofedSourceIp
+#--append INPUT ! --in-interface lo --source 0.0.0.0/8                                       --jump LogAndDropSpoofedSourceIp
+#--append INPUT ! --in-interface lo --source 127.0.0.0/8                                     --jump LogAndDropSpoofedSourceIp
+#--append INPUT ! --in-interface lo --source 169.254.0.0/16                                  --jump LogAndDropSpoofedSourceIp
+#--append INPUT ! --in-interface lo --source 172.16.0.0/12                                   --jump LogAndDropSpoofedSourceIp
+#--append INPUT ! --in-interface lo --source 192.0.0.0/24                                    --jump LogAndDropSpoofedSourceIp
+#--append INPUT ! --in-interface lo --source 192.0.2.0/24                                    --jump LogAndDropSpoofedSourceIp
+#--append INPUT ! --in-interface lo --source 192.88.99.0/24                                  --jump LogAndDropSpoofedSourceIp
+#--append INPUT ! --in-interface lo --source 198.18.0.0/15                                   --jump LogAndDropSpoofedSourceIp
+#--append INPUT ! --in-interface lo --source 198.51.100.0/24                                 --jump LogAndDropSpoofedSourceIp
+#--append INPUT ! --in-interface lo --source 203.0.113.0/24                                  --jump LogAndDropSpoofedSourceIp
+#--append INPUT ! --in-interface lo --source 224.0.0.0/4                                     --jump LogAndDropSpoofedSourceIp
+#--append INPUT ! --in-interface lo --source 240.0.0.0/5                                     --jump LogAndDropSpoofedSourceIp
+#--append INPUT ! --in-interface lo --source 192.168.0.0/24                                  --jump LogAndDropSpoofedSourceIp
+#--append INPUT ! --in-interface lo --match iprange --src-range 192.168.2.0-192.168.9.255    --jump LogAndDropSpoofedSourceIp
+#--append INPUT ! --in-interface lo --match iprange --src-range 192.168.11.0-192.168.255.255 --jump LogAndDropSpoofedSourceIp
+
+
+
+# Private address ranges 10.0.0.0/8, 192.168.1.0/24 and 192.168.10.0/24 are banned when mismatched, viz:-
+#--append INPUT ! --in-interface lo --source 10.0.0.0/8      ! --destination 10.0.0.0/8      --jump LogAndDropSpoofedSourceIp
+#--append INPUT ! --in-interface lo --source 192.168.1.0/24  ! --destination 192.168.1.0/24  --jump LogAndDropSpoofedSourceIp
+#--append INPUT ! --in-interface lo --source 192.168.10.0/24 ! --destination 192.168.10.0/24 --jump LogAndDropSpoofedSourceIp
+
+
+
+# Bad Destination
+
+# All Private Address Ranges except 10.0.0.0/8, 192.168.1.0/24 and 192.168.10.0/24 are banned destinations (RFC5735 http://tools.ietf.org/html/rfc5735)
+# Check for private destinations at http://www.newartisans.com/2007/09/neat-tricks-with-iptables.html
+--new-chain LogAndDropPrivateIp
+--append LogAndDropPrivateIp --jump LOG --log-prefix "iptables_PrivateIp " --log-level warning --log-ip-options --log-tcp-options --log-uid
+--append LogAndDropPrivateIp --jump DROP
+#--append INPUT ! --in-interface lo --destination 0.0.0.0/8                                  --jump LogAndDropPrivateIp
+#--append INPUT ! --in-interface lo --destination 127.0.0.0/8                                --jump LogAndDropPrivateIp
+#--append INPUT ! --in-interface lo --destination 169.254.0.0/16                             --jump LogAndDropPrivateIp
+#--append INPUT ! --in-interface lo --destination 172.16.0.0/12                              --jump LogAndDropPrivateIp
+#--append INPUT ! --in-interface lo --destination 192.0.0.0/24                               --jump LogAndDropPrivateIp
+#--append INPUT ! --in-interface lo --destination 192.0.2.0/24                               --jump LogAndDropPrivateIp
+#--append INPUT ! --in-interface lo --destination 192.88.99.0/24                             --jump LogAndDropPrivateIp
+#--append INPUT ! --in-interface lo --destination 198.18.0.0/15                              --jump LogAndDropPrivateIp
+#--append INPUT ! --in-interface lo --destination 198.51.100.0/24                            --jump LogAndDropPrivateIp
+#--append INPUT ! --in-interface lo --destination 203.0.113.0/24                             --jump LogAndDropPrivateIp
+#--append INPUT ! --in-interface lo --destination 240.0.0.0/5                                --jump LogAndDropPrivateIp
+#--append INPUT ! --in-interface lo --destination 192.168.0.0/24                             --jump LogAndDropPrivateIp
+#--append INPUT ! --in-interface lo --match iprange --dst-range 192.168.2.0-192.168.9.255    --jump LogAndDropPrivateIp
+#--append INPUT ! --in-interface lo --match iprange --dst-range 192.168.11.0-192.168.255.255 --jump LogAndDropPrivateIp
+
+
+
+# ICMP on IP v6 - review

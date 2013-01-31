@@ -1,0 +1,10 @@
+# Log and Drop anything remaining
+--new-chain LogAndDropInputAll
+--append LogAndDropInputAll --jump LOG --log-prefix "iptables_InputAll " --log-level info --log-ip-options --log-tcp-options --log-uid
+--append LogAndDropInputAll --jump DROP
+--append INPUT --jump LogAndDropInputAll
+
+--new-chain LogAndDropOutputAll
+--append LogAndDropOutputAll --jump LOG --log-prefix "iptables_OutputAll " --log-level info --log-ip-options --log-tcp-options --log-uid
+--append LogAndDropOutputAll --jump DROP
+--append OUTPUT --jump LogAndDropOutputAll

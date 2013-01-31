@@ -1,0 +1,19 @@
+Source: hdn-java-common
+Section: java
+Priority: important
+Maintainer: Raphael Cohn <raphael.cohn@stormmq.com>
+Uploaders: Mike Kelly <mike.kelly1@nhs.net>
+Homepage: http://hdn.nhs.uk/
+Build-Depends: debhelper (>= 7), fakeroot, openjdk-7-jdk, git-core, apt-utils, gnupg, devscripts
+Standards-Version: 3.8.4.0
+
+Package: hdn-java-common
+Architecture: all
+Depends: coreutils (>= 7.4-2ubuntu3), fakeroot, openjdk-7-jdk, ${misc:Depends}
+Homepage: http://hdn.nhs.uk/
+Description: HDN Java common files
+ This package provides common files for
+ using Java, mostly on servers and test equipment.
+ It provides crash reporting and wrappers around
+ common JVM tools.
+
