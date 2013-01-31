@@ -93,7 +93,7 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		task("executables").dependsOn("hdn-gs1-client", "hdn-gs1-server", "hdn-dts-out", "hdn-dts-read", "hdn-dts-rats");
 
-		task("generate changelog template").dependsOn("executables").does
+		task("generate changelog template").dependsOn("make output").does
 		(
 			execute(source("build", "build").file("generate-changelog-template")).inWorkingDirectory(source("build")).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArguments()
 		);
