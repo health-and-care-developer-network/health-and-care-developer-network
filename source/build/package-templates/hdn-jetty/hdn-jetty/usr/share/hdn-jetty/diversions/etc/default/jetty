@@ -13,7 +13,7 @@ VERBOSE=yes
 # Listen to connections from this network host
 # Use 0.0.0.0 as host to accept all connections.
 # Uncomment to restrict access to localhost
-#JETTY_HOST=$(uname -n)
+JETTY_HOST=$(uname -n)
 
 # The network port used by Jetty
 JETTY_PORT=7000
@@ -28,7 +28,7 @@ JETTY_SHUTDOWN=10
 #JAVA_OPTIONS="-Xmx256m -Djava.awt.headless=true"
 
 # Home of Java installation.
-#JAVA_HOME=
+JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
 
 # The first existing directory is used for JAVA_HOME (if JAVA_HOME is not
 # defined in /etc/default/jetty). Should contain a list of space separated directories.
