@@ -19,11 +19,9 @@ set -e
 
 source "/usr/lib/hdn-apt/functions"
 
-function startOrRestart4Store()
+function startOrRestartNginx()
 {
-	set +e
-	invoke-rc.d 4store restart
-	set -e
+	startOrRestartUpstartJob "hdn-nginx"
 }
 
 case "$1" in
@@ -31,7 +29,7 @@ case "$1" in
 		readonly postinst_Instance="any"
 		readonly mostRecentlyConfiguredVersion="$2"
 		
-		startOrRestart4Store
+		startOrRestartNginx
 	;;
 
 	abort-upgrade)

@@ -19,11 +19,9 @@ set -e
 
 source "/usr/lib/hdn-apt/functions"
 
-function stop4Store()
+function stopNginx()
 {
-	set +e
-	invoke-rc.d 4store stop
-	set -e
+	stopUpstartJob "hdn-nginx"
 }
 
 case "$1" in
@@ -35,16 +33,14 @@ case "$1" in
 			readonly newVersion="$5"
 		fi
 		
-		revertFiles
-		stop4Store
+		stopNginx
 	;;
 
 	upgrade)
 		readonly prerm_Instance="old"
 		readonly newVersion="$2"
 		
-		revertFiles
-		stop4Store
+		stopNginx
 	;;
 
 	# This target implies the old prerm script was run with the 'upgrade' target and failed.
@@ -59,7 +55,6 @@ case "$1" in
 		readonly packageBeingInstalled="$3"
 		readonly version="$4"
 		
-		revertFiles
-		stop4Store
+		stopNginx
 	;;
 esac
