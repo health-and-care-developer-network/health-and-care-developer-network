@@ -13,7 +13,7 @@ VERBOSE=yes
 # Listen to connections from this network host
 # Use 0.0.0.0 as host to accept all connections.
 # Uncomment to restrict access to localhost
-JETTY_HOST=$(uname -n)
+JETTY_HOST=127.0.0.1
 
 # The network port used by Jetty
 JETTY_PORT=7000
