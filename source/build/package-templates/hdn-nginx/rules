@@ -93,9 +93,9 @@ config.status: config.env config.sub config.guess
 	    --without-mail_smtp_module \
 	    --add-module=$(MODULESDIR)/agentzh-chunkin-nginx-module-v0.23rc2 \
 	    --add-module=$(MODULESDIR)/agentzh-headers-more-nginx-module-v0.18rc1 \
+	    --add-module=$(MODULESDIR)/nginx-development-kit \
 	    --add-module=$(MODULESDIR)/agentzh-set-misc-nginx-module-v0.22rc7 \
 	    --add-module=$(MODULESDIR)/nginx-auth-pam \
-	    --add-module=$(MODULESDIR)/nginx-development-kit \
 	    --add-module=$(MODULESDIR)/ngx_http_auth_request_module-a29d74804ff1 \
             $(CONFIGURE_OPTS) >$@
 	touch $@
