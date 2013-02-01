@@ -1,0 +1,157 @@
+#!/usr/bin/make -f
+
+# Only works with later dpkg-dev versions
+#CFLAGS = `dpkg-buildflags --get CFLAGS`
+#CFLAGS += -Wall
+#CFLAGS += `dpkg-buildflags --get CPPFLAGS`
+#LDFLAGS = `dpkg-buildflags --get LDFLAGS`
+CFLAGS =-Wall
+LDFLAGS =
+# export necessary for (hardening) flags for perl
+# (src/http/modules/perl/Makefile.PL).
+export CFLAGS LDFLAGS
+
+BUILDDIR = $(CURDIR)/debian/build
+MODULESDIR = $(CURDIR)/debian/modules
+BASEDIR = $(CURDIR)
+
+DEB_BUILD_ARCH ?=$(shell dpkg-architecture -qDEB_BUILD_ARCH)
+ifeq ($(DEB_BUILD_ARCH),sparc)
+	CONFIGURE_OPTS = --with-cc-opt="-m32 -mcpu=ultrasparc"
+endif
+
+
+ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+	NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+	ifeq (${NUMJOBS}, 0)
+		NUMJOBS = 1
+	endif
+else
+	NUMJOBS = 1
+endif
+
+config.sub:
+	dh_testdir
+ifneq "$(wildcard /usr/share/misc/config.sub)" ""
+		cp -f /usr/share/misc/config.sub config.sub
+endif
+
+config.guess:
+	dh_testdir
+ifneq "$(wildcard /usr/share/misc/config.guess)" ""
+		cp -f /usr/share/misc/config.guess config.guess
+endif
+
+config.env:
+	dh_testdir
+	mkdir -p $(BUILDDIR)
+	cp -Pa $(CURDIR)/auto $(BUILDDIR)/
+	cp -Pa $(CURDIR)/conf $(BUILDDIR)/
+	cp -Pa $(CURDIR)/configure $(BUILDDIR)/
+	cp -Pa $(CURDIR)/contrib $(BUILDDIR)/
+	cp -Pa $(CURDIR)/src $(BUILDDIR)/
+	cp -Pa $(CURDIR)/man $(BUILDDIR)/
+
+config.status: config.env config.sub config.guess
+	cd $(BUILDDIR) && CFLAGS="$(CFLAGS)" CORE_LINK="$(LDFLAGS)" ./configure  \
+	    --prefix=/etc/hdn-nginx \
+	    --sbin-path=/usr/sbin \
+	    --conf-path=/etc/hdn-nginx/hdn-nginx.conf \
+	    --error-log-path=/var/log/hdn-nginx/error.log \
+	    --http-client-body-temp-path=/var/lib/hdn-nginx/body \
+	    --http-fastcgi-temp-path=/var/lib/hdn-nginx/fastcgi \
+	    --http-log-path=/var/log/hdn-nginx/access.log \
+	    --http-proxy-temp-path=/var/lib/hdn-nginx/proxy \
+	    --http-scgi-temp-path=/var/lib/hdn-nginx/scgi \
+	    --http-uwsgi-temp-path=/var/lib/hdn-nginx/uwsgi \
+	    --lock-path=/var/lock/nginx.lock \
+	    --pid-path=/var/run/hdn-nginx.pid \
+	    --without-select_module \
+	    --without-poll_module \
+	    --with-http_gzip_static_module \
+	    --with-http_ssl_module \
+	    --with-ipv6 \
+	    --with-file-aio \
+	    --with-sha1=/usr/include/openssl \
+	    --with-md5=/usr/include/openssl \
+	    --without-http_access_module \
+	    --without-http_autoindex_module \
+	    --without-http_browser_module \
+	    --without-http_empty_gif_module \
+	    --without-http_fastcgi_module \
+	    --without-http_geo_module \
+	    --without-http_limit_req_module \
+	    --without-http_limit_conn_module \
+	    --without-http_memcached_module \
+	    --without-http_scgi_module \
+	    --without-http_split_clients_module \
+	    --without-http_ssi_module \
+	    --without-http_userid_module \
+	    --without-http_uwsgi_module \
+	    --without-mail_pop3_module \
+	    --without-mail_imap_module \
+	    --without-mail_smtp_module \
+	    --add-module=$(MODULESDIR)/agentzh-chunkin-nginx-module-v0.23rc2 \
+	    --add-module=$(MODULESDIR)/agentzh-headers-more-nginx-module-v0.18rc1 \
+	    --add-module=$(MODULESDIR)/agentzh-set-misc-nginx-module-v0.22rc7 \
+	    --add-module=$(MODULESDIR)/nginx-auth-pam \
+	    --add-module=$(MODULESDIR)/nginx-development-kit \
+	    --add-module=$(MODULESDIR)/ngx_http_auth_request_module-a29d74804ff1 \
+            $(CONFIGURE_OPTS) >$@
+	touch $@
+
+build-arch: config.status
+	dh_testdir
+	dh_prep --exclude=debian/hdn-nginx
+	$(MAKE) -j$(NUMJOBS) -C $(BUILDDIR) build
+	touch $@
+
+build-dbg: install
+	dh_testdir
+	dh_strip --package=hdn-nginx
+	touch $@
+
+build-indep:
+
+build: build-indep build-arch
+	dh_testdir
+	touch $@
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp
+	rm -f config.sub config.guess
+	dh_clean
+	rm -rf $(CURDIR)/debian/build
+
+install:
+	dh_testdir
+	dh_testroot
+	dh_prep --exclude=debian/hdn-nginx
+	dh_installdirs
+	mv debian/build/objs/nginx debian/build/objs/hdn-nginx
+	dh_install
+	dh_installman
+	dh_installchangelogs -k CHANGES
+	dh_installdocs
+	dh_installexamples
+	dh_link --all
+	dh_compress
+	dh_perl
+	dh_fixperms
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb -- -z9 -Zlzma
+
+binary-arch: install build-dbg
+	dh_testdir
+
+binary-indep: binary-arch
+	dh_testdir
+
+binary: binary-indep binary-arch
+
+.PHONY: build clean binary-indep binary-arch binary install

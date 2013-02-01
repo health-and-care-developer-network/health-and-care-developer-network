@@ -1,0 +1,60 @@
+README for Modules versions
+---------------------------
+
+ This file lists third party modules built with nginx in Debian, homepage and
+ version.
+
+ chunkin-nginx-module
+  https://github.com/agentzh/chunkin-nginx-module
+  Version: v0.23rc1-0-g72c3e3f
+
+ headers-more-nginx-module
+  https://github.com/agentzh/headers-more-nginx-module.git
+  Version: b3c6230
+
+ nginx-development-kit
+  https://github.com/agentzh/echo-nginx-module.git
+  Version: 0.2.17rc2.tar.gz
+
+ nginx-auth-pam
+  https://github.com/rjenster/ngx_http_auth_pam_module.git
+  Version: 31 Mar 2011
+
+ nginx-echo
+  https://github.com/agentzh/echo-nginx-module.git
+  Version: 0.37rc1
+
+ nginx-lua
+  Homepage: https://github.com/chaoslawful/lua-nginx-module
+  https://github.com/chaoslawful/lua-nginx-module.git
+  Version: v0.4.1
+
+ nginx-upstream-fair
+  Homepage: https://github.com/gnosek/nginx-upstream-fair
+  Version: 2131c731d00b49c6ac01
+
+ nginx-push
+  Homepage: http://pushmodule.slact.net/#download
+  http://pushmodule.slact.net/downloads/nginx_http_push_module-0.692.tar.gz
+  Version: 0.692
+
+ nginx-upload
+  Homepage: https://github.com/vkholodkov/nginx-upload-module
+  Version: 2.2.0
+
+ nginx-upload-progress
+  Homepage: https://github.com/masterzen/nginx-upload-progress-module
+  https://nodeload.github.com/masterzen/nginx-upload-progress-module/tarball/master
+  rm -r debian/nginx-upload-progress/test
+  Version: v0.8.3-2-g03cbf1f
+
+ naxsi
+  Homepage: http://code.google.com/p/naxsi/
+  Version: 0.44-r280
+
+ nginx-cache-purge
+  Homepage: http://labs.frickle.com/nginx_ngx_cache_purge/
+  Version: 1.5
+
+ nginx-dav-ext-module
+  Homepage: https://github.com/arut/nginx-dav-ext-module

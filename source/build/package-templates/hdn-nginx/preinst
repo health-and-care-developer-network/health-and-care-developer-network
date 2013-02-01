@@ -1,0 +1,43 @@
+#!/bin/bash -
+set -e
+
+source "/usr/lib/hdn-apt/functions"
+
+function stopNginx()
+{
+	stopUpstartJob "hdn-nginx"
+}
+
+case "$1" in
+	install)
+		readonly newPreinstOrOldPreinst="new"
+		if [ $# -gt 1 ]; then
+			readonly oldVersion="$2"
+		fi
+		
+		stopNginx
+		
+		# If we are doing a fresh install, then these files are no longer needed.
+		# They were around for a very short time and are best simply removed.
+		rm -f /etc/logrotate.d/hdn-nginx-common
+		rm -f /etc/logrotate.d/hdn-nginx-light
+	;;
+	
+	upgrade)
+		readonly newPreinstOrOldPreinst="new"
+		readonly oldVersion="$2"
+		
+		stopNginx
+	;;
+
+	abort-upgrade)
+		readonly newPreinstOrOldPreinst="old"
+		readonly newVersion="$2"
+		
+		stopNginx
+	;;
+esac
+
+#DEBHELPER#
+
+exit 0

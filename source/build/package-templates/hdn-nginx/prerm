@@ -1,0 +1,48 @@
+#!/bin/bash -
+set -e
+
+source "/usr/lib/hdn-apt/functions"
+
+function stopNginx()
+{
+	stopUpstartJob "hdn-nginx"
+}
+
+case "$1" in
+	remove)
+		if [ $# -gt 0 ]; then
+			readonly prerm_Instance="conflictors"
+			readonly inFavour="$3"
+			readonly package="$4"
+			readonly newVersion="$5"
+		fi
+		
+		stopNginx
+	;;
+
+	upgrade)
+		readonly prerm_Instance="old"
+		readonly newVersion="$2"
+		
+		stopNginx
+	;;
+
+	# This target implies the old prerm script was run with the 'upgrade' target and failed.
+	failed-upgrade)
+		readonly prerm_Instance="new"
+		readonly oldVersion="$2"
+	;;
+
+	deconfigure)
+		readonly prerm_Instance="deconfigureds"
+		readonly inFavour="$2"
+		readonly packageBeingInstalled="$3"
+		readonly version="$4"
+		
+		stopNginx
+	;;
+esac
+
+#DEBHELPER#
+
+exit 0

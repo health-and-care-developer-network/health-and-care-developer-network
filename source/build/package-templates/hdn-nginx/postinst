@@ -1,0 +1,64 @@
+#!/bin/bash -
+set -e
+
+source "/usr/lib/hdn-apt/functions"
+
+function startOrRestartUpstartJobHdnFirewallToAllowHttpIn()
+{
+	startOrRestartUpstartJob "hdn-firewall"
+}
+
+function startOrRestartUpstartJobHdnNginx()
+{
+	startOrRestartUpstartJob "hdn-nginx"
+}
+
+case "$1" in
+	configure)
+		readonly postinst_Instance="any"
+		readonly mostRecentlyConfiguredVersion="$2"
+		
+		readonly logdir="/var/log/hdn-nginx"
+		# Ensure existance and right state of log files and directory
+		if [ ! -d "$logdir" -a ! -L "$logdir" ]; then
+			mkdir -p "$logdir"
+			chown www-data:adm $logdir
+			chmod 0750 $logdir
+		fi
+		
+		startOrRestartUpstartJobHdnFirewallToAllowHttpIn
+		startOrRestartUpstartJobHdnNginx
+	;;
+
+	abort-upgrade)
+		readonly postinst_Instance="old"
+		readonly newVersion="$2"
+	;;
+
+	abort-remove)
+		if [ $# -gt 0 ]; then
+			if [ "$2" = "in-favour" ]; then
+				readonly postinst_Instance="conflictors"
+				readonly package="$3"
+				readonly newVersion="$4"
+			fi
+		else
+			readonly postinst_Instance="any"
+		fi
+	;;
+
+	abort-deconfigure)
+		if [ $# -gt 0 ]; then
+			if [ "$2" = "in-favour" ]; then
+				readonly postinst_Instance="deconfigureds"
+				readonly failedInstallPackage="$3"
+				readonly version="$4"
+			fi
+		fi
+		# [removing conflicting-package version]
+	;;
+esac
+
+#DEBHELPER#
+
+exit 0
