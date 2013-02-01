@@ -14,13 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Disable errors stopping the script
 set -e
 
 source "/usr/lib/hdn-apt/functions"
 
-function stopNginx()
+function stop4Store()
 {
-	stopUpstartJob "hdn-nginx"
+	set +e
+	invoke-rc.d 4store stop
+	set -e
 }
 
 case "$1" in
@@ -32,14 +35,16 @@ case "$1" in
 			readonly newVersion="$5"
 		fi
 		
-		stopNginx
+		revertFiles
+		stop4Store
 	;;
 
 	upgrade)
 		readonly prerm_Instance="old"
 		readonly newVersion="$2"
 		
-		stopNginx
+		revertFiles
+		stop4Store
 	;;
 
 	# This target implies the old prerm script was run with the 'upgrade' target and failed.
@@ -54,10 +59,7 @@ case "$1" in
 		readonly packageBeingInstalled="$3"
 		readonly version="$4"
 		
-		stopNginx
+		revertFiles
+		stop4Store
 	;;
 esac
-
-#DEBHELPER#
-
-exit 0
