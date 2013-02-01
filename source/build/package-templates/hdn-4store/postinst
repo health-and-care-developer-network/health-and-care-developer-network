@@ -23,7 +23,24 @@ function createHdnDatabaseIfMissing()
 {
 	# azure instances are 2 CPU, hence 4 segments. Of course, in a sophisticated set-up, we'd have machine profiles...
 	if [ ! -f /var/lib/4store/hdn/metadata.nt ]; then
+		set +e
+		
+		invoke-rc.d 4store stop
+	
 		4s-backend-setup --node 0 --cluster 1 --segments 4 hdn
+		
+		4s-backend hdn
+		
+		for rdfFile in /usr/share/hdn-4store/data/*.rdf; do
+			if [ ! -f "$rdfFile" ]; then
+				continue
+			fi
+			4s-import -v hdn "$rdfFile"
+		done
+		
+		pkill 4s-backend
+		
+		set -e
 	fi
 }
 
