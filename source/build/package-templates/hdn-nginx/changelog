@@ -2,7 +2,7 @@ hdn-nginx (1.20.0-2stormmq) experimental; urgency=low
 
   * Build fixes
 
- -- Raphael Cohn <raphael.cohn@stormmq.com>  Fri, 20 Jan 2011 17:13:00 +0000
+ -- Health and Care Developer Network (Raphael Cohn) <health-and-care-developer-network@stormmq.com>  Fri, 20 Jan 2011 17:13:00 +0000
 
 hdn-nginx (1.20.0-1stormmq) experimental; urgency=low
 
@@ -16,7 +16,7 @@ hdn-nginx (1.20.0-1stormmq) experimental; urgency=low
   * removed version check on dpkg-dev so will build on 10.04 (and build hardening flags)
   * renamed binary from nginx to hdn-nginx to avoid clashes
 
- -- Raphael Cohn <raphael.cohn@stormmq.com>  Fri, 20 Jan 2011 17:13:00 +0000
+ -- Health and Care Developer Network (Raphael Cohn) <health-and-care-developer-network@stormmq.com>  Fri, 20 Jan 2011 17:13:00 +0000
 
 nginx (1.1.19-1) unstable; urgency=high
 
