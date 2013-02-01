@@ -27,7 +27,7 @@ binary-indep: build install
 	dh_installchangelogs
 
 	# Copy the packages's files.
-	rsync -v -a --exclude=web.xml $(LIBRARY)/elda/$(ELDA_VERSION)/webapps/elda/ debian/$(PACKAGE)/usr/share/$(PACKAGE)/webapps/elda/
+	rsync -v -a --exclude=web.xml --exclude=specs $(LIBRARY)/elda/$(ELDA_VERSION)/webapps/elda/ debian/$(PACKAGE)/usr/share/$(PACKAGE)/webapps/elda/
 	find debian/$(PACKAGE)/usr/share/$(PACKAGE) -type f -exec chmod 0644 {} \;
 	find debian/$(PACKAGE)/usr/share/$(PACKAGE) -type d -exec chmod 0755 {} \;
 	rsync -v $(LIBRARY)/elda/$(ELDA_VERSION)/elda-LICENCE debian/$(PACKAGE)/usr/share/doc/$(PACKAGE)/LICENSES/elda-LICENCE

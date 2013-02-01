@@ -32,11 +32,13 @@ function stopJetty()
 	set -e
 }
 
-function revertFiles()
+function uninstallWebApps()
 {
 	if [ -e /var/lib/jetty/webapps/elda ]; then
 		rm -r /var/lib/jetty/webapps/elda
 	fi
+	
+	chown --preserve-root --recursive root:root /usr/share/hdn-elda/webapps/elda
 }
 
 case "$1" in
@@ -49,7 +51,7 @@ case "$1" in
 		fi
 		
 		stopJetty
-		revertFiles
+		uninstallWebApps
 	;;
 
 	upgrade)
@@ -57,7 +59,7 @@ case "$1" in
 		readonly newVersion="$2"
 		
 		stopJetty
-		revertFiles
+		uninstallWebApps
 	;;
 
 	# This target implies the old prerm script was run with the 'upgrade' target and failed.
@@ -73,6 +75,6 @@ case "$1" in
 		readonly version="$4"
 		
 		stopJetty
-		revertFiles
+		uninstallWebApps
 	;;
 esac

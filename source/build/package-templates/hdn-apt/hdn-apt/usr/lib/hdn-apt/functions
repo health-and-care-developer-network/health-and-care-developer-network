@@ -66,6 +66,9 @@ function divertFile()
 	local -r originalFile="${originalDirectory}/$fileName"
 	local -r divertedFile="$diversionsFolder"/"$fileName"
 	
+	local -r replacementFilesRoot=/usr/share
+	local -r replacementFile="${replacementFilesRoot}"/"${packageName}"/diversions"${originalFile}"
+	
 	if [ $(dpkg-divert --list "$divertedFile" | grep --count "diversion of $originalFile to $divertedFile by $packageName$") -eq 0 ]; then
 		if [ -e "$divertedFile" ]; then
 			echo "Diverted file $divertedFile already exists AND original file $originalFile already exists, deleting diverted file..."
@@ -77,9 +80,9 @@ function divertFile()
 		
 		# Insert replacement
 		if [ "$symbolicLink" = "y" ]; then
-			ln --symbolic /etc/"${packageName}""${originalFile}" "$originalFile"
+			ln --symbolic "${replacementFile}" "$originalFile"
 		else
-			ln /etc/"${packageName}""${originalFile}" "$originalFile"
+			ln "${replacementFile}" "$originalFile"
 		fi
 	fi
 }

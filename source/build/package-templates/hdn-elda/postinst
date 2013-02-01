@@ -19,11 +19,14 @@ set -e
 
 source "/usr/lib/hdn-apt/functions"
 
-function divertFiles()
+function installWebApps()
 {
+	chown --preserve-root --recursive jetty:adm /usr/share/hdn-elda/webapps/elda
+	
 	if [ -e /var/lib/jetty/webapps/elda ]; then
 		rm -r /var/lib/jetty/webapps/elda
 	fi
+	
 	ln -s /usr/share/hdn-elda/webapps/elda /var/lib/jetty/webapps/elda
 }
 
@@ -39,7 +42,7 @@ case "$1" in
 		readonly postinst_Instance="any"
 		readonly mostRecentlyConfiguredVersion="$2"
 		
-		divertFiles
+		installWebApps
 		startOrRestartJetty
 	;;
 
