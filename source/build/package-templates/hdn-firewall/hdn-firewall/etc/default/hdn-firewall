@@ -1,0 +1,2 @@
+# Windows Azure does not support IPv6.
+DO_NOT_USE_IPV6=y
