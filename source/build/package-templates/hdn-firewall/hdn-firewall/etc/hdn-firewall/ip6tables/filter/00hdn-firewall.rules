@@ -61,15 +61,15 @@
 # No restrictions on loopback interface for 127.0.0.0/8 addresses or assigned addresses
 --append INPUT --in-interface lo --source ::1                          --destination ::1                          --jump ACCEPT
 --append INPUT --in-interface lo --source ${HDN_FIREWALL_hostname} --destination ${HDN_FIREWALL_hostname} --jump ACCEPT
---append OUTPUT -HDN_FIREWALL_hostname-interface lo --source ::1                        --destination ::1                            --jump ACCEPT
---append OUTPUT -HDN_FIREWALL_hostname-interface lo --source ${HDN_FIREWALL_hostname} --destination ${HDN_FIREWALL_hostname} --jump ACCEPT
+--append OUTPUT -out-interface lo --source ::1                        --destination ::1                            --jump ACCEPT
+--append OUTPUT -out-interface lo --source ${HDN_FIREWALL_hostname} --destination ${HDN_FIREWALL_hostname} --jump ACCEPT
 
 # Other loopback addresses destroyed
 --new-chain LogAndDropStrangeLoopback
 --append LogAndDropStrangeLoopback --jump LOG --log-prefix "iptables_StrangeLoopback " --log-level warning --log-ip-options --log-tcp-options --log-uid
 --append LogAndDropStrangeLoopback --jump DROP
 --append INPUT --in-interface lo --jump LogAndDropStrangeLoopback
---append OUTPUT -HDN_FIREWALL_hostname-interface lo --jump LogAndDropStrangeLoopback
+--append OUTPUT -out-interface lo --jump LogAndDropStrangeLoopback
 
 
 # Spoofing

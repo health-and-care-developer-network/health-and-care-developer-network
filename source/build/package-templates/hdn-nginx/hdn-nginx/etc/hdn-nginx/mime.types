@@ -71,7 +71,7 @@ types
 
 	audio/midi mid midi kar;
 	audio/mpeg mpga mpega mp2 mp3 m4a;
-	audio/ogg oga ogg spx;
+	audio/ogg oga spx;
 	audio/x-realaudio ra;
 	audio/webm weba;
 

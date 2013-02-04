@@ -68,15 +68,15 @@
 # No restrictions on loopback interface for 127.0.0.0/8 addresses or assigned addresses
 --append INPUT  --in-interface lo  --source 127.0.0.0/8                  --destination 127.0.0.0/8                  --jump ACCEPT
 --append INPUT  --in-interface lo  --source ${HDN_FIREWALL_hostname} --destination ${HDN_FIREWALL_hostname} --jump ACCEPT
---append OUTPUT -HDN_FIREWALL_hostname-interface lo --source 127.0.0.0/8                  --destination 127.0.0.0/8                  --jump ACCEPT
---append OUTPUT -HDN_FIREWALL_hostname-interface lo --source ${HDN_FIREWALL_hostname} --destination ${HDN_FIREWALL_hostname} --jump ACCEPT
+--append OUTPUT -out-interface lo --source 127.0.0.0/8                  --destination 127.0.0.0/8                  --jump ACCEPT
+--append OUTPUT -out-interface lo --source ${HDN_FIREWALL_hostname} --destination ${HDN_FIREWALL_hostname} --jump ACCEPT
 
 # Other loopback addresses destroyed
 --new-chain LogAndDropStrangeLoopback
 --append LogAndDropStrangeLoopback --jump LOG --log-prefix "iptables_StrangeLoopback " --log-level warning --log-ip-options --log-tcp-options --log-uid
 --append LogAndDropStrangeLoopback --jump DROP
 --append INPUT --in-interface lo --jump LogAndDropStrangeLoopback
---append OUTPUT -HDN_FIREWALL_hostname-interface lo --jump LogAndDropStrangeLoopback
+--append OUTPUT -out-interface lo --jump LogAndDropStrangeLoopback
 
 
 
@@ -140,14 +140,14 @@
 
 # Allow inbound ICMP Echo Request (Ping) and outbound ICMP Echo Reply (Ping) (but not associated error replies)
 --append INPUT  ! --in-interface lo  --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type echo-request --match state --state NEW         --jump ACCEPT
---append OUTPUT ! -HDN_FIREWALL_hostname-interface lo --source ${HDN_FIREWALL_hostname}      --protocol icmp --icmp-type echo-reply   --match state --state ESTABLISHED --jump ACCEPT
+--append OUTPUT ! -out-interface lo --source ${HDN_FIREWALL_hostname}      --protocol icmp --icmp-type echo-reply   --match state --state ESTABLISHED --jump ACCEPT
 
 # Allow outbound ICMP Echo Request (Ping) to our network and Google DNS
---append OUTPUT ! -HDN_FIREWALL_hostname-interface lo --source ${HDN_FIREWALL_hostname} --destination 8.8.8.8         --protocol icmp --icmp-type echo-request --match state --state NEW --jump ACCEPT
---append OUTPUT ! -HDN_FIREWALL_hostname-interface lo --source ${HDN_FIREWALL_hostname} --destination 8.8.4.4         --protocol icmp --icmp-type echo-request --match state --state NEW --jump ACCEPT
---append OUTPUT ! -HDN_FIREWALL_hostname-interface lo --source ${HDN_FIREWALL_hostname} --destination 10.0.0.0/8      --protocol icmp --icmp-type echo-request --match state --state NEW --jump ACCEPT
---append OUTPUT ! -HDN_FIREWALL_hostname-interface lo --source ${HDN_FIREWALL_hostname} --destination 195.20.214.0/24 --protocol icmp --icmp-type echo-request --match state --state NEW --jump ACCEPT
---append OUTPUT ! -HDN_FIREWALL_hostname-interface lo --source ${HDN_FIREWALL_hostname} --destination 195.20.215.0/24 --protocol icmp --icmp-type echo-request --match state --state NEW --jump ACCEPT
+--append OUTPUT ! -out-interface lo --source ${HDN_FIREWALL_hostname} --destination 8.8.8.8         --protocol icmp --icmp-type echo-request --match state --state NEW --jump ACCEPT
+--append OUTPUT ! -out-interface lo --source ${HDN_FIREWALL_hostname} --destination 8.8.4.4         --protocol icmp --icmp-type echo-request --match state --state NEW --jump ACCEPT
+--append OUTPUT ! -out-interface lo --source ${HDN_FIREWALL_hostname} --destination 10.0.0.0/8      --protocol icmp --icmp-type echo-request --match state --state NEW --jump ACCEPT
+--append OUTPUT ! -out-interface lo --source ${HDN_FIREWALL_hostname} --destination 195.20.214.0/24 --protocol icmp --icmp-type echo-request --match state --state NEW --jump ACCEPT
+--append OUTPUT ! -out-interface lo --source ${HDN_FIREWALL_hostname} --destination 195.20.215.0/24 --protocol icmp --icmp-type echo-request --match state --state NEW --jump ACCEPT
 
 # Allow inbound ICMP Echo Reply (Ping) and associated error replies from our network and Google DNS
 --append INPUT ! --in-interface lo --source 8.8.8.8         --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type echo-reply              --match state --state ESTABLISHED --jump ACCEPT
@@ -184,7 +184,7 @@
 --append INPUT ! --in-interface lo --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type time-exceeded --match state --state RELATED --jump ACCEPT
 
 # Allow outbound ICMP fragment reassembly
---append OUTPUT ! -HDN_FIREWALL_hostname-interface lo --source ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type ttl-zero-during-reassembly --match state --state RELATED --jump ACCEPT
+--append OUTPUT ! -out-interface lo --source ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type ttl-zero-during-reassembly --match state --state RELATED --jump ACCEPT
 
 # Drop remaining ICMP
 --new-chain LogAndDropIcmpOther
@@ -197,7 +197,7 @@
 # Services
 
 # Allow outbound HTTP
-#--append OUTPUT ! -HDN_FIREWALL_hostname-interface lo --source ${HDN_FIREWALL_hostname} --protocol tcp --destination-port 80 --match state --state NEW --jump ACCEPT
+#--append OUTPUT ! -out-interface lo --source ${HDN_FIREWALL_hostname} --protocol tcp --destination-port 80 --match state --state NEW --jump ACCEPT
 
 # Allow outbound HTTPS
-#--append OUTPUT ! -HDN_FIREWALL_hostname-interface lo --source ${HDN_FIREWALL_hostname} --protocol tcp --destination-port 443 --match state --state NEW --jump ACCEPT
+#--append OUTPUT ! -out-interface lo --source ${HDN_FIREWALL_hostname} --protocol tcp --destination-port 443 --match state --state NEW --jump ACCEPT
