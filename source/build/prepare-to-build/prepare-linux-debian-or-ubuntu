@@ -57,7 +57,7 @@ function installDependencies()
 	sudo -p "Password to install build dependencies: " DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confold" --force-yes --no-install-recommends install openssh-client git-core lsb-invalid-mta apt-utils build-essential lintian fakeroot gnupg debhelper devscripts dpkg dpkg-dev openjdk-7-jdk openjdk-7-doc openjdk-7-source gzip bzip2
 	
 	sudo -p "Password to install nginx build dependencies: " DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confold" --force-yes --no-install-recommends install autotools-dev libexpat-dev libgd2-noxpm-dev libgeoip-dev liblua5.1-dev libmhash-dev libpam0g-dev libpcre3-dev libperl-dev libssl-dev libxslt1-dev zlib1g-dev libpq-dev
-	
+
 	sudo -p "Password to autoremove: " DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confold" --force-yes --no-install-recommends autoremove
 }
 

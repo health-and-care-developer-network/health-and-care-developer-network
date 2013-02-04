@@ -66,6 +66,8 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		final String dtsClientRatsConsoleEntryPoint = intellijModuleHasMainClassByConvention("dts-client-rats", "RatsClientConsoleEntryPoint");
 
+		final String numberClientConsoleEntryPoint = intellijModuleHasMainClassByConvention("number-client", "NhsNumberClientConsoleEntryPoint");
+
 
 		task("clean").does
 		(
@@ -91,7 +93,7 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		executable("hdn-dts-rats", "dts-client-rats", dtsClientRatsConsoleEntryPoint);
 
-		executable("hdn-number-client", "number-client", dtsClientRatsConsoleEntryPoint);
+		executable("hdn-number-client", "number-client", numberClientConsoleEntryPoint);
 
 		task("executables").dependsOn("hdn-gs1-client", "hdn-gs1-server", "hdn-dts-out", "hdn-dts-read", "hdn-dts-rats");
 
