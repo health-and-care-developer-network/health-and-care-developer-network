@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.barcodes;
+package uk.nhs.hdn.common.digits;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -27,12 +27,13 @@ import uk.nhs.hdn.common.serialisers.ValueSerialiser;
 import java.util.Arrays;
 
 import static java.lang.System.arraycopy;
-import static uk.nhs.hdn.barcodes.Digit.digit;
-import static uk.nhs.hdn.barcodes.Digit.digitFromUtf16Code;
 import static uk.nhs.hdn.common.VariableArgumentsHelper.copyOf;
 import static uk.nhs.hdn.common.comparison.ComparisonHelper.compareInt;
 import static uk.nhs.hdn.common.comparison.ComparisonHelper.isNotEqualTo;
+import static uk.nhs.hdn.common.digits.Digit.digit;
+import static uk.nhs.hdn.common.digits.Digit.digitFromUtf16Code;
 
+@SuppressWarnings("ClassWithTooManyMethods")
 public final class Digits implements DigitList, ValueSerialisable
 {
 	private static final Digit[] EmptyDigits = new Digit[0];

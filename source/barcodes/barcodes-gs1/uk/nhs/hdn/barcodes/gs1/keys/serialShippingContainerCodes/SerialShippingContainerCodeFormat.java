@@ -18,9 +18,9 @@ package uk.nhs.hdn.barcodes.gs1.keys.serialShippingContainerCodes;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.barcodes.Digit;
-import uk.nhs.hdn.barcodes.DigitList;
-import uk.nhs.hdn.barcodes.Digits;
+import uk.nhs.hdn.common.digits.Digit;
+import uk.nhs.hdn.common.digits.DigitList;
+import uk.nhs.hdn.common.digits.Digits;
 import uk.nhs.hdn.barcodes.gs1.checkDigits.CheckDigitCalculator;
 import uk.nhs.hdn.barcodes.gs1.keys.KeyFormat;
 

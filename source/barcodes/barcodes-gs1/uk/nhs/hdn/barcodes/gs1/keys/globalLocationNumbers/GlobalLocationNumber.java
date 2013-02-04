@@ -17,7 +17,7 @@
 package uk.nhs.hdn.barcodes.gs1.keys.globalLocationNumbers;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.barcodes.Digits;
+import uk.nhs.hdn.common.digits.Digits;
 import uk.nhs.hdn.barcodes.gs1.keys.AbstractCheckDigitNumber;
 
 public final class GlobalLocationNumber extends AbstractCheckDigitNumber<GlobalLocationNumberFormat>

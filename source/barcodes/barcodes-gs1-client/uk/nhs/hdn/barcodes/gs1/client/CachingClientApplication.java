@@ -27,7 +27,7 @@ import uk.nhs.hdn.common.http.client.exceptions.CorruptResponseException;
 import uk.nhs.hdn.common.http.client.exceptions.CouldNotConnectHttpException;
 import uk.nhs.hdn.common.http.client.exceptions.UnacceptableResponseException;
 
-import static uk.nhs.hdn.barcodes.Digits.digits;
+import static uk.nhs.hdn.common.digits.Digits.digits;
 import static uk.nhs.hdn.barcodes.gs1.keys.globalTradeItemNumbers.GlobalTradeItemNumber.parseGlobalTradeItemNumber;
 
 // Could be more sophisticated, using the cache-control and expires headers to deduce when to flush the cache

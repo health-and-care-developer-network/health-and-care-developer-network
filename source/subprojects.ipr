@@ -1257,6 +1257,7 @@
       <module fileurl="file://$PROJECT_DIR$/common/common/common.iml" filepath="$PROJECT_DIR$/common/common/common.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-commandLine/common-commandLine.iml" filepath="$PROJECT_DIR$/common/common-commandLine/common-commandLine.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-comparison/common-comparison.iml" filepath="$PROJECT_DIR$/common/common-comparison/common-comparison.iml" group="common" />
+      <module fileurl="file://$PROJECT_DIR$/comon/common-digits/common-digits.iml" filepath="$PROJECT_DIR$/comon/common-digits/common-digits.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-exceptions/common-exceptions.iml" filepath="$PROJECT_DIR$/common/common-exceptions/common-exceptions.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-fileWatching/common-fileWatching.iml" filepath="$PROJECT_DIR$/common/common-fileWatching/common-fileWatching.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-http/common-http.iml" filepath="$PROJECT_DIR$/common/common-http/common-http.iml" group="common/http" />

@@ -17,8 +17,8 @@
 package uk.nhs.hdn.barcodes.gs1.checkDigits;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.barcodes.Digit;
-import uk.nhs.hdn.barcodes.Digits;
+import uk.nhs.hdn.common.digits.Digit;
+import uk.nhs.hdn.common.digits.Digits;
 
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;

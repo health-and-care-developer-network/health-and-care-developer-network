@@ -17,12 +17,12 @@
 package uk.nhs.hdn.barcodes.gs1.serialShippingContainerCodes;
 
 import org.junit.Test;
-import uk.nhs.hdn.barcodes.Digit;
-import uk.nhs.hdn.barcodes.Digits;
+import uk.nhs.hdn.common.digits.Digit;
+import uk.nhs.hdn.common.digits.Digits;
 
 import static junit.framework.TestCase.assertEquals;
-import static uk.nhs.hdn.barcodes.Digit.Five;
-import static uk.nhs.hdn.barcodes.Digits.digits;
+import static uk.nhs.hdn.common.digits.Digit.Five;
+import static uk.nhs.hdn.common.digits.Digits.digits;
 import static uk.nhs.hdn.barcodes.gs1.keys.serialShippingContainerCodes.SerialShippingContainerCodeFormat.SSCC;
 
 public final class SerialShippingContainerCodeFormatUnitTest

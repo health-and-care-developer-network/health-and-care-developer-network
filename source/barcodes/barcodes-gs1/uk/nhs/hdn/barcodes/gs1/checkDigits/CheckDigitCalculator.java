@@ -18,13 +18,13 @@ package uk.nhs.hdn.barcodes.gs1.checkDigits;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hdn.barcodes.Digit;
-import uk.nhs.hdn.barcodes.Digits;
+import uk.nhs.hdn.common.digits.Digit;
+import uk.nhs.hdn.common.digits.Digits;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hdn.common.reflection.toString.ExcludeFromToString;
 
-import static uk.nhs.hdn.barcodes.Digit.Zero;
-import static uk.nhs.hdn.barcodes.Digit.digit;
+import static uk.nhs.hdn.common.digits.Digit.Zero;
+import static uk.nhs.hdn.common.digits.Digit.digit;
 import static uk.nhs.hdn.common.IntegerHelper.isEven;
 
 public final class CheckDigitCalculator extends AbstractToString implements CheckDigit

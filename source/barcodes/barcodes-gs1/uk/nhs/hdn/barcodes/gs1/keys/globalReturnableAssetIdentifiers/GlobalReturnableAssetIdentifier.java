@@ -17,7 +17,7 @@
 package uk.nhs.hdn.barcodes.gs1.keys.globalReturnableAssetIdentifiers;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.barcodes.Digits;
+import uk.nhs.hdn.common.digits.Digits;
 import uk.nhs.hdn.barcodes.gs1.keys.AbstractWithSerialComponentCheckDigitNumber;
 import uk.nhs.hdn.barcodes.gs1.keys.globalDocumentTypeIdentifiers.GlobalDocumentTypeIdentifierFormat;
 

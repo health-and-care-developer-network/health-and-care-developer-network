@@ -18,15 +18,15 @@ package uk.nhs.hdn.barcodes.gs1.keys.globalTradeItemNumbers;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hdn.barcodes.Digit;
-import uk.nhs.hdn.barcodes.Digits;
+import uk.nhs.hdn.common.digits.Digit;
+import uk.nhs.hdn.common.digits.Digits;
 import uk.nhs.hdn.barcodes.gs1.Gs1CompanyPrefixAndItem;
 import uk.nhs.hdn.barcodes.gs1.checkDigits.IncorrectCheckDigitIllegalStateException;
 import uk.nhs.hdn.barcodes.gs1.gs1Prefixes.Gs1Prefix;
 import uk.nhs.hdn.barcodes.gs1.keys.AbstractCheckDigitNumber;
 
-import static uk.nhs.hdn.barcodes.Digit.Zero;
-import static uk.nhs.hdn.barcodes.Digits.slice;
+import static uk.nhs.hdn.common.digits.Digit.Zero;
+import static uk.nhs.hdn.common.digits.Digits.slice;
 import static uk.nhs.hdn.barcodes.gs1.keys.globalTradeItemNumbers.GlobalTradeItemNumberFormat.*;
 
 // More number kinds at http://www.gs1.org/barcodes/technical/id_keys

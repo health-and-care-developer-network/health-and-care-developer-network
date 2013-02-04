@@ -17,7 +17,7 @@
 package uk.nhs.hdn.barcodes.gs1.keys;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.barcodes.Digits;
+import uk.nhs.hdn.common.digits.Digits;
 
 public abstract class AbstractWithSerialComponentCheckDigitNumber<F extends SerialComponentKeyFormat> extends AbstractCheckDigitNumber<F>
 {

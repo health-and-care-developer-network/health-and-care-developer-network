@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.barcodes;
+package uk.nhs.hdn.common.digits;
 
 import org.jetbrains.annotations.NotNull;
 

@@ -17,8 +17,8 @@
 package uk.nhs.hdn.barcodes.gs1.organisation;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.barcodes.Digit;
-import uk.nhs.hdn.barcodes.Digits;
+import uk.nhs.hdn.common.digits.Digit;
+import uk.nhs.hdn.common.digits.Digits;
 import uk.nhs.hdn.barcodes.gs1.companyPrefixes.Gs1CompanyPrefix;
 import uk.nhs.hdn.common.arrayCreators.AbstractArrayCreator;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.AbstractListCollectingLongNumberArrayConstructor;
@@ -27,7 +27,7 @@ import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.schemaViolationInva
 
 import java.util.List;
 
-import static uk.nhs.hdn.barcodes.Digit.digit;
+import static uk.nhs.hdn.common.digits.Digit.digit;
 
 public final class Gs1CompanyPrefixArrayConstructor extends AbstractListCollectingLongNumberArrayConstructor<Digit>
 {

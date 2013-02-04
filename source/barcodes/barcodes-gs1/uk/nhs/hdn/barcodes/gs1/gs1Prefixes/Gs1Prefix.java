@@ -18,7 +18,7 @@ package uk.nhs.hdn.barcodes.gs1.gs1Prefixes;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hdn.barcodes.Digits;
+import uk.nhs.hdn.common.digits.Digits;
 import uk.nhs.hdn.common.comparison.ComparisonResult;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hdn.common.tuples.ComparablePair;

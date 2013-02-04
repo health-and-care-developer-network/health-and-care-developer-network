@@ -18,7 +18,7 @@ package uk.nhs.hdn.barcodes.gs1.server;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hdn.barcodes.Digits;
+import uk.nhs.hdn.common.digits.Digits;
 import uk.nhs.hdn.barcodes.gs1.checkDigits.IncorrectCheckDigitIllegalStateException;
 import uk.nhs.hdn.barcodes.gs1.checkDigits.IncorrectNumberOfDigitsIllegalStateException;
 import uk.nhs.hdn.barcodes.gs1.organisation.index.Gs1CompanyPrefixIndex;
@@ -36,7 +36,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import static uk.nhs.hdn.barcodes.Digits.digits;
+import static uk.nhs.hdn.common.digits.Digits.digits;
 import static uk.nhs.hdn.barcodes.gs1.keys.globalTradeItemNumbers.GlobalTradeItemNumber.parseGlobalTradeItemNumber;
 
 public final class Gs1CompanyPrefixResourceStateSnapshot extends AbstractWithSubResourcesResourceStateSnapshot
