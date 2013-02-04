@@ -91,6 +91,8 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		executable("hdn-dts-rats", "dts-client-rats", dtsClientRatsConsoleEntryPoint);
 
+		executable("hdn-number-client", "number-client", dtsClientRatsConsoleEntryPoint);
+
 		task("executables").dependsOn("hdn-gs1-client", "hdn-gs1-server", "hdn-dts-out", "hdn-dts-read", "hdn-dts-rats");
 
 		task("generate changelog template").dependsOn("make output").does
@@ -107,6 +109,8 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 		debianPackagesPackageTask("hdn-dts-read", "generate changelog template", "hdn-dts-read");
 
 		debianPackagesPackageTask("hdn-dts-rats", "generate changelog template", "hdn-dts-rats");
+
+		debianPackagesPackageTask("hdn-number-client", "generate changelog template", "hdn-number-client");
 
 		debianPackagesPackageTask("hdn-4store", "generate changelog template");
 
