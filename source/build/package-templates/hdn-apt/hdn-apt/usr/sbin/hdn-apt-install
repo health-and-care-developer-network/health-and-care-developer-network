@@ -14,7 +14,7 @@ function exitHelp()
 		Usage: $ourName --help
 		Usage: $ourName <packages>
 		
-		Wraps apt-get --quiet --yes --no-install-recommends --auto-remove --purge --verbose-versions install <packages>
+		Wraps apt-get --quiet --yes --force-yes --no-install-recommends --auto-remove --purge --verbose-versions install <packages>
 		
 		Supports package names with trailing '+' or '-' (which causes purge)
 	EOF
@@ -62,7 +62,7 @@ function aptGetUpdateInstallAndClean()
 	hdn-apt-update
 	
 	informationMessage "Installing"
-	apt-get --quiet --yes --no-install-recommends --auto-remove --purge --verbose-versions install "$@"
+	apt-get --quiet --yes --force-yes --no-install-recommends --auto-remove --purge --verbose-versions install "$@"
 
 	informationMessage "Autocleaning"
 	apt-get --quiet autoclean
