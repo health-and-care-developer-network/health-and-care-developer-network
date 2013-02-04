@@ -47,15 +47,15 @@ public final class Gs1CompanyPrefxQueryStringEventHandler extends AbstractToStri
 	}
 
 	@NotNull
-	private static final String JsonPAndXmlAreIncompatible = "jsonp and xml are incompatible";
-	private static final String JsonPAndTsvAreIncompatible = "jsonp and tsv are incompatible";
-	private static final String JsonPAndCsvAreIncompatible = "jsonp and csv are incompatible";
+	private static final String CallbackAndXmlAreIncompatible = "callback and xml are incompatible";
+	private static final String CallbackAndTsvAreIncompatible = "callback and tsv are incompatible";
+	private static final String CallbackAndCsvAreIncompatible = "callback and csv are incompatible";
 	private boolean formatSeen;
 	private boolean isXml;
 	private boolean isTsv;
 	private boolean isCsv;
 	@Nullable
-	private String jsonp;
+	private String callback;
 
 	public Gs1CompanyPrefxQueryStringEventHandler()
 	{
@@ -63,72 +63,88 @@ public final class Gs1CompanyPrefxQueryStringEventHandler extends AbstractToStri
 		isXml = false;
 		isTsv = false;
 		isCsv = false;
-		jsonp = null;
+		callback = null;
 	}
 
+	@SuppressWarnings("HardCodedStringLiteral")
 	@Override
 	public void keyValuePair(@NonNls @NotNull final String key, @NonNls @NotNull final String value) throws InvalidQueryStringKeyValuePairException
 	{
-		if ("format".equals(key))
+		switch(key)
 		{
-			if (formatSeen)
-			{
-				throw new InvalidQueryStringKeyValuePairException(key, value, "only one value of format is permitted");
-			}
-			formatSeen = true;
-			if ("json".equals(value))
-			{
+			case "format":
+				formatKey(key, value);
 				return;
-			}
-			if ("xml".equals(value))
-			{
-				isXml = true;
-			}
-			if ("tsv".equals(value))
-			{
-				isTsv = true;
-			}
-			if ("csv".equals(value))
-			{
-				isCsv = true;
-			}
-			return;
-		}
 
-		if ("jsonp".equals(key))
+			case "callback":
+				callbackKey(key, value);
+				return;
+
+			default:
+				throw new InvalidQueryStringKeyValuePairException(key, value, "the key is unrecognised");
+		}
+	}
+
+	@SuppressWarnings("HardCodedStringLiteral")
+	private void formatKey(final String key, final String value) throws InvalidQueryStringKeyValuePairException
+	{
+		if (formatSeen)
 		{
-			if (formatSeen)
-			{
-				if (isXml)
-				{
-					throw new InvalidQueryStringKeyValuePairException(key, value, JsonPAndXmlAreIncompatible);
-				}
-				if (isTsv)
-				{
-					throw new InvalidQueryStringKeyValuePairException(key, value, JsonPAndTsvAreIncompatible);
-				}
-				if (isCsv)
-				{
-					throw new InvalidQueryStringKeyValuePairException(key, value, JsonPAndCsvAreIncompatible);
-				}
-			}
-			try
-			{
-				jsonp = validateJsonPFunctionName(value);
-			}
-			catch (JsonFunctionNameInvalidException e)
-			{
-				throw new InvalidQueryStringKeyValuePairException(key, value, e);
-			}
-			return;
+			throw new InvalidQueryStringKeyValuePairException(key, value, "only one value of format is permitted");
 		}
+		formatSeen = true;
+		switch (value)
+		{
+			case "json":
+				break;
 
-		throw new InvalidQueryStringKeyValuePairException(key, value, "the key is unrecognised");
+			case "xml":
+				isXml = true;
+				break;
+
+			case "tsv":
+				isTsv = true;
+				break;
+
+			case "csv":
+				isCsv = true;
+				break;
+
+			default:
+				break;
+		}
+	}
+
+	private void callbackKey(final String key, final String value) throws InvalidQueryStringKeyValuePairException
+	{
+		if (formatSeen)
+		{
+			if (isXml)
+			{
+				throw new InvalidQueryStringKeyValuePairException(key, value, CallbackAndXmlAreIncompatible);
+			}
+			if (isTsv)
+			{
+				throw new InvalidQueryStringKeyValuePairException(key, value, CallbackAndTsvAreIncompatible);
+			}
+			if (isCsv)
+			{
+				throw new InvalidQueryStringKeyValuePairException(key, value, CallbackAndCsvAreIncompatible);
+			}
+		}
+		try
+		{
+			callback = validateJsonPFunctionName(value);
+		}
+		catch (JsonFunctionNameInvalidException e)
+		{
+			throw new InvalidQueryStringKeyValuePairException(key, value, e);
+		}
 	}
 
 	public boolean isJsonP()
 	{
-		return jsonp != null;
+		return callback != null;
 	}
 
 	@Override
@@ -136,15 +152,15 @@ public final class Gs1CompanyPrefxQueryStringEventHandler extends AbstractToStri
 	{
 		if (isXml && isJsonP())
 		{
-			throw new InvalidQueryStringException(JsonPAndXmlAreIncompatible);
+			throw new InvalidQueryStringException(CallbackAndXmlAreIncompatible);
 		}
 		if (isTsv && isJsonP())
 		{
-			throw new InvalidQueryStringException(JsonPAndTsvAreIncompatible);
+			throw new InvalidQueryStringException(CallbackAndTsvAreIncompatible);
 		}
 		if (isCsv && isJsonP())
 		{
-			throw new InvalidQueryStringException(JsonPAndCsvAreIncompatible);
+			throw new InvalidQueryStringException(CallbackAndCsvAreIncompatible);
 		}
 	}
 
@@ -164,22 +180,12 @@ public final class Gs1CompanyPrefxQueryStringEventHandler extends AbstractToStri
 	}
 
 	@NotNull
-	public String jsonp()
+	public String jsonpFunctionName()
 	{
-		if (jsonp == null)
+		if (callback == null)
 		{
 			throw new IllegalStateException("Please call isJsonP() first");
 		}
-		return jsonp;
-	}
-
-	public boolean isFormatSeen()
-	{
-		return formatSeen;
-	}
-
-	public void setFormatSeen(final boolean formatSeen)
-	{
-		this.formatSeen = formatSeen;
+		return callback;
 	}
 }

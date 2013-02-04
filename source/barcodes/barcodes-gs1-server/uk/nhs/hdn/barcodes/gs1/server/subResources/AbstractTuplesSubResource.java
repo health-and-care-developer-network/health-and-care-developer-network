@@ -80,7 +80,7 @@ public abstract class AbstractTuplesSubResource extends AbstractToString impleme
 		if (queryStringEventHandler.isJsonP())
 		{
 			// TODO: A more efficient design is to copy the bytes of json utf-8, and use its size as an input instead of guess
-			return resourceContent(JsonContentTypeUtf8, new JsonPSerialiser(queryStringEventHandler.jsonp()), guess, tuples);
+			return resourceContent(JsonContentTypeUtf8, new JsonPSerialiser(queryStringEventHandler.jsonpFunctionName()), guess, tuples);
 		}
 		return jsonUtf8Content;
 	}
