@@ -31,11 +31,11 @@ function createHdnDatabaseIfMissing()
 		
 		4s-backend hdn
 		
-		for rdfFile in /usr/share/hdn-4store/data/*.rdf; do
-			if [ ! -f "$rdfFile" ]; then
+		for rdfBz2File in /usr/share/hdn-4store/data/*.rdf.bz2; do
+			if [ ! -f "$rdfBz2File" ]; then
 				continue
 			fi
-			4s-import -v hdn "$rdfFile"
+			4s-import -v hdn <(bunzip2 --stdout "$rdfBz2File")
 		done
 		
 		pkill 4s-backend
