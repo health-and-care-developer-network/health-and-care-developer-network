@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.barcodes.gs1.checkDigits;
+package uk.nhs.hdn.common.digits;
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.digits.Digit;
 import uk.nhs.hdn.common.digits.Digits;
 
-public interface CheckDigit
+public interface CheckDigitCalculator
 {
 	void guardCorrectNumberOfDigitsIfNoCheckDigit(@NotNull final Digits digits);
 

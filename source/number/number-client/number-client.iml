@@ -8,10 +8,10 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="IntelliJ Annotations" level="project" />
-    <orderEntry type="module" module-name="common" />
-    <orderEntry type="module" module-name="common-comparison" exported="" />
-    <orderEntry type="module" module-name="common-serialisers" exported="" />
-    <orderEntry type="module" module-name="common-reflection" exported="" />
+    <orderEntry type="library" name="JOpt Simple" level="project" />
+    <orderEntry type="module" module-name="number" />
+    <orderEntry type="module" module-name="common-commandLine" />
+    <orderEntry type="module" module-name="common-digits" />
   </component>
 </module>
 

@@ -18,19 +18,19 @@ package uk.nhs.hdn.barcodes.gs1.keys.globalTradeItemNumbers;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hdn.barcodes.gs1.keys.AbstractKeyFormatCheckDigitNumber;
 import uk.nhs.hdn.common.digits.Digit;
 import uk.nhs.hdn.common.digits.Digits;
 import uk.nhs.hdn.barcodes.gs1.Gs1CompanyPrefixAndItem;
-import uk.nhs.hdn.barcodes.gs1.checkDigits.IncorrectCheckDigitIllegalStateException;
+import uk.nhs.hdn.common.digits.IncorrectCheckDigitIllegalStateException;
 import uk.nhs.hdn.barcodes.gs1.gs1Prefixes.Gs1Prefix;
-import uk.nhs.hdn.barcodes.gs1.keys.AbstractCheckDigitNumber;
 
 import static uk.nhs.hdn.common.digits.Digit.Zero;
 import static uk.nhs.hdn.common.digits.Digits.slice;
 import static uk.nhs.hdn.barcodes.gs1.keys.globalTradeItemNumbers.GlobalTradeItemNumberFormat.*;
 
 // More number kinds at http://www.gs1.org/barcodes/technical/id_keys
-public final class GlobalTradeItemNumber extends AbstractCheckDigitNumber<GlobalTradeItemNumberFormat>
+public final class GlobalTradeItemNumber extends AbstractKeyFormatCheckDigitNumber<GlobalTradeItemNumberFormat>
 {
 	@NotNull
 	public static GlobalTradeItemNumber parseGlobalTradeItemNumber(@NotNull final Digits digits, final boolean includesCheckDigit) throws DigitsAreNotForAGlobalTradeItemNumberException
@@ -144,7 +144,7 @@ public final class GlobalTradeItemNumber extends AbstractCheckDigitNumber<Global
 	@NotNull
 	public Gs1Prefix gs1Prefix()
 	{
-		return new Gs1Prefix(keyFormat.gs1PrefixDigits(digits));
+		return new Gs1Prefix(extractCheckDigitCalculator.gs1PrefixDigits(digits));
 	}
 
 	@NotNull

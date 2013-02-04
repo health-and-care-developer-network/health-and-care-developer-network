@@ -14,34 +14,30 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.barcodes.gs1.keys;
+package uk.nhs.hdn.common.digits;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hdn.common.digits.Digit;
-import uk.nhs.hdn.common.digits.DigitList;
-import uk.nhs.hdn.common.digits.Digits;
 import uk.nhs.hdn.common.comparison.ComparisonResult;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 
-import static uk.nhs.hdn.barcodes.gs1.keys.globalTradeItemNumbers.GlobalTradeItemNumberFormat.T1;
 import static uk.nhs.hdn.common.comparison.ComparisonHelper.isNotEqualTo;
 import static uk.nhs.hdn.common.comparison.ComparisonResult.EqualTo;
 
-public abstract class AbstractCheckDigitNumber<F extends KeyFormat> extends AbstractToString implements CheckDigitNumber
+public abstract class AbstractCheckDigitNumber<E extends ExtractingCheckDigitCalculator> extends AbstractToString implements CheckDigitNumber
 {
 	@NotNull
-	protected final F keyFormat;
+	protected final E extractCheckDigitCalculator;
 
 	@NotNull
 	protected final Digits digits;
 
-	protected AbstractCheckDigitNumber(@NotNull final F keyFormat, @NotNull final Digits digits)
+	protected AbstractCheckDigitNumber(@NotNull final E extractCheckDigitCalculator, @NotNull final Digits digits)
 	{
-		keyFormat.guardCorrectNumberOfDigits(digits);
-		keyFormat.guardCheckDigitCorrect(digits);
+		extractCheckDigitCalculator.guardCorrectNumberOfDigits(digits);
+		extractCheckDigitCalculator.guardCheckDigitCorrect(digits);
 
-		this.keyFormat = keyFormat;
+		this.extractCheckDigitCalculator = extractCheckDigitCalculator;
 		this.digits = digits;
 	}
 
@@ -49,7 +45,7 @@ public abstract class AbstractCheckDigitNumber<F extends KeyFormat> extends Abst
 	@Override
 	public final Digit digitAtPositionT(final int oneBasedPositionT)
 	{
-		return keyFormat.extract(digits, oneBasedPositionT);
+		return extractCheckDigitCalculator.extract(digits, oneBasedPositionT);
 	}
 
 	@Override
@@ -63,7 +59,7 @@ public abstract class AbstractCheckDigitNumber<F extends KeyFormat> extends Abst
 	@ComparisonResult
 	public final int compareTo(@NotNull final DigitList o)
 	{
-		for (int oneBasedPositionT = T1; oneBasedPositionT <= size(); oneBasedPositionT++)
+		for (int oneBasedPositionT = 1; oneBasedPositionT <= size(); oneBasedPositionT++)
 		{
 			final Digit us = digitAtPositionT(oneBasedPositionT);
 			final Digit them = o.digitAtPositionT(oneBasedPositionT);
@@ -79,7 +75,7 @@ public abstract class AbstractCheckDigitNumber<F extends KeyFormat> extends Abst
 	@Override
 	public final int size()
 	{
-		return keyFormat.size();
+		return extractCheckDigitCalculator.size();
 	}
 
 	@Override
@@ -88,6 +84,20 @@ public abstract class AbstractCheckDigitNumber<F extends KeyFormat> extends Abst
 	public final Digit checkDigit()
 	{
 		return digitAtPositionT(size());
+	}
+
+	@NotNull
+	@Override
+	public final Digits withCheckDigit()
+	{
+		return digits;
+	}
+
+	@NotNull
+	@Override
+	public final Digits withoutCheckDigit()
+	{
+		return digits.slice(1, size());
 	}
 
 	@Override
@@ -102,9 +112,9 @@ public abstract class AbstractCheckDigitNumber<F extends KeyFormat> extends Abst
 			return false;
 		}
 
-		final AbstractCheckDigitNumber that = (AbstractCheckDigitNumber) obj;
+		final AbstractCheckDigitNumber<?> that = (AbstractCheckDigitNumber<?>) obj;
 
-		if (!keyFormat.equals(that.keyFormat))
+		if (!extractCheckDigitCalculator.equals(that.extractCheckDigitCalculator))
 		{
 			return false;
 		}
@@ -119,7 +129,7 @@ public abstract class AbstractCheckDigitNumber<F extends KeyFormat> extends Abst
 	@Override
 	public int hashCode()
 	{
-		int result = keyFormat.hashCode();
+		int result = extractCheckDigitCalculator.hashCode();
 		result = 31 * result + digits.hashCode();
 		return result;
 	}

@@ -14,16 +14,17 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.barcodes.gs1.keys.serialShippingContainerCodes;
+package uk.nhs.hdn.common.digits;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.common.digits.Digits;
-import uk.nhs.hdn.barcodes.gs1.keys.AbstractKeyFormatCheckDigitNumber;
 
-public final class SerialShippingContainerCode extends AbstractKeyFormatCheckDigitNumber<SerialShippingContainerCodeFormat>
+import static java.lang.String.format;
+import static java.util.Locale.ENGLISH;
+
+public final class IncorrectNumberCouldNotCalculateCheckDigitIllegalStateException extends IllegalStateException
 {
-	public SerialShippingContainerCode(@NotNull final SerialShippingContainerCodeFormat serialShippingContainerCodeFormat, @NotNull final Digits digits)
+	public IncorrectNumberCouldNotCalculateCheckDigitIllegalStateException(@NotNull final Digits digits)
 	{
-		super(serialShippingContainerCodeFormat, digits);
+		super(format(ENGLISH, "Incorrect number %1$s, could not calculate check digit", digits));
 	}
 }

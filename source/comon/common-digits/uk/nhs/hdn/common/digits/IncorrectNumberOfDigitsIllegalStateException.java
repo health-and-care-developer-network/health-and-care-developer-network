@@ -14,15 +14,20 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.barcodes.gs1.checkDigits;
+package uk.nhs.hdn.common.digits;
 
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
 
-public final class IncorrectNumberOfDigitsWithoutCheckDigitIllegalStateException extends IllegalStateException
+public final class IncorrectNumberOfDigitsIllegalStateException extends IllegalStateException
 {
-	public IncorrectNumberOfDigitsWithoutCheckDigitIllegalStateException(final int correctNumberOfDigits)
+	public IncorrectNumberOfDigitsIllegalStateException(final int correctNumberOfDigits, final int maximumSizeOfSerialNumber)
 	{
-		super(format(ENGLISH, "Incorrect number of digits (without check digit) (expected %1$s digits)", correctNumberOfDigits));
+		super(format(ENGLISH, "Incorrect number of digits (expected %1$s digits, including a check digit, and upto %2$s serial component digits)", correctNumberOfDigits, maximumSizeOfSerialNumber));
+	}
+
+	public IncorrectNumberOfDigitsIllegalStateException(final int atLeastNumberOfDigits)
+	{
+		super(format(ENGLISH, "Incorrect number of digits (expected at least %1$s digits)", atLeastNumberOfDigits));
 	}
 }

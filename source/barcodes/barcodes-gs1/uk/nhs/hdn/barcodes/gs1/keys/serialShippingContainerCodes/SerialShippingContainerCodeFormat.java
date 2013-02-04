@@ -18,10 +18,11 @@ package uk.nhs.hdn.barcodes.gs1.keys.serialShippingContainerCodes;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.barcodes.gs1.Gs1ExtractingCheckDigitCalculator;
 import uk.nhs.hdn.common.digits.Digit;
 import uk.nhs.hdn.common.digits.DigitList;
 import uk.nhs.hdn.common.digits.Digits;
-import uk.nhs.hdn.barcodes.gs1.checkDigits.CheckDigitCalculator;
+import uk.nhs.hdn.barcodes.gs1.Gs1ExtractingCheckDigitCalculator;
 import uk.nhs.hdn.barcodes.gs1.keys.KeyFormat;
 
 import java.util.Set;
@@ -38,13 +39,13 @@ public enum SerialShippingContainerCodeFormat implements KeyFormat
 	@NotNull
 	private final String actualName;
 	private final Set<String> formerActualNames;
-	private final CheckDigitCalculator checkDigitCalculator;
+	private final Gs1ExtractingCheckDigitCalculator gs1CheckDigitCalculator;
 
 	@SuppressWarnings("MagicNumber")
 	SerialShippingContainerCodeFormat(@NonNls @NotNull final String actualName, @NonNls @NotNull final String... formerActualNames)
 	{
 		this.actualName = actualName;
-		checkDigitCalculator = new CheckDigitCalculator
+		gs1CheckDigitCalculator = new Gs1ExtractingCheckDigitCalculator
 		(
 			MaximumOneBasedPositionT
 		);
@@ -61,33 +62,33 @@ public enum SerialShippingContainerCodeFormat implements KeyFormat
 	@Override
 	public void guardCorrectNumberOfDigitsIfNoCheckDigit(@NotNull final Digits digits)
 	{
-		checkDigitCalculator.guardCorrectNumberOfDigitsIfNoCheckDigit(digits);
+		gs1CheckDigitCalculator.guardCorrectNumberOfDigitsIfNoCheckDigit(digits);
 	}
 
 	@Override
 	public void guardCorrectNumberOfDigits(@NotNull final Digits digits)
 	{
-		checkDigitCalculator.guardCorrectNumberOfDigits(digits);
+		gs1CheckDigitCalculator.guardCorrectNumberOfDigits(digits);
 	}
 
 	@Override
 	public void guardCheckDigitCorrect(@NotNull final Digits digits)
 	{
-		checkDigitCalculator.guardCheckDigitCorrect(digits);
+		gs1CheckDigitCalculator.guardCheckDigitCorrect(digits);
 	}
 
 	@Override
 	@NotNull
 	public Digit calculateCheckDigit(@NotNull final Digits digits)
 	{
-		return checkDigitCalculator.calculateCheckDigit(digits);
+		return gs1CheckDigitCalculator.calculateCheckDigit(digits);
 	}
 
 	@NotNull
 	@Override
 	public Digits addCheckDigit(@NotNull final Digits withoutCheckDigits)
 	{
-		return checkDigitCalculator.addCheckDigit(withoutCheckDigits);
+		return gs1CheckDigitCalculator.addCheckDigit(withoutCheckDigits);
 	}
 
 	@Override

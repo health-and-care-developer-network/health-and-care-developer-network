@@ -14,47 +14,43 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.barcodes.gs1.checkDigits;
+package uk.nhs.hdn.barcodes.gs1;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hdn.common.digits.AbstractExtractingCheckDigitCalculator;
+import uk.nhs.hdn.common.digits.AbstractExtractingCheckDigitCalculator;
 import uk.nhs.hdn.common.digits.Digit;
 import uk.nhs.hdn.common.digits.Digits;
-import uk.nhs.hdn.common.reflection.toString.AbstractToString;
+import uk.nhs.hdn.common.digits.IncorrectNumberOfDigitsIllegalStateException;
 import uk.nhs.hdn.common.reflection.toString.ExcludeFromToString;
 
 import static uk.nhs.hdn.common.digits.Digit.Zero;
 import static uk.nhs.hdn.common.digits.Digit.digit;
-import static uk.nhs.hdn.common.IntegerHelper.isEven;
 
-public final class CheckDigitCalculator extends AbstractToString implements CheckDigit
+public final class Gs1ExtractingCheckDigitCalculator extends AbstractExtractingCheckDigitCalculator
 {
-	private final int correctNumberOfDigits;
 	private final int maximumSizeOfSerialNumber;
 	private final int offset;
-	@ExcludeFromToString private final int correctNumberOfDigitsLessCheckDigit;
 	@ExcludeFromToString private final int correctNumberOfDigitsIncludingSerialComponent;
-	@ExcludeFromToString private final boolean evenNumberOfDigits;
 
 	@SuppressWarnings("AssignmentToCollectionOrArrayFieldFromParameter")
-	public CheckDigitCalculator(final int correctNumberOfDigits)
+	public Gs1ExtractingCheckDigitCalculator(final int correctNumberOfDigits)
 	{
 		this(correctNumberOfDigits, 0);
 	}
 
-	public CheckDigitCalculator(final int correctNumberOfDigits, final int maximumSizeOfSerialNumber)
+	public Gs1ExtractingCheckDigitCalculator(final int correctNumberOfDigits, final int maximumSizeOfSerialNumber)
 	{
 		this(correctNumberOfDigits, maximumSizeOfSerialNumber, 0);
 	}
 
-	public CheckDigitCalculator(final int correctNumberOfDigits, final int maximumSizeOfSerialNumber, final int offset)
+	public Gs1ExtractingCheckDigitCalculator(final int correctNumberOfDigits, final int maximumSizeOfSerialNumber, final int offset)
 	{
-		this.correctNumberOfDigits = correctNumberOfDigits;
+		super(correctNumberOfDigits);
 		this.maximumSizeOfSerialNumber = maximumSizeOfSerialNumber;
 		this.offset = offset;
-		correctNumberOfDigitsLessCheckDigit = correctNumberOfDigits - 1;
 		correctNumberOfDigitsIncludingSerialComponent = correctNumberOfDigits + maximumSizeOfSerialNumber;
-		evenNumberOfDigits = isEven(correctNumberOfDigits);
 	}
 
 	@Override
@@ -68,14 +64,18 @@ public final class CheckDigitCalculator extends AbstractToString implements Chec
 		{
 			return false;
 		}
-
-		final CheckDigitCalculator that = (CheckDigitCalculator) obj;
-
-		if (correctNumberOfDigits != that.correctNumberOfDigits)
+		if (!super.equals(obj))
 		{
 			return false;
 		}
-		if (correctNumberOfDigitsLessCheckDigit != that.correctNumberOfDigitsLessCheckDigit)
+
+		final Gs1ExtractingCheckDigitCalculator that = (Gs1ExtractingCheckDigitCalculator) obj;
+
+		if (maximumSizeOfSerialNumber != that.maximumSizeOfSerialNumber)
+		{
+			return false;
+		}
+		if (offset != that.offset)
 		{
 			return false;
 		}
@@ -86,19 +86,10 @@ public final class CheckDigitCalculator extends AbstractToString implements Chec
 	@Override
 	public int hashCode()
 	{
-		int result = correctNumberOfDigits;
-		result = 31 * result + correctNumberOfDigitsLessCheckDigit;
+		int result = super.hashCode();
+		result = 31 * result + maximumSizeOfSerialNumber;
+		result = 31 * result + offset;
 		return result;
-	}
-
-	@Override
-	public void guardCorrectNumberOfDigitsIfNoCheckDigit(@NotNull final Digits digits)
-	{
-		if (digits.hasSize(correctNumberOfDigitsLessCheckDigit))
-		{
-			return;
-		}
-		throw new IncorrectNumberOfDigitsWithoutCheckDigitIllegalStateException(correctNumberOfDigitsLessCheckDigit);
 	}
 
 	@Override
@@ -109,16 +100,6 @@ public final class CheckDigitCalculator extends AbstractToString implements Chec
 			return;
 		}
 		throw new IncorrectNumberOfDigitsIllegalStateException(correctNumberOfDigits, maximumSizeOfSerialNumber);
-	}
-
-	@Override
-	public void guardCheckDigitCorrect(@NotNull final Digits digits)
-	{
-		final Digit checkDigit = calculateCheckDigit(digits);
-		if (checkDigit != digits.digitAt(correctNumberOfDigitsLessCheckDigit))
-		{
-			throw new IncorrectCheckDigitIllegalStateException(digits, checkDigit);
-		}
 	}
 
 	@SuppressWarnings("FeatureEnvy")
@@ -143,12 +124,5 @@ public final class CheckDigitCalculator extends AbstractToString implements Chec
 		final int remainder = sum - (10 * multipleOfTen);
 		final boolean hasRemainder = remainder != 0;
 		return hasRemainder ? digit(10 - remainder) : Zero;
-	}
-
-	@NotNull
-	public Digits addCheckDigit(@NotNull final Digits withoutCheckDigits)
-	{
-		final Digit checkDigit = calculateCheckDigit(withoutCheckDigits);
-		return withoutCheckDigits.add(checkDigit);
 	}
 }

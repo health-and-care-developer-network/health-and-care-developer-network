@@ -14,19 +14,14 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.barcodes.gs1.checkDigits;
+package uk.nhs.hdn.common.digits;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.common.digits.Digit;
-import uk.nhs.hdn.common.digits.Digits;
 
-import static java.lang.String.format;
-import static java.util.Locale.ENGLISH;
-
-public final class IncorrectCheckDigitIllegalStateException extends IllegalStateException
+public interface ExtractingCheckDigitCalculator extends CheckDigitCalculator
 {
-	public IncorrectCheckDigitIllegalStateException(@NotNull final Digits digits, @NotNull final Digit expectedCheckDigit)
-	{
-		super(format(ENGLISH, "Incorrect check digit for %1$s, expected %2$s", digits, expectedCheckDigit));
-	}
+	@NotNull
+	Digit extract(@NotNull final DigitList digits, final int oneBasedPositionT);
+
+	int size();
 }

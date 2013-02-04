@@ -17,7 +17,7 @@
 package uk.nhs.hdn.barcodes.gs1.server.parsing;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.barcodes.gs1.checkDigits.IncorrectNumberOfDigitsIllegalStateException;
+import uk.nhs.hdn.common.digits.IncorrectNumberOfDigitsIllegalStateException;
 import uk.nhs.hdn.barcodes.gs1.companyPrefixes.Gs1CompanyPrefix;
 import uk.nhs.hdn.common.parsers.separatedValueParsers.fieldParsers.AbstractMandatoryPrefixFieldParser;
 import uk.nhs.hdn.common.parsers.separatedValueParsers.fieldParsers.CouldNotParseFieldException;

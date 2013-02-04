@@ -14,15 +14,19 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.barcodes.gs1.keys;
+package uk.nhs.hdn.common.digits;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.common.digits.Digit;
-import uk.nhs.hdn.common.digits.DigitList;
 
 public interface CheckDigitNumber extends DigitList
 {
 	@SuppressWarnings("NonBooleanMethodNameMayNotStartWithQuestion")
 	@NotNull
 	Digit checkDigit();
+
+	@NotNull
+	Digits withCheckDigit();
+
+	@NotNull
+	Digits withoutCheckDigit();
 }

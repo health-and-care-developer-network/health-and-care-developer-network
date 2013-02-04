@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.barcodes.gs1.keys.serialShippingContainerCodes;
+package uk.nhs.hdn.barcodes.gs1.keys;
 
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.common.digits.AbstractCheckDigitNumber;
 import uk.nhs.hdn.common.digits.Digits;
-import uk.nhs.hdn.barcodes.gs1.keys.AbstractKeyFormatCheckDigitNumber;
 
-public final class SerialShippingContainerCode extends AbstractKeyFormatCheckDigitNumber<SerialShippingContainerCodeFormat>
+public abstract class AbstractKeyFormatCheckDigitNumber<F extends KeyFormat> extends AbstractCheckDigitNumber<F>
 {
-	public SerialShippingContainerCode(@NotNull final SerialShippingContainerCodeFormat serialShippingContainerCodeFormat, @NotNull final Digits digits)
+	protected AbstractKeyFormatCheckDigitNumber(@NotNull final F keyFormat, @NotNull final Digits digits)
 	{
-		super(serialShippingContainerCodeFormat, digits);
+		super(keyFormat, digits);
 	}
 }

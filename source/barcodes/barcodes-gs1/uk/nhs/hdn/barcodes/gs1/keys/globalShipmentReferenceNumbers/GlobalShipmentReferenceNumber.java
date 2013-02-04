@@ -18,9 +18,9 @@ package uk.nhs.hdn.barcodes.gs1.keys.globalShipmentReferenceNumbers;
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.digits.Digits;
-import uk.nhs.hdn.barcodes.gs1.keys.AbstractCheckDigitNumber;
+import uk.nhs.hdn.barcodes.gs1.keys.AbstractKeyFormatCheckDigitNumber;
 
-public final class GlobalShipmentReferenceNumber extends AbstractCheckDigitNumber<GlobalShipmentReferenceNumberFormat>
+public final class GlobalShipmentReferenceNumber extends AbstractKeyFormatCheckDigitNumber<GlobalShipmentReferenceNumberFormat>
 {
 	public GlobalShipmentReferenceNumber(@NotNull final GlobalShipmentReferenceNumberFormat globalShipmentReferenceNumberFormat, @NotNull final Digits digits)
 	{
