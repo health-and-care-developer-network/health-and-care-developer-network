@@ -175,10 +175,10 @@
 --append INPUT ! --in-interface lo --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type port-unreachable     --match state --state RELATED --jump ACCEPT
 
 # Unusual ICMP Destination Unreachable replies to outgoing connections are logged but permitted
---new-chain LogAndAcceptOddIcmpDestination
---append LogAndAcceptOddIcmpDestination --jump LOG --log-prefix "iptables_OddIcmpDestination " --log-level notice --log-ip-options --log-tcp-options --log-uid
---append LogAndAcceptOddIcmpDestination --jump ACCEPT
---append INPUT ! --in-interface lo --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type destination-unreachable --match state --state RELATED --jump LogAndAcceptOddIcmpDestination
+--new-chain LogAndAcceptOddIcmp
+--append LogAndAcceptOddIcmp --jump LOG --log-prefix "iptables_OddIcmpDestination " --log-level notice --log-ip-options --log-tcp-options --log-uid
+--append LogAndAcceptOddIcmp --jump ACCEPT
+--append INPUT ! --in-interface lo --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type destination-unreachable --match state --state RELATED --jump LogAndAcceptOddIcmp
 
 # Allow inbound ICMP ttl-zero-during-transit and ttl-zero-during-reassembly for initiated connections (so we can resend)
 --append INPUT ! --in-interface lo --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type time-exceeded --match state --state RELATED --jump ACCEPT
