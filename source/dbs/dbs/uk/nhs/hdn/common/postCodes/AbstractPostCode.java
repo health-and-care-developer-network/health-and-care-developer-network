@@ -34,7 +34,7 @@ import static java.util.regex.Pattern.compile;
 import static uk.nhs.hdn.common.postCodes.codes.outward.BritishForcesPostOfficeOutwardCode.BFPO;
 import static uk.nhs.hdn.common.postCodes.codes.outward.BritishForcesPostOfficeOutwardCode.BritishForcesPostOfficeOutwardCodeInstance;
 
-public abstract class AbstractPostCode<O extends OutwardCode<PostCode, I>, I extends InwardCode> extends AbstractToString implements PostCode
+public abstract class AbstractPostCode<O extends OutwardCode<? extends PostCode, I>, I extends InwardCode> extends AbstractToString implements PostCode
 {
 	private static final Pattern Space = compile(" ");
 

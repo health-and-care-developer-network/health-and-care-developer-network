@@ -20,8 +20,6 @@ import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.parsers.fixedWidth.FieldSchema;
 import uk.nhs.hdn.common.parsers.fixedWidth.SingleLineFixedWidthParser;
 import uk.nhs.hdn.common.parsers.parseResultUsers.NonNullValueReturningParseResultUser;
-import uk.nhs.hdn.dbs.FileVersion;
-import uk.nhs.hdn.dbs.parsing.fixedWidthLineUsers.ResponseHeaderFixedWidthLineUser;
 import uk.nhs.hdn.dbs.response.ResponseHeader;
 
 import java.util.Map;
@@ -35,6 +33,7 @@ import static uk.nhs.hdn.dbs.parsing.fieldConverters.FileVersionFieldConverter.F
 import static uk.nhs.hdn.dbs.parsing.fieldConverters.RecordTypeFieldConverter.HeaderRecordTypeFieldConverterInstance;
 import static uk.nhs.hdn.dbs.parsing.fieldConverters.SpineDirectoryServiceOrganisationCodeFieldConverter.SpineDirectoryServiceOrganisationCodeFieldConverterInstance;
 import static uk.nhs.hdn.dbs.parsing.fieldConverters.TracingServiceCodeFieldConverter.TracingServiceCodeFieldConverterInstance;
+import static uk.nhs.hdn.dbs.parsing.fixedWidthLineUsers.ResponseHeaderFixedWidthLineUser.ResponseHeaderFixedWidthLineUserInstance;
 
 public final class ResponseHeaderSingleLineFixedWidthParser extends SingleLineFixedWidthParser<ResponseHeader>
 {
@@ -56,9 +55,9 @@ public final class ResponseHeaderSingleLineFixedWidthParser extends SingleLineFi
 	@NotNull
 	public static final Map<String, Integer> ResponseHeaderFieldsIndex = index(ResponseHeaderFields);
 
-	public ResponseHeaderSingleLineFixedWidthParser(@NotNull final FileVersion fileVersion)
+	public ResponseHeaderSingleLineFixedWidthParser()
 	{
-		super(new ResponseHeaderFixedWidthLineUser(fileVersion), new NonNullValueReturningParseResultUser<ResponseHeader>(), ResponseHeaderFields);
+		super(ResponseHeaderFixedWidthLineUserInstance, new NonNullValueReturningParseResultUser<ResponseHeader>(), ResponseHeaderFields);
 	}
 
 
