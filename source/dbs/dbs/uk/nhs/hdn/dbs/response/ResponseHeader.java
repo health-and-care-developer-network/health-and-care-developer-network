@@ -24,17 +24,17 @@ import uk.nhs.hdn.dbs.*;
 public final class ResponseHeader extends AbstractToString
 {
 	@NotNull
-	private final FileVersion fileVersion;
+	public final FileVersion fileVersion;
 	@NotNull
 	public final FileFormat fileFormat;
 	@NotNull
-	private final SpineDirectoryServiceOrganisationCode requestingOrgansationCode;
+	public final SpineDirectoryServiceOrganisationCode requestingOrgansationCode;
 	@NotNull
-	private final TracingServiceCode tracingServiceCode;
+	public final TracingServiceCode tracingServiceCode;
 	@NotNull
-	private final DbsDateTime filePreparationTimeAndDate;
-	private final int fileSequenceNumber;
-	private final int numberOfResponseRecords;
+	public final DbsDateTime filePreparationTimeAndDate;
+	public final int fileSequenceNumber;
+	public final int numberOfResponseRecords;
 
 	public ResponseHeader(@NotNull final FileVersion fileVersion, @NotNull final FileFormat fileFormat, @NotNull final SpineDirectoryServiceOrganisationCode requestingOrgansationCode, @NotNull final TracingServiceCode tracingServiceCode, @NotNull final DbsDateTime filePreparationTimeAndDate, final int fileSequenceNumber, final int numberOfResponseRecords)
 	{

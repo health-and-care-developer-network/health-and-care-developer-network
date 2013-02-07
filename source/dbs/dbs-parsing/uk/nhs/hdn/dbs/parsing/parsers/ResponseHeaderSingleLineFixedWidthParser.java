@@ -19,7 +19,7 @@ package uk.nhs.hdn.dbs.parsing.parsers;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.parsers.fixedWidth.FieldSchema;
 import uk.nhs.hdn.common.parsers.fixedWidth.SingleLineFixedWidthParser;
-import uk.nhs.hdn.common.parsers.parseResultUsers.NonNullValueReturningParseResultUser;
+import uk.nhs.hdn.common.parsers.parseResultUsers.ParseResultUser;
 import uk.nhs.hdn.dbs.response.ResponseHeader;
 
 import java.util.Map;
@@ -55,16 +55,8 @@ public final class ResponseHeaderSingleLineFixedWidthParser extends SingleLineFi
 	@NotNull
 	public static final Map<String, Integer> ResponseHeaderFieldsIndex = index(ResponseHeaderFields);
 
-	public ResponseHeaderSingleLineFixedWidthParser()
+	public ResponseHeaderSingleLineFixedWidthParser(@NotNull final ParseResultUser<ResponseHeader> parseResultUser)
 	{
-		super(ResponseHeaderFixedWidthLineUserInstance, new NonNullValueReturningParseResultUser<ResponseHeader>(), ResponseHeaderFields);
+		super(ResponseHeaderFixedWidthLineUserInstance, parseResultUser, ResponseHeaderFields);
 	}
-
-
-	public static void main(String[] args)
-	{
-
-
-	}
-
 }

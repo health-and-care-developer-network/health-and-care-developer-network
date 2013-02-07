@@ -82,9 +82,9 @@ public final class ResponseBodyFixedWidthLineUser extends AbstractFixedWidthLine
 	@NotNull
 	private ResponseBody constructResponseBody(final Object... collectedFields) throws CouldNotConvertFieldsException
 	{
-		@NotNull final RecordType responseCode = AbstractFixedWidthLineUser.nonNullField(collectedFields, RecordType.class, RecordType);
-		@NotNull final LocalPatientIdentifier localPatientIdentifier = AbstractFixedWidthLineUser.nonNullField(collectedFields, LocalPatientIdentifier.class, LocalPatientIdentifier);
-		final int numberOfMultipleMatches = AbstractFixedWidthLineUser.nonNullField(collectedFields, Integer.class, NumberOfMultipleMatches);
+		@NotNull final RecordType responseCode = nonNullField(collectedFields, RecordType.class, RecordType);
+		@NotNull final LocalPatientIdentifier localPatientIdentifier = nonNullField(collectedFields, LocalPatientIdentifier.class, LocalPatientIdentifier);
+		final int numberOfMultipleMatches = nonNullField(collectedFields, Integer.class, NumberOfMultipleMatches);
 
 		if (responseCode.doesNotHaveMatches)
 		{
@@ -97,15 +97,15 @@ public final class ResponseBodyFixedWidthLineUser extends AbstractFixedWidthLine
 			responseCode,
 			localPatientIdentifier,
 			numberOfMultipleMatches,
-			AbstractFixedWidthLineUser.nonNullField(collectedFields, NhsNumber.class, TraceResultNhsNumber),
+			nonNullField(collectedFields, NhsNumber.class, TraceResultNhsNumber),
 			nullableField(collectedFields, DbsDate.class, ReturnedDateOfBirth),
 			nullableField(collectedFields, FactOfDeath.class, ReturnedFactOfDeath),
 			nullableField(collectedFields, DbsDate.class, ReturnedDateOfDeath),
 			nullableField(collectedFields, NameFragment.class, ReturnedFamilyName),
 			nullableField(collectedFields, NameFragment.class, ReturnedGivenName),
 			nullableField(collectedFields, NameFragment.class, ReturnedAlternativeOrPreviousSurname),
-			AbstractFixedWidthLineUser.nonNullField(collectedFields, List.class, ReturnedOtherGivenNames),
-			AbstractFixedWidthLineUser.nonNullField(collectedFields, Gender.class, ReturnedGender),
+			nonNullField(collectedFields, List.class, ReturnedOtherGivenNames),
+			nonNullField(collectedFields, Gender.class, ReturnedGender),
 			fileVersion == NoPracticeOrPatientAddressReturned ? UnknownPracticeAndAddressDataInstance : constructPracticeAndAddressData(collectedFields)
 		);
 	}

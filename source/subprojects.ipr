@@ -1285,6 +1285,7 @@
       <module fileurl="file://$PROJECT_DIR$/common/common-unknown/common-unknown.iml" filepath="$PROJECT_DIR$/common/common-unknown/common-unknown.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-xml/common-xml.iml" filepath="$PROJECT_DIR$/common/common-xml/common-xml.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/dbs/dbs/dbs.iml" filepath="$PROJECT_DIR$/dbs/dbs/dbs.iml" group="dbs" />
+      <module fileurl="file://$PROJECT_DIR$/dbs/dbs-parsing/dbs-parsing.iml" filepath="$PROJECT_DIR$/dbs/dbs-parsing/dbs-parsing.iml" group="dbs" />
       <module fileurl="file://$PROJECT_DIR$/dts/dts-client-out/dts-client-out.iml" filepath="$PROJECT_DIR$/dts/dts-client-out/dts-client-out.iml" group="dts" />
       <module fileurl="file://$PROJECT_DIR$/dts/dts-client-rats/dts-client-rats.iml" filepath="$PROJECT_DIR$/dts/dts-client-rats/dts-client-rats.iml" group="dts" />
       <module fileurl="file://$PROJECT_DIR$/dts/dts-client-read/dts-client-read.iml" filepath="$PROJECT_DIR$/dts/dts-client-read/dts-client-read.iml" group="dts" />

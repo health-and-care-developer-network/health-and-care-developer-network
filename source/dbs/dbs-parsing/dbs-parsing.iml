@@ -8,12 +8,12 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="IntelliJ Annotations" level="project" />
+    <orderEntry type="module" module-name="dbs" />
+    <orderEntry type="module" module-name="common-parsers" />
     <orderEntry type="module" module-name="common-parsers-fixedWidth" />
-    <orderEntry type="module" module-name="common-reflection" exported="" />
-    <orderEntry type="module" module-name="common-serialisers" />
-    <orderEntry type="module" module-name="common" />
     <orderEntry type="module" module-name="number" />
     <orderEntry type="module" module-name="common-postCodes" />
+    <orderEntry type="module" module-name="common" />
   </component>
 </module>
 
