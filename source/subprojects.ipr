@@ -411,7 +411,6 @@
           <option name="ignoreTrivialFinalizers" value="true" />
         </inspection_tool>
         <inspection_tool class="FinalizeNotProtected" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="Fix shebang" enabled="true" level="WARNING" enabled_by_default="true">/bin/sh#/bin/bash</inspection_tool>
         <inspection_tool class="FloatingPointEquality" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ForLoopReplaceableByWhile" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="m_ignoreLoopsWithoutConditions" value="false" />
@@ -1276,6 +1275,7 @@
       <module fileurl="file://$PROJECT_DIR$/common/common-parsers-json/common-parsers-json.iml" filepath="$PROJECT_DIR$/common/common-parsers-json/common-parsers-json.iml" group="common/parsers" />
       <module fileurl="file://$PROJECT_DIR$/common/common-parsers-separatedValueParsers/common-parsers-separatedValueParsers.iml" filepath="$PROJECT_DIR$/common/common-parsers-separatedValueParsers/common-parsers-separatedValueParsers.iml" group="common/parsers" />
       <module fileurl="file://$PROJECT_DIR$/common/common-parsers-xml/common-parsers-xml.iml" filepath="$PROJECT_DIR$/common/common-parsers-xml/common-parsers-xml.iml" group="common/parsers" />
+      <module fileurl="file://$PROJECT_DIR$/common/common-postCodes/common-postCodes.iml" filepath="$PROJECT_DIR$/common/common-postCodes/common-postCodes.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-reflection/common-reflection.iml" filepath="$PROJECT_DIR$/common/common-reflection/common-reflection.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-serialisers/common-serialisers.iml" filepath="$PROJECT_DIR$/common/common-serialisers/common-serialisers.iml" group="common/serialisers" />
       <module fileurl="file://$PROJECT_DIR$/common/common-serialisers-json/common-serialisers-json.iml" filepath="$PROJECT_DIR$/common/common-serialisers-json/common-serialisers-json.iml" group="common/serialisers" />
