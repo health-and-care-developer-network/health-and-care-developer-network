@@ -26,6 +26,7 @@ import uk.nhs.hdn.common.serialisers.CouldNotWriteValueException;
 import uk.nhs.hdn.common.serialisers.ValueSerialisable;
 import uk.nhs.hdn.common.serialisers.ValueSerialiser;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -33,6 +34,21 @@ import static java.util.Locale.ENGLISH;
 
 public final class DbsDate extends AbstractToString implements ValueSerialisable
 {
+	// Used by Jopt-Simple
+	@SuppressWarnings("UnusedDeclaration")
+	@NotNull
+	public static DbsDate valueOf(@NotNull final String value)
+	{
+		try
+		{
+			return new DbsDate(newSimpleDateFormat().parse(value).getTime());
+		}
+		catch (ParseException e)
+		{
+			throw new IllegalArgumentException(value, e);
+		}
+	}
+
 	@NotNull
 	@NonNls
 	public static final String DbsDateFormat = "YYYYMMDD";
@@ -49,12 +65,17 @@ public final class DbsDate extends AbstractToString implements ValueSerialisable
 	{
 		try
 		{
-			valueSerialiser.writeValue(new SimpleDateFormat(DbsDateFormat, ENGLISH).format(new Date(date)));
+			valueSerialiser.writeValue(newSimpleDateFormat().format(new Date(date)));
 		}
 		catch (CouldNotWriteValueException e)
 		{
 			throw new CouldNotSerialiseValueException(this, e);
 		}
+	}
+
+	private static SimpleDateFormat newSimpleDateFormat()
+	{
+		return new SimpleDateFormat(DbsDateFormat, ENGLISH);
 	}
 
 	@Override

@@ -61,7 +61,7 @@ public final class NhsNumberClientConsoleEntryPoint extends AbstractConsoleEntry
 		exitWithErrorAndHelp("Either --%1$s or --%2$s is required", ValidateOption, CreateCheckDigitOption);
 	}
 
-	private static void validateNhsNumber(@NotNull final CharSequence nhsNumberToValidate)
+	private static void validateNhsNumber(@NotNull final String nhsNumberToValidate)
 	{
 		final NhsNumber valid;
 		try

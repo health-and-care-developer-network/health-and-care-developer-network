@@ -1286,6 +1286,8 @@
       <module fileurl="file://$PROJECT_DIR$/common/common-xml/common-xml.iml" filepath="$PROJECT_DIR$/common/common-xml/common-xml.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/dbs/dbs/dbs.iml" filepath="$PROJECT_DIR$/dbs/dbs/dbs.iml" group="dbs" />
       <module fileurl="file://$PROJECT_DIR$/dbs/dbs-parsing/dbs-parsing.iml" filepath="$PROJECT_DIR$/dbs/dbs-parsing/dbs-parsing.iml" group="dbs" />
+      <module fileurl="file://$PROJECT_DIR$/dbs/dbs-request/dbs-request.iml" filepath="$PROJECT_DIR$/dbs/dbs-request/dbs-request.iml" group="dbs" />
+      <module fileurl="file://$PROJECT_DIR$/dbs/dbs-request-client/dbs-request-client.iml" filepath="$PROJECT_DIR$/dbs/dbs-request-client/dbs-request-client.iml" group="dbs" />
       <module fileurl="file://$PROJECT_DIR$/dbs/dbs-response/dbs-response.iml" filepath="$PROJECT_DIR$/dbs/dbs-response/dbs-response.iml" group="dbs" />
       <module fileurl="file://$PROJECT_DIR$/dbs/dbs-response-client/dbs-response-client.iml" filepath="$PROJECT_DIR$/dbs/dbs-response-client/dbs-response-client.iml" group="dbs" />
       <module fileurl="file://$PROJECT_DIR$/dbs/dbs-response-parsing/dbs-response-parsing.iml" filepath="$PROJECT_DIR$/dbs/dbs-response-parsing/dbs-response-parsing.iml" group="dbs" />

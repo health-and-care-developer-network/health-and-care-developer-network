@@ -70,6 +70,8 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		final String dbsResponseClientConsoleEntryPoint = intellijModuleHasMainClassByConvention("dbs-response-client", "DbsResponseClientClientConsoleEntryPoint");
 
+		final String dbsRequestClientConsoleEntryPoint = intellijModuleHasMainClassByConvention("dbs-request-client", "DbsRequestClientClientConsoleEntryPoint");
+
 
 		task("clean").does
 		(
@@ -99,7 +101,9 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		executable("hdn-dbs-response", "dbs-response-client", dbsResponseClientConsoleEntryPoint);
 
-		task("executables").dependsOn("hdn-gs1-client", "hdn-gs1-server", "hdn-dts-out", "hdn-dts-read", "hdn-dts-rats", "hdn-dbs-response");
+		executable("hdn-dbs-request", "dbs-request-client", dbsResponseClientConsoleEntryPoint);
+
+		task("executables").dependsOn("hdn-gs1-client", "hdn-gs1-server", "hdn-dts-out", "hdn-dts-read", "hdn-dts-rats", "hdn-dbs-response", "hdn-dbs-request");
 
 		task("generate changelog template").dependsOn("make output").does
 		(
@@ -119,6 +123,8 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 		debianPackagesPackageTask("hdn-number-client", "generate changelog template", "hdn-number-client");
 
 		debianPackagesPackageTask("hdn-dbs-response", "generate changelog template", "hdn-dbs-response");
+
+		debianPackagesPackageTask("hdn-dbs-request", "generate changelog template", "hdn-dbs-request");
 
 		debianPackagesPackageTask("hdn-4store", "generate changelog template");
 

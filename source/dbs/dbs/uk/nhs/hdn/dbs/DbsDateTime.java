@@ -29,10 +29,17 @@ import uk.nhs.hdn.common.serialisers.ValueSerialiser;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static java.lang.System.currentTimeMillis;
 import static java.util.Locale.ENGLISH;
 
 public final class DbsDateTime extends AbstractToString implements ValueSerialisable
 {
+	@NotNull @NonNls
+	public static String dbsDateTimeNow()
+	{
+		return formattedForDbs(currentTimeMillis());
+	}
+
 	@NotNull @NonNls
 	public static final String DbsDateTimeFormat = "HHmmssYYYYMMDD";
 
@@ -49,12 +56,17 @@ public final class DbsDateTime extends AbstractToString implements ValueSerialis
 	{
 		try
 		{
-			valueSerialiser.writeValue(new SimpleDateFormat(DbsDateTimeFormat, ENGLISH).format(new Date(dateTime)));
+			valueSerialiser.writeValue(formattedForDbs(dateTime));
 		}
 		catch (CouldNotWriteValueException e)
 		{
 			throw new CouldNotSerialiseValueException(this, e);
 		}
+	}
+
+	private static String formattedForDbs(@MillisecondsSince1970 final long dateTime)
+	{
+		return new SimpleDateFormat(DbsDateTimeFormat, ENGLISH).format(new Date(dateTime));
 	}
 
 	@Override

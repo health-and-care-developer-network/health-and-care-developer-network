@@ -77,15 +77,22 @@ public final class SeparatedValueSerialiser extends AbstractSerialiser
 	@SuppressWarnings({"UseOfSystemOutOrSystemErr", "FinalMethodInFinalClass"})
 	public final <S extends Serialisable> void printValuesOnStandardOut(@NotNull final S... values)
 	{
+		writeOut(out, values);
+	}
+
+	@SuppressWarnings("FinalMethodInFinalClass")
+	@SafeVarargs
+	public final <S extends Serialisable> void writeOut(@NotNull final OutputStream outputStream, @NotNull final S... values)
+	{
 		try
 		{
-			start(out, Utf8);
+			start(outputStream, Utf8);
 			writeValue(values);
 			finish();
 		}
 		catch (CouldNotWriteDataException | CouldNotWriteValueException e)
 		{
-			throw new IllegalStateException("Could not write tuples", e);
+			throw new IllegalStateException("Could not write values", e);
 		}
 	}
 

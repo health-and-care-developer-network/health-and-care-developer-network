@@ -19,7 +19,7 @@ public final class NhsNumber extends AbstractCheckDigitNumber<NhsNumberExtractin
 
 	@SuppressWarnings("FeatureEnvy")
 	@NotNull
-	public static NhsNumber valueOf(@NotNull final CharSequence digits)
+	public static NhsNumber valueOf(@NotNull final String digits)
 	{
 		final Digits parsedDigits;
 
@@ -34,7 +34,7 @@ public final class NhsNumber extends AbstractCheckDigitNumber<NhsNumberExtractin
 		}
 		else
 		{
-			throw new IllegalArgumentException(format(ENGLISH, "%1$s is neither 10 or 12 characters long", digits.toString()));
+			throw new IllegalArgumentException(format(ENGLISH, "%1$s is neither 10 or 12 characters long", digits));
 		}
 
 		return new NhsNumber(parsedDigits);
