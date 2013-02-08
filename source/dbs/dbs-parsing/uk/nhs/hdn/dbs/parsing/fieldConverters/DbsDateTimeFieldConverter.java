@@ -37,7 +37,7 @@ public final class DbsDateTimeFieldConverter extends AbstractToString implements
 
 	private DbsDateTimeFieldConverter()
 	{
-		dbsDateTimeFieldConverter = new DateTimeFieldConverter("HHmmssYYYYMMDD", ENGLISH);
+		dbsDateTimeFieldConverter = new DateTimeFieldConverter(DbsDateTime.DbsDateTimeFormat, ENGLISH);
 	}
 
 	@NotNull

@@ -30,6 +30,7 @@ import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.util.Stack;
 
+import static java.lang.System.out;
 import static uk.nhs.hdn.common.CharsetHelper.Utf8;
 import static uk.nhs.hdn.common.VariableArgumentsHelper.copyOf;
 import static uk.nhs.hdn.common.serialisers.separatedValues.fieldEscapers.CommaSeparatedFieldEscaper.CommaSeparatedFieldEscaperInstance;
@@ -38,9 +39,9 @@ import static uk.nhs.hdn.common.serialisers.separatedValues.fieldEscapers.TabSep
 public final class SeparatedValueSerialiser extends AbstractSerialiser
 {
 	@NotNull
-	public static SeparatedValueSerialiser tabSeparatedValueSerialiser(@SuppressWarnings("TypeMayBeWeakened") @NotNull final RecurseMatcher root, @NotNull final String... headings)
+	public static SeparatedValueSerialiser tabSeparatedValueSerialiser(@SuppressWarnings("TypeMayBeWeakened") @NotNull final RecurseMatcher root, final boolean writeHeaderLine, @NotNull final String... headings)
 	{
-		return new SeparatedValueSerialiser(TabSeparatedFieldEscaperInstance, root, true, headings);
+		return new SeparatedValueSerialiser(TabSeparatedFieldEscaperInstance, root, writeHeaderLine, headings);
 	}
 
 	@NotNull
@@ -70,6 +71,22 @@ public final class SeparatedValueSerialiser extends AbstractSerialiser
 		numberOfFields = headings.length;
 		this.fieldEscaper = fieldEscaper;
 		stack = new Stack<>();
+	}
+
+	@SafeVarargs
+	@SuppressWarnings({"UseOfSystemOutOrSystemErr", "FinalMethodInFinalClass"})
+	public final <S extends Serialisable> void printValuesOnStandardOut(@NotNull final S... values)
+	{
+		try
+		{
+			start(out, Utf8);
+			writeValue(values);
+			finish();
+		}
+		catch (CouldNotWriteDataException | CouldNotWriteValueException e)
+		{
+			throw new IllegalStateException("Could not write tuples", e);
+		}
 	}
 
 	@Override
@@ -197,6 +214,12 @@ public final class SeparatedValueSerialiser extends AbstractSerialiser
 			throw new CouldNotWritePropertyException(name, value, e);
 		}
 		current = stack.pop();
+	}
+
+	@Override
+	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final int value) throws CouldNotWritePropertyException
+	{
+		writeProperty(name, Integer.toString(value));
 	}
 
 	@Override

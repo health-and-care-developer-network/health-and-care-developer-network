@@ -28,4 +28,9 @@ public final class CouldNotParseLineException extends Exception
 	{
 		super(format(ENGLISH, "Could not parse line index %1$s because %2$s", lineIndex, because));
 	}
+
+	public CouldNotParseLineException(final int lineIndex, @NonNls @NotNull final Exception cause)
+	{
+		super(format(ENGLISH, "Could not parse line index %1$s because of exception %2$s", lineIndex, cause.getMessage()), cause);
+	}
 }

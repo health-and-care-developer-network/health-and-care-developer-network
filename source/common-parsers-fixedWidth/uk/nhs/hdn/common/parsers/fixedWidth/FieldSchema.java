@@ -108,9 +108,15 @@ public final class FieldSchema extends AbstractToString
 	}
 
 	@Nullable
+	public Object convert(@NotNull final String value) throws CouldNotConvertFieldValueException
+	{
+		return fieldConverter.convert(value);
+	}
+
+	@Nullable
 	public Object parseAndConvert(@NotNull final BufferedReader bufferedReader) throws IOException, CouldNotParseException, CouldNotConvertFieldValueException
 	{
-		return fieldConverter.convert(fixedWidthField.parse(bufferedReader));
+		return convert(fixedWidthField.parse(bufferedReader));
 	}
 
 	private void addToIndex(@NotNull final Map<String, Integer> index, final int position)

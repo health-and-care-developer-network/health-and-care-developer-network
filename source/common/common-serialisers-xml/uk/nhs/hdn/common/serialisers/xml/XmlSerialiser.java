@@ -245,6 +245,21 @@ public final class XmlSerialiser extends AbstractSerialiser
 	}
 
 	@Override
+	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final int value) throws CouldNotWritePropertyException
+	{
+		try
+		{
+			writeOpen(name);
+			writeValue(value);
+			writeClose(name);
+		}
+		catch (CouldNotWriteDataException | CouldNotEncodeDataException | CouldNotWriteValueException e)
+		{
+			throw new CouldNotWritePropertyException(name, value, e);
+		}
+	}
+
+	@Override
 	public void writePropertyNull(@NonNls @NotNull final String name) throws CouldNotWritePropertyException
 	{
 		if (xsiNilAttribute == null)

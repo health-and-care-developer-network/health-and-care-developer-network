@@ -18,11 +18,15 @@ package uk.nhs.hdn.dbs;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hdn.common.serialisers.CouldNotSerialiseValueException;
+import uk.nhs.hdn.common.serialisers.CouldNotWriteValueException;
+import uk.nhs.hdn.common.serialisers.ValueSerialisable;
+import uk.nhs.hdn.common.serialisers.ValueSerialiser;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public enum FileVersion
+public enum FileVersion implements ValueSerialisable
 {
 	NoPracticeOrPatientAddressReturned("001", false),
 	PracticeAndAddressDataReturned("101", true),
@@ -46,6 +50,19 @@ public enum FileVersion
 		if (CompilerWorkaround.Index.put(version, this) != null)
 		{
 			throw new IllegalArgumentException("duplicate version");
+		}
+	}
+
+	@Override
+	public void serialiseValue(@NotNull final ValueSerialiser valueSerialiser) throws CouldNotSerialiseValueException
+	{
+		try
+		{
+			valueSerialiser.writeValue(version);
+		}
+		catch (CouldNotWriteValueException e)
+		{
+			throw new CouldNotSerialiseValueException(this, e);
 		}
 	}
 

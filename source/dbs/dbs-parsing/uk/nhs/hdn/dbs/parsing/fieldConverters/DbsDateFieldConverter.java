@@ -27,6 +27,7 @@ import uk.nhs.hdn.dbs.DbsDateTime;
 import java.util.Date;
 
 import static java.util.Locale.ENGLISH;
+import static uk.nhs.hdn.dbs.DbsDate.DbsDateFormat;
 
 public final class DbsDateFieldConverter extends AbstractToString implements FieldConverter<DbsDate>
 {
@@ -38,7 +39,7 @@ public final class DbsDateFieldConverter extends AbstractToString implements Fie
 
 	private DbsDateFieldConverter()
 	{
-		dbsDateTimeFieldConverter = new DateTimeFieldConverter("YYYYMMDD", ENGLISH);
+		dbsDateTimeFieldConverter = new DateTimeFieldConverter(DbsDateFormat, ENGLISH);
 	}
 
 	@NotNull

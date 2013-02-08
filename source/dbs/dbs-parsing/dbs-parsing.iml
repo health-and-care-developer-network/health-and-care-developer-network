@@ -13,7 +13,9 @@
     <orderEntry type="module" module-name="common-parsers-fixedWidth" />
     <orderEntry type="module" module-name="number" />
     <orderEntry type="module" module-name="common-postCodes" />
-    <orderEntry type="module" module-name="common" />
+    <orderEntry type="module" module-name="common" exported="" />
+    <orderEntry type="module" module-name="common-parsers-separatedValueParsers" />
+    <orderEntry type="module" module-name="dbs-response" />
   </component>
 </module>
 

@@ -11,7 +11,7 @@
     <orderEntry type="module" module-name="common-parsers-fixedWidth" />
     <orderEntry type="module" module-name="common-reflection" exported="" />
     <orderEntry type="module" module-name="common-serialisers" />
-    <orderEntry type="module" module-name="common" />
+    <orderEntry type="module" module-name="common" exported="" />
     <orderEntry type="module" module-name="number" />
     <orderEntry type="module" module-name="common-postCodes" />
   </component>

@@ -16,9 +16,14 @@
 
 package uk.nhs.hdn.dbs;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hdn.common.serialisers.CouldNotSerialiseValueException;
+import uk.nhs.hdn.common.serialisers.CouldNotWriteValueException;
+import uk.nhs.hdn.common.serialisers.ValueSerialisable;
+import uk.nhs.hdn.common.serialisers.ValueSerialiser;
 
-public enum FileFormat
+public enum FileFormat implements ValueSerialisable
 {
 	FixedLength(0),
 	CommaSeparatedValue(1),
@@ -35,6 +40,19 @@ public enum FileFormat
 	{
 		this.value = value;
 		CompilerWorkaround.Index[value] = this;
+	}
+
+	@Override
+	public void serialiseValue(@NotNull final ValueSerialiser valueSerialiser) throws CouldNotSerialiseValueException
+	{
+		try
+		{
+			valueSerialiser.writeValue(value);
+		}
+		catch (CouldNotWriteValueException e)
+		{
+			throw new CouldNotSerialiseValueException(this, e);
+		}
 	}
 
 	@SuppressWarnings("MethodNamesDifferingOnlyByCase")

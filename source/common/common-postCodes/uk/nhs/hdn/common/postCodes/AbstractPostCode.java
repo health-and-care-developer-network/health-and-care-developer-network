@@ -25,6 +25,9 @@ import uk.nhs.hdn.common.postCodes.codes.inward.RoyalMailInwardCode;
 import uk.nhs.hdn.common.postCodes.codes.outward.OutwardCode;
 import uk.nhs.hdn.common.postCodes.codes.outward.RoyalMailOutwardCode;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
+import uk.nhs.hdn.common.serialisers.CouldNotSerialiseValueException;
+import uk.nhs.hdn.common.serialisers.CouldNotWriteValueException;
+import uk.nhs.hdn.common.serialisers.ValueSerialiser;
 
 import java.util.regex.Pattern;
 
@@ -67,6 +70,19 @@ public abstract class AbstractPostCode<O extends OutwardCode<? extends PostCode,
 	{
 		this.outwardCode = outwardCode;
 		this.inwardCode = inwardCode;
+	}
+
+	@Override
+	public final void serialiseValue(@NotNull final ValueSerialiser valueSerialiser) throws CouldNotSerialiseValueException
+	{
+		try
+		{
+			valueSerialiser.writeValue(normalised());
+		}
+		catch (CouldNotWriteValueException e)
+		{
+			throw new CouldNotSerialiseValueException(this, e);
+		}
 	}
 
 	@NonNls

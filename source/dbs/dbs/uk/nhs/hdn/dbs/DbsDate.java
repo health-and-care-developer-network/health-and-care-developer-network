@@ -16,17 +16,45 @@
 
 package uk.nhs.hdn.dbs;
 
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.MillisecondsSince1970;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
+import uk.nhs.hdn.common.serialisers.CouldNotSerialiseValueException;
+import uk.nhs.hdn.common.serialisers.CouldNotWriteValueException;
+import uk.nhs.hdn.common.serialisers.ValueSerialisable;
+import uk.nhs.hdn.common.serialisers.ValueSerialiser;
 
-public final class DbsDate extends AbstractToString
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import static java.util.Locale.ENGLISH;
+
+public final class DbsDate extends AbstractToString implements ValueSerialisable
 {
+	@NotNull
+	@NonNls
+	public static final String DbsDateFormat = "YYYYMMDD";
+
 	@MillisecondsSince1970 public final long date;
 
 	public DbsDate(@MillisecondsSince1970 final long date)
 	{
 		this.date = date;
+	}
+
+	@Override
+	public void serialiseValue(@NotNull final ValueSerialiser valueSerialiser) throws CouldNotSerialiseValueException
+	{
+		try
+		{
+			valueSerialiser.writeValue(new SimpleDateFormat(DbsDateFormat, ENGLISH).format(new Date(date)));
+		}
+		catch (CouldNotWriteValueException e)
+		{
+			throw new CouldNotSerialiseValueException(this, e);
+		}
 	}
 
 	@Override

@@ -18,7 +18,7 @@ package uk.nhs.hdn.common.parsers.json;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.common.parsers.json.jsonReaders.EndOfFileException;
+import uk.nhs.hdn.common.parsers.convenientReaders.EndOfFileException;
 import uk.nhs.hdn.common.exceptions.AbstractRethrowableException;
 
 import static java.lang.String.format;

@@ -27,7 +27,7 @@ public final class Response extends AbstractToString implements MapSerialisable
 	@NotNull
 	public static SeparatedValueSerialiser tsvSerialiserForResponse()
 	{
-		return tabSeparatedValueSerialiser(SeparatedValuesSchema, SeparatedValuesHeadings);
+		return tabSeparatedValueSerialiser(SeparatedValuesSchema, true, SeparatedValuesHeadings);
 	}
 
 	@SuppressWarnings("PublicStaticArrayField")

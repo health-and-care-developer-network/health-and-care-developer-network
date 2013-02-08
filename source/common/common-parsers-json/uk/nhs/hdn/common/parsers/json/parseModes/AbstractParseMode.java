@@ -19,8 +19,8 @@ package uk.nhs.hdn.common.parsers.json.parseModes;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.parsers.json.InvalidJsonException;
 import uk.nhs.hdn.common.parsers.charaterSets.CharacterSet;
-import uk.nhs.hdn.common.parsers.json.jsonReaders.EndOfFileException;
-import uk.nhs.hdn.common.parsers.json.jsonReaders.JsonReader;
+import uk.nhs.hdn.common.parsers.convenientReaders.EndOfFileException;
+import uk.nhs.hdn.common.parsers.convenientReaders.PeekingConvenientReader;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 
 public abstract class AbstractParseMode extends AbstractToString implements ParseMode
@@ -36,12 +36,12 @@ public abstract class AbstractParseMode extends AbstractToString implements Pars
 		this.validTerminatingCharacters = validTerminatingCharacters;
 	}
 
-	protected final void guardNextCharacter(@NotNull final JsonReader jsonReader) throws InvalidJsonException
+	protected final void guardNextCharacter(@NotNull final PeekingConvenientReader peekingConvenientReader) throws InvalidJsonException
 	{
 		final char nextCharacter;
 		try
 		{
-			nextCharacter = peekNextCharacter(jsonReader);
+			nextCharacter = peekNextCharacter(peekingConvenientReader);
 		}
 		catch (EndOfFileException ignored)
 		{
@@ -50,11 +50,11 @@ public abstract class AbstractParseMode extends AbstractToString implements Pars
 		guardIsTerminatingCharacter(nextCharacter);
 	}
 
-	protected final char peekNextCharacter(@NotNull final JsonReader jsonReader) throws InvalidJsonException, EndOfFileException
+	protected final char peekNextCharacter(@NotNull final PeekingConvenientReader peekingConvenientReader) throws InvalidJsonException, EndOfFileException
 	{
 		try
 		{
-			return jsonReader.peekCharacter();
+			return peekingConvenientReader.peekCharacter();
 		}
 		catch (EndOfFileException e)
 		{
@@ -82,5 +82,17 @@ public abstract class AbstractParseMode extends AbstractToString implements Pars
 	protected final boolean isTerminatingCharacter(final char nextCharacter)
 	{
 		return validTerminatingCharacters.contains(nextCharacter);
+	}
+
+	public static char readRequiredCharacter(@NotNull final PeekingConvenientReader peekingConvenientReader) throws InvalidJsonException
+	{
+		try
+		{
+			return peekingConvenientReader.readCharacter();
+		}
+		catch (EndOfFileException e)
+		{
+			throw new InvalidJsonException(e);
+		}
 	}
 }

@@ -46,15 +46,15 @@ public final class Tuple extends AbstractToString implements MapSerialisable, Se
 	public static final String additionalInformationField = "additionalInformation";
 
 	@NotNull
-	public static SeparatedValueSerialiser csvSerialiserForTuples()
+	public static SeparatedValueSerialiser csvSerialiserForTuples(final boolean writeHeaderLine)
 	{
-		return commaSeparatedValueSerialiser(SeparatedValuesSchema, true, SeparatedValuesHeadings);
+		return commaSeparatedValueSerialiser(SeparatedValuesSchema, writeHeaderLine, SeparatedValuesHeadings);
 	}
 
 	@NotNull
 	public static SeparatedValueSerialiser tsvSerialiserForTuples()
 	{
-		return tabSeparatedValueSerialiser(SeparatedValuesSchema, SeparatedValuesHeadings);
+		return tabSeparatedValueSerialiser(SeparatedValuesSchema, true, SeparatedValuesHeadings);
 	}
 
 	@SuppressWarnings("PublicStaticArrayField")
@@ -74,7 +74,7 @@ public final class Tuple extends AbstractToString implements MapSerialisable, Se
 		leaf(trustField, 1),
 		leaf(organsationNameField, 2),
 		recurse(additionalInformationField,
-			leaf(PostCode.name(), 3)
+		leaf(PostCode.name(), 3)
 		)
 	);
 

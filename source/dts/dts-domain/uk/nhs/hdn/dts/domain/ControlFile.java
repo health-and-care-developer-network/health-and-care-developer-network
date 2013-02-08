@@ -25,6 +25,7 @@ import uk.nhs.hdn.common.serialisers.separatedValues.matchers.RecurseMatcher;
 import uk.nhs.hdn.dts.domain.identifiers.*;
 import uk.nhs.hdn.dts.domain.statusRecords.StatusRecord;
 
+import static uk.nhs.hdn.common.serialisers.AbstractSerialiser.writePropertyIfKnown;
 import static uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser.commaSeparatedValueSerialiser;
 import static uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser.tabSeparatedValueSerialiser;
 import static uk.nhs.hdn.common.serialisers.separatedValues.matchers.LeafMatcher.leaf;
@@ -52,7 +53,7 @@ public final class ControlFile extends AbstractToString implements MapSerialisab
 	@NotNull
 	public static SeparatedValueSerialiser tsvSerialiserForControlFiles()
 	{
-		return tabSeparatedValueSerialiser(SeparatedValuesSchema, SeparatedValuesHeadings);
+		return tabSeparatedValueSerialiser(SeparatedValuesSchema, true, SeparatedValuesHeadings);
 	}
 
 	@SuppressWarnings("PublicStaticArrayField")
@@ -269,16 +270,16 @@ public final class ControlFile extends AbstractToString implements MapSerialisab
 			{
 				mapSerialiser.writeProperty("To_DTS", toDtsName);
 			}
-			AbstractSerialiser.writePropertyIfKnown(mapSerialiser, "Subject", subject);
-			AbstractSerialiser.writePropertyIfKnown(mapSerialiser, "LocalId", localIdentifier);
-			AbstractSerialiser.writePropertyIfKnown(mapSerialiser, "DTSId", dtsIdentifier);
-			AbstractSerialiser.writePropertyIfKnown(mapSerialiser, "ProcessId", processIdentifier);
-			AbstractSerialiser.writePropertyIfKnown(mapSerialiser, "Compress", compress);
-			AbstractSerialiser.writePropertyIfKnown(mapSerialiser, "Encrypted", encrypted);
-			AbstractSerialiser.writePropertyIfKnown(mapSerialiser, "IsCompressed", isCompressed);
-			AbstractSerialiser.writePropertyIfKnown(mapSerialiser, "DataChecksum", dataChecksum);
-			AbstractSerialiser.writePropertyIfKnown(mapSerialiser, "PartnerId", partnerIdentifier);
-			AbstractSerialiser.writePropertyIfKnown(mapSerialiser, "StatusRecord", statusRecord);
+			writePropertyIfKnown(mapSerialiser, "Subject", subject);
+			writePropertyIfKnown(mapSerialiser, "LocalId", localIdentifier);
+			writePropertyIfKnown(mapSerialiser, "DTSId", dtsIdentifier);
+			writePropertyIfKnown(mapSerialiser, "ProcessId", processIdentifier);
+			writePropertyIfKnown(mapSerialiser, "Compress", compress);
+			writePropertyIfKnown(mapSerialiser, "Encrypted", encrypted);
+			writePropertyIfKnown(mapSerialiser, "IsCompressed", isCompressed);
+			writePropertyIfKnown(mapSerialiser, "DataChecksum", dataChecksum);
+			writePropertyIfKnown(mapSerialiser, "PartnerId", partnerIdentifier);
+			writePropertyIfKnown(mapSerialiser, "StatusRecord", statusRecord);
 		}
 		catch (CouldNotWritePropertyException e)
 		{

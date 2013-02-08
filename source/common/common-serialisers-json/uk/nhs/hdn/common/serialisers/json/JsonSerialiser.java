@@ -138,6 +138,30 @@ public class JsonSerialiser extends AbstractSerialiser
 	}
 
 	@Override
+	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final int value) throws CouldNotWritePropertyException
+	{
+		try
+		{
+			if (current.hasSubsequentProperty())
+			{
+				write(CommaDoubleQuote);
+			}
+			else
+			{
+				write(DoubleQuote);
+				current.setHasSubsequentProperty();
+			}
+			jsonStringWriter.writeString(name);
+			write(DoubleQuoteColon);
+			writeValue(value);
+		}
+		catch (CouldNotWriteDataException | CouldNotWriteValueException e)
+		{
+			throw new CouldNotWritePropertyException(name, value, e);
+		}
+	}
+
+	@Override
 	public void writePropertyNull(@NonNls @NotNull final String name) throws CouldNotWritePropertyException
 	{
 		try

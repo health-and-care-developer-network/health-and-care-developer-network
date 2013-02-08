@@ -55,7 +55,7 @@ public abstract class AbstractTuplesSubResource extends AbstractToString impleme
 		xmlUtf8Content = resourceContent(XmlContentTypeUtf8, new XmlSerialiser(true, "gs1"), guess * 4, tuples);
 		tsvUtf8Content = resourceContent(TsvContentTypeUtf8, tsvSerialiserForTuples(), guess * 4, tuples);
 		// Note: does not check for IANA mime type attribute to include or exclude the heading
-		csvUtf8Content = resourceContent(CsvContentTypeUtf8, csvSerialiserForTuples(), guess * 4, tuples);
+		csvUtf8Content = resourceContent(CsvContentTypeUtf8, csvSerialiserForTuples(true), guess * 4, tuples);
 	}
 
 	@SuppressWarnings("FeatureEnvy")

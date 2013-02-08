@@ -19,11 +19,15 @@ package uk.nhs.hdn.dbs;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hdn.common.serialisers.CouldNotSerialiseValueException;
+import uk.nhs.hdn.common.serialisers.CouldNotWriteValueException;
+import uk.nhs.hdn.common.serialisers.ValueSerialisable;
+import uk.nhs.hdn.common.serialisers.ValueSerialiser;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public enum FactOfDeath
+public enum FactOfDeath implements ValueSerialisable
 {
 	PatientDeceased("D"),
 	;
@@ -43,6 +47,19 @@ public enum FactOfDeath
 		if (CompilerWorkaround.Index.put(code, this) != null)
 		{
 			throw new IllegalArgumentException("duplicate code");
+		}
+	}
+
+	@Override
+	public void serialiseValue(@NotNull final ValueSerialiser valueSerialiser) throws CouldNotSerialiseValueException
+	{
+		try
+		{
+			valueSerialiser.writeValue(code);
+		}
+		catch (CouldNotWriteValueException e)
+		{
+			throw new CouldNotSerialiseValueException(this, e);
 		}
 	}
 

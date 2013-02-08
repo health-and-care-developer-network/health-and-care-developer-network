@@ -20,8 +20,9 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.parsers.charaterSets.BitSetCharacterSet;
 import uk.nhs.hdn.common.parsers.charaterSets.CharacterSet;
+import uk.nhs.hdn.common.serialisers.ValueSerialisable;
 
-public interface PostCode
+public interface PostCode extends ValueSerialisable
 {
 	int Ascii0 = 48;
 	int Ascii9 = 57;

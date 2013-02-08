@@ -3,15 +3,18 @@ package uk.nhs.hdn.number;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.digits.AbstractCheckDigitNumber;
 import uk.nhs.hdn.common.digits.Digits;
+import uk.nhs.hdn.common.serialisers.CouldNotSerialiseValueException;
+import uk.nhs.hdn.common.serialisers.CouldNotWriteValueException;
+import uk.nhs.hdn.common.serialisers.ValueSerialisable;
+import uk.nhs.hdn.common.serialisers.ValueSerialiser;
 
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
 import static uk.nhs.hdn.common.digits.Digits.digits;
 import static uk.nhs.hdn.number.NhsNumberExtractingCheckDigitCalculator.NhsNumberExtractingCheckDigitCalculatorInstance;
 
-public final class NhsNumber extends AbstractCheckDigitNumber<NhsNumberExtractingCheckDigitCalculator>
+public final class NhsNumber extends AbstractCheckDigitNumber<NhsNumberExtractingCheckDigitCalculator> implements ValueSerialisable
 {
-
 	private static final int NhsNumberHasSeparators = 12;
 
 	@SuppressWarnings("FeatureEnvy")
@@ -40,6 +43,20 @@ public final class NhsNumber extends AbstractCheckDigitNumber<NhsNumberExtractin
 	public NhsNumber(@NotNull final Digits digits)
 	{
 		super(NhsNumberExtractingCheckDigitCalculatorInstance, digits);
+	}
+
+	@Override
+	public void serialiseValue(@NotNull final ValueSerialiser valueSerialiser) throws CouldNotSerialiseValueException
+	{
+		final String value = (String) toDigitsString();
+		try
+		{
+			valueSerialiser.writeValue(value);
+		}
+		catch (CouldNotWriteValueException e)
+		{
+			throw new CouldNotSerialiseValueException(this, e);
+		}
 	}
 
 	@NotNull
