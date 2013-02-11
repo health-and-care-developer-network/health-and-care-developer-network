@@ -19,8 +19,8 @@ package uk.nhs.hdn.common.parsers.json.parseModes;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.parsers.json.InvalidJsonException;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.JsonParseEventHandler;
-import uk.nhs.hdn.common.parsers.json.jsonReaders.EndOfFileException;
-import uk.nhs.hdn.common.parsers.json.jsonReaders.JsonReader;
+import uk.nhs.hdn.common.parsers.convenientReaders.EndOfFileException;
+import uk.nhs.hdn.common.parsers.convenientReaders.PeekingConvenientReader;
 
 import static uk.nhs.hdn.common.parsers.json.CharacterHelper.*;
 import static uk.nhs.hdn.common.parsers.json.parseModes.ArrayParseMode.RootArrayParseModeInstance;
@@ -38,29 +38,29 @@ public final class RootParseMode implements ParseMode
 	public static final ParseMode RootParseModeInstance = new RootParseMode();
 
 	@Override
-	public void parse(@NotNull final JsonParseEventHandler jsonParseEventHandler, @NotNull final JsonReader jsonReader) throws InvalidJsonException
+	public void parse(@NotNull final JsonParseEventHandler jsonParseEventHandler, @NotNull final PeekingConvenientReader peekingConvenientReader) throws InvalidJsonException
 	{
-		final char peekUpToValueStart = soakUpWhitespace(jsonReader);
+		final char peekUpToValueStart = soakUpWhitespace(peekingConvenientReader);
 
 		final ParseMode valueParseMode = valueParseMode(peekUpToValueStart);
-		jsonReader.pushBackLastCharacter();
+		peekingConvenientReader.pushBackLastCharacter();
 
 		jsonParseEventHandler.startRoot();
 
-		valueParseMode.parse(jsonParseEventHandler, jsonReader);
+		valueParseMode.parse(jsonParseEventHandler, peekingConvenientReader);
 
-		validateTrailingWhitespace(jsonReader);
+		validateTrailingWhitespace(peekingConvenientReader);
 
 		jsonParseEventHandler.endRoot();
 	}
 
-	private static void validateTrailingWhitespace(final JsonReader jsonReader) throws InvalidJsonException
+	private static void validateTrailingWhitespace(final PeekingConvenientReader peekingConvenientReader) throws InvalidJsonException
 	{
 		do
 		{
 			try
 			{
-				if (Whitespace.doesNotContain(jsonReader.readCharacter()))
+				if (Whitespace.doesNotContain(peekingConvenientReader.readCharacter()))
 				{
 					throw new InvalidJsonException("Trailing non-whitespace");
 				}

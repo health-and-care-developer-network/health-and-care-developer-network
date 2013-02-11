@@ -1,0 +1,78 @@
+#!/bin/bash -
+set -e
+
+readonly ourName="$(basename "$0")"
+
+cd "$(dirname "$0")" 1>/dev/null
+readonly crudeOurPath="$(pwd)"
+cd - 1>/dev/null
+
+function exitHelp()
+{
+	cat 1>&2 <<-EOF
+		Usage: $ourName -h
+		Usage: $ourName --help
+		Usage: $ourName <packages>
+		
+		Wraps apt-get --quiet --yes --force-yes --no-install-recommends --auto-remove --purge --verbose-versions install <packages>
+		
+		Supports package names with trailing '+' or '-' (which causes purge)
+	EOF
+	exit $1
+}
+
+function exitError()
+{
+	local -r error="$1"
+	echo "$ourName: $error" 1>&2
+	exitHelp 1
+}
+
+function informationMessage()
+{
+	echo "$ourName: $1" 1>&2
+}
+
+function parseCommandLine()
+{
+	if [ $# -eq 0 ]; then
+		exitError "Invalid options"
+	elif [ $# -eq 1 ]; then
+		if [ "$1" = "--help" ]; then
+			exitHelp 2
+		elif  [ "$1" = "-h" ]; then
+			exitHelp 2
+		else
+			:
+		fi
+	else
+		:
+	fi
+}
+
+function sudoWrapper()
+{
+	if [ "$EUID" -ne 0 ]; then
+		exec sudo -p "$ourName: sudo needed for $ourName. Enter password: " "$0" "$@"
+	fi
+}
+
+function aptGetUpdateInstallAndClean()
+{
+	hdn-apt-update
+	
+	informationMessage "Installing"
+	apt-get --quiet --yes --force-yes --no-install-recommends --auto-remove --purge --verbose-versions install "$@"
+
+	informationMessage "Autocleaning"
+	apt-get --quiet autoclean
+}
+
+function main()
+{
+	parseCommandLine "$@"
+	sudoWrapper "$@"
+	aptGetUpdateInstallAndClean "$@"
+}
+
+main "$@"

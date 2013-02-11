@@ -17,10 +17,10 @@
 package uk.nhs.hdn.barcodes.gs1.keys.globalLocationNumbers;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.barcodes.Digits;
-import uk.nhs.hdn.barcodes.gs1.keys.AbstractCheckDigitNumber;
+import uk.nhs.hdn.common.digits.Digits;
+import uk.nhs.hdn.barcodes.gs1.keys.AbstractKeyFormatCheckDigitNumber;
 
-public final class GlobalLocationNumber extends AbstractCheckDigitNumber<GlobalLocationNumberFormat>
+public final class GlobalLocationNumber extends AbstractKeyFormatCheckDigitNumber<GlobalLocationNumberFormat>
 {
 	public GlobalLocationNumber(@NotNull final GlobalLocationNumberFormat globalLocationNumberFormat, @NotNull final Digits digits)
 	{

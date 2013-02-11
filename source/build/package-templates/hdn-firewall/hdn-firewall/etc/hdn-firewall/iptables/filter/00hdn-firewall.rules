@@ -1,0 +1,203 @@
+# Forwarding
+
+# Forward is just dropped (but should not be enabled in sysctl)
+--new-chain LogAndDropForwardAll
+--append LogAndDropForwardAll --jump LOG --log-prefix "iptables_ForwardAll " --log-level warning --log-ip-options --log-tcp-options --log-uid
+--append LogAndDropForwardAll --jump DROP
+--append FORWARD --jump LogAndDropForwardAll
+
+
+# Of established connections, only TCP, UDP and IPsec are allowed generically (separate specific rules for ICMP) (here to allow rapid processing)
+--append INPUT  --protocol tcp --match state --state RELATED,ESTABLISHED --jump ACCEPT
+--append INPUT  --protocol udp --match state --state RELATED,ESTABLISHED --jump ACCEPT
+--append INPUT  --protocol esp --match state --state RELATED,ESTABLISHED --jump ACCEPT
+--append OUTPUT --protocol tcp --match state --state RELATED,ESTABLISHED --jump ACCEPT
+--append OUTPUT --protocol udp --match state --state RELATED,ESTABLISHED --jump ACCEPT
+--append OUTPUT --protocol esp --match state --state RELATED,ESTABLISHED --jump ACCEPT
+
+
+
+# TCP Portscanners
+
+
+# Special chains
+--new-chain DropPortscanWhitelist
+--append DropPortscanWhitelist --jump LOG --log-prefix "iptables_PortscanWhitelist " --log-level notice --log-ip-options --log-tcp-options --log-uid
+--append DropPortscanWhitelist --jump DROP
+--new-chain LogAndDropPortscan
+--append LogAndDropPortscan ! --in-interface lo --source 10.0.0.0/8      --jump DropPortscanWhitelist
+--append LogAndDropPortscan ! --in-interface lo --source 195.20.214.0/24 --jump DropPortscanWhitelist
+--append LogAndDropPortscan ! --in-interface lo --source 195.20.215.0/24 --jump DropPortscanWhitelist
+--append LogAndDropPortscan ! --in-interface lo --source 94.193.215.144  --jump DropPortscanWhitelist
+--append LogAndDropPortscan --jump LOG --log-prefix "iptables_Portscan " --log-level warning --log-ip-options --log-tcp-options --log-uid
+--append LogAndDropPortscan --jump DROP
+
+# Invalid TCP flag combinations are dropped immediately (All new TCP connections begin with SYN)
+--append INPUT --protocol tcp ! --syn                     --match state --state NEW     --jump LogAndDropPortscan
+
+# Detect nmap Null scan as portscan
+--append INPUT --protocol tcp --tcp-flags ALL NONE        --match state --state INVALID --jump LogAndDropPortscan
+
+# Detect nmap FIN scan as portscan
+--append INPUT --protocol tcp --tcp-flags ALL FIN         --match state --state INVALID --jump LogAndDropPortscan
+
+# Detect nmap Xmas scan as portscan
+--append INPUT --protocol tcp --tcp-flags ALL FIN,PSH,URG --match state --state INVALID --jump LogAndDropPortscan
+
+# Detect nmap Maimon scan as portscan
+--append INPUT --protocol tcp --tcp-flags ALL FIN,ACK     --match state --state INVALID --jump LogAndDropPortscan
+
+# Detect SYN ACK scan as portscan
+--append INPUT --protocol tcp --tcp-flags SYN,ACK SYN,ACK --match state --state INVALID --jump LogAndDropPortscan
+
+
+
+# Will be matched when "possible SYN flooding on port 517. Sending cookies." is in the kernel log (or similar)
+# Catches nmap NULL, FIN and XMAS scans, as well as SYN,RST and SYN,FIN scans (but already caught, to differentiate SYN floods)
+# Problem is that a synflood could use a spoofed source ip to knock out legit access, consequently we do not add these to our blacklist list
+--new-chain LogAndDropInvalid
+--append LogAndDropInvalid --jump LOG --log-prefix "iptables_Invalid " --log-level warning --log-ip-options --log-tcp-options --log-uid
+--append LogAndDropInvalid --jump DROP
+--append INPUT  --match state --state INVALID --jump LogAndDropInvalid
+--append OUTPUT --match state --state INVALID --jump LogAndDropInvalid
+
+
+
+# Loopback rules
+
+# No restrictions on loopback interface for 127.0.0.0/8 addresses or assigned addresses
+--append INPUT  --in-interface lo  --source 127.0.0.0/8                  --destination 127.0.0.0/8                  --jump ACCEPT
+--append INPUT  --in-interface lo  --source ${HDN_FIREWALL_hostname} --destination ${HDN_FIREWALL_hostname} --jump ACCEPT
+--append OUTPUT --out-interface lo --source 127.0.0.0/8                  --destination 127.0.0.0/8                  --jump ACCEPT
+--append OUTPUT --out-interface lo --source ${HDN_FIREWALL_hostname} --destination ${HDN_FIREWALL_hostname} --jump ACCEPT
+
+# Other loopback addresses destroyed
+--new-chain LogAndDropStrangeLoopback
+--append LogAndDropStrangeLoopback --jump LOG --log-prefix "iptables_StrangeLoopback " --log-level warning --log-ip-options --log-tcp-options --log-uid
+--append LogAndDropStrangeLoopback --jump DROP
+--append INPUT --in-interface lo --jump LogAndDropStrangeLoopback
+--append OUTPUT --out-interface lo --jump LogAndDropStrangeLoopback
+
+
+
+# Spoofing
+
+# All Private Address Ranges except 10.0.0.0/8, 192.168.1.0/24 and 192.168.10.0/24 are spoofed. (Refer RFC5735 http://tools.ietf.org/html/rfc5735)
+--new-chain LogAndDropSpoofedSourceIp
+--append LogAndDropSpoofedSourceIp --jump LOG --log-prefix "iptables_SpoofedSourceIp " --log-level warning --log-ip-options --log-tcp-options --log-uid
+--append LogAndDropSpoofedSourceIp --jump DROP
+
+--append INPUT ! --in-interface lo --source 0.0.0.0/8                                       ! --destination 255.255.255.255 --jump LogAndDropSpoofedSourceIp
+--append INPUT ! --in-interface lo --source 127.0.0.0/8                                     ! --destination 255.255.255.255 --jump LogAndDropSpoofedSourceIp
+--append INPUT ! --in-interface lo --source 169.254.0.0/16                                  ! --destination 255.255.255.255 --jump LogAndDropSpoofedSourceIp
+--append INPUT ! --in-interface lo --source 172.16.0.0/12                                   ! --destination 255.255.255.255 --jump LogAndDropSpoofedSourceIp
+--append INPUT ! --in-interface lo --source 192.0.0.0/24                                    ! --destination 255.255.255.255 --jump LogAndDropSpoofedSourceIp
+--append INPUT ! --in-interface lo --source 192.0.2.0/24                                    ! --destination 255.255.255.255 --jump LogAndDropSpoofedSourceIp
+--append INPUT ! --in-interface lo --source 192.88.99.0/24                                  ! --destination 255.255.255.255 --jump LogAndDropSpoofedSourceIp
+--append INPUT ! --in-interface lo --source 198.18.0.0/15                                   ! --destination 255.255.255.255 --jump LogAndDropSpoofedSourceIp
+--append INPUT ! --in-interface lo --source 198.51.100.0/24                                 ! --destination 255.255.255.255 --jump LogAndDropSpoofedSourceIp
+--append INPUT ! --in-interface lo --source 203.0.113.0/24                                  ! --destination 255.255.255.255 --jump LogAndDropSpoofedSourceIp
+--append INPUT ! --in-interface lo --source 224.0.0.0/4                                     ! --destination 255.255.255.255 --jump LogAndDropSpoofedSourceIp
+--append INPUT ! --in-interface lo --source 240.0.0.0/5                                     ! --destination 255.255.255.255 --jump LogAndDropSpoofedSourceIp
+--append INPUT ! --in-interface lo --source 192.168.0.0/24                                  ! --destination 255.255.255.255 --jump LogAndDropSpoofedSourceIp
+--append INPUT ! --in-interface lo --match iprange --src-range 192.168.2.0-192.168.9.255    ! --destination 255.255.255.255 --jump LogAndDropSpoofedSourceIp
+--append INPUT ! --in-interface lo --match iprange --src-range 192.168.11.0-192.168.255.255 ! --destination 255.255.255.255 --jump LogAndDropSpoofedSourceIp
+
+
+
+# Private address ranges 10.0.0.0/8, 192.168.1.0/24 and 192.168.10.0/24 are banned when mismatched, viz:-
+--append INPUT ! --in-interface lo --source 10.0.0.0/8      ! --destination 10.0.0.0/8      --jump LogAndDropSpoofedSourceIp
+--append INPUT ! --in-interface lo --source 192.168.1.0/24  ! --destination 192.168.1.0/24  --jump LogAndDropSpoofedSourceIp
+--append INPUT ! --in-interface lo --source 192.168.10.0/24 ! --destination 192.168.10.0/24 --jump LogAndDropSpoofedSourceIp
+
+
+
+# Bad Destination
+
+# All Private Address Ranges except 10.0.0.0/8, 192.168.1.0/24 and 192.168.10.0/24 are banned destinations (RFC5735 http://tools.ietf.org/html/rfc5735)
+# Check for private destinations at http://www.newartisans.com/2007/09/neat-tricks-with-iptables.html
+--new-chain LogAndDropPrivateIp
+--append LogAndDropPrivateIp --jump LOG --log-prefix "iptables_PrivateIp " --log-level warning --log-ip-options --log-tcp-options --log-uid
+--append LogAndDropPrivateIp --jump DROP
+--append INPUT ! --in-interface lo --destination 0.0.0.0/8                                  --jump LogAndDropPrivateIp
+--append INPUT ! --in-interface lo --destination 127.0.0.0/8                                --jump LogAndDropPrivateIp
+--append INPUT ! --in-interface lo --destination 169.254.0.0/16                             --jump LogAndDropPrivateIp
+--append INPUT ! --in-interface lo --destination 172.16.0.0/12                              --jump LogAndDropPrivateIp
+--append INPUT ! --in-interface lo --destination 192.0.0.0/24                               --jump LogAndDropPrivateIp
+--append INPUT ! --in-interface lo --destination 192.0.2.0/24                               --jump LogAndDropPrivateIp
+--append INPUT ! --in-interface lo --destination 192.88.99.0/24                             --jump LogAndDropPrivateIp
+--append INPUT ! --in-interface lo --destination 198.18.0.0/15                              --jump LogAndDropPrivateIp
+--append INPUT ! --in-interface lo --destination 198.51.100.0/24                            --jump LogAndDropPrivateIp
+--append INPUT ! --in-interface lo --destination 203.0.113.0/24                             --jump LogAndDropPrivateIp
+--append INPUT ! --in-interface lo --destination 240.0.0.0/5                                --jump LogAndDropPrivateIp
+--append INPUT ! --in-interface lo --destination 192.168.0.0/24                             --jump LogAndDropPrivateIp
+--append INPUT ! --in-interface lo --match iprange --dst-range 192.168.2.0-192.168.9.255    --jump LogAndDropPrivateIp
+--append INPUT ! --in-interface lo --match iprange --dst-range 192.168.11.0-192.168.255.255 --jump LogAndDropPrivateIp
+
+
+
+# ICMP: Review  http://securityvulns.com/Jdocument154.html  and  http://www.cisco.com/warp/public/707/cisco-sa-20050412-icmp.shtml
+
+# Allow inbound ICMP Echo Request (Ping) and outbound ICMP Echo Reply (Ping) (but not associated error replies)
+--append INPUT  ! --in-interface lo  --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type echo-request --match state --state NEW         --jump ACCEPT
+--append OUTPUT ! --out-interface lo --source ${HDN_FIREWALL_hostname}      --protocol icmp --icmp-type echo-reply   --match state --state ESTABLISHED --jump ACCEPT
+
+# Allow outbound ICMP Echo Request (Ping) to our network and Google DNS
+--append OUTPUT ! --out-interface lo --source ${HDN_FIREWALL_hostname} --destination 8.8.8.8         --protocol icmp --icmp-type echo-request --match state --state NEW --jump ACCEPT
+--append OUTPUT ! --out-interface lo --source ${HDN_FIREWALL_hostname} --destination 8.8.4.4         --protocol icmp --icmp-type echo-request --match state --state NEW --jump ACCEPT
+--append OUTPUT ! --out-interface lo --source ${HDN_FIREWALL_hostname} --destination 10.0.0.0/8      --protocol icmp --icmp-type echo-request --match state --state NEW --jump ACCEPT
+--append OUTPUT ! --out-interface lo --source ${HDN_FIREWALL_hostname} --destination 195.20.214.0/24 --protocol icmp --icmp-type echo-request --match state --state NEW --jump ACCEPT
+--append OUTPUT ! --out-interface lo --source ${HDN_FIREWALL_hostname} --destination 195.20.215.0/24 --protocol icmp --icmp-type echo-request --match state --state NEW --jump ACCEPT
+
+# Allow inbound ICMP Echo Reply (Ping) and associated error replies from our network and Google DNS
+--append INPUT ! --in-interface lo --source 8.8.8.8         --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type echo-reply              --match state --state ESTABLISHED --jump ACCEPT
+--append INPUT ! --in-interface lo --source 8.8.4.4         --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type echo-reply              --match state --state ESTABLISHED --jump ACCEPT
+--append INPUT ! --in-interface lo --source 10.0.0.0/8      --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type echo-reply              --match state --state ESTABLISHED --jump ACCEPT
+--append INPUT ! --in-interface lo --source 195.20.214.0/24 --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type echo-reply              --match state --state ESTABLISHED --jump ACCEPT
+--append INPUT ! --in-interface lo --source 195.20.215.0/24 --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type echo-reply              --match state --state ESTABLISHED --jump ACCEPT
+--append INPUT ! --in-interface lo --source 8.8.8.8         --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type destination-unreachable --match state --state ESTABLISHED --jump ACCEPT
+--append INPUT ! --in-interface lo --source 8.8.4.4         --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type destination-unreachable --match state --state ESTABLISHED --jump ACCEPT
+--append INPUT ! --in-interface lo --source 10.0.0.0/8      --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type destination-unreachable --match state --state ESTABLISHED --jump ACCEPT
+--append INPUT ! --in-interface lo --source 195.20.214.0/24 --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type destination-unreachable --match state --state ESTABLISHED --jump ACCEPT
+--append INPUT ! --in-interface lo --source 195.20.215.0/24 --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type destination-unreachable --match state --state ESTABLISHED --jump ACCEPT
+--append INPUT ! --in-interface lo --source 8.8.8.8         --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type ttl-zero-during-transit --match state --state ESTABLISHED --jump ACCEPT
+--append INPUT ! --in-interface lo --source 8.8.4.4         --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type ttl-zero-during-transit --match state --state ESTABLISHED --jump ACCEPT
+--append INPUT ! --in-interface lo --source 10.0.0.0/8      --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type ttl-zero-during-transit --match state --state ESTABLISHED --jump ACCEPT
+--append INPUT ! --in-interface lo --source 195.20.214.0/24 --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type ttl-zero-during-transit --match state --state ESTABLISHED --jump ACCEPT
+--append INPUT ! --in-interface lo --source 195.20.215.0/24 --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type ttl-zero-during-transit --match state --state ESTABLISHED --jump ACCEPT
+
+# Allow specific inbound ICMP Destination Unreachable (Type 3) for outgoing connections
+# Especially Don't Fragment (DF, Code 4), which is used for Path MTU discovery (PMTUD)
+# Note: Port unreachable should only be for UDP, not TCP
+--append INPUT ! --in-interface lo --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type fragmentation-needed --match state --state RELATED --jump ACCEPT
+--append INPUT ! --in-interface lo --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type network-unreachable  --match state --state RELATED --jump ACCEPT
+--append INPUT ! --in-interface lo --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type host-unreachable     --match state --state RELATED --jump ACCEPT
+--append INPUT ! --in-interface lo --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type port-unreachable     --match state --state RELATED --jump ACCEPT
+
+# Unusual ICMP Destination Unreachable replies to outgoing connections are logged but permitted
+--new-chain LogAndAcceptOddIcmp
+--append LogAndAcceptOddIcmp --jump LOG --log-prefix "iptables_OddIcmpDestination " --log-level notice --log-ip-options --log-tcp-options --log-uid
+--append LogAndAcceptOddIcmp --jump ACCEPT
+--append INPUT ! --in-interface lo --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type destination-unreachable --match state --state RELATED --jump LogAndAcceptOddIcmp
+
+# Allow inbound ICMP ttl-zero-during-transit and ttl-zero-during-reassembly for initiated connections (so we can resend)
+--append INPUT ! --in-interface lo --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type time-exceeded --match state --state RELATED --jump ACCEPT
+
+# Allow outbound ICMP fragment reassembly
+--append OUTPUT ! --out-interface lo --source ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type ttl-zero-during-reassembly --match state --state RELATED --jump ACCEPT
+
+# Drop remaining ICMP
+--new-chain LogAndDropIcmpOther
+--append LogAndDropIcmpOther --jump LOG --log-prefix "iptables_IcmpOther " --log-level notice --log-ip-options --log-tcp-options --log-uid
+--append LogAndDropIcmpOther --jump DROP
+--append INPUT  --protocol icmp --jump LogAndDropIcmpOther
+--append OUTPUT --protocol icmp --jump LogAndDropIcmpOther
+
+
+# Services
+
+# Allow outbound HTTP
+#--append OUTPUT ! --out-interface lo --source ${HDN_FIREWALL_hostname} --protocol tcp --destination-port 80 --match state --state NEW --jump ACCEPT
+
+# Allow outbound HTTPS
+#--append OUTPUT ! --out-interface lo --source ${HDN_FIREWALL_hostname} --protocol tcp --destination-port 443 --match state --state NEW --jump ACCEPT

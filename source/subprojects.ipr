@@ -177,7 +177,7 @@
           <option name="ignoreBooleanMethods" value="false" />
           <option name="ignoreInAnnotationInterface" value="false" />
           <option name="onlyWarnOnBaseMethods" value="true" />
-          <option name="questionString" value="is,can,has,should,could,will,shall,check,contains,equals,add,put,remove,startsWith,endsWith,doesNot,if" />
+          <option name="questionString" value="is,can,has,should,could,will,shall,check,contains,equals,add,put,remove,startsWith,endsWith,doesNot,if,did,matches" />
         </inspection_tool>
         <inspection_tool class="BooleanVariableAlwaysNegated" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="BreakStatement" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -493,8 +493,8 @@
         </inspection_tool>
         <inspection_tool class="InterfaceNamingConvention" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="m_regex" value="[A-Z][A-Za-z\d]*" />
-          <option name="m_minLength" value="8" />
-          <option name="m_maxLength" value="64" />
+          <option name="m_minLength" value="2" />
+          <option name="m_maxLength" value="99" />
         </inspection_tool>
         <inspection_tool class="InterfaceNeverImplemented" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="ignoreInterfacesThatOnlyDeclareConstants" value="false" />
@@ -755,6 +755,7 @@
           <option name="ignorableAnnotations">
             <value>
               <item value="org.jetbrains.annotations.NotNull" />
+              <item value="org.jetbrains.annotations.Nullable" />
             </value>
           </option>
         </inspection_tool>
@@ -1257,6 +1258,7 @@
       <module fileurl="file://$PROJECT_DIR$/common/common/common.iml" filepath="$PROJECT_DIR$/common/common/common.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-commandLine/common-commandLine.iml" filepath="$PROJECT_DIR$/common/common-commandLine/common-commandLine.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-comparison/common-comparison.iml" filepath="$PROJECT_DIR$/common/common-comparison/common-comparison.iml" group="common" />
+      <module fileurl="file://$PROJECT_DIR$/comon/common-digits/common-digits.iml" filepath="$PROJECT_DIR$/comon/common-digits/common-digits.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-exceptions/common-exceptions.iml" filepath="$PROJECT_DIR$/common/common-exceptions/common-exceptions.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-fileWatching/common-fileWatching.iml" filepath="$PROJECT_DIR$/common/common-fileWatching/common-fileWatching.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-http/common-http.iml" filepath="$PROJECT_DIR$/common/common-http/common-http.iml" group="common/http" />
@@ -1269,9 +1271,11 @@
       <module fileurl="file://$PROJECT_DIR$/common/common-internationalisation/common-internationalisation.iml" filepath="$PROJECT_DIR$/common/common-internationalisation/common-internationalisation.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-naming/common-naming.iml" filepath="$PROJECT_DIR$/common/common-naming/common-naming.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-parsers/common-parsers.iml" filepath="$PROJECT_DIR$/common/common-parsers/common-parsers.iml" group="common/parsers" />
+      <module fileurl="file://$PROJECT_DIR$/common-parsers-fixedWidth/common-parsers-fixedWidth.iml" filepath="$PROJECT_DIR$/common-parsers-fixedWidth/common-parsers-fixedWidth.iml" group="common/parsers" />
       <module fileurl="file://$PROJECT_DIR$/common/common-parsers-json/common-parsers-json.iml" filepath="$PROJECT_DIR$/common/common-parsers-json/common-parsers-json.iml" group="common/parsers" />
       <module fileurl="file://$PROJECT_DIR$/common/common-parsers-separatedValueParsers/common-parsers-separatedValueParsers.iml" filepath="$PROJECT_DIR$/common/common-parsers-separatedValueParsers/common-parsers-separatedValueParsers.iml" group="common/parsers" />
       <module fileurl="file://$PROJECT_DIR$/common/common-parsers-xml/common-parsers-xml.iml" filepath="$PROJECT_DIR$/common/common-parsers-xml/common-parsers-xml.iml" group="common/parsers" />
+      <module fileurl="file://$PROJECT_DIR$/common/common-postCodes/common-postCodes.iml" filepath="$PROJECT_DIR$/common/common-postCodes/common-postCodes.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-reflection/common-reflection.iml" filepath="$PROJECT_DIR$/common/common-reflection/common-reflection.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-serialisers/common-serialisers.iml" filepath="$PROJECT_DIR$/common/common-serialisers/common-serialisers.iml" group="common/serialisers" />
       <module fileurl="file://$PROJECT_DIR$/common/common-serialisers-json/common-serialisers-json.iml" filepath="$PROJECT_DIR$/common/common-serialisers-json/common-serialisers-json.iml" group="common/serialisers" />
@@ -1280,12 +1284,23 @@
       <module fileurl="file://$PROJECT_DIR$/common/common-tuples/common-tuples.iml" filepath="$PROJECT_DIR$/common/common-tuples/common-tuples.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-unknown/common-unknown.iml" filepath="$PROJECT_DIR$/common/common-unknown/common-unknown.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-xml/common-xml.iml" filepath="$PROJECT_DIR$/common/common-xml/common-xml.iml" group="common" />
+      <module fileurl="file://$PROJECT_DIR$/dbs/dbs/dbs.iml" filepath="$PROJECT_DIR$/dbs/dbs/dbs.iml" group="dbs" />
+      <module fileurl="file://$PROJECT_DIR$/dbs/dbs-parsing/dbs-parsing.iml" filepath="$PROJECT_DIR$/dbs/dbs-parsing/dbs-parsing.iml" group="dbs" />
+      <module fileurl="file://$PROJECT_DIR$/dbs/dbs-request/dbs-request.iml" filepath="$PROJECT_DIR$/dbs/dbs-request/dbs-request.iml" group="dbs" />
+      <module fileurl="file://$PROJECT_DIR$/dbs/dbs-request-client/dbs-request-client.iml" filepath="$PROJECT_DIR$/dbs/dbs-request-client/dbs-request-client.iml" group="dbs" />
+      <module fileurl="file://$PROJECT_DIR$/dbs/dbs-response/dbs-response.iml" filepath="$PROJECT_DIR$/dbs/dbs-response/dbs-response.iml" group="dbs" />
+      <module fileurl="file://$PROJECT_DIR$/dbs/dbs-response-client/dbs-response-client.iml" filepath="$PROJECT_DIR$/dbs/dbs-response-client/dbs-response-client.iml" group="dbs" />
+      <module fileurl="file://$PROJECT_DIR$/dbs/dbs-response-parsing/dbs-response-parsing.iml" filepath="$PROJECT_DIR$/dbs/dbs-response-parsing/dbs-response-parsing.iml" group="dbs" />
       <module fileurl="file://$PROJECT_DIR$/dts/dts-client-out/dts-client-out.iml" filepath="$PROJECT_DIR$/dts/dts-client-out/dts-client-out.iml" group="dts" />
       <module fileurl="file://$PROJECT_DIR$/dts/dts-client-rats/dts-client-rats.iml" filepath="$PROJECT_DIR$/dts/dts-client-rats/dts-client-rats.iml" group="dts" />
       <module fileurl="file://$PROJECT_DIR$/dts/dts-client-read/dts-client-read.iml" filepath="$PROJECT_DIR$/dts/dts-client-read/dts-client-read.iml" group="dts" />
       <module fileurl="file://$PROJECT_DIR$/dts/dts-domain/dts-domain.iml" filepath="$PROJECT_DIR$/dts/dts-domain/dts-domain.iml" group="dts" />
       <module fileurl="file://$PROJECT_DIR$/dts/dts-domain-schema/dts-domain-schema.iml" filepath="$PROJECT_DIR$/dts/dts-domain-schema/dts-domain-schema.iml" group="dts" />
       <module fileurl="file://$PROJECT_DIR$/dts/dts-rats/dts-rats.iml" filepath="$PROJECT_DIR$/dts/dts-rats/dts-rats.iml" group="dts" />
+      <module fileurl="file://$PROJECT_DIR$/itk/itk-testbench/itk-testbench.iml" filepath="$PROJECT_DIR$/itk/itk-testbench/itk-testbench.iml" group="itk" />
+      <module fileurl="file://$PROJECT_DIR$/itk/itk-testbench-wrapper/itk-testbench-wrapper.iml" filepath="$PROJECT_DIR$/itk/itk-testbench-wrapper/itk-testbench-wrapper.iml" group="itk" />
+      <module fileurl="file://$PROJECT_DIR$/number/number/number.iml" filepath="$PROJECT_DIR$/number/number/number.iml" group="number" />
+      <module fileurl="file://$PROJECT_DIR$/number/number-client/number-client.iml" filepath="$PROJECT_DIR$/number/number-client/number-client.iml" group="number" />
       <module fileurl="file://$PROJECT_DIR$/build/package-templates/package-templates.iml" filepath="$PROJECT_DIR$/build/package-templates/package-templates.iml" group="build" />
       <module fileurl="file://$PROJECT_DIR$/build/prepare-to-build/prepare-to-build.iml" filepath="$PROJECT_DIR$/build/prepare-to-build/prepare-to-build.iml" group="build" />
     </modules>
@@ -1463,6 +1478,38 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
+    <configuration default="false" name="NhsNumberClientConsoleEntryPoint (Validate)" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.number.client.NhsNumberClientConsoleEntryPoint" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="--validate 9449054622" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="number-client" />
+      <envs />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="NhsNumberClientConsoleEntryPoint (Create Check Digit)" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.number.client.NhsNumberClientConsoleEntryPoint" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="--create-check-digit 944905462" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="number-client" />
+      <envs />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
   </component>
   <component name="ResourceManagerContainer">
     <option name="myResourceBundles">
@@ -1547,12 +1594,44 @@
   </component>
   <component name="WebServicesPlugin" addRequiredLibraries="true" />
   <component name="libraryTable">
+    <library name="Apace Xerces-J 2.11.0">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../library/apache-xerces-j/2.11.0/xercesImpl.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="file://$PROJECT_DIR$/../library/apache-xerces-j/2.11.0/docs/javadocs" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="file://$PROJECT_DIR$/../library/apache-xerces-j/2.11.0/source/src" />
+      </SOURCES>
+    </library>
+    <library name="Apache Commons Codec 1.7">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../library/apache-commons-codec/1.7/commons-codec-1.7.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$PROJECT_DIR$/../library/apache-commons-codec/1.7/commons-codec-1.7-javadoc.jar!/" />
+        <root url="file://$PROJECT_DIR$/../library/apache-commons-codec/1.7/apidocs" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../library/apache-commons-codec/1.7/commons-codec-1.7-sources.jar!/" />
+      </SOURCES>
+    </library>
     <library name="IntelliJ Annotations">
       <CLASSES>
         <root url="jar://$PROJECT_DIR$/../library/intellij-annotations/unversioned/annotations.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />
+    </library>
+    <library name="Java UUID Generator 2.0.0">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../library/java-uuid-generator/2.0.0/jug-2.0.0-asl.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="file://$PROJECT_DIR$/../library/java-uuid-generator/2.0.0/source/src/main/java" />
+      </SOURCES>
     </library>
     <library name="JOpt Simple">
       <ANNOTATIONS>
@@ -1591,6 +1670,14 @@
       <SOURCES>
         <root url="jar://$PROJECT_DIR$/../library/orogeny/orogeny.sources.zip!/" />
       </SOURCES>
+    </library>
+    <library name="Saxon 9-4-0-6J">
+      <CLASSES>
+        <root url="file://$PROJECT_DIR$/../library/saxon/he/9-4-0-6J" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+      <jarDirectory url="file://$PROJECT_DIR$/../library/saxon/he/9-4-0-6J" recursive="false" />
     </library>
   </component>
 </project>

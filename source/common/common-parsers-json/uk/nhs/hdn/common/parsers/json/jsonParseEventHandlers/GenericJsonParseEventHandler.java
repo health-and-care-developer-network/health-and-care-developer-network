@@ -22,13 +22,13 @@ import uk.nhs.hdn.common.parsers.json.InvalidJsonException;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.ArrayConstructor;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.ListArrayConstructor;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.MapObjectConstructor;
+import uk.nhs.hdn.common.parsers.convenientReaders.BufferedPeekingConvenientReader;
 import uk.nhs.hdn.common.parsers.parseResultUsers.ParseResultUser;
 import uk.nhs.hdn.common.parsers.parseResultUsers.ValueReturningParseResultUser;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.nodeStates.ArrayNodeState;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.nodeStates.NodeState;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.nodeStates.ObjectNodeState;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.schemaViolationInvalidJsonExceptions.SchemaViolationInvalidJsonException;
-import uk.nhs.hdn.common.parsers.json.jsonReaders.BufferedJsonReader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -52,7 +52,7 @@ public final class GenericJsonParseEventHandler<V> implements JsonParseEventHand
 		try
 		{
 			final ValueReturningParseResultUser<List<Object>> objectValueReturningJsonParseResultUser = new ValueReturningParseResultUser<>();
-			RootParseModeInstance.parse(new GenericJsonParseEventHandler<>(listArrayConstructor, objectValueReturningJsonParseResultUser), new BufferedJsonReader(new BufferedReader(reader)));
+			RootParseModeInstance.parse(new GenericJsonParseEventHandler<>(listArrayConstructor, objectValueReturningJsonParseResultUser), new BufferedPeekingConvenientReader(new BufferedReader(reader)));
 			@Nullable final List<Object> value = objectValueReturningJsonParseResultUser.value();
 			assert value != null;
 			return value.get(0);

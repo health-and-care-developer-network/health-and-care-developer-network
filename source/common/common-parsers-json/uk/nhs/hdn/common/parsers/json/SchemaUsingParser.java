@@ -21,8 +21,8 @@ import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.GenericJsonParseEve
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.JsonParseEventHandler;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.ArrayConstructor;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.root.ArrayRootArrayConstructor;
+import uk.nhs.hdn.common.parsers.convenientReaders.BufferedPeekingConvenientReader;
 import uk.nhs.hdn.common.parsers.parseResultUsers.NonNullValueReturningParseResultUser;
-import uk.nhs.hdn.common.parsers.json.jsonReaders.BufferedJsonReader;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 
 import java.io.BufferedReader;
@@ -48,7 +48,7 @@ public class SchemaUsingParser<V> extends AbstractToString
 		final JsonParseEventHandler jsonParseEventHandler = new GenericJsonParseEventHandler<>(schema, resultUser);
 		try
 		{
-			RootParseModeInstance.parse(jsonParseEventHandler, new BufferedJsonReader(new BufferedReader(reader)));
+			RootParseModeInstance.parse(jsonParseEventHandler, new BufferedPeekingConvenientReader(new BufferedReader(reader)));
 		}
 		finally
 		{

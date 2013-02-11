@@ -1,0 +1,87 @@
+#!/bin/bash -
+set -e
+
+readonly ourName="$(basename "$0")"
+
+cd "$(dirname "$0")" 1>/dev/null
+readonly crudeOurPath="$(pwd)"
+cd - 1>/dev/null
+
+function exitHelp()
+{
+	cat 1>&2 <<-EOF
+		Usage: $ourName -h
+		Usage: $ourName --help
+		Usage: $ourName
+		
+	EOF
+	exit $1
+}
+
+function exitError()
+{
+	local -r error="$1"
+	echo "$ourName: $error" 1>&2
+	exitHelp 1
+}
+
+function parseCommandLine()
+{
+	if [ $# -eq 0 ]; then
+		:
+	elif [ $# -eq 1 ]; then
+		if [ "$1" = "--help" ]; then
+			exitHelp 2
+		elif  [ "$1" = "-h" ]; then
+			exitHelp 2
+		else
+			exitError "Invalid options"
+		fi
+	fi
+}
+
+function setVariables()
+{
+	# debian folder
+	readonly packageSourcePath="$crudeOurPath"/..
+	readonly packagePath="$packageSourcePath"/..
+	
+	cd "$packagePath" >/dev/null
+	local -r currentPath="$(pwd)"
+	readonly temporaryPath=/var/tmp/hdn-build/hdn-nginx
+	
+	readonly nginxVersion=1.2.0
+	readonly nginxExtractedFolderName=nginx-$nginxVersion
+	readonly nginxTarGzFileName=nginx-$nginxVersion.tar.gz
+}
+
+function makeTemporaryFoldersAsRequired()
+{
+	mkdir -p "$temporaryPath"
+}
+
+function downloadAndExtractNginxTarBall()
+{
+	cd "$temporaryPath" >/dev/null
+	if [ ! -f "$nginxTarGzFileName" ]; then
+		wget "http://nginx.org/download/$nginxTarGzFileName"
+	fi
+	tar --extract --file "$nginxTarGzFileName" --gzip
+	cd - >/dev/null
+}
+
+function copyTarballIntoPosition()
+{
+	rsync -a "$temporaryPath"/"$nginxExtractedFolderName"/ "$packagePath"/
+}
+
+function main()
+{
+	parseCommandLine "$@"
+	setVariables
+	makeTemporaryFoldersAsRequired
+	downloadAndExtractNginxTarBall
+	copyTarballIntoPosition
+}
+
+main "$@"

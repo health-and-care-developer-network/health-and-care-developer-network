@@ -21,8 +21,8 @@ import uk.nhs.hdn.common.parsers.json.InvalidJsonException;
 import uk.nhs.hdn.common.parsers.charaterSets.CharacterSet;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.JsonParseEventHandler;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.schemaViolationInvalidJsonExceptions.SchemaViolationInvalidJsonException;
-import uk.nhs.hdn.common.parsers.json.jsonReaders.EndOfFileException;
-import uk.nhs.hdn.common.parsers.json.jsonReaders.JsonReader;
+import uk.nhs.hdn.common.parsers.convenientReaders.EndOfFileException;
+import uk.nhs.hdn.common.parsers.convenientReaders.PeekingConvenientReader;
 
 import java.math.BigDecimal;
 
@@ -50,13 +50,13 @@ public final class NumberParseMode extends AbstractParseMode
 	}
 
 	@Override
-	public void parse(@NotNull final JsonParseEventHandler jsonParseEventHandler, @NotNull final JsonReader jsonReader) throws InvalidJsonException
+	public void parse(@NotNull final JsonParseEventHandler jsonParseEventHandler, @NotNull final PeekingConvenientReader peekingConvenientReader) throws InvalidJsonException
 	{
-		final char character = jsonReader.readRequiredCharacter();
+		final char character = readRequiredCharacter(peekingConvenientReader);
 		long integerComponent;
 		if (is(character, Minus))
 		{
-			integerComponent = -decodeIntegerCharacter(jsonReader.readRequiredCharacter());
+			integerComponent = -decodeIntegerCharacter(readRequiredCharacter(peekingConvenientReader));
 		}
 		else
 		{
@@ -68,7 +68,7 @@ public final class NumberParseMode extends AbstractParseMode
 			final char nextCharacter;
 			try
 			{
-				nextCharacter = jsonReader.readCharacter();
+				nextCharacter = peekingConvenientReader.readCharacter();
 			}
 			catch (EndOfFileException e)
 			{
@@ -82,7 +82,7 @@ public final class NumberParseMode extends AbstractParseMode
 
 			if (isTerminatingCharacter(nextCharacter))
 			{
-				jsonReader.pushBackLastCharacter();
+				peekingConvenientReader.pushBackLastCharacter();
 				jsonParseEventHandler.numberValue(0L);
 				return;
 			}
@@ -90,12 +90,12 @@ public final class NumberParseMode extends AbstractParseMode
 			switch(nextCharacter)
 			{
 				case DecimalPoint:
-					parseFractionComponent(jsonParseEventHandler, jsonReader, 0L);
+					parseFractionComponent(jsonParseEventHandler, peekingConvenientReader, 0L);
 					return;
 
 				case UpperCaseExponent:
 				case LowerCaseExponent:
-					parseExponentComponent(jsonParseEventHandler, jsonReader, new StringBuilder("0"));
+					parseExponentComponent(jsonParseEventHandler, peekingConvenientReader, new StringBuilder("0"));
 					return;
 
 				default:
@@ -108,7 +108,7 @@ public final class NumberParseMode extends AbstractParseMode
 			final char nextCharacter;
 			try
 			{
-				nextCharacter = jsonReader.readCharacter();
+				nextCharacter = peekingConvenientReader.readCharacter();
 			}
 			catch (EndOfFileException e)
 			{
@@ -122,7 +122,7 @@ public final class NumberParseMode extends AbstractParseMode
 
 			if (isTerminatingCharacter(nextCharacter))
 			{
-				jsonReader.pushBackLastCharacter();
+				peekingConvenientReader.pushBackLastCharacter();
 				jsonParseEventHandler.numberValue(integerComponent);
 				return;
 			}
@@ -130,12 +130,12 @@ public final class NumberParseMode extends AbstractParseMode
 			switch (nextCharacter)
 			{
 				case DecimalPoint:
-					parseFractionComponent(jsonParseEventHandler, jsonReader, 0L);
+					parseFractionComponent(jsonParseEventHandler, peekingConvenientReader, 0L);
 					return;
 
 				case UpperCaseExponent:
 				case LowerCaseExponent:
-					parseExponentComponent(jsonParseEventHandler, jsonReader, new StringBuilder(Long.toString(integerComponent)));
+					parseExponentComponent(jsonParseEventHandler, peekingConvenientReader, new StringBuilder(Long.toString(integerComponent)));
 					return;
 
 				default:
@@ -156,14 +156,14 @@ public final class NumberParseMode extends AbstractParseMode
 		return newIntegerComponent;
 	}
 
-	private void parseFractionComponent(final JsonParseEventHandler jsonParseEventHandler, final JsonReader jsonReader, final long integerComponent) throws InvalidJsonException
+	private void parseFractionComponent(final JsonParseEventHandler jsonParseEventHandler, final PeekingConvenientReader peekingConvenientReader, final long integerComponent) throws InvalidJsonException
 	{
 		do
 		{
 			final char nextCharacter;
 			try
 			{
-				nextCharacter = jsonReader.readCharacter();
+				nextCharacter = peekingConvenientReader.readCharacter();
 			}
 			catch (EndOfFileException e)
 			{
@@ -177,7 +177,7 @@ public final class NumberParseMode extends AbstractParseMode
 
 			if (isTerminatingCharacter(nextCharacter))
 			{
-				jsonReader.pushBackLastCharacter();
+				peekingConvenientReader.pushBackLastCharacter();
 				jsonParseEventHandler.numberValue(integerComponent);
 				return;
 			}
@@ -188,7 +188,7 @@ public final class NumberParseMode extends AbstractParseMode
 			{
 				case UpperCaseExponent:
 				case LowerCaseExponent:
-					parseExponentComponent(jsonParseEventHandler, jsonReader, fraction);
+					parseExponentComponent(jsonParseEventHandler, peekingConvenientReader, fraction);
 					return;
 
 				default:
@@ -204,18 +204,18 @@ public final class NumberParseMode extends AbstractParseMode
 	}
 
 	@SuppressWarnings("FeatureEnvy")
-	private void parseExponentComponent(final JsonParseEventHandler jsonParseEventHandler, final JsonReader jsonReader, final StringBuilder fraction) throws InvalidJsonException
+	private void parseExponentComponent(final JsonParseEventHandler jsonParseEventHandler, final PeekingConvenientReader peekingConvenientReader, final StringBuilder fraction) throws InvalidJsonException
 	{
 		fraction.append(EUpperCaseHexadecimalDigit);
 
-		final char character = jsonReader.readRequiredCharacter();
+		final char character = readRequiredCharacter(peekingConvenientReader);
 		if (is(character, Minus))
 		{
-			fraction.append(Minus).append(jsonReader.readRequiredCharacter());
+			fraction.append(Minus).append(readRequiredCharacter(peekingConvenientReader));
 		}
 		else if (is(character, Plus))
 		{
-			fraction.append(jsonReader.readRequiredCharacter());
+			fraction.append(readRequiredCharacter(peekingConvenientReader));
 		}
 		else if (Digits.contains(character))
 		{
@@ -231,7 +231,7 @@ public final class NumberParseMode extends AbstractParseMode
 			final char nextCharacter;
 			try
 			{
-				nextCharacter = jsonReader.readCharacter();
+				nextCharacter = peekingConvenientReader.readCharacter();
 			}
 			catch (EndOfFileException e)
 			{

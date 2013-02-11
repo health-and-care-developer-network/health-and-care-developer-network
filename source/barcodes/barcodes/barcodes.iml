@@ -12,6 +12,7 @@
     <orderEntry type="module" module-name="common-comparison" exported="" />
     <orderEntry type="module" module-name="common-naming" />
     <orderEntry type="module" module-name="common-serialisers" />
+    <orderEntry type="module" module-name="common-digits" exported="" />
   </component>
 </module>
 

@@ -1,0 +1,102 @@
+#!/bin/bash -
+
+# © Crown Copyright 2013
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Disable errors stopping the script
+set -e
+
+source "/usr/lib/hdn-apt/functions"
+
+function createHdnDatabaseIfMissing()
+{
+	# azure instances are 2 CPU, hence 4 segments. Of course, in a sophisticated set-up, we'd have machine profiles...
+	if [ ! -f /var/lib/4store/hdn/metadata.nt ]; then
+		set +e
+		
+		invoke-rc.d 4store stop
+	
+		4s-backend-setup --node 0 --cluster 1 --segments 4 hdn
+		
+		4s-backend hdn
+		
+		for rdfBz2File in /usr/share/hdn-4store/data/*.rdf.bz2; do
+			if [ ! -f "$rdfBz2File" ]; then
+				continue
+			fi
+			4s-import -v hdn <(bunzip2 --stdout "$rdfBz2File")
+		done
+		
+		pkill 4s-backend
+		
+		set -e
+	fi
+}
+
+function cleanUpFolderPermissions()
+{
+	chown --preserve-root --recursive fourstore:fourstore /var/lib/4store
+}
+
+function divert4StoreFiles()
+{
+	divertFile "hdn-4store" "/etc/default" "4store"
+}
+
+function startOrRestart4Store()
+{
+	set +e
+	invoke-rc.d 4store restart
+	set -e
+}
+
+case "$1" in
+	configure)
+		readonly postinst_Instance="any"
+		readonly mostRecentlyConfiguredVersion="$2"
+		
+		createHdnDatabaseIfMissing
+		cleanUpFolderPermissions
+		divert4StoreFiles
+		startOrRestart4Store
+	;;
+
+	abort-upgrade)
+		readonly postinst_Instance="old"
+		readonly newVersion="$2"
+	;;
+
+	abort-remove)
+		if [ $# -gt 0 ]; then
+			if [ "$2" = "in-favour" ]; then
+				readonly postinst_Instance="conflictors"
+				readonly package="$3"
+				readonly newVersion="$4"
+			fi
+		else
+			readonly postinst_Instance="any"
+		fi
+	;;
+
+	abort-deconfigure)
+		if [ $# -gt 0 ]; then
+			if [ "$2" = "in-favour" ]; then
+				readonly postinst_Instance="deconfigureds"
+				readonly failedInstallPackage="$3"
+				readonly version="$4"
+			fi
+		fi
+		# [removing conflicting-package version]
+	;;
+esac

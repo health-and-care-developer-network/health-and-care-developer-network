@@ -1,0 +1,68 @@
+#!/usr/bin/make -f
+PACKAGE=$(shell dh_listpackages)
+ROOT=../../..
+RELEASE=$(ROOT)/release
+SOURCE=$(ROOT)/source
+HDN_GS1_SERVER_UID=498
+
+build: build-stamp
+build-stamp:
+	dh_testdir
+
+clean:
+	dh_testdir
+	dh_testroot
+	dh_clean
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_prep --exclude=debian/$(PACKAGE)
+	dh_installdirs
+
+binary-indep: build install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs
+
+	# Copy the packages's files.
+	rsync -v $(RELEASE)/$(PACKAGE)/$(PACKAGE).jar debian/$(PACKAGE)/usr/share/$(PACKAGE)/$(PACKAGE).jar
+	find debian/$(PACKAGE)/usr/share/$(PACKAGE) -type f -exec chmod 0644 {} \;
+	find debian/$(PACKAGE)/usr/share/$(PACKAGE) -type d -exec chmod 0755 {} \;
+	rsync -v $(RELEASE)/$(PACKAGE)/$(PACKAGE).source.zip debian/$(PACKAGE)/usr/src/$(PACKAGE)/$(PACKAGE).zip
+	find debian/$(PACKAGE)/usr/src/$(PACKAGE) -type f -exec chmod 0644 {} \;
+	find debian/$(PACKAGE)/usr/src/$(PACKAGE) -type d -exec chmod 0755 {} \;
+	
+	# Data (later - we'll need to deal with override handling)
+	pwd
+	rsync -v $(SOURCE)/barcodes/barcodes-gs1-server-application/gs1-company-prefixes.tsv debian/$(PACKAGE)/srv/hdn-gs1-server/gs1-company-prefixes.tsv
+	find debian/$(PACKAGE)/srv/$(PACKAGE) -type f -exec chmod 0644 {} \;
+	find debian/$(PACKAGE)/srv/$(PACKAGE) -type d -exec chmod 0755 {} \;
+	
+	dh_installdocs
+	dh_installexamples
+	dh_installman
+	dh_lintian
+	dh_link
+	dh_compress
+	dh_fixperms
+
+	# /srv, /var/log, /var/cache & /var/lib subfolders are accessible to hdn-gs1-server
+	chown -R $(HDN_GS1_SERVER_UID):$(HDN_GS1_SERVER_UID) debian/$(PACKAGE)/srv/$(PACKAGE)
+	chown -R $(HDN_GS1_SERVER_UID):$(HDN_GS1_SERVER_UID) debian/$(PACKAGE)/var/cache/$(PACKAGE)
+	chown -R $(HDN_GS1_SERVER_UID):$(HDN_GS1_SERVER_UID) debian/$(PACKAGE)/var/log/$(PACKAGE)
+	chown -R $(HDN_GS1_SERVER_UID):$(HDN_GS1_SERVER_UID) debian/$(PACKAGE)/var/lib/$(PACKAGE)
+	chmod g+s debian/$(PACKAGE)/srv/$(PACKAGE)
+	chmod g+s debian/$(PACKAGE)/var/cache/$(PACKAGE)
+	chmod g+s debian/$(PACKAGE)/var/log/$(PACKAGE)
+	chmod g+s debian/$(PACKAGE)/var/lib/$(PACKAGE)
+
+	dh_installdeb
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb -- -z9 -Zlzma
+
+binary-arch: build install
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install

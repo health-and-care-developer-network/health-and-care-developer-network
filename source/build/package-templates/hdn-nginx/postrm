@@ -1,0 +1,63 @@
+#!/bin/bash -
+
+# © Crown Copyright 2013
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+set -e
+
+# Ensure references are gone
+initctl reload-configuration
+
+case "$1" in
+	remove)
+		:
+	;;
+
+	purge)
+		rm -rf /var/lib/hdn-nginx /var/log/hdn-nginx /etc/hdn-nginx
+	;;
+
+	upgrade)
+		readonly postrm_Instance="old"
+		readonly newVersion="$2"
+		
+	;;
+
+	failed-upgrade)
+		readonly postrm_Instance="new"
+		readonly oldVersion="$2"
+	;;
+
+	abort-install)
+		readonly postrm_Instance="new"
+		if [ $# -gt 1 ]; then
+			readonly oldVersion="$2"
+		fi
+	;;
+
+	abort-upgrade)
+		readonly postrm_Instance="new"
+		readonly oldVersion="$2"
+	;;
+
+	disappear)
+		readonly postrm_Instance="disappearers"
+		readonly overwriter="$2"
+		readonly overwriteVersion="$3"
+	;;
+esac
+
+#DEBHELPER#
+
+exit 0

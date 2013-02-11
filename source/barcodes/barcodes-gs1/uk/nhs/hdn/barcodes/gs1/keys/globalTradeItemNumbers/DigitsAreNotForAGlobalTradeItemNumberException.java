@@ -17,8 +17,8 @@
 package uk.nhs.hdn.barcodes.gs1.keys.globalTradeItemNumbers;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.barcodes.Digits;
-import uk.nhs.hdn.barcodes.gs1.checkDigits.IncorrectCheckDigitIllegalStateException;
+import uk.nhs.hdn.common.digits.Digits;
+import uk.nhs.hdn.common.digits.IncorrectCheckDigitIllegalStateException;
 
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;

@@ -1,0 +1,22 @@
+Source: hdn-apt
+Section: admin
+Priority: required
+Maintainer: Raphael Cohn <raphael.cohn@stormmq.com>
+Uploaders: Mike Kelly <mike.kelly1@nhs.net>
+Homepage: http://hdn.nhs.uk/
+Build-Depends: debhelper (>= 7), fakeroot, openjdk-7-jdk, git-core, apt-utils, gnupg, devscripts
+Standards-Version: 3.8.4.0
+
+Package: hdn-apt
+Depends: apt, ${misc:Depends}
+Pre-Depends: dpkg (>= 1.15.5.6ubuntu4.5), coreutils (>= 7.4-2ubuntu3), debconf (>= 0.5) | debconf-2.0
+Architecture: all
+Description: utilities to ease working with apt
+ The utilities include:-
+ hdn-apt-update, to update and download and clean up packages and
+ package caches;
+ hdn-apt-dist-upgrade, to be run after hdn-apt-update to
+ install the latest package versions and autoremove dead packages.
+ .
+ It Pre-Depends because it uses things like dpkg-divert.
+ .

@@ -40,6 +40,15 @@ public abstract class AbstractSerialiser extends AbstractValueSerialiser impleme
 		}
 	}
 
+	public static void writeNullableProperty(@NotNull final MapSerialiser mapSerialiser, @NotNull @NonNls @FieldTokenName final String name, @Nullable final ValueSerialisable valueSerialisable) throws CouldNotWritePropertyException
+	{
+		if (valueSerialisable == null)
+		{
+			return;
+		}
+		mapSerialiser.writeProperty(name, valueSerialisable);
+	}
+
 	@Override
 	public final void writeProperty(@NonNls @NotNull final String name, @Nullable final Object value) throws CouldNotWritePropertyException
 	{

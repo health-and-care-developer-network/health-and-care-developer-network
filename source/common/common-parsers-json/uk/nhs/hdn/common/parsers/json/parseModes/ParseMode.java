@@ -19,9 +19,9 @@ package uk.nhs.hdn.common.parsers.json.parseModes;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.parsers.json.InvalidJsonException;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.JsonParseEventHandler;
-import uk.nhs.hdn.common.parsers.json.jsonReaders.JsonReader;
+import uk.nhs.hdn.common.parsers.convenientReaders.PeekingConvenientReader;
 
 public interface ParseMode
 {
-	void parse(@NotNull final JsonParseEventHandler jsonParseEventHandler, @NotNull final JsonReader jsonReader) throws InvalidJsonException;
+	void parse(@NotNull final JsonParseEventHandler jsonParseEventHandler, @NotNull final PeekingConvenientReader peekingConvenientReader) throws InvalidJsonException;
 }

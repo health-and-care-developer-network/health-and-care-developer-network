@@ -17,9 +17,9 @@
 package uk.nhs.hdn.barcodes.gs1.keys;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.barcodes.Digits;
+import uk.nhs.hdn.common.digits.Digits;
 
-public abstract class AbstractWithSerialComponentCheckDigitNumber<F extends SerialComponentKeyFormat> extends AbstractCheckDigitNumber<F>
+public abstract class AbstractWithSerialComponentCheckDigitNumber<F extends SerialComponentKeyFormat> extends AbstractKeyFormatCheckDigitNumber<F>
 {
 	protected AbstractWithSerialComponentCheckDigitNumber(@SuppressWarnings("TypeMayBeWeakened") @NotNull final F serialComponentKeyFormat, @NotNull final Digits digits)
 	{
@@ -29,6 +29,6 @@ public abstract class AbstractWithSerialComponentCheckDigitNumber<F extends Seri
 	@NotNull
 	public Digits serialComponent()
 	{
-		return digits.slice(keyFormat.size(), digits.size());
+		return digits.slice(extractCheckDigitCalculator.size(), digits.size());
 	}
 }

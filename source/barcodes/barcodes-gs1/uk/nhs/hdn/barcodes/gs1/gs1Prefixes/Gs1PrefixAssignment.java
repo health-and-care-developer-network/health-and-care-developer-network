@@ -17,7 +17,7 @@
 package uk.nhs.hdn.barcodes.gs1.gs1Prefixes;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.barcodes.Digit;
+import uk.nhs.hdn.common.digits.Digit;
 import uk.nhs.hdn.common.naming.ActualName;
 
 public interface Gs1PrefixAssignment extends ActualName

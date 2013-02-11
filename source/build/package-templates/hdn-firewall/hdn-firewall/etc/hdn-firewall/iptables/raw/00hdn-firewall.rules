@@ -1,0 +1,11 @@
+# Drop blacklisted portscanners before connection tracking to minimise resource usage (drop is 4 hours, 4 * 60 * 60)
+# The list of those banned can be seen at /proc/net/xt_recent/portscan
+#--append PREROUTING --match recent --name portscan --update --seconds 14400 --rsource --jump DROP
+#--append PREROUTING --match recent --name portscan --remove
+
+# Drop blacklisted synflooders before connection tracking to minimise resource usage (drop is 4 hours)
+# The list of those banned can be seen at /proc/net/xt_recent/synflood
+#--append PREROUTING --match recent --name synflood --update --seconds 14400 --rsource --jump DROP
+#--append PREROUTING --match recent --name synflood --remove
+
+# Without ipset the best approach is probably http://serverfault.com/questions/334885/use-iptables-or-null-route-for-blacklisting-about-1-million-ip-addresses and generating that tree from some input data

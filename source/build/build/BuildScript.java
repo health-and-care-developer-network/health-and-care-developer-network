@@ -66,6 +66,12 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		final String dtsClientRatsConsoleEntryPoint = intellijModuleHasMainClassByConvention("dts-client-rats", "RatsClientConsoleEntryPoint");
 
+		final String numberClientConsoleEntryPoint = intellijModuleHasMainClassByConvention("number-client", "NhsNumberClientConsoleEntryPoint");
+
+		final String dbsResponseClientConsoleEntryPoint = intellijModuleHasMainClassByConvention("dbs-response-client", "DbsResponseClientClientConsoleEntryPoint");
+
+		final String dbsRequestClientConsoleEntryPoint = intellijModuleHasMainClassByConvention("dbs-request-client", "DbsRequestClientClientConsoleEntryPoint");
+
 
 		task("clean").does
 		(
@@ -91,16 +97,62 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		executable("hdn-dts-rats", "dts-client-rats", dtsClientRatsConsoleEntryPoint);
 
-		task("executables").dependsOn("hdn-gs1-client", "hdn-gs1-server", "hdn-dts-out", "hdn-dts-read", "hdn-dts-rats");
+		executable("hdn-number-client", "number-client", numberClientConsoleEntryPoint);
 
-		task("generate changelog template").dependsOn("executables").does
+		executable("hdn-dbs-response", "dbs-response-client", dbsResponseClientConsoleEntryPoint);
+
+		executable("hdn-dbs-request", "dbs-request-client", dbsResponseClientConsoleEntryPoint);
+
+		task("executables").dependsOn("hdn-gs1-client", "hdn-gs1-server", "hdn-dts-out", "hdn-dts-read", "hdn-dts-rats", "hdn-dbs-response", "hdn-dbs-request");
+
+		task("generate changelog template").dependsOn("make output").does
 		(
 			execute(source("build", "build").file("generate-changelog-template")).inWorkingDirectory(source("build")).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArguments()
 		);
 
-		debianPackagesPackageTask("stormmq-kernel", "generate changelog template");
+		debianPackagesPackageTask("hdn-gs1-client", "generate changelog template", "hdn-gs1-client");
 
-		debianNonRepositoryPackageTask("stormmq-keyring-private", "generate changelog template");
+		debianPackagesPackageTask("hdn-gs1-server", "generate changelog template", "hdn-gs1-server");
+
+		debianPackagesPackageTask("hdn-dts-out", "generate changelog template", "hdn-dts-out");
+
+		debianPackagesPackageTask("hdn-dts-read", "generate changelog template", "hdn-dts-read");
+
+		debianPackagesPackageTask("hdn-dts-rats", "generate changelog template", "hdn-dts-rats");
+
+		debianPackagesPackageTask("hdn-number-client", "generate changelog template", "hdn-number-client");
+
+		debianPackagesPackageTask("hdn-dbs-response", "generate changelog template", "hdn-dbs-response");
+
+		debianPackagesPackageTask("hdn-dbs-request", "generate changelog template", "hdn-dbs-request");
+
+		debianPackagesPackageTask("hdn-4store", "generate changelog template");
+
+		debianPackagesPackageTask("hdn-jetty", "generate changelog template");
+
+		debianPackagesPackageTask("hdn-elda", "generate changelog template");
+
+		debianPackagesPackageTask("hdn-template", "generate changelog template");
+
+		debianPackagesPackageTask("hdn-services", "generate changelog template");
+
+		debianPackagesPackageTask("hdn-nginx", "generate changelog template");
+
+		debianPackagesPackageTask("hdn-apt", "generate changelog template");
+
+		debianPackagesPackageTask("hdn-sysctl", "generate changelog template");
+
+		debianPackagesPackageTask("hdn-firewall", "generate changelog template");
+
+		debianPackagesPackageTask("hdn-smtp", "generate changelog template");
+
+		debianPackagesPackageTask("hdn-java-common", "generate changelog template");
+
+		debianPackagesPackageTask("hdn-jstatd", "generate changelog template");
+
+		debianNonRepositoryPackageTask("hdn-keyring-private", "generate changelog template");
+
+		debianPackagesPackageTask("hdn-ssh-server", "generate changelog template");
 
 		task("packages").dependsOn(debianPackagesPackageTasks).does
 		(
@@ -156,7 +208,7 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		task(taskName).dependsOn(dependsOnTaskNames).does
 		(
-			execute(source("build").file("create-debian-package")).inWorkingDirectory(output()).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArguments(packagesFolder, packageName)
+			execute(source("build", "build").file("create-debian-package")).inWorkingDirectory(output()).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArguments(packagesFolder, packageName)
 		);
 
 		return expandedDebianPackageTasks;

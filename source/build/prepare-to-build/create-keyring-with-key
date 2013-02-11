@@ -24,7 +24,7 @@ cd - 1>/dev/null
 
 function exitHelp()
 {
-	echo "Usage: $ourName [--help] <keyring> <userName including spaces, eg Raphael Cohn>" 1>&2
+	echo "Usage: $ourName [--help] <keyring> <userName including spaces, eg Raphael Cohn> <email my.name@nhs.net" 1>&2
 	exit $1
 }
 
@@ -37,8 +37,7 @@ function exitError()
 
 function setEmail()
 {
-	local -r keyEmailUser="$(echo "$keyUser" | tr '[:upper:]' '[:lower:]' | tr ' ' '.')"
-	readonly keyEmail="${keyEmailUser}@nhs.net"
+    :
 }
 
 function setPaths()
@@ -107,9 +106,10 @@ if [ $# -eq 1 ]; then
 	else
 		exitHelp 1
 	fi
-elif [ $# -eq 2 ]; then
+elif [ $# -eq 3 ]; then
 	readonly keyring="$1"
 	readonly keyUser="$2"
+	readonly keyEmail="$3"
 else
 	exitError "Invalid options"
 fi

@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.parsers.json.InvalidJsonException;
 import uk.nhs.hdn.common.parsers.charaterSets.CharacterSet;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.JsonParseEventHandler;
-import uk.nhs.hdn.common.parsers.json.jsonReaders.JsonReader;
+import uk.nhs.hdn.common.parsers.convenientReaders.PeekingConvenientReader;
 
 import static uk.nhs.hdn.common.parsers.json.CharacterHelper.*;
 import static uk.nhs.hdn.common.parsers.json.parseModes.ArrayParseMode.ObjectArrayParseModeInstance;
@@ -48,38 +48,38 @@ public final class ObjectParseMode extends AbstractParseMode
 	}
 
 	@Override
-	public void parse(@NotNull final JsonParseEventHandler jsonParseEventHandler, @NotNull final JsonReader jsonReader) throws InvalidJsonException
+	public void parse(@NotNull final JsonParseEventHandler jsonParseEventHandler, @NotNull final PeekingConvenientReader peekingConvenientReader) throws InvalidJsonException
 	{
-		if (isNot(OpenObject, jsonReader.readRequiredCharacter()))
+		if (isNot(OpenObject, readRequiredCharacter(peekingConvenientReader)))
 		{
 			throw new InvalidJsonException("does not start with open object");
 		}
 
 		jsonParseEventHandler.startObject();
 
-		parseMembers(jsonParseEventHandler, jsonReader);
+		parseMembers(jsonParseEventHandler, peekingConvenientReader);
 
 		jsonParseEventHandler.endObject();
 	}
 
 	@SuppressWarnings("FeatureEnvy")
-	private static void parseMembers(final JsonParseEventHandler jsonParseEventHandler, final JsonReader jsonReader) throws InvalidJsonException
+	private static void parseMembers(final JsonParseEventHandler jsonParseEventHandler, final PeekingConvenientReader peekingConvenientReader) throws InvalidJsonException
 	{
-		if (is(soakUpWhitespace(jsonReader), CloseObject))
+		if (is(soakUpWhitespace(peekingConvenientReader), CloseObject))
 		{
 			return;
 		}
-		jsonReader.pushBackLastCharacter();
+		peekingConvenientReader.pushBackLastCharacter();
 
 		do
 		{
-			readKey(jsonParseEventHandler, jsonReader);
+			readKey(jsonParseEventHandler, peekingConvenientReader);
 
-			readColonSeparator(jsonReader);
+			readColonSeparator(peekingConvenientReader);
 
-			readValue(jsonParseEventHandler, jsonReader);
+			readValue(jsonParseEventHandler, peekingConvenientReader);
 
-			final char peekUpToCommaStart = soakUpWhitespace(jsonReader);
+			final char peekUpToCommaStart = soakUpWhitespace(peekingConvenientReader);
 
 			if (is(peekUpToCommaStart, CloseObject))
 			{
@@ -94,20 +94,20 @@ public final class ObjectParseMode extends AbstractParseMode
 		} while(true);
 	}
 
-	private static void readKey(final JsonParseEventHandler jsonParseEventHandler, final JsonReader jsonReader) throws InvalidJsonException
+	private static void readKey(final JsonParseEventHandler jsonParseEventHandler, final PeekingConvenientReader peekingConvenientReader) throws InvalidJsonException
 	{
-		final char peekUpToKeyStart = soakUpWhitespace(jsonReader);
+		final char peekUpToKeyStart = soakUpWhitespace(peekingConvenientReader);
 		if (isNot(peekUpToKeyStart, QuotationMark))
 		{
 			throw new InvalidJsonException("object key string does not start with quotation mark");
 		}
-		jsonReader.pushBackLastCharacter();
-		KeyStringParseModeInstance.parse(jsonParseEventHandler, jsonReader);
+		peekingConvenientReader.pushBackLastCharacter();
+		KeyStringParseModeInstance.parse(jsonParseEventHandler, peekingConvenientReader);
 	}
 
-	private static void readColonSeparator(final JsonReader jsonReader) throws InvalidJsonException
+	private static void readColonSeparator(final PeekingConvenientReader peekingConvenientReader) throws InvalidJsonException
 	{
-		final char peekUpToColon = soakUpWhitespace(jsonReader);
+		final char peekUpToColon = soakUpWhitespace(peekingConvenientReader);
 
 		if (isNot(peekUpToColon, Colon))
 		{
@@ -115,22 +115,22 @@ public final class ObjectParseMode extends AbstractParseMode
 		}
 	}
 
-	private static void readValue(final JsonParseEventHandler jsonParseEventHandler, final JsonReader jsonReader) throws InvalidJsonException
+	private static void readValue(final JsonParseEventHandler jsonParseEventHandler, final PeekingConvenientReader peekingConvenientReader) throws InvalidJsonException
 	{
-		final char peekUpToValueStart = soakUpWhitespace(jsonReader);
+		final char peekUpToValueStart = soakUpWhitespace(peekingConvenientReader);
 
-		jsonReader.pushBackLastCharacter();
+		peekingConvenientReader.pushBackLastCharacter();
 
 		final ParseMode valueParseMode = valueParseMode(peekUpToValueStart);
-		valueParseMode.parse(jsonParseEventHandler, jsonReader);
+		valueParseMode.parse(jsonParseEventHandler, peekingConvenientReader);
 	}
 
-	public static char soakUpWhitespace(final JsonReader jsonReader) throws InvalidJsonException
+	public static char soakUpWhitespace(final PeekingConvenientReader peekingConvenientReader) throws InvalidJsonException
 	{
 		char peek;
 		do
 		{
-			peek = jsonReader.readRequiredCharacter();
+			peek = readRequiredCharacter(peekingConvenientReader);
 		}
 		while(Whitespace.contains(peek));
 		return peek;

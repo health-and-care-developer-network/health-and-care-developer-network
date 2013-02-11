@@ -22,8 +22,8 @@ import uk.nhs.hdn.common.parsers.json.InvalidJsonException;
 import uk.nhs.hdn.common.parsers.charaterSets.CharacterSet;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.JsonParseEventHandler;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.schemaViolationInvalidJsonExceptions.SchemaViolationInvalidJsonException;
-import uk.nhs.hdn.common.parsers.json.jsonReaders.EndOfFileException;
-import uk.nhs.hdn.common.parsers.json.jsonReaders.JsonReader;
+import uk.nhs.hdn.common.parsers.convenientReaders.EndOfFileException;
+import uk.nhs.hdn.common.parsers.convenientReaders.PeekingConvenientReader;
 import uk.nhs.hdn.common.parsers.json.parseModes.AbstractParseMode;
 
 import static uk.nhs.hdn.common.parsers.json.CharacterHelper.isNot;
@@ -42,13 +42,13 @@ public abstract class AbstractLiteralParseMode extends AbstractParseMode
 	}
 
 	@Override
-	public final void parse(@NotNull final JsonParseEventHandler jsonParseEventHandler, @NotNull final JsonReader jsonReader) throws InvalidJsonException
+	public final void parse(@NotNull final JsonParseEventHandler jsonParseEventHandler, @NotNull final PeekingConvenientReader peekingConvenientReader) throws InvalidJsonException
 	{
 		for(int index = 0; index < length; index++)
 		{
 			try
 			{
-				if (isNot(jsonReader.readCharacter(), word[index]))
+				if (isNot(peekingConvenientReader.readCharacter(), word[index]))
 				{
 					throw new InvalidJsonException("unexpected character in constant word");
 				}
@@ -58,7 +58,7 @@ public abstract class AbstractLiteralParseMode extends AbstractParseMode
 				throw new InvalidJsonException(e);
 			}
 		}
-		guardNextCharacter(jsonReader);
+		guardNextCharacter(peekingConvenientReader);
 		raiseEvent(jsonParseEventHandler);
 	}
 

@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.parsers.json.InvalidJsonException;
 import uk.nhs.hdn.common.parsers.charaterSets.CharacterSet;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.JsonParseEventHandler;
-import uk.nhs.hdn.common.parsers.json.jsonReaders.JsonReader;
+import uk.nhs.hdn.common.parsers.convenientReaders.PeekingConvenientReader;
 
 import static uk.nhs.hdn.common.parsers.json.CharacterHelper.*;
 import static uk.nhs.hdn.common.parsers.json.parseModes.NumberParseMode.ArrayNumberParseModeInstance;
@@ -48,34 +48,34 @@ public final class ArrayParseMode extends AbstractParseMode
 	}
 
 	@Override
-	public void parse(@NotNull final JsonParseEventHandler jsonParseEventHandler, @NotNull final JsonReader jsonReader) throws InvalidJsonException
+	public void parse(@NotNull final JsonParseEventHandler jsonParseEventHandler, @NotNull final PeekingConvenientReader peekingConvenientReader) throws InvalidJsonException
 	{
-		if (isNot(OpenArray, jsonReader.readRequiredCharacter()))
+		if (isNot(OpenArray, readRequiredCharacter(peekingConvenientReader)))
 		{
 			throw new InvalidJsonException("Does not start with open array");
 		}
 
 		jsonParseEventHandler.startArray();
 
-		parseMembers(jsonParseEventHandler, jsonReader);
+		parseMembers(jsonParseEventHandler, peekingConvenientReader);
 
 		jsonParseEventHandler.endArray();
 	}
 
 	@SuppressWarnings("FeatureEnvy")
-	private static void parseMembers(final JsonParseEventHandler jsonParseEventHandler, final JsonReader jsonReader) throws InvalidJsonException
+	private static void parseMembers(final JsonParseEventHandler jsonParseEventHandler, final PeekingConvenientReader peekingConvenientReader) throws InvalidJsonException
 	{
-		if (is(soakUpWhitespace(jsonReader), CloseArray))
+		if (is(soakUpWhitespace(peekingConvenientReader), CloseArray))
 		{
 			return;
 		}
-		jsonReader.pushBackLastCharacter();
+		peekingConvenientReader.pushBackLastCharacter();
 
 		do
 		{
-			readValue(jsonParseEventHandler, jsonReader);
+			readValue(jsonParseEventHandler, peekingConvenientReader);
 
-			final char peekUpToCommaStart = soakUpWhitespace(jsonReader);
+			final char peekUpToCommaStart = soakUpWhitespace(peekingConvenientReader);
 
 			if (is(peekUpToCommaStart, CloseArray))
 			{
@@ -89,14 +89,14 @@ public final class ArrayParseMode extends AbstractParseMode
 		} while(true);
 	}
 
-	private static void readValue(final JsonParseEventHandler jsonParseEventHandler, final JsonReader jsonReader) throws InvalidJsonException
+	private static void readValue(final JsonParseEventHandler jsonParseEventHandler, final PeekingConvenientReader peekingConvenientReader) throws InvalidJsonException
 	{
-		final char peekUpToValueStart = soakUpWhitespace(jsonReader);
+		final char peekUpToValueStart = soakUpWhitespace(peekingConvenientReader);
 
-		jsonReader.pushBackLastCharacter();
+		peekingConvenientReader.pushBackLastCharacter();
 
 		final ParseMode valueParseMode = valueParseMode(peekUpToValueStart);
-		valueParseMode.parse(jsonParseEventHandler, jsonReader);
+		valueParseMode.parse(jsonParseEventHandler, peekingConvenientReader);
 	}
 
 	@SuppressWarnings("SwitchStatementWithTooManyBranches")

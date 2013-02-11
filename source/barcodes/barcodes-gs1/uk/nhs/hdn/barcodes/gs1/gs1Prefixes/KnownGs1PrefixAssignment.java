@@ -18,14 +18,14 @@ package uk.nhs.hdn.barcodes.gs1.gs1Prefixes;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.barcodes.Digit;
-import uk.nhs.hdn.barcodes.Digits;
+import uk.nhs.hdn.common.digits.Digit;
+import uk.nhs.hdn.common.digits.Digits;
 
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
-import static uk.nhs.hdn.barcodes.Digit.Nine;
-import static uk.nhs.hdn.barcodes.Digit.Zero;
-import static uk.nhs.hdn.barcodes.Digits.digits;
+import static uk.nhs.hdn.common.digits.Digit.Nine;
+import static uk.nhs.hdn.common.digits.Digit.Zero;
+import static uk.nhs.hdn.common.digits.Digits.digits;
 import static uk.nhs.hdn.common.IntegerHelper.power;
 
 public enum KnownGs1PrefixAssignment implements Gs1PrefixAssignment // some of these are RCNs, Restricted Circulation Numbers

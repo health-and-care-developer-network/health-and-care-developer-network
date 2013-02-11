@@ -18,7 +18,7 @@ package uk.nhs.hdn.barcodes.gs1.organisation.index;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hdn.barcodes.Digits;
+import uk.nhs.hdn.common.digits.Digits;
 import uk.nhs.hdn.barcodes.gs1.Gs1CompanyPrefixAndItem;
 import uk.nhs.hdn.barcodes.gs1.companyPrefixes.Gs1CompanyPrefix;
 import uk.nhs.hdn.barcodes.gs1.organisation.Tuple;

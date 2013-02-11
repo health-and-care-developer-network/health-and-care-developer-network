@@ -1,0 +1,7 @@
+APT::Install-Recommends "false";
+APT::Authentication::TrustCDROM "false";
+
+Dpkg::Options {
+   "--force-confnew";
+   "--force-confmiss";
+}

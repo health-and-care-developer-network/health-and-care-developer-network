@@ -22,8 +22,7 @@ import uk.nhs.hdn.common.parsers.json.InvalidJsonException;
 import uk.nhs.hdn.common.parsers.charaterSets.CharacterSet;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.JsonParseEventHandler;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.schemaViolationInvalidJsonExceptions.SchemaViolationInvalidJsonException;
-import uk.nhs.hdn.common.parsers.json.jsonReaders.InvalidCodePointException;
-import uk.nhs.hdn.common.parsers.json.jsonReaders.JsonReader;
+import uk.nhs.hdn.common.parsers.convenientReaders.PeekingConvenientReader;
 import uk.nhs.hdn.common.parsers.json.parseModes.AbstractParseMode;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 
@@ -39,22 +38,22 @@ public abstract class AbstractStringParseMode extends AbstractParseMode
 	}
 
 	@Override
-	public void parse(@NotNull final JsonParseEventHandler jsonParseEventHandler, @NotNull final JsonReader jsonReader) throws InvalidJsonException
+	public void parse(@NotNull final JsonParseEventHandler jsonParseEventHandler, @NotNull final PeekingConvenientReader peekingConvenientReader) throws InvalidJsonException
 	{
 		// we assume we start AT the double quote
-		guardNextCharacterIsDoubleQuote(jsonReader);
+		guardNextCharacterIsDoubleQuote(peekingConvenientReader);
 
 		final ValidatingStringBuilder stringBuilder = new ValidatingStringBuilder(100);
 		final String value;
 		try
 		{
-			value = parseString(jsonReader, stringBuilder);
+			value = parseString(peekingConvenientReader, stringBuilder);
 		}
 		catch (InvalidCodePointException e)
 		{
 			throw new InvalidJsonException("string is invalid", e);
 		}
-		guardNextCharacter(jsonReader);
+		guardNextCharacter(peekingConvenientReader);
 		useStringValue(jsonParseEventHandler, value);
 	}
 
@@ -82,12 +81,12 @@ public abstract class AbstractStringParseMode extends AbstractParseMode
 		}
 	}
 
-	private static String parseString(final JsonReader jsonReader, final ValidatingStringBuilder stringBuilder) throws InvalidJsonException, InvalidCodePointException
+	private static String parseString(final PeekingConvenientReader peekingConvenientReader, final ValidatingStringBuilder stringBuilder) throws InvalidJsonException, InvalidCodePointException
 	{
 		final EscapedCharacterState escapedCharacterState = new EscapedCharacterState();
 		do
 		{
-			final char character = jsonReader.readRequiredCharacter();
+			final char character = readRequiredCharacter(peekingConvenientReader);
 			if (escapedCharacterState.isParsingEscapedCharacter)
 			{
 				parseEscapedCharacter(stringBuilder, escapedCharacterState, character);
@@ -243,9 +242,9 @@ public abstract class AbstractStringParseMode extends AbstractParseMode
 		}
 	}
 
-	private static void guardNextCharacterIsDoubleQuote(@NotNull final JsonReader jsonReader) throws InvalidJsonException
+	private static void guardNextCharacterIsDoubleQuote(@NotNull final PeekingConvenientReader peekingConvenientReader) throws InvalidJsonException
 	{
-		if (isNot(jsonReader.readRequiredCharacter(), QuotationMark))
+		if (isNot(readRequiredCharacter(peekingConvenientReader), QuotationMark))
 		{
 			throw new InvalidJsonException("string does not start with double quote");
 		}

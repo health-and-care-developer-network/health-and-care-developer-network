@@ -17,7 +17,6 @@
 package uk.nhs.hdn.common.parsers.json.parseModes.stringParseModes;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.common.parsers.json.jsonReaders.InvalidCodePointException;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 
 import static java.lang.Character.isHighSurrogate;

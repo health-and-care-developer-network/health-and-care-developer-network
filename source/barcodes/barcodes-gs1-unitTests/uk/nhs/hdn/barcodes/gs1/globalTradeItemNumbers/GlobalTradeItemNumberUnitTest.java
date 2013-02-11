@@ -17,13 +17,13 @@
 package uk.nhs.hdn.barcodes.gs1.globalTradeItemNumbers;
 
 import org.junit.Test;
-import uk.nhs.hdn.barcodes.Digit;
-import uk.nhs.hdn.barcodes.Digits;
+import uk.nhs.hdn.common.digits.Digit;
+import uk.nhs.hdn.common.digits.Digits;
 import uk.nhs.hdn.barcodes.gs1.keys.globalTradeItemNumbers.GlobalTradeItemNumber;
 
 import static org.junit.Assert.assertEquals;
-import static uk.nhs.hdn.barcodes.Digit.*;
-import static uk.nhs.hdn.barcodes.Digits.digits;
+import static uk.nhs.hdn.common.digits.Digit.*;
+import static uk.nhs.hdn.common.digits.Digits.digits;
 import static uk.nhs.hdn.barcodes.gs1.keys.globalTradeItemNumbers.GlobalTradeItemNumberFormat.*;
 
 public final class GlobalTradeItemNumberUnitTest

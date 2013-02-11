@@ -1,0 +1,23 @@
+Also known as JUG.
+
+Developing organisation also known as 'Safehaus' and as 'cowtowncoder'.
+
+Used only by the itk-testbench. I (Raph Cohn) strongly advise against the use of this legacy library in new code. Note that it has compiled dependencies on C and so will not work on old platforms, presumably to produce legacy Type 1 GUIDs.
+
+Note that itk-testbench uses version 2.0.0, licensed under Apache License 2.0 (sic), which is only available via http://jug.safehaus.org/ (now defunct).
+
+This version is legacy and can only be downloaded via jar finder (as jug.safehaus.org seems to be broken as of February 2013):-
+http://www.jarfinder.com/index.php/jars/versionInfo/1836
+The chosen mirror was:-
+http://mirrors.ibiblio.org/pub/mirrors/maven2/org/safehaus/jug/jug/2.0.0/jug-2.0.0-asl.jar
+
+Source is now on github.com:-
+https://github.com/cowtowncoder/java-uuid-generator
+It seems that 2.0 source copied from safehaus is here:-
+https://github.com/cowtowncoder/java-uuid-generator/tree/2.0
+
+This has been downloaded as a snapshot into the source folder below this README, in case the source disappears in the future and C bindings need to be rebuilt.
+
+Old web pages at:-
+http://wiki.fasterxml.com/JugHome
+http://jug.safehaus.org/

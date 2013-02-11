@@ -17,13 +17,13 @@
 package uk.nhs.hdn.barcodes.gs1.keys.globalTradeItemNumbers;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.barcodes.Digit;
+import uk.nhs.hdn.common.digits.Digit;
 
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
 
-import static uk.nhs.hdn.barcodes.Digit.*;
+import static uk.nhs.hdn.common.digits.Digit.*;
 import static uk.nhs.hdn.common.EnumeratedVariableArgumentsHelper.unmodifiableSetOf;
 
 public enum IndicatorDigitKind

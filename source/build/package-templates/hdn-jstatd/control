@@ -1,0 +1,18 @@
+Source: hdn-jstatd
+Section: java
+Priority: important
+Maintainer: Raphael Cohn <raphael.cohn@stormmq.com>
+Uploaders: Mike Kelly <mike.kelly1@nhs.net>
+Homepage: http://hdn.nhs.uk/
+Build-Depends: debhelper (>= 7), fakeroot, openjdk-7-jdk, git-core, apt-utils, gnupg, devscripts
+Standards-Version: 3.8.4.0
+
+Package: hdn-jstatd
+Architecture: all
+Depends: coreutils (>= 7.4-2ubuntu3), hdn-java-common, ${misc:Depends}
+Homepage: http://hdn.nhs.uk/
+Pre-Depends: hdn-apt
+Description: HDN jstatd wrapper
+ This package provides a wrapper around
+ jstatd, which is an useful daemon for
+ debugging java programs in production.

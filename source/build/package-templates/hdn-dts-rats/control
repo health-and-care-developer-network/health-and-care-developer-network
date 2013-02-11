@@ -1,0 +1,19 @@
+Source: hdn-dts-rats
+Section: java
+Priority: optional
+Maintainer: Raphael Cohn <raphael.cohn@stormmq.com>
+Uploaders: Mike Kelly <mike.kelly1@nhs.net>
+Homepage: http://hdn.nhs.uk/
+Build-Depends: debhelper (>= 7), fakeroot, openjdk-7-jdk, git-core, apt-utils, gnupg, devscripts
+Standards-Version: 3.8.4.0
+
+Package: hdn-dts-rats
+Architecture: all
+Depends: coreutils (>= 7.4-2ubuntu3), openjdk-7-jdk | openjdk-7-jre, ${misc:Depends}
+Recommends: hdn-java-common
+Homepage: http://hdn.nhs.uk/
+Description: GS1 DTS out client
+ This package provides the HDN Data
+ Transfer Service (DTS) RATS client
+ .
+ To run it, call /usr/bin/hdn-dts-rats .

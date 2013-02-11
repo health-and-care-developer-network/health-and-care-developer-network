@@ -17,10 +17,10 @@
 package uk.nhs.hdn.barcodes.gs1.keys.serialShippingContainerCodes;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.barcodes.Digits;
-import uk.nhs.hdn.barcodes.gs1.keys.AbstractCheckDigitNumber;
+import uk.nhs.hdn.common.digits.Digits;
+import uk.nhs.hdn.barcodes.gs1.keys.AbstractKeyFormatCheckDigitNumber;
 
-public final class SerialShippingContainerCode extends AbstractCheckDigitNumber<SerialShippingContainerCodeFormat>
+public final class SerialShippingContainerCode extends AbstractKeyFormatCheckDigitNumber<SerialShippingContainerCodeFormat>
 {
 	public SerialShippingContainerCode(@NotNull final SerialShippingContainerCodeFormat serialShippingContainerCodeFormat, @NotNull final Digits digits)
 	{

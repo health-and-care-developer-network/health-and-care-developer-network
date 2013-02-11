@@ -1,0 +1,282 @@
+readonly diversionsRoot=/var/lib/dpkg/diversions-root
+
+function autoCleanDiversionsRoot()
+{
+	# Auto-clean the diversions root (remove any empty folders (one can only divert files) and the root itself if necessary)
+	if [ -d "$diversionsRoot" ]; then
+		find $diversionsRoot -depth -type d -empty -exec rmdir {} \;
+	fi
+}
+
+function validateOriginalDirectory()
+{
+	local -r originalDirectory="$1"
+	
+	if [ ${#originalDirectory} -lt 2 ]; then
+		echo "Bug in script - originalDirectory must be at least root" 1>&2
+		exit 1
+	fi
+	
+	if [ "${originalDirectory:0:1}" != "/" ]; then
+		echo "Bug in script - originalDirectory must be absolute" 1>&2
+		exit 1
+	fi
+}
+
+function ensureDiversionsFolderExists()
+{
+	local -r diversionsFolder="$1"
+	
+	if [ ! -d "$diversionsFolder" ]; then
+		mkdir -m 0755 -p "$diversionsFolder"
+	fi
+}
+
+function divertFile()
+{
+	local -r packageName="$1"
+	local -r originalDirectory="$2"
+	local -r fileName="$3"
+	
+	if [ $# -eq 3 ]; then
+		local -r symbolicLink="y"
+	elif [ $# -eq 4 ]; then
+		case "$4" in
+			hardlink)
+				local -r symbolicLink="n"
+			;;
+			
+			symlink)
+				local -r symbolicLink="y"
+			;;
+			
+			*)
+				echo "Unknown argument 4: $4" 1>&2
+				return 0
+			;;
+		esac
+	else	
+		echo "Unknown arguments $@" 1>&2
+		return 0
+	fi
+	
+	validateOriginalDirectory "$originalDirectory"
+	
+	local -r diversionsFolder="${diversionsRoot}${originalDirectory}"
+	local -r originalFile="${originalDirectory}/$fileName"
+	local -r divertedFile="$diversionsFolder"/"$fileName"
+	
+	local -r replacementFilesRoot=/usr/share
+	local -r replacementFile="${replacementFilesRoot}"/"${packageName}"/diversions"${originalFile}"
+	
+	if [ $(dpkg-divert --list "$divertedFile" | grep --count "diversion of $originalFile to $divertedFile by $packageName$") -eq 0 ]; then
+		if [ -e "$divertedFile" ]; then
+			echo "Diverted file $divertedFile already exists AND original file $originalFile already exists, deleting diverted file..."
+			rm "$divertedFile"
+		else
+			ensureDiversionsFolderExists "$diversionsFolder"
+		fi
+		dpkg-divert --package "$packageName" --divert "$divertedFile" --rename --add "$originalFile"
+		
+		# Insert replacement
+		if [ "$symbolicLink" = "y" ]; then
+			ln --symbolic "${replacementFile}" "$originalFile"
+		else
+			ln "${replacementFile}" "$originalFile"
+		fi
+	fi
+}
+
+function revertFile()
+{
+	local -r packageName="$1"
+	local -r originalDirectory="$2"
+	local -r fileName="$3"
+	
+	validateOriginalDirectory "$originalDirectory"
+	
+	local -r diversionsFolder="${diversionsRoot}${originalDirectory}"
+	local -r originalFile="${originalDirectory}/$fileName"
+	local -r divertedFile="$diversionsFolder"/"$fileName"
+	
+	if [ -e "$divertedFile" ]; then
+		# Diverted file exists. Remove the original before diverting with --rename
+		if [ $(dpkg-divert --list "$divertedFile" | grep --count "diversion of $originalFile to $divertedFile by $packageName$") -eq 1 ]; then
+			if [ -e "$originalFile" ]; then
+				rm -f "$originalFile"
+			fi
+			dpkg-divert --package "$packageName" --divert "$divertedFile" --rename --remove "$originalFile"
+		fi
+	else
+		# Diverted file does not exist; user may have deleted divertedFile, diversionsFolder or diversionsRoot, or we did not create it: remove any diversion but don't move the file
+		if [ $(dpkg-divert --list "$divertedFile" | grep --count "diversion of $originalFile to $divertedFile by $packageName$") -eq 1 ]; then
+			dpkg-divert --package "$packageName" --divert "$divertedFile" --remove "$originalFile"
+		fi
+	fi
+	
+	autoCleanDiversionsRoot
+}
+
+function removeFileUsingDivert()
+{
+	local -r originalDirectory="$1"
+	local -r fileName="$2"
+	
+	validateOriginalDirectory "$originalDirectory"
+	
+	local -r diversionsFolder="${diversionsRoot}${originalDirectory}"
+	local -r originalFile="${originalDirectory}/$fileName"
+	local -r divertedFile="$diversionsFolder"/"$fileName"
+	
+	if [ ! -f "$originalFile" ]; then
+		return 0
+	fi
+	
+	if [ $(dpkg-divert --list "$divertedFile" | grep --count "local diversion of $originalFile to $divertedFile$") -eq 0 ]; then
+		if [ -e "$originalFile" ]; then
+			if [ -e "$divertedFile" ]; then
+				echo "Diverted file $divertedFile already exists AND original file $originalFile already exists, deleting diverted file..."
+				rm "$divertedFile"
+			else
+				ensureDiversionsFolderExists "$diversionsFolder"
+			fi
+			dpkg-divert --local --divert "$divertedFile" --rename --add "$originalFile"
+		else
+			dpkg-divert --local --divert "$divertedFile" --add "$originalFile"
+		fi
+	fi
+}
+
+function replaceFilePreviouslyRemovedByDivert()
+{
+	local -r originalDirectory="$1"
+	local -r fileName="$2"
+	
+	validateOriginalDirectory "$originalDirectory"
+
+	local -r diversionsFolder="${diversionsRoot}${originalDirectory}"
+	local -r originalFile="${originalDirectory}/$fileName"
+	local -r divertedFile="$diversionsFolder"/"$fileName"
+	
+	if [ -e "$divertedFile" ]; then
+		# Diverted file exists. Remove the original before diverting with --rename
+		if [ $(dpkg-divert --list "$divertedFile" | grep --count "local diversion of $originalFile to $divertedFile$") -eq 1 ]; then
+			if [ -e "$originalFile" ]; then
+				rm -f "$originalFile"
+			fi
+			dpkg-divert --local --divert "$divertedFile" --rename --remove /etc/hosts
+		fi
+	else
+		# Diverted file does not exist; user may have deleted divertedFile, diversionsFolder or diversionsRoot, or we did not create it: remove any diversion but don't move the file
+		if [ $(dpkg-divert --list "$divertedFile" | grep --count "local diversion of $originalFile to $divertedFile$") -eq 1 ]; then
+			dpkg-divert --local --divert "$divertedFile" --remove /etc/hosts
+		fi
+	fi
+	
+	autoCleanDiversionsRoot
+}
+
+function deconfigureUpstartJob()
+{
+	local -r upstartJob="$1"
+    initctl reload-configuration
+	
+	if [ -f /etc/init/"$upstartJob".conf ]; then
+		stopUpstartJob "$upstartJob"
+		removeFileUsingDivert /etc/init "$upstartJob".conf
+	fi
+}
+
+function reconfigureUpstartJob()
+{
+	local -r upstartJob="$1"
+    initctl reload-configuration
+	
+	replaceFilePreviouslyRemovedByDivert /etc/init "$upstartJob".conf
+	startOrRestartUpstartJob "$upstartJob"
+}
+
+function startOrRestartUpstartJob()
+{
+	local -r upstartJob="$1"
+    initctl reload-configuration
+	
+	if [ ! -e /etc/init/"$upstartJob".conf ]; then
+		echo "Upstart job $upstartJob not installed"
+		return 0
+	fi
+	
+	# Works if stopped
+	if start "$upstartJob"; then
+		return 0
+	fi
+	
+	# either could not start or already running; 'restart' DOES NOT pick up new .conf files in Lucid's version of upstart
+	if stop "$upstartJob"; then
+		start "$upstartJob" || echo "Could not start upstart job "$upstartJob" from a probably stopped state"
+	else
+		echo "Manually (re)start upstart job "$upstartJob""
+	fi
+}
+
+function stopUpstartJob()
+{
+	local -r upstartJob="$1"
+    initctl reload-configuration
+	
+	if [ ! -e /etc/init/"$upstartJob".conf ]; then
+		echo "Upstart job $upstartJob not installed"
+		return 0
+	fi
+	
+	# Ignores any errors
+	stop "$upstartJob" || :
+}
+
+function startOrRestartSystemVInitScript()
+{
+	local -r systemVInitScriptName="$1"
+
+	if [ ! -e /etc/init.d/"$systemVInitScriptName" ]; then
+		echo "SystemV init script $systemVInitScriptName not installed"
+		return 0
+	fi
+
+	# Ignores any errors
+	service "$systemVInitScriptName" --full-restart || :
+}
+
+function stopSystemVInitScript()
+{
+	local -r systemVInitScriptName="$1"
+	
+	if [ ! -e /etc/init.d/"$systemVInitScriptName" ]; then
+		echo "SystemV init script $systemVInitScriptName not installed"
+		return 0
+	fi
+	
+	# Ignores any errors
+	service "$systemVInitScriptName" stop || :
+}
+
+# Not currently used but useful, eg for ondemand, rsync, etc
+function deconfigureDaemon()
+{
+	local -r daemonName="$1"
+	
+	if [ -f /etc/init.d/"$daemonName" ]; then
+		invoke-rc.d "$daemonName" stop || echo "Could not stop $daemonName"
+		update-rc.d -f "$daemonName" remove || echo "Could not remove $daemonName"
+	fi
+	removeFileUsingDivert "/etc/init.d" "$daemonName"
+}
+
+# Not currently used but useful, eg for ondemand, rsync, etc (needs to be tested in anger)
+function reconfigureDaemon()
+{
+	local -r daemonName="$1"
+	
+	replaceFilePreviouslyRemovedByDivert "/etc/init.d" "$daemonName"
+	update-rc.d -f "$daemonName" defaults || echo "Could not add $daemonName"
+	invoke-rc.d "$daemonName" start || echo "Could not start $daemonName"
+}

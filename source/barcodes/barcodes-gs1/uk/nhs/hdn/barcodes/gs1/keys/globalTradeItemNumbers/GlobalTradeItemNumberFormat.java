@@ -19,16 +19,16 @@ package uk.nhs.hdn.barcodes.gs1.keys.globalTradeItemNumbers;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hdn.barcodes.Digit;
-import uk.nhs.hdn.barcodes.DigitList;
-import uk.nhs.hdn.barcodes.Digits;
-import uk.nhs.hdn.barcodes.gs1.checkDigits.CheckDigitCalculator;
+import uk.nhs.hdn.common.digits.Digit;
+import uk.nhs.hdn.common.digits.DigitList;
+import uk.nhs.hdn.common.digits.Digits;
+import uk.nhs.hdn.barcodes.gs1.Gs1ExtractingCheckDigitCalculator;
 import uk.nhs.hdn.barcodes.gs1.keys.KeyFormat;
 import uk.nhs.hdn.common.exceptions.ImpossibleEnumeratedStateException;
 
 import java.util.Set;
 
-import static uk.nhs.hdn.barcodes.Digit.*;
+import static uk.nhs.hdn.common.digits.Digit.*;
 import static uk.nhs.hdn.common.VariableArgumentsHelper.unmodifiableSetOf;
 
 public enum GlobalTradeItemNumberFormat implements KeyFormat
@@ -92,7 +92,7 @@ public enum GlobalTradeItemNumberFormat implements KeyFormat
 	private final String actualName;
 	private final Set<String> formerActualNames;
 	private final int oneBasedPositionTOffset;
-	private final CheckDigitCalculator checkDigitCalculator;
+	private final Gs1ExtractingCheckDigitCalculator gs1CheckDigitCalculator;
 
 	GlobalTradeItemNumberFormat(@NonNls @NotNull final String actualName, final int correctNumberOfDigits, @NonNls @NotNull final String... formerActualNames)
 	{
@@ -102,7 +102,7 @@ public enum GlobalTradeItemNumberFormat implements KeyFormat
 		oneBasedPositionTOffset = MaximumOneBasedPositionT - correctNumberOfDigits;
 
 		CompilerWorkaround.Index[correctNumberOfDigits] = this;
-		checkDigitCalculator = new CheckDigitCalculator
+		gs1CheckDigitCalculator = new Gs1ExtractingCheckDigitCalculator
 		(
 			correctNumberOfDigits
 		);
@@ -119,33 +119,33 @@ public enum GlobalTradeItemNumberFormat implements KeyFormat
 	@Override
 	public void guardCorrectNumberOfDigitsIfNoCheckDigit(@NotNull final Digits digits)
 	{
-		checkDigitCalculator.guardCorrectNumberOfDigitsIfNoCheckDigit(digits);
+		gs1CheckDigitCalculator.guardCorrectNumberOfDigitsIfNoCheckDigit(digits);
 	}
 
 	@Override
 	public void guardCorrectNumberOfDigits(@NotNull final Digits digits)
 	{
-		checkDigitCalculator.guardCorrectNumberOfDigits(digits);
+		gs1CheckDigitCalculator.guardCorrectNumberOfDigits(digits);
 	}
 
 	@Override
 	public void guardCheckDigitCorrect(@NotNull final Digits digits)
 	{
-		checkDigitCalculator.guardCheckDigitCorrect(digits);
+		gs1CheckDigitCalculator.guardCheckDigitCorrect(digits);
 	}
 
 	@Override
 	@NotNull
 	public Digit calculateCheckDigit(@NotNull final Digits digits)
 	{
-		return checkDigitCalculator.calculateCheckDigit(digits);
+		return gs1CheckDigitCalculator.calculateCheckDigit(digits);
 	}
 
 	@NotNull
 	@Override
 	public Digits addCheckDigit(@NotNull final Digits withoutCheckDigits)
 	{
-		return checkDigitCalculator.addCheckDigit(withoutCheckDigits);
+		return gs1CheckDigitCalculator.addCheckDigit(withoutCheckDigits);
 	}
 
 	@Override

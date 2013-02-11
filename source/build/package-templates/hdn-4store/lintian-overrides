@@ -1,0 +1,4 @@
+# This is a bug in lintian
+hdn-4store binary: lzma-deb-archive
+
+hdn-4store binary: executable-not-elf-or-script usr/share/hdn-4store/data/epctcur.rdf

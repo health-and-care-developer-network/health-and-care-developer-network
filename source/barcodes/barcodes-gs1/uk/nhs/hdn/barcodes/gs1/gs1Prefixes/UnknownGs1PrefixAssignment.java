@@ -18,11 +18,11 @@ package uk.nhs.hdn.barcodes.gs1.gs1Prefixes;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hdn.barcodes.Digit;
-import uk.nhs.hdn.barcodes.Digits;
+import uk.nhs.hdn.common.digits.Digit;
+import uk.nhs.hdn.common.digits.Digits;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 
-import static uk.nhs.hdn.barcodes.Digits.digits;
+import static uk.nhs.hdn.common.digits.Digits.digits;
 
 public final class UnknownGs1PrefixAssignment extends AbstractToString implements Gs1PrefixAssignment
 {

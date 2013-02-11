@@ -17,10 +17,10 @@
 package uk.nhs.hdn.barcodes.gs1.keys.globalServiceRelationNumbers;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.barcodes.Digits;
-import uk.nhs.hdn.barcodes.gs1.keys.AbstractCheckDigitNumber;
+import uk.nhs.hdn.common.digits.Digits;
+import uk.nhs.hdn.barcodes.gs1.keys.AbstractKeyFormatCheckDigitNumber;
 
-public final class GlobalServiceRelationNumber extends AbstractCheckDigitNumber<GlobalServiceRelationNumberFormat>
+public final class GlobalServiceRelationNumber extends AbstractKeyFormatCheckDigitNumber<GlobalServiceRelationNumberFormat>
 {
 	public GlobalServiceRelationNumber(@NotNull final GlobalServiceRelationNumberFormat globalServiceRelationNumberFormat, @NotNull final Digits digits)
 	{

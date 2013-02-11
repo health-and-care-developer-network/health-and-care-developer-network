@@ -16,11 +16,10 @@
 
 package uk.nhs.hdn.barcodes.gs1.keys;
 
-import uk.nhs.hdn.barcodes.gs1.checkDigits.ExtractingCheckDigit;
+import uk.nhs.hdn.common.digits.ExtractingCheckDigitCalculator;
 import uk.nhs.hdn.common.naming.ActualName;
 import uk.nhs.hdn.common.naming.FormerActualNames;
 
-public interface KeyFormat extends ActualName, FormerActualNames, ExtractingCheckDigit
+public interface KeyFormat extends ActualName, FormerActualNames, ExtractingCheckDigitCalculator
 {
-	int size();
 }
