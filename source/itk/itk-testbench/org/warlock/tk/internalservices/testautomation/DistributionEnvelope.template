@@ -1,0 +1,15 @@
+<itk:DistributionEnvelope xmlns:itk="urn:nhs-itk:ns:201005" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+	<itk:header service="__SOAP_ACTION__" trackingid="__TRACKING_ID__">
+		__ADDRESS_LIST__
+		<itk:auditIdentity>
+			<itk:id __OID__ uri="__AUDIT_IDENTITY__"/>
+		</itk:auditIdentity>
+		<itk:manifest count="1">
+			<itk:manifestItem id="#__PAYLOAD_ID__" mimetype="__MIME_TYPE__" __BASE64__ __COMPRESSED__/>
+		</itk:manifest>
+		__SENDER_ADDRESS__
+	</itk:header>
+	<itk:payloads count="1">
+		<itk:payload id="__PAYLOAD_ID__">__PAYLOAD__</itk:payload>
+	</itk:payloads>
+</itk:DistributionEnvelope>

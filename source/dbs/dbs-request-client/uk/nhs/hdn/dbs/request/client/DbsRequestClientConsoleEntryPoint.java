@@ -20,10 +20,10 @@ import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.dbs.request.Request;
-import uk.nhs.dbs.request.RequestHeader;
-import uk.nhs.dbs.request.requestBodies.CrossCheck1RequestBody;
-import uk.nhs.dbs.request.requestBodies.RequestBody;
+import uk.nhs.hdn.dbs.request.Request;
+import uk.nhs.hdn.dbs.request.RequestHeader;
+import uk.nhs.hdn.dbs.request.requestBodies.CrossCheck1RequestBody;
+import uk.nhs.hdn.dbs.request.requestBodies.RequestBody;
 import uk.nhs.hdn.common.commandLine.AbstractConsoleEntryPoint;
 import uk.nhs.hdn.common.serialisers.CouldNotEncodeDataException;
 import uk.nhs.hdn.dbs.DbsDate;
@@ -38,7 +38,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import static java.lang.System.out;
-import static uk.nhs.dbs.request.RequestHeader.MaximumFileSequenceNumber;
+import static uk.nhs.hdn.dbs.request.RequestHeader.MaximumFileSequenceNumber;
 import static uk.nhs.hdn.dbs.DbsDate.DbsDateFormat;
 import static uk.nhs.hdn.dbs.FileVersion.NoPracticeOrPatientAddressReturned;
 

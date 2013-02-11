@@ -26,8 +26,8 @@ import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static uk.nhs.hdn.common.parsers.xml.SaxParserFactoryHelper.newNamespaceAwareNonValidatingSaxParserFactory;
-import static uk.nhs.hdn.common.parsers.xml.SaxParserHelper.newSaxParser;
+import static uk.nhs.hdn.common.xml.sax.SaxParserFactoryHelper.newNamespaceAwareNonValidatingSaxParserFactory;
+import static uk.nhs.hdn.common.xml.sax.SaxParserHelper.newSaxParser;
 
 public final class ConvenientSaxParser
 {
