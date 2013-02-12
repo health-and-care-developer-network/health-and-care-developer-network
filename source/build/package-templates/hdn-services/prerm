@@ -19,6 +19,26 @@ set -e
 
 source "/usr/lib/hdn-apt/functions"
 
+function stopJetty()
+{
+	if [ ! -x /usr/sbin/invoke-rc.d ]; then
+		return
+	fi
+	if [ ! -f /etc/init.d/jetty ]; then
+		return
+	fi
+	set +e
+	invoke-rc.d jetty stop
+	set -e
+}
+
+function uninstallWebApps()
+{
+	if [ -e /var/lib/jetty/webapps/itk-samples.war ]; then
+		rm -r /var/lib/jetty/webapps/itk-samples.war
+	fi
+}
+
 function stopNginx()
 {
 	stopUpstartJob "hdn-nginx"
@@ -34,6 +54,8 @@ case "$1" in
 		fi
 		
 		stopNginx
+		stopJetty
+		uninstallWebApps
 	;;
 
 	upgrade)
@@ -41,6 +63,8 @@ case "$1" in
 		readonly newVersion="$2"
 		
 		stopNginx
+		stopJetty
+		uninstallWebApps
 	;;
 
 	# This target implies the old prerm script was run with the 'upgrade' target and failed.
@@ -56,5 +80,7 @@ case "$1" in
 		readonly version="$4"
 		
 		stopNginx
+		stopJetty
+		uninstallWebApps
 	;;
 esac

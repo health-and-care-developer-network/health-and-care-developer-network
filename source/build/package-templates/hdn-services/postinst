@@ -19,6 +19,23 @@ set -e
 
 source "/usr/lib/hdn-apt/functions"
 
+function installWebApps()
+{
+	if [ -e /var/lib/jetty/webapps/itk-samples.war ]; then
+		rm -r /var/lib/jetty/webapps/itk-samples.war
+	fi
+	
+	cp /srv/hdn-nginx/hdn-services/content/content/itk/itk-samples/downloads/itk-samples*.war /var/lib/jetty/webapps/itk-samples.war
+	chown --preserve-root --recursive jetty:adm /var/lib/jetty/webapps/itk-samples.war
+}
+
+function startOrRestartJetty()
+{
+	set +e
+	invoke-rc.d jetty restart
+	set -e
+}
+
 function startOrRestartNginx()
 {
 	startOrRestartUpstartJob "hdn-nginx"
@@ -29,6 +46,8 @@ case "$1" in
 		readonly postinst_Instance="any"
 		readonly mostRecentlyConfiguredVersion="$2"
 		
+		installWebApps
+		startOrRestartJetty
 		startOrRestartNginx
 	;;
 
