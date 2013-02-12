@@ -1,3 +1,7 @@
-# Allow outbound HTTP connection so Azure apt's sources work (note that this is very insecure)
---append OUTPUT ! --out-interface lo --source ${HDN_FIREWALL_hostname} --protocol tcp --destination-port 80 --match state --state NEW --jump LOG --log-prefix "iptables_HttpOut" --log-level info --log-ip-options --log-tcp-options --log-uid
---append OUTPUT ! --out-interface lo --source ${HDN_FIREWALL_hostname} --protocol tcp --destination-port 80 --match state --state NEW --jump ACCEPT
+# Allow outbound DNS (UDP)
+--append OUTPUT ! --out-interface lo --source ${STORMMQ_FIREWALL_hostname} --protocol udp --destination-port 53 --match state --state NEW --jump LOG --log-prefix "iptables_Dns " --log-level info --log-ip-options --log-tcp-options --log-uid
+--append OUTPUT ! --out-interface lo --source ${STORMMQ_FIREWALL_hostname} --protocol udp --destination-port 53 --match state --state NEW --jump ACCEPT
+
+# Allow outbound DNS (TCP)
+--append OUTPUT ! --out-interface lo --source ${STORMMQ_FIREWALL_hostname} --protocol tcp --destination-port 53 --match state --state NEW --jump LOG --log-prefix "iptables_Dns " --log-level info --log-ip-options --log-tcp-options --log-uid
+--append OUTPUT ! --out-interface lo --source ${STORMMQ_FIREWALL_hostname}  --protocol tcp --destination-port 53 --match state --state NEW --jump ACCEPT
