@@ -37,6 +37,8 @@ function uninstallWebApps()
 	if [ -e /var/lib/jetty/webapps/itk-samples.war ]; then
 		rm -r /var/lib/jetty/webapps/itk-samples.war
 	fi
+	
+	revertFile "hdn-services" "/etc" "hosts"
 }
 
 function stopNginx()

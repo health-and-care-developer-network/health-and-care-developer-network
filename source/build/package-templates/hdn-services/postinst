@@ -21,6 +21,8 @@ source "/usr/lib/hdn-apt/functions"
 
 function installWebApps()
 {
+	divertFile "hdn-services" "/etc" "hosts"
+
 	if [ -e /var/lib/jetty/webapps/itk-samples.war ]; then
 		rm -r /var/lib/jetty/webapps/itk-samples.war
 	fi
