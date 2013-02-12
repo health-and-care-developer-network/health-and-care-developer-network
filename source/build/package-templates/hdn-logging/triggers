@@ -1,0 +1,3 @@
+# rsyslog config has changed
+interest /etc/rsyslog.d
+interest /etc/rsyslog.conf

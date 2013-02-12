@@ -1,0 +1,104 @@
+#!/bin/bash -
+set -e
+
+source "/usr/lib/stormmq-apt/functions"
+
+function divertFiles()
+{
+	removeFileUsingDivert "/etc/rsyslog.d" "50-default.conf"
+	divertFile "hdn-logging" "/etc" "rsyslog.conf"
+	divertFile "hdn-logging" "/etc/default" "rsyslog"
+	
+	divertFile "hdn-logging" "/etc/default" "bootlogd"
+	divertFile "hdn-logging" "/etc/default" "rcS"
+	
+	divertFile "hdn-logging" "/etc" "logrotate.conf"
+	divertFile "hdn-logging" "/etc/logrotate.d" "rsyslog"
+}
+
+function startOrRestartUpstartJobRsyslog()
+{
+	startOrRestartUpstartJob "rsyslog"
+}
+
+# Some triggers are coalesced; order of triggers matters (ipsets must exist before hand)
+function processTriggers()
+{
+	local -i restartRsyslog=0
+	# Not quoted as iterableTriggers is a space-separated list
+	for triggerName in $iterableTriggers
+	do
+		case "$triggerName" in
+			
+			"/etc/rsyslog.d")
+				restartRsyslog=1
+			;;
+
+			"/etc/rsyslog.conf")
+				restartRsyslog=1
+			;;
+			
+			*)
+				echo "Trigger $triggerName not known" 1>&2
+			;;
+			
+		esac
+	done
+
+	if [ $restartRsyslog -eq 1 ]; then
+		startOrRestartUpstartJobRsyslog
+	fi
+}
+
+case "$1" in
+	configure)
+		readonly postinst_Instance="any"
+		readonly mostRecentlyConfiguredVersion="$2"
+		
+		divertFiles
+		processTriggers "/etc/rsyslog.d /etc/rsyslog.conf"
+	;;
+
+	triggered)
+		if [ $# -ne 2 ]; then
+			echo "Syntax not understood" 1>&2
+			exit 1
+		fi
+
+		processTriggers "$2"
+	;;
+
+	abort-upgrade)
+		readonly postinst_Instance="old"
+		readonly newVersion="$2"
+		
+		:
+	;;
+
+	abort-remove)
+		if [ $# -gt 0 ]; then
+			if [ "$2" = "in-favour" ]; then
+				readonly postinst_Instance="conflictors"
+				readonly package="$3"
+				readonly newVersion="$4"
+			fi
+		else
+			readonly postinst_Instance="any"
+		fi
+		
+		:
+	;;
+
+	abort-deconfigure)
+		if [ $# -gt 0 ]; then
+			if [ "$2" = "in-favour" ]; then
+				readonly postinst_Instance="deconfigureds"
+				readonly failedInstallPackage="$3"
+				readonly version="$4"
+			fi
+		fi
+		# [removing conflicting-package version]
+		
+		:
+	;;
+esac
