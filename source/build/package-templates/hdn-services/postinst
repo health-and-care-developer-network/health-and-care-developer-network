@@ -25,8 +25,8 @@ function installWebApps()
 		rm -r /var/lib/jetty/webapps/itk-samples.war
 	fi
 	
-	cp /srv/hdn-nginx/hdn-services/content/content/itk/itk-samples/downloads/itk-samples*.war /var/lib/jetty/webapps/itk-samples.war
-	chown --preserve-root --recursive jetty:adm /var/lib/jetty/webapps/itk-samples.war
+	cp /srv/hdn-nginx/hdn-services/content/itk/itk-samples/downloads/itk-samples*.war /var/lib/jetty/webapps/itk-samples.war
+	chown --preserve-root jetty:adm /var/lib/jetty/webapps/itk-samples.war
 }
 
 function startOrRestartJetty()
