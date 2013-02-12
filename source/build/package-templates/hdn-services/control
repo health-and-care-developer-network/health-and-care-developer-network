@@ -9,8 +9,8 @@ Standards-Version: 3.8.4.0
 
 Package: hdn-services
 Architecture: all
-Depends: hdn-4store, hdn-elda, hdn-gs1-server, hdn-nginx, hdn-smtp, ${misc:Depends}, ${shlibs:Depends}
-Pre-Depends: hdn-apt, hdn-ssh-server
+Depends: hdn-4store, hdn-elda, hdn-gs1-server, hdn-nginx, hdn-firewall, hdn-smtp, ${misc:Depends}, ${shlibs:Depends}
+Pre-Depends: hdn-apt
 Homepage: http://hdn.nhs.uk/
 Description: HDN SPARQL Server
  This package provides HDN's reverse proxy.
