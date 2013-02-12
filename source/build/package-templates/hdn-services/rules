@@ -26,6 +26,9 @@ binary-indep: build install
 
 	# Copy the packages's files.
 	
+	# Compress static content
+	find debian/$(PACKAGE)/srv/hdn-nginx/hdn-services/content/ -type f -print0 | xargs -0 -n1 debian/build/gzip-keep
+	
 	dh_installdocs
 	dh_installexamples
 	dh_installman

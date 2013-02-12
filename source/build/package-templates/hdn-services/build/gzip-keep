@@ -1,0 +1,54 @@
+#!/bin/bash -
+set -e
+
+readonly ourName="$(basename "$0")"
+
+cd "$(dirname "$0")" 1>/dev/null
+readonly crudeOurPath="$(pwd)"
+cd - 1>/dev/null
+
+function exitHelp()
+{
+	cat 1>&2 <<-EOF
+		Usage: $ourName -h
+		Usage: $ourName --help
+		Usage: $ourName filePathToGzip
+	EOF
+	exit $1
+}
+
+function exitError()
+{
+	local -r error="$1"
+	echo "$ourName: $error" 1>&2
+	exitHelp 1
+}
+
+function parseCommandLine()
+{
+	if [ $# -eq 1 ]; then
+		if [ "$1" = "--help" ]; then
+			exitHelp 2
+		elif  [ "$1" = "-h" ]; then
+			exitHelp 2
+		else
+			readonly filePathToGzip="$1"
+		fi
+	else
+		exitError "Invalid options"
+	fi
+}
+
+function gzipAndKeepFile()
+{
+	gzip -9 -c "$filePathToGzip" >"$filePathToGzip".gz
+	touch -r "$filePathToGzip" "$filePathToGzip".gz
+}
+
+function main()
+{
+	parseCommandLine "$@"
+	gzipAndKeepFile
+}
+
+main "$@"
