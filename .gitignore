@@ -13,3 +13,9 @@ release/
 # GNU Privacy Guard (GPG)
 *.gpg
 *.gpg~
+
+# Temporary suppression of ITK outputs
+source/build/package-templates/hdn-services/hdn-services/srv/hdn-nginx/hdn-services/itk/itk-api/
+source/build/package-templates/hdn-services/hdn-services/srv/hdn-nginx/hdn-services/itk/itk-ri/
+source/build/package-templates/hdn-services/hdn-services/srv/hdn-nginx/hdn-services/itk/itk-samples/
+source/build/package-templates/hdn-services/hdn-services/srv/hdn-nginx/hdn-services/itk/staging/
