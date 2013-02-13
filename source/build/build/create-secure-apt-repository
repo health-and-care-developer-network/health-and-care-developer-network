@@ -35,6 +35,18 @@ function exitError()
 	exitHelp 1
 }
 
+function setKeyringFolderPermissionsAsGitDoesNotRecordThese()
+{
+	chown "$UID" "$keyringPath"
+	chmod 700 "$keyringPath"
+}
+
+function gpgWrapped()
+{
+	setKeyringFolderPermissionsAsGitDoesNotRecordThese
+	gpg --verbose --no-greeting --no-permission-warning --no-random-seed-file --homedir "$keyringPath" "$@"
+}
+
 function setPaths()
 {
 	readonly sourcePath="$crudeOurPath"/../..
@@ -47,7 +59,7 @@ function setPaths()
 	
 	readonly packagesPath="$releasePath"/packages
 	
-	readonly secureAptRepositoryPath="$release"/secure-apt-repositories/"$repositoryName"
+	readonly secureAptRepositoryPath="$releasePath"/secure-apt-repositories/"$repositoryName"
 	
 	# symlink to /srv/apt-ftparchive/"$repositoryName"
 	readonly archiveDirPath="$secureAptRepositoryPath"/archive
@@ -57,8 +69,13 @@ function setPaths()
 	
 	readonly configurationFilePath="$secureAptRepositoryPath"/apt-ftparchive.config
 	
-	readonly distsCodeNamePath="$archiveDirPath"/dists/"$codeName"
 	readonly distributionPath="$archiveDirPath"/"$codeName"
+	readonly distsCodeNamePath="$archiveDirPath"/dists/"$codeName"
+	
+	# Used by gpg
+	readonly packageTemplatesPath="$sourcePath"/build/package-templates
+	readonly keyringsPath="$packageTemplatesPath"/hdn-keyring-private/hdn-keyring-private/etc/hdn-keyring-private
+	readonly keyringPath="$keyringsPath"/"$keyring"
 }
 
 function makePaths()
@@ -67,8 +84,13 @@ function makePaths()
 	mkdir -p "$cacheDirPath"
 	for sectionName in $sectionNames
 	do
-		mkdir -p "$distsCodeNamePath"/"$sectionName"
 		mkdir -p "$distributionPath"/"$sectionName"
+		
+		mkdir -p "$distsCodeNamePath"/"$sectionName"/source
+		for architectureName in $architectureNames
+		do
+			mkdir -p "$distsCodeNamePath"/"$sectionName"/binary-"$architectureName"
+		done
 	done
 }
 
@@ -80,7 +102,12 @@ function installPackages()
 
 function createAptFtparchiveConfiguration()
 {
-	cat >"$configurationFilePath" <<-EOF
+	# Done to prevent bash interpreting as variable substitution these apt-ftparchive variables
+	local -r SECTION='$(SECTION)'
+	local -r DIST='$(DIST)'
+	local -r ARCH='$(ARCH)'
+	
+	cat <<-EOF >"$configurationFilePath"
 		APT::FTPArchive::Release::Origin "HDN";
 		APT::FTPArchive::Release::Label "HDN";
 		APT::FTPArchive::Release::Suite "${codeName}";
@@ -88,7 +115,7 @@ function createAptFtparchiveConfiguration()
 		APT::FTPArchive::Release::Codename "${codeName}";
 		#APT::FTPArchive::Release::Date "Wed, 25 Apr 2012 22:49:23 UTC";
 		#APT::FTPArchive::Release::Valid-Until "Wed, 25 Apr 2012 22:49:23 UTC";
-		APT::FTPArchive::Release::Architectures "amd64 armel armhf i386 powerpc all";
+		APT::FTPArchive::Release::Architectures "${architectureNames} all";
 		APT::FTPArchive::Release::Components "main restricted universe multiverse";
 		APT::FTPArchive::Release::Description "Healthcare Developer Network Packages suitable for deployment on Ubuntu Precise 12.04 LTS";
 	
@@ -114,38 +141,37 @@ function createAptFtparchiveConfiguration()
 		TreeDefault {
 		   #MaxContentsChange
 		   #ContentsAge "10";
-		   Directory "${codeName}/$(SECTION)";
-		   SrcDirectory "${codeName}/$(SECTION)";
-		   Packages "$(DIST)/$(SECTION)/binary-$(ARCH)/Packages";
-		   Sources "$(DIST)/$(SECTION)/source/Sources";
-		   Translation "$(DIST)/$(SECTION)/i18n/Translation-en";
-		   InternalPrefix "$(DIST)/$(SECTION)/";
-		   Contents "$(DIST)/Contents-$(ARCH)";
+		   Directory "${codeName}/${SECTION}";
+		   SrcDirectory "${codeName}/${SECTION}";
+		   Packages "${DIST}/${SECTION}/binary-${ARCH}/Packages";
+		   Sources "${DIST}/${SECTION}/source/Sources";
+		   Translation "${DIST}/${SECTION}/i18n/Translation-en";
+		   InternalPrefix "${DIST}/${SECTION}/";
+		   Contents "${DIST}/Contents-${ARCH}";
 		   #Contents::Header "";
-		   BinCacheDB "packages-$(SECTION)-$(ARCH).db";
+		   BinCacheDB "packages-${SECTION}-${ARCH}.db";
 		   #FileList "list of files";
 		   #SourceFileList "list of files";
 		};
 
 		Tree "dists/${codeName}" {
 		    Sections "${sectionNames}";
-		    Architectures "amd64 armel armhf i386 powerpc source";
+		    Architectures "${architectureNames} source";
 		    #LongDescription
 		    #BinOverride
 		    #SrcOverride
 		    #ExtraOverride
 		    #SrcExtraOverride
 		}
-	
 	EOF
 }
 
 function generateArchive()
 {
-	apt-ftparchive generate "$configurationFilePath"
+	apt-ftparchive -q=2 generate "$configurationFilePath"
 	
 	cd "$distsCodeNamePath" >/dev/null
-	apt-ftparchive -c "$configurationFilePath" release
+	apt-ftparchive -q=2 -c "$configurationFilePath" release . >Release
 	cd - >/dev/null
 }
 
@@ -155,14 +181,16 @@ function signArchive()
 	if [ -f Release.gpg ]; then
 		rm Release.gpg
 	fi
-	gpg -v --output Release.gpg -ba Release
+	gpgWrapped --output Release.gpg -ba Release
 	cd - >/dev/null
 }
 
 function exportPublicKey()
 {
+	gpgWrapped --list-keys
+	gpgWrapped --export
+	# gpgWrapped --export B1850655 | sudo -p "Password to install signing key" apt-key add -
 	:
-	# gpg --recv-keys B1850655 && gpg --export B1850655 | apt-key add -
 }
 
 function parseCommandLine()
@@ -176,6 +204,8 @@ function parseCommandLine()
 			readonly repositoryName="$1"
 			readonly codeName="precise"
 			readonly sectionNames="main restricted universe multiverse"
+			readonly architectureNames="amd64 armel armhf i386 powerpc"
+			readonly keyring="hdn"
 		fi
 	else
 		exitError "Invalid options"

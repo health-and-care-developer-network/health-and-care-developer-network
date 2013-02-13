@@ -64,9 +64,14 @@ function setKeyringFolderPermissionsAsGitDoesNotRecordThese()
 	chmod 700 "$keyringPath"
 }
 
+function gpgWrapped()
+{
+	gpg --quiet --no-greeting --no-permission-warning --no-random-seed-file --homedir "$keyringPath" "$@"
+}
+
 function checkKeyDoesNotAlreadyExist()
 {
-	if gpg --quiet --no-greeting --no-permission-warning --no-random-seed-file --homedir "$keyringPath" --list-keys | grep 'uid' | grep -q -m 1 "$keyUser <$keyEmail>"; then
+	if gpgWrapped --list-keys | grep 'uid' | grep -q -m 1 "$keyUser <$keyEmail>"; then
 		echo "Key already exists for $keyUser <$keyEmail>"
 		exit 0
 	fi
@@ -98,29 +103,37 @@ function setKeyringFilePermissionsAsGitDoesNotRecordThese()
 	chmod 600 "$keyringPath"/*
 }
 
-if [ $# -eq 1 ]; then
-	if [ "$1" = "--help" ]; then
-		exitHelp 2
-	elif  [ "$1" = "-h" ]; then
-		exitHelp 2
+function parseCommandLine()
+{
+	if [ $# -eq 1 ]; then
+		if [ "$1" = "--help" ]; then
+			exitHelp 2
+		elif  [ "$1" = "-h" ]; then
+			exitHelp 2
+		else
+			exitHelp 1
+		fi
+	elif [ $# -eq 3 ]; then
+		readonly keyring="$1"
+		readonly keyUser="$2"
+		readonly keyEmail="$3"
 	else
-		exitHelp 1
+		exitError "Invalid options"
 	fi
-elif [ $# -eq 3 ]; then
-	readonly keyring="$1"
-	readonly keyUser="$2"
-	readonly keyEmail="$3"
-else
-	exitError "Invalid options"
-fi
+}
 
-setEmail
-setPaths
-verifyPaths
-setKeyringFolderPermissionsAsGitDoesNotRecordThese
-checkKeyDoesNotAlreadyExist
-generateTemporaryBatchFile
-createPrivateKey
-deleteTemporaryBatchFile
-setKeyringFilePermissionsAsGitDoesNotRecordThese
+function main()
+{
+	parseCommandLine "$@"
+	setEmail
+	setPaths
+	verifyPaths
+	setKeyringFolderPermissionsAsGitDoesNotRecordThese
+	checkKeyDoesNotAlreadyExist
+	generateTemporaryBatchFile
+	createPrivateKey
+	deleteTemporaryBatchFile
+	setKeyringFilePermissionsAsGitDoesNotRecordThese
+}
 
+main "$@"
