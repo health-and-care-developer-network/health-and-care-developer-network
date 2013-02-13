@@ -1,0 +1,198 @@
+#!/bin/bash -
+
+# © Crown Copyright 2013
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+set -e
+
+readonly ourName="$(basename "$0")"
+
+cd "$(dirname "$0")" 1>/dev/null
+readonly crudeOurPath="$(pwd)"
+cd - 1>/dev/null
+
+function exitHelp()
+{
+	echo "Usage: $ourName [--help]" 1>&2
+	exit $1
+}
+
+function exitError()
+{
+	local -r error="$1"
+	echo "$ourName: $error" 1>&2
+	exitHelp 1
+}
+
+function setPaths()
+{
+	readonly sourcePath="$crudeOurPath"/../..
+	
+	cd "$sourcePath"/.. >/dev/null
+	readonly rootPath="$(pwd)"
+	cd - >/dev/null
+	
+	readonly releasePath="$rootPath"/release
+	
+	readonly packagesPath="$releasePath"/packages
+	
+	readonly secureAptRepositoryPath="$release"/secure-apt-repositories/"$repositoryName"
+	
+	# symlink to /srv/apt-ftparchive/"$repositoryName"
+	readonly archiveDirPath="$secureAptRepositoryPath"/archive
+	
+	# symlink to /var/cache/apt-ftparchive/"$repositoryName"
+	readonly cacheDirPath="$secureAptRepositoryPath"/cache
+	
+	readonly configurationFilePath="$secureAptRepositoryPath"/apt-ftparchive.config
+	
+	readonly distsCodeNamePath="$archiveDirPath"/dists/"$codeName"
+	readonly distributionPath="$archiveDirPath"/"$codeName"
+}
+
+function makePaths()
+{
+	mkdir -p "$archiveDirPath"
+	mkdir -p "$cacheDirPath"
+	for sectionName in $sectionNames
+	do
+		mkdir -p "$distsCodeNamePath"/"$sectionName"
+		mkdir -p "$distributionPath"/"$sectionName"
+	done
+}
+
+function installPackages()
+{
+	readonly destinationPackagesPath="$distributionPath"/main
+	rsync -a --link-dest="$packagesPath" --include='*/' --include='*.deb' --exclude='*' "$packagesPath"/ "$destinationPackagesPath"/
+}
+
+function createAptFtparchiveConfiguration()
+{
+	cat >"$configurationFilePath" <<-EOF
+		APT::FTPArchive::Release::Origin "HDN";
+		APT::FTPArchive::Release::Label "HDN";
+		APT::FTPArchive::Release::Suite "${codeName}";
+		#APT::FTPArchive::Release::Version "12.04";
+		APT::FTPArchive::Release::Codename "${codeName}";
+		#APT::FTPArchive::Release::Date "Wed, 25 Apr 2012 22:49:23 UTC";
+		#APT::FTPArchive::Release::Valid-Until "Wed, 25 Apr 2012 22:49:23 UTC";
+		APT::FTPArchive::Release::Architectures "amd64 armel armhf i386 powerpc all";
+		APT::FTPArchive::Release::Components "main restricted universe multiverse";
+		APT::FTPArchive::Release::Description "Healthcare Developer Network Packages suitable for deployment on Ubuntu Precise 12.04 LTS";
+	
+		# Folders must exist
+		Dir {
+		   ArchiveDir "${archiveDirPath}";
+		   #OverrideDir
+		   CacheDir "${cacheDirPath}";
+		   #FileListDir
+		};
+
+		Default {
+		   Packages::Compress ". gzip bzip2 lzma";
+		   Packages::Extensions ".deb";
+		   Sources::Compress ". gzip bzip2 lzma";
+		   Sources::Extensions ".dsc";
+		   Contents::Compress ". gzip bzip2 lzma";
+		   Translation::Compress ". gzip bzip2 lzma";
+		   FileMode "0644";
+		   LongDescription "true";
+		};
+
+		TreeDefault {
+		   #MaxContentsChange
+		   #ContentsAge "10";
+		   Directory "${codeName}/$(SECTION)";
+		   SrcDirectory "${codeName}/$(SECTION)";
+		   Packages "$(DIST)/$(SECTION)/binary-$(ARCH)/Packages";
+		   Sources "$(DIST)/$(SECTION)/source/Sources";
+		   Translation "$(DIST)/$(SECTION)/i18n/Translation-en";
+		   InternalPrefix "$(DIST)/$(SECTION)/";
+		   Contents "$(DIST)/Contents-$(ARCH)";
+		   #Contents::Header "";
+		   BinCacheDB "packages-$(SECTION)-$(ARCH).db";
+		   #FileList "list of files";
+		   #SourceFileList "list of files";
+		};
+
+		Tree "dists/${codeName}" {
+		    Sections "${sectionNames}";
+		    Architectures "amd64 armel armhf i386 powerpc source";
+		    #LongDescription
+		    #BinOverride
+		    #SrcOverride
+		    #ExtraOverride
+		    #SrcExtraOverride
+		}
+	
+	EOF
+}
+
+function generateArchive()
+{
+	apt-ftparchive generate "$configurationFilePath"
+	
+	cd "$distsCodeNamePath" >/dev/null
+	apt-ftparchive -c "$configurationFilePath" release
+	cd - >/dev/null
+}
+
+function signArchive()
+{
+	cd "$distsCodeNamePath" >/dev/null
+	if [ -f Release.gpg ]; then
+		rm Release.gpg
+	fi
+	gpg -v --output Release.gpg -ba Release
+	cd - >/dev/null
+}
+
+function exportPublicKey()
+{
+	:
+	# gpg --recv-keys B1850655 && gpg --export B1850655 | apt-key add -
+}
+
+function parseCommandLine()
+{
+	if [ $# -eq 1 ]; then
+		if [ "$1" = "--help" ]; then
+			exitHelp 2
+		elif  [ "$1" = "-h" ]; then
+			exitHelp 2
+		else
+			readonly repositoryName="$1"
+			readonly codeName="precise"
+			readonly sectionNames="main restricted universe multiverse"
+		fi
+	else
+		exitError "Invalid options"
+	fi
+}
+
+function main()
+{
+	parseCommandLine "$@"
+	setPaths
+	makePaths
+	installPackages
+	createAptFtparchiveConfiguration
+	generateArchive
+	signArchive
+	exportPublicKey
+	# generate apt sources.list
+}
+
+main "$@"
