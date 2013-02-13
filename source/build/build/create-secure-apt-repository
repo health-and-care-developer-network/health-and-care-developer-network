@@ -219,9 +219,17 @@ function exportPublicKey()
 	gpgWrapped --list-keys
 	gpgWrapped --export --armor >"$repositoryKey"
 	# gpgWrapped --export B1850655 | sudo -p "Password to install signing key" apt-key add -
-	:
 	
-	# Write a script that installs this key and apt sources...
+	# Done to prevent bash interpreting as variable substitution these variables
+	local -r BASENAME='"$(basename "$0")"'
+	local -r DIRNAME='"$(dirname "$0")"'
+	local -r PWD='"$(pwd)"'
+	local -r OURNAME='$ourName'
+	local -r ERROR='$error'
+	local -r NUMBER='$#'
+	local -r NUMBER1='"$1"'
+	local -r ALL='"$@"'
+	
 	cat <<-EOF >"$installFilePath"
 		#!/bin/bash -
 		
@@ -241,33 +249,33 @@ function exportPublicKey()
 		
 		set -e
 		
-		readonly ourName="$(basename "$0")"
+		readonly ourName=${BASENAME}
 		
-		cd "$(dirname "$0")" 1>/dev/null
-		readonly crudeOurPath="$(pwd)"
+		cd ${DIRNAME} 1>/dev/null
+		readonly crudeOurPath=${PWD}
 		cd - 1>/dev/null
 		
 		function exitHelp()
 		{
-			echo "Usage: $ourName [--help]" 1>&2
+			echo "Usage: ${OURNAME} [--help]" 1>&2
 			exit $1
 		}
 		
 		function exitError()
 		{
 			local -r error="$1"
-			echo "$ourName: $error" 1>&2
+			echo "${OURNAME}: ${ERROR}" 1>&2
 			exitHelp 1
 		}
 		
 		function parseCommandLine()
 		{
-			if [ $# -eq 0 ]; then
+			if [ ${NUMBER} -eq 0 ]; then
 				:
-			elif [ $# -eq 1 ]; then
-				if [ "$1" = "--help" ]; then
+			elif [ ${NUMBER} -eq 1 ]; then
+				if [ "${NUMBER1}" = "--help" ]; then
 					exitHelp 2
-				elif  [ "$1" = "-h" ]; then
+				elif  [ "${NUMBER1}" = "-h" ]; then
 					exitHelp 2
 				else
 					exitError "Invalid options"
@@ -294,12 +302,12 @@ function exportPublicKey()
 		
 		function main()
 		{
-			parseCommandLine "$@"
+			parseCommandLine ${ALL}
 			importKey
 			createSourcesListFragment
 		}
 		
-		main "$@"
+		main ${ALL}
 	EOF
 	
 	chmod +x "$installFilePath"
