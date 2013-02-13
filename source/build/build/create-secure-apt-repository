@@ -57,7 +57,7 @@ function setPaths()
 	
 	readonly releasePath="$rootPath"/release
 	
-	readonly packagesPath="$releasePath"/packages
+	readonly packagesPath="$releasePath"/"$packagesFolderName"
 	
 	readonly secureAptRepositoryPath="$releasePath"/secure-apt-repositories/"$repositoryName"
 	
@@ -185,6 +185,33 @@ function signArchive()
 	cd - >/dev/null
 }
 
+function generateSourceListSnippets()
+{
+	local -r fileFilePath="$archiveDirPath"/hdn.secure.file.sources.list
+	cat <<-EOF >"$fileFilePath"
+		# To use this sources.list do:-
+		# sudo ln -s $localFilePath /etc/apt/sources.list.d/00hdn.secure.file.sources.list
+		deb file:///${archiveDirPath}/ ${codeName} ${sectionNames}
+		deb-src file:///${archiveDirPath}/ ${codeName} ${sectionNames}
+	EOF
+	
+	local -r httpFilePath="$archiveDirPath"/hdn.secure.http.sources.list
+	cat <<-EOF >"$httpFilePath"
+		# To use this sources.list do:-
+		# sudo ln -s $httpFilePath /etc/apt/sources.list.d/00hdn.secure.http.sources.list
+		deb http://$(hostname).cloudapp.net/archives/${repositoryName}/ ${codeName} ${sectionNames}
+		deb-src http://$(hostname).cloudapp.net/archives/${repositoryName}/ ${codeName} ${sectionNames}
+	EOF
+
+	local -r httpsFilePath="$archiveDirPath"/hdn.secure.https.sources.list
+	cat <<-EOF >"$httpsFilePath"
+		# To use this sources.list do:-
+		# sudo ln -s $httpsFilePath /etc/apt/sources.list.d/00hdn.secure.https.sources.list
+		deb https://$(hostname).cloudapp.net/archives/${repositoryName}/ ${codeName} ${sectionNames}
+		deb-src https://$(hostname).cloudapp.net/archives/${repositoryName}/ ${codeName} ${sectionNames}
+	EOF
+}
+
 function exportPublicKey()
 {
 	gpgWrapped --list-keys
@@ -201,12 +228,15 @@ function parseCommandLine()
 		elif  [ "$1" = "-h" ]; then
 			exitHelp 2
 		else
-			readonly repositoryName="$1"
-			readonly codeName="precise"
-			readonly sectionNames="main restricted universe multiverse"
-			readonly architectureNames="amd64 armel armhf i386 powerpc"
-			readonly keyring="hdn"
+			exitError "Invalid options"
 		fi
+	elif [ $# -eq 2 ]; then
+		readonly packagesFolderName="$1"
+		readonly repositoryName="$2"
+		readonly codeName="precise"
+		readonly sectionNames="main restricted universe multiverse"
+		readonly architectureNames="amd64 armel armhf i386 powerpc"
+		readonly keyring="hdn"
 	else
 		exitError "Invalid options"
 	fi
@@ -222,7 +252,7 @@ function main()
 	generateArchive
 	signArchive
 	exportPublicKey
-	# generate apt sources.list
+	generateSourceListSnippets
 }
 
 main "$@"
