@@ -215,7 +215,7 @@ function generateSourceListSnippets()
 function exportPublicKey()
 {
 	gpgWrapped --list-keys
-	gpgWrapped --export
+	gpgWrapped --export --armor >"$archiveDirPath"/"$codeName".key
 	# gpgWrapped --export B1850655 | sudo -p "Password to install signing key" apt-key add -
 	:
 }
