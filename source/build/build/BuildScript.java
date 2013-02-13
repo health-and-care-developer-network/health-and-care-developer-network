@@ -159,7 +159,7 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 		task("packages").dependsOn(debianPackagesPackageTasks).does
 		(
 			execute(source("build", "build").file("create-insecure-apt-repository")).inWorkingDirectory(output()).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArguments("packages"),
-			execute(source("build", "build").file("create-secure-apt-repository")).inWorkingDirectory(output()).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArguments("packages", "hdn"),
+			execute(source("build", "build").file("create-secure-apt-repository")).inWorkingDirectory(output()).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArguments("packages", "hdn")
 		);
 	}
 
