@@ -1,7 +1,7 @@
 # This is a bug in lintian
 hdn-elda binary: lzma-deb-archive
 
-hdn-elda binary: extra-license-file usr/share/doc/hdn-elda/LICENSES/elda-LICENCE
+hdn-elda binary: extra-license-file usr/share/doc-base/ELDA-License
 hdn-elda binary: embedded-javascript-library usr/share/hdn-elda/webapps/elda/lda-assets/scripts/jquery.min.js
 hdn-elda binary: codeless-jar usr/share/hdn-elda/webapps/elda/WEB-INF/lib/json-rdf-1.2.16-sources.jar
 hdn-elda binary: codeless-jar usr/share/hdn-elda/webapps/elda/WEB-INF/lib/lda-1.2.16-sources.jar
