@@ -193,8 +193,8 @@ function generateSourceListSnippets()
 	cat <<-EOF >"$fileFilePath"
 		# To use this sources.list do:-
 		# sudo ln -s $localFilePath /etc/apt/sources.list.d/00hdn.secure.file.sources.list
-		deb file:///${archiveDirPath}/ ${codeName} ${sectionNames}
-		deb-src file:///${archiveDirPath}/ ${codeName} ${sectionNames}
+		deb file:${archiveDirPath}/ ${codeName} ${sectionNames}
+		deb-src file:${archiveDirPath}/ ${codeName} ${sectionNames}
 	EOF
 	
 	local -r httpFilePath="$archiveDirPath"/hdn.secure.http.sources.list
@@ -229,6 +229,7 @@ function exportPublicKey()
 	local -r NUMBER='$#'
 	local -r NUMBER1='"$1"'
 	local -r ALL='"$@"'
+	local -r SOURCE_OF_PACKAGES='"$sourceOfPackages"'
 	
 	cat <<-EOF >"$installFilePath"
 		#!/bin/bash -
@@ -257,7 +258,7 @@ function exportPublicKey()
 		
 		function exitHelp()
 		{
-			echo "Usage: ${OURNAME} [--help]" 1>&2
+			echo "Usage: ${OURNAME} [--help] [source of packages: http|https|file] (defaults to http)" 1>&2
 			exit $1
 		}
 		
@@ -271,14 +272,14 @@ function exportPublicKey()
 		function parseCommandLine()
 		{
 			if [ ${NUMBER} -eq 0 ]; then
-				:
+				readonly sourceOfPackages=http
 			elif [ ${NUMBER} -eq 1 ]; then
 				if [ "${NUMBER1}" = "--help" ]; then
 					exitHelp 2
 				elif  [ "${NUMBER1}" = "-h" ]; then
 					exitHelp 2
 				else
-					exitError "Invalid options"
+					readonly sourceOfPackages="$1"
 				fi
 			else
 				exitError "Invalid options"
@@ -294,10 +295,36 @@ function exportPublicKey()
 		
 		function createSourcesListFragment()
 		{
-			cat <<-EOK | sudo -p "Password to install apt sources.list for repository $repositoryName: " tee /etc/apt/sources.list.d/00hdn.secure.http.sources.list
-				deb http://$(hostname).cloudapp.net/archives/${repositoryName}/ ${codeName} ${sectionNames}
-				deb-src http://$(hostname).cloudapp.net/archives/${repositoryName}/ ${codeName} ${sectionNames}
-			EOK
+			case ${SOURCE_OF_PACKAGES} in
+				
+				"file")
+					cat <<-EOK | sudo -p "Password to install apt sources.list for repository $repositoryName: " tee /etc/apt/sources.list.d/00hdn.secure.http.sources.list
+						$(cat ${fileFilePath})
+					EOK
+				;;
+				
+				"http")
+					cat <<-EOK | sudo -p "Password to install apt sources.list for repository $repositoryName: " tee /etc/apt/sources.list.d/00hdn.secure.http.sources.list
+						$(cat ${httpFilePath})
+					EOK
+				;;
+				
+				"https")
+					cat <<-EOK | sudo -p "Password to install apt sources.list for repository $repositoryName: " tee /etc/apt/sources.list.d/00hdn.secure.http.sources.list
+						$(cat ${httpsFilePath})
+					EOK
+				;;
+				
+				*)
+					echo "Source of packages ${SOURCE_OF_PACKAGES} not known" 1>&2
+				;;
+				
+			esac
+		}
+		
+		function updateApt()
+		{
+			sudo -p "Password to update apt sources: " apt-get update
 		}
 		
 		function main()
@@ -305,6 +332,7 @@ function exportPublicKey()
 			parseCommandLine ${ALL}
 			importKey
 			createSourcesListFragment
+			updateApt
 		}
 		
 		main ${ALL}
