@@ -56,7 +56,7 @@ case "$1" in
 		readonly mostRecentlyConfiguredVersion="$2"
 		
 		divertFiles
-		processTriggers "/etc/rsyslog.d /etc/rsyslog.conf"
+		startOrRestartUpstartJobRsyslog
 	;;
 
 	triggered)

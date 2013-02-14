@@ -153,7 +153,6 @@ function executeHdnServer()
 	-XX:+UseCompressedOops \
 	-XX:+UseBiasedLocking \
 	-XX:+UseStringCache \
-	-XX:+UseCompressedStrings \
 	-XX:+OptimizeStringConcat \
 	-XX:+DoEscapeAnalysis \
 	-XX:+UseNUMA \

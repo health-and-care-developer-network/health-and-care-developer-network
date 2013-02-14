@@ -60,8 +60,7 @@ case "$1" in
 		readonly postinst_Instance="any"
 		readonly mostRecentlyConfiguredVersion="$2"
 		
-		# Execute all known triggers
-		processTriggers "/etc/hdn-firewall/iptables /etc/hdn-firewall/ip6tables"
+		turnOnFirewall
 	;;
 
 	triggered)

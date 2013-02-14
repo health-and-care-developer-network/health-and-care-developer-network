@@ -53,8 +53,7 @@ case "$1" in
 		readonly postinst_Instance="any"
 		readonly mostRecentlyConfiguredVersion="$2"
 		
-		# Execute all known triggers
-		processTriggers "/etc/sysctl.d /etc/sysctl.conf"
+		startOrRestartUpstartJob "procps"
 	;;
 
 	triggered)

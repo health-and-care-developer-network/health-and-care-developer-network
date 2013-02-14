@@ -287,14 +287,14 @@ function exportPublicKey()
 		
 		function importKey()
 		{
-			cat <<-EOK | sudo -p "Password to import key for repository $repositoryName: " apt-key import -
+			cat <<-EOK | sudo -p "Password to import key for repository $repositoryName: " apt-key add -
 				$(cat ${repositoryKey})
 			EOK
 		}
 		
 		function createSourcesListFragment()
 		{
-			cat <<-EOK >/etc/apt/sources.list.d/00hdn.secure.http.sources.list
+			cat <<-EOK | sudo -p "Password to install apt sources.list for repository $repositoryName: " tee /etc/apt/sources.list.d/00hdn.secure.http.sources.list
 				deb http://$(hostname).cloudapp.net/archives/${repositoryName}/ ${codeName} ${sectionNames}
 				deb-src http://$(hostname).cloudapp.net/archives/${repositoryName}/ ${codeName} ${sectionNames}
 			EOK
