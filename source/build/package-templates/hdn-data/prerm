@@ -47,7 +47,7 @@ case "$1" in
 		fi
 		
 		stopNginx
-		uninstallWebApps
+		stopJetty
 	;;
 
 	upgrade)
@@ -55,7 +55,7 @@ case "$1" in
 		readonly newVersion="$2"
 		
 		stopNginx
-		uninstallWebApps
+		stopJetty
 	;;
 
 	# This target implies the old prerm script was run with the 'upgrade' target and failed.
@@ -71,6 +71,6 @@ case "$1" in
 		readonly version="$4"
 		
 		stopNginx
-		uninstallWebApps
+		stopJetty
 	;;
 esac
