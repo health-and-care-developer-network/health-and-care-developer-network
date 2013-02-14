@@ -11,7 +11,6 @@ Package: hdn-services
 Architecture: all
 Depends: hdn-itk-samples, hdn-gs1-server, hdn-reverse-proxy, ${misc:Depends}, ${shlibs:Depends}
 Pre-Depends: hdn-apt
-Conflicts: hdn-data
 Homepage: http://hdn.nhs.uk/
 Description: HDN Services
  This package provides HDN's services:-
