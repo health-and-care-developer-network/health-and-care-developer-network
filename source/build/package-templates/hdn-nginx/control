@@ -28,7 +28,7 @@ Vcs-Svn: svn://svn.debian.org/svn/collab-maint/deb-maint/nginx/trunk
 Vcs-Browser: http://svn.debian.org/wsvn/collab-maint/deb-maint/nginx/trunk
 
 Package: hdn-nginx
-Architecture: all
+Architecture: amd64
 Depends: upstart, hdn-firewall, ${misc:Depends}, ${shlibs:Depends}
 Pre-Depends: hdn-apt
 Conflicts: nginx, nginx-common, nginx-doc, ngnix-full, ngnix-light, nginx-extras, nginx-naxsi, nginx-full-dbg, nginx-light-dbg, nginx-extras-dbg, nginx-naxsi-debug
@@ -40,21 +40,6 @@ Description: small, but very powerful and efficient web server and mail proxy
  and as a reverse proxy server before some Apache or another big server to
  reduce load to backend servers by many concurrent HTTP-sessions.
  .
- This package provides a custom version of nginx and collapses all the child packages
- into itself.
+ This package provides a custom version of nginx and collapses
+ all the child packages into itself.
  .
- MODULES INCLUDED:
- Standard HTTP Modules:
-   Core, Auth Basic, Charset, Gzip,
-   Headers, Index, Log, Map, Proxy, Rewrite, Upstream
- Optional HTTP Modules:
-   Gzip Precompression, IPv6, SSL
- Mail Modules:
-   None
- Third Party Modules:
-   chunkin, auth-pam, development-kit, set-misc, postgres, rds-json, rds-csv,
-   coolkit, auth-request
- Other tweaks:
-   file aio enabled
-   hashes enabled
-   select and poll modules dropped
