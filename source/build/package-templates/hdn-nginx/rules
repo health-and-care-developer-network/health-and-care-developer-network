@@ -115,7 +115,7 @@ build-indep:
 
 build: build-indep build-arch
 	dh_testdir
-	dh_strip --package=hdn-nginx
+	dh_strip
 	touch $@
 
 clean:
