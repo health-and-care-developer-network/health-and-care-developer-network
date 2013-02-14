@@ -14,38 +14,29 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-source "/usr/lib/hdn-apt/functions"
-
+# Disable errors stopping the script
 set -e
 
-function processTriggers()
-{
-	# triggers are coalesced
-	local -i reloadSysctl=0
-	
-	# Not quoted as iterableTriggers is a space-separated list
-	for triggerName in $iterableTriggers
-	do
-		case "$triggerName" in
-			
-			"/etc/sysctl.d")
-				reloadSysctl=1
-			;;
+source "/usr/lib/hdn-apt/functions"
 
-			"/etc/sysctl.conf")
-				reloadSysctl=1
-			;;
-			
-			*)
-				echo "Trigger $triggerName not known" 1>&2
-			;;
-			
-		esac
-	done
+function installWebApps()
+{
+	divertFile "hdn-itk-samples" "/etc" "hosts"
 	
-	if [ $reloadSysctl -eq 1 ]; then
-		startOrRestartUpstartJob "procps"
+	chown --preserve-root --recursive jetty:adm /usr/share/hdn-itk-samples/webapps/itk-samples
+	
+	if [ -e /var/lib/jetty/webapps/itk-samples ]; then
+		rm -r /var/lib/jetty/webapps/itk-samples
 	fi
+	
+	ln -s /usr/share/hdn-itk-samples/webapps/itk-samples /var/lib/jetty/webapps/itk-samples
+}
+
+function startOrRestartJetty()
+{
+	set +e
+	invoke-rc.d jetty restart
+	set -e
 }
 
 case "$1" in
@@ -53,24 +44,13 @@ case "$1" in
 		readonly postinst_Instance="any"
 		readonly mostRecentlyConfiguredVersion="$2"
 		
-		# Execute all known triggers
-		processTriggers "/etc/sysctl.d /etc/sysctl.conf"
-	;;
-
-	triggered)
-		if [ $# -ne 2 ]; then
-			echo "Syntax not understood" 1>&2
-			exit 1
-		fi
-		
-		processTriggers "$2"
+		installWebApps
+		startOrRestartJetty
 	;;
 
 	abort-upgrade)
 		readonly postinst_Instance="old"
 		readonly newVersion="$2"
-		
-		:
 	;;
 
 	abort-remove)
@@ -83,8 +63,6 @@ case "$1" in
 		else
 			readonly postinst_Instance="any"
 		fi
-		
-		:
 	;;
 
 	abort-deconfigure)
@@ -96,7 +74,5 @@ case "$1" in
 			fi
 		fi
 		# [removing conflicting-package version]
-		
-		:
 	;;
 esac

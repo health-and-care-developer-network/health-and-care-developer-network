@@ -1,0 +1,16 @@
+Source: hdn-itk-documentation
+Section: net
+Priority: optional
+Maintainer: Raphael Cohn <raphael.cohn@stormmq.com>
+Uploaders: Mike Kelly <mike.kelly1@nhs.net>
+Homepage: http://hdn.nhs.uk/
+Build-Depends: debhelper (>= 7), fakeroot, openjdk-7-jdk, git-core, apt-utils, gnupg, devscripts
+Standards-Version: 3.8.4.0
+
+Package: hdn-itk-documentation
+Architecture: all
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Homepage: http://hdn.nhs.uk/
+Description: HDN ITK Documentation
+ This package provides the required documentation
+ for the ITK reference implementation.

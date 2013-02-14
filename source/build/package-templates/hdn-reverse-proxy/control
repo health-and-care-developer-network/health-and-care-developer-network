@@ -1,22 +1,21 @@
-Source: hdn-services
+Source: hdn-reverse-proxy
 Section: net
-Priority: optional
+Priority: important
 Maintainer: Raphael Cohn <raphael.cohn@stormmq.com>
 Uploaders: Mike Kelly <mike.kelly1@nhs.net>
 Homepage: http://hdn.nhs.uk/
 Build-Depends: debhelper (>= 7), fakeroot, openjdk-7-jdk, git-core, apt-utils, gnupg, devscripts
 Standards-Version: 3.8.4.0
 
-Package: hdn-services
+Package: hdn-reverse-proxy
 Architecture: all
-Depends: hdn-itk-samples, hdn-gs1-server, hdn-reverse-proxy, ${misc:Depends}, ${shlibs:Depends}
-Pre-Depends: hdn-apt
-Conflicts: hdn-data
+Depends: hdn-firewall, hdn-smtp, ${misc:Depends}, ${shlibs:Depends}
+Pre-Depends: hdn-apt, hdn-nginx
 Homepage: http://hdn.nhs.uk/
-Description: HDN Services
- This package provides HDN's services:-
- The ITK Samples
- The GS1 barcodes service 
+Description: HDN Reverse Proxy
+ This package provides a configuration and dependencies
+ framework to ensure that everything is in place and secure
+ for internal http services.
  .
  It pre-depends on packages needed to run post-install
  scripts.

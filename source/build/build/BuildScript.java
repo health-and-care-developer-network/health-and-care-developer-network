@@ -126,6 +126,16 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		debianPackagesPackageTask("hdn-dbs-request", "generate changelog template", "hdn-dbs-request");
 
+		debianPackagesPackageTask("hdn-reverse-proxy", "generate changelog template");
+
+		debianPackagesPackageTask("hdn-data", "generate changelog template");
+
+		debianPackagesPackageTask("hdn-services", "generate changelog template");
+
+		debianPackagesPackageTask("hdn-itk-samples", "generate changelog template");
+
+		debianPackagesPackageTask("hdn-itk-documentation", "generate changelog template");
+
 		debianPackagesPackageTask("hdn-4store", "generate changelog template");
 
 		debianPackagesPackageTask("hdn-jetty", "generate changelog template");
@@ -133,8 +143,6 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 		debianPackagesPackageTask("hdn-elda", "generate changelog template");
 
 		debianPackagesPackageTask("hdn-template", "generate changelog template");
-
-		debianPackagesPackageTask("hdn-services", "generate changelog template");
 
 		debianPackagesPackageTask("hdn-nginx", "generate changelog template");
 

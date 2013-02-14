@@ -14,26 +14,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-source "/usr/lib/hdn-apt/functions"
-
 set -e
+
+source "/usr/lib/hdn-apt/functions"
 
 function processTriggers()
 {
 	# triggers are coalesced
-	local -i reloadSysctl=0
+	local -i reloadHdnNginx=0
 	
 	# Not quoted as iterableTriggers is a space-separated list
 	for triggerName in $iterableTriggers
 	do
 		case "$triggerName" in
 			
-			"/etc/sysctl.d")
-				reloadSysctl=1
+			"/etc/hdn-reverse-proxy/locations")
+				reloadHdnNginx=1
 			;;
 
-			"/etc/sysctl.conf")
-				reloadSysctl=1
+			"/etc/hdn-reverse-proxy/upstreams")
+				reloadHdnNginx=1
 			;;
 			
 			*)
@@ -43,8 +43,8 @@ function processTriggers()
 		esac
 	done
 	
-	if [ $reloadSysctl -eq 1 ]; then
-		startOrRestartUpstartJob "procps"
+	if [ $reloadHdnNginx -eq 1 ]; then
+		startOrRestartUpstartJob "hdn-nginx"
 	fi
 }
 
@@ -54,7 +54,7 @@ case "$1" in
 		readonly mostRecentlyConfiguredVersion="$2"
 		
 		# Execute all known triggers
-		processTriggers "/etc/sysctl.d /etc/sysctl.conf"
+		processTriggers "/etc/hdn-reverse-proxy/locations /etc/hdn-reverse-proxy/upstreams"
 	;;
 
 	triggered)

@@ -15,7 +15,7 @@ release/
 *.gpg~
 
 # Temporary suppression of ITK outputs
-source/build/package-templates/hdn-services/hdn-services/srv/hdn-nginx/hdn-services/content/itk/itk-api/
-source/build/package-templates/hdn-services/hdn-services/srv/hdn-nginx/hdn-services/content/itk/itk-ri/
-source/build/package-templates/hdn-services/hdn-services/srv/hdn-nginx/hdn-services/content/itk/itk-samples/
-source/build/package-templates/hdn-services/hdn-services/srv/hdn-nginx/hdn-services/content/itk/staging/
+source/build/package-templates/hdn-itk-documentation/hdn-itk-documentation/srv/hdn-itk-documentation/itk/itk-api/
+source/build/package-templates/hdn-itk-documentation/hdn-itk-documentation/srv/hdn-itk-documentation/itk/itk-ri/
+source/build/package-templates/hdn-itk-documentation/hdn-itk-documentation/srv/hdn-itk-documentation/itk/itk-samples/
+source/build/package-templates/hdn-itk-documentation/hdn-itk-documentation/srv/hdn-itk-documentation/itk/staging/

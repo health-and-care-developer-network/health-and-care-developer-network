@@ -1,0 +1,3 @@
+# locations or upstreams have changed
+interest /etc/hdn-reverse-proxy/locations
+interest /etc/hdn-reverse-proxy/upstreams

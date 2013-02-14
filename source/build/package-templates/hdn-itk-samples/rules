@@ -3,6 +3,8 @@ PACKAGE=$(shell dh_listpackages)
 ROOT=../../..
 RELEASE=$(ROOT)/release
 SOURCE=$(ROOT)/source
+PACKAGE_TEMPLATES=$(SOURCE)/build/package-templates
+ITK_SAMPLES_VERSION=-0.1-SNAPSHOT
 
 build: build-stamp
 build-stamp:
@@ -25,6 +27,9 @@ binary-indep: build install
 	dh_installchangelogs
 
 	# Copy the packages's files.
+	unzip $(PACKAGE_TEMPLATES)/hdn-itk-documentation/hdn-itk-documentation/srv/hdn-itk-documentation/itk/itk-samples/downloads/itk-samples$(ITK_SAMPLES_VERSION).war -d debian/$(PACKAGE)/usr/share/$(PACKAGE)/webapps/itk-samples
+	find debian/$(PACKAGE)/usr/share/$(PACKAGE) -type f -exec chmod 0644 {} \;
+	find debian/$(PACKAGE)/usr/share/$(PACKAGE) -type d -exec chmod 0755 {} \;
 	
 	dh_installdocs
 	dh_installexamples

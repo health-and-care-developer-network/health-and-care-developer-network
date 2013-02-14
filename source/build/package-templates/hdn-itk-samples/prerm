@@ -32,9 +32,15 @@ function stopJetty()
 	set -e
 }
 
-function stopNginx()
+function uninstallWebApps()
 {
-	stopUpstartJob "hdn-nginx"
+	if [ -e /var/lib/jetty/webapps/itk-samples ]; then
+		rm -r /var/lib/jetty/webapps/itk-samples
+	fi
+	
+	chown --preserve-root --recursive root:root /usr/share/hdn-itk-samples/webapps/itk-samples
+	
+	revertFile "hdn-itk-samples" "/etc" "hosts"
 }
 
 case "$1" in
@@ -46,16 +52,16 @@ case "$1" in
 			readonly newVersion="$5"
 		fi
 		
-		stopNginx
 		stopJetty
+		uninstallWebApps
 	;;
 
 	upgrade)
 		readonly prerm_Instance="old"
 		readonly newVersion="$2"
 		
-		stopNginx
 		stopJetty
+		uninstallWebApps
 	;;
 
 	# This target implies the old prerm script was run with the 'upgrade' target and failed.
@@ -70,7 +76,7 @@ case "$1" in
 		readonly packageBeingInstalled="$3"
 		readonly version="$4"
 		
-		stopNginx
 		stopJetty
+		uninstallWebApps
 	;;
 esac

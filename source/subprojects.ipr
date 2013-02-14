@@ -63,6 +63,7 @@
       <element module="Copyright" copyright="Crown Copyright" />
     </module2copyright>
   </component>
+  <component name="CppTools.Loader" reportImplicitCastToBool="false" reportNameReferencedOnce="false" warnedAboutFileOutOfSourceRoot="true" version="3" currentProject="$PROJECT_DIR$/build/package-templates/hdn-nginx/modules/agentzh-chunkin-nginx-module-v0.23rc2/misc/Makefile" compilerSelect="AUTO" />
   <component name="DependenciesAnalyzeManager">
     <option name="myForwardDirection" value="false" />
   </component>
