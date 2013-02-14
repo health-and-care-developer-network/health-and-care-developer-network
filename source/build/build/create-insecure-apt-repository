@@ -54,8 +54,11 @@ function parseCommandLine()
 
 function setPaths()
 {
-	readonly sourcePath="$crudeOurPath"/../..
-	readonly rootPath="$sourcePath"/..
+	cd "$crudeOurPath"/../../.. >/dev/null
+	readonly rootPath="$(pwd)"
+	cd - >/dev/null
+	
+	readonly sourcePath="$rootPath"/source
 	readonly releasePath="$rootPath"/release
 	readonly packagesPath="$releasePath"/"$packagesFolder"
 }

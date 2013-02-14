@@ -24,7 +24,7 @@ cd - 1>/dev/null
 
 function exitHelp()
 {
-	echo "Usage: $ourName [--help]" 1>&2
+	echo "Usage: $ourName [--help] <packagesFolderName> <repositoryName>" 1>&2
 	exit $1
 }
 
@@ -77,6 +77,9 @@ function setPaths()
 	readonly keyringsPath="$packageTemplatesPath"/hdn-keyring-private/hdn-keyring-private/etc/hdn-keyring-private
 	readonly keyringPath="$keyringsPath"/"$keyring"
 	readonly repositoryKey="$archiveDirPath"/"$repositoryName".key
+	readonly fileFilePath="$archiveDirPath"/hdn.secure.file.sources.list
+	readonly httpFilePath="$archiveDirPath"/hdn.secure.http.sources.list
+	readonly httpsFilePath="$archiveDirPath"/hdn.secure.https.sources.list
 	readonly installFilePath="$archiveDirPath"/"$repositoryName".sh
 }
 
@@ -189,26 +192,23 @@ function signArchive()
 
 function generateSourceListSnippets()
 {
-	readonly fileFilePath="$archiveDirPath"/hdn.secure.file.sources.list
 	cat <<-EOF >"$fileFilePath"
 		# To use this sources.list do:-
-		# sudo ln -s $localFilePath /etc/apt/sources.list.d/00hdn.secure.file.sources.list
+		# sudo ln -s $fileFilePath /etc/apt/sources.list.d/00hdn.sources.list
 		deb file:${archiveDirPath}/ ${codeName} ${sectionNames}
 		deb-src file:${archiveDirPath}/ ${codeName} ${sectionNames}
 	EOF
 	
-	readonly httpFilePath="$archiveDirPath"/hdn.secure.http.sources.list
 	cat <<-EOF >"$httpFilePath"
 		# To use this sources.list do:-
-		# sudo ln -s $httpFilePath /etc/apt/sources.list.d/00hdn.secure.http.sources.list
+		# sudo ln -s $httpFilePath /etc/apt/sources.list.d/00hdn.sources.list
 		deb http://$(hostname).cloudapp.net/archives/${repositoryName}/ ${codeName} ${sectionNames}
 		deb-src http://$(hostname).cloudapp.net/archives/${repositoryName}/ ${codeName} ${sectionNames}
 	EOF
 
-	readonly httpsFilePath="$archiveDirPath"/hdn.secure.https.sources.list
 	cat <<-EOF >"$httpsFilePath"
 		# To use this sources.list do:-
-		# sudo ln -s $httpsFilePath /etc/apt/sources.list.d/00hdn.secure.https.sources.list
+		# sudo ln -s $httpsFilePath /etc/apt/sources.list.d/00hdn.sources.list
 		deb https://$(hostname).cloudapp.net/archives/${repositoryName}/ ${codeName} ${sectionNames}
 		deb-src https://$(hostname).cloudapp.net/archives/${repositoryName}/ ${codeName} ${sectionNames}
 	EOF
@@ -279,7 +279,7 @@ function exportPublicKey()
 				elif  [ "${NUMBER1}" = "-h" ]; then
 					exitHelp 2
 				else
-					readonly sourceOfPackages="$1"
+					readonly sourceOfPackages="${NUMBER1}"
 				fi
 			else
 				exitError "Invalid options"
@@ -298,19 +298,19 @@ function exportPublicKey()
 			case ${SOURCE_OF_PACKAGES} in
 				
 				"file")
-					cat <<-EOK | sudo -p "Password to install apt sources.list for repository $repositoryName: " tee /etc/apt/sources.list.d/00hdn.secure.http.sources.list
+					cat <<-EOK | sudo -p "Password to install apt sources.list for repository $repositoryName: " tee /etc/apt/sources.list.d/00hdn.sources.list >/dev/null
 						$(cat ${fileFilePath})
 					EOK
 				;;
 				
 				"http")
-					cat <<-EOK | sudo -p "Password to install apt sources.list for repository $repositoryName: " tee /etc/apt/sources.list.d/00hdn.secure.http.sources.list
+					cat <<-EOK | sudo -p "Password to install apt sources.list for repository $repositoryName: " tee /etc/apt/sources.list.d/00hdn.sources.list >/dev/null
 						$(cat ${httpFilePath})
 					EOK
 				;;
 				
 				"https")
-					cat <<-EOK | sudo -p "Password to install apt sources.list for repository $repositoryName: " tee /etc/apt/sources.list.d/00hdn.secure.http.sources.list
+					cat <<-EOK | sudo -p "Password to install apt sources.list for repository $repositoryName: " tee /etc/apt/sources.list.d/00hdn.sources.list >/dev/null
 						$(cat ${httpsFilePath})
 					EOK
 				;;
@@ -372,8 +372,8 @@ function main()
 	createAptFtparchiveConfiguration
 	generateArchive
 	signArchive
-	exportPublicKey
 	generateSourceListSnippets
+	exportPublicKey
 }
 
 main "$@"
