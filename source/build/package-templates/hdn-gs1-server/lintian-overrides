@@ -13,3 +13,7 @@ hdn-gs1-server binary: wrong-file-owner-uid-or-gid var/cache/hdn-gs1-server/ 498
 hdn-gs1-server binary: non-standard-dir-perm var/cache/hdn-gs1-server/ 2755 != 0755
 hdn-gs1-server binary: wrong-file-owner-uid-or-gid var/lib/hdn-gs1-server/ 498/498
 hdn-gs1-server binary: non-standard-dir-perm var/lib/hdn-gs1-server/ 2755 != 0755
+
+hdn-gs1-server binary: dir-or-file-in-srv srv/hdn-gs1-server/
+hdn-gs1-server binary: wrong-file-owner-uid-or-gid srv/hdn-gs1-server/gs1-company-prefixes.tsv 498/498
+hdn-gs1-server binary: dir-or-file-in-srv srv/hdn-gs1-server/gs1-company-prefixes.tsv

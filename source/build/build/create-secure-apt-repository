@@ -189,7 +189,7 @@ function signArchive()
 
 function generateSourceListSnippets()
 {
-	local -r fileFilePath="$archiveDirPath"/hdn.secure.file.sources.list
+	readonly fileFilePath="$archiveDirPath"/hdn.secure.file.sources.list
 	cat <<-EOF >"$fileFilePath"
 		# To use this sources.list do:-
 		# sudo ln -s $localFilePath /etc/apt/sources.list.d/00hdn.secure.file.sources.list
@@ -197,7 +197,7 @@ function generateSourceListSnippets()
 		deb-src file:${archiveDirPath}/ ${codeName} ${sectionNames}
 	EOF
 	
-	local -r httpFilePath="$archiveDirPath"/hdn.secure.http.sources.list
+	readonly httpFilePath="$archiveDirPath"/hdn.secure.http.sources.list
 	cat <<-EOF >"$httpFilePath"
 		# To use this sources.list do:-
 		# sudo ln -s $httpFilePath /etc/apt/sources.list.d/00hdn.secure.http.sources.list
@@ -205,7 +205,7 @@ function generateSourceListSnippets()
 		deb-src http://$(hostname).cloudapp.net/archives/${repositoryName}/ ${codeName} ${sectionNames}
 	EOF
 
-	local -r httpsFilePath="$archiveDirPath"/hdn.secure.https.sources.list
+	readonly httpsFilePath="$archiveDirPath"/hdn.secure.https.sources.list
 	cat <<-EOF >"$httpsFilePath"
 		# To use this sources.list do:-
 		# sudo ln -s $httpsFilePath /etc/apt/sources.list.d/00hdn.secure.https.sources.list
