@@ -37,7 +37,7 @@ public final class Gs1BarcodesClientConsoleEntryPoint extends AbstractConsoleEnt
 	private static final String CacheOption = "cache";
 
 	private static final String DefaultDomainName = "localhost";
-	private static final int DefaultPort = 8080;
+	private static final int DefaultPort = 7000;
 	private static final String DefaultImaginaryBarcodeButRealCompanyPrefix = "5055220798768";
 
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")

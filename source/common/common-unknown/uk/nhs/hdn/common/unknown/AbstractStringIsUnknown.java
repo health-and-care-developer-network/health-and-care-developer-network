@@ -24,7 +24,7 @@ public abstract class AbstractStringIsUnknown extends AbstractIsUnknown
 {
 	@NonNls
 	@NotNull
-	private final String value;
+	protected final String value;
 
 	protected AbstractStringIsUnknown(@NonNls @NotNull final String value)
 	{

@@ -33,6 +33,8 @@ public interface ValueSerialiser
 
 	void writeValue(final long value) throws CouldNotWriteValueException;
 
+	void writeValue(final boolean value) throws CouldNotWriteValueException;
+
 	void writeValue(@NotNull final BigDecimal value) throws CouldNotWriteValueException;
 
 	void writeValue(@NotNull final String value) throws CouldNotWriteValueException;

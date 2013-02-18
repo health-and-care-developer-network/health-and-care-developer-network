@@ -1256,6 +1256,7 @@
       <module fileurl="file://$PROJECT_DIR$/barcodes/barcodes-gs1-server-application/barcodes-gs1-server-application.iml" filepath="$PROJECT_DIR$/barcodes/barcodes-gs1-server-application/barcodes-gs1-server-application.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/barcodes/barcodes-gs1-unitTests/barcodes-gs1-unitTests.iml" filepath="$PROJECT_DIR$/barcodes/barcodes-gs1-unitTests/barcodes-gs1-unitTests.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/build/build/build.iml" filepath="$PROJECT_DIR$/build/build/build.iml" group="build" />
+      <module fileurl="file://$PROJECT_DIR$/ckan/ckan/ckan.iml" filepath="$PROJECT_DIR$/ckan/ckan/ckan.iml" group="ckan" />
       <module fileurl="file://$PROJECT_DIR$/common/common/common.iml" filepath="$PROJECT_DIR$/common/common/common.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-commandLine/common-commandLine.iml" filepath="$PROJECT_DIR$/common/common-commandLine/common-commandLine.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-comparison/common-comparison.iml" filepath="$PROJECT_DIR$/common/common-comparison/common-comparison.iml" group="common" />
@@ -1373,10 +1374,10 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="false" name="Gs1BarcodesServerConsoleEntryPoint" type="Application" factoryName="Application">
+    <configuration default="false" name="Gs1BarcodesServerConsoleEntryPoint" type="Application" factoryName="Application" singleton="true">
       <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.barcodes.gs1.server.application.Gs1BarcodesServerConsoleEntryPoint" />
       <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="--data-path $MODULE_DIR$" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />

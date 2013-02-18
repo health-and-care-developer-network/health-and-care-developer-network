@@ -30,6 +30,12 @@ import java.nio.charset.Charset;
 
 public abstract class AbstractValueSerialiser extends AbstractToString implements ValueSerialiser, StartFinish
 {
+	@NotNull
+	private static final String TRUE = "true";
+
+	@NotNull
+	private static final String FALSE = "false";
+
 	@SuppressWarnings("InstanceVariableMayNotBeInitialized")
 	@NotNull
 	protected Charset charset;
@@ -56,7 +62,7 @@ public abstract class AbstractValueSerialiser extends AbstractToString implement
 	{
 		try
 		{
-			writer.close();
+			writer.flush();
 		}
 		catch (IOException e)
 		{
@@ -64,6 +70,17 @@ public abstract class AbstractValueSerialiser extends AbstractToString implement
 		}
 	}
 
+	@SuppressWarnings("ConditionalExpression")
+	@Override
+	public void writeValue(final boolean value) throws CouldNotWriteValueException
+	{
+		writeValue(convertBooleanToString(value));
+	}
+
+	@NotNull
+	protected static String convertBooleanToString(final boolean value) {return value ? TRUE : FALSE;}
+
+	// TODO: Needs to be be pulled out and abstracted so that different rules can apply for different serialisations
 	@Override
 	public void writeValue(@Nullable final Object value) throws CouldNotWriteValueException
 	{
@@ -79,9 +96,21 @@ public abstract class AbstractValueSerialiser extends AbstractToString implement
 			return;
 		}
 
+		if (value instanceof MapSerialisable[])
+		{
+			writeValue((MapSerialisable[]) value);
+			return;
+		}
+
 		if (value instanceof ValueSerialisable)
 		{
 			writeValue((ValueSerialisable) value);
+			return;
+		}
+
+		if (value instanceof ValueSerialisable[])
+		{
+			writeValue((ValueSerialisable[]) value);
 			return;
 		}
 
@@ -106,6 +135,12 @@ public abstract class AbstractValueSerialiser extends AbstractToString implement
 		if (value instanceof String)
 		{
 			writeValue((String) value);
+			return;
+		}
+
+		if (value instanceof Boolean)
+		{
+			writeValue((boolean) value);
 			return;
 		}
 

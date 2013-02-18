@@ -51,6 +51,11 @@ public class NonNullFieldExpectation<X> extends FieldExpectation<X>
 
 	public NonNullFieldExpectation(@FieldTokenName @NonNls @NotNull final String key, @NotNull final Class<X> constructorParameterType, @Nullable final ArrayConstructor<?> arrayConstructor, @Nullable final ObjectConstructor<?> objectConstructor)
 	{
-		super(key, constructorParameterType, false, arrayConstructor, objectConstructor);
+		this(key, constructorParameterType, arrayConstructor, objectConstructor, null);
+	}
+
+	public NonNullFieldExpectation(@FieldTokenName @NonNls @NotNull final String key, @NotNull final Class<X> constructorParameterType, @Nullable final ArrayConstructor<?> arrayConstructor, @Nullable final ObjectConstructor<?> objectConstructor, @Nullable final X defaultValueIfMissing)
+	{
+		super(key, constructorParameterType, false, arrayConstructor, objectConstructor, defaultValueIfMissing);
 	}
 }

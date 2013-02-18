@@ -23,7 +23,7 @@ import uk.nhs.hdn.common.http.client.JavaHttpClient;
 import uk.nhs.hdn.common.http.client.getHttpResponseUsers.GetHttpResponseUser;
 import uk.nhs.hdn.common.http.client.json.JsonGetHttpResponseUser;
 
-import static uk.nhs.hdn.barcodes.gs1.organisation.TuplesSchemaUsingParser.TuplesSchemaUsingParserInstance;
+import static uk.nhs.hdn.barcodes.gs1.organisation.TuplesArrayJsonSchema.TuplesSchemaUsingParserInstance;
 import static uk.nhs.hdn.common.http.UrlHelper.toUrl;
 import static uk.nhs.hdn.common.http.client.connectionConfigurations.ChunkedUploadsConnectionConfiguration.DoesNotSupportChunkedUploads;
 

@@ -32,7 +32,7 @@ public abstract class AbstractValueSerialisableStringIsUnknown extends AbstractS
 	{
 		try
 		{
-			valueSerialiser.writeValue(value());
+			valueSerialiser.writeValue(value);
 		}
 		catch (CouldNotWriteValueException e)
 		{

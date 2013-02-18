@@ -101,7 +101,7 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		executable("hdn-dbs-response", "dbs-response-client", dbsResponseClientConsoleEntryPoint);
 
-		executable("hdn-dbs-request", "dbs-request-client", dbsResponseClientConsoleEntryPoint);
+		executable("hdn-dbs-request", "dbs-request-client", dbsRequestClientConsoleEntryPoint);
 
 		task("executables").dependsOn("hdn-gs1-client", "hdn-gs1-server", "hdn-dts-out", "hdn-dts-read", "hdn-dts-rats", "hdn-dbs-response", "hdn-dbs-request");
 

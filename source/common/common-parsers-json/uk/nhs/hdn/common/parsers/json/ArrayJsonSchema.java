@@ -31,16 +31,17 @@ import java.io.Reader;
 
 import static uk.nhs.hdn.common.parsers.json.parseModes.RootParseMode.RootParseModeInstance;
 
-public class SchemaUsingParser<V> extends AbstractToString
+public class ArrayJsonSchema<V> extends AbstractToString implements JsonSchema<V[]>
 {
 	private final ArrayConstructor<V[]> schema;
 
 	@SuppressWarnings({"unchecked", "RedundantCast"})
-	public SchemaUsingParser(@NotNull final ArrayRootArrayConstructor<V> schema)
+	public ArrayJsonSchema(@NotNull final ArrayRootArrayConstructor<V> schema)
 	{
 		this.schema = (ArrayConstructor<V[]>) (Object) schema;
 	}
 
+	@Override
 	@NotNull
 	public final V[] parse(@NotNull final Reader reader) throws InvalidJsonException
 	{

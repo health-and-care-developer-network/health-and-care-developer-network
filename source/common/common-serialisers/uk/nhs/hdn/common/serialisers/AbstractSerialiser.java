@@ -50,6 +50,13 @@ public abstract class AbstractSerialiser extends AbstractValueSerialiser impleme
 	}
 
 	@Override
+	public final void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final boolean value) throws CouldNotWritePropertyException
+	{
+		writeProperty(name, convertBooleanToString(value));
+	}
+
+	@SuppressWarnings("MethodWithMultipleReturnPoints")
+	@Override
 	public final void writeProperty(@NonNls @NotNull final String name, @Nullable final Object value) throws CouldNotWritePropertyException
 	{
 		if (value == null)
@@ -73,6 +80,12 @@ public abstract class AbstractSerialiser extends AbstractValueSerialiser impleme
 		if (value instanceof String)
 		{
 			writeProperty(name, (String) value);
+			return;
+		}
+
+		if (value instanceof Boolean)
+		{
+			writeProperty(name, (boolean) value);
 			return;
 		}
 

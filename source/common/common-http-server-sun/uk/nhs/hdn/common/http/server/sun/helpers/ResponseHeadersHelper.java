@@ -68,6 +68,8 @@ public final class ResponseHeadersHelper
 		responseHeaders.set(XRimAutoMatchHeaderName, "none");
 		responseHeaders.set(XRobotsTagHeaderName, "none");
 		responseHeaders.set(AccessControlAllowOriginHeaderName, "*");
+		responseHeaders.set(AccessControlAllowMethodsHeaderName, "POST,PUT,DELETE,GET,HEAD,OPTIONS");
+		responseHeaders.set(AccessControlAllowHeadersHeaderName, "Authorization, Content-Type");
 		responseHeaders.set(CacheControlHeaderName, cacheControlHeaderValue);
 		responseHeaders.set(AcceptRangesHeaderName, "none");
 		return responseHeaders;

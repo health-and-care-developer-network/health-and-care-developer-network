@@ -22,7 +22,6 @@ import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.serialisers.*;
 import uk.nhs.hdn.common.serialisers.separatedValues.fieldEscapers.FieldEscaper;
 import uk.nhs.hdn.common.serialisers.separatedValues.matchers.Matcher;
-import uk.nhs.hdn.common.serialisers.separatedValues.matchers.RecurseMatcher;
 
 import java.io.OutputStream;
 import java.io.StringWriter;
@@ -39,13 +38,19 @@ import static uk.nhs.hdn.common.serialisers.separatedValues.fieldEscapers.TabSep
 public final class SeparatedValueSerialiser extends AbstractSerialiser
 {
 	@NotNull
-	public static SeparatedValueSerialiser tabSeparatedValueSerialiser(@SuppressWarnings("TypeMayBeWeakened") @NotNull final RecurseMatcher root, final boolean writeHeaderLine, @NotNull final String... headings)
+	public static SeparatedValueSerialiser tabSeparatedValueSerialiser(@NotNull final Matcher root, final boolean writeHeaderLine, @NotNull final String... headings)
 	{
-		return new SeparatedValueSerialiser(TabSeparatedFieldEscaperInstance, root, writeHeaderLine, headings);
+		return tabSeparatedValueSerialiser(TabSeparatedFieldEscaperInstance, root, writeHeaderLine, headings);
 	}
 
 	@NotNull
-	public static SeparatedValueSerialiser commaSeparatedValueSerialiser(@SuppressWarnings("TypeMayBeWeakened") @NotNull final RecurseMatcher root, final boolean writeHeaderLine, @NotNull final String... headings)
+	public static SeparatedValueSerialiser tabSeparatedValueSerialiser(@NotNull final FieldEscaper fieldEscaper, @NotNull final Matcher root, final boolean writeHeaderLine, @NotNull final String... headings)
+	{
+		return new SeparatedValueSerialiser(fieldEscaper, root, writeHeaderLine, headings);
+	}
+
+	@NotNull
+	public static SeparatedValueSerialiser commaSeparatedValueSerialiser(@NotNull final Matcher root, final boolean writeHeaderLine, @NotNull final String... headings)
 	{
 		return new SeparatedValueSerialiser(CommaSeparatedFieldEscaperInstance, root, writeHeaderLine, headings);
 	}
@@ -63,7 +68,7 @@ public final class SeparatedValueSerialiser extends AbstractSerialiser
 	@Nullable
 	private SeparatedValuesLine separatedValuesLine;
 
-	public SeparatedValueSerialiser(@NotNull final FieldEscaper fieldEscaper, @SuppressWarnings("TypeMayBeWeakened") @NotNull final RecurseMatcher root, final boolean writeHeaderLine, @NotNull final String... headings)
+	public SeparatedValueSerialiser(@NotNull final FieldEscaper fieldEscaper, @NotNull final Matcher root, final boolean writeHeaderLine, @NotNull final String... headings)
 	{
 		current = root;
 		this.writeHeaderLine = writeHeaderLine;

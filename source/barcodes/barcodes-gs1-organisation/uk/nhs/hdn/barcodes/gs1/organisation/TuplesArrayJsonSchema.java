@@ -18,7 +18,7 @@ package uk.nhs.hdn.barcodes.gs1.organisation;
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.barcodes.gs1.companyPrefixes.Gs1CompanyPrefix;
-import uk.nhs.hdn.common.parsers.json.SchemaUsingParser;
+import uk.nhs.hdn.common.parsers.json.ArrayJsonSchema;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.root.ArrayRootArrayConstructor;
 
 import static uk.nhs.hdn.barcodes.gs1.organisation.AdditionalInformationObjectConstructor.AdditionalInformationObjectConstructorInstance;
@@ -31,7 +31,7 @@ import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.NonEmptyStringFieldExpectation.nonEmptyStringField;
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.NonNullFieldExpectation.nonNullField;
 
-public final class TuplesSchemaUsingParser extends SchemaUsingParser<Tuple>
+public final class TuplesArrayJsonSchema extends ArrayJsonSchema<Tuple>
 {
 	@NotNull
 	public static final ArrayRootArrayConstructor<Tuple> TuplesSchema = rootIsArrayOf
@@ -62,9 +62,9 @@ public final class TuplesSchemaUsingParser extends SchemaUsingParser<Tuple>
 	);
 
 	@NotNull
-	public static final SchemaUsingParser<Tuple> TuplesSchemaUsingParserInstance = new TuplesSchemaUsingParser();
+	public static final ArrayJsonSchema<Tuple> TuplesSchemaUsingParserInstance = new TuplesArrayJsonSchema();
 
-	private TuplesSchemaUsingParser()
+	private TuplesArrayJsonSchema()
 	{
 		super(TuplesSchema);
 	}

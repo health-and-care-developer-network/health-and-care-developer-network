@@ -25,7 +25,7 @@ import uk.nhs.hdn.common.http.ResponseCodeRange;
 import uk.nhs.hdn.common.http.client.exceptions.UnacceptableResponseException;
 import uk.nhs.hdn.common.http.client.getHttpResponseUsers.GetHttpResponseUser;
 import uk.nhs.hdn.common.parsers.json.InvalidJsonException;
-import uk.nhs.hdn.common.parsers.json.SchemaUsingParser;
+import uk.nhs.hdn.common.parsers.json.JsonSchema;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 
 import java.io.IOException;
@@ -41,22 +41,22 @@ import static uk.nhs.hdn.common.http.ResponseCode.NoContentResponseCode;
 import static uk.nhs.hdn.common.http.ResponseCode.OkResponseCode;
 import static uk.nhs.hdn.common.http.ResponseCodeRange.Successful2xx;
 
-public final class JsonGetHttpResponseUser<V> extends AbstractToString implements GetHttpResponseUser<V[]>
+public final class JsonGetHttpResponseUser<V> extends AbstractToString implements GetHttpResponseUser<V>
 {
 	@NotNull @NonNls
 	private static final String Identity = "identity";
 
 	@NotNull
-	private final SchemaUsingParser<V> schemaUsingParser;
+	private final JsonSchema<V> schemaUsingParser;
 
-	public JsonGetHttpResponseUser(@NotNull final SchemaUsingParser<V> schemaUsingParser)
+	public JsonGetHttpResponseUser(@NotNull final JsonSchema<V> schemaUsingParser)
 	{
 		this.schemaUsingParser = schemaUsingParser;
 	}
 
 	@Override
 	@NotNull
-	public V[] response(@ResponseCode final int responseCode, @NotNull final ResponseCodeRange responseCodeRange, @MillisecondsSince1970 final long date, @MillisecondsSince1970 final long expires, final long contentLengthOrMinusOneIfNoneSupplied, @Nullable final String contentType, @NonNls @Nullable final String contentEncoding, @NotNull final InputStream inputStream) throws UnacceptableResponseException
+	public V response(@ResponseCode final int responseCode, @NotNull final ResponseCodeRange responseCodeRange, @MillisecondsSince1970 final long date, @MillisecondsSince1970 final long expires, final long contentLengthOrMinusOneIfNoneSupplied, @Nullable final String contentType, @NonNls @Nullable final String contentEncoding, @NotNull final InputStream inputStream) throws UnacceptableResponseException
 	{
 		final Charset charset = guardResponseIsValid(responseCode, responseCodeRange, contentLengthOrMinusOneIfNoneSupplied, contentType, contentEncoding);
 

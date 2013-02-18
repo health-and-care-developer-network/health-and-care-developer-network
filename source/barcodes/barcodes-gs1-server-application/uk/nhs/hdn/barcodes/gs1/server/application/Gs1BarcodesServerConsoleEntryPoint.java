@@ -44,7 +44,7 @@ public final class Gs1BarcodesServerConsoleEntryPoint
 					new Gs1CompanyPrefixRestEndpoint(dataPath, "gs1-company-prefixes.tsv")
 				);
 			}
-		}));
+		}), commandLineArguments);
 	}
 
 	private Gs1BarcodesServerConsoleEntryPoint()

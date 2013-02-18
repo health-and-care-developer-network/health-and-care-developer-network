@@ -82,6 +82,14 @@ public @interface ResponseHeader
 
 	@NotNull
 	@ResponseHeader
+	String AccessControlAllowMethodsHeaderName = "Access-Control-Allow-Methods";
+
+	@NotNull
+	@ResponseHeader
+	String AccessControlAllowHeadersHeaderName = "Access-Control-Allow-Headers";
+
+	@NotNull
+	@ResponseHeader
 	String LastModifiedHeaderName = "Last-Modified";
 
 	@NotNull
