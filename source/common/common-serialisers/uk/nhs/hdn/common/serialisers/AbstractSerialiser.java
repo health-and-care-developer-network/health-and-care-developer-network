@@ -71,9 +71,33 @@ public abstract class AbstractSerialiser extends AbstractValueSerialiser impleme
 			return;
 		}
 
+		if (value instanceof MapSerialisable[])
+		{
+			writeProperty(name, (MapSerialisable[]) value);
+			return;
+		}
+
 		if (value instanceof ValueSerialisable)
 		{
 			writeProperty(name, (ValueSerialisable) value);
+			return;
+		}
+
+		if (value instanceof ValueSerialisable[])
+		{
+			writeProperty(name, (ValueSerialisable[]) value);
+			return;
+		}
+
+		if (value instanceof Integer)
+		{
+			writeProperty(name, (int) value);
+			return;
+		}
+
+		if (value instanceof Long)
+		{
+			writeProperty(name, (long) value);
 			return;
 		}
 

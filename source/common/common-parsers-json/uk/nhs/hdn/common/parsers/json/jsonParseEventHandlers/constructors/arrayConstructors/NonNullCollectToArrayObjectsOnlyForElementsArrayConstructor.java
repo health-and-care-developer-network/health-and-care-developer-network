@@ -23,7 +23,7 @@ import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.object
 public class NonNullCollectToArrayObjectsOnlyForElementsArrayConstructor<X> extends CollectToArrayObjectsOnlyForElementsArrayConstructor<X>
 {
 	@NotNull
-	public static  <X> ArrayConstructor<?> nonNullArrayOfObjects(@NotNull final ArrayCreator<X> arrayCreator, @NotNull final ObjectConstructor<?> objectConstructor)
+	public static <X> ArrayConstructor<?> nonNullArrayOfObjects(@NotNull final ArrayCreator<X> arrayCreator, @NotNull final ObjectConstructor<?> objectConstructor)
 	{
 		return new NonNullCollectToArrayObjectsOnlyForElementsArrayConstructor<>(arrayCreator, objectConstructor);
 	}

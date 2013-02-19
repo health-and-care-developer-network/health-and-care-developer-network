@@ -244,8 +244,55 @@ public final class XmlSerialiser extends AbstractSerialiser
 		}
 	}
 
+	@SuppressWarnings("MethodCanBeVariableArityMethod")
+	@Override
+	public <S extends MapSerialisable> void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final S[] values) throws CouldNotWritePropertyException
+	{
+		try
+		{
+			writeOpen(name);
+			writeValue(values);
+			writeClose(name);
+		}
+		catch (CouldNotWriteDataException | CouldNotEncodeDataException | CouldNotWriteValueException e)
+		{
+			throw new CouldNotWritePropertyException(name, values, e);
+		}
+	}
+
+	@SuppressWarnings("MethodCanBeVariableArityMethod")
+	@Override
+	public <S extends ValueSerialisable> void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final S[] values) throws CouldNotWritePropertyException
+	{
+		try
+		{
+			writeOpen(name);
+			writeValue(values);
+			writeClose(name);
+		}
+		catch (CouldNotWriteDataException | CouldNotEncodeDataException | CouldNotWriteValueException e)
+		{
+			throw new CouldNotWritePropertyException(name, values, e);
+		}
+	}
+
 	@Override
 	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final int value) throws CouldNotWritePropertyException
+	{
+		try
+		{
+			writeOpen(name);
+			writeValue(value);
+			writeClose(name);
+		}
+		catch (CouldNotWriteDataException | CouldNotEncodeDataException | CouldNotWriteValueException e)
+		{
+			throw new CouldNotWritePropertyException(name, value, e);
+		}
+	}
+
+	@Override
+	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final long value) throws CouldNotWritePropertyException
 	{
 		try
 		{

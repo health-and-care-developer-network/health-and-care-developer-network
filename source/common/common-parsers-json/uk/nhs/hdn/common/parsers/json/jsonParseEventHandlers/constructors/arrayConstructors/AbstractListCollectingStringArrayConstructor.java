@@ -17,6 +17,7 @@
 package uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.arrayCreators.ArrayCreator;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.schemaViolationInvalidJsonExceptions.SchemaViolationInvalidJsonException;
 
@@ -46,4 +47,13 @@ public abstract class AbstractListCollectingStringArrayConstructor<X> extends Ab
 	{
 		return collector.toArray(arrayCreator.newInstance1(collector.size()));
 	}
+
+	@Override
+	public void addConstantStringValue(@NotNull final List<X> arrayCollector, final int index, @NotNull final String value)
+	{
+		arrayCollector.add(convertFromString(value));
+	}
+
+	@Nullable
+	protected abstract X convertFromString(@NotNull final String value);
 }

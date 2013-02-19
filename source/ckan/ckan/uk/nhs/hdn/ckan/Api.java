@@ -19,21 +19,26 @@ package uk.nhs.hdn.ckan;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hdn.ckan.domain.*;
-import uk.nhs.hdn.ckan.domain.strings.DatasetNameString;
-import uk.nhs.hdn.ckan.domain.strings.GroupNameString;
-import uk.nhs.hdn.ckan.domain.strings.TagString;
+import uk.nhs.hdn.ckan.domain.Group;
+import uk.nhs.hdn.ckan.domain.Licence;
+import uk.nhs.hdn.ckan.domain.uniqueNames.DatasetName;
+import uk.nhs.hdn.ckan.domain.uniqueNames.GroupKey;
+import uk.nhs.hdn.ckan.domain.uniqueNames.GroupName;
+import uk.nhs.hdn.ckan.domain.uniqueNames.TagName;
+import uk.nhs.hdn.ckan.domain.uuids.DatasetId;
+import uk.nhs.hdn.ckan.domain.uuids.GroupId;
 import uk.nhs.hdn.common.http.client.HttpClient;
 import uk.nhs.hdn.common.http.client.JavaHttpClient;
 import uk.nhs.hdn.common.parsers.json.JsonSchema;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 
-import static uk.nhs.hdn.ckan.parsing.DatasetIdsArrayJsonSchema.DatasetIdsUuidSchemaInstance;
-import static uk.nhs.hdn.ckan.parsing.DatasetNamesArrayJsonSchema.DatasetNamesSchemaInstance;
-import static uk.nhs.hdn.ckan.parsing.GroupIdsArrayJsonSchema.GroupIdsUuidSchemaInstance;
-import static uk.nhs.hdn.ckan.parsing.GroupNamesArrayJsonSchema.GroupNamesSchemaInstance;
-import static uk.nhs.hdn.ckan.parsing.TagsArrayJsonSchema.TagsSchemaInstance;
-import static uk.nhs.hdn.ckan.parsing.LicencesArrayJsonSchema.LicencesSchemaInstance;
+import static uk.nhs.hdn.ckan.schema.DatasetIdsArrayJsonSchema.DatasetIdsUuidSchemaInstance;
+import static uk.nhs.hdn.ckan.schema.DatasetNamesArrayJsonSchema.DatasetNamesSchemaInstance;
+import static uk.nhs.hdn.ckan.schema.GroupIdsArrayJsonSchema.GroupIdsUuidSchemaInstance;
+import static uk.nhs.hdn.ckan.schema.GroupJsonSchema.GroupSchemaInstance;
+import static uk.nhs.hdn.ckan.schema.GroupNamesArrayJsonSchema.GroupNamesSchemaInstance;
+import static uk.nhs.hdn.ckan.schema.LicencesArrayJsonSchema.LicencesSchemaInstance;
+import static uk.nhs.hdn.ckan.schema.TagsArrayJsonSchema.TagsSchemaInstance;
 import static uk.nhs.hdn.common.http.UrlHelper.commonPortNumber;
 import static uk.nhs.hdn.common.http.UrlHelper.toUrl;
 import static uk.nhs.hdn.common.http.client.connectionConfigurations.ChunkedUploadsConnectionConfiguration.DoesNotSupportChunkedUploads;
@@ -67,7 +72,7 @@ public final class Api extends AbstractToString
 	}
 
 	@NotNull
-	public ApiMethod<DatasetNameString[]> allDatasetNames()
+	public ApiMethod<DatasetName[]> allDatasetNames()
 	{
 		return newApi(DatasetNamesSchemaInstance, "api", "1", "rest", "dataset");
 	}
@@ -79,7 +84,7 @@ public final class Api extends AbstractToString
 	}
 
 	@NotNull
-	public ApiMethod<GroupNameString[]> allGroupNames()
+	public ApiMethod<GroupName[]> allGroupNames()
 	{
 		return newApi(GroupNamesSchemaInstance, "api", "1", "rest", "group");
 	}
@@ -91,7 +96,7 @@ public final class Api extends AbstractToString
 	}
 
 	@NotNull
-	public ApiMethod<TagString[]> allTags()
+	public ApiMethod<TagName[]> allTags()
 	{
 		return newApi(TagsSchemaInstance, "api", "2", "rest", "tag");
 	}
@@ -100,6 +105,12 @@ public final class Api extends AbstractToString
 	public ApiMethod<Licence[]> allLicences()
 	{
 		return newApi(LicencesSchemaInstance, "api", "2", "rest", "licenses");
+	}
+
+	@NotNull
+	public ApiMethod<Group> group(@SuppressWarnings("TypeMayBeWeakened") @NotNull final GroupKey groupKey)
+	{
+		return newApi(GroupSchemaInstance, "api", "2", "rest", "group", groupKey.value());
 	}
 
 	@NotNull

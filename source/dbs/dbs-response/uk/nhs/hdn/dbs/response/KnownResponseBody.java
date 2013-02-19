@@ -18,12 +18,13 @@ package uk.nhs.hdn.dbs.response;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hdn.common.serialisers.*;
+import uk.nhs.hdn.common.serialisers.CouldNotSerialiseMapException;
+import uk.nhs.hdn.common.serialisers.CouldNotWritePropertyException;
+import uk.nhs.hdn.common.serialisers.MapSerialiser;
 import uk.nhs.hdn.dbs.*;
 import uk.nhs.hdn.dbs.response.practiceAndAddressData.PracticeAndAddressData;
 import uk.nhs.hdn.number.NhsNumber;
 
-import java.io.StringWriter;
 import java.util.List;
 
 import static uk.nhs.hdn.common.serialisers.AbstractSerialiser.writeNullableProperty;
@@ -85,7 +86,7 @@ public final class KnownResponseBody extends AbstractResponseBody
 			writeNullableProperty(mapSerialiser, ReturnedFamilyNameField, returnedFamilyName);
 			writeNullableProperty(mapSerialiser, ReturnedGivenNameField, returnedGivenName);
 			writeNullableProperty(mapSerialiser, ReturnedAlternativeOrPreviousSurnameField, returnedAlternativeOrPreviousSurname);
-			mapSerialiser.writeProperty(ReturnedOtherGivenNamesField, otherGivenNamesValue());
+			mapSerialiser.writeProperty(ReturnedOtherGivenNamesField, returnedOtherGivenNames.toArray(new NameFragment[returnedOtherGivenNames.size()]));
 			mapSerialiser.writeProperty(ReturnedGenderField, returnedGender);
 			mapSerialiser.writeProperty(ReturnedPracticeAndAddressDataField, practiceAndAddressData);
 		}
@@ -93,25 +94,6 @@ public final class KnownResponseBody extends AbstractResponseBody
 		{
 			throw new CouldNotSerialiseMapException(this, e);
 		}
-	}
-
-	private String otherGivenNamesValue()
-	{
-		final StringWriter writer = new StringWriter(MaximumSizeOfOtherGivenNames);
-		boolean afterFirst = false;
-		for (final NameFragment returnedOtherGivenName : returnedOtherGivenNames)
-		{
-			if (afterFirst)
-			{
-				writer.write(Space);
-			}
-			else
-			{
-				afterFirst = true;
-			}
-			writer.write(returnedOtherGivenName.value());
-		}
-		return writer.toString();
 	}
 
 	@SuppressWarnings({"ConditionalExpression", "FeatureEnvy", "OverlyComplexMethod"})

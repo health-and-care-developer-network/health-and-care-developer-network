@@ -17,17 +17,19 @@
 package uk.nhs.hdn.ckan;
 
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.ckan.domain.uniqueNames.GroupName;
 import uk.nhs.hdn.common.http.client.exceptions.CorruptResponseException;
 import uk.nhs.hdn.common.http.client.exceptions.CouldNotConnectHttpException;
 import uk.nhs.hdn.common.http.client.exceptions.UnacceptableResponseException;
 
 import static uk.nhs.hdn.ckan.Api.DataGovUk;
-import static uk.nhs.hdn.ckan.domain.DatasetId.tsvSerialiserForDatasetIds;
-import static uk.nhs.hdn.ckan.domain.GroupId.tsvSerialiserForGroupIds;
+import static uk.nhs.hdn.ckan.domain.Group.tsvSerialiserForGroups;
 import static uk.nhs.hdn.ckan.domain.Licence.tsvSerialiserForLicences;
-import static uk.nhs.hdn.ckan.domain.strings.DatasetNameString.tsvSerialiserForDatasetNames;
-import static uk.nhs.hdn.ckan.domain.strings.GroupNameString.tsvSerialiserForGroupNames;
-import static uk.nhs.hdn.ckan.domain.strings.TagString.tsvSerialiserForTags;
+import static uk.nhs.hdn.ckan.domain.uniqueNames.DatasetName.tsvSerialiserForDatasetNames;
+import static uk.nhs.hdn.ckan.domain.uniqueNames.GroupName.tsvSerialiserForGroupNames;
+import static uk.nhs.hdn.ckan.domain.uniqueNames.TagName.tsvSerialiserForTags;
+import static uk.nhs.hdn.ckan.domain.uuids.DatasetId.tsvSerialiserForDatasetIds;
+import static uk.nhs.hdn.ckan.domain.uuids.GroupId.tsvSerialiserForGroupIds;
 
 public final class ConsoleEntryPoint
 {
@@ -37,6 +39,10 @@ public final class ConsoleEntryPoint
 
 	public static void main(@NotNull final String... args) throws UnacceptableResponseException, CouldNotConnectHttpException, CorruptResponseException
 	{
+		final GroupName[] groupNames = DataGovUk.allGroupNames().get();
+		final GroupName groupName = groupNames[0];
+		tsvSerialiserForGroups().printValuesOnStandardOut(DataGovUk.group(groupName).get());
+
 		tsvSerialiserForLicences().printValuesOnStandardOut(DataGovUk.allLicences().get());
 		tsvSerialiserForDatasetNames().printValuesOnStandardOut(DataGovUk.allDatasetNames().get());
 		tsvSerialiserForDatasetIds().printValuesOnStandardOut(DataGovUk.allDatasetIds().get());

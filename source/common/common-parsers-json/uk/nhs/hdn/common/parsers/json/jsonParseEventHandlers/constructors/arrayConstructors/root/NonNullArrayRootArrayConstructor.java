@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.arrayCreators.ArrayCreator;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.ArrayConstructor;
 
-public class NonNullArrayRootArrayConstructor<V> extends ArrayRootArrayConstructor<V>
+public final class NonNullArrayRootArrayConstructor<V> extends ArrayRootArrayConstructor<V>
 {
 	@NotNull
 	public static <V> ArrayRootArrayConstructor<V> rootIsArrayOf(@NotNull final ArrayCreator<V> arrayCreator, @NotNull final ArrayConstructor<?> arrayConstructor)

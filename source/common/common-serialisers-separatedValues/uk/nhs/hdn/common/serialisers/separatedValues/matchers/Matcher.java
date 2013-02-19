@@ -30,4 +30,7 @@ public interface Matcher
 	Matcher matchChild(@NotNull @NonNls final String name);
 
 	void recordValue(@NotNull final String rawValue, @NotNull final SeparatedValuesLine separatedValuesLine);
+
+	@NotNull
+	char[] separator();
 }

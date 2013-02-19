@@ -31,6 +31,12 @@ import java.util.Map;
 public class FieldExpectation<X> extends AbstractToString
 {
 	@NotNull
+	public static FieldExpectation<String> nullableStringField(@FieldTokenName @NonNls @NotNull final String key)
+	{
+		return new FieldExpectation<>(key, String.class, true, null, null, null);
+	}
+
+	@NotNull
 	@FieldTokenName
 	@NonNls
 	private final String key;

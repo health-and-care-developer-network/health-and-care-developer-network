@@ -23,22 +23,27 @@ import uk.nhs.hdn.common.serialisers.FieldTokenName;
 import uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValuesLine;
 
 import static java.lang.String.format;
+import static java.util.Arrays.copyOf;
 import static java.util.Locale.ENGLISH;
 
 public final class LeafMatcher extends AbstractMatcher
 {
 	@NotNull
-	public static Matcher leaf(@FieldTokenName @NonNls @NotNull final String name, final int fieldIndex)
+	private final char[] separator;
+
+	@NotNull
+	public static Matcher leaf(@FieldTokenName @NonNls @NotNull final String name, final int fieldIndex, @NotNull final char... separator)
 	{
-		return new LeafMatcher(name, fieldIndex);
+		return new LeafMatcher(name, fieldIndex, separator);
 	}
 
 	private final int fieldIndex;
 
-	public LeafMatcher(@FieldTokenName@NonNls @NotNull final String name, final int fieldIndex)
+	public LeafMatcher(@FieldTokenName@NonNls @NotNull final String name, final int fieldIndex, @NotNull final char... separator)
 	{
 		super(name);
 		this.fieldIndex = fieldIndex;
+		this.separator = copyOf(separator, separator.length);
 	}
 
 	@NotNull
@@ -52,6 +57,14 @@ public final class LeafMatcher extends AbstractMatcher
 	public void recordValue(@NotNull final String rawValue, @NotNull final SeparatedValuesLine separatedValuesLine)
 	{
 		separatedValuesLine.recordValue(fieldIndex, rawValue);
+	}
+
+	@SuppressWarnings("ReturnOfCollectionOrArrayField")
+	@NotNull
+	@Override
+	public char[] separator()
+	{
+		return separator;
 	}
 
 	@Override

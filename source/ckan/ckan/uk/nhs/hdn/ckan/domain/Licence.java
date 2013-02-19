@@ -19,7 +19,9 @@ package uk.nhs.hdn.ckan.domain;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hdn.ckan.domain.strings.*;
+import uk.nhs.hdn.ckan.domain.enumerations.Status;
+import uk.nhs.hdn.ckan.domain.uniqueNames.LicenceId;
+import uk.nhs.hdn.ckan.domain.urls.Url;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hdn.common.serialisers.*;
 import uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser;
@@ -93,27 +95,21 @@ public final class Licence extends AbstractToString implements Serialisable, Map
 		return tabSeparatedValueSerialiser(SeparatedValuesSchema, true, SeparatedValuesHeadings);
 	}
 
-	@NotNull
-	private final Status status;
-	@NotNull
-	private final Maintainer maintainer;
-	@NotNull
-	private final Family family;
-	@NotNull
-	private final Title title;
-	@NotNull
-	private final Url url;
-	private final boolean isGeneric; // not always present so needs default
-	private final boolean isOkdCompliant;
-	private final boolean isOsiCompliant;
-	private final boolean domainData;
-	private final boolean domainContent;
-	private final boolean domainSoftware;
-	@NotNull
-	private final LicenceId id;
+	@NotNull public final Status status;
+	@NotNull @NonNls public final String maintainer;
+	@NotNull @NonNls public final String family;
+	@NotNull @NonNls public final String title;
+	@NotNull public final Url url;
+	public final boolean isGeneric;
+	public final boolean isOkdCompliant;
+	public final boolean isOsiCompliant;
+	public final boolean domainData;
+	public final boolean domainContent;
+	public final boolean domainSoftware;
+	@NotNull public final LicenceId id;
 
 	@SuppressWarnings("ConstructorWithTooManyParameters")
-	public Licence(@NotNull final Status status, @NotNull final Maintainer maintainer, @NotNull final Family family, @NotNull final Title title, @NotNull final Url url, final boolean isGeneric, final boolean isOkdCompliant, final boolean isOsiCompliant, final boolean domainData, final boolean domainContent, final boolean domainSoftware, @NotNull final LicenceId id)
+	public Licence(@NotNull final Status status, @NotNull @NonNls final String maintainer, @NotNull @NonNls final String family, @NotNull @NonNls final String title, @NotNull final Url url, final boolean isGeneric, final boolean isOkdCompliant, final boolean isOsiCompliant, final boolean domainData, final boolean domainContent, final boolean domainSoftware, @NotNull final LicenceId id)
 	{
 		this.status = status;
 		this.maintainer = maintainer;
@@ -253,196 +249,3 @@ public final class Licence extends AbstractToString implements Serialisable, Map
 		return result;
 	}
 }
-
-/*
-[{
-	"status": "active",
-	"maintainer": "",
-	"family": "",
-	"title": "License Not Specified",
-	"url": "",
-	"domain_data": false,
-	"is_generic": true,
-	"is_okd_compliant": false,
-	"is_osi_compliant": false,
-	"domain_content": false,
-	"domain_software": false,
-	"id": "notspecified"
-}, {
-	"status": "active",
-	"maintainer": "",
-	"family": "",
-	"title": "Open Data Commons Public Domain Dedication and Licence (PDDL)",
-	"domain_data": true,
-	"url": "http://www.opendefinition.org/licenses/odc-pddl",
-	"domain_content": false,
-	"is_okd_compliant": true,
-	"is_osi_compliant": false,
-	"domain_software": false,
-	"id": "odc-pddl"
-}, {
-	"status": "active",
-	"maintainer": "",
-	"family": "",
-	"title": "Open Data Commons Open Database License (ODbL)",
-	"domain_data": true,
-	"url": "http://www.opendefinition.org/licenses/odc-odbl",
-	"domain_content": false,
-	"is_okd_compliant": true,
-	"is_osi_compliant": false,
-	"domain_software": false,
-	"id": "odc-odbl"
-}, {
-	"status": "active",
-	"maintainer": "",
-	"family": "",
-	"title": "Open Data Commons Attribution License",
-	"domain_data": true,
-	"url": "http://www.opendefinition.org/licenses/odc-by",
-	"domain_content": false,
-	"is_okd_compliant": true,
-	"is_osi_compliant": false,
-	"domain_software": false,
-	"id": "odc-by"
-}, {
-	"status": "active",
-	"maintainer": "",
-	"family": "",
-	"title": "Creative Commons CCZero",
-	"domain_data": true,
-	"url": "http://www.opendefinition.org/licenses/cc-zero",
-	"domain_content": true,
-	"is_okd_compliant": true,
-	"is_osi_compliant": false,
-	"domain_software": false,
-	"id": "cc-zero"
-}, {
-	"status": "active",
-	"maintainer": "",
-	"family": "",
-	"title": "Creative Commons Attribution",
-	"domain_data": false,
-	"url": "http://www.opendefinition.org/licenses/cc-by",
-	"domain_content": true,
-	"is_okd_compliant": true,
-	"is_osi_compliant": false,
-	"domain_software": false,
-	"id": "cc-by"
-}, {
-	"status": "active",
-	"maintainer": "",
-	"family": "",
-	"title": "Creative Commons Attribution Share-Alike",
-	"domain_data": false,
-	"url": "http://www.opendefinition.org/licenses/cc-by-sa",
-	"domain_content": true,
-	"is_okd_compliant": true,
-	"is_osi_compliant": false,
-	"domain_software": false,
-	"id": "cc-by-sa"
-}, {
-	"status": "active",
-	"maintainer": "",
-	"family": "",
-	"title": "GNU Free Documentation License",
-	"domain_data": false,
-	"url": "http://www.opendefinition.org/licenses/gfdl",
-	"domain_content": true,
-	"is_okd_compliant": true,
-	"is_osi_compliant": false,
-	"domain_software": false,
-	"id": "gfdl"
-}, {
-	"status": "active",
-	"maintainer": "",
-	"family": "",
-	"title": "Other (Open)",
-	"url": "",
-	"domain_data": false,
-	"is_generic": true,
-	"is_okd_compliant": true,
-	"is_osi_compliant": false,
-	"domain_content": true,
-	"domain_software": false,
-	"id": "other-open"
-}, {
-	"status": "active",
-	"maintainer": "",
-	"family": "",
-	"title": "Other (Public Domain)",
-	"url": "",
-	"domain_data": false,
-	"is_generic": true,
-	"is_okd_compliant": true,
-	"is_osi_compliant": false,
-	"domain_content": true,
-	"domain_software": false,
-	"id": "other-pd"
-}, {
-	"status": "active",
-	"maintainer": "",
-	"family": "",
-	"title": "Other (Attribution)",
-	"url": "",
-	"domain_data": false,
-	"is_generic": true,
-	"is_okd_compliant": true,
-	"is_osi_compliant": false,
-	"domain_content": true,
-	"domain_software": false,
-	"id": "other-at"
-}, {
-	"status": "active",
-	"maintainer": "",
-	"family": "",
-	"title": "UK Open Government Licence (OGL)",
-	"domain_data": false,
-	"url": "http://reference.data.gov.uk/id/open-government-licence",
-	"domain_content": true,
-	"is_okd_compliant": true,
-	"is_osi_compliant": false,
-	"domain_software": false,
-	"id": "uk-ogl"
-}, {
-	"status": "active",
-	"maintainer": "",
-	"family": "",
-	"title": "Creative Commons Non-Commercial (Any)",
-	"domain_data": false,
-	"url": "http://creativecommons.org/licenses/by-nc/2.0/",
-	"domain_content": false,
-	"is_okd_compliant": false,
-	"is_osi_compliant": false,
-	"domain_software": false,
-	"id": "cc-nc"
-}, {
-	"status": "active",
-	"maintainer": "",
-	"family": "",
-	"title": "Other (Non-Commercial)",
-	"url": "",
-	"domain_data": false,
-	"is_generic": true,
-	"is_okd_compliant": false,
-	"is_osi_compliant": false,
-	"domain_content": false,
-	"domain_software": false,
-	"id": "other-nc"
-}, {
-	"status": "active",
-	"maintainer": "",
-	"family": "",
-	"title": "Other (Not Open)",
-	"url": "",
-	"domain_data": false,
-	"is_generic": true,
-	"is_okd_compliant": false,
-	"is_osi_compliant": false,
-	"domain_content": false,
-	"domain_software": false,
-	"id": "other-closed"
-}]
-
-
-
-*/

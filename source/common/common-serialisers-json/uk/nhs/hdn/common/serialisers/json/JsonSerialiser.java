@@ -137,8 +137,82 @@ public class JsonSerialiser extends AbstractSerialiser
 		}
 	}
 
+	@SuppressWarnings("MethodCanBeVariableArityMethod")
+	@Override
+	public <S extends MapSerialisable> void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final S[] values) throws CouldNotWritePropertyException
+	{
+		try
+		{
+			if (current.hasSubsequentProperty())
+			{
+				write(CommaDoubleQuote);
+			}
+			else
+			{
+				write(DoubleQuote);
+				current.setHasSubsequentProperty();
+			}
+			jsonStringWriter.writeString(name);
+			write(DoubleQuoteColon);
+			writeValue(values);
+		}
+		catch (CouldNotWriteDataException | CouldNotWriteValueException e)
+		{
+			throw new CouldNotWritePropertyException(name, values, e);
+		}
+	}
+
+	@SuppressWarnings("MethodCanBeVariableArityMethod")
+	@Override
+	public <S extends ValueSerialisable> void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final S[] values) throws CouldNotWritePropertyException
+	{
+		try
+		{
+			if (current.hasSubsequentProperty())
+			{
+				write(CommaDoubleQuote);
+			}
+			else
+			{
+				write(DoubleQuote);
+				current.setHasSubsequentProperty();
+			}
+			jsonStringWriter.writeString(name);
+			write(DoubleQuoteColon);
+			writeValue(values);
+		}
+		catch (CouldNotWriteDataException | CouldNotWriteValueException e)
+		{
+			throw new CouldNotWritePropertyException(name, values, e);
+		}
+	}
+
 	@Override
 	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final int value) throws CouldNotWritePropertyException
+	{
+		try
+		{
+			if (current.hasSubsequentProperty())
+			{
+				write(CommaDoubleQuote);
+			}
+			else
+			{
+				write(DoubleQuote);
+				current.setHasSubsequentProperty();
+			}
+			jsonStringWriter.writeString(name);
+			write(DoubleQuoteColon);
+			writeValue(value);
+		}
+		catch (CouldNotWriteDataException | CouldNotWriteValueException e)
+		{
+			throw new CouldNotWritePropertyException(name, value, e);
+		}
+	}
+
+	@Override
+	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final long value) throws CouldNotWritePropertyException
 	{
 		try
 		{

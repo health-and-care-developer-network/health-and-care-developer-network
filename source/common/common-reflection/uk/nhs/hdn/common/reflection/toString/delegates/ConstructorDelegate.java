@@ -27,8 +27,17 @@ public final class ConstructorDelegate<V> implements Delegate<V>
 {
 	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
 	@NotNull
-	public static <V> Delegate<V> constructorDelegate(@NotNull final Constructor<V> constructor)
+	public static <V> Delegate<V> constructorDelegate(@NotNull final Class<V> classToConstruct, @NotNull final Class<?>... parameterTypes)
 	{
+		final Constructor<V> constructor;
+		try
+		{
+			constructor = classToConstruct.getConstructor(parameterTypes);
+		}
+		catch (NoSuchMethodException e)
+		{
+			throw new IllegalStateException(e);
+		}
 		return new ConstructorDelegate<>(constructor);
 	}
 

@@ -27,6 +27,22 @@ import static uk.nhs.hdn.common.reflection.MethodModifiers.methodModifiers;
 
 public final class StaticMethodDelegate<V> implements Delegate<V>
 {
+	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
+	@NotNull
+	public static <V> Delegate<V> staticMethodDelegate(@NotNull final Class<?> staticMethodClass, @NotNull final String methodName)
+	{
+		final Method method;
+		try
+		{
+			method = staticMethodClass.getDeclaredMethod(methodName, String.class);
+		}
+		catch (NoSuchMethodException e)
+		{
+			throw new IllegalStateException(e);
+		}
+		return new StaticMethodDelegate<>(method);
+	}
+
 	@NotNull
 	private final Method constructor;
 

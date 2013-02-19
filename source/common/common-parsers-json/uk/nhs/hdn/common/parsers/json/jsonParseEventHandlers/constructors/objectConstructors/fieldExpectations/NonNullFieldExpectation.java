@@ -26,6 +26,18 @@ import uk.nhs.hdn.common.serialisers.FieldTokenName;
 public class NonNullFieldExpectation<X> extends FieldExpectation<X>
 {
 	@NotNull
+	public static NonNullFieldExpectation<String> nonNullStringField(@FieldTokenName @NonNls @NotNull final String key)
+	{
+		return new NonNullFieldExpectation<>(key, String.class, null, null);
+	}
+
+	@NotNull
+	public static NonNullFieldExpectation<Boolean> nonNullbooleanField(@FieldTokenName @NonNls @NotNull final String key)
+	{
+		return nonNullField(key, boolean.class);
+	}
+
+	@NotNull
 	public static <X> NonNullFieldExpectation<X> nonNullField(@FieldTokenName @NonNls @NotNull final String key, @NotNull final Class<X> constructorParameterType)
 	{
 		return new NonNullFieldExpectation<>(key, constructorParameterType, null, null);

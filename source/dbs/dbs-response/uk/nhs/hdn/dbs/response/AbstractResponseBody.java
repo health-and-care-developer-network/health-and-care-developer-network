@@ -107,7 +107,7 @@ public abstract class AbstractResponseBody extends AbstractIsUnknown implements 
 		leaf(ReturnedFamilyNameField, 7),
 		leaf(ReturnedGivenNameField, 8),
 		leaf(ReturnedAlternativeOrPreviousSurnameField, 9),
-		leaf(ReturnedOtherGivenNamesField, 10),
+		leaf(ReturnedOtherGivenNamesField, 10, ' '),
 		leaf(ReturnedGenderField, 11),
 		recurse(ReturnedPracticeAndAddressDataField,
 			leaf(ReturnedAddressLine1Field, 12),
