@@ -16,16 +16,45 @@
 
 package uk.nhs.hdn.ckan.domain.enumerations;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import uk.nhs.hdn.common.naming.ActualName;
 import uk.nhs.hdn.common.serialisers.CouldNotSerialiseValueException;
 import uk.nhs.hdn.common.serialisers.CouldNotWriteValueException;
 import uk.nhs.hdn.common.serialisers.ValueSerialisable;
 import uk.nhs.hdn.common.serialisers.ValueSerialiser;
 
-public enum Capacity implements ValueSerialisable
+import java.util.HashMap;
+import java.util.Map;
+
+public enum Capacity implements ValueSerialisable, ActualName
 {
 	editor,
+	admin,
+	_public("public"),
 	;
+
+	private static final class CompilerWorkaround
+	{
+		private static final Map<String, Capacity> Index = new HashMap<>(3);
+	}
+
+	@NotNull @NonNls private final String actualName;
+
+	@SuppressWarnings("ThisEscapedInObjectConstruction")
+	Capacity()
+	{
+		actualName = name();
+		CompilerWorkaround.Index.put(actualName, this);
+	}
+
+	@SuppressWarnings("ThisEscapedInObjectConstruction")
+	Capacity(@NonNls @NotNull final String actualName)
+	{
+		this.actualName = actualName;
+		CompilerWorkaround.Index.put(actualName, this);
+	}
 
 	@Override
 	public void serialiseValue(@NotNull final ValueSerialiser valueSerialiser) throws CouldNotSerialiseValueException
@@ -38,5 +67,18 @@ public enum Capacity implements ValueSerialisable
 		{
 			throw new CouldNotSerialiseValueException(this, e);
 		}
+	}
+
+	@NotNull
+	@Override
+	public String actualName()
+	{
+		return actualName;
+	}
+
+	@Nullable
+	public static Capacity capacity(@NotNull final String name)
+	{
+		return CompilerWorkaround.Index.get(name);
 	}
 }

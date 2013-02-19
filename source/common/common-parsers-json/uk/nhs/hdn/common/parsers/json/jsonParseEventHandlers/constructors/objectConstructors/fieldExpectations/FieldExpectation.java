@@ -28,6 +28,9 @@ import uk.nhs.hdn.common.serialisers.FieldTokenName;
 import java.math.BigDecimal;
 import java.util.Map;
 
+import static java.lang.String.format;
+import static java.util.Locale.ENGLISH;
+
 public class FieldExpectation<X> extends AbstractToString
 {
 	@NotNull
@@ -83,7 +86,7 @@ public class FieldExpectation<X> extends AbstractToString
 	{
 		if (register.put(key, this) != null)
 		{
-			throw new IllegalStateException("Already registered");
+			throw new IllegalStateException(format(ENGLISH, "Already registered key %1$s", key));
 		}
 		this.constructorParameterIndex = constructorParameterIndex;
 		parameterTypes[constructorParameterIndex] = constructorParameterType;

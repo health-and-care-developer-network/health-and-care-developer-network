@@ -21,6 +21,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.unknown.IsUnknown;
 
+import java.util.Map;
+
 public abstract class AbstractSerialiser extends AbstractValueSerialiser implements Serialiser
 {
 	public static <V extends ValueSerialisable & IsUnknown> void writePropertyIfKnown(@NotNull final MapSerialiser mapSerialiser,
@@ -113,6 +115,12 @@ public abstract class AbstractSerialiser extends AbstractValueSerialiser impleme
 			return;
 		}
 
+		if (value instanceof Map)
+		{
+			writeProperty(name, new GenericMapSerialisable((Map<?, ?>) value));
+			return;
+		}
+
 		throw new CouldNotWritePropertyException(name, value, "do not know how to write properties for this class");
 	}
 
@@ -140,4 +148,5 @@ public abstract class AbstractSerialiser extends AbstractValueSerialiser impleme
 
 		super.writeValue(value);
 	}
+
 }

@@ -30,14 +30,14 @@ public final class ConvertUsingDelegateListCollectingStringArrayConstructor<X> e
 	@NotNull
 	public static <X> ConvertUsingDelegateListCollectingStringArrayConstructor<X> convertUsingDelegateListCollectingStringArrayConstructor(@NotNull final ArrayCreator<X> arrayCreator, @NotNull final Class<?> staticMethodClass, @NotNull final String staticMethodName)
 	{
-		return new ConvertUsingDelegateListCollectingStringArrayConstructor<>(arrayCreator, StaticMethodDelegate.<X>staticMethodDelegate(staticMethodClass, staticMethodName));
+		return new ConvertUsingDelegateListCollectingStringArrayConstructor<>(arrayCreator, StaticMethodDelegate.<X>staticMethodDelegate(staticMethodClass, staticMethodName, String.class));
 	}
 
 	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
 	@NotNull
 	public static <X> ConvertUsingDelegateListCollectingStringArrayConstructor<X> convertUsingDelegateListCollectingStringArrayConstructor(@NotNull final ArrayCreator<X> arrayCreator, @NotNull final Class<X> classToConstruct)
 	{
-		return new ConvertUsingDelegateListCollectingStringArrayConstructor<>(arrayCreator, constructorDelegate(classToConstruct));
+		return new ConvertUsingDelegateListCollectingStringArrayConstructor<>(arrayCreator, constructorDelegate(classToConstruct, String.class));
 	}
 
 	@SuppressWarnings("MethodNamesDifferingOnlyByCase")

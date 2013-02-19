@@ -29,12 +29,12 @@ public final class StaticMethodDelegate<V> implements Delegate<V>
 {
 	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
 	@NotNull
-	public static <V> Delegate<V> staticMethodDelegate(@NotNull final Class<?> staticMethodClass, @NotNull final String methodName)
+	public static <V> Delegate<V> staticMethodDelegate(@NotNull final Class<?> staticMethodClass, @NotNull final String methodName, @NotNull final Class<?>... parameterTypes)
 	{
 		final Method method;
 		try
 		{
-			method = staticMethodClass.getDeclaredMethod(methodName, String.class);
+			method = staticMethodClass.getDeclaredMethod(methodName, parameterTypes);
 		}
 		catch (NoSuchMethodException e)
 		{
@@ -55,7 +55,7 @@ public final class StaticMethodDelegate<V> implements Delegate<V>
 		this.constructor = constructor;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "ThrowInsideCatchBlockWhichIgnoresCaughtException"})
 	@Nullable
 	@Override
 	public V invoke(@NotNull final Object... arguments)
@@ -70,7 +70,7 @@ public final class StaticMethodDelegate<V> implements Delegate<V>
 		}
 		catch (InvocationTargetException e)
 		{
-			throw new IllegalStateException(e);
+			throw new IllegalStateException(e.getCause());
 		}
 	}
 }

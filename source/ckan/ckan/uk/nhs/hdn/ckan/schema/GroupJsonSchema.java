@@ -18,11 +18,12 @@ package uk.nhs.hdn.ckan.schema;
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.ckan.domain.Group;
+import uk.nhs.hdn.ckan.domain.GroupReference;
 import uk.nhs.hdn.ckan.domain.MicrosecondTimestamp;
 import uk.nhs.hdn.ckan.domain.User;
 import uk.nhs.hdn.ckan.domain.enumerations.ApprovalStatus;
 import uk.nhs.hdn.ckan.domain.enumerations.Capacity;
-import uk.nhs.hdn.ckan.domain.enumerations.Status;
+import uk.nhs.hdn.ckan.domain.enumerations.State;
 import uk.nhs.hdn.ckan.domain.enumerations.Type;
 import uk.nhs.hdn.ckan.domain.strings.Hash;
 import uk.nhs.hdn.ckan.domain.strings.OpenId;
@@ -39,12 +40,14 @@ import uk.nhs.hdn.common.parsers.json.JsonSchema;
 import uk.nhs.hdn.common.parsers.json.ObjectJsonSchema;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.ConvertUsingDelegateListCollectingStringArrayConstructor;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.root.ObjectRootArrayConstructor;
+import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.FieldExpectation;
 
 import java.util.Map;
 
 import static uk.nhs.hdn.ckan.domain.Group.*;
-import static uk.nhs.hdn.ckan.schema.GroupIdsArrayJsonSchema.ArrayOfGroupIdsConstructor;
+import static uk.nhs.hdn.ckan.domain.urls.UnknownUrl.UnknownUrlInstance;
 import static uk.nhs.hdn.ckan.schema.arrayCreators.GroupArrayCreator.GroupArray;
+import static uk.nhs.hdn.ckan.schema.arrayCreators.GroupReferenceArrayCreator.GroupReferenceArray;
 import static uk.nhs.hdn.ckan.schema.arrayCreators.PackageIdArrayCreator.PackageIdArray;
 import static uk.nhs.hdn.ckan.schema.arrayCreators.UserArrayCreator.UserArray;
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.ConvertUsingDelegateListCollectingStringArrayConstructor.convertUsingDelegateListCollectingStringArrayConstructor;
@@ -58,12 +61,19 @@ import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.NonNullFieldExpectation.nonNullStringField;
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.StringToSomethingElseFieldExpectation.nonNullStringToSomethingElseField;
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.StringToSomethingElseFieldExpectation.nullStringToSomethingElseField;
+import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.StringToSomethingElseFieldExpectation.nullableStringToSomethingElseField;
 
 @SuppressWarnings("OverlyCoupledClass")
 public final class GroupJsonSchema extends ObjectJsonSchema<Group>
 {
 	@NotNull
 	public static final ConvertUsingDelegateListCollectingStringArrayConstructor<PackageId> ArrayOfPackageIdsConstructor = convertUsingDelegateListCollectingStringArrayConstructor(PackageIdArray, PackageId.class, "valueOf");
+
+	// Remember, FieldExpectations mutate
+	public static FieldExpectation<Capacity> capacityFieldExpectation()
+	{
+		return nonNullStringToSomethingElseField("capacity", Capacity.class, Capacity.class, "capacity");
+	}
 
 	@SuppressWarnings("unchecked")
 	@NotNull
@@ -81,26 +91,45 @@ public final class GroupJsonSchema extends ObjectJsonSchema<Group>
 					User.class,
 					nullStringToSomethingElseField("openid", OpenId.class),
 					nullableStringField("about"),
-					nonNullEnumField("capacity", Capacity.class),
+					capacityFieldExpectation(),
 					nonNullStringToSomethingElseField(nameField, UserName.class),
 					nonNullStringToSomethingElseField(createdField, MicrosecondTimestamp.class, MicrosecondTimestamp.class, "microsecondTimestamp"),
 					nonNullStringToSomethingElseField("email_hash", Hash.class),
-					nonNullField("number_of_edits", int.class),
-					nonNullField("number_administered_packages", int.class),
+					nonNullField("number_of_edits", long.class),
+					nonNullField("number_administered_packages", long.class),
 					nonNullStringField(displayNameField),
 					nonNullStringField("fullname"),
-					nonNullStringToSomethingElseField(idField, UserId.class)
+					nonNullStringToSomethingElseField(idField, UserId.class, UserId.class, "valueOf")
 				)
 			)),
 			nonNullStringField(displayNameField),
-			nonNullStringField(descriptionField),
+			nullableStringField(descriptionField),
 			nonNullStringField(titleField),
 			nonNullStringToSomethingElseField(createdField, MicrosecondTimestamp.class, MicrosecondTimestamp.class, "microsecondTimestamp"),
 			nonNullEnumField(approvalStatusField, ApprovalStatus.class),
-			nonNullEnumField(approvalStatusField, Status.class),
+			nonNullEnumField(stateField, State.class),
 			nonNullField(extrasField, Map.class, StringGenericObjectConstructorInstance),
-			nonNullStringToSomethingElseField(imageUrlField, Url.class, AbstractUrl.class, "parseUrl"),
-			nonNullField(groupsField, GroupId[].class, ArrayOfGroupIdsConstructor),
+			nullableStringToSomethingElseField(imageUrlField, Url.class, AbstractUrl.class, "parseUrl", UnknownUrlInstance),
+			nonNullField(groupsField, GroupReference[].class, nonNullArrayOfObjects
+			(
+				GroupReferenceArray,
+				object
+				(
+					GroupReference.class,
+					capacityFieldExpectation(),
+					nullableStringField(descriptionField),
+					nonNullStringField(titleField),
+					nonNullEnumField(approvalStatusField, ApprovalStatus.class),
+					nonNullEnumField(stateField, State.class),
+					nullableStringToSomethingElseField(imageUrlField, Url.class, AbstractUrl.class, "parseUrl", UnknownUrlInstance),
+					nonNullStringField(displayNameField),
+					nonNullStringToSomethingElseField(revisionIdField, RevisionId.class, RevisionId.class, "valueOf"),
+					nonNullField(packagesField, long.class),
+					nonNullEnumField(typeField, Type.class),
+					nonNullStringToSomethingElseField(idField, GroupId.class, GroupId.class, "valueOf"),
+					nonNullStringToSomethingElseField(nameField, GroupName.class)
+				)
+			)),
 			nonNullStringToSomethingElseField(revisionIdField, RevisionId.class, RevisionId.class, "valueOf"),
 			nonNullField(packagesField, PackageId[].class, ArrayOfPackageIdsConstructor),
 			nonNullEnumField(typeField, Type.class),

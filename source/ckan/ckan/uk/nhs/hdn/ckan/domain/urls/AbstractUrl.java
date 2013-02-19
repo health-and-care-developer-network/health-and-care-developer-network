@@ -17,6 +17,7 @@
 package uk.nhs.hdn.ckan.domain.urls;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.serialisers.*;
 import uk.nhs.hdn.common.unknown.AbstractIsUnknown;
 
@@ -30,9 +31,9 @@ import static uk.nhs.hdn.ckan.domain.urls.UnknownUrl.UnknownUrlInstance;
 public abstract class AbstractUrl extends AbstractIsUnknown implements Serialisable, ValueSerialisable, Url
 {
 	@NotNull
-	public static Url parseUrl(@NotNull final String value)
+	public static Url parseUrl(@Nullable final String value)
 	{
-		if (value.isEmpty())
+		if (value == null || value.isEmpty())
 		{
 			return UnknownUrlInstance;
 		}

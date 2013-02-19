@@ -14,30 +14,31 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.ckan.domain.enumerations;
+package uk.nhs.hdn.common.arrayCreators;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.common.serialisers.CouldNotSerialiseValueException;
-import uk.nhs.hdn.common.serialisers.CouldNotWriteValueException;
-import uk.nhs.hdn.common.serialisers.ValueSerialisable;
-import uk.nhs.hdn.common.serialisers.ValueSerialiser;
 
-public enum ApprovalStatus implements ValueSerialisable
+public final class LongArrayCreator extends AbstractArrayCreator<Long>
 {
-	approved,
-	pending,
-	;
+	@NotNull
+	public static final ArrayCreator<Long> LongArray = new LongArrayCreator();
 
-	@Override
-	public void serialiseValue(@NotNull final ValueSerialiser valueSerialiser) throws CouldNotSerialiseValueException
+	private LongArrayCreator()
 	{
-		try
-		{
-			valueSerialiser.writeValue(name());
-		}
-		catch (CouldNotWriteValueException e)
-		{
-			throw new CouldNotSerialiseValueException(this, e);
-		}
+		super(Long.class, Long[].class);
+	}
+
+	@NotNull
+	@Override
+	public Long[] newInstance1(final int size)
+	{
+		return new Long[size];
+	}
+
+	@NotNull
+	@Override
+	public Long[][] newInstance2(final int size)
+	{
+		return new Long[size][];
 	}
 }

@@ -50,6 +50,7 @@ public final class ConstructorDelegate<V> implements Delegate<V>
 		constructor.setAccessible(true);
 	}
 
+	@SuppressWarnings("ThrowInsideCatchBlockWhichIgnoresCaughtException")
 	@Nullable
 	@Override
 	public V invoke(@NotNull final Object... arguments)
@@ -64,7 +65,7 @@ public final class ConstructorDelegate<V> implements Delegate<V>
 		}
 		catch (InvocationTargetException e)
 		{
-			throw new IllegalStateException(e);
+			throw new IllegalStateException(e.getCause());
 		}
 	}
 }

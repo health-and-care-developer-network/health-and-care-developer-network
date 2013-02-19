@@ -16,6 +16,7 @@
     <orderEntry type="module" module-name="common-reflection" />
     <orderEntry type="module" module-name="common-serialisers" />
     <orderEntry type="module" module-name="common-serialisers-separatedValues" />
+    <orderEntry type="module" module-name="common-naming" />
   </component>
 </module>
 

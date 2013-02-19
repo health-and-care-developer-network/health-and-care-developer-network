@@ -40,14 +40,20 @@ public final class ConsoleEntryPoint
 	public static void main(@NotNull final String... args) throws UnacceptableResponseException, CouldNotConnectHttpException, CorruptResponseException
 	{
 		final GroupName[] groupNames = DataGovUk.allGroupNames().get();
-		final GroupName groupName = groupNames[0];
-		tsvSerialiserForGroups().printValuesOnStandardOut(DataGovUk.group(groupName).get());
+		for (GroupName groupName : groupNames)
+		{
+			System.out.println("groupName = " + groupName);
+			tsvSerialiserForGroups(true).printValuesOnStandardOut(DataGovUk.group(groupName).get());
+		}
 
-		tsvSerialiserForLicences().printValuesOnStandardOut(DataGovUk.allLicences().get());
-		tsvSerialiserForDatasetNames().printValuesOnStandardOut(DataGovUk.allDatasetNames().get());
-		tsvSerialiserForDatasetIds().printValuesOnStandardOut(DataGovUk.allDatasetIds().get());
-		tsvSerialiserForGroupNames().printValuesOnStandardOut(DataGovUk.allGroupNames().get());
-		tsvSerialiserForGroupIds().printValuesOnStandardOut(DataGovUk.allGroupIds().get());
-		tsvSerialiserForTags(true).printValuesOnStandardOut(DataGovUk.allTags().get());
+		if (false)
+		{
+			tsvSerialiserForLicences().printValuesOnStandardOut(DataGovUk.allLicences().get());
+			tsvSerialiserForDatasetNames().printValuesOnStandardOut(DataGovUk.allDatasetNames().get());
+			tsvSerialiserForDatasetIds().printValuesOnStandardOut(DataGovUk.allDatasetIds().get());
+			tsvSerialiserForGroupNames().printValuesOnStandardOut(DataGovUk.allGroupNames().get());
+			tsvSerialiserForGroupIds().printValuesOnStandardOut(DataGovUk.allGroupIds().get());
+			tsvSerialiserForTags(true).printValuesOnStandardOut(DataGovUk.allTags().get());
+		}
 	}
 }

@@ -25,6 +25,7 @@ import uk.nhs.hdn.common.serialisers.ValueSerialiser;
 public enum Type implements ValueSerialisable
 {
 	publisher,
+	group,
 	;
 
 	@Override

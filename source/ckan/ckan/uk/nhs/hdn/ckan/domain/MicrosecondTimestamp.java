@@ -19,6 +19,10 @@ package uk.nhs.hdn.ckan.domain;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.MillisecondsSince1970;
+import uk.nhs.hdn.common.serialisers.CouldNotSerialiseValueException;
+import uk.nhs.hdn.common.serialisers.CouldNotWriteValueException;
+import uk.nhs.hdn.common.serialisers.ValueSerialisable;
+import uk.nhs.hdn.common.serialisers.ValueSerialiser;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,28 +31,57 @@ import java.util.Date;
 import static java.lang.Long.parseLong;
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
+import static java.util.Locale.ROOT;
 import static uk.nhs.hdn.common.StringHelper.padAsDecimal;
 
-public final class MicrosecondTimestamp
+public final class MicrosecondTimestamp implements ValueSerialisable
 {
-	@NotNull
-	private static final String ExampleFormat = "2012-06-28T20:06:30.061645";
-	public static final int MicrosecondsSize = 3;
-	private static final int ExpectedLength = ExampleFormat.length();
-	private static final int MillisecondsOnlyLength = ExampleFormat.length() - MicrosecondsSize;
+	@NotNull private static final String SecondExampleFormat = "2012-06-28T20:06:30";
+	@NotNull private static final String MillisecondExampleFormat = "2012-06-28T20:06:30.061";
+	@NotNull private static final String MicrosecondExampleFormat = "2012-06-28T20:06:30.061645";
+	private static final int MicrosecondsSize = 3;
+	private static final int SecondsFormatLength = SecondExampleFormat.length();
+	private static final int MillisecondFormatLength = MicrosecondExampleFormat.length();
+	private static final int MillisecondsOnlyLength = MicrosecondExampleFormat.length() - MicrosecondsSize;
 	private static final int MicrosecondsStartsAt = MillisecondsOnlyLength;
 	private static final int MinusSign = (int) '-';
 	private static final int PlusSign = (int) '+';
 
-	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
+	@SuppressWarnings({"MethodNamesDifferingOnlyByCase", "UnusedDeclaration"}) // used reflectively
 	@NotNull
 	public static MicrosecondTimestamp microsecondTimestamp(@NotNull final String microsecondFormatString)
 	{
-		if (microsecondFormatString.length() != ExpectedLength)
+		final int length = microsecondFormatString.length();
+		if (length == SecondsFormatLength)
 		{
-			throw new IllegalArgumentException(format(ENGLISH, "microsecondFormatString %1$s is the wrong length", microsecondFormatString));
+			return secondsFormat(microsecondFormatString);
 		}
+		if (length == MillisecondFormatLength)
+		{
+			return microsecondFormat(microsecondFormatString);
+		}
+		throw new IllegalArgumentException(format(ENGLISH, "microsecondFormatString %1$s is the wrong length", microsecondFormatString));
+	}
 
+	@NotNull
+	private static MicrosecondTimestamp secondsFormat(@NotNull final String secondsFormatString)
+	{
+		final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss", ROOT);
+		final Date parse;
+		try
+		{
+			parse = simpleDateFormat.parse(secondsFormatString);
+		}
+		catch (ParseException e)
+		{
+			throw new IllegalArgumentException(format(ENGLISH, "secondsFormatString %1$s is not correctly formatted", secondsFormatString), e);
+		}
+		return new MicrosecondTimestamp(parse.getTime(), 0L);
+	}
+
+	@NotNull
+	private static MicrosecondTimestamp microsecondFormat(@NotNull final String microsecondFormatString)
+	{
 		final SimpleDateFormat simpleDateFormat = simpleDateFormat();
 		final Date parse;
 		try
@@ -60,7 +93,7 @@ public final class MicrosecondTimestamp
 			throw new IllegalArgumentException(format(ENGLISH, "microsecondFormatString %1$s is not correctly formatted", microsecondFormatString), e);
 		}
 
-		final String microsecondsString = microsecondFormatString.substring(MicrosecondsStartsAt, MicrosecondsSize);
+		final String microsecondsString = microsecondFormatString.substring(MicrosecondsStartsAt, MillisecondFormatLength);
 		final int firstCharacter = (int) microsecondsString.charAt(0);
 		if (firstCharacter == PlusSign || firstCharacter == MinusSign)
 		{
@@ -88,6 +121,19 @@ public final class MicrosecondTimestamp
 	{
 		this.milliseconds = milliseconds;
 		this.additionalMicroseconds = additionalMicroseconds;
+	}
+
+	@Override
+	public void serialiseValue(@NotNull final ValueSerialiser valueSerialiser) throws CouldNotSerialiseValueException
+	{
+		try
+		{
+			valueSerialiser.writeValue(toString());
+		}
+		catch (CouldNotWriteValueException e)
+		{
+			throw new CouldNotSerialiseValueException(this, e);
+		}
 	}
 
 	@NotNull
@@ -135,6 +181,6 @@ public final class MicrosecondTimestamp
 	@NotNull
 	private static SimpleDateFormat simpleDateFormat()
 	{
-		return new SimpleDateFormat("yyyy-MM-ddThh:mm:ss.SSS", ENGLISH);
+		return new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS", ROOT);
 	}
 }

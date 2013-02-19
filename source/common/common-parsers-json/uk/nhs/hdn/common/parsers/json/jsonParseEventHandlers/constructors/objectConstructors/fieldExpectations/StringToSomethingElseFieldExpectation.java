@@ -45,21 +45,26 @@ public final class StringToSomethingElseFieldExpectation<S> extends FieldExpecta
 	@NotNull
 	public static <S> FieldExpectation<S> nonNullStringToSomethingElseField(@FieldTokenName @NonNls @NotNull final String key, @NotNull final Class<S> constructorParameterType, @NotNull final Class<?> staticMethodClass, @NonNls @NotNull final String methodName)
 	{
-		return nonNullStringToSomethingElseField(key, constructorParameterType, StaticMethodDelegate.<S>staticMethodDelegate(staticMethodClass, methodName), false);
+		return nonNullStringToSomethingElseField(key, constructorParameterType, StaticMethodDelegate.<S>staticMethodDelegate(staticMethodClass, methodName, String.class), false);
+	}
+
+	public static <S> FieldExpectation<S> nullableStringToSomethingElseField(@FieldTokenName @NonNls @NotNull final String key, @NotNull final Class<S> constructorParameterType, @NotNull final Class<?> staticMethodClass, @NonNls @NotNull final String methodName, @Nullable final S defaultValueIfMissing)
+	{
+		return new StringToSomethingElseFieldExpectation<>(key, constructorParameterType, StaticMethodDelegate.<S>staticMethodDelegate(staticMethodClass, methodName, String.class), true, defaultValueIfMissing);
 	}
 
 	@NotNull
 	public static <S> FieldExpectation<S> nonNullStringToSomethingElseField(@FieldTokenName @NonNls @NotNull final String key, @NotNull final Class<S> constructorParameterType, @NotNull final Delegate<S> delegate, final boolean nullPermitted)
 	{
-		return new StringToSomethingElseFieldExpectation<>(key, constructorParameterType, delegate, nullPermitted);
+		return new StringToSomethingElseFieldExpectation<>(key, constructorParameterType, delegate, nullPermitted, null);
 	}
 
 	@NotNull
 	private final Delegate<S> delegate;
 
-	public StringToSomethingElseFieldExpectation(@FieldTokenName @NonNls @NotNull final String key, @NotNull final Class<S> constructorParameterType, @NotNull final Delegate<S> delegate, final boolean nullPermitted)
+	public StringToSomethingElseFieldExpectation(@FieldTokenName @NonNls @NotNull final String key, @NotNull final Class<S> constructorParameterType, @NotNull final Delegate<S> delegate, final boolean nullPermitted, @Nullable final S defaultValueIfMissing)
 	{
-		super(key, constructorParameterType, nullPermitted, null, null, null);
+		super(key, constructorParameterType, nullPermitted, null, null, defaultValueIfMissing);
 		this.delegate = delegate;
 	}
 

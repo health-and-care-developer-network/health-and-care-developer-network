@@ -22,7 +22,7 @@ import uk.nhs.hdn.common.serialisers.CouldNotWriteValueException;
 import uk.nhs.hdn.common.serialisers.ValueSerialisable;
 import uk.nhs.hdn.common.serialisers.ValueSerialiser;
 
-public enum Status implements ValueSerialisable
+public enum State implements ValueSerialisable
 {
 	active,
 	;

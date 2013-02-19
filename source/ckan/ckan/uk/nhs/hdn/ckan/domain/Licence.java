@@ -19,7 +19,7 @@ package uk.nhs.hdn.ckan.domain;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hdn.ckan.domain.enumerations.Status;
+import uk.nhs.hdn.ckan.domain.enumerations.State;
 import uk.nhs.hdn.ckan.domain.uniqueNames.LicenceId;
 import uk.nhs.hdn.ckan.domain.urls.Url;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
@@ -95,7 +95,7 @@ public final class Licence extends AbstractToString implements Serialisable, Map
 		return tabSeparatedValueSerialiser(SeparatedValuesSchema, true, SeparatedValuesHeadings);
 	}
 
-	@NotNull public final Status status;
+	@NotNull public final State status;
 	@NotNull @NonNls public final String maintainer;
 	@NotNull @NonNls public final String family;
 	@NotNull @NonNls public final String title;
@@ -109,7 +109,7 @@ public final class Licence extends AbstractToString implements Serialisable, Map
 	@NotNull public final LicenceId id;
 
 	@SuppressWarnings("ConstructorWithTooManyParameters")
-	public Licence(@NotNull final Status status, @NotNull @NonNls final String maintainer, @NotNull @NonNls final String family, @NotNull @NonNls final String title, @NotNull final Url url, final boolean isGeneric, final boolean isOkdCompliant, final boolean isOsiCompliant, final boolean domainData, final boolean domainContent, final boolean domainSoftware, @NotNull final LicenceId id)
+	public Licence(@NotNull final State status, @NotNull @NonNls final String maintainer, @NotNull @NonNls final String family, @NotNull @NonNls final String title, @NotNull final Url url, final boolean isGeneric, final boolean isOkdCompliant, final boolean isOsiCompliant, final boolean domainData, final boolean domainContent, final boolean domainSoftware, @NotNull final LicenceId id)
 	{
 		this.status = status;
 		this.maintainer = maintainer;

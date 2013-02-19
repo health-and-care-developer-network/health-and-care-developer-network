@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.ckan.domain.enumerations.ApprovalStatus;
-import uk.nhs.hdn.ckan.domain.enumerations.Status;
+import uk.nhs.hdn.ckan.domain.enumerations.State;
 import uk.nhs.hdn.ckan.domain.enumerations.Type;
 import uk.nhs.hdn.ckan.domain.uniqueNames.GroupName;
 import uk.nhs.hdn.ckan.domain.uniqueNames.TagName;
@@ -28,6 +28,7 @@ import uk.nhs.hdn.ckan.domain.urls.Url;
 import uk.nhs.hdn.ckan.domain.uuids.GroupId;
 import uk.nhs.hdn.ckan.domain.uuids.PackageId;
 import uk.nhs.hdn.ckan.domain.uuids.RevisionId;
+import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hdn.common.serialisers.*;
 import uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser;
 import uk.nhs.hdn.common.serialisers.separatedValues.matchers.RecurseMatcher;
@@ -39,11 +40,14 @@ import java.util.Map;
 import static uk.nhs.hdn.common.VariableArgumentsHelper.copyOf;
 import static uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser.commaSeparatedValueSerialiser;
 import static uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser.tabSeparatedValueSerialiser;
+import static uk.nhs.hdn.common.serialisers.separatedValues.fieldEscapers.SanitisingTabSeparatedFieldEscaper.SanitisingTabSeparatedFieldEscaperInstance;
+import static uk.nhs.hdn.common.serialisers.separatedValues.fieldEscapers.TabSeparatedFieldEscaper.TabSeparatedFieldEscaperInstance;
+import static uk.nhs.hdn.common.serialisers.separatedValues.matchers.IgnoreChildrenMatcher.ignoreChildren;
 import static uk.nhs.hdn.common.serialisers.separatedValues.matchers.LeafMatcher.leaf;
 import static uk.nhs.hdn.common.serialisers.separatedValues.matchers.RecurseMatcher.rootMatcher;
 
 @SuppressWarnings("OverlyCoupledClass")
-public final class Group implements Serialisable, MapSerialisable
+public final class Group extends AbstractToString implements Serialisable, MapSerialisable
 {
 	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String usersField = "users";
 	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String displayNameField = "display_name";
@@ -94,7 +98,7 @@ public final class Group implements Serialisable, MapSerialisable
 		leaf(createdField, 4),
 		leaf(approvalStatusField, 5),
 		leaf(stateField, 6),
-		leaf(extrasField, 7),
+		ignoreChildren(extrasField, 7),
 		leaf(imageUrlField, 8),
 		leaf(groupsField, 9, ' '),
 		leaf(revisionIdField, 10),
@@ -111,22 +115,23 @@ public final class Group implements Serialisable, MapSerialisable
 		return commaSeparatedValueSerialiser(SeparatedValuesSchema, writeHeaderLine, SeparatedValuesHeadings);
 	}
 
+	@SuppressWarnings("ConditionalExpression")
 	@NotNull
-	public static SeparatedValueSerialiser tsvSerialiserForGroups()
+	public static SeparatedValueSerialiser tsvSerialiserForGroups(final boolean sanitiseBrokenData)
 	{
-		return tabSeparatedValueSerialiser(SeparatedValuesSchema, true, SeparatedValuesHeadings);
+		return tabSeparatedValueSerialiser(sanitiseBrokenData ? SanitisingTabSeparatedFieldEscaperInstance : TabSeparatedFieldEscaperInstance, SeparatedValuesSchema, true, SeparatedValuesHeadings);
 	}
 
 	@NotNull public final User[] users;
 	@NotNull @NonNls public final String displayName;
-	@NotNull @NonNls public final String description;
+	@Nullable @NonNls public final String description;
 	@NotNull @NonNls public final String title;
 	@NotNull public final MicrosecondTimestamp created;
 	@NotNull public final ApprovalStatus approvalStatus;
-	@NotNull public final Status state;
+	@NotNull public final State state;
 	@NotNull public final Map<String, Object> extras;
 	@NotNull public final Url imageUrl;
-	@NotNull public final GroupName[] groups;
+	@NotNull public final GroupReference[] groups;
 	@NotNull public final RevisionId revisionId;
 	@NotNull public final PackageId[] packages;
 	@NotNull private final Type type;
@@ -175,7 +180,7 @@ public final class Group implements Serialisable, MapSerialisable
 	 */
 
 	@SuppressWarnings({"ConstructorWithTooManyParameters", "FeatureEnvy", "OverlyCoupledMethod"})
-	public Group(@NotNull final User[] users, @NotNull @NonNls final String displayName, @NotNull @NonNls final String description, @NotNull @NonNls final String title, @NotNull final MicrosecondTimestamp created, @NotNull final ApprovalStatus approvalStatus, @NotNull final Status state, @NotNull final Map<String, Object> extras, @NotNull final Url imageUrl, @NotNull final GroupName[] groups, @NotNull final RevisionId revisionId, @NotNull final PackageId[] packages, @NotNull final Type type, @NotNull final GroupId id, @NotNull final TagName[] tags, @NotNull final GroupName name)
+	public Group(@NotNull final User[] users, @NotNull @NonNls final String displayName, @Nullable @NonNls final String description, @NotNull @NonNls final String title, @NotNull final MicrosecondTimestamp created, @NotNull final ApprovalStatus approvalStatus, @NotNull final State state, @NotNull final Map<String, Object> extras, @NotNull final Url imageUrl, @NotNull final GroupReference[] groups, @NotNull final RevisionId revisionId, @NotNull final PackageId[] packages, @NotNull final Type type, @NotNull final GroupId id, @NotNull final TagName[] tags, @NotNull final GroupName name)
 	{
 		this.users = copyOf(users);
 		this.displayName = displayName;
@@ -216,14 +221,21 @@ public final class Group implements Serialisable, MapSerialisable
 		{
 			mapSerialiser.writeProperty(usersField, users);
 			mapSerialiser.writeProperty(displayNameField, displayName);
-			mapSerialiser.writeProperty(descriptionField, description);
+			if (description == null)
+			{
+				mapSerialiser.writePropertyNull(descriptionField);
+			}
+			else
+			{
+				mapSerialiser.writeProperty(descriptionField, description);
+			}
 			mapSerialiser.writeProperty(titleField, title);
 			mapSerialiser.writeProperty(createdField, created);
 			mapSerialiser.writeProperty(approvalStatusField, approvalStatus);
 			mapSerialiser.writeProperty(stateField, state);
 			mapSerialiser.writeProperty(extrasField, extras);
 			mapSerialiser.writeProperty(imageUrlField, imageUrl);
-			mapSerialiser.writeProperty(groupsField, groups);
+			mapSerialiser.writeProperty(groupsField, groupsToGroupIdReferences());
 			mapSerialiser.writeProperty(revisionIdField, revisionId);
 			mapSerialiser.writeProperty(packagesField, packages);
 			mapSerialiser.writeProperty(typeField, type);
@@ -237,7 +249,19 @@ public final class Group implements Serialisable, MapSerialisable
 		}
 	}
 
-	@SuppressWarnings({"OverlyComplexMethod", "OverlyLongMethod"})
+	@NotNull
+	private GroupId[] groupsToGroupIdReferences()
+	{
+		final int length = groups.length;
+		final GroupId[] groupIds = new GroupId[length];
+		for(int index = 0; index < length; index++)
+		{
+			groupIds[index] = groups[index].id;
+		}
+		return groupIds;
+	}
+
+	@SuppressWarnings({"ConditionalExpression", "OverlyComplexMethod", "OverlyLongMethod"})
 	@Override
 	public boolean equals(@Nullable final Object obj)
 	{
@@ -260,7 +284,7 @@ public final class Group implements Serialisable, MapSerialisable
 		{
 			return false;
 		}
-		if (!description.equals(group.description))
+		if (description != null ? !description.equals(group.description) : group.description != null)
 		{
 			return false;
 		}
@@ -300,15 +324,15 @@ public final class Group implements Serialisable, MapSerialisable
 		{
 			return false;
 		}
-		if (type != group.type)
-		{
-			return false;
-		}
 		if (!Arrays.equals(tags, group.tags))
 		{
 			return false;
 		}
 		if (!title.equals(group.title))
+		{
+			return false;
+		}
+		if (type != group.type)
 		{
 			return false;
 		}
@@ -320,22 +344,23 @@ public final class Group implements Serialisable, MapSerialisable
 		return true;
 	}
 
+	@SuppressWarnings("ConditionalExpression")
 	@Override
 	public int hashCode()
 	{
 		int result = Arrays.hashCode(users);
 		result = 31 * result + displayName.hashCode();
-		result = 31 * result + description.hashCode();
+		result = 31 * result + (description != null ? description.hashCode() : 0);
 		result = 31 * result + title.hashCode();
 		result = 31 * result + created.hashCode();
 		result = 31 * result + approvalStatus.hashCode();
 		result = 31 * result + state.hashCode();
-		result = 31 * result + type.hashCode();
 		result = 31 * result + extras.hashCode();
 		result = 31 * result + imageUrl.hashCode();
 		result = 31 * result + Arrays.hashCode(groups);
 		result = 31 * result + revisionId.hashCode();
 		result = 31 * result + Arrays.hashCode(packages);
+		result = 31 * result + type.hashCode();
 		result = 31 * result + id.hashCode();
 		result = 31 * result + Arrays.hashCode(tags);
 		result = 31 * result + name.hashCode();

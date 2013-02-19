@@ -18,7 +18,7 @@ package uk.nhs.hdn.ckan.schema;
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.ckan.domain.Licence;
-import uk.nhs.hdn.ckan.domain.enumerations.Status;
+import uk.nhs.hdn.ckan.domain.enumerations.State;
 import uk.nhs.hdn.ckan.domain.uniqueNames.LicenceId;
 import uk.nhs.hdn.ckan.domain.urls.AbstractUrl;
 import uk.nhs.hdn.ckan.domain.urls.Url;
@@ -27,6 +27,7 @@ import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayC
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.NonNullFieldExpectation;
 
 import static uk.nhs.hdn.ckan.domain.Licence.*;
+import static uk.nhs.hdn.ckan.domain.urls.UnknownUrl.UnknownUrlInstance;
 import static uk.nhs.hdn.ckan.schema.arrayCreators.LicenceArrayCreator.LicenceArray;
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.NonNullCollectToArrayObjectsOnlyForElementsArrayConstructor.nonNullArrayOfObjects;
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.root.NonNullArrayRootArrayConstructor.rootIsArrayOf;
@@ -35,6 +36,7 @@ import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.NonNullFieldExpectation.nonNullStringField;
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.NonNullFieldExpectation.nonNullbooleanField;
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.StringToSomethingElseFieldExpectation.nonNullStringToSomethingElseField;
+import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.StringToSomethingElseFieldExpectation.nullableStringToSomethingElseField;
 
 public final class LicencesArrayJsonSchema extends ArrayJsonSchema<Licence>
 {
@@ -49,11 +51,11 @@ public final class LicencesArrayJsonSchema extends ArrayJsonSchema<Licence>
 			object
 			(
 				Licence.class,
-				nonNullEnumField(statusField, Status.class),
+				nonNullEnumField(statusField, State.class),
 				nonNullStringField(maintainerField),
 				nonNullStringField(familyField),
 				nonNullStringField(titleField),
-				nonNullStringToSomethingElseField(urlField, Url.class, AbstractUrl.class, "parseUrl"),
+				nullableStringToSomethingElseField(urlField, Url.class, AbstractUrl.class, "parseUrl", UnknownUrlInstance),
 				new NonNullFieldExpectation(isGenericField, boolean.class, null, null, false),
 				nonNullbooleanField(isOkdCompliantField),
 				nonNullbooleanField(isOsiCompliantField),
