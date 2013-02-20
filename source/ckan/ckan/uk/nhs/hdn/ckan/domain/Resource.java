@@ -72,6 +72,7 @@ public final class Resource extends AbstractToString implements Serialisable, Ma
 	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String contentTypeField = "content_type";
 	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String hubIdField = "hub-id";
 	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String resourceLocatorProtocolField = "resource_locator_protocol";
+	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String resourceLocatorFunctionField = "resource_locator_function";
 
 	@NotNull public final ResourceGroupId resourceGroupId;
 	@Nullable public final MicrosecondTimestamp cacheLastUpdated;
@@ -102,9 +103,10 @@ public final class Resource extends AbstractToString implements Serialisable, Ma
 	@Nullable @NonNls private final String contentType;
 	@Nullable private final HubId hubId;
 	@Nullable @NonNls private final String resourceLocatorProtocol;
+	@Nullable @NonNls private final String resourceLocatorFunction;
 
 	@SuppressWarnings("ConstructorWithTooManyParameters")
-	public Resource(@NotNull final ResourceGroupId resourceGroupId, @Nullable final MicrosecondTimestamp cacheLastUpdated, @NotNull final PackageId packageId, @Nullable final MicrosecondTimestamp webstoreLastUpdated, @Nullable @NonNls final String datastoreActive, @NotNull final ResourceId id, final long size, @Nullable @NonNls final String cacheFilePath, @Nullable final MicrosecondTimestamp lastModified, @NotNull final Hash hash, @NotNull @NonNls final String description, @NotNull final Format format, @NotNull final TrackingSummary trackingSummary, @Nullable @NonNls final String mimeTypeInner, @Nullable @NonNls final String mimeType, @NotNull final Url cacheUrl, @Nullable @NonNls final String name, @Nullable final MicrosecondTimestamp created, @NotNull final Url url, @Nullable final Url webstoreUrl, final long position, @Nullable final ResourceType resourceType, final long contentLength, final long opennessScore, final long opennessScoreFailureCount, @Nullable @NonNls final String opennessScoreReason, @Nullable @NonNls final String contentType, @Nullable final HubId hubId, @Nullable @NonNls final String resourceLocatorProtocol)
+	public Resource(@NotNull final ResourceGroupId resourceGroupId, @Nullable final MicrosecondTimestamp cacheLastUpdated, @NotNull final PackageId packageId, @Nullable final MicrosecondTimestamp webstoreLastUpdated, @Nullable @NonNls final String datastoreActive, @NotNull final ResourceId id, final long size, @Nullable @NonNls final String cacheFilePath, @Nullable final MicrosecondTimestamp lastModified, @NotNull final Hash hash, @NotNull @NonNls final String description, @NotNull final Format format, @NotNull final TrackingSummary trackingSummary, @Nullable @NonNls final String mimeTypeInner, @Nullable @NonNls final String mimeType, @NotNull final Url cacheUrl, @Nullable @NonNls final String name, @Nullable final MicrosecondTimestamp created, @NotNull final Url url, @Nullable final Url webstoreUrl, final long position, @Nullable final ResourceType resourceType, final long contentLength, final long opennessScore, final long opennessScoreFailureCount, @Nullable @NonNls final String opennessScoreReason, @Nullable @NonNls final String contentType, @Nullable final HubId hubId, @Nullable @NonNls final String resourceLocatorProtocol, @Nullable @NonNls final String resourceLocatorFunction)
 	{
 		this.resourceGroupId = resourceGroupId;
 		this.cacheLastUpdated = cacheLastUpdated;
@@ -135,6 +137,7 @@ public final class Resource extends AbstractToString implements Serialisable, Ma
 		this.contentType = contentType;
 		this.hubId = hubId;
 		this.resourceLocatorProtocol = resourceLocatorProtocol;
+		this.resourceLocatorFunction = resourceLocatorFunction;
 	}
 
 	@Override
@@ -184,6 +187,7 @@ public final class Resource extends AbstractToString implements Serialisable, Ma
 			writeNullableProperty(mapSerialiser, contentTypeField, contentType);
 			writeNullableProperty(mapSerialiser, hubIdField, hubId);
 			writeNullableProperty(mapSerialiser, resourceLocatorProtocolField, resourceLocatorProtocol);
+			writeNullableProperty(mapSerialiser, resourceLocatorFunctionField, resourceLocatorFunction);
 		}
 		catch (CouldNotWritePropertyException e)
 		{
@@ -290,6 +294,10 @@ public final class Resource extends AbstractToString implements Serialisable, Ma
 		{
 			return false;
 		}
+		if (resourceLocatorFunction != null ? !resourceLocatorFunction.equals(resource.resourceLocatorFunction) : resource.resourceLocatorFunction != null)
+		{
+			return false;
+		}
 		if (opennessScoreReason != null ? !opennessScoreReason.equals(resource.opennessScoreReason) : resource.opennessScoreReason != null)
 		{
 			return false;
@@ -346,6 +354,7 @@ public final class Resource extends AbstractToString implements Serialisable, Ma
 		result = 31 * result + (mimeTypeInner != null ? mimeTypeInner.hashCode() : 0);
 		result = 31 * result + (hubId != null ? hubId.hashCode() : 0);
 		result = 31 * result + (resourceLocatorProtocol != null ? resourceLocatorProtocol.hashCode() : 0);
+		result = 31 * result + (resourceLocatorFunction != null ? resourceLocatorFunction.hashCode() : 0);
 		result = 31 * result + (mimeType != null ? mimeType.hashCode() : 0);
 		result = 31 * result + cacheUrl.hashCode();
 		result = 31 * result + (name != null ? name.hashCode() : 0);

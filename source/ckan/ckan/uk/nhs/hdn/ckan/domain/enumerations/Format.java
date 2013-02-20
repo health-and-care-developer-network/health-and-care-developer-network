@@ -24,11 +24,14 @@ import uk.nhs.hdn.common.serialisers.ValueSerialisable;
 import uk.nhs.hdn.common.serialisers.ValueSerialiser;
 import uk.nhs.hdn.common.unknown.IsUnknown;
 
+import static java.util.Locale.ENGLISH;
+
 public enum Format implements ValueSerialisable, IsUnknown
 {
 	CSV,
 	XLS,
 	RDF,
+	XML,
 	Unknown,
 	;
 
@@ -54,7 +57,7 @@ public enum Format implements ValueSerialisable, IsUnknown
 		{
 			return Unknown;
 		}
-		return valueOf(value);
+		return valueOf(value.toUpperCase(ENGLISH));
 	}
 
 	@Override

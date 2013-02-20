@@ -88,6 +88,15 @@ public final class DatasetJsonSchema extends ObjectJsonSchema<Dataset>
 		Format might be an empty string - needs handling
 	 */
 
+	public static long convertStringLong(@NotNull @NonNls final String value)
+	{
+		if (value.isEmpty() || "None".equals(value))
+		{
+			return NullNumber;
+		}
+		return Long.valueOf(value);
+	}
+
 	@SuppressWarnings("unchecked")
 	@NotNull
 	public static final ObjectRootArrayConstructor<Dataset> DatasetSchema = rootIsObjectOf
@@ -122,7 +131,7 @@ public final class DatasetJsonSchema extends ObjectJsonSchema<Dataset>
 					nullableStringToSomethingElseField(webstoreLastUpdatedField, MicrosecondTimestamp.class, MicrosecondTimestamp.class, microsecondTimestamp, null),
 					nullableStringField(datastoreActiveField),
 					nonNullStringToSomethingElseField(Resource.idField, ResourceId.class, ResourceId.class, valueOf),
-					nullableStringToSomethingElseField(sizeField, long.class, Long.class, valueOf, NullNumber),
+					nullableStringToSomethingElseField(sizeField, long.class, DatasetJsonSchema.class, "convertStringLong", NullNumber),
 					nullableStringField(cacheFilePathField),
 					nullableStringToSomethingElseField(lastModifiedField, MicrosecondTimestamp.class, MicrosecondTimestamp.class, microsecondTimestamp, null),
 					nonNullStringToSomethingElseField(hashField, Hash.class),
@@ -138,13 +147,14 @@ public final class DatasetJsonSchema extends ObjectJsonSchema<Dataset>
 					nullableStringToSomethingElseField(webstoreUrlField, Url.class, AbstractUrl.class, parseUrl, UnknownUrlInstance),
 					nonNulllongField(positionField),
 					nullableStringToSomethingElseField(resourceTypeField, ResourceType.class, ResourceType.class, valueOf, null),
-					nullableStringToSomethingElseField(contentLengthField, long.class, Long.class, valueOf, NullNumber),
-					nullableStringToSomethingElseField(opennessScoreField, long.class, Long.class, valueOf, NullNumber),
-					nullableStringToSomethingElseField(opennessScoreFailureCountField, long.class, Long.class, valueOf, NullNumber),
+					nullableStringToSomethingElseField(contentLengthField, long.class, DatasetJsonSchema.class, "convertStringLong", NullNumber),
+					nullableStringToSomethingElseField(opennessScoreField, long.class, DatasetJsonSchema.class, "convertStringLong", NullNumber),
+					nullableStringToSomethingElseField(opennessScoreFailureCountField, long.class, DatasetJsonSchema.class, "convertStringLong", NullNumber),
 					nullableStringField(opennessScoreReasonField),
 					nullableStringField(contentTypeField),
 					nullableStringToSomethingElseField(hubIdField, HubId.class, null),
-					nullableStringField(resourceLocatorProtocolField)
+					nullableStringField(resourceLocatorProtocolField),
+					nullableStringField(resourceLocatorFunctionField)
 				)
 			)),
 			nonNullField(tagsField, TagName[].class, ArrayOfTagsConstructor),
