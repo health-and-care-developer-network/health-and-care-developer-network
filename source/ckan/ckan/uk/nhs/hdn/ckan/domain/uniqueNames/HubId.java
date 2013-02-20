@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.common.serialisers;
+package uk.nhs.hdn.ckan.domain.uniqueNames;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
-public interface ValueSerialisable
+public final class HubId extends AbstractUniqueName
 {
-	long NullNumber = -1L;
-
-	void serialiseValue(@NotNull final ValueSerialiser valueSerialiser) throws CouldNotSerialiseValueException;
+	public HubId(@NonNls @NotNull final String value)
+	{
+		super(value);
+	}
 }

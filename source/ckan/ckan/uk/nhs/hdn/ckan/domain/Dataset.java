@@ -170,19 +170,19 @@ public final class Dataset extends AbstractToString implements Serialisable, Map
 		return tabSeparatedValueSerialiser(sanitiseBrokenData ? SanitisingTabSeparatedFieldEscaperInstance : TabSeparatedFieldEscaperInstance, SeparatedValuesSchema, true, SeparatedValuesHeadings);
 	}
 
-	@NonNls @NotNull public final String licenceTitle;
+	@NonNls @Nullable public final String licenceTitle;
 	@NonNls @Nullable public final String maintainer;
 	@NonNls @Nullable public final String maintainerEmail;
 	@NotNull public final DatasetId id;
 	@NotNull public final MicrosecondTimestamp metadataCreated;
 	@NotNull public final DatasetName[] relationships; // broken!
-	@NonNls @NotNull public final String licence;
+	@NonNls @Nullable public final String licence;
 	@NotNull public final MicrosecondTimestamp metadataModified;
-	@NonNls @NotNull public final String author;
-	@NonNls @NotNull public final String authorEmail;
+	@NonNls @Nullable public final String author;
+	@NonNls @Nullable public final String authorEmail;
 	@NotNull public final State state;
 	@NonNls @Nullable public final String version;
-	@NotNull public final LicenceId licenceId;
+	@Nullable public final LicenceId licenceId;
 	@Nullable public final Type type;
 	@NotNull public final Resource[] resources;
 	@NotNull public final TagName[] tags;
@@ -202,7 +202,7 @@ public final class Dataset extends AbstractToString implements Serialisable, Map
 	@NotNull public final RevisionId revisionId;
 
 	@SuppressWarnings({"AssignmentToCollectionOrArrayFieldFromParameter", "ConstructorWithTooManyParameters", "OverlyCoupledMethod"})
-	public Dataset(@NotNull @NonNls final String licenceTitle, @Nullable @NonNls final String maintainer, @Nullable @NonNls final String maintainerEmail, @NotNull final DatasetId id, @NotNull final MicrosecondTimestamp metadataCreated, @NotNull final DatasetName[] relationships, @NotNull @NonNls final String licence, @NotNull final MicrosecondTimestamp metadataModified, @NotNull @NonNls final String author, @NotNull @NonNls final String authorEmail, @NotNull final State state, @Nullable @NonNls final String version, @NotNull final LicenceId licenceId, @Nullable final Type type, @NotNull final Resource[] resources, @NotNull final TagName[] tags, @NotNull final TrackingSummary trackingSummary, @NotNull final GroupId[] groups, @NotNull final DatasetName name, final boolean isOpen, @NotNull @NonNls final String notesRendered, @NotNull final Url url, @NotNull final Url ckanUrl, @NotNull @NonNls final String notes, @NotNull @NonNls final String title, @Nullable @NonNls final String ratingsAverage, @NotNull final Map<String, Object> extras, @NotNull final Url licenceUrl, final long ratingsCount, @NotNull final RevisionId revisionId)
+	public Dataset(@Nullable @NonNls final String licenceTitle, @Nullable @NonNls final String maintainer, @Nullable @NonNls final String maintainerEmail, @NotNull final DatasetId id, @NotNull final MicrosecondTimestamp metadataCreated, @NotNull final DatasetName[] relationships, @Nullable @NonNls final String licence, @NotNull final MicrosecondTimestamp metadataModified, @Nullable @NonNls final String author, @Nullable @NonNls final String authorEmail, @NotNull final State state, @Nullable @NonNls final String version, @Nullable final LicenceId licenceId, @Nullable final Type type, @NotNull final Resource[] resources, @NotNull final TagName[] tags, @NotNull final TrackingSummary trackingSummary, @NotNull final GroupId[] groups, @NotNull final DatasetName name, final boolean isOpen, @NotNull @NonNls final String notesRendered, @NotNull final Url url, @NotNull final Url ckanUrl, @NotNull @NonNls final String notes, @NotNull @NonNls final String title, @Nullable @NonNls final String ratingsAverage, @NotNull final Map<String, Object> extras, @NotNull final Url licenceUrl, final long ratingsCount, @NotNull final RevisionId revisionId)
 	{
 		this.licenceTitle = licenceTitle;
 		this.maintainer = maintainer;
@@ -255,19 +255,19 @@ public final class Dataset extends AbstractToString implements Serialisable, Map
 	{
 		try
 		{
-			mapSerialiser.writeProperty(licenceTitleField, licenceTitle);
+			writeNullableProperty(mapSerialiser, licenceTitleField, licenceTitle);
 			writeNullableProperty(mapSerialiser, maintainerField, maintainer);
 			writeNullableProperty(mapSerialiser, maintainerEmailField, maintainerEmail);
 			mapSerialiser.writeProperty(idField, id);
 			mapSerialiser.writeProperty(metadataCreatedField, metadataCreated);
 			mapSerialiser.writeProperty(relationshipsField, relationships);
-			mapSerialiser.writeProperty(licenceField, licence);
+			writeNullableProperty(mapSerialiser, licenceField, licence);
 			mapSerialiser.writeProperty(metadataModifiedField, metadataModified);
-			mapSerialiser.writeProperty(authorField, author);
-			mapSerialiser.writeProperty(authorEmailField, authorEmail);
+			writeNullableProperty(mapSerialiser, authorField, author);
+			writeNullableProperty(mapSerialiser, authorEmailField, authorEmail);
 			mapSerialiser.writeProperty(stateField, state);
 			writeNullableProperty(mapSerialiser, versionField, version);
-			mapSerialiser.writeProperty(licenceIdField, licenceId);
+			writeNullableProperty(mapSerialiser, licenceIdField, licenceId);
 			writeNullableProperty(mapSerialiser, typeField, type);
 			mapSerialiser.writeProperty(resourcesField, resources);
 			mapSerialiser.writeProperty(tagsField, tags);
@@ -315,11 +315,11 @@ public final class Dataset extends AbstractToString implements Serialisable, Map
 		{
 			return false;
 		}
-		if (!author.equals(dataset.author))
+		if (author != null ? !author.equals(dataset.author) : dataset.author != null)
 		{
 			return false;
 		}
-		if (!authorEmail.equals(dataset.authorEmail))
+		if (authorEmail != null ? !authorEmail.equals(dataset.authorEmail) : dataset.authorEmail != null)
 		{
 			return false;
 		}
@@ -343,15 +343,15 @@ public final class Dataset extends AbstractToString implements Serialisable, Map
 		{
 			return false;
 		}
-		if (!licence.equals(dataset.licence))
+		if (licence != null ? !licence.equals(dataset.licence) : dataset.licence != null)
 		{
 			return false;
 		}
-		if (!licenceId.equals(dataset.licenceId))
+		if (licenceId != null ? !licenceId.equals(dataset.licenceId) : dataset.licenceId != null)
 		{
 			return false;
 		}
-		if (!licenceTitle.equals(dataset.licenceTitle))
+		if (licenceTitle != null ? !licenceTitle.equals(dataset.licenceTitle) : dataset.licenceTitle != null)
 		{
 			return false;
 		}
@@ -431,24 +431,24 @@ public final class Dataset extends AbstractToString implements Serialisable, Map
 		return true;
 	}
 
-	@SuppressWarnings({"MethodWithMoreThanThreeNegations", "ConditionalExpression", "OverlyLongMethod"})
+	@SuppressWarnings({"MethodWithMoreThanThreeNegations", "ConditionalExpression", "OverlyLongMethod", "OverlyComplexMethod"})
 	@Override
 	public int hashCode()
 	{
-		int result = licenceTitle.hashCode();
+		int result = licenceTitle != null ? licenceTitle.hashCode() : 0;
 		result = 31 * result + (maintainer != null ? maintainer.hashCode() : 0);
 		result = 31 * result + (maintainerEmail != null ? maintainerEmail.hashCode() : 0);
 		result = 31 * result + id.hashCode();
 		result = 31 * result + name.hashCode();
 		result = 31 * result + metadataCreated.hashCode();
 		result = 31 * result + Arrays.hashCode(relationships);
-		result = 31 * result + licence.hashCode();
+		result = 31 * result + (licence != null ? licence.hashCode() : 0);
 		result = 31 * result + metadataModified.hashCode();
-		result = 31 * result + author.hashCode();
-		result = 31 * result + authorEmail.hashCode();
+		result = 31 * result + (author != null ? author.hashCode() : 0);
+		result = 31 * result + (authorEmail != null ? authorEmail.hashCode() : 0);
 		result = 31 * result + state.hashCode();
 		result = 31 * result + (version != null ? version.hashCode() : 0);
-		result = 31 * result + licenceId.hashCode();
+		result = 31 * result + (licenceId != null ? licenceId.hashCode() : 0);
 		result = 31 * result + (type != null ? type.hashCode() : 0);
 		result = 31 * result + Arrays.hashCode(resources);
 		result = 31 * result + Arrays.hashCode(tags);

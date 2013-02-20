@@ -25,6 +25,7 @@ import uk.nhs.hdn.ckan.domain.ids.PackageId;
 import uk.nhs.hdn.ckan.domain.ids.ResourceGroupId;
 import uk.nhs.hdn.ckan.domain.ids.ResourceId;
 import uk.nhs.hdn.ckan.domain.strings.Hash;
+import uk.nhs.hdn.ckan.domain.uniqueNames.HubId;
 import uk.nhs.hdn.ckan.domain.urls.Url;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hdn.common.serialisers.*;
@@ -35,30 +36,11 @@ import static uk.nhs.hdn.common.serialisers.AbstractSerialiser.writeNullableProp
 public final class Resource extends AbstractToString implements Serialisable, MapSerialisable
 {
 	/*
-		"resource_group_id": "0d815062-298b-fe37-3bb2-871951340077",
-		"cache_last_updated": "2012-11-13T01:27:13.548912",
-		"package_id": "3106a305-43c9-417f-b198-45d257b5698b",
-		"webstore_last_updated": null,
-		"id": "46bad484-6951-4632-9dc2-62405dbfe5fc",
-		"size": "32684",
-		"cache_filepath": "/mnt/shared/ckan_resource_cache/46/46bad484-6951-4632-9dc2-62405dbfe5fc/transparency-agenda-1.aspx",
-		"last_modified": "2013-02-16T00:54:13.365259",
-		"hash": "80eecfc19bd312336edb9e28de17cb28e9ae3da4",
-		"description": "NHS Bristol 25k expenditure August 2012",
-		"format": "CSV",
-		"tracking_summary": {
-			"total": 0,
-			"recent": 0
-		},
-		"mimetype_inner": null,
-		"mimetype": "text/html",
-		"cache_url": "http://data.gov.uk/data/resource_cache/46/46bad484-6951-4632-9dc2-62405dbfe5fc/transparency-agenda-1.aspx",
-		"name": null,
-		"created": "2012-10-18T16:39:35.577870",
-		"url": "http://www.bristol.nhs.uk/about-us/freedom-of-information/transparency-agenda-1.aspx",
-		"webstore_url": null,
-		"position": 28,
-		"resource_type": "file"
+		"content_length": "19968",
+		"openness_score": "0",
+		"openness_score_failure_count": "1",
+		"openness_score_reason": "The format entered for the resource doesn't match the description from the web server",
+		"content_type": "application/vnd.ms-excel",
 	 */
 
 	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String resourceGroupIdField = "resource_group_id";
@@ -83,32 +65,46 @@ public final class Resource extends AbstractToString implements Serialisable, Ma
 	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String webstoreUrlField = "webstore_url";
 	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String positionField = "position";
 	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String resourceTypeField = "resource_type";
+	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String contentLengthField = "content_length";
+	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String opennessScoreField = "openness_score";
+	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String opennessScoreFailureCountField = "openness_score_failure_count";
+	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String opennessScoreReasonField = "openness_score_reason";
+	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String contentTypeField = "content_type";
+	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String hubIdField = "hub-id";
+	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String resourceLocatorProtocolField = "resource_locator_protocol";
 
 	@NotNull public final ResourceGroupId resourceGroupId;
-	@NotNull public final MicrosecondTimestamp cacheLastUpdated;
+	@Nullable public final MicrosecondTimestamp cacheLastUpdated;
 	@NotNull public final PackageId packageId;
 	@Nullable public final MicrosecondTimestamp webstoreLastUpdated;
 	@Nullable @NonNls public final String datastoreActive;
 	@NotNull public final ResourceId id;
 	public final long size;
-	@NotNull @NonNls public final String cacheFilePath;
-	@NotNull public final MicrosecondTimestamp lastModified;
+	@Nullable @NonNls public final String cacheFilePath;
+	@Nullable public final MicrosecondTimestamp lastModified;
 	@NotNull public final Hash hash;
 	@NotNull @NonNls public final String description;
 	@NotNull public final Format format;
 	@NotNull public final TrackingSummary trackingSummary;
 	@Nullable @NonNls public final String mimeTypeInner;
-	@NotNull @NonNls public final String mimeType;
+	@Nullable @NonNls public final String mimeType;
 	@NotNull public final Url cacheUrl;
 	@Nullable @NonNls public final String name;
 	@Nullable public final MicrosecondTimestamp created;
 	@NotNull public final Url url;
 	@Nullable public final Url webstoreUrl;
 	public final long position;
-	@NotNull public final ResourceType resourceType;
+	@Nullable public final ResourceType resourceType;
+	private final long contentLength;
+	private final long opennessScore;
+	private final long opennessScoreFailureCount;
+	@Nullable @NonNls private final String opennessScoreReason;
+	@Nullable @NonNls private final String contentType;
+	@Nullable private final HubId hubId;
+	@Nullable @NonNls private final String resourceLocatorProtocol;
 
 	@SuppressWarnings("ConstructorWithTooManyParameters")
-	public Resource(@NotNull final ResourceGroupId resourceGroupId, @NotNull final MicrosecondTimestamp cacheLastUpdated, @NotNull final PackageId packageId, @Nullable final MicrosecondTimestamp webstoreLastUpdated, @Nullable @NonNls final String datastoreActive, @NotNull final ResourceId id, final long size, @NotNull @NonNls final String cacheFilePath, @NotNull final MicrosecondTimestamp lastModified, @NotNull final Hash hash, @NotNull @NonNls final String description, @NotNull final Format format, @NotNull final TrackingSummary trackingSummary, @Nullable @NonNls final String mimeTypeInner, @NotNull @NonNls final String mimeType, @NotNull final Url cacheUrl, @Nullable @NonNls final String name, @Nullable final MicrosecondTimestamp created, @NotNull final Url url, @Nullable final Url webstoreUrl, final long position, @NotNull final ResourceType resourceType)
+	public Resource(@NotNull final ResourceGroupId resourceGroupId, @Nullable final MicrosecondTimestamp cacheLastUpdated, @NotNull final PackageId packageId, @Nullable final MicrosecondTimestamp webstoreLastUpdated, @Nullable @NonNls final String datastoreActive, @NotNull final ResourceId id, final long size, @Nullable @NonNls final String cacheFilePath, @Nullable final MicrosecondTimestamp lastModified, @NotNull final Hash hash, @NotNull @NonNls final String description, @NotNull final Format format, @NotNull final TrackingSummary trackingSummary, @Nullable @NonNls final String mimeTypeInner, @Nullable @NonNls final String mimeType, @NotNull final Url cacheUrl, @Nullable @NonNls final String name, @Nullable final MicrosecondTimestamp created, @NotNull final Url url, @Nullable final Url webstoreUrl, final long position, @Nullable final ResourceType resourceType, final long contentLength, final long opennessScore, final long opennessScoreFailureCount, @Nullable @NonNls final String opennessScoreReason, @Nullable @NonNls final String contentType, @Nullable final HubId hubId, @Nullable @NonNls final String resourceLocatorProtocol)
 	{
 		this.resourceGroupId = resourceGroupId;
 		this.cacheLastUpdated = cacheLastUpdated;
@@ -132,6 +128,13 @@ public final class Resource extends AbstractToString implements Serialisable, Ma
 		this.webstoreUrl = webstoreUrl;
 		this.position = position;
 		this.resourceType = resourceType;
+		this.contentLength = contentLength;
+		this.opennessScore = opennessScore;
+		this.opennessScoreFailureCount = opennessScoreFailureCount;
+		this.opennessScoreReason = opennessScoreReason;
+		this.contentType = contentType;
+		this.hubId = hubId;
+		this.resourceLocatorProtocol = resourceLocatorProtocol;
 	}
 
 	@Override
@@ -154,26 +157,33 @@ public final class Resource extends AbstractToString implements Serialisable, Ma
 		try
 		{
 			mapSerialiser.writeProperty(resourceGroupIdField, resourceGroupId);
-			mapSerialiser.writeProperty(cacheLastUpdatedField, cacheLastUpdated);
+			writeNullableProperty(mapSerialiser, cacheLastUpdatedField, cacheLastUpdated);
 			mapSerialiser.writeProperty(packageIdField, packageId);
 			writeNullableProperty(mapSerialiser, webstoreLastUpdatedField, webstoreLastUpdated);
 			writeNullableProperty(mapSerialiser, datastoreActiveField, datastoreActive);
 			mapSerialiser.writeProperty(idField, id);
-			mapSerialiser.writeProperty(cacheFilePathField, cacheFilePath);
-			mapSerialiser.writeProperty(lastModifiedField, lastModified);
+			writeNullableProperty(mapSerialiser, cacheFilePathField, cacheFilePath);
+			writeNullableProperty(mapSerialiser, lastModifiedField, lastModified);
 			mapSerialiser.writeProperty(hashField, hash);
 			mapSerialiser.writeProperty(descriptionField, description);
 			mapSerialiser.writeProperty(formatField, format);
 			mapSerialiser.writeProperty(trackingSummaryField, trackingSummary);
 			writeNullableProperty(mapSerialiser, mimeTypeInnerField, mimeTypeInner);
-			mapSerialiser.writeProperty(mimeTypeField, mimeType);
+			writeNullableProperty(mapSerialiser, mimeTypeField, mimeType);
 			mapSerialiser.writeProperty(cacheUrlField, cacheUrl);
 			writeNullableProperty(mapSerialiser, nameField, name);
 			writeNullableProperty(mapSerialiser, createdField, created);
 			mapSerialiser.writeProperty(urlField, url);
 			writeNullableProperty(mapSerialiser, webstoreUrlField, webstoreUrl);
 			mapSerialiser.writeProperty(positionField, position);
-			mapSerialiser.writeProperty(resourceTypeField, resourceType);
+			writeNullableProperty(mapSerialiser, resourceTypeField, resourceType);
+			writeNullableProperty(mapSerialiser, contentLengthField, contentLength);
+			writeNullableProperty(mapSerialiser, opennessScoreField, opennessScore);
+			writeNullableProperty(mapSerialiser, opennessScoreFailureCountField, opennessScoreFailureCount);
+			writeNullableProperty(mapSerialiser, opennessScoreReasonField, opennessScoreReason);
+			writeNullableProperty(mapSerialiser, contentTypeField, contentType);
+			writeNullableProperty(mapSerialiser, hubIdField, hubId);
+			writeNullableProperty(mapSerialiser, resourceLocatorProtocolField, resourceLocatorProtocol);
 		}
 		catch (CouldNotWritePropertyException e)
 		{
@@ -181,9 +191,9 @@ public final class Resource extends AbstractToString implements Serialisable, Ma
 		}
 	}
 
-	@SuppressWarnings({"FeatureEnvy", "OverlyComplexMethod", "OverlyLongMethod", "ConditionalExpression"})
+	@SuppressWarnings({"ConditionalExpression", "FeatureEnvy", "OverlyComplexMethod", "OverlyLongMethod"})
 	@Override
-	public boolean equals(@Nullable final Object obj)
+	public boolean equals(final Object obj)
 	{
 		if (this == obj)
 		{
@@ -196,6 +206,18 @@ public final class Resource extends AbstractToString implements Serialisable, Ma
 
 		final Resource resource = (Resource) obj;
 
+		if (contentLength != resource.contentLength)
+		{
+			return false;
+		}
+		if (opennessScore != resource.opennessScore)
+		{
+			return false;
+		}
+		if (opennessScoreFailureCount != resource.opennessScoreFailureCount)
+		{
+			return false;
+		}
 		if (position != resource.position)
 		{
 			return false;
@@ -204,15 +226,11 @@ public final class Resource extends AbstractToString implements Serialisable, Ma
 		{
 			return false;
 		}
-		if (!cacheFilePath.equals(resource.cacheFilePath))
+		if (cacheFilePath != null ? !cacheFilePath.equals(resource.cacheFilePath) : resource.cacheFilePath != null)
 		{
 			return false;
 		}
-		if (datastoreActive != null ? !datastoreActive.equals(resource.datastoreActive) : resource.datastoreActive != null)
-		{
-			return false;
-		}
-		if (!cacheLastUpdated.equals(resource.cacheLastUpdated))
+		if (cacheLastUpdated != null ? !cacheLastUpdated.equals(resource.cacheLastUpdated) : resource.cacheLastUpdated != null)
 		{
 			return false;
 		}
@@ -220,7 +238,15 @@ public final class Resource extends AbstractToString implements Serialisable, Ma
 		{
 			return false;
 		}
+		if (contentType != null ? !contentType.equals(resource.contentType) : resource.contentType != null)
+		{
+			return false;
+		}
 		if (created != null ? !created.equals(resource.created) : resource.created != null)
+		{
+			return false;
+		}
+		if (datastoreActive != null ? !datastoreActive.equals(resource.datastoreActive) : resource.datastoreActive != null)
 		{
 			return false;
 		}
@@ -240,11 +266,11 @@ public final class Resource extends AbstractToString implements Serialisable, Ma
 		{
 			return false;
 		}
-		if (!lastModified.equals(resource.lastModified))
+		if (lastModified != null ? !lastModified.equals(resource.lastModified) : resource.lastModified != null)
 		{
 			return false;
 		}
-		if (!mimeType.equals(resource.mimeType))
+		if (mimeType != null ? !mimeType.equals(resource.mimeType) : resource.mimeType != null)
 		{
 			return false;
 		}
@@ -253,6 +279,18 @@ public final class Resource extends AbstractToString implements Serialisable, Ma
 			return false;
 		}
 		if (name != null ? !name.equals(resource.name) : resource.name != null)
+		{
+			return false;
+		}
+		if (hubId != null ? !hubId.equals(resource.hubId) : resource.hubId != null)
+		{
+			return false;
+		}
+		if (resourceLocatorProtocol != null ? !resourceLocatorProtocol.equals(resource.resourceLocatorProtocol) : resource.resourceLocatorProtocol != null)
+		{
+			return false;
+		}
+		if (opennessScoreReason != null ? !opennessScoreReason.equals(resource.opennessScoreReason) : resource.opennessScoreReason != null)
 		{
 			return false;
 		}
@@ -288,32 +326,39 @@ public final class Resource extends AbstractToString implements Serialisable, Ma
 		return true;
 	}
 
-	@SuppressWarnings({"FeatureEnvy", "MethodWithMoreThanThreeNegations", "ConditionalExpression"})
+	@SuppressWarnings({"ConditionalExpression", "MethodWithMoreThanThreeNegations", "FeatureEnvy", "ConstantConditions", "OverlyComplexMethod"})
 	@Override
 	public int hashCode()
 	{
 		int result = resourceGroupId.hashCode();
-		result = 31 * result + cacheLastUpdated.hashCode();
+		result = 31 * result + (cacheLastUpdated != null ? cacheLastUpdated.hashCode() : 0);
 		result = 31 * result + packageId.hashCode();
 		result = 31 * result + (webstoreLastUpdated != null ? webstoreLastUpdated.hashCode() : 0);
+		result = 31 * result + (datastoreActive != null ? datastoreActive.hashCode() : 0);
 		result = 31 * result + id.hashCode();
 		result = 31 * result + (int) (size ^ (size >>> 32));
-		result = 31 * result + cacheFilePath.hashCode();
-		result = 31 * result + (datastoreActive != null ? datastoreActive.hashCode() : 0);
-		result = 31 * result + lastModified.hashCode();
+		result = 31 * result + (cacheFilePath != null ? cacheFilePath.hashCode() : 0);
+		result = 31 * result + (lastModified != null ? lastModified.hashCode() : 0);
 		result = 31 * result + hash.hashCode();
 		result = 31 * result + description.hashCode();
 		result = 31 * result + format.hashCode();
 		result = 31 * result + trackingSummary.hashCode();
 		result = 31 * result + (mimeTypeInner != null ? mimeTypeInner.hashCode() : 0);
-		result = 31 * result + mimeType.hashCode();
+		result = 31 * result + (hubId != null ? hubId.hashCode() : 0);
+		result = 31 * result + (resourceLocatorProtocol != null ? resourceLocatorProtocol.hashCode() : 0);
+		result = 31 * result + (mimeType != null ? mimeType.hashCode() : 0);
 		result = 31 * result + cacheUrl.hashCode();
 		result = 31 * result + (name != null ? name.hashCode() : 0);
 		result = 31 * result + (created != null ? created.hashCode() : 0);
 		result = 31 * result + url.hashCode();
 		result = 31 * result + (webstoreUrl != null ? webstoreUrl.hashCode() : 0);
 		result = 31 * result + (int) (position ^ (position >>> 32));
-		result = 31 * result + resourceType.hashCode();
+		result = 31 * result + (resourceType != null ? resourceType.hashCode() : 0);
+		result = 31 * result + (int) (contentLength ^ (contentLength >>> 32));
+		result = 31 * result + (int) (opennessScore ^ (opennessScore >>> 32));
+		result = 31 * result + (int) (opennessScoreFailureCount ^ (opennessScoreFailureCount >>> 32));
+		result = 31 * result + (opennessScoreReason != null ? opennessScoreReason.hashCode() : 0);
+		result = 31 * result + (contentType != null ? contentType.hashCode() : 0);
 		return result;
 	}
 }

@@ -29,6 +29,7 @@ import uk.nhs.hdn.ckan.domain.enumerations.Type;
 import uk.nhs.hdn.ckan.domain.ids.*;
 import uk.nhs.hdn.ckan.domain.strings.Hash;
 import uk.nhs.hdn.ckan.domain.uniqueNames.DatasetName;
+import uk.nhs.hdn.ckan.domain.uniqueNames.HubId;
 import uk.nhs.hdn.ckan.domain.uniqueNames.LicenceId;
 import uk.nhs.hdn.ckan.domain.uniqueNames.TagName;
 import uk.nhs.hdn.ckan.domain.urls.AbstractUrl;
@@ -74,6 +75,7 @@ import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.NonNullFieldExpectation.nonNullField;
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.StringToSomethingElseFieldExpectation.nonNullStringToSomethingElseField;
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.StringToSomethingElseFieldExpectation.nullableStringToSomethingElseField;
+import static uk.nhs.hdn.common.serialisers.ValueSerialisable.NullNumber;
 
 @SuppressWarnings("OverlyCoupledClass")
 public final class DatasetJsonSchema extends ObjectJsonSchema<Dataset>
@@ -81,6 +83,10 @@ public final class DatasetJsonSchema extends ObjectJsonSchema<Dataset>
 	@SuppressWarnings("ConstantNamingConvention") @NotNull @NonNls private static final String valueOf = "valueOf";
 	@SuppressWarnings("ConstantNamingConvention") @NotNull @NonNls private static final String parseUrl = "parseUrl";
 	@SuppressWarnings("ConstantNamingConvention") @NotNull @NonNls private static final String microsecondTimestamp = "microsecondTimestamp";
+
+	/*
+		Format might be an empty string - needs handling
+	 */
 
 	@SuppressWarnings("unchecked")
 	@NotNull
@@ -90,19 +96,19 @@ public final class DatasetJsonSchema extends ObjectJsonSchema<Dataset>
 		object
 		(
 			Dataset.class,
-			nonNullStringField(licenceTitleField),
+			nullableStringField(licenceTitleField),
 			nullableStringField(maintainerField),
 			nullableStringField(maintainerEmailField),
 			nonNullStringToSomethingElseField(idField, DatasetId.class, DatasetId.class, valueOf),
 			nonNullStringToSomethingElseField(metadataCreatedField, MicrosecondTimestamp.class, MicrosecondTimestamp.class, microsecondTimestamp),
 			nonNullField(relationshipsField, DatasetName[].class, convertUsingDelegateListCollectingStringArrayConstructor(DatasetNameArray, DatasetName.class)), // WRONG, but ok enough for now
-			nonNullStringField(licenceField),
+			nullableStringField(licenceField),
 			nonNullStringToSomethingElseField(metadataModifiedField, MicrosecondTimestamp.class, MicrosecondTimestamp.class, microsecondTimestamp),
-			nonNullStringField(authorField),
-			nonNullStringField(authorEmailField),
+			nullableStringField(authorField),
+			nullableStringField(authorEmailField),
 			nonNullEnumField(stateField, State.class),
 			nullableStringField(versionField),
-			nonNullStringToSomethingElseField(licenceIdField, LicenceId.class),
+			nullableStringToSomethingElseField(licenceIdField, LicenceId.class, null),
 			nullableStringToSomethingElseField(typeField, Type.class, Type.class, valueOf, null),
 			nonNullField(resourcesField, Resource[].class, nonNullArrayOfObjects
 			(
@@ -111,27 +117,34 @@ public final class DatasetJsonSchema extends ObjectJsonSchema<Dataset>
 				(
 					Resource.class,
 					nonNullStringToSomethingElseField(resourceGroupIdField, ResourceGroupId.class, ResourceGroupId.class, valueOf),
-					nonNullStringToSomethingElseField(cacheLastUpdatedField, MicrosecondTimestamp.class, MicrosecondTimestamp.class, microsecondTimestamp),
+					nullableStringToSomethingElseField(cacheLastUpdatedField, MicrosecondTimestamp.class, MicrosecondTimestamp.class, microsecondTimestamp, null),
 					nonNullStringToSomethingElseField(packageIdField, PackageId.class, PackageId.class, valueOf),
 					nullableStringToSomethingElseField(webstoreLastUpdatedField, MicrosecondTimestamp.class, MicrosecondTimestamp.class, microsecondTimestamp, null),
 					nullableStringField(datastoreActiveField),
 					nonNullStringToSomethingElseField(Resource.idField, ResourceId.class, ResourceId.class, valueOf),
-					nonNullStringToSomethingElseField(sizeField, long.class, Long.class, valueOf),
-					nonNullStringField(cacheFilePathField),
-					nonNullStringToSomethingElseField(lastModifiedField, MicrosecondTimestamp.class, MicrosecondTimestamp.class, microsecondTimestamp),
+					nullableStringToSomethingElseField(sizeField, long.class, Long.class, valueOf, NullNumber),
+					nullableStringField(cacheFilePathField),
+					nullableStringToSomethingElseField(lastModifiedField, MicrosecondTimestamp.class, MicrosecondTimestamp.class, microsecondTimestamp, null),
 					nonNullStringToSomethingElseField(hashField, Hash.class),
 					nonNullStringField(descriptionField),
-					nonNullEnumField(formatField, Format.class),
+					nonNullStringToSomethingElseField(formatField, Format.class, Format.class, "format"),
 					trackingSummaryField(),
 					nullableStringField(mimeTypeInnerField),
-					nonNullStringField(mimeTypeField),
+					nullableStringField(mimeTypeField),
 					nullableStringToSomethingElseField(cacheUrlField, Url.class, AbstractUrl.class, parseUrl, UnknownUrlInstance),
 					nullableStringField(Resource.nameField),
 					nullableStringToSomethingElseField(createdField, MicrosecondTimestamp.class, MicrosecondTimestamp.class, microsecondTimestamp, null),
 					nullableStringToSomethingElseField(urlField, Url.class, AbstractUrl.class, parseUrl, UnknownUrlInstance),
 					nullableStringToSomethingElseField(webstoreUrlField, Url.class, AbstractUrl.class, parseUrl, UnknownUrlInstance),
 					nonNulllongField(positionField),
-					nonNullEnumField(resourceTypeField, ResourceType.class)
+					nullableStringToSomethingElseField(resourceTypeField, ResourceType.class, ResourceType.class, valueOf, null),
+					nullableStringToSomethingElseField(contentLengthField, long.class, Long.class, valueOf, NullNumber),
+					nullableStringToSomethingElseField(opennessScoreField, long.class, Long.class, valueOf, NullNumber),
+					nullableStringToSomethingElseField(opennessScoreFailureCountField, long.class, Long.class, valueOf, NullNumber),
+					nullableStringField(opennessScoreReasonField),
+					nullableStringField(contentTypeField),
+					nullableStringToSomethingElseField(hubIdField, HubId.class, null),
+					nullableStringField(resourceLocatorProtocolField)
 				)
 			)),
 			nonNullField(tagsField, TagName[].class, ArrayOfTagsConstructor),

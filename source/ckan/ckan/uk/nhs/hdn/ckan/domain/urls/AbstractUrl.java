@@ -24,8 +24,6 @@ import uk.nhs.hdn.common.unknown.AbstractIsUnknown;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static java.lang.String.format;
-import static java.util.Locale.ENGLISH;
 import static uk.nhs.hdn.ckan.domain.urls.UnknownUrl.UnknownUrlInstance;
 
 public abstract class AbstractUrl extends AbstractIsUnknown implements Url
@@ -38,13 +36,14 @@ public abstract class AbstractUrl extends AbstractIsUnknown implements Url
 			return UnknownUrlInstance;
 		}
 		final URL url;
+
 		try
 		{
 			url = new URL(value);
 		}
 		catch (MalformedURLException e)
 		{
-			throw new IllegalArgumentException(format(ENGLISH, "Could not parse as URL value %1$s", value), e);
+			return new InvalidUrl(value, e);
 		}
 		return new KnownUrl(url);
 	}

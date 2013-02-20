@@ -46,6 +46,13 @@ public final class ConsoleEntryPoint
 	{
 		tsvSerialiserForDatasets(true).printValuesOnStandardOut(DataGovUk.dataset(DatasetId.valueOf("3106a305-43c9-417f-b198-45d257b5698b")).get());
 
+		final DatasetId[] datasetIds = DataGovUk.allDatasetIds().get();
+		for (DatasetId datasetId : datasetIds)
+		{
+			System.out.println("datasetId = " + datasetId);
+			tsvSerialiserForDatasets(true).printValuesOnStandardOut(DataGovUk.dataset(datasetId).get());
+		}
+
 		tsvSerialiserForDatasetIds().printValuesOnStandardOut(DataGovUk.datasetIdsWithTag(new TagName("25k-transparency-nhs")).get());
 
 		tsvSerialiserForRevisions().printValuesOnStandardOut(DataGovUk.revision(RevisionId.valueOf("a1f4375a-4afe-4dad-88cd-03f2bd6adaaf")).get());

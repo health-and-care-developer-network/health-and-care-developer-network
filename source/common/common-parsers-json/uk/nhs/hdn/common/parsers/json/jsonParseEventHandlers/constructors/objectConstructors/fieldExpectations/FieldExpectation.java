@@ -40,6 +40,12 @@ public class FieldExpectation<X> extends AbstractToString
 	}
 
 	@NotNull
+	public static FieldExpectation<Long> nullablelongField(@FieldTokenName @NonNls @NotNull final String key, final long defaultValue)
+	{
+		return new FieldExpectation<>(key, long.class, true, null, null, defaultValue);
+	}
+
+	@NotNull
 	@FieldTokenName
 	@NonNls
 	private final String key;

@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.schemaViolationInvalidJsonExceptions.SchemaViolationInvalidJsonException;
+import uk.nhs.hdn.common.reflection.toString.delegates.ConstructorDelegate;
 import uk.nhs.hdn.common.reflection.toString.delegates.Delegate;
 import uk.nhs.hdn.common.reflection.toString.delegates.StaticMethodDelegate;
 import uk.nhs.hdn.common.serialisers.FieldTokenName;
@@ -46,6 +47,11 @@ public final class StringToSomethingElseFieldExpectation<S> extends FieldExpecta
 	public static <S> FieldExpectation<S> nonNullStringToSomethingElseField(@FieldTokenName @NonNls @NotNull final String key, @NotNull final Class<S> constructorParameterType, @NotNull final Class<?> staticMethodClass, @NonNls @NotNull final String methodName)
 	{
 		return nonNullStringToSomethingElseField(key, constructorParameterType, StaticMethodDelegate.<S>staticMethodDelegate(staticMethodClass, methodName, String.class), false);
+	}
+
+	public static <S> FieldExpectation<S> nullableStringToSomethingElseField(@FieldTokenName @NonNls @NotNull final String key, @NotNull final Class<S> constructorParameterType, @Nullable final S defaultValueIfMissing)
+	{
+		return new StringToSomethingElseFieldExpectation<>(key, constructorParameterType, ConstructorDelegate.<S>constructorDelegate(constructorParameterType, String.class), true, defaultValueIfMissing);
 	}
 
 	public static <S> FieldExpectation<S> nullableStringToSomethingElseField(@FieldTokenName @NonNls @NotNull final String key, @NotNull final Class<S> constructorParameterType, @NotNull final Class<?> staticMethodClass, @NonNls @NotNull final String methodName, @Nullable final S defaultValueIfMissing)

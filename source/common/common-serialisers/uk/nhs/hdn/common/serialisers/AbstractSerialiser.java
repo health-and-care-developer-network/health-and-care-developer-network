@@ -23,6 +23,8 @@ import uk.nhs.hdn.common.unknown.IsUnknown;
 
 import java.util.Map;
 
+import static uk.nhs.hdn.common.serialisers.ValueSerialisable.NullNumber;
+
 public abstract class AbstractSerialiser extends AbstractValueSerialiser implements Serialiser
 {
 	public static <V extends ValueSerialisable & IsUnknown> void writePropertyIfKnown(@NotNull final MapSerialiser mapSerialiser,
@@ -51,6 +53,18 @@ public abstract class AbstractSerialiser extends AbstractValueSerialiser impleme
 		else
 		{
 			mapSerialiser.writeProperty(field, value);
+		}
+	}
+
+	public static void writeNullableProperty(@NotNull final MapSerialiser mapSerialiser, @NotNull @NonNls @FieldTokenName final String name, final long valueOrMinusOne) throws CouldNotWritePropertyException
+	{
+		if (valueOrMinusOne == NullNumber)
+		{
+			mapSerialiser.writePropertyNull(name);
+		}
+		else
+		{
+			mapSerialiser.writeProperty(name, valueOrMinusOne);
 		}
 	}
 
