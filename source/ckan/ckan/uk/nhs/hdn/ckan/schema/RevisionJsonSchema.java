@@ -25,6 +25,7 @@ import uk.nhs.hdn.ckan.domain.ids.RevisionId;
 import uk.nhs.hdn.common.parsers.json.JsonSchema;
 import uk.nhs.hdn.common.parsers.json.ObjectJsonSchema;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.root.ObjectRootArrayConstructor;
+import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.ObjectConstructor;
 
 import static uk.nhs.hdn.ckan.domain.Revision.*;
 import static uk.nhs.hdn.ckan.schema.GroupIdsArrayJsonSchema.ArrayOfGroupIdsConstructor;
@@ -40,22 +41,24 @@ import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors
 @SuppressWarnings("OverlyCoupledClass")
 public final class RevisionJsonSchema extends ObjectJsonSchema<Revision>
 {
+	public static final ObjectConstructor<?> RevisionObjectConstructor = object
+	(
+		Revision.class,
+		nonNullStringToSomethingElseField(idField, RevisionId.class, RevisionId.class, "valueOf"),
+		nonNullStringToSomethingElseField(timestampField, MicrosecondTimestamp.class, MicrosecondTimestamp.class, "microsecondTimestamp"),
+		nullableStringField(messageField),
+		nullableStringField(authorField),
+		nullableStringToSomethingElseField(approvedTimestampField, MicrosecondTimestamp.class, MicrosecondTimestamp.class, "microsecondTimestamp", null),
+		nonNullField(packagesField, PackageId[].class, ArrayOfPackageIdsConstructor),
+		nonNullField(groupsField, GroupId[].class, ArrayOfGroupIdsConstructor)
+	);
+
 	@SuppressWarnings("unchecked")
 	@NotNull
 	public static final ObjectRootArrayConstructor<Revision> RevisionSchema = rootIsObjectOf
 	(
 		RevisionArray,
-		object
-		(
-			Revision.class,
-			nonNullStringToSomethingElseField(idField, RevisionId.class, RevisionId.class, "valueOf"),
-			nonNullStringToSomethingElseField(timestampField, MicrosecondTimestamp.class, MicrosecondTimestamp.class, "microsecondTimestamp"),
-			nullableStringField(messageField),
-			nullableStringField(authorField),
-			nullableStringToSomethingElseField(approvedTimestampField, MicrosecondTimestamp.class, MicrosecondTimestamp.class, "microsecondTimestamp", null),
-			nonNullField(packagesField, PackageId[].class, ArrayOfPackageIdsConstructor),
-			nonNullField(groupsField, GroupId[].class, ArrayOfGroupIdsConstructor)
-		)
+		RevisionObjectConstructor
 	);
 
 	@NotNull

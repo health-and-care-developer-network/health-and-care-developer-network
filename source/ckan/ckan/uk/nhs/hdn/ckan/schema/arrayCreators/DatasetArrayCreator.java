@@ -14,14 +14,34 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.ckan.domain.urls;
+package uk.nhs.hdn.ckan.schema.arrayCreators;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.common.serialisers.Serialisable;
-import uk.nhs.hdn.common.serialisers.ValueSerialisable;
+import uk.nhs.hdn.ckan.domain.Dataset;
+import uk.nhs.hdn.common.arrayCreators.AbstractArrayCreator;
+import uk.nhs.hdn.common.arrayCreators.ArrayCreator;
 
-public interface Url extends Serialisable, ValueSerialisable
+public final class DatasetArrayCreator extends AbstractArrayCreator<Dataset>
 {
 	@NotNull
-	String stringValue();
+	public static final ArrayCreator<Dataset> DatasetArray = new DatasetArrayCreator();
+
+	private DatasetArrayCreator()
+	{
+		super(Dataset.class, Dataset[].class);
+	}
+
+	@NotNull
+	@Override
+	public Dataset[] newInstance1(final int size)
+	{
+		return new Dataset[size];
+	}
+
+	@NotNull
+	@Override
+	public Dataset[][] newInstance2(final int size)
+	{
+		return new Dataset[size][];
+	}
 }

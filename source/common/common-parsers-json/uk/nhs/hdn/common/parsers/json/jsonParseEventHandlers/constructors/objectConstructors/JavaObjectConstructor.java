@@ -34,6 +34,7 @@ import static uk.nhs.hdn.common.VariableArgumentsHelper.copyOf;
 
 public final class JavaObjectConstructor<X> implements ObjectConstructor<Object[]>
 {
+	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
 	@NotNull
 	public static <X> ObjectConstructor<?> object(@NotNull final Class<X> classX, @NotNull final FieldExpectation<?>... fieldExpectations)
 	{
@@ -158,13 +159,13 @@ public final class JavaObjectConstructor<X> implements ObjectConstructor<Object[
 		{
 			return constructor.newInstance(collector);
 		}
-		catch (InstantiationException | IllegalAccessException e)
+		catch (InstantiationException | IllegalAccessException | IllegalArgumentException e)
 		{
 			throw new ShouldNeverHappenException(e);
 		}
 		catch (InvocationTargetException e)
 		{
-			throw new SchemaViolationInvalidJsonException("Could not out object", e);
+			throw new SchemaViolationInvalidJsonException("Could not collect object", e);
 		}
 	}
 }

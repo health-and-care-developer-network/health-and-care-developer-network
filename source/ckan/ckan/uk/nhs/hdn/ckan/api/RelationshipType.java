@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.ckan.domain.urls;
+package uk.nhs.hdn.ckan.api;
 
-import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.common.serialisers.Serialisable;
-import uk.nhs.hdn.common.serialisers.ValueSerialisable;
-
-public interface Url extends Serialisable, ValueSerialisable
+public enum RelationshipType
 {
-	@NotNull
-	String stringValue();
+	depends_on,
+	dependency_on,
+	derives_from,
+	has_derivation,
+	child_of,
+	parent_of,
+	links_to,
+	linked_from,
+	;
 }

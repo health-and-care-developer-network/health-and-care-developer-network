@@ -14,14 +14,24 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.ckan.domain.urls;
+package uk.nhs.hdn.ckan.domain.ids;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.common.serialisers.Serialisable;
-import uk.nhs.hdn.common.serialisers.ValueSerialisable;
 
-public interface Url extends Serialisable, ValueSerialisable
+import java.util.UUID;
+
+import static java.util.UUID.fromString;
+
+public final class ResourceId extends AbstractId
 {
-	@NotNull
-	String stringValue();
+	public static ResourceId valueOf(@NonNls @NotNull final String value)
+	{
+		return new ResourceId(fromString(value));
+	}
+
+	public ResourceId(@NonNls @NotNull final UUID value)
+	{
+		super(value);
+	}
 }

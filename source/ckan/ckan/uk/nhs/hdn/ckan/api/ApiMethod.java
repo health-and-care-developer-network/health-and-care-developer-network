@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.ckan;
+package uk.nhs.hdn.ckan.api;
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.http.client.HttpClient;

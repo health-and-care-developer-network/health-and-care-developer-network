@@ -178,9 +178,14 @@ public final class SeparatedValueSerialiser extends AbstractSerialiser
 	}
 
 	@SuppressWarnings("MethodCanBeVariableArityMethod")
-	private static <S extends MapSerialisable> void writeNestedMapSerialisableValues(final S[] values, final char... separator) throws CouldNotWriteValueException
+	private <S extends MapSerialisable> void writeNestedMapSerialisableValues(final S[] values, final char... separator) throws CouldNotWriteValueException
 	{
-		throw new CouldNotWriteValueException(values, "writing of nested MapSerialisable arrays is not supported");
+		final FlatteningValueSerialiser flatteningValueSerialiser = new FlatteningValueSerialiser(separator);
+		final StringWriter writer1 = new StringWriter(100);
+		flatteningValueSerialiser.start(writer1, Utf8);
+		flatteningValueSerialiser.writeValue(values);
+		final String flattenedValue = writer1.toString();
+		writeValue(flattenedValue);
 	}
 
 	@SuppressWarnings("MethodCanBeVariableArityMethod")

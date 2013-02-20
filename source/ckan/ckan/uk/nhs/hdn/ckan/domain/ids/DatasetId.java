@@ -18,6 +18,7 @@ package uk.nhs.hdn.ckan.domain.ids;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.ckan.domain.uniqueNames.DatasetKey;
 import uk.nhs.hdn.common.serialisers.FieldTokenName;
 import uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser;
 import uk.nhs.hdn.common.serialisers.separatedValues.matchers.Matcher;
@@ -29,7 +30,7 @@ import static uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerial
 import static uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser.tabSeparatedValueSerialiser;
 import static uk.nhs.hdn.common.serialisers.separatedValues.matchers.LeafMatcher.leaf;
 
-public final class DatasetId extends AbstractId
+public final class DatasetId extends AbstractId implements DatasetKey
 {
 	@FieldTokenName
 	@NonNls

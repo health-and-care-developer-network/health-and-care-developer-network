@@ -14,14 +14,29 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.ckan.domain.urls;
+package uk.nhs.hdn.ckan.domain.enumerations;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.common.serialisers.Serialisable;
+import uk.nhs.hdn.common.serialisers.CouldNotSerialiseValueException;
+import uk.nhs.hdn.common.serialisers.CouldNotWriteValueException;
 import uk.nhs.hdn.common.serialisers.ValueSerialisable;
+import uk.nhs.hdn.common.serialisers.ValueSerialiser;
 
-public interface Url extends Serialisable, ValueSerialisable
+public enum Format implements ValueSerialisable
 {
-	@NotNull
-	String stringValue();
+	CSV,
+	;
+
+	@Override
+	public void serialiseValue(@NotNull final ValueSerialiser valueSerialiser) throws CouldNotSerialiseValueException
+	{
+		try
+		{
+			valueSerialiser.writeValue(name());
+		}
+		catch (CouldNotWriteValueException e)
+		{
+			throw new CouldNotSerialiseValueException(this, e);
+		}
+	}
 }

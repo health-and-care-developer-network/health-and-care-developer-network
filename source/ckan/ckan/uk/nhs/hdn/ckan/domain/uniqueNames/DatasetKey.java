@@ -14,14 +14,10 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.ckan.domain.urls;
+package uk.nhs.hdn.ckan.domain.uniqueNames;
 
-import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.common.serialisers.Serialisable;
-import uk.nhs.hdn.common.serialisers.ValueSerialisable;
+import uk.nhs.hdn.ckan.domain.Identifier;
 
-public interface Url extends Serialisable, ValueSerialisable
+public interface DatasetKey extends Identifier
 {
-	@NotNull
-	String stringValue();
 }

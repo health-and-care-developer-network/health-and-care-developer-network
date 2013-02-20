@@ -26,7 +26,7 @@ import static uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerial
 import static uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser.tabSeparatedValueSerialiser;
 import static uk.nhs.hdn.common.serialisers.separatedValues.matchers.LeafMatcher.leaf;
 
-public final class DatasetName extends AbstractUniqueName
+public final class DatasetName extends AbstractUniqueName implements DatasetKey
 {
 	@FieldTokenName
 	@NonNls

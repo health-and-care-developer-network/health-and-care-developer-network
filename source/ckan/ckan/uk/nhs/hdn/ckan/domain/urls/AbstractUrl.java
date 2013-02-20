@@ -28,7 +28,7 @@ import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
 import static uk.nhs.hdn.ckan.domain.urls.UnknownUrl.UnknownUrlInstance;
 
-public abstract class AbstractUrl extends AbstractIsUnknown implements Serialisable, ValueSerialisable, Url
+public abstract class AbstractUrl extends AbstractIsUnknown implements Url
 {
 	@NotNull
 	public static Url parseUrl(@Nullable final String value)

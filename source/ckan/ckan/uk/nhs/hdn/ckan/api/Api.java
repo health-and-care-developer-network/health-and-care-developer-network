@@ -14,33 +14,34 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.ckan;
+package uk.nhs.hdn.ckan.api;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hdn.ckan.domain.Dataset;
 import uk.nhs.hdn.ckan.domain.Group;
 import uk.nhs.hdn.ckan.domain.Licence;
 import uk.nhs.hdn.ckan.domain.Revision;
 import uk.nhs.hdn.ckan.domain.ids.DatasetId;
 import uk.nhs.hdn.ckan.domain.ids.GroupId;
 import uk.nhs.hdn.ckan.domain.ids.RevisionId;
-import uk.nhs.hdn.ckan.domain.uniqueNames.DatasetName;
-import uk.nhs.hdn.ckan.domain.uniqueNames.GroupKey;
-import uk.nhs.hdn.ckan.domain.uniqueNames.GroupName;
-import uk.nhs.hdn.ckan.domain.uniqueNames.TagName;
+import uk.nhs.hdn.ckan.domain.uniqueNames.*;
 import uk.nhs.hdn.common.http.client.HttpClient;
 import uk.nhs.hdn.common.http.client.JavaHttpClient;
 import uk.nhs.hdn.common.parsers.json.JsonSchema;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 
+import static uk.nhs.hdn.ckan.api.RelationshipType.*;
 import static uk.nhs.hdn.ckan.schema.DatasetIdsArrayJsonSchema.DatasetIdsSchemaInstance;
+import static uk.nhs.hdn.ckan.schema.DatasetJsonSchema.DatasetSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.DatasetNamesArrayJsonSchema.DatasetNamesSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.GroupIdsArrayJsonSchema.GroupIdsSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.GroupJsonSchema.GroupSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.GroupNamesArrayJsonSchema.GroupNamesSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.LicencesArrayJsonSchema.LicencesSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.RevisionJsonSchema.RevisionSchemaInstance;
+import static uk.nhs.hdn.ckan.schema.RevisionsArrayJsonSchema.RevisionsSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.TagsArrayJsonSchema.TagsSchemaInstance;
 import static uk.nhs.hdn.common.http.UrlHelper.commonPortNumber;
 import static uk.nhs.hdn.common.http.UrlHelper.toUrl;
@@ -84,6 +85,72 @@ public final class Api extends AbstractToString
 	public ApiMethod<DatasetId[]> allDatasetIds()
 	{
 		return newApi(DatasetIdsSchemaInstance, "api", "2", "rest", "dataset");
+	}
+
+	@NotNull
+	public ApiMethod<Dataset> dataset(@SuppressWarnings("TypeMayBeWeakened") @NotNull final DatasetKey datasetKey)
+	{
+		return newApi(DatasetSchemaInstance, "api", "2", "rest", "dataset", datasetKey.value());
+	}
+
+	@NotNull
+	public ApiMethod<Revision[]> datasetRevisions(@SuppressWarnings("TypeMayBeWeakened") @NotNull final DatasetKey datasetKey)
+	{
+		return newApi(RevisionsSchemaInstance, "api", "2", "rest", "dataset", datasetKey.value(), "revisions");
+	}
+
+	@NotNull
+	public ApiMethod<DatasetId[]> datasetRelationshipDependsOn(@NotNull final DatasetKey datasetKey)
+	{
+		return datasetRelationships(datasetKey, depends_on);
+	}
+
+	@NotNull
+	public ApiMethod<DatasetId[]> datasetRelationshipDependencyOn(@NotNull final DatasetKey datasetKey)
+	{
+		return datasetRelationships(datasetKey, dependency_on);
+	}
+
+	@NotNull
+	public ApiMethod<DatasetId[]> datasetRelationshipDerivesFrom(@NotNull final DatasetKey datasetKey)
+	{
+		return datasetRelationships(datasetKey, derives_from);
+	}
+
+	@NotNull
+	public ApiMethod<DatasetId[]> datasetRelationshipHasDerivation(@NotNull final DatasetKey datasetKey)
+	{
+		return datasetRelationships(datasetKey, has_derivation);
+	}
+
+	@NotNull
+	public ApiMethod<DatasetId[]> datasetRelationshipChildOf(@NotNull final DatasetKey datasetKey)
+	{
+		return datasetRelationships(datasetKey, child_of);
+	}
+
+	@NotNull
+	public ApiMethod<DatasetId[]> datasetRelationshipParentOf(@NotNull final DatasetKey datasetKey)
+	{
+		return datasetRelationships(datasetKey, parent_of);
+	}
+
+	@NotNull
+	public ApiMethod<DatasetId[]> datasetRelationshipLinksTo(@NotNull final DatasetKey datasetKey)
+	{
+		return datasetRelationships(datasetKey, links_to);
+	}
+
+	@NotNull
+	public ApiMethod<DatasetId[]> datasetRelationshipLinkedFrom(@NotNull final DatasetKey datasetKey)
+	{
+		return datasetRelationships(datasetKey, linked_from);
+	}
+
+	@NotNull
+	public ApiMethod<DatasetId[]> datasetRelationships(@SuppressWarnings("TypeMayBeWeakened") @NotNull final DatasetKey datasetKey, @NotNull final RelationshipType relationshipType)
+	{
+		return newApi(DatasetIdsSchemaInstance, "api", "2", "rest", "dataset", datasetKey.value(), relationshipType.name());
 	}
 
 	@NotNull

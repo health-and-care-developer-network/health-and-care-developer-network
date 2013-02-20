@@ -38,6 +38,12 @@ public class NonNullFieldExpectation<X> extends FieldExpectation<X>
 	}
 
 	@NotNull
+	public static NonNullFieldExpectation<Long> nonNulllongField(@FieldTokenName @NonNls @NotNull final String key)
+	{
+		return nonNullField(key, long.class);
+	}
+
+	@NotNull
 	public static <X> NonNullFieldExpectation<X> nonNullField(@FieldTokenName @NonNls @NotNull final String key, @NotNull final Class<X> constructorParameterType)
 	{
 		return new NonNullFieldExpectation<>(key, constructorParameterType, null, null);
