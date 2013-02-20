@@ -23,7 +23,7 @@ import uk.nhs.hdn.ckan.domain.enumerations.Capacity;
 import uk.nhs.hdn.ckan.domain.strings.Hash;
 import uk.nhs.hdn.ckan.domain.strings.OpenId;
 import uk.nhs.hdn.ckan.domain.uniqueNames.UserName;
-import uk.nhs.hdn.ckan.domain.uuids.UserId;
+import uk.nhs.hdn.ckan.domain.ids.UserId;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hdn.common.serialisers.CouldNotSerialiseValueException;
 import uk.nhs.hdn.common.serialisers.CouldNotWriteValueException;

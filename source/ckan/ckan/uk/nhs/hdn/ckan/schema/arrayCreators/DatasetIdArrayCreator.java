@@ -17,7 +17,7 @@
 package uk.nhs.hdn.ckan.schema.arrayCreators;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.ckan.domain.uuids.DatasetId;
+import uk.nhs.hdn.ckan.domain.ids.DatasetId;
 import uk.nhs.hdn.common.arrayCreators.AbstractArrayCreator;
 import uk.nhs.hdn.common.arrayCreators.ArrayCreator;
 

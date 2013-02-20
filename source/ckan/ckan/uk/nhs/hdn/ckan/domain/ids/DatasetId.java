@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.ckan.domain.uuids;
+package uk.nhs.hdn.ckan.domain.ids;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
@@ -29,12 +29,12 @@ import static uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerial
 import static uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser.tabSeparatedValueSerialiser;
 import static uk.nhs.hdn.common.serialisers.separatedValues.matchers.LeafMatcher.leaf;
 
-public final class GroupId extends AbstractId
+public final class DatasetId extends AbstractId
 {
 	@FieldTokenName
 	@NonNls
 	@NotNull
-	private static final String Field = "groupId";
+	private static final String Field = "datasetId";
 
 	@NotNull
 	private static final Matcher SeparatedValuesSchema = leaf(Field, 0);
@@ -43,23 +43,23 @@ public final class GroupId extends AbstractId
 	private static final String[] SeparatedValuesHeadings = {Field};
 
 	@NotNull
-	public static SeparatedValueSerialiser csvSerialiserForGroupIds(final boolean writeHeaderLine)
+	public static SeparatedValueSerialiser csvSerialiserForDatasetIds(final boolean writeHeaderLine)
 	{
 		return commaSeparatedValueSerialiser(SeparatedValuesSchema, writeHeaderLine, SeparatedValuesHeadings);
 	}
 
 	@NotNull
-	public static SeparatedValueSerialiser tsvSerialiserForGroupIds()
+	public static SeparatedValueSerialiser tsvSerialiserForDatasetIds()
 	{
 		return tabSeparatedValueSerialiser(SeparatedValuesSchema, true, SeparatedValuesHeadings);
 	}
 
-	public static GroupId valueOf(@NonNls @NotNull final String value)
+	public static DatasetId valueOf(@NonNls @NotNull final String value)
 	{
-		return new GroupId(fromString(value));
+		return new DatasetId(fromString(value));
 	}
 
-	public GroupId(@NonNls @NotNull final UUID value)
+	public DatasetId(@NonNls @NotNull final UUID value)
 	{
 		super(value);
 	}

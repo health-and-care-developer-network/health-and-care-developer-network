@@ -17,7 +17,7 @@
 package uk.nhs.hdn.ckan.schema;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.ckan.domain.uuids.GroupId;
+import uk.nhs.hdn.ckan.domain.ids.GroupId;
 import uk.nhs.hdn.common.parsers.json.ArrayJsonSchema;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.ConvertUsingDelegateListCollectingStringArrayConstructor;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.root.ArrayRootArrayConstructor;
@@ -39,7 +39,7 @@ public final class GroupIdsArrayJsonSchema extends ArrayJsonSchema<GroupId>
 	);
 
 	@NotNull
-	public static final ArrayJsonSchema<GroupId> GroupIdsUuidSchemaInstance = new GroupIdsArrayJsonSchema();
+	public static final ArrayJsonSchema<GroupId> GroupIdsSchemaInstance = new GroupIdsArrayJsonSchema();
 
 	private GroupIdsArrayJsonSchema()
 	{

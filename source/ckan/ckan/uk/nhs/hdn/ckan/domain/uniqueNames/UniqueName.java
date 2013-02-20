@@ -16,11 +16,9 @@
 
 package uk.nhs.hdn.ckan.domain.uniqueNames;
 
-import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.ckan.domain.Identifier;
 import uk.nhs.hdn.common.serialisers.ValueSerialisable;
 
-public interface UniqueName extends ValueSerialisable
+public interface UniqueName extends ValueSerialisable, Identifier
 {
-	@NotNull
-	String value();
 }

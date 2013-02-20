@@ -17,7 +17,7 @@
 package uk.nhs.hdn.ckan.schema;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.ckan.domain.uuids.DatasetId;
+import uk.nhs.hdn.ckan.domain.ids.DatasetId;
 import uk.nhs.hdn.common.parsers.json.ArrayJsonSchema;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.root.ArrayRootArrayConstructor;
 
@@ -35,7 +35,7 @@ public final class DatasetIdsArrayJsonSchema extends ArrayJsonSchema<DatasetId>
 	);
 
 	@NotNull
-	public static final ArrayJsonSchema<DatasetId> DatasetIdsUuidSchemaInstance = new DatasetIdsArrayJsonSchema();
+	public static final ArrayJsonSchema<DatasetId> DatasetIdsSchemaInstance = new DatasetIdsArrayJsonSchema();
 
 	private DatasetIdsArrayJsonSchema()
 	{

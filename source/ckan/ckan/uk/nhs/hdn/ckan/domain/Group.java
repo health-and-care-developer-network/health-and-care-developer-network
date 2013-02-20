@@ -25,9 +25,9 @@ import uk.nhs.hdn.ckan.domain.enumerations.Type;
 import uk.nhs.hdn.ckan.domain.uniqueNames.GroupName;
 import uk.nhs.hdn.ckan.domain.uniqueNames.TagName;
 import uk.nhs.hdn.ckan.domain.urls.Url;
-import uk.nhs.hdn.ckan.domain.uuids.GroupId;
-import uk.nhs.hdn.ckan.domain.uuids.PackageId;
-import uk.nhs.hdn.ckan.domain.uuids.RevisionId;
+import uk.nhs.hdn.ckan.domain.ids.GroupId;
+import uk.nhs.hdn.ckan.domain.ids.PackageId;
+import uk.nhs.hdn.ckan.domain.ids.RevisionId;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hdn.common.serialisers.*;
 import uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser;
@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static uk.nhs.hdn.common.VariableArgumentsHelper.copyOf;
+import static uk.nhs.hdn.common.serialisers.AbstractSerialiser.writeNullableProperty;
 import static uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser.commaSeparatedValueSerialiser;
 import static uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser.tabSeparatedValueSerialiser;
 import static uk.nhs.hdn.common.serialisers.separatedValues.fieldEscapers.SanitisingTabSeparatedFieldEscaper.SanitisingTabSeparatedFieldEscaperInstance;
@@ -221,14 +222,7 @@ public final class Group extends AbstractToString implements Serialisable, MapSe
 		{
 			mapSerialiser.writeProperty(usersField, users);
 			mapSerialiser.writeProperty(displayNameField, displayName);
-			if (description == null)
-			{
-				mapSerialiser.writePropertyNull(descriptionField);
-			}
-			else
-			{
-				mapSerialiser.writeProperty(descriptionField, description);
-			}
+			writeNullableProperty(mapSerialiser, descriptionField, description);
 			mapSerialiser.writeProperty(titleField, title);
 			mapSerialiser.writeProperty(createdField, created);
 			mapSerialiser.writeProperty(approvalStatusField, approvalStatus);

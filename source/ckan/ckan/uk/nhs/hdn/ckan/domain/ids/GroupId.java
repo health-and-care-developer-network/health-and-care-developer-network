@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.ckan.domain.uuids;
+package uk.nhs.hdn.ckan.domain.ids;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.ckan.domain.uniqueNames.GroupKey;
 import uk.nhs.hdn.common.serialisers.FieldTokenName;
 import uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser;
 import uk.nhs.hdn.common.serialisers.separatedValues.matchers.Matcher;
@@ -29,12 +30,12 @@ import static uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerial
 import static uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser.tabSeparatedValueSerialiser;
 import static uk.nhs.hdn.common.serialisers.separatedValues.matchers.LeafMatcher.leaf;
 
-public final class DatasetId extends AbstractId
+public final class GroupId extends AbstractId implements GroupKey
 {
 	@FieldTokenName
 	@NonNls
 	@NotNull
-	private static final String Field = "datasetId";
+	private static final String Field = "groupId";
 
 	@NotNull
 	private static final Matcher SeparatedValuesSchema = leaf(Field, 0);
@@ -43,23 +44,23 @@ public final class DatasetId extends AbstractId
 	private static final String[] SeparatedValuesHeadings = {Field};
 
 	@NotNull
-	public static SeparatedValueSerialiser csvSerialiserForDatasetIds(final boolean writeHeaderLine)
+	public static SeparatedValueSerialiser csvSerialiserForGroupIds(final boolean writeHeaderLine)
 	{
 		return commaSeparatedValueSerialiser(SeparatedValuesSchema, writeHeaderLine, SeparatedValuesHeadings);
 	}
 
 	@NotNull
-	public static SeparatedValueSerialiser tsvSerialiserForDatasetIds()
+	public static SeparatedValueSerialiser tsvSerialiserForGroupIds()
 	{
 		return tabSeparatedValueSerialiser(SeparatedValuesSchema, true, SeparatedValuesHeadings);
 	}
 
-	public static DatasetId valueOf(@NonNls @NotNull final String value)
+	public static GroupId valueOf(@NonNls @NotNull final String value)
 	{
-		return new DatasetId(fromString(value));
+		return new GroupId(fromString(value));
 	}
 
-	public DatasetId(@NonNls @NotNull final UUID value)
+	public GroupId(@NonNls @NotNull final UUID value)
 	{
 		super(value);
 	}

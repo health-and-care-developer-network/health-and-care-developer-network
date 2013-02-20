@@ -25,8 +25,8 @@ import uk.nhs.hdn.ckan.domain.enumerations.State;
 import uk.nhs.hdn.ckan.domain.enumerations.Type;
 import uk.nhs.hdn.ckan.domain.uniqueNames.GroupName;
 import uk.nhs.hdn.ckan.domain.urls.Url;
-import uk.nhs.hdn.ckan.domain.uuids.GroupId;
-import uk.nhs.hdn.ckan.domain.uuids.RevisionId;
+import uk.nhs.hdn.ckan.domain.ids.GroupId;
+import uk.nhs.hdn.ckan.domain.ids.RevisionId;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hdn.common.serialisers.*;
 

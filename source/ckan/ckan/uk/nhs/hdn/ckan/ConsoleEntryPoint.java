@@ -17,7 +17,9 @@
 package uk.nhs.hdn.ckan;
 
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.ckan.domain.ids.RevisionId;
 import uk.nhs.hdn.ckan.domain.uniqueNames.GroupName;
+import uk.nhs.hdn.ckan.domain.uniqueNames.TagName;
 import uk.nhs.hdn.common.http.client.exceptions.CorruptResponseException;
 import uk.nhs.hdn.common.http.client.exceptions.CouldNotConnectHttpException;
 import uk.nhs.hdn.common.http.client.exceptions.UnacceptableResponseException;
@@ -25,11 +27,12 @@ import uk.nhs.hdn.common.http.client.exceptions.UnacceptableResponseException;
 import static uk.nhs.hdn.ckan.Api.DataGovUk;
 import static uk.nhs.hdn.ckan.domain.Group.tsvSerialiserForGroups;
 import static uk.nhs.hdn.ckan.domain.Licence.tsvSerialiserForLicences;
+import static uk.nhs.hdn.ckan.domain.Revision.tsvSerialiserForRevisions;
 import static uk.nhs.hdn.ckan.domain.uniqueNames.DatasetName.tsvSerialiserForDatasetNames;
 import static uk.nhs.hdn.ckan.domain.uniqueNames.GroupName.tsvSerialiserForGroupNames;
 import static uk.nhs.hdn.ckan.domain.uniqueNames.TagName.tsvSerialiserForTags;
-import static uk.nhs.hdn.ckan.domain.uuids.DatasetId.tsvSerialiserForDatasetIds;
-import static uk.nhs.hdn.ckan.domain.uuids.GroupId.tsvSerialiserForGroupIds;
+import static uk.nhs.hdn.ckan.domain.ids.DatasetId.tsvSerialiserForDatasetIds;
+import static uk.nhs.hdn.ckan.domain.ids.GroupId.tsvSerialiserForGroupIds;
 
 public final class ConsoleEntryPoint
 {
@@ -39,6 +42,10 @@ public final class ConsoleEntryPoint
 
 	public static void main(@NotNull final String... args) throws UnacceptableResponseException, CouldNotConnectHttpException, CorruptResponseException
 	{
+		tsvSerialiserForDatasetIds().printValuesOnStandardOut(DataGovUk.datasetIdsWithTag(new TagName("25k-transparency-nhs")).get());
+
+		tsvSerialiserForRevisions().printValuesOnStandardOut(DataGovUk.revision(RevisionId.valueOf("a1f4375a-4afe-4dad-88cd-03f2bd6adaaf")).get());
+
 		final GroupName[] groupNames = DataGovUk.allGroupNames().get();
 		for (GroupName groupName : groupNames)
 		{

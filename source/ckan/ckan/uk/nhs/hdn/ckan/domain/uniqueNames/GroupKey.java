@@ -16,6 +16,8 @@
 
 package uk.nhs.hdn.ckan.domain.uniqueNames;
 
-public interface GroupKey extends UniqueName
+import uk.nhs.hdn.ckan.domain.Identifier;
+
+public interface GroupKey extends Identifier
 {
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.ckan.domain.uuids;
+package uk.nhs.hdn.ckan.domain.ids;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -23,7 +23,7 @@ import uk.nhs.hdn.common.serialisers.*;
 
 import java.util.UUID;
 
-public abstract class AbstractId extends AbstractToString implements Serialisable, ValueSerialisable, Uuid
+public abstract class AbstractId extends AbstractToString implements Serialisable, ValueSerialisable, Id
 {
 	@NotNull
 	public final UUID value;
@@ -31,6 +31,13 @@ public abstract class AbstractId extends AbstractToString implements Serialisabl
 	protected AbstractId(@NotNull final UUID value)
 	{
 		this.value = value;
+	}
+
+	@NotNull
+	@Override
+	public final String value()
+	{
+		return value.toString();
 	}
 
 	@Override

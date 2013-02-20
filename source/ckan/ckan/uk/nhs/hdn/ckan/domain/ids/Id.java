@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.ckan.domain.uuids;
+package uk.nhs.hdn.ckan.domain.ids;
 
-public interface Uuid
+import uk.nhs.hdn.ckan.domain.Identifier;
+
+public interface Id extends Identifier
 {
 }

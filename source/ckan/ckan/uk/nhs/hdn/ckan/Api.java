@@ -21,23 +21,26 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.ckan.domain.Group;
 import uk.nhs.hdn.ckan.domain.Licence;
+import uk.nhs.hdn.ckan.domain.Revision;
+import uk.nhs.hdn.ckan.domain.ids.DatasetId;
+import uk.nhs.hdn.ckan.domain.ids.GroupId;
+import uk.nhs.hdn.ckan.domain.ids.RevisionId;
 import uk.nhs.hdn.ckan.domain.uniqueNames.DatasetName;
 import uk.nhs.hdn.ckan.domain.uniqueNames.GroupKey;
 import uk.nhs.hdn.ckan.domain.uniqueNames.GroupName;
 import uk.nhs.hdn.ckan.domain.uniqueNames.TagName;
-import uk.nhs.hdn.ckan.domain.uuids.DatasetId;
-import uk.nhs.hdn.ckan.domain.uuids.GroupId;
 import uk.nhs.hdn.common.http.client.HttpClient;
 import uk.nhs.hdn.common.http.client.JavaHttpClient;
 import uk.nhs.hdn.common.parsers.json.JsonSchema;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 
-import static uk.nhs.hdn.ckan.schema.DatasetIdsArrayJsonSchema.DatasetIdsUuidSchemaInstance;
+import static uk.nhs.hdn.ckan.schema.DatasetIdsArrayJsonSchema.DatasetIdsSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.DatasetNamesArrayJsonSchema.DatasetNamesSchemaInstance;
-import static uk.nhs.hdn.ckan.schema.GroupIdsArrayJsonSchema.GroupIdsUuidSchemaInstance;
+import static uk.nhs.hdn.ckan.schema.GroupIdsArrayJsonSchema.GroupIdsSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.GroupJsonSchema.GroupSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.GroupNamesArrayJsonSchema.GroupNamesSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.LicencesArrayJsonSchema.LicencesSchemaInstance;
+import static uk.nhs.hdn.ckan.schema.RevisionJsonSchema.RevisionSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.TagsArrayJsonSchema.TagsSchemaInstance;
 import static uk.nhs.hdn.common.http.UrlHelper.commonPortNumber;
 import static uk.nhs.hdn.common.http.UrlHelper.toUrl;
@@ -80,7 +83,7 @@ public final class Api extends AbstractToString
 	@NotNull
 	public ApiMethod<DatasetId[]> allDatasetIds()
 	{
-		return newApi(DatasetIdsUuidSchemaInstance, "api", "2", "rest", "dataset");
+		return newApi(DatasetIdsSchemaInstance, "api", "2", "rest", "dataset");
 	}
 
 	@NotNull
@@ -92,7 +95,13 @@ public final class Api extends AbstractToString
 	@NotNull
 	public ApiMethod<GroupId[]> allGroupIds()
 	{
-		return newApi(GroupIdsUuidSchemaInstance, "api", "2", "rest", "group");
+		return newApi(GroupIdsSchemaInstance, "api", "2", "rest", "group");
+	}
+
+	@NotNull
+	public ApiMethod<Group> group(@SuppressWarnings("TypeMayBeWeakened") @NotNull final GroupKey groupKey)
+	{
+		return newApi(GroupSchemaInstance, "api", "2", "rest", "group", groupKey.value());
 	}
 
 	@NotNull
@@ -102,15 +111,21 @@ public final class Api extends AbstractToString
 	}
 
 	@NotNull
+	public ApiMethod<DatasetId[]> datasetIdsWithTag(@NotNull final TagName tagName)
+	{
+		return newApi(DatasetIdsSchemaInstance, "api", "2", "rest", "tag", tagName.value());
+	}
+
+	@NotNull
 	public ApiMethod<Licence[]> allLicences()
 	{
 		return newApi(LicencesSchemaInstance, "api", "2", "rest", "licenses");
 	}
 
 	@NotNull
-	public ApiMethod<Group> group(@SuppressWarnings("TypeMayBeWeakened") @NotNull final GroupKey groupKey)
+	public ApiMethod<Revision> revision(@SuppressWarnings("TypeMayBeWeakened") @NotNull final RevisionId revisionId)
 	{
-		return newApi(GroupSchemaInstance, "api", "2", "rest", "group", groupKey.value());
+		return newApi(RevisionSchemaInstance, "api", "2", "rest", "revision", revisionId.value());
 	}
 
 	@NotNull

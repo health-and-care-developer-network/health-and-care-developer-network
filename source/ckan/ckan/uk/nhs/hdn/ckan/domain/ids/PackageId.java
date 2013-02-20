@@ -14,34 +14,24 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.ckan.schema.arrayCreators;
+package uk.nhs.hdn.ckan.domain.ids;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.ckan.domain.ids.GroupId;
-import uk.nhs.hdn.common.arrayCreators.AbstractArrayCreator;
-import uk.nhs.hdn.common.arrayCreators.ArrayCreator;
 
-public final class GroupIdArrayCreator extends AbstractArrayCreator<GroupId>
+import java.util.UUID;
+
+import static java.util.UUID.fromString;
+
+public final class PackageId extends AbstractId
 {
-	@NotNull
-	public static final ArrayCreator<GroupId> GroupIdArray = new GroupIdArrayCreator();
-
-	private GroupIdArrayCreator()
+	public static PackageId valueOf(@NonNls @NotNull final String value)
 	{
-		super(GroupId.class, GroupId[].class);
+		return new PackageId(fromString(value));
 	}
 
-	@NotNull
-	@Override
-	public GroupId[] newInstance1(final int size)
+	public PackageId(@NonNls @NotNull final UUID value)
 	{
-		return new GroupId[size];
-	}
-
-	@NotNull
-	@Override
-	public GroupId[][] newInstance2(final int size)
-	{
-		return new GroupId[size][];
+		super(value);
 	}
 }

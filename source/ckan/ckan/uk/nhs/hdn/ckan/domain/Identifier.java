@@ -14,24 +14,12 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.ckan.domain.uuids;
+package uk.nhs.hdn.ckan.domain;
 
-import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.UUID;
-
-import static java.util.UUID.fromString;
-
-public final class PackageId extends AbstractId
+public interface Identifier
 {
-	public static PackageId valueOf(@NonNls @NotNull final String value)
-	{
-		return new PackageId(fromString(value));
-	}
-
-	public PackageId(@NonNls @NotNull final UUID value)
-	{
-		super(value);
-	}
+	@NotNull
+	String value();
 }

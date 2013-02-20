@@ -17,31 +17,31 @@
 package uk.nhs.hdn.ckan.schema.arrayCreators;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.ckan.domain.ids.PackageId;
+import uk.nhs.hdn.ckan.domain.Revision;
 import uk.nhs.hdn.common.arrayCreators.AbstractArrayCreator;
 import uk.nhs.hdn.common.arrayCreators.ArrayCreator;
 
-public final class PackageIdArrayCreator extends AbstractArrayCreator<PackageId>
+public final class RevisionArrayCreator extends AbstractArrayCreator<Revision>
 {
 	@NotNull
-	public static final ArrayCreator<PackageId> PackageIdArray = new PackageIdArrayCreator();
+	public static final ArrayCreator<Revision> RevisionArray = new RevisionArrayCreator();
 
-	private PackageIdArrayCreator()
+	private RevisionArrayCreator()
 	{
-		super(PackageId.class, PackageId[].class);
+		super(Revision.class, Revision[].class);
 	}
 
 	@NotNull
 	@Override
-	public PackageId[] newInstance1(final int size)
+	public Revision[] newInstance1(final int size)
 	{
-		return new PackageId[size];
+		return new Revision[size];
 	}
 
 	@NotNull
 	@Override
-	public PackageId[][] newInstance2(final int size)
+	public Revision[][] newInstance2(final int size)
 	{
-		return new PackageId[size][];
+		return new Revision[size][];
 	}
 }

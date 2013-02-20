@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.ckan.domain.uuids;
+package uk.nhs.hdn.ckan.domain.ids;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
