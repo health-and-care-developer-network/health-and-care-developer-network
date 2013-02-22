@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.ckan;
-
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.ckan.api.ApiMethod;
 import uk.nhs.hdn.ckan.domain.SearchResult;

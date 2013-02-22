@@ -1257,7 +1257,9 @@
       <module fileurl="file://$PROJECT_DIR$/barcodes/barcodes-gs1-server-application/barcodes-gs1-server-application.iml" filepath="$PROJECT_DIR$/barcodes/barcodes-gs1-server-application/barcodes-gs1-server-application.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/barcodes/barcodes-gs1-unitTests/barcodes-gs1-unitTests.iml" filepath="$PROJECT_DIR$/barcodes/barcodes-gs1-unitTests/barcodes-gs1-unitTests.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/build/build/build.iml" filepath="$PROJECT_DIR$/build/build/build.iml" group="build" />
-      <module fileurl="file://$PROJECT_DIR$/ckan/ckan/ckan.iml" filepath="$PROJECT_DIR$/ckan/ckan/ckan.iml" group="ckan" />
+      <module fileurl="file://$PROJECT_DIR$/ckan/ckan-api/ckan-api.iml" filepath="$PROJECT_DIR$/ckan/ckan-api/ckan-api.iml" group="ckan" />
+      <module fileurl="file://$PROJECT_DIR$/ckan/ckan-domain/ckan-domain.iml" filepath="$PROJECT_DIR$/ckan/ckan-domain/ckan-domain.iml" group="ckan" />
+      <module fileurl="file://$PROJECT_DIR$/ckan/ckan-schema/ckan-schema.iml" filepath="$PROJECT_DIR$/ckan/ckan-schema/ckan-schema.iml" group="ckan" />
       <module fileurl="file://$PROJECT_DIR$/common/common/common.iml" filepath="$PROJECT_DIR$/common/common/common.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-commandLine/common-commandLine.iml" filepath="$PROJECT_DIR$/common/common-commandLine/common-commandLine.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-comparison/common-comparison.iml" filepath="$PROJECT_DIR$/common/common-comparison/common-comparison.iml" group="common" />

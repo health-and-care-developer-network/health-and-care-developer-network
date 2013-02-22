@@ -34,6 +34,7 @@ public abstract class AbstractSearchCriterion<T> extends AbstractToString implem
 		this.key = key;
 	}
 
+	@SuppressWarnings("unchecked")
 	@NotNull
 	@Override
 	public final SearchCriteria<T> and(@NotNull final SearchCriterion<T> searchCriterion)

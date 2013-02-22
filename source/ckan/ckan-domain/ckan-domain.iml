@@ -8,14 +8,11 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="IntelliJ Annotations" level="project" />
-    <orderEntry type="module" module-name="common-http-client" />
-    <orderEntry type="module" module-name="common-http" />
-    <orderEntry type="module" module-name="common-http-client-json" />
-    <orderEntry type="module" module-name="common-parsers-json" />
-    <orderEntry type="module" module-name="common" />
-    <orderEntry type="module" module-name="common-reflection" />
+    <orderEntry type="module" module-name="common-unknown" />
     <orderEntry type="module" module-name="common-serialisers" />
+    <orderEntry type="module" module-name="common-reflection" />
     <orderEntry type="module" module-name="common-serialisers-separatedValues" />
+    <orderEntry type="module" module-name="common" />
     <orderEntry type="module" module-name="common-naming" />
   </component>
 </module>
