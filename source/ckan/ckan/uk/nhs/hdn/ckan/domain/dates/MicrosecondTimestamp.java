@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.ckan.domain;
+package uk.nhs.hdn.ckan.domain.dates;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

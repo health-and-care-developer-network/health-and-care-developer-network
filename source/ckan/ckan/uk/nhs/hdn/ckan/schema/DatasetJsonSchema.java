@@ -18,11 +18,14 @@ package uk.nhs.hdn.ckan.schema;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.ckan.domain.Dataset;
-import uk.nhs.hdn.ckan.domain.MicrosecondTimestamp;
 import uk.nhs.hdn.ckan.domain.Resource;
 import uk.nhs.hdn.ckan.domain.TrackingSummary;
-import uk.nhs.hdn.ckan.domain.enumerations.Format;
+import uk.nhs.hdn.ckan.domain.dates.AbstractDate;
+import uk.nhs.hdn.ckan.domain.dates.Date;
+import uk.nhs.hdn.ckan.domain.dates.MicrosecondTimestamp;
+import uk.nhs.hdn.ckan.domain.Format;
 import uk.nhs.hdn.ckan.domain.enumerations.ResourceType;
 import uk.nhs.hdn.ckan.domain.enumerations.State;
 import uk.nhs.hdn.ckan.domain.enumerations.Type;
@@ -41,6 +44,10 @@ import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.object
 
 import java.util.Map;
 
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+import static java.lang.String.format;
+import static java.util.Locale.ENGLISH;
 import static uk.nhs.hdn.ckan.domain.Dataset.*;
 import static uk.nhs.hdn.ckan.domain.Dataset.groupsField;
 import static uk.nhs.hdn.ckan.domain.Dataset.idField;
@@ -58,6 +65,7 @@ import static uk.nhs.hdn.ckan.domain.Group.extrasField;
 import static uk.nhs.hdn.ckan.domain.Resource.*;
 import static uk.nhs.hdn.ckan.domain.TrackingSummary.recentField;
 import static uk.nhs.hdn.ckan.domain.TrackingSummary.totalField;
+import static uk.nhs.hdn.ckan.domain.dates.MissingDate.MissingDateInstance;
 import static uk.nhs.hdn.ckan.domain.urls.UnknownUrl.UnknownUrlInstance;
 import static uk.nhs.hdn.ckan.schema.GroupIdsArrayJsonSchema.ArrayOfGroupIdsConstructor;
 import static uk.nhs.hdn.ckan.schema.TagsArrayJsonSchema.ArrayOfTagsConstructor;
@@ -72,7 +80,6 @@ import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.FieldExpectation.nullableStringField;
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.NonNullEnumFieldExpectation.nonNullEnumField;
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.NonNullFieldExpectation.*;
-import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.NonNullFieldExpectation.nonNullField;
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.StringToSomethingElseFieldExpectation.nonNullStringToSomethingElseField;
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.StringToSomethingElseFieldExpectation.nullableStringToSomethingElseField;
 import static uk.nhs.hdn.common.serialisers.ValueSerialisable.NullNumber;
@@ -83,11 +90,11 @@ public final class DatasetJsonSchema extends ObjectJsonSchema<Dataset>
 	@SuppressWarnings("ConstantNamingConvention") @NotNull @NonNls private static final String valueOf = "valueOf";
 	@SuppressWarnings("ConstantNamingConvention") @NotNull @NonNls private static final String parseUrl = "parseUrl";
 	@SuppressWarnings("ConstantNamingConvention") @NotNull @NonNls private static final String microsecondTimestamp = "microsecondTimestamp";
+	@SuppressWarnings("ConstantNamingConvention") @NotNull @NonNls private static final String convertStringLong = "convertStringLong";
+	@SuppressWarnings("ConstantNamingConvention") @NotNull @NonNls private static final String convertStringBoolean = "convertStringBoolean";
+	@SuppressWarnings("ConstantNamingConvention") @NotNull @NonNls private static final String parseDate = "parseDate";
 
-	/*
-		Format might be an empty string - needs handling
-	 */
-
+	@SuppressWarnings("UnusedDeclaration")
 	public static long convertStringLong(@NotNull @NonNls final String value)
 	{
 		if (value.isEmpty() || "None".equals(value))
@@ -95,6 +102,27 @@ public final class DatasetJsonSchema extends ObjectJsonSchema<Dataset>
 			return NullNumber;
 		}
 		return Long.valueOf(value);
+	}
+
+	@SuppressWarnings({"UnusedDeclaration", "BooleanMethodNameMustStartWithQuestion", "HardCodedStringLiteral"})
+	@Nullable
+	public static Boolean convertStringBoolean(@NotNull @NonNls final String value)
+	{
+		if (value.isEmpty())
+		{
+			return null;
+		}
+		switch (value)
+		{
+			case "True":
+				return TRUE;
+
+			case "False":
+				return FALSE;
+
+			default:
+				throw new IllegalArgumentException(format(ENGLISH, "Unknown boolean value %1$s", value));
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -129,9 +157,9 @@ public final class DatasetJsonSchema extends ObjectJsonSchema<Dataset>
 					nullableStringToSomethingElseField(cacheLastUpdatedField, MicrosecondTimestamp.class, MicrosecondTimestamp.class, microsecondTimestamp, null),
 					nonNullStringToSomethingElseField(packageIdField, PackageId.class, PackageId.class, valueOf),
 					nullableStringToSomethingElseField(webstoreLastUpdatedField, MicrosecondTimestamp.class, MicrosecondTimestamp.class, microsecondTimestamp, null),
-					nullableStringField(datastoreActiveField),
+					nullableStringToSomethingElseField(datastoreActiveField, Boolean.class, DatasetJsonSchema.class, convertStringBoolean, null),
 					nonNullStringToSomethingElseField(Resource.idField, ResourceId.class, ResourceId.class, valueOf),
-					nullableStringToSomethingElseField(sizeField, long.class, DatasetJsonSchema.class, "convertStringLong", NullNumber),
+					nullableStringToSomethingElseField(sizeField, long.class, DatasetJsonSchema.class, convertStringLong, NullNumber),
 					nullableStringField(cacheFilePathField),
 					nullableStringToSomethingElseField(lastModifiedField, MicrosecondTimestamp.class, MicrosecondTimestamp.class, microsecondTimestamp, null),
 					nonNullStringToSomethingElseField(hashField, Hash.class),
@@ -146,15 +174,22 @@ public final class DatasetJsonSchema extends ObjectJsonSchema<Dataset>
 					nullableStringToSomethingElseField(urlField, Url.class, AbstractUrl.class, parseUrl, UnknownUrlInstance),
 					nullableStringToSomethingElseField(webstoreUrlField, Url.class, AbstractUrl.class, parseUrl, UnknownUrlInstance),
 					nonNulllongField(positionField),
-					nullableStringToSomethingElseField(resourceTypeField, ResourceType.class, ResourceType.class, valueOf, null),
-					nullableStringToSomethingElseField(contentLengthField, long.class, DatasetJsonSchema.class, "convertStringLong", NullNumber),
-					nullableStringToSomethingElseField(opennessScoreField, long.class, DatasetJsonSchema.class, "convertStringLong", NullNumber),
-					nullableStringToSomethingElseField(opennessScoreFailureCountField, long.class, DatasetJsonSchema.class, "convertStringLong", NullNumber),
+					nullableStringToSomethingElseField(resourceTypeField, ResourceType.class, ResourceType.class, "resourceType", null),
+					nullableStringToSomethingElseField(contentLengthField, long.class, DatasetJsonSchema.class, convertStringLong, NullNumber),
+					nullableStringToSomethingElseField(opennessScoreField, long.class, DatasetJsonSchema.class, convertStringLong, NullNumber),
+					nullableStringToSomethingElseField(opennessScoreFailureCountField, long.class, DatasetJsonSchema.class, convertStringLong, NullNumber),
 					nullableStringField(opennessScoreReasonField),
 					nullableStringField(contentTypeField),
 					nullableStringToSomethingElseField(hubIdField, HubId.class, null),
 					nullableStringField(resourceLocatorProtocolField),
-					nullableStringField(resourceLocatorFunctionField)
+					nullableStringField(resourceLocatorFunctionField),
+					nullableStringToSomethingElseField(dateField, Date.class, AbstractDate.class, parseDate, MissingDateInstance),
+					nullableStringToSomethingElseField(scraperUrlField, Url.class, AbstractUrl.class, parseUrl, UnknownUrlInstance),
+					nullableStringToSomethingElseField(verifiedDateField, MicrosecondTimestamp.class, MicrosecondTimestamp.class, microsecondTimestamp, null),
+					nullableStringToSomethingElseField(verifiedField, Boolean.class, DatasetJsonSchema.class, convertStringBoolean, null),
+					nullableStringToSomethingElseField(ckanRecommendedWmsPreviewField, Boolean.class, DatasetJsonSchema.class, convertStringBoolean, null),
+					nullableStringToSomethingElseField(scrapedField, Date.class, AbstractDate.class, parseDate, MissingDateInstance),
+					nullableStringToSomethingElseField(scraperSourceField, Url.class, AbstractUrl.class, parseUrl, UnknownUrlInstance)
 				)
 			)),
 			nonNullField(tagsField, TagName[].class, ArrayOfTagsConstructor),
@@ -165,7 +200,7 @@ public final class DatasetJsonSchema extends ObjectJsonSchema<Dataset>
 			nonNullStringField(notesRenderedField),
 			nullableStringToSomethingElseField(urlField, Url.class, AbstractUrl.class, parseUrl, UnknownUrlInstance),
 			nullableStringToSomethingElseField(ckanUrlField, Url.class, AbstractUrl.class, parseUrl, UnknownUrlInstance),
-			nonNullStringField(notesField),
+			nullableStringField(notesField),
 			nonNullStringField(titleField),
 			nullableStringField(ratingsAverageField),
 			nonNullField(extrasField, Map.class, StringGenericObjectConstructorInstance),

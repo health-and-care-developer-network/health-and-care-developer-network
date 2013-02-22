@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.unknown.IsUnknown;
 
+import java.util.List;
 import java.util.Map;
 
 import static uk.nhs.hdn.common.serialisers.ValueSerialisable.NullNumber;
@@ -65,6 +66,18 @@ public abstract class AbstractSerialiser extends AbstractValueSerialiser impleme
 		else
 		{
 			mapSerialiser.writeProperty(name, valueOrMinusOne);
+		}
+	}
+
+	public static void writeNullableProperty(@NotNull final MapSerialiser mapSerialiser, @NotNull @NonNls @FieldTokenName final String name, @Nullable final Boolean value) throws CouldNotWritePropertyException
+	{
+		if (value == null)
+		{
+			mapSerialiser.writePropertyNull(name);
+		}
+		else
+		{
+			mapSerialiser.writeProperty(name, (boolean) value);
 		}
 	}
 
@@ -144,6 +157,12 @@ public abstract class AbstractSerialiser extends AbstractValueSerialiser impleme
 		if (value instanceof Map)
 		{
 			writeProperty(name, new GenericMapSerialisable((Map<?, ?>) value));
+			return;
+		}
+
+		if (value instanceof List)
+		{
+			writeProperty(name, (List<?>) value);
 			return;
 		}
 

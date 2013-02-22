@@ -19,7 +19,8 @@ package uk.nhs.hdn.ckan.domain;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hdn.ckan.domain.enumerations.Format;
+import uk.nhs.hdn.ckan.domain.dates.Date;
+import uk.nhs.hdn.ckan.domain.dates.MicrosecondTimestamp;
 import uk.nhs.hdn.ckan.domain.enumerations.ResourceType;
 import uk.nhs.hdn.ckan.domain.ids.PackageId;
 import uk.nhs.hdn.ckan.domain.ids.ResourceGroupId;
@@ -73,12 +74,19 @@ public final class Resource extends AbstractToString implements Serialisable, Ma
 	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String hubIdField = "hub-id";
 	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String resourceLocatorProtocolField = "resource_locator_protocol";
 	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String resourceLocatorFunctionField = "resource_locator_function";
+	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String dateField = "date";
+	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String scraperUrlField = "scraper_url";
+	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String verifiedDateField = "verified_date";
+	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String verifiedField = "verified";
+	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String ckanRecommendedWmsPreviewField = "ckan_recommended_wms_preview";
+	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String scrapedField = "scraped";
+	@SuppressWarnings("ConstantNamingConvention") @FieldTokenName @NonNls @NotNull public static final String scraperSourceField = "scraper_source";
 
 	@NotNull public final ResourceGroupId resourceGroupId;
 	@Nullable public final MicrosecondTimestamp cacheLastUpdated;
 	@NotNull public final PackageId packageId;
 	@Nullable public final MicrosecondTimestamp webstoreLastUpdated;
-	@Nullable @NonNls public final String datastoreActive;
+	@Nullable public final Boolean datastoreActive;
 	@NotNull public final ResourceId id;
 	public final long size;
 	@Nullable @NonNls public final String cacheFilePath;
@@ -104,9 +112,16 @@ public final class Resource extends AbstractToString implements Serialisable, Ma
 	@Nullable private final HubId hubId;
 	@Nullable @NonNls private final String resourceLocatorProtocol;
 	@Nullable @NonNls private final String resourceLocatorFunction;
+	@Nullable private final Date date;
+	@Nullable private final Url scraperUrl;
+	@Nullable public final MicrosecondTimestamp verifiedDate;
+	@Nullable public final Boolean verified;
+	@Nullable public final Boolean ckanRecommendedWmsPreview;
+	@Nullable private final Date scraped;
+	@Nullable private final Url scraperSource;
 
-	@SuppressWarnings("ConstructorWithTooManyParameters")
-	public Resource(@NotNull final ResourceGroupId resourceGroupId, @Nullable final MicrosecondTimestamp cacheLastUpdated, @NotNull final PackageId packageId, @Nullable final MicrosecondTimestamp webstoreLastUpdated, @Nullable @NonNls final String datastoreActive, @NotNull final ResourceId id, final long size, @Nullable @NonNls final String cacheFilePath, @Nullable final MicrosecondTimestamp lastModified, @NotNull final Hash hash, @NotNull @NonNls final String description, @NotNull final Format format, @NotNull final TrackingSummary trackingSummary, @Nullable @NonNls final String mimeTypeInner, @Nullable @NonNls final String mimeType, @NotNull final Url cacheUrl, @Nullable @NonNls final String name, @Nullable final MicrosecondTimestamp created, @NotNull final Url url, @Nullable final Url webstoreUrl, final long position, @Nullable final ResourceType resourceType, final long contentLength, final long opennessScore, final long opennessScoreFailureCount, @Nullable @NonNls final String opennessScoreReason, @Nullable @NonNls final String contentType, @Nullable final HubId hubId, @Nullable @NonNls final String resourceLocatorProtocol, @Nullable @NonNls final String resourceLocatorFunction)
+	@SuppressWarnings({"ConstructorWithTooManyParameters", "OverlyCoupledMethod", "OverlyLongMethod"})
+	public Resource(@NotNull final ResourceGroupId resourceGroupId, @Nullable final MicrosecondTimestamp cacheLastUpdated, @NotNull final PackageId packageId, @Nullable final MicrosecondTimestamp webstoreLastUpdated, @Nullable final Boolean datastoreActive, @NotNull final ResourceId id, final long size, @Nullable @NonNls final String cacheFilePath, @Nullable final MicrosecondTimestamp lastModified, @NotNull final Hash hash, @NotNull @NonNls final String description, @NotNull final Format format, @NotNull final TrackingSummary trackingSummary, @Nullable @NonNls final String mimeTypeInner, @Nullable @NonNls final String mimeType, @NotNull final Url cacheUrl, @Nullable @NonNls final String name, @Nullable final MicrosecondTimestamp created, @NotNull final Url url, @Nullable final Url webstoreUrl, final long position, @Nullable final ResourceType resourceType, final long contentLength, final long opennessScore, final long opennessScoreFailureCount, @Nullable @NonNls final String opennessScoreReason, @Nullable @NonNls final String contentType, @Nullable final HubId hubId, @Nullable @NonNls final String resourceLocatorProtocol, @Nullable @NonNls final String resourceLocatorFunction, @Nullable final Date date, @Nullable final Url scraperUrl, @Nullable final MicrosecondTimestamp verifiedDate, @Nullable final Boolean verified, @Nullable final Boolean ckanRecommendedWmsPreview, @Nullable final Date scraped, @Nullable final Url scraperSource)
 	{
 		this.resourceGroupId = resourceGroupId;
 		this.cacheLastUpdated = cacheLastUpdated;
@@ -138,6 +153,13 @@ public final class Resource extends AbstractToString implements Serialisable, Ma
 		this.hubId = hubId;
 		this.resourceLocatorProtocol = resourceLocatorProtocol;
 		this.resourceLocatorFunction = resourceLocatorFunction;
+		this.date = date;
+		this.scraperUrl = scraperUrl;
+		this.verifiedDate = verifiedDate;
+		this.verified = verified;
+		this.ckanRecommendedWmsPreview = ckanRecommendedWmsPreview;
+		this.scraped = scraped;
+		this.scraperSource = scraperSource;
 	}
 
 	@Override
@@ -153,7 +175,7 @@ public final class Resource extends AbstractToString implements Serialisable, Ma
 		}
 	}
 
-	@SuppressWarnings("FeatureEnvy")
+	@SuppressWarnings({"FeatureEnvy", "OverlyLongMethod"})
 	@Override
 	public void serialiseMap(@NotNull final MapSerialiser mapSerialiser) throws CouldNotSerialiseMapException
 	{
@@ -188,6 +210,13 @@ public final class Resource extends AbstractToString implements Serialisable, Ma
 			writeNullableProperty(mapSerialiser, hubIdField, hubId);
 			writeNullableProperty(mapSerialiser, resourceLocatorProtocolField, resourceLocatorProtocol);
 			writeNullableProperty(mapSerialiser, resourceLocatorFunctionField, resourceLocatorFunction);
+			writeNullableProperty(mapSerialiser, dateField, date);
+			writeNullableProperty(mapSerialiser, scraperUrlField, scraperUrl);
+			writeNullableProperty(mapSerialiser, verifiedDateField, verifiedDate);
+			writeNullableProperty(mapSerialiser, verifiedField, verified);
+			writeNullableProperty(mapSerialiser, ckanRecommendedWmsPreviewField, ckanRecommendedWmsPreview);
+			writeNullableProperty(mapSerialiser, scrapedField, scraped);
+			writeNullableProperty(mapSerialiser, scraperSourceField, scraperSource);
 		}
 		catch (CouldNotWritePropertyException e)
 		{
@@ -330,11 +359,39 @@ public final class Resource extends AbstractToString implements Serialisable, Ma
 		{
 			return false;
 		}
+		if (date != null ? !date.equals(resource.date) : resource.date != null)
+		{
+			return false;
+		}
+		if (scraperUrl != null ? !scraperUrl.equals(resource.scraperUrl) : resource.scraperUrl != null)
+		{
+			return false;
+		}
+		if (verifiedDate != null ? !verifiedDate.equals(resource.verifiedDate) : resource.verifiedDate != null)
+		{
+			return false;
+		}
+		if (verified != null ? !verified.equals(resource.verified) : resource.verified != null)
+		{
+			return false;
+		}
+		if (ckanRecommendedWmsPreview != null ? !ckanRecommendedWmsPreview.equals(resource.ckanRecommendedWmsPreview) : resource.ckanRecommendedWmsPreview != null)
+		{
+			return false;
+		}
+		if (scraped != null ? !scraped.equals(resource.scraped) : resource.scraped != null)
+		{
+			return false;
+		}
+		if (scraperSource != null ? !scraperSource.equals(resource.scraperSource) : resource.scraperSource != null)
+		{
+			return false;
+		}
 
 		return true;
 	}
 
-	@SuppressWarnings({"ConditionalExpression", "MethodWithMoreThanThreeNegations", "FeatureEnvy", "ConstantConditions", "OverlyComplexMethod"})
+	@SuppressWarnings({"ConditionalExpression", "MethodWithMoreThanThreeNegations", "FeatureEnvy", "ConstantConditions", "OverlyComplexMethod", "OverlyLongMethod"})
 	@Override
 	public int hashCode()
 	{
@@ -368,6 +425,13 @@ public final class Resource extends AbstractToString implements Serialisable, Ma
 		result = 31 * result + (int) (opennessScoreFailureCount ^ (opennessScoreFailureCount >>> 32));
 		result = 31 * result + (opennessScoreReason != null ? opennessScoreReason.hashCode() : 0);
 		result = 31 * result + (contentType != null ? contentType.hashCode() : 0);
+		result = 31 * result + (date != null ? date.hashCode() : 0);
+		result = 31 * result + (scraperUrl != null ? scraperUrl.hashCode() : 0);
+		result = 31 * result + (verifiedDate != null ? verifiedDate.hashCode() : 0);
+		result = 31 * result + (verified != null ? verified.hashCode() : 0);
+		result = 31 * result + (ckanRecommendedWmsPreview != null ? ckanRecommendedWmsPreview.hashCode() : 0);
+		result = 31 * result + (scraped != null ? scraped.hashCode() : 0);
+		result = 31 * result + (scraperSource != null ? scraperSource.hashCode() : 0);
 		return result;
 	}
 }

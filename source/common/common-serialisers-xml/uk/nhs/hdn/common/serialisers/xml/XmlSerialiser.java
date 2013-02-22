@@ -28,6 +28,7 @@ import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static java.lang.String.format;
@@ -277,6 +278,21 @@ public final class XmlSerialiser extends AbstractSerialiser
 	}
 
 	@Override
+	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final List<?> values) throws CouldNotWritePropertyException
+	{
+		try
+		{
+			writeOpen(name);
+			writeValue(values);
+			writeClose(name);
+		}
+		catch (CouldNotWriteDataException | CouldNotEncodeDataException | CouldNotWriteValueException e)
+		{
+			throw new CouldNotWritePropertyException(name, values, e);
+		}
+	}
+
+	@Override
 	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final int value) throws CouldNotWritePropertyException
 	{
 		try
@@ -350,6 +366,29 @@ public final class XmlSerialiser extends AbstractSerialiser
 		try
 		{
 			for (final S value : values)
+			{
+				if (value == null)
+				{
+					writeEmptyProperty(ListElementNodeName);
+				}
+				else
+				{
+					writeProperty(ListElementNodeName, value);
+				}
+			}
+		}
+		catch (CouldNotWritePropertyException e)
+		{
+			throw new CouldNotWriteValueException(values, e);
+		}
+	}
+
+	@Override
+	public void writeValue(@NotNull final List<?> values) throws CouldNotWriteValueException
+	{
+		try
+		{
+			for (final Object value : values)
 			{
 				if (value == null)
 				{

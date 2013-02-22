@@ -19,6 +19,7 @@ package uk.nhs.hdn.ckan.domain;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hdn.ckan.domain.dates.MicrosecondTimestamp;
 import uk.nhs.hdn.ckan.domain.enumerations.State;
 import uk.nhs.hdn.ckan.domain.enumerations.Type;
 import uk.nhs.hdn.ckan.domain.ids.DatasetId;
@@ -41,8 +42,6 @@ import static uk.nhs.hdn.ckan.domain.TrackingSummary.totalField;
 import static uk.nhs.hdn.common.serialisers.AbstractSerialiser.writeNullableProperty;
 import static uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser.commaSeparatedValueSerialiser;
 import static uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser.tabSeparatedValueSerialiser;
-import static uk.nhs.hdn.common.serialisers.separatedValues.fieldEscapers.SanitisingTabSeparatedFieldEscaper.SanitisingTabSeparatedFieldEscaperInstance;
-import static uk.nhs.hdn.common.serialisers.separatedValues.fieldEscapers.TabSeparatedFieldEscaper.TabSeparatedFieldEscaperInstance;
 import static uk.nhs.hdn.common.serialisers.separatedValues.matchers.IgnoreChildrenMatcher.ignoreChildren;
 import static uk.nhs.hdn.common.serialisers.separatedValues.matchers.LeafMatcher.leaf;
 import static uk.nhs.hdn.common.serialisers.separatedValues.matchers.RecurseMatcher.recurse;
@@ -165,9 +164,9 @@ public final class Dataset extends AbstractToString implements Serialisable, Map
 
 	@SuppressWarnings("ConditionalExpression")
 	@NotNull
-	public static SeparatedValueSerialiser tsvSerialiserForDatasets(final boolean sanitiseBrokenData)
+	public static SeparatedValueSerialiser tsvSerialiserForDatasets()
 	{
-		return tabSeparatedValueSerialiser(sanitiseBrokenData ? SanitisingTabSeparatedFieldEscaperInstance : TabSeparatedFieldEscaperInstance, SeparatedValuesSchema, true, SeparatedValuesHeadings);
+		return tabSeparatedValueSerialiser(SeparatedValuesSchema, true, SeparatedValuesHeadings);
 	}
 
 	@NonNls @Nullable public final String licenceTitle;
@@ -193,7 +192,7 @@ public final class Dataset extends AbstractToString implements Serialisable, Map
 	@NonNls @NotNull public final String notesRendered;
 	@NotNull public final Url url;
 	@NotNull public final Url ckanUrl;
-	@NonNls @NotNull public final String notes;
+	@NonNls @Nullable public final String notes;
 	@NonNls @NotNull public final String title;
 	@NonNls @Nullable public final String ratingsAverage;
 	@NotNull public final Map<String, Object> extras;
@@ -202,7 +201,7 @@ public final class Dataset extends AbstractToString implements Serialisable, Map
 	@NotNull public final RevisionId revisionId;
 
 	@SuppressWarnings({"AssignmentToCollectionOrArrayFieldFromParameter", "ConstructorWithTooManyParameters", "OverlyCoupledMethod"})
-	public Dataset(@Nullable @NonNls final String licenceTitle, @Nullable @NonNls final String maintainer, @Nullable @NonNls final String maintainerEmail, @NotNull final DatasetId id, @NotNull final MicrosecondTimestamp metadataCreated, @NotNull final DatasetName[] relationships, @Nullable @NonNls final String licence, @NotNull final MicrosecondTimestamp metadataModified, @Nullable @NonNls final String author, @Nullable @NonNls final String authorEmail, @NotNull final State state, @Nullable @NonNls final String version, @Nullable final LicenceId licenceId, @Nullable final Type type, @NotNull final Resource[] resources, @NotNull final TagName[] tags, @NotNull final TrackingSummary trackingSummary, @NotNull final GroupId[] groups, @NotNull final DatasetName name, final boolean isOpen, @NotNull @NonNls final String notesRendered, @NotNull final Url url, @NotNull final Url ckanUrl, @NotNull @NonNls final String notes, @NotNull @NonNls final String title, @Nullable @NonNls final String ratingsAverage, @NotNull final Map<String, Object> extras, @NotNull final Url licenceUrl, final long ratingsCount, @NotNull final RevisionId revisionId)
+	public Dataset(@Nullable @NonNls final String licenceTitle, @Nullable @NonNls final String maintainer, @Nullable @NonNls final String maintainerEmail, @NotNull final DatasetId id, @NotNull final MicrosecondTimestamp metadataCreated, @NotNull final DatasetName[] relationships, @Nullable @NonNls final String licence, @NotNull final MicrosecondTimestamp metadataModified, @Nullable @NonNls final String author, @Nullable @NonNls final String authorEmail, @NotNull final State state, @Nullable @NonNls final String version, @Nullable final LicenceId licenceId, @Nullable final Type type, @NotNull final Resource[] resources, @NotNull final TagName[] tags, @NotNull final TrackingSummary trackingSummary, @NotNull final GroupId[] groups, @NotNull final DatasetName name, final boolean isOpen, @NotNull @NonNls final String notesRendered, @NotNull final Url url, @NotNull final Url ckanUrl, @Nullable @NonNls final String notes, @NotNull @NonNls final String title, @Nullable @NonNls final String ratingsAverage, @NotNull final Map<String, Object> extras, @NotNull final Url licenceUrl, final long ratingsCount, @NotNull final RevisionId revisionId)
 	{
 		this.licenceTitle = licenceTitle;
 		this.maintainer = maintainer;
@@ -278,7 +277,7 @@ public final class Dataset extends AbstractToString implements Serialisable, Map
 			mapSerialiser.writeProperty(notesRenderedField, notesRendered);
 			mapSerialiser.writeProperty(urlField, url);
 			mapSerialiser.writeProperty(ckanUrlField, ckanUrl);
-			mapSerialiser.writeProperty(notesField, notes);
+			writeNullableProperty(mapSerialiser, notesField, notes);
 			mapSerialiser.writeProperty(titleField, title);
 			writeNullableProperty(mapSerialiser, ratingsAverageField, ratingsAverage);
 			mapSerialiser.writeProperty(extrasField, extras);
@@ -375,7 +374,7 @@ public final class Dataset extends AbstractToString implements Serialisable, Map
 		{
 			return false;
 		}
-		if (!notes.equals(dataset.notes))
+		if (notes != null ? !notes.equals(dataset.notes) : dataset.notes != null)
 		{
 			return false;
 		}
@@ -459,6 +458,7 @@ public final class Dataset extends AbstractToString implements Serialisable, Map
 		result = 31 * result + url.hashCode();
 		result = 31 * result + ckanUrl.hashCode();
 		result = 31 * result + notes.hashCode();
+		result = 31 * result + (notes != null ? notes.hashCode() : 0);
 		result = 31 * result + title.hashCode();
 		result = 31 * result + (ratingsAverage != null ? ratingsAverage.hashCode() : 0);
 		result = 31 * result + extras.hashCode();

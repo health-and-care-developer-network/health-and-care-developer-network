@@ -87,10 +87,6 @@ public final class StringToSomethingElseFieldExpectation<S> extends FieldExpecta
 		{
 			throw new SchemaViolationInvalidJsonException(format(ENGLISH, "string for parameter %1$s can not be value '%2$s'", constructorParameterType, value), e);
 		}
-		if (convertedValue == null)
-		{
-			throw new SchemaViolationInvalidJsonException(format(ENGLISH, "string for parameter %1$s can not be value '%2$s' and null", constructorParameterType, value));
-		}
 		putValue(constructorArguments, convertedValue);
 	}
 }

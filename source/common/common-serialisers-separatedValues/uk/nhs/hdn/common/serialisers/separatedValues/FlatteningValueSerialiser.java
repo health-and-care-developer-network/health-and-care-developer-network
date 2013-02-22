@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
+import java.util.List;
 
 import static java.util.Arrays.copyOf;
 
@@ -74,6 +75,31 @@ public final class FlatteningValueSerialiser extends AbstractValueSerialiser
 	{
 		boolean afterFirst = false;
 		for (final S value : values)
+		{
+			if (afterFirst)
+			{
+				try
+				{
+					writer.write(separator);
+				}
+				catch (IOException e)
+				{
+					throw new CouldNotWriteValueException(values, new CouldNotWriteDataException(e));
+				}
+			}
+			else
+			{
+				afterFirst = true;
+			}
+			writeValue(value);
+		}
+	}
+
+	@Override
+	public void writeValue(@NotNull final List<?> values) throws CouldNotWriteValueException
+	{
+		boolean afterFirst = false;
+		for (final Object value : values)
 		{
 			if (afterFirst)
 			{

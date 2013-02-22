@@ -19,6 +19,7 @@ package uk.nhs.hdn.ckan.domain;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hdn.ckan.domain.dates.MicrosecondTimestamp;
 import uk.nhs.hdn.ckan.domain.enumerations.ApprovalStatus;
 import uk.nhs.hdn.ckan.domain.enumerations.State;
 import uk.nhs.hdn.ckan.domain.enumerations.Type;
@@ -41,8 +42,6 @@ import static uk.nhs.hdn.common.VariableArgumentsHelper.copyOf;
 import static uk.nhs.hdn.common.serialisers.AbstractSerialiser.writeNullableProperty;
 import static uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser.commaSeparatedValueSerialiser;
 import static uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser.tabSeparatedValueSerialiser;
-import static uk.nhs.hdn.common.serialisers.separatedValues.fieldEscapers.SanitisingTabSeparatedFieldEscaper.SanitisingTabSeparatedFieldEscaperInstance;
-import static uk.nhs.hdn.common.serialisers.separatedValues.fieldEscapers.TabSeparatedFieldEscaper.TabSeparatedFieldEscaperInstance;
 import static uk.nhs.hdn.common.serialisers.separatedValues.matchers.IgnoreChildrenMatcher.ignoreChildren;
 import static uk.nhs.hdn.common.serialisers.separatedValues.matchers.LeafMatcher.leaf;
 import static uk.nhs.hdn.common.serialisers.separatedValues.matchers.RecurseMatcher.rootMatcher;
@@ -118,9 +117,9 @@ public final class Group extends AbstractToString implements Serialisable, MapSe
 
 	@SuppressWarnings("ConditionalExpression")
 	@NotNull
-	public static SeparatedValueSerialiser tsvSerialiserForGroups(final boolean sanitiseBrokenData)
+	public static SeparatedValueSerialiser tsvSerialiserForGroups()
 	{
-		return tabSeparatedValueSerialiser(sanitiseBrokenData ? SanitisingTabSeparatedFieldEscaperInstance : TabSeparatedFieldEscaperInstance, SeparatedValuesSchema, true, SeparatedValuesHeadings);
+		return tabSeparatedValueSerialiser(SeparatedValuesSchema, true, SeparatedValuesHeadings);
 	}
 
 	@NotNull public final User[] users;

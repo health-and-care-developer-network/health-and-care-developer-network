@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.Stack;
 
 public class JsonSerialiser extends AbstractSerialiser
@@ -188,6 +189,30 @@ public class JsonSerialiser extends AbstractSerialiser
 	}
 
 	@Override
+	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final List<?> values) throws CouldNotWritePropertyException
+	{
+		try
+		{
+			if (current.hasSubsequentProperty())
+			{
+				write(CommaDoubleQuote);
+			}
+			else
+			{
+				write(DoubleQuote);
+				current.setHasSubsequentProperty();
+			}
+			jsonStringWriter.writeString(name);
+			write(DoubleQuoteColon);
+			writeValue(values);
+		}
+		catch (CouldNotWriteDataException | CouldNotWriteValueException e)
+		{
+			throw new CouldNotWritePropertyException(name, values, e);
+		}
+	}
+
+	@Override
 	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final int value) throws CouldNotWritePropertyException
 	{
 		try
@@ -304,6 +329,33 @@ public class JsonSerialiser extends AbstractSerialiser
 				{
 					write(Comma);
 					writeValue(values[index]);
+				}
+			}
+			write(CloseArray);
+		}
+		catch (CouldNotWriteDataException e)
+		{
+			throw new CouldNotWriteValueException(values, e);
+		}
+		current = depth.pop();
+	}
+
+	@Override
+	public void writeValue(@NotNull final List<?> values) throws CouldNotWriteValueException
+	{
+		depth.push(current);
+		try
+		{
+			current = new JsonNodeState();
+			write(OpenArray);
+			final int length = values.size();
+			if (length != 0)
+			{
+				writeValue(values.get(0));
+				for (int index = 1; index < length; index++)
+				{
+					write(Comma);
+					writeValue(values.get(index));
 				}
 			}
 			write(CloseArray);

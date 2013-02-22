@@ -27,6 +27,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
+import java.util.List;
 
 public abstract class AbstractValueSerialiser extends AbstractToString implements ValueSerialiser, StartFinish
 {
@@ -148,6 +149,11 @@ public abstract class AbstractValueSerialiser extends AbstractToString implement
 		{
 			writeValue(((Enum<?>) value).name());
 			return;
+		}
+
+		if (value instanceof List)
+		{
+			writeValue((List<?>) value);
 		}
 
 		throw new CouldNotWriteValueException(value, "do not know how to write values for this class");

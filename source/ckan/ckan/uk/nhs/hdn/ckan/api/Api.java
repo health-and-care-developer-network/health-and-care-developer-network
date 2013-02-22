@@ -19,10 +19,7 @@ package uk.nhs.hdn.ckan.api;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hdn.ckan.domain.Dataset;
-import uk.nhs.hdn.ckan.domain.Group;
-import uk.nhs.hdn.ckan.domain.Licence;
-import uk.nhs.hdn.ckan.domain.Revision;
+import uk.nhs.hdn.ckan.domain.*;
 import uk.nhs.hdn.ckan.domain.ids.DatasetId;
 import uk.nhs.hdn.ckan.domain.ids.GroupId;
 import uk.nhs.hdn.ckan.domain.ids.RevisionId;
@@ -42,6 +39,7 @@ import static uk.nhs.hdn.ckan.schema.GroupNamesArrayJsonSchema.GroupNamesSchemaI
 import static uk.nhs.hdn.ckan.schema.LicencesArrayJsonSchema.LicencesSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.RevisionJsonSchema.RevisionSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.RevisionsArrayJsonSchema.RevisionsSchemaInstance;
+import static uk.nhs.hdn.ckan.schema.TagCountsArrayJsonSchema.TagCountsSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.TagsArrayJsonSchema.TagsSchemaInstance;
 import static uk.nhs.hdn.common.http.UrlHelper.commonPortNumber;
 import static uk.nhs.hdn.common.http.UrlHelper.toUrl;
@@ -193,6 +191,16 @@ public final class Api extends AbstractToString
 	public ApiMethod<Revision> revision(@SuppressWarnings("TypeMayBeWeakened") @NotNull final RevisionId revisionId)
 	{
 		return newApi(RevisionSchemaInstance, "api", "2", "rest", "revision", revisionId.value());
+	}
+
+	@NotNull
+	public ApiMethod<TagCount[]> tagCounts()
+	{
+		return newApi(TagCountsSchemaInstance, "api", "2", "tag_counts");
+
+		/*
+			http://data.gov.uk/api/2/search/revision?since_*   =>     "Bad request - Missing search term ('since_id=UUID' or 'since_time=TIMESTAMP')"
+		 */
 	}
 
 	@NotNull

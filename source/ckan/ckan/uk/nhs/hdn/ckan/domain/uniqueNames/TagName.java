@@ -24,8 +24,6 @@ import uk.nhs.hdn.common.serialisers.separatedValues.matchers.Matcher;
 
 import static uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser.commaSeparatedValueSerialiser;
 import static uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser.tabSeparatedValueSerialiser;
-import static uk.nhs.hdn.common.serialisers.separatedValues.fieldEscapers.SanitisingTabSeparatedFieldEscaper.SanitisingTabSeparatedFieldEscaperInstance;
-import static uk.nhs.hdn.common.serialisers.separatedValues.fieldEscapers.TabSeparatedFieldEscaper.TabSeparatedFieldEscaperInstance;
 import static uk.nhs.hdn.common.serialisers.separatedValues.matchers.LeafMatcher.leaf;
 
 public final class TagName extends AbstractUniqueName
@@ -49,9 +47,9 @@ public final class TagName extends AbstractUniqueName
 
 	@SuppressWarnings("ConditionalExpression")
 	@NotNull
-	public static SeparatedValueSerialiser tsvSerialiserForTags(final boolean sanitiseBrokenData)
+	public static SeparatedValueSerialiser tsvSerialiserForTags()
 	{
-		return tabSeparatedValueSerialiser(sanitiseBrokenData ? SanitisingTabSeparatedFieldEscaperInstance : TabSeparatedFieldEscaperInstance, SeparatedValuesSchema, true, SeparatedValuesHeadings);
+		return tabSeparatedValueSerialiser(SeparatedValuesSchema, true, SeparatedValuesHeadings);
 	}
 
 	public TagName(@NonNls @NotNull final String value)

@@ -17,6 +17,7 @@
 package uk.nhs.hdn.ckan.domain.enumerations;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.serialisers.CouldNotSerialiseValueException;
 import uk.nhs.hdn.common.serialisers.CouldNotWriteValueException;
 import uk.nhs.hdn.common.serialisers.ValueSerialisable;
@@ -25,6 +26,7 @@ import uk.nhs.hdn.common.serialisers.ValueSerialiser;
 public enum ResourceType implements ValueSerialisable
 {
 	file,
+	documentation,
 	;
 
 	@Override
@@ -38,5 +40,15 @@ public enum ResourceType implements ValueSerialisable
 		{
 			throw new CouldNotSerialiseValueException(this, e);
 		}
+	}
+
+	@Nullable
+	public static ResourceType resourceType(@NotNull final String value)
+	{
+		if (value.isEmpty())
+		{
+			return null;
+		}
+		return valueOf(value);
 	}
 }

@@ -19,7 +19,7 @@ package uk.nhs.hdn.ckan.schema;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.ckan.domain.Group;
 import uk.nhs.hdn.ckan.domain.GroupReference;
-import uk.nhs.hdn.ckan.domain.MicrosecondTimestamp;
+import uk.nhs.hdn.ckan.domain.dates.MicrosecondTimestamp;
 import uk.nhs.hdn.ckan.domain.User;
 import uk.nhs.hdn.ckan.domain.enumerations.ApprovalStatus;
 import uk.nhs.hdn.ckan.domain.enumerations.Capacity;

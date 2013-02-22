@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public interface ValueSerialiser
 {
@@ -28,6 +29,8 @@ public interface ValueSerialiser
 
 	@SuppressWarnings("MethodCanBeVariableArityMethod")
 	<S extends ValueSerialisable> void writeValue(@NotNull final S[] values) throws CouldNotWriteValueException;
+
+	void writeValue(@NotNull final List<?> values) throws CouldNotWriteValueException;
 
 	void writeValue(final int value) throws CouldNotWriteValueException;
 

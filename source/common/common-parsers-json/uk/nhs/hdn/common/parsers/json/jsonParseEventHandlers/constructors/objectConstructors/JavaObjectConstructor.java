@@ -161,7 +161,6 @@ public final class JavaObjectConstructor<X> implements ObjectConstructor<Object[
 		}
 		catch (InstantiationException | IllegalAccessException | IllegalArgumentException e)
 		{
-			e.printStackTrace();
 			throw new ShouldNeverHappenException(e);
 		}
 		catch (InvocationTargetException e)

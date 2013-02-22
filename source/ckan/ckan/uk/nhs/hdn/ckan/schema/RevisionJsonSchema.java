@@ -17,7 +17,7 @@
 package uk.nhs.hdn.ckan.schema;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.ckan.domain.MicrosecondTimestamp;
+import uk.nhs.hdn.ckan.domain.dates.MicrosecondTimestamp;
 import uk.nhs.hdn.ckan.domain.Revision;
 import uk.nhs.hdn.ckan.domain.ids.GroupId;
 import uk.nhs.hdn.ckan.domain.ids.PackageId;

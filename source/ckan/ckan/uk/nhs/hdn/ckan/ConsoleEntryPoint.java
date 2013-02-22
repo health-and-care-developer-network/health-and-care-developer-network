@@ -25,11 +25,12 @@ import uk.nhs.hdn.common.http.client.exceptions.CorruptResponseException;
 import uk.nhs.hdn.common.http.client.exceptions.CouldNotConnectHttpException;
 import uk.nhs.hdn.common.http.client.exceptions.UnacceptableResponseException;
 
+import static java.lang.System.exit;
 import static uk.nhs.hdn.ckan.api.Api.DataGovUk;
-import static uk.nhs.hdn.ckan.domain.Dataset.tsvSerialiserForDatasets;
 import static uk.nhs.hdn.ckan.domain.Group.tsvSerialiserForGroups;
 import static uk.nhs.hdn.ckan.domain.Licence.tsvSerialiserForLicences;
 import static uk.nhs.hdn.ckan.domain.Revision.tsvSerialiserForRevisions;
+import static uk.nhs.hdn.ckan.domain.TagCount.tsvSerialiserForTagCounts;
 import static uk.nhs.hdn.ckan.domain.ids.DatasetId.tsvSerialiserForDatasetIds;
 import static uk.nhs.hdn.ckan.domain.ids.GroupId.tsvSerialiserForGroupIds;
 import static uk.nhs.hdn.ckan.domain.uniqueNames.DatasetName.tsvSerialiserForDatasetNames;
@@ -44,14 +45,16 @@ public final class ConsoleEntryPoint
 
 	public static void main(@NotNull final String... args) throws UnacceptableResponseException, CouldNotConnectHttpException, CorruptResponseException
 	{
-		tsvSerialiserForDatasets(true).printValuesOnStandardOut(DataGovUk.dataset(DatasetId.valueOf("3106a305-43c9-417f-b198-45d257b5698b")).get());
-
+		tsvSerialiserForTagCounts().printValuesOnStandardOut(DataGovUk.tagCounts().get());
+		
 		final DatasetId[] datasetIds = DataGovUk.allDatasetIds().get();
-		for (DatasetId datasetId : datasetIds)
+		for (int index = 630; index != -1; index--)
 		{
-			System.out.println("datasetId = " + datasetId);
-			tsvSerialiserForDatasets(true).printValuesOnStandardOut(DataGovUk.dataset(datasetId).get());
+			final DatasetId datasetId = datasetIds[index];
+			System.out.println("dataset " + index + " " + datasetId);
+			DataGovUk.dataset(datasetId).get();
 		}
+		exit(0);
 
 		tsvSerialiserForDatasetIds().printValuesOnStandardOut(DataGovUk.datasetIdsWithTag(new TagName("25k-transparency-nhs")).get());
 
@@ -61,7 +64,7 @@ public final class ConsoleEntryPoint
 		for (GroupName groupName : groupNames)
 		{
 			System.out.println("groupName = " + groupName);
-			tsvSerialiserForGroups(true).printValuesOnStandardOut(DataGovUk.group(groupName).get());
+			tsvSerialiserForGroups().printValuesOnStandardOut(DataGovUk.group(groupName).get());
 		}
 
 		if (false)
@@ -71,7 +74,7 @@ public final class ConsoleEntryPoint
 			tsvSerialiserForDatasetIds().printValuesOnStandardOut(DataGovUk.allDatasetIds().get());
 			tsvSerialiserForGroupNames().printValuesOnStandardOut(DataGovUk.allGroupNames().get());
 			tsvSerialiserForGroupIds().printValuesOnStandardOut(DataGovUk.allGroupIds().get());
-			tsvSerialiserForTags(true).printValuesOnStandardOut(DataGovUk.allTags().get());
+			tsvSerialiserForTags().printValuesOnStandardOut(DataGovUk.allTags().get());
 		}
 	}
 }
