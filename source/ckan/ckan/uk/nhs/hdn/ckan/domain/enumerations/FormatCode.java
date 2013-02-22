@@ -161,6 +161,17 @@ public enum FormatCode
 
 	@NotNull @NonNls public final String normalisedForm;
 	@SuppressWarnings("NonSerializableFieldInSerializableClass") @NotNull public final Format singleFormatCodeFormat;
+	@NotNull
+	public static final Map<String, Format> Oddities = new HashMap<String, Format>(10)
+	{{
+		put("", Format.UnknownFormat);
+		put("52 / XLSX", Excel.singleFormatCodeFormat);
+		put("Web page", HTML.singleFormatCodeFormat);
+		put("HTML web page", HTML.singleFormatCodeFormat);
+		put("CSV file", CSV.singleFormatCodeFormat);
+		put("MS Excel", Excel.singleFormatCodeFormat);
+		put("XML RPC", XML.singleFormatCodeFormat);
+	}};
 
 	@SuppressWarnings("ThisEscapedInObjectConstruction")
 	FormatCode()

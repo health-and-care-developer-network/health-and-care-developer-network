@@ -28,8 +28,6 @@ import uk.nhs.hdn.common.unknown.AbstractIsUnknown;
 
 import java.io.StringWriter;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 import static java.lang.System.err;
@@ -42,17 +40,6 @@ public final class Format extends AbstractIsUnknown implements ValueSerialisable
 	private static final Pattern SplitOnSlashOrPlusOrSpace = compile("/|\\+| |-|\\.");
 
 	@NotNull public static final Format UnknownFormat = new Format();
-
-	private static final Map<String, Format> Oddities = new HashMap<String, Format>(10)
-	{{
-		put("", UnknownFormat);
-		put("52 / XLSX", Excel.singleFormatCodeFormat);
-		put("Web page", HTML.singleFormatCodeFormat);
-		put("HTML web page", HTML.singleFormatCodeFormat);
-		put("CSV file", CSV.singleFormatCodeFormat);
-		put("MS Excel", Excel.singleFormatCodeFormat);
-		put("XML RPC", XML.singleFormatCodeFormat);
-	}};
 
 	private static final int CloseBracket = (int) ')';
 	private static final int OpenBracket = (int) '(';

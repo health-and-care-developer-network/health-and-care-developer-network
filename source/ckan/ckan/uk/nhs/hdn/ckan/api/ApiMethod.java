@@ -24,8 +24,9 @@ import uk.nhs.hdn.common.http.client.exceptions.UnacceptableResponseException;
 import uk.nhs.hdn.common.http.client.getHttpResponseUsers.GetHttpResponseUser;
 import uk.nhs.hdn.common.http.client.json.JsonGetHttpResponseUser;
 import uk.nhs.hdn.common.parsers.json.JsonSchema;
+import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 
-public final class ApiMethod<V>
+public final class ApiMethod<V> extends AbstractToString
 {
 	@NotNull
 	private final HttpClient httpClient;

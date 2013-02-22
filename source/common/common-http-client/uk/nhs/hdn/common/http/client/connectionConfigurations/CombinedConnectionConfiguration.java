@@ -17,13 +17,14 @@
 package uk.nhs.hdn.common.http.client.connectionConfigurations;
 
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 
 import java.net.HttpURLConnection;
 import java.util.Arrays;
 
 import static uk.nhs.hdn.common.VariableArgumentsHelper.copyOf;
 
-public final class CombinedConnectionConfiguration implements ConnectionConfiguration
+public final class CombinedConnectionConfiguration extends AbstractToString implements ConnectionConfiguration
 {
 	@NotNull
 	private final ConnectionConfiguration[] connectionConfigurations;

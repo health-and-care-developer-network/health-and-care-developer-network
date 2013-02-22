@@ -14,43 +14,34 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.common.arrayCreators;
+package uk.nhs.hdn.ckan.schema.arrayCreators;
 
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.ckan.domain.ids.ResourceId;
+import uk.nhs.hdn.common.arrayCreators.AbstractArrayCreator;
+import uk.nhs.hdn.common.arrayCreators.ArrayCreator;
 
-import static java.lang.String.format;
-import static java.util.Locale.ENGLISH;
-
-public abstract class AbstractArrayCreator<V> implements ArrayCreator<V>
+public final class ResourceIdArrayCreator extends AbstractArrayCreator<ResourceId>
 {
 	@NotNull
-	private final Class<V> type;
-	@NotNull
-	private final Class<V[]> arrayType;
+	public static final ArrayCreator<ResourceId> ResourceIdArray = new ResourceIdArrayCreator();
 
-	protected AbstractArrayCreator(@NotNull final Class<V> type, @NotNull final Class<V[]> arrayType)
+	private ResourceIdArrayCreator()
 	{
-		this.type = type;
-		this.arrayType = arrayType;
-	}
-
-	@Override
-	public String toString()
-	{
-		return format(ENGLISH, "%1$s(%2$s)", getClass().getSimpleName(), type.getSimpleName());
+		super(ResourceId.class, ResourceId[].class);
 	}
 
 	@NotNull
 	@Override
-	public final Class<V> type()
+	public ResourceId[] newInstance1(final int size)
 	{
-		return type;
+		return new ResourceId[size];
 	}
 
 	@NotNull
 	@Override
-	public final Class<V[]> arrayType()
+	public ResourceId[][] newInstance2(final int size)
 	{
-		return arrayType;
+		return new ResourceId[size][];
 	}
 }

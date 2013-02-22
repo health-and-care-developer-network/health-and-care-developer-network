@@ -14,26 +14,13 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.common.http.client.connectionConfigurations;
+package uk.nhs.hdn.ckan.api.search;
 
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.common.tuples.Pair;
 
-import java.net.HttpURLConnection;
-
-public interface ChunkedUploadsConnectionConfiguration extends ConnectionConfiguration
+public interface SearchCriterion<T> extends SearchCriteria<T>
 {
 	@NotNull
-	ChunkedUploadsConnectionConfiguration DoesNotSupportChunkedUploads = new ChunkedUploadsConnectionConfiguration()
-	{
-		@Override
-		public void configure(@NotNull final HttpURLConnection httpConnection)
-		{
-		}
-
-		@Override
-		public String toString()
-		{
-			return "DoesNotSupportChunkedUploads";
-		}
-	};
+	Pair<String, String> toUnencodedQueryStringParameterKeyValuePair();
 }

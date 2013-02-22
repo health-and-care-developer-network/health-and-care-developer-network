@@ -19,11 +19,15 @@ package uk.nhs.hdn.ckan.api;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hdn.ckan.api.search.SearchCriteria;
+import uk.nhs.hdn.ckan.api.search.StringSearchCriterion;
 import uk.nhs.hdn.ckan.domain.*;
 import uk.nhs.hdn.ckan.domain.dates.MicrosecondTimestamp;
 import uk.nhs.hdn.ckan.domain.ids.DatasetId;
 import uk.nhs.hdn.ckan.domain.ids.GroupId;
+import uk.nhs.hdn.ckan.domain.ids.ResourceId;
 import uk.nhs.hdn.ckan.domain.ids.RevisionId;
+import uk.nhs.hdn.ckan.domain.strings.Hash;
 import uk.nhs.hdn.ckan.domain.uniqueNames.*;
 import uk.nhs.hdn.common.exceptions.ShouldNeverHappenException;
 import uk.nhs.hdn.common.http.client.HttpClient;
@@ -36,13 +40,17 @@ import java.io.UnsupportedEncodingException;
 
 import static java.net.URLEncoder.encode;
 import static uk.nhs.hdn.ckan.api.RelationshipType.*;
+import static uk.nhs.hdn.ckan.api.search.UnsignedLongSearchCriterion.*;
+import static uk.nhs.hdn.ckan.schema.DatasetIdSearchObjectJsonSchema.DatasetIdSearchSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.DatasetIdsArrayJsonSchema.DatasetIdsSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.DatasetJsonSchema.DatasetSchemaInstance;
+import static uk.nhs.hdn.ckan.schema.DatasetNameSearchObjectJsonSchema.DatasetNameSearchSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.DatasetNamesArrayJsonSchema.DatasetNamesSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.GroupIdsArrayJsonSchema.GroupIdsSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.GroupJsonSchema.GroupSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.GroupNamesArrayJsonSchema.GroupNamesSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.LicencesArrayJsonSchema.LicencesSchemaInstance;
+import static uk.nhs.hdn.ckan.schema.ResourceIdSearchObjectJsonSchema.ResourceIdSearchSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.RevisionIdsArrayJsonSchema.RevisionIdsSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.RevisionJsonSchema.RevisionSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.RevisionsArrayJsonSchema.RevisionsSchemaInstance;
@@ -67,6 +75,7 @@ public final class Api extends AbstractToString
 	@SuppressWarnings("ConstantNamingConvention") public static final String api = "api";
 	@SuppressWarnings("ConstantNamingConvention") public static final String rest = "rest";
 	@SuppressWarnings("ConstantNamingConvention") public static final String revision = "revision";
+	@SuppressWarnings("ConstantNamingConvention") public static final String resource = "resource";
 	@SuppressWarnings("ConstantNamingConvention") public static final String dataset = "dataset";
 	@SuppressWarnings("ConstantNamingConvention") public static final String group = "group";
 	@SuppressWarnings("ConstantNamingConvention") public static final String tag = "tag";
@@ -211,10 +220,60 @@ public final class Api extends AbstractToString
 		return newApi(RevisionSchemaInstance, api, "2", rest, revision, revisionId.value());
 	}
 
+	@SuppressWarnings("unchecked")
 	@NotNull
-	public ApiMethod<TagCount[]> tagCounts()
+	public ApiMethod<SearchResult<DatasetName>> datasetNames(@SuppressWarnings("TypeMayBeWeakened") @NotNull final SearchCriteria<Dataset> searchCriteria)
 	{
-		return newApi(TagCountsSchemaInstance, api, "2", "tag_counts");
+		return datasetNames(searchCriteria, MinimumOffset, MaximumLimit);
+	}
+
+	@SuppressWarnings("unchecked")
+	@NotNull
+	public ApiMethod<SearchResult<DatasetName>> datasetNames(@SuppressWarnings("TypeMayBeWeakened") @NotNull final SearchCriteria<Dataset> searchCriteria, final long offset, final long limit)
+	{
+		return newApi(DatasetNameSearchSchemaInstance, of(api, "1", search, dataset), datasetsWithOffsetAndLimit(searchCriteria, offset, limit));
+	}
+
+	@SuppressWarnings("unchecked")
+	@NotNull
+	public ApiMethod<SearchResult<DatasetId>> datasetIds(@SuppressWarnings("TypeMayBeWeakened") @NotNull final SearchCriteria<Dataset> searchCriteria)
+	{
+		return datasetIds(searchCriteria, MinimumOffset, MaximumLimit);
+	}
+
+	@SuppressWarnings("unchecked")
+	@NotNull
+	public ApiMethod<SearchResult<DatasetId>> datasetIds(@SuppressWarnings("TypeMayBeWeakened") @NotNull final SearchCriteria<Dataset> searchCriteria, final long offset, final long limit)
+	{
+		return newApi(DatasetIdSearchSchemaInstance, of(api, "2", search, dataset), datasetsWithOffsetAndLimit(searchCriteria, offset, limit));
+	}
+
+	@SuppressWarnings("unchecked")
+	@NotNull
+	public ApiMethod<SearchResult<ResourceId>> resourceIds(@SuppressWarnings("TypeMayBeWeakened") @NotNull final Hash hash)
+	{
+		return resourceIds(hash, MinimumOffset, MaximumLimit);
+	}
+
+	@SuppressWarnings("unchecked")
+	@NotNull
+	public ApiMethod<SearchResult<ResourceId>> resourceIds(@SuppressWarnings("TypeMayBeWeakened") @NotNull final Hash hash, final long offset, final long limit)
+	{
+		return newApi(ResourceIdSearchSchemaInstance, of(api, "2", search, resource), resourcesWithOffsetAndLimit(new StringSearchCriterion<>(Resource.class, "hash", hash.value()), offset, limit));
+	}
+
+	@SuppressWarnings("unchecked")
+	@NotNull
+	public ApiMethod<SearchResult<ResourceId>> resourceIds(@SuppressWarnings("TypeMayBeWeakened") @NotNull final SearchCriteria<Resource> searchCriteria)
+	{
+		return resourceIds(searchCriteria, MinimumOffset, MaximumLimit);
+	}
+
+	@SuppressWarnings("unchecked")
+	@NotNull
+	public ApiMethod<SearchResult<ResourceId>> resourceIds(@SuppressWarnings("TypeMayBeWeakened") @NotNull final SearchCriteria<Resource> searchCriteria, final long offset, final long limit)
+	{
+		return newApi(ResourceIdSearchSchemaInstance, of(api, "2", search, resource), resourcesWithOffsetAndLimit(searchCriteria, offset, limit));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -232,9 +291,21 @@ public final class Api extends AbstractToString
 	}
 
 	@NotNull
+	public ApiMethod<TagCount[]> tagCounts()
+	{
+		return newApi(TagCountsSchemaInstance, api, "2", "tag_counts");
+	}
+
+	@NotNull
 	private <V> ApiMethod<V> newApi(@NotNull final JsonSchema<V> jsonSchema, @NotNull @NonNls final String... urlPieces)
 	{
 		return newApiUsingAbsoluteUrlPath(jsonSchema, urlPath(urlPieces));
+	}
+
+	@NotNull
+	private <V> ApiMethod<V> newApi(@NotNull final JsonSchema<V> jsonSchema, @NotNull @NonNls final String[] urlPieces, @NotNull final SearchCriteria<?> searchCriteria)
+	{
+		return newApiUsingAbsoluteUrlPath(jsonSchema, urlPath(urlPieces, searchCriteria.toUnencodedQueryStringParameters()));
 	}
 
 	@SuppressWarnings("FinalMethodInFinalClass")
@@ -298,6 +369,16 @@ public final class Api extends AbstractToString
 		{
 			throw new ShouldNeverHappenException(e);
 		}
+	}
+
+	private static SearchCriteria<Dataset> datasetsWithOffsetAndLimit(final SearchCriteria<Dataset> searchCriteria, final long offset, final long limit)
+	{
+		return searchCriteria.and(datasetOffsetSearchCriterion(offset)).and(datasetLimitSearchCriterion(limit));
+	}
+
+	private static SearchCriteria<Resource> resourcesWithOffsetAndLimit(final SearchCriteria<Resource> searchCriteria, final long offset, final long limit)
+	{
+		return searchCriteria.and(resourceOffsetSearchCriterion(offset)).and(resourceLimitSearchCriterion(limit));
 	}
 
 	@Override

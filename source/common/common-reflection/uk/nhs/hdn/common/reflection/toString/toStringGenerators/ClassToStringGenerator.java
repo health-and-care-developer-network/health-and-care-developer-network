@@ -14,26 +14,29 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.common.http.client.connectionConfigurations;
+package uk.nhs.hdn.common.reflection.toString.toStringGenerators;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.net.HttpURLConnection;
+import static java.lang.String.format;
+import static java.util.Locale.UK;
 
-public interface ChunkedUploadsConnectionConfiguration extends ConnectionConfiguration
+@SuppressWarnings("rawtypes")
+public final class ClassToStringGenerator extends AbstractToStringGenerator<Class>
 {
 	@NotNull
-	ChunkedUploadsConnectionConfiguration DoesNotSupportChunkedUploads = new ChunkedUploadsConnectionConfiguration()
-	{
-		@Override
-		public void configure(@NotNull final HttpURLConnection httpConnection)
-		{
-		}
+	public static final ToStringGenerator<?> ClassToStringGeneratorInstance = new ClassToStringGenerator();
 
-		@Override
-		public String toString()
-		{
-			return "DoesNotSupportChunkedUploads";
-		}
-	};
+	private ClassToStringGenerator()
+	{
+		super(Class.class);
+	}
+
+	@SuppressWarnings("rawtypes")
+	@NotNull
+	@Override
+	public String toString(@NotNull final Class value)
+	{
+		return format(UK, "%1$s.class", value.getSimpleName());
+	}
 }

@@ -63,6 +63,7 @@ public final class JavaObjectConstructor<X> implements ObjectConstructor<Object[
 			final FieldExpectation<?> fieldExpectation = fieldExpectations[index];
 			fieldExpectation.register(register, parameterTypes, index);
 		}
+
 		try
 		{
 			constructor = classX.getDeclaredConstructor(parameterTypes);

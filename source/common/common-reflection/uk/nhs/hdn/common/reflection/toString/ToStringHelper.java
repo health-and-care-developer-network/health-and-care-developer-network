@@ -31,6 +31,7 @@ import static uk.nhs.hdn.common.reflection.ClassInformation.classInformation;
 import static uk.nhs.hdn.common.reflection.FieldInformation.fieldInformation;
 import static uk.nhs.hdn.common.reflection.toString.toStringGenerators.ByteToStringGenerator.ByteToStringGeneratorInstance;
 import static uk.nhs.hdn.common.reflection.toString.toStringGenerators.CharacterToStringGenerator.CharacterToStringGeneratorInstance;
+import static uk.nhs.hdn.common.reflection.toString.toStringGenerators.ClassToStringGenerator.ClassToStringGeneratorInstance;
 import static uk.nhs.hdn.common.reflection.toString.toStringGenerators.GregorianCalendarToStringGenerator.GregorianToStringGeneratorInstance;
 import static uk.nhs.hdn.common.reflection.toString.toStringGenerators.LockToStringGenerator.LockToStringGeneratorInstance;
 import static uk.nhs.hdn.common.reflection.toString.toStringGenerators.ObjectArrayToStringGenerator.ObjectArrayToStringGeneratorInstance;
@@ -53,6 +54,7 @@ public final class ToStringHelper
 		CharacterToStringGeneratorInstance,
 		GregorianToStringGeneratorInstance,
 		LockToStringGeneratorInstance,
+		ClassToStringGeneratorInstance,
 		PrimitiveBooleanArrayToStringGeneratorInstance,
 		PrimitiveByteArrayToStringGeneratorInstance,
 		PrimitiveShortArrayToStringGeneratorInstance,

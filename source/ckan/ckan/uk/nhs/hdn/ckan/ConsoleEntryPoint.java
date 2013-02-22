@@ -17,8 +17,12 @@
 package uk.nhs.hdn.ckan;
 
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.ckan.api.ApiMethod;
+import uk.nhs.hdn.ckan.domain.SearchResult;
 import uk.nhs.hdn.ckan.domain.ids.DatasetId;
+import uk.nhs.hdn.ckan.domain.ids.ResourceId;
 import uk.nhs.hdn.ckan.domain.ids.RevisionId;
+import uk.nhs.hdn.ckan.domain.uniqueNames.DatasetName;
 import uk.nhs.hdn.ckan.domain.uniqueNames.GroupName;
 import uk.nhs.hdn.ckan.domain.uniqueNames.TagName;
 import uk.nhs.hdn.common.http.client.exceptions.CorruptResponseException;
@@ -27,6 +31,8 @@ import uk.nhs.hdn.common.http.client.exceptions.UnacceptableResponseException;
 
 import static java.lang.System.exit;
 import static uk.nhs.hdn.ckan.api.Api.DataGovUk;
+import static uk.nhs.hdn.ckan.api.search.StringSearchCriterion.datasetAnySearchCriterion;
+import static uk.nhs.hdn.ckan.api.search.StringSearchCriterion.resourceFormatSearchCriterion;
 import static uk.nhs.hdn.ckan.domain.Group.tsvSerialiserForGroups;
 import static uk.nhs.hdn.ckan.domain.Licence.tsvSerialiserForLicences;
 import static uk.nhs.hdn.ckan.domain.Revision.tsvSerialiserForRevisions;
@@ -34,6 +40,7 @@ import static uk.nhs.hdn.ckan.domain.TagCount.tsvSerialiserForTagCounts;
 import static uk.nhs.hdn.ckan.domain.dates.MicrosecondTimestamp.microsecondTimestamp;
 import static uk.nhs.hdn.ckan.domain.ids.DatasetId.tsvSerialiserForDatasetIds;
 import static uk.nhs.hdn.ckan.domain.ids.GroupId.tsvSerialiserForGroupIds;
+import static uk.nhs.hdn.ckan.domain.ids.ResourceId.tsvSerialiserForResourceIds;
 import static uk.nhs.hdn.ckan.domain.ids.RevisionId.tsvSerialiserForRevisionIds;
 import static uk.nhs.hdn.ckan.domain.uniqueNames.DatasetName.tsvSerialiserForDatasetNames;
 import static uk.nhs.hdn.ckan.domain.uniqueNames.GroupName.tsvSerialiserForGroupNames;
@@ -47,6 +54,12 @@ public final class ConsoleEntryPoint
 
 	public static void main(@NotNull final String... args) throws UnacceptableResponseException, CouldNotConnectHttpException, CorruptResponseException
 	{
+		final ApiMethod<SearchResult<DatasetName>> datasetNames = DataGovUk.datasetNames(datasetAnySearchCriterion("health"));
+		final SearchResult<DatasetName> datasetNameSearchResult = datasetNames.get();
+		final ApiMethod<SearchResult<DatasetId>> datasetIdXs = DataGovUk.datasetIds(datasetAnySearchCriterion("health"));
+		final SearchResult<DatasetId> datasetIdSearchResult = datasetIdXs.get();
+		final ApiMethod<SearchResult<ResourceId>> resources = DataGovUk.resourceIds(resourceFormatSearchCriterion("XLS"));
+		tsvSerialiserForResourceIds().printValuesOnStandardOut(resources.get().results);
 		tsvSerialiserForRevisionIds().printValuesOnStandardOut(DataGovUk.revisions(microsecondTimestamp("2012-12-05T19:42:45.854533")).get());
 		tsvSerialiserForRevisionIds().printValuesOnStandardOut(DataGovUk.revisions(RevisionId.valueOf("a47db05c-0095-454b-a8f1-25a15404941c")).get());
 		tsvSerialiserForTagCounts().printValuesOnStandardOut(DataGovUk.tagCounts().get());
