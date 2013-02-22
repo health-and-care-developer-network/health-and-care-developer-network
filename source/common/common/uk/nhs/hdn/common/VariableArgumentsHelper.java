@@ -16,6 +16,7 @@
 
 package uk.nhs.hdn.common;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -28,7 +29,7 @@ public final class VariableArgumentsHelper
 {
 	@SafeVarargs
 	@NotNull
-	public static <E> E[] of(@NotNull final E... values)
+	public static <E> E[] of(@NonNls @NotNull final E... values)
 	{
 		return values;
 	}

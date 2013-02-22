@@ -31,8 +31,10 @@ import static uk.nhs.hdn.ckan.domain.Group.tsvSerialiserForGroups;
 import static uk.nhs.hdn.ckan.domain.Licence.tsvSerialiserForLicences;
 import static uk.nhs.hdn.ckan.domain.Revision.tsvSerialiserForRevisions;
 import static uk.nhs.hdn.ckan.domain.TagCount.tsvSerialiserForTagCounts;
+import static uk.nhs.hdn.ckan.domain.dates.MicrosecondTimestamp.microsecondTimestamp;
 import static uk.nhs.hdn.ckan.domain.ids.DatasetId.tsvSerialiserForDatasetIds;
 import static uk.nhs.hdn.ckan.domain.ids.GroupId.tsvSerialiserForGroupIds;
+import static uk.nhs.hdn.ckan.domain.ids.RevisionId.tsvSerialiserForRevisionIds;
 import static uk.nhs.hdn.ckan.domain.uniqueNames.DatasetName.tsvSerialiserForDatasetNames;
 import static uk.nhs.hdn.ckan.domain.uniqueNames.GroupName.tsvSerialiserForGroupNames;
 import static uk.nhs.hdn.ckan.domain.uniqueNames.TagName.tsvSerialiserForTags;
@@ -45,10 +47,12 @@ public final class ConsoleEntryPoint
 
 	public static void main(@NotNull final String... args) throws UnacceptableResponseException, CouldNotConnectHttpException, CorruptResponseException
 	{
+		tsvSerialiserForRevisionIds().printValuesOnStandardOut(DataGovUk.revisions(microsecondTimestamp("2012-12-05T19:42:45.854533")).get());
+		tsvSerialiserForRevisionIds().printValuesOnStandardOut(DataGovUk.revisions(RevisionId.valueOf("a47db05c-0095-454b-a8f1-25a15404941c")).get());
 		tsvSerialiserForTagCounts().printValuesOnStandardOut(DataGovUk.tagCounts().get());
-		
+
 		final DatasetId[] datasetIds = DataGovUk.allDatasetIds().get();
-		for (int index = 630; index != -1; index--)
+		for (int index = 530; index != -1; index--)
 		{
 			final DatasetId datasetId = datasetIds[index];
 			System.out.println("dataset " + index + " " + datasetId);

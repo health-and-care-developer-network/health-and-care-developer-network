@@ -16,6 +16,7 @@
 
 package uk.nhs.hdn.ckan.domain.dates;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.MillisecondsSince1970;
@@ -49,7 +50,7 @@ public final class MicrosecondTimestamp implements ValueSerialisable
 
 	@SuppressWarnings({"MethodNamesDifferingOnlyByCase", "UnusedDeclaration"}) // used reflectively
 	@NotNull
-	public static MicrosecondTimestamp microsecondTimestamp(@NotNull final String microsecondFormatString)
+	public static MicrosecondTimestamp microsecondTimestamp(@NonNls @NotNull final String microsecondFormatString)
 	{
 		final int length = microsecondFormatString.length();
 		if (length == SecondsFormatLength)

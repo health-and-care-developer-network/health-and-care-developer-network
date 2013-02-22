@@ -20,15 +20,21 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.ckan.domain.*;
+import uk.nhs.hdn.ckan.domain.dates.MicrosecondTimestamp;
 import uk.nhs.hdn.ckan.domain.ids.DatasetId;
 import uk.nhs.hdn.ckan.domain.ids.GroupId;
 import uk.nhs.hdn.ckan.domain.ids.RevisionId;
 import uk.nhs.hdn.ckan.domain.uniqueNames.*;
+import uk.nhs.hdn.common.exceptions.ShouldNeverHappenException;
 import uk.nhs.hdn.common.http.client.HttpClient;
 import uk.nhs.hdn.common.http.client.JavaHttpClient;
 import uk.nhs.hdn.common.parsers.json.JsonSchema;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
+import uk.nhs.hdn.common.tuples.Pair;
 
+import java.io.UnsupportedEncodingException;
+
+import static java.net.URLEncoder.encode;
 import static uk.nhs.hdn.ckan.api.RelationshipType.*;
 import static uk.nhs.hdn.ckan.schema.DatasetIdsArrayJsonSchema.DatasetIdsSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.DatasetJsonSchema.DatasetSchemaInstance;
@@ -37,27 +43,39 @@ import static uk.nhs.hdn.ckan.schema.GroupIdsArrayJsonSchema.GroupIdsSchemaInsta
 import static uk.nhs.hdn.ckan.schema.GroupJsonSchema.GroupSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.GroupNamesArrayJsonSchema.GroupNamesSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.LicencesArrayJsonSchema.LicencesSchemaInstance;
+import static uk.nhs.hdn.ckan.schema.RevisionIdsArrayJsonSchema.RevisionIdsSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.RevisionJsonSchema.RevisionSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.RevisionsArrayJsonSchema.RevisionsSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.TagCountsArrayJsonSchema.TagCountsSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.TagsArrayJsonSchema.TagsSchemaInstance;
+import static uk.nhs.hdn.common.VariableArgumentsHelper.of;
 import static uk.nhs.hdn.common.http.UrlHelper.commonPortNumber;
 import static uk.nhs.hdn.common.http.UrlHelper.toUrl;
 import static uk.nhs.hdn.common.http.client.connectionConfigurations.ChunkedUploadsConnectionConfiguration.DoesNotSupportChunkedUploads;
+import static uk.nhs.hdn.common.tuples.Pair.pair;
 
+@SuppressWarnings({"ClassNamePrefixedWithPackageName", "ClassWithTooManyMethods"})
 public final class Api extends AbstractToString
 {
 	private static final char Slash = '/';
 
 	@NotNull
 	public static final Api DataGovUk = new Api(false, "data.gov.uk", "");
+	public static final char Ampersand = '&';
+	public static final char QuestionMark = '?';
+	public static final char Equals = '=';
+	@SuppressWarnings("ConstantNamingConvention") public static final String api = "api";
+	@SuppressWarnings("ConstantNamingConvention") public static final String rest = "rest";
+	@SuppressWarnings("ConstantNamingConvention") public static final String revision = "revision";
+	@SuppressWarnings("ConstantNamingConvention") public static final String dataset = "dataset";
+	@SuppressWarnings("ConstantNamingConvention") public static final String group = "group";
+	@SuppressWarnings("ConstantNamingConvention") public static final String tag = "tag";
+	@SuppressWarnings("ConstantNamingConvention") public static final String search = "search";
 
 	private final boolean useHttps;
-	@NotNull @NonNls
-	private final String domainName;
+	@NotNull @NonNls private final String domainName;
 	private final char portNumber;
-	@NotNull @NonNls
-	private final String absoluteUrlPath;
+	@NotNull @NonNls private final String absoluteUrlPath;
 
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public Api(final boolean useHttps, @NonNls @NotNull final String domainName, @NonNls @NotNull final String absoluteUrlPath)
@@ -76,25 +94,25 @@ public final class Api extends AbstractToString
 	@NotNull
 	public ApiMethod<DatasetName[]> allDatasetNames()
 	{
-		return newApi(DatasetNamesSchemaInstance, "api", "1", "rest", "dataset");
+		return newApi(DatasetNamesSchemaInstance, api, "1", rest, dataset);
 	}
 
 	@NotNull
 	public ApiMethod<DatasetId[]> allDatasetIds()
 	{
-		return newApi(DatasetIdsSchemaInstance, "api", "2", "rest", "dataset");
+		return newApi(DatasetIdsSchemaInstance, api, "2", rest, dataset);
 	}
 
 	@NotNull
 	public ApiMethod<Dataset> dataset(@SuppressWarnings("TypeMayBeWeakened") @NotNull final DatasetKey datasetKey)
 	{
-		return newApi(DatasetSchemaInstance, "api", "2", "rest", "dataset", datasetKey.value());
+		return newApi(DatasetSchemaInstance, api, "2", rest, dataset, datasetKey.value());
 	}
 
 	@NotNull
 	public ApiMethod<Revision[]> datasetRevisions(@SuppressWarnings("TypeMayBeWeakened") @NotNull final DatasetKey datasetKey)
 	{
-		return newApi(RevisionsSchemaInstance, "api", "2", "rest", "dataset", datasetKey.value(), "revisions");
+		return newApi(RevisionsSchemaInstance, api, "2", rest, dataset, datasetKey.value(), "revisions");
 	}
 
 	@NotNull
@@ -148,73 +166,138 @@ public final class Api extends AbstractToString
 	@NotNull
 	public ApiMethod<DatasetId[]> datasetRelationships(@SuppressWarnings("TypeMayBeWeakened") @NotNull final DatasetKey datasetKey, @NotNull final RelationshipType relationshipType)
 	{
-		return newApi(DatasetIdsSchemaInstance, "api", "2", "rest", "dataset", datasetKey.value(), relationshipType.name());
+		return newApi(DatasetIdsSchemaInstance, api, "2", rest, dataset, datasetKey.value(), relationshipType.name());
 	}
 
 	@NotNull
 	public ApiMethod<GroupName[]> allGroupNames()
 	{
-		return newApi(GroupNamesSchemaInstance, "api", "1", "rest", "group");
+		return newApi(GroupNamesSchemaInstance, api, "1", rest, group);
 	}
 
 	@NotNull
 	public ApiMethod<GroupId[]> allGroupIds()
 	{
-		return newApi(GroupIdsSchemaInstance, "api", "2", "rest", "group");
+		return newApi(GroupIdsSchemaInstance, api, "2", rest, group);
 	}
 
 	@NotNull
 	public ApiMethod<Group> group(@SuppressWarnings("TypeMayBeWeakened") @NotNull final GroupKey groupKey)
 	{
-		return newApi(GroupSchemaInstance, "api", "2", "rest", "group", groupKey.value());
+		return newApi(GroupSchemaInstance, api, "2", rest, group, groupKey.value());
 	}
 
 	@NotNull
 	public ApiMethod<TagName[]> allTags()
 	{
-		return newApi(TagsSchemaInstance, "api", "2", "rest", "tag");
+		return newApi(TagsSchemaInstance, api, "2", rest, tag);
 	}
 
 	@NotNull
 	public ApiMethod<DatasetId[]> datasetIdsWithTag(@NotNull final TagName tagName)
 	{
-		return newApi(DatasetIdsSchemaInstance, "api", "2", "rest", "tag", tagName.value());
+		return newApi(DatasetIdsSchemaInstance, api, "2", rest, tag, tagName.value());
 	}
 
 	@NotNull
 	public ApiMethod<Licence[]> allLicences()
 	{
-		return newApi(LicencesSchemaInstance, "api", "2", "rest", "licenses");
+		return newApi(LicencesSchemaInstance, api, "2", rest, "licenses");
 	}
 
 	@NotNull
 	public ApiMethod<Revision> revision(@SuppressWarnings("TypeMayBeWeakened") @NotNull final RevisionId revisionId)
 	{
-		return newApi(RevisionSchemaInstance, "api", "2", "rest", "revision", revisionId.value());
+		return newApi(RevisionSchemaInstance, api, "2", rest, revision, revisionId.value());
 	}
 
 	@NotNull
 	public ApiMethod<TagCount[]> tagCounts()
 	{
-		return newApi(TagCountsSchemaInstance, "api", "2", "tag_counts");
+		return newApi(TagCountsSchemaInstance, api, "2", "tag_counts");
+	}
 
-		/*
-			http://data.gov.uk/api/2/search/revision?since_*   =>     "Bad request - Missing search term ('since_id=UUID' or 'since_time=TIMESTAMP')"
-		 */
+	@SuppressWarnings("unchecked")
+	@NotNull
+	public ApiMethod<RevisionId[]> revisions(@SuppressWarnings("TypeMayBeWeakened") @NotNull final RevisionId since)
+	{
+		return newApi(RevisionIdsSchemaInstance, of(api, "2", search, revision), pair("since_id", since.value()));
+	}
+
+	@SuppressWarnings("unchecked")
+	@NotNull
+	public ApiMethod<RevisionId[]> revisions(@NotNull final MicrosecondTimestamp since)
+	{
+		return newApi(RevisionIdsSchemaInstance, of(api, "2", search, revision), pair("since_time", since.toString()));
 	}
 
 	@NotNull
-	public <V> ApiMethod<V> newApi(@NotNull final JsonSchema<V> jsonSchema, @NotNull @NonNls final String... urlPieces)
+	private <V> ApiMethod<V> newApi(@NotNull final JsonSchema<V> jsonSchema, @NotNull @NonNls final String... urlPieces)
+	{
+		return newApiUsingAbsoluteUrlPath(jsonSchema, urlPath(urlPieces));
+	}
+
+	@SuppressWarnings("FinalMethodInFinalClass")
+	@SafeVarargs
+	@NotNull
+	private final <V> ApiMethod<V> newApi(@NotNull final JsonSchema<V> jsonSchema, @NotNull @NonNls final String[] urlPieces, final Pair<String, String>... unencodedQueryStringParameters)
+	{
+		return newApiUsingAbsoluteUrlPath(jsonSchema, urlPath(urlPieces, unencodedQueryStringParameters));
+	}
+
+	@NotNull
+	private <V> ApiMethod<V> newApiUsingAbsoluteUrlPath(@NotNull final JsonSchema<V> jsonSchema, @NotNull @NonNls final String absoluteUrlPath)
+	{
+		final HttpClient httpClient = new JavaHttpClient(toUrl(useHttps, domainName, portNumber, absoluteUrlPath), DoesNotSupportChunkedUploads);
+		return new ApiMethod<>(httpClient, jsonSchema);
+	}
+
+	private String urlPath(final String... urlPieces)
 	{
 		final StringBuilder stringBuilder = new StringBuilder(absoluteUrlPath);
 		for (final String urlPiece : urlPieces)
 		{
 			stringBuilder.append(Slash).append(urlPiece);
 		}
+		return stringBuilder.toString();
+	}
 
-		final String urlPath = stringBuilder.toString();
-		final HttpClient httpClient = new JavaHttpClient(toUrl(useHttps, domainName, portNumber, urlPath), DoesNotSupportChunkedUploads);
-		return new ApiMethod<>(httpClient, jsonSchema);
+	@SuppressWarnings("FinalMethodInFinalClass") // @SafeVarargs causes this problem
+	@SafeVarargs
+	private final String urlPath(final String[] urlPieces, final Pair<String, String>... unencodedQueryStringParameters)
+	{
+		final String urlPath = urlPath(urlPieces);
+		final StringBuilder stringBuilder = new StringBuilder(urlPath);
+		boolean afterFirst = false;
+		for (final Pair<String, String> unencodedQueryStringParameter : unencodedQueryStringParameters)
+		{
+			if (afterFirst)
+			{
+				stringBuilder.append(Ampersand);
+			}
+			else
+			{
+				stringBuilder.append(QuestionMark);
+				afterFirst = true;
+			}
+			stringBuilder.append(encodeUsingUtf8ButBeAwareThatTheEncodingUsesPlusSignsAndIsNotValidForLatterRfcSpecifications(unencodedQueryStringParameter.a));
+			stringBuilder.append(Equals);
+			stringBuilder.append(encodeUsingUtf8ButBeAwareThatTheEncodingUsesPlusSignsAndIsNotValidForLatterRfcSpecifications(unencodedQueryStringParameter.b));
+		}
+		return stringBuilder.toString();
+	}
+
+	@NotNull
+	private static String encodeUsingUtf8ButBeAwareThatTheEncodingUsesPlusSignsAndIsNotValidForLatterRfcSpecifications(@NotNull final String value)
+	{
+		try
+		{
+			return encode(value, "UTF-8");
+		}
+		catch (UnsupportedEncodingException e)
+		{
+			throw new ShouldNeverHappenException(e);
+		}
 	}
 
 	@Override

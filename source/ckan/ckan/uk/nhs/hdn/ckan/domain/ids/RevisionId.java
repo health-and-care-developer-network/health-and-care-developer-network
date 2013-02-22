@@ -18,13 +18,42 @@ package uk.nhs.hdn.ckan.domain.ids;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.common.serialisers.FieldTokenName;
+import uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser;
+import uk.nhs.hdn.common.serialisers.separatedValues.matchers.Matcher;
 
 import java.util.UUID;
 
 import static java.util.UUID.fromString;
+import static uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser.commaSeparatedValueSerialiser;
+import static uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser.tabSeparatedValueSerialiser;
+import static uk.nhs.hdn.common.serialisers.separatedValues.matchers.LeafMatcher.leaf;
 
 public final class RevisionId extends AbstractId
 {
+	@FieldTokenName
+	@NonNls
+	@NotNull
+	private static final String Field = "revisionId";
+
+	@NotNull
+	private static final Matcher SeparatedValuesSchema = leaf(Field, 0);
+
+	@NotNull
+	private static final String[] SeparatedValuesHeadings = {Field};
+
+	@NotNull
+	public static SeparatedValueSerialiser csvSerialiserForRevisionIds(final boolean writeHeaderLine)
+	{
+		return commaSeparatedValueSerialiser(SeparatedValuesSchema, writeHeaderLine, SeparatedValuesHeadings);
+	}
+
+	@NotNull
+	public static SeparatedValueSerialiser tsvSerialiserForRevisionIds()
+	{
+		return tabSeparatedValueSerialiser(SeparatedValuesSchema, true, SeparatedValuesHeadings);
+	}
+
 	public static RevisionId valueOf(@NonNls @NotNull final String value)
 	{
 		return new RevisionId(fromString(value));
