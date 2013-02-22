@@ -29,6 +29,9 @@ import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.util.List;
 
+import static java.lang.String.format;
+import static java.util.Locale.ENGLISH;
+
 public abstract class AbstractValueSerialiser extends AbstractToString implements ValueSerialiser, StartFinish
 {
 	@NotNull
@@ -156,6 +159,6 @@ public abstract class AbstractValueSerialiser extends AbstractToString implement
 			writeValue((List<?>) value);
 		}
 
-		throw new CouldNotWriteValueException(value, "do not know how to write values for this class");
+		throw new CouldNotWriteValueException(value, format(ENGLISH, "do not know how to write values for this class %1$s", value.getClass().getSimpleName()));
 	}
 }

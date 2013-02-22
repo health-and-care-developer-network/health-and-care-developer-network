@@ -8,16 +8,13 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="IntelliJ Annotations" level="project" />
-    <orderEntry type="module" module-name="common-http" exported="" />
-    <orderEntry type="module" module-name="common-http-client" exported="" />
-    <orderEntry type="module" module-name="common-http-client-json" exported="" />
-    <orderEntry type="module" module-name="common-parsers-json" />
-    <orderEntry type="module" module-name="common" />
-    <orderEntry type="module" module-name="common-reflection" />
+    <orderEntry type="library" name="JOpt Simple" level="project" />
+    <orderEntry type="module" module-name="ckan-api" />
+    <orderEntry type="module" module-name="ckan-domain" />
+    <orderEntry type="module" module-name="ckan-schema" />
+    <orderEntry type="module" module-name="common-commandLine" />
     <orderEntry type="module" module-name="common-serialisers" />
     <orderEntry type="module" module-name="common-serialisers-separatedValues" />
-    <orderEntry type="module" module-name="common-naming" />
-    <orderEntry type="module" module-name="ckan-domain" exported="" />
   </component>
 </module>
 

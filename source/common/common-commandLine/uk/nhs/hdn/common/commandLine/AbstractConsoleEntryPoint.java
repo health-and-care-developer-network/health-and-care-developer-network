@@ -79,6 +79,36 @@ public abstract class AbstractConsoleEntryPoint extends AbstractToString
 		doesNotHaveNonOptionArguments = options(options);
 	}
 
+	@SuppressWarnings("MethodCanBeVariableArityMethod")
+	@NotNull
+	public static <E extends Enum<E>> String enumDescription(@NotNull final E[] enumValues)
+	{
+		final StringBuilder stringBuilder = new StringBuilder("One of ");
+		final int length = enumValues.length;
+		final int lastIndex = length - 1;
+		boolean isAfterFirst = false;
+		for(int index = 0; index < length; index++)
+		{
+			if (isAfterFirst)
+			{
+				if (index == lastIndex)
+				{
+					stringBuilder.append(" or ");
+				}
+				else
+				{
+					stringBuilder.append(", ");
+				}
+			}
+			else
+			{
+				isAfterFirst = true;
+			}
+			stringBuilder.append(enumValues[index].name());
+		}
+		return stringBuilder.toString();
+	}
+
 	@SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
 	protected abstract boolean options(@NotNull final OptionParser options);
 
