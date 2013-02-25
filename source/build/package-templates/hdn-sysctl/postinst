@@ -28,8 +28,8 @@ function processTriggers()
 	# triggers are coalesced
 	local -i reloadSysctl=0
 	
-	# Not quoted as $1 is a space-separated list
-	for triggerName in $1
+	# Not quoted as $* is a space-separated list
+	for triggerName in $*
 	do
 		case "$triggerName" in
 			

@@ -21,20 +21,23 @@ function startOrRestartUpstartJobRsyslog()
 	startOrRestartUpstartJob "rsyslog"
 }
 
-# Some triggers are coalesced; order of triggers matters (ipsets must exist before hand)
 function processTriggers()
 {
 	local -i restartRsyslog=0
-	# Not quoted as iterableTriggers is a space-separated list
-	for triggerName in $iterableTriggers
+	# Not quoted as $* is a space-separated list
+	for triggerName in $*
 	do
 		case "$triggerName" in
 			
-			"/etc/rsyslog.d")
+			"/etc/rsyslog.d/")
 				restartRsyslog=1
 			;;
-
+			
 			"/etc/rsyslog.conf")
+				restartRsyslog=1
+			;;
+			
+			"hdn-logging")
 				restartRsyslog=1
 			;;
 			
@@ -64,8 +67,9 @@ case "$1" in
 			echo "Syntax not understood" 1>&2
 			exit 1
 		fi
-
-		processTriggers "$2"
+		
+		# Not quoted as $2 is a space-separated list
+		processTriggers $2
 	;;
 
 	abort-upgrade)
