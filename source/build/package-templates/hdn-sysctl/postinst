@@ -18,21 +18,30 @@ source "/usr/lib/hdn-apt/functions"
 
 set -e
 
+function restartSysctl()
+{
+	startOrRestartUpstartJob "procps"
+}
+
 function processTriggers()
 {
 	# triggers are coalesced
 	local -i reloadSysctl=0
 	
-	# Not quoted as iterableTriggers is a space-separated list
-	for triggerName in $iterableTriggers
+	# Not quoted as $1 is a space-separated list
+	for triggerName in $1
 	do
 		case "$triggerName" in
 			
-			"/etc/sysctl.d")
+			"/etc/sysctl.d/")
 				reloadSysctl=1
 			;;
 
 			"/etc/sysctl.conf")
+				reloadSysctl=1
+			;;
+			
+			"hdn-sysctl")
 				reloadSysctl=1
 			;;
 			
@@ -44,7 +53,7 @@ function processTriggers()
 	done
 	
 	if [ $reloadSysctl -eq 1 ]; then
-		startOrRestartUpstartJob "procps"
+		restartSysctl
 	fi
 }
 
@@ -53,7 +62,7 @@ case "$1" in
 		readonly postinst_Instance="any"
 		readonly mostRecentlyConfiguredVersion="$2"
 		
-		startOrRestartUpstartJob "procps"
+		restartSysctl
 	;;
 
 	triggered)
@@ -62,7 +71,8 @@ case "$1" in
 			exit 1
 		fi
 		
-		processTriggers "$2"
+		# Not quoted as $2 is a space-separated list
+		processTriggers $2
 	;;
 
 	abort-upgrade)

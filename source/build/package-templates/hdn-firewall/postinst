@@ -29,17 +29,23 @@ function turnOnFirewall()
 # Some triggers are coalesced; order of triggers matters (ipsets must exist before hand)
 function processTriggers()
 {
+	# triggers are coalesced
 	local -i reloadTables=0
-	# Not quoted as iterableTriggers is a space-separated list
-	for triggerName in $iterableTriggers
+	
+	# Not quoted as $1 is a space-separated list
+	for triggerName in $1
 	do
 		case "$triggerName" in
 			
-			"/etc/hdn-firewall/iptables")
+			"/etc/hdn-firewall/iptables/")
 				reloadTables=1
 			;;
 
-			"/etc/hdn-firewall/ip6tables")
+			"/etc/hdn-firewall/ip6tables/")
+				reloadTables=1
+			;;
+			
+			"hdn-firewall")
 				reloadTables=1
 			;;
 			
@@ -69,7 +75,8 @@ case "$1" in
 			exit 1
 		fi
 		
-		processTriggers "$2"
+		# Not quoted as $2 is a space-separated list
+		processTriggers $2
 	;;
 
 	abort-upgrade)
