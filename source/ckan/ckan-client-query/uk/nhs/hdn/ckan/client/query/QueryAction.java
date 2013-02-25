@@ -1,4 +1,4 @@
-package uk.nhs.hdn.ckan.client.revisions;
+package uk.nhs.hdn.ckan.client.query;
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.ckan.api.Api;
@@ -20,7 +20,7 @@ import static uk.nhs.hdn.ckan.domain.dates.MicrosecondTimestamp.microsecondTimes
 import static uk.nhs.hdn.ckan.domain.ids.DatasetId.tsvSerialiserForDatasetIds;
 import static uk.nhs.hdn.ckan.domain.ids.RevisionId.tsvSerialiserForRevisionIds;
 
-public enum RevisionsAction
+public enum QueryAction
 {
 	revisions_since_timestamp
 	{

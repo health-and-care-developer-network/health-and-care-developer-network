@@ -136,6 +136,8 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		debianPackagesPackageTask("hdn-itk-documentation", "generate changelog template");
 
+		debianPackagesPackageTask("hdn-avahi-daemon", "generate changelog template");
+
 		debianPackagesPackageTask("hdn-4store", "generate changelog template");
 
 		debianPackagesPackageTask("hdn-jetty", "generate changelog template");
