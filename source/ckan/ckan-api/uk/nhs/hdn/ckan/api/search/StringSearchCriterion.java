@@ -30,51 +30,57 @@ import static uk.nhs.hdn.ckan.domain.Resource.*;
 public class StringSearchCriterion<T> extends AbstractSearchCriterion<T>
 {
 	@NotNull
+	public static final String DatasetSearchAny = "q";
+
+	@NotNull
+	public static final String DatasetSearchUpdateFrequency = "update_frequency";
+
+	@NotNull
 	public static SearchCriterion<Dataset> datasetAnySearchCriterion(@NotNull @NonNls final String caseInsensitiveSubstring)
 	{
-		return new StringSearchCriterion<>(Dataset.class, "q", caseInsensitiveSubstring);
+		return datasetSearchCriterion(DatasetSearchAny, caseInsensitiveSubstring);
 	}
 
 	@NotNull
 	public static SearchCriterion<Dataset> datasetTitleSearchCriterion(@NotNull @NonNls final String caseInsensitiveTitleSubstring)
 	{
-		return new StringSearchCriterion<>(Dataset.class, titleField, caseInsensitiveTitleSubstring);
+		return datasetSearchCriterion(titleField, caseInsensitiveTitleSubstring);
 	}
 
 	@NotNull
 	public static SearchCriterion<Dataset> datasetTagsSearchCriterion(@NotNull @NonNls final String caseInsensitiveTagSubstring)
 	{
-		return new StringSearchCriterion<>(Dataset.class, tagsField, caseInsensitiveTagSubstring);
+		return datasetSearchCriterion(tagsField, caseInsensitiveTagSubstring);
 	}
 
 	@NotNull
 	public static SearchCriterion<Dataset> datasetNotesSearchCriterion(@NotNull @NonNls final String caseInsensitiveNotesSubstring)
 	{
-		return new StringSearchCriterion<>(Dataset.class, notesField, caseInsensitiveNotesSubstring);
+		return datasetSearchCriterion(notesField, caseInsensitiveNotesSubstring);
 	}
 
 	@NotNull
 	public static SearchCriterion<Dataset> datasetGroupsSearchCriterion(@NotNull @NonNls final String caseInsensitiveGroupsSubstring)
 	{
-		return new StringSearchCriterion<>(Dataset.class, groupsField, caseInsensitiveGroupsSubstring);
+		return datasetSearchCriterion(groupsField, caseInsensitiveGroupsSubstring);
 	}
 
 	@NotNull
 	public static SearchCriterion<Dataset> datasetAuthorSearchCriterion(@NotNull @NonNls final String caseInsensitiveAuthorSubstring)
 	{
-		return new StringSearchCriterion<>(Dataset.class, authorField, caseInsensitiveAuthorSubstring);
+		return datasetSearchCriterion(authorField, caseInsensitiveAuthorSubstring);
 	}
 
 	@NotNull
 	public static SearchCriterion<Dataset> datasetMaintainerSearchCriterion(@NotNull @NonNls final String caseInsensitiveMaintainerSubstring)
 	{
-		return new StringSearchCriterion<>(Dataset.class, maintainerField, caseInsensitiveMaintainerSubstring);
+		return datasetSearchCriterion(maintainerField, caseInsensitiveMaintainerSubstring);
 	}
 
 	@NotNull
 	public static SearchCriterion<Dataset> datasetUpdateFrequencySearchCriterion(@NotNull @NonNls final String caseInsensitiveUpdateFrequencySubstring)
 	{
-		return new StringSearchCriterion<>(Dataset.class, "update_frequency", caseInsensitiveUpdateFrequencySubstring);
+		return datasetSearchCriterion(DatasetSearchUpdateFrequency, caseInsensitiveUpdateFrequencySubstring);
 	}
 
 	@NotNull
@@ -86,19 +92,25 @@ public class StringSearchCriterion<T> extends AbstractSearchCriterion<T>
 	@NotNull
 	public static SearchCriterion<Resource> resourceUrlSearchCriterion(@NotNull @NonNls final String caseInsensitiveUrlSubstring)
 	{
-		return new StringSearchCriterion<>(Resource.class, Resource.urlField, caseInsensitiveUrlSubstring);
+		return resourceSearchCriterion(Resource.urlField, caseInsensitiveUrlSubstring);
 	}
 
 	@NotNull
 	public static SearchCriterion<Resource> resourceDescriptionSearchCriterion(@NotNull @NonNls final String caseInsensitiveDescriptionSubstring)
 	{
-		return new StringSearchCriterion<>(Resource.class, descriptionField, caseInsensitiveDescriptionSubstring);
+		return resourceSearchCriterion(descriptionField, caseInsensitiveDescriptionSubstring);
 	}
 
 	@NotNull
 	public static SearchCriterion<Resource> resourceFormatSearchCriterion(@NotNull @NonNls final String caseInsensitiveFormatSubstring)
 	{
-		return new StringSearchCriterion<>(Resource.class, formatField, caseInsensitiveFormatSubstring);
+		return resourceSearchCriterion(formatField, caseInsensitiveFormatSubstring);
+	}
+
+	@NotNull
+	public static SearchCriterion<Resource> resourceSearchCriterion(@NotNull @FieldTokenName @NonNls final String key, @NotNull @NonNls final String caseInsensitiveSubstring)
+	{
+		return new StringSearchCriterion<>(Resource.class, key, caseInsensitiveSubstring);
 	}
 
 	@NotNull @NonNls private final String value;

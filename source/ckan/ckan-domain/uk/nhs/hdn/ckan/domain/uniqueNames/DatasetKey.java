@@ -17,7 +17,9 @@
 package uk.nhs.hdn.ckan.domain.uniqueNames;
 
 import uk.nhs.hdn.ckan.domain.Identifier;
+import uk.nhs.hdn.common.serialisers.Serialisable;
+import uk.nhs.hdn.common.serialisers.ValueSerialisable;
 
-public interface DatasetKey extends Identifier
+public interface DatasetKey extends Identifier, Serialisable, ValueSerialisable
 {
 }

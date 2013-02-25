@@ -21,6 +21,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.ckan.api.search.SearchCriteria;
 import uk.nhs.hdn.ckan.api.search.StringSearchCriterion;
+import uk.nhs.hdn.ckan.api.search.searchDelegates.AbstractSearchDelegate;
+import uk.nhs.hdn.ckan.api.search.searchDelegates.SearchDelegate;
 import uk.nhs.hdn.ckan.domain.*;
 import uk.nhs.hdn.ckan.domain.dates.MicrosecondTimestamp;
 import uk.nhs.hdn.ckan.domain.ids.DatasetId;
@@ -56,6 +58,9 @@ import static uk.nhs.hdn.ckan.schema.RevisionJsonSchema.RevisionSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.RevisionsArrayJsonSchema.RevisionsSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.TagCountsArrayJsonSchema.TagCountsSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.TagsArrayJsonSchema.TagsSchemaInstance;
+import static uk.nhs.hdn.ckan.schema.arrayCreators.DatasetIdArrayCreator.DatasetIdArray;
+import static uk.nhs.hdn.ckan.schema.arrayCreators.DatasetNameArrayCreator.DatasetNameArray;
+import static uk.nhs.hdn.ckan.schema.arrayCreators.ResourceIdArrayCreator.ResourceIdArray;
 import static uk.nhs.hdn.common.VariableArgumentsHelper.of;
 import static uk.nhs.hdn.common.http.UrlHelper.commonPortNumber;
 import static uk.nhs.hdn.common.http.UrlHelper.toUrl;
@@ -66,20 +71,19 @@ import static uk.nhs.hdn.common.tuples.Pair.pair;
 public final class Api extends AbstractToString
 {
 	private static final char Slash = '/';
+	private static final char Ampersand = '&';
+	private static final char QuestionMark = '?';
+	private static final char Equals = '=';
+	@SuppressWarnings("ConstantNamingConvention") private static final String api = "api";
+	@SuppressWarnings("ConstantNamingConvention") private static final String rest = "rest";
+	@SuppressWarnings("ConstantNamingConvention") private static final String revision = "revision";
+	@SuppressWarnings("ConstantNamingConvention") private static final String resource = "resource";
+	@SuppressWarnings("ConstantNamingConvention") private static final String dataset = "dataset";
+	@SuppressWarnings("ConstantNamingConvention") private static final String group = "group";
+	@SuppressWarnings("ConstantNamingConvention") private static final String tag = "tag";
+	@SuppressWarnings("ConstantNamingConvention") private static final String search = "search";
 
-	@NotNull
-	public static final Api DataGovUk = new Api(false, "data.gov.uk", "");
-	public static final char Ampersand = '&';
-	public static final char QuestionMark = '?';
-	public static final char Equals = '=';
-	@SuppressWarnings("ConstantNamingConvention") public static final String api = "api";
-	@SuppressWarnings("ConstantNamingConvention") public static final String rest = "rest";
-	@SuppressWarnings("ConstantNamingConvention") public static final String revision = "revision";
-	@SuppressWarnings("ConstantNamingConvention") public static final String resource = "resource";
-	@SuppressWarnings("ConstantNamingConvention") public static final String dataset = "dataset";
-	@SuppressWarnings("ConstantNamingConvention") public static final String group = "group";
-	@SuppressWarnings("ConstantNamingConvention") public static final String tag = "tag";
-	@SuppressWarnings("ConstantNamingConvention") public static final String search = "search";
+	@NotNull public static final Api DataGovUk = new Api(false, "data.gov.uk", "");
 
 	private final boolean useHttps;
 	@NotNull @NonNls private final String domainName;
@@ -222,23 +226,23 @@ public final class Api extends AbstractToString
 
 	@SuppressWarnings("unchecked")
 	@NotNull
-	public ApiMethod<SearchResult<DatasetName>> datasetNames(@SuppressWarnings("TypeMayBeWeakened") @NotNull final SearchCriteria<Dataset> searchCriteria)
-	{
-		return datasetNames(searchCriteria, MinimumOffset, MaximumLimit);
-	}
-
-	@SuppressWarnings("unchecked")
-	@NotNull
 	public ApiMethod<SearchResult<DatasetName>> datasetNames(@SuppressWarnings("TypeMayBeWeakened") @NotNull final SearchCriteria<Dataset> searchCriteria, final long offset, final long limit)
 	{
 		return newApi(DatasetNameSearchSchemaInstance, of(api, "1", search, dataset), datasetsWithOffsetAndLimit(searchCriteria, offset, limit));
 	}
 
-	@SuppressWarnings("unchecked")
 	@NotNull
-	public ApiMethod<SearchResult<DatasetId>> datasetIds(@SuppressWarnings("TypeMayBeWeakened") @NotNull final SearchCriteria<Dataset> searchCriteria)
+	public SearchDelegate<DatasetName, Dataset> datasetNameSearchDelegate()
 	{
-		return datasetIds(searchCriteria, MinimumOffset, MaximumLimit);
+		return new AbstractSearchDelegate<DatasetName, Dataset>(DatasetNameArray)
+		{
+			@NotNull
+			@Override
+			public ApiMethod<SearchResult<DatasetName>> search(@SuppressWarnings("TypeMayBeWeakened") @NotNull final SearchCriteria<Dataset> searchCriteria, final long offset, final long limit)
+			{
+				return datasetNames(searchCriteria, offset, limit);
+			}
+		};
 	}
 
 	@SuppressWarnings("unchecked")
@@ -248,11 +252,18 @@ public final class Api extends AbstractToString
 		return newApi(DatasetIdSearchSchemaInstance, of(api, "2", search, dataset), datasetsWithOffsetAndLimit(searchCriteria, offset, limit));
 	}
 
-	@SuppressWarnings("unchecked")
 	@NotNull
-	public ApiMethod<SearchResult<ResourceId>> resourceIds(@SuppressWarnings("TypeMayBeWeakened") @NotNull final Hash hash)
+	public SearchDelegate<DatasetId, Dataset> datasetIdSearchDelegate()
 	{
-		return resourceIds(hash, MinimumOffset, MaximumLimit);
+		return new AbstractSearchDelegate<DatasetId, Dataset>(DatasetIdArray)
+		{
+			@NotNull
+			@Override
+			public ApiMethod<SearchResult<DatasetId>> search(@SuppressWarnings("TypeMayBeWeakened") @NotNull final SearchCriteria<Dataset> searchCriteria, final long offset, final long limit)
+			{
+				return datasetIds(searchCriteria, offset, limit);
+			}
+		};
 	}
 
 	@SuppressWarnings("unchecked")
@@ -264,16 +275,23 @@ public final class Api extends AbstractToString
 
 	@SuppressWarnings("unchecked")
 	@NotNull
-	public ApiMethod<SearchResult<ResourceId>> resourceIds(@SuppressWarnings("TypeMayBeWeakened") @NotNull final SearchCriteria<Resource> searchCriteria)
-	{
-		return resourceIds(searchCriteria, MinimumOffset, MaximumLimit);
-	}
-
-	@SuppressWarnings("unchecked")
-	@NotNull
 	public ApiMethod<SearchResult<ResourceId>> resourceIds(@SuppressWarnings("TypeMayBeWeakened") @NotNull final SearchCriteria<Resource> searchCriteria, final long offset, final long limit)
 	{
 		return newApi(ResourceIdSearchSchemaInstance, of(api, "2", search, resource), resourcesWithOffsetAndLimit(searchCriteria, offset, limit));
+	}
+
+	@NotNull
+	public SearchDelegate<ResourceId, Resource> resourceSearchDelegate()
+	{
+		return new AbstractSearchDelegate<ResourceId, Resource>(ResourceIdArray)
+		{
+			@NotNull
+			@Override
+			public ApiMethod<SearchResult<ResourceId>> search(@SuppressWarnings("TypeMayBeWeakened") @NotNull final SearchCriteria<Resource> searchCriteria, final long offset, final long limit)
+			{
+				return resourceIds(searchCriteria, offset, limit);
+			}
+		};
 	}
 
 	@SuppressWarnings("unchecked")

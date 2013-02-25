@@ -40,9 +40,8 @@ import static uk.nhs.hdn.common.commandLine.ExitCode.Help;
 
 public abstract class AbstractConsoleEntryPoint extends AbstractToString
 {
-
-	public static final char Underscore = '_';
-	public static final char Hyphen = '-';
+	private static final char Underscore = '_';
+	private static final char Hyphen = '-';
 
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static <C extends AbstractConsoleEntryPoint> void execute(@NotNull final Class<C> consoleEntryPoint, @NotNull final String... commandLineArguments)
@@ -81,7 +80,7 @@ public abstract class AbstractConsoleEntryPoint extends AbstractToString
 	{
 		outputStream = err;
 		options = new OptionParser();
-		options.accepts(HelpOption).forHelp();
+		options.accepts(HelpOption, "Displays help for options").forHelp();
 		doesNotHaveNonOptionArguments = options(options);
 	}
 
@@ -150,8 +149,19 @@ public abstract class AbstractConsoleEntryPoint extends AbstractToString
 	@NotNull
 	public static String convertUnderscoresInEnumValueAsTheyAreNotValidForLongOptions(final boolean convertUnderscoresBecauseTheyAreNotValidInLongOptionNames, @NotNull final Enum<?> enumValue)
 	{
-		final String name = enumValue.name();
-		return convertUnderscoresBecauseTheyAreNotValidInLongOptionNames ? name.replace(Underscore, Hyphen) : name;
+		return convertUnderscoresInValueAsTheyAreNotValidForLongOptions(convertUnderscoresBecauseTheyAreNotValidInLongOptionNames, enumValue.name());
+	}
+
+	@NotNull
+	public static String convertUnderscoresInValueAsTheyAreNotValidForLongOptions(final boolean convertUnderscoresBecauseTheyAreNotValidInLongOptionNames, @NotNull final String value)
+	{
+		return convertUnderscoresBecauseTheyAreNotValidInLongOptionNames ? value.replace(Underscore, Hyphen) : value;
+	}
+
+	@NotNull
+	public static String reverseConversionOfUnderscoresInValueAsTheyAreNotValidForLongOptions(@NotNull final String value)
+	{
+		return value.replace(Hyphen, Underscore);
 	}
 
 	@SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
@@ -246,6 +256,20 @@ public abstract class AbstractConsoleEntryPoint extends AbstractToString
 			throw new ShouldHaveExitedException();
 		}
 		return dataPath;
+	}
+
+	@SuppressWarnings({"SimplifiableIfStatement", "BooleanMethodNameMustStartWithQuestion"})
+	public final boolean booleanOption(@NotNull final OptionSet optionSet, @NotNull @NonNls final String optionName)
+	{
+		if (optionSet.has(optionName))
+		{
+			if (optionSet.hasArgument(optionName))
+			{
+				return (boolean) optionSet.valueOf(optionName);
+			}
+			return true;
+		}
+		return false;
 	}
 
 	@SuppressWarnings({"ProhibitedExceptionDeclared", "FinalizeDeclaration"})
