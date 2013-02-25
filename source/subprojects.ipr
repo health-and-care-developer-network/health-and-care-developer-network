@@ -1510,7 +1510,7 @@
     <configuration default="false" name="CkanClientDetailsConsoleEntryPoint" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.ckan.client.details.CkanClientDetailsConsoleEntryPoint" />
       <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="--details dataset_by_name --key focus_on_health" />
+      <option name="PROGRAM_PARAMETERS" value="--dataset-by-name focus_on_health" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
@@ -1532,7 +1532,7 @@
     <configuration default="false" name="CkanClientRelationshipConsoleEntryPoint" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.ckan.client.relationships.CkanClientRelationshipConsoleEntryPoint" />
       <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="--key focus_on_health --relationship depends_on" />
+      <option name="PROGRAM_PARAMETERS" value="--depends-on focus_on_health" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />

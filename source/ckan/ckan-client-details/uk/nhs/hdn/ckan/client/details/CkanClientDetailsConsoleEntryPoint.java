@@ -9,14 +9,10 @@ import uk.nhs.hdn.common.http.client.exceptions.CouldNotConnectHttpException;
 import uk.nhs.hdn.common.http.client.exceptions.UnacceptableResponseException;
 
 import static uk.nhs.hdn.ckan.api.Api.DataGovUk;
-import static uk.nhs.hdn.ckan.client.details.DetailsAction.dataset_by_name;
 import static uk.nhs.hdn.ckan.client.details.DetailsAction.values;
 
 public final class CkanClientDetailsConsoleEntryPoint extends AbstractConsoleEntryPoint
 {
-	private static final String DetailsOption = "details";
-	private static final String KeyOption = "key";
-
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static void main(@NotNull final String... commandLineArguments)
 	{
@@ -26,16 +22,15 @@ public final class CkanClientDetailsConsoleEntryPoint extends AbstractConsoleEnt
 	@Override
 	protected boolean options(@NotNull final OptionParser options)
 	{
-		options.accepts(DetailsOption, enumDescription(values(), false, false)).withRequiredArg().ofType(DetailsAction.class).defaultsTo(dataset_by_name).describedAs("gets details");
-		options.accepts(KeyOption, "name or UUID").requiredIf(DetailsOption).withRequiredArg().ofType(String.class).describedAs("a name or UUID");
+		options.acceptsAll(enumAsLongOptions(values()), enumDescription(values(), false, true)).withRequiredArg().ofType(String.class).describedAs("name or UUID");
 		return true;
 	}
 
 	@Override
 	protected void execute(@NotNull final OptionSet optionSet) throws CouldNotConnectHttpException, CorruptResponseException, UnacceptableResponseException
 	{
-		@NotNull final DetailsAction detailsAction = defaulted(optionSet, DetailsOption);
-		@NotNull final String key = required(optionSet, KeyOption);
+		@NotNull final DetailsAction detailsAction = enumOptionChosen(optionSet, values());
+		@NotNull final String key = required(optionSet, convertUnderscoresInEnumValueAsTheyAreNotValidForLongOptions(true, detailsAction));
 
 		detailsAction.execute(DataGovUk, key);
 	}
