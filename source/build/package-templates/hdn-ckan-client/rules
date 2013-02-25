@@ -1,0 +1,63 @@
+#!/usr/bin/make -f
+PACKAGE=$(shell dh_listpackages)
+ROOT=../../..
+RELEASE=$(ROOT)/release
+SOURCE=$(ROOT)/source
+
+build: build-stamp
+build-stamp:
+	dh_testdir
+
+clean:
+	dh_testdir
+	dh_testroot
+	dh_clean
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_prep --exclude=debian/$(PACKAGE)
+	dh_installdirs
+
+binary-indep: build install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs
+
+	# Copy the packages's files.
+	rsync -v $(RELEASE)/hdn-ckan-dataset-search/hdn-ckan-dataset-search.jar debian/$(PACKAGE)/usr/share/$(PACKAGE)/hdn-ckan-dataset-search.jar
+	rsync -v $(RELEASE)/hdn-ckan-dataset-search/hdn-ckan-dataset-search.source.zip debian/$(PACKAGE)/usr/src/$(PACKAGE)/hdn-ckan-dataset-search.zip
+	rsync -v $(RELEASE)/hdn-ckan-dataset-search/hdn-ckan-dataset-resource.jar debian/$(PACKAGE)/usr/share/$(PACKAGE)/hdn-ckan-dataset-resource.jar
+	rsync -v $(RELEASE)/hdn-ckan-dataset-search/hdn-ckan-dataset-resource.source.zip debian/$(PACKAGE)/usr/src/$(PACKAGE)/hdn-ckan-dataset-resource.zip
+	rsync -v $(RELEASE)/hdn-ckan-dataset-search/hdn-ckan-details.jar debian/$(PACKAGE)/usr/share/$(PACKAGE)/hdn-ckan-details.jar
+	rsync -v $(RELEASE)/hdn-ckan-dataset-search/hdn-ckan-details.source.zip debian/$(PACKAGE)/usr/src/$(PACKAGE)/hdn-ckan-details.zip
+	rsync -v $(RELEASE)/hdn-ckan-dataset-search/hdn-ckan-list.jar debian/$(PACKAGE)/usr/share/$(PACKAGE)/hdn-ckan-list.jar
+	rsync -v $(RELEASE)/hdn-ckan-dataset-search/hdn-ckan-list.source.zip debian/$(PACKAGE)/usr/src/$(PACKAGE)/hdn-ckan-list.zip
+	rsync -v $(RELEASE)/hdn-ckan-dataset-search/hdn-ckan-query.jar debian/$(PACKAGE)/usr/share/$(PACKAGE)/hdn-ckan-query.jar
+	rsync -v $(RELEASE)/hdn-ckan-dataset-search/hdn-ckan-query.source.zip debian/$(PACKAGE)/usr/src/$(PACKAGE)/hdn-ckan-query.zip
+	rsync -v $(RELEASE)/hdn-ckan-dataset-search/hdn-ckan-relationship.jar debian/$(PACKAGE)/usr/share/$(PACKAGE)/hdn-ckan-relationship.jar
+	rsync -v $(RELEASE)/hdn-ckan-dataset-search/hdn-ckan-relationship.source.zip debian/$(PACKAGE)/usr/src/$(PACKAGE)/hdn-ckan-relationship.zip
+	find debian/$(PACKAGE)/usr/share/$(PACKAGE) -type f -exec chmod 0644 {} \;
+	find debian/$(PACKAGE)/usr/share/$(PACKAGE) -type d -exec chmod 0755 {} \;
+	find debian/$(PACKAGE)/usr/src/$(PACKAGE) -type f -exec chmod 0644 {} \;
+	find debian/$(PACKAGE)/usr/src/$(PACKAGE) -type d -exec chmod 0755 {} \;
+
+	dh_installdocs
+	dh_installexamples
+	dh_installman
+	dh_lintian
+	dh_link
+	dh_compress
+	dh_fixperms
+
+	# Executable perms
+
+	dh_installdeb
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb -- -z9 -Zlzma
+
+binary-arch: build install
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install

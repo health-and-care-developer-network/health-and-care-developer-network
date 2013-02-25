@@ -68,10 +68,21 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		final String numberClientConsoleEntryPoint = intellijModuleHasMainClassByConvention("number-client", "NhsNumberClientConsoleEntryPoint");
 
-		final String dbsResponseClientConsoleEntryPoint = intellijModuleHasMainClassByConvention("dbs-response-client", "DbsResponseClientClientConsoleEntryPoint");
+		final String dbsResponseClientConsoleEntryPoint = intellijModuleHasMainClassByConvention("dbs-response-client", "DbsResponseClientConsoleEntryPoint");
 
-		final String dbsRequestClientConsoleEntryPoint = intellijModuleHasMainClassByConvention("dbs-request-client", "DbsRequestClientClientConsoleEntryPoint");
+		final String dbsRequestClientConsoleEntryPoint = intellijModuleHasMainClassByConvention("dbs-request-client", "DbsRequestClientConsoleEntryPoint");
 
+		final String ckanClientDatasetSearchConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-dataset-search", "CkanClientDatasetSearchConsoleEntryPoint");
+
+		final String ckanClientResourceSearchConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-dataset-search", "CkanClientResourceSearchConsoleEntryPoint");
+
+		final String ckanClientDetailsConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-details", "CkanClientDetailsConsoleEntryPoint");
+
+		final String ckanClientListConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-details", "CkanClientListConsoleEntryPoint");
+
+		final String ckanClientQueryConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-details", "CkanClientQueryConsoleEntryPoint");
+
+		final String ckanClientRelationshipConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-details", "CkanClientRelationshipConsoleEntryPoint");
 
 		task("clean").does
 		(
@@ -103,6 +114,18 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		executable("hdn-dbs-request", "dbs-request-client", dbsRequestClientConsoleEntryPoint);
 
+		executable("hdn-ckan-dataset-search", "ckan-client-dataset-search", ckanClientDatasetSearchConsoleEntryPoint);
+
+		executable("hdn-ckan-resource-search", "ckan-client-resource-search", ckanClientResourceSearchConsoleEntryPoint);
+
+		executable("hdn-ckan-details", "ckan-client-details", ckanClientDetailsConsoleEntryPoint);
+
+		executable("hdn-ckan-list", "ckan-client-list", ckanClientListConsoleEntryPoint);
+
+		executable("hdn-ckan-query", "ckan-client-query", ckanClientQueryConsoleEntryPoint);
+
+		executable("hdn-ckan-relationship", "ckan-client-relationship", ckanClientRelationshipConsoleEntryPoint);
+
 		task("executables").dependsOn("hdn-gs1-client", "hdn-gs1-server", "hdn-dts-out", "hdn-dts-read", "hdn-dts-rats", "hdn-dbs-response", "hdn-dbs-request");
 
 		task("generate changelog template").dependsOn("make output").does
@@ -127,6 +150,8 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 		debianPackagesPackageTask("hdn-dbs-request", "generate changelog template", "hdn-dbs-request");
 
 		debianPackagesPackageTask("hdn-reverse-proxy", "generate changelog template");
+
+		debianPackagesPackageTask("hdn-ckan-client", "generate changelog template");
 
 		debianPackagesPackageTask("hdn-data", "generate changelog template");
 
