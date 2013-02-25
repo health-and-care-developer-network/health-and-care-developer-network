@@ -27,7 +27,7 @@ public final class CkanClientQueryConsoleEntryPoint extends AbstractConsoleEntry
 	protected boolean options(@NotNull final OptionParser options)
 	{
 		options.accepts(QueryOption, enumDescription(values())).withRequiredArg().ofType(QueryAction.class).defaultsTo(revisions_by_id).describedAs("query details");
-		options.accepts(KeyOption, "name, UUID, tag").withRequiredArg().ofType(String.class).describedAs("a name, UUID or tag");
+		options.accepts(KeyOption, "name, UUID, tag").requiredIf(QueryOption).withRequiredArg().ofType(String.class).describedAs("a name, UUID or tag");
 		return true;
 	}
 
