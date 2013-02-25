@@ -26,7 +26,7 @@ public final class CkanClientDetailsConsoleEntryPoint extends AbstractConsoleEnt
 	@Override
 	protected boolean options(@NotNull final OptionParser options)
 	{
-		options.accepts(DetailsOption, enumDescription(values())).withRequiredArg().ofType(DetailsAction.class).defaultsTo(dataset_by_name).describedAs("gets details");
+		options.accepts(DetailsOption, enumDescription(values(), false, false)).withRequiredArg().ofType(DetailsAction.class).defaultsTo(dataset_by_name).describedAs("gets details");
 		options.accepts(KeyOption, "name or UUID").requiredIf(DetailsOption).withRequiredArg().ofType(String.class).describedAs("a name or UUID");
 		return true;
 	}

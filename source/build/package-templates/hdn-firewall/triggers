@@ -1,8 +1,8 @@
 # iptables have changed
-interest /etc/hdn-firewall/iptables/
+interest /etc/hdn-firewall/iptables
 
 # ip6tables have changed
-interest /etc/hdn-firewall/ip6tables/
+interest /etc/hdn-firewall/ip6tables
 
 # explicit interest
 interest hdn-firewall

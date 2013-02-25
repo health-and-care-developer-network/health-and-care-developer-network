@@ -278,7 +278,7 @@
         <inspection_tool class="ComparisonOfShortAndChar" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ComparisonToNaN" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ConditionSignal" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="ConditionalExpression" enabled="true" level="WARNING" enabled_by_default="true">
+        <inspection_tool class="ConditionalExpression" enabled="false" level="WARNING" enabled_by_default="false">
           <option name="ignoreSimpleAssignmentsAndReturns" value="true" />
         </inspection_tool>
         <inspection_tool class="ConditionalExpressionWithIdenticalBranches" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -413,6 +413,7 @@
           <option name="ignoreTrivialFinalizers" value="true" />
         </inspection_tool>
         <inspection_tool class="FinalizeNotProtected" enabled="true" level="WARNING" enabled_by_default="true" />
+        <inspection_tool class="Fix shebang" enabled="true" level="WARNING" enabled_by_default="true">/bin/sh#/bin/bash</inspection_tool>
         <inspection_tool class="FloatingPointEquality" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ForLoopReplaceableByWhile" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="m_ignoreLoopsWithoutConditions" value="false" />
@@ -1487,7 +1488,7 @@
     <configuration default="false" name="CkanClientListConsoleEntryPoint" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.ckan.client.list.CkanClientListConsoleEntryPoint" />
       <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="--list group_ids" />
+      <option name="PROGRAM_PARAMETERS" value="--group-ids" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
@@ -1496,7 +1497,13 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="ckan-client-list" />
       <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
       <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
@@ -1536,6 +1543,28 @@
       <envs />
       <RunnerSettings RunnerId="Debug">
         <option name="DEBUG_PORT" value="49243" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="CkanClientQueryConsoleEntryPoint" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.ckan.client.query.CkanClientQueryConsoleEntryPoint" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="--revisions-since-id 2013-01-28T20:06:30.061645" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="ckan-client-query" />
+      <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="49229" />
         <option name="TRANSPORT" value="0" />
         <option name="LOCAL" value="true" />
       </RunnerSettings>

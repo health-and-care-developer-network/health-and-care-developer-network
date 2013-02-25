@@ -29,7 +29,7 @@ function processTriggers()
 	do
 		case "$triggerName" in
 			
-			"/etc/rsyslog.d/")
+			"/etc/rsyslog.d")
 				restartRsyslog=1
 			;;
 			

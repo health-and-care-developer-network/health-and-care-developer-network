@@ -37,11 +37,11 @@ function processTriggers()
 	do
 		case "$triggerName" in
 			
-			"/etc/hdn-firewall/iptables/")
+			"/etc/hdn-firewall/iptables")
 				reloadTables=1
 			;;
 
-			"/etc/hdn-firewall/ip6tables/")
+			"/etc/hdn-firewall/ip6tables")
 				reloadTables=1
 			;;
 			

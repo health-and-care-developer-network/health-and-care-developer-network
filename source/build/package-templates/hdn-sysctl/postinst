@@ -33,7 +33,7 @@ function processTriggers()
 	do
 		case "$triggerName" in
 			
-			"/etc/sysctl.d/")
+			"/etc/sysctl.d")
 				reloadSysctl=1
 			;;
 

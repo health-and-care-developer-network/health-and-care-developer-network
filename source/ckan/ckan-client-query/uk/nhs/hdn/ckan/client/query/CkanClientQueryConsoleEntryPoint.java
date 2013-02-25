@@ -9,14 +9,10 @@ import uk.nhs.hdn.common.http.client.exceptions.CouldNotConnectHttpException;
 import uk.nhs.hdn.common.http.client.exceptions.UnacceptableResponseException;
 
 import static uk.nhs.hdn.ckan.api.Api.DataGovUk;
-import static uk.nhs.hdn.ckan.client.query.QueryAction.revisions_by_id;
 import static uk.nhs.hdn.ckan.client.query.QueryAction.values;
 
 public final class CkanClientQueryConsoleEntryPoint extends AbstractConsoleEntryPoint
 {
-	private static final String QueryOption = "query";
-	private static final String KeyOption = "key";
-
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static void main(@NotNull final String... commandLineArguments)
 	{
@@ -26,16 +22,15 @@ public final class CkanClientQueryConsoleEntryPoint extends AbstractConsoleEntry
 	@Override
 	protected boolean options(@NotNull final OptionParser options)
 	{
-		options.accepts(QueryOption, enumDescription(values())).withRequiredArg().ofType(QueryAction.class).defaultsTo(revisions_by_id).describedAs("query details");
-		options.accepts(KeyOption, "name, UUID, tag").requiredIf(QueryOption).withRequiredArg().ofType(String.class).describedAs("a name, UUID or tag");
+		options.acceptsAll(enumAsLongOptions(values()), enumDescription(values(), false, true)).withRequiredArg().ofType(String.class).describedAs("a name, UUID, tag or timestamp (eg 2013-01-28T20:06:30.061645) as appropriate");
 		return true;
 	}
 
 	@Override
 	protected void execute(@NotNull final OptionSet optionSet) throws CouldNotConnectHttpException, CorruptResponseException, UnacceptableResponseException
 	{
-		@NotNull final QueryAction queryAction = defaulted(optionSet, QueryOption);
-		@NotNull final String key = required(optionSet, KeyOption);
+		@NotNull final QueryAction queryAction = enumOptionChosen(optionSet, values());
+		@NotNull final String key = required(optionSet, convertUnderscoresInEnumValueAsTheyAreNotValidForLongOptions(true, queryAction));
 
 		queryAction.execute(DataGovUk, key);
 	}

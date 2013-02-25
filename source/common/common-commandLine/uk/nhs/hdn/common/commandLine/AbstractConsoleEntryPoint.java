@@ -29,6 +29,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import static java.lang.String.format;
 import static java.lang.System.err;
@@ -38,6 +40,10 @@ import static uk.nhs.hdn.common.commandLine.ExitCode.Help;
 
 public abstract class AbstractConsoleEntryPoint extends AbstractToString
 {
+
+	public static final char Underscore = '_';
+	public static final char Hyphen = '-';
+
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static <C extends AbstractConsoleEntryPoint> void execute(@NotNull final Class<C> consoleEntryPoint, @NotNull final String... commandLineArguments)
 	{
@@ -81,7 +87,7 @@ public abstract class AbstractConsoleEntryPoint extends AbstractToString
 
 	@SuppressWarnings("MethodCanBeVariableArityMethod")
 	@NotNull
-	public static <E extends Enum<E>> String enumDescription(@NotNull final E[] enumValues)
+	public static <E extends Enum<E>> String enumDescription(@NotNull final E[] enumValues, final boolean prependDoubleDash, final boolean convertUnderscoresBecauseTheyAreNotValidInLongOptionNames)
 	{
 		final StringBuilder stringBuilder = new StringBuilder("One of ");
 		final int length = enumValues.length;
@@ -104,9 +110,48 @@ public abstract class AbstractConsoleEntryPoint extends AbstractToString
 			{
 				isAfterFirst = true;
 			}
-			stringBuilder.append(enumValues[index].name());
+			if (prependDoubleDash)
+			{
+				stringBuilder.append("--");
+			}
+			stringBuilder.append(convertUnderscoresInEnumValueAsTheyAreNotValidForLongOptions(convertUnderscoresBecauseTheyAreNotValidInLongOptionNames, enumValues[index]));
 		}
 		return stringBuilder.toString();
+	}
+
+	@SuppressWarnings("MethodCanBeVariableArityMethod")
+	@NotNull
+	public static <E extends Enum<E>> Collection<String> enumAsLongOptions(@NotNull final E[] enumValues)
+	{
+		final Collection<String> options = new ArrayList<>(enumValues.length);
+		for (final E enumValue : enumValues)
+		{
+			options.add(convertUnderscoresInEnumValueAsTheyAreNotValidForLongOptions(true, enumValue));
+		}
+		return options;
+	}
+
+	@SuppressWarnings("MethodCanBeVariableArityMethod")
+	@NotNull
+	public <E extends Enum<E>> E enumOptionChosen(@NotNull final OptionSet optionSet, @NotNull final E[] enumValues)
+	{
+		for (final E enumValue : enumValues)
+		{
+			if (optionSet.has(convertUnderscoresInEnumValueAsTheyAreNotValidForLongOptions(true, enumValue)))
+			{
+				return enumValue;
+			}
+		}
+
+		exitWithErrorAndHelp("One of " + enumDescription(enumValues, true, true), "must be provided");
+		throw new ShouldHaveExitedException();
+	}
+
+	@NotNull
+	public static String convertUnderscoresInEnumValueAsTheyAreNotValidForLongOptions(final boolean convertUnderscoresBecauseTheyAreNotValidInLongOptionNames, @NotNull final Enum<?> enumValue)
+	{
+		final String name = enumValue.name();
+		return convertUnderscoresBecauseTheyAreNotValidInLongOptionNames ? name.replace(Underscore, Hyphen) : name;
 	}
 
 	@SuppressWarnings("BooleanMethodNameMustStartWithQuestion")

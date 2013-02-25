@@ -32,7 +32,7 @@ public final class CkanClientRelationshipConsoleEntryPoint extends AbstractConso
 	@Override
 	protected boolean options(@NotNull final OptionParser options)
 	{
-		options.accepts(RelationshipOption, enumDescription(values())).withRequiredArg().ofType(RelationshipType.class).defaultsTo(depends_on).describedAs("gets known relationships");
+		options.accepts(RelationshipOption, enumDescription(values(), false, false)).withRequiredArg().ofType(RelationshipType.class).defaultsTo(depends_on).describedAs("gets known relationships");
 		// This potentially makes UUIDs behave as names - but this works due to the nature of the CKAN API. Done to avoid yet another command line switch
 		options.accepts(KeyOption, "name or UUID").withRequiredArg().ofType(DatasetName.class).describedAs("a name or UUID");
 		return true;

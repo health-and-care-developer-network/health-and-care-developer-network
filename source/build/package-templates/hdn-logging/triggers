@@ -1,5 +1,5 @@
 # rsyslog config has changed
-interest /etc/rsyslog.d/
+interest /etc/rsyslog.d
 
 # rsyslog config has changed
 interest /etc/rsyslog.conf
