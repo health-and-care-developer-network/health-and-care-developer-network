@@ -23,6 +23,9 @@ import com.softwarecraftsmen.orogeny.filing.findFileFilters.FindFilesFilter;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.softwarecraftsmen.orogeny.actions.CopyFilesAction.flatHardLinkFiles;
 import static com.softwarecraftsmen.orogeny.actions.DeleteDirectoryAction.deleteDirectory;
 import static com.softwarecraftsmen.orogeny.actions.ExecuteAction.TenMinutes;
@@ -46,7 +49,7 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 	private String[] debianNonRepositoryPackageTasks = {};
 
-	private String[] executables = {};
+	private final List<String> executables = new ArrayList<>(10);
 
 	{
 		librarySubfolders("library");
@@ -57,36 +60,35 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		packageTemplateSubFolders("source", "package-templates");
 
+		// executable uses intellijModuleHasMainClassByConvention so must come before intellijProject
 
-		final String hdnGs1ClientConsoleEntryPoint = intellijModuleHasMainClassByConvention("barcodes-gs1-client-application", "HdnGs1ClientConsoleEntryPoint");
+		executable("hdn-gs1-client", "barcodes-gs1-client-application", intellijModuleHasMainClassByConvention("barcodes-gs1-client-application", "HdnGs1ClientConsoleEntryPoint"));
 
-		executable("hdn-gs1-client", "barcodes-gs1-client-application", hdnGs1ClientConsoleEntryPoint);
+		executable("hdn-gs1-server", "barcodes-gs1-server-application", intellijModuleHasMainClassByConvention("barcodes-gs1-server-application", "HdnGs1ServerConsoleEntryPoint"));
 
-		final String hdnGs1ServerConsoleEntryPoint = intellijModuleHasMainClassByConvention("barcodes-gs1-server-application", "HdnGs1ServerConsoleEntryPoint");
+		executable("hdn-dts-out", "dts-client-out", intellijModuleHasMainClassByConvention("dts-client-out", "HdnDtsOutConsoleEntryPoint"));
 
-		final String hdnDtsOutConsoleEntryPoint = intellijModuleHasMainClassByConvention("dts-client-out", "HdnDtsOutConsoleEntryPoint");
+		executable("hdn-dts-read", "dts-client-read", intellijModuleHasMainClassByConvention("dts-client-read", "HdnDtsReadConsoleEntryPoint"));
 
-		final String hdnDtsReadConsoleEntryPoint = intellijModuleHasMainClassByConvention("dts-client-read", "HdnDtsReadConsoleEntryPoint");
+		executable("hdn-dts-rats", "dts-client-rats", intellijModuleHasMainClassByConvention("dts-client-rats", "HdnDtsRatsConsoleEntryPoint"));
 
-		final String hdnDtsRatsConsoleEntryPoint = intellijModuleHasMainClassByConvention("dts-client-rats", "HdnDtsRatsConsoleEntryPoint");
+		executable("hdn-number-client", "number-client", intellijModuleHasMainClassByConvention("number-client", "HdnNumberClientConsoleEntryPoint"));
 
-		final String hdnNumberClientConsoleEntryPoint = intellijModuleHasMainClassByConvention("number-client", "HdnNumberClientConsoleEntryPoint");
+		executable("hdn-dbs-response", "dbs-response-client", intellijModuleHasMainClassByConvention("dbs-response-client", "HdnDbsResponseConsoleEntryPoint"));
 
-		final String hdnDbsResponseConsoleEntryPoint = intellijModuleHasMainClassByConvention("dbs-response-client", "HdnDbsResponseConsoleEntryPoint");
+		executable("hdn-dbs-request", "dbs-request-client", intellijModuleHasMainClassByConvention("dbs-request-client", "HdnDbsRequestConsoleEntryPoint"));
 
-		final String hdnDbsRequestConsoleEntryPoint = intellijModuleHasMainClassByConvention("dbs-request-client", "HdnDbsRequestConsoleEntryPoint");
+		executable("hdn-ckan-dataset-search", "ckan-client-dataset-search", intellijModuleHasMainClassByConvention("ckan-client-dataset-search", "HdnCkanDatasetSearchConsoleEntryPoint"));
 
-		final String hdnCkanDatasetSearchConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-dataset-search", "HdnCkanDatasetSearchConsoleEntryPoint");
+		executable("hdn-ckan-resource-search", "ckan-client-resource-search", intellijModuleHasMainClassByConvention("ckan-client-resource-search", "HdnCkanResourceSearchConsoleEntryPoint"));
 
-		final String hdnCkanResourceSearchConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-resource-search", "HdnCkanResourceSearchConsoleEntryPoint");
+		executable("hdn-ckan-details", "ckan-client-details", intellijModuleHasMainClassByConvention("ckan-client-details", "HdnCkanDetailsConsoleEntryPoint"));
 
-		final String hdnCkanDetailsConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-details", "HdnCkanDetailsConsoleEntryPoint");
+		executable("hdn-ckan-list", "ckan-client-list", intellijModuleHasMainClassByConvention("ckan-client-list", "HdnCkanListConsoleEntryPoint"));
 
-		final String hdnCkanListConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-list", "HdnCkanListConsoleEntryPoint");
+		executable("hdn-ckan-query", "ckan-client-query", intellijModuleHasMainClassByConvention("ckan-client-query", "HdnCkanQueryConsoleEntryPoint"));
 
-		final String hdnCkanQueryConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-query", "HdnCkanQueryConsoleEntryPoint");
-
-		final String hdnCkanRelationshipsConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-relationships", "HdnCkanRelationshipsConsoleEntryPoint");
+		executable("hdn-ckan-relationships", "ckan-client-relationships", intellijModuleHasMainClassByConvention("ckan-client-relationships", "HdnCkanRelationshipsConsoleEntryPoint"));
 
 		task("clean").does
 		(
@@ -98,43 +100,13 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 			makeDirectory(output())
 		);
 
-		// stick in generated source
-		task("make version").dependsOn("make output").does
-		(
-			execute(source("build", "build").file("generate-version-string")).inWorkingDirectory(output()).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArgument("version")
-		);
+		task("prepare executables").dependsOn(allExecutablesPrepareTasks()).dependsOn("make output").does();
 
-		intellijProject("subprojects", "make version", "build");
+		intellijProject("subprojects", "prepare executables", "build");
 
 		compile();
 
-		executable("hdn-gs1-server", "barcodes-gs1-server-application", hdnGs1ServerConsoleEntryPoint);
-
-		executable("hdn-dts-out", "dts-client-out", hdnDtsOutConsoleEntryPoint);
-
-		executable("hdn-dts-read", "dts-client-read", hdnDtsReadConsoleEntryPoint);
-
-		executable("hdn-dts-rats", "dts-client-rats", hdnDtsRatsConsoleEntryPoint);
-
-		executable("hdn-number-client", "number-client", hdnNumberClientConsoleEntryPoint);
-
-		executable("hdn-dbs-response", "dbs-response-client", hdnDbsResponseConsoleEntryPoint);
-
-		executable("hdn-dbs-request", "dbs-request-client", hdnDbsRequestConsoleEntryPoint);
-
-		executable("hdn-ckan-dataset-search", "ckan-client-dataset-search", hdnCkanDatasetSearchConsoleEntryPoint);
-
-		executable("hdn-ckan-resource-search", "ckan-client-resource-search", hdnCkanResourceSearchConsoleEntryPoint);
-
-		executable("hdn-ckan-details", "ckan-client-details", hdnCkanDetailsConsoleEntryPoint);
-
-		executable("hdn-ckan-list", "ckan-client-list", hdnCkanListConsoleEntryPoint);
-
-		executable("hdn-ckan-query", "ckan-client-query", hdnCkanQueryConsoleEntryPoint);
-
-		executable("hdn-ckan-relationships", "ckan-client-relationships", hdnCkanRelationshipsConsoleEntryPoint);
-
-		task("executables").dependsOn("hdn-gs1-client", "hdn-gs1-server", "hdn-dts-out", "hdn-dts-read", "hdn-dts-rats", "hdn-dbs-response", "hdn-dbs-request");
+		task("executables").dependsOn(allExecutables());
 
 		task("generate changelog template").dependsOn("make output").does
 		(
@@ -206,6 +178,19 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 		);
 	}
 
+	private String[] allExecutables() {return executables.toArray(new String[executables.size()]);}
+
+	private String[] allExecutablesPrepareTasks()
+	{
+		final String[] allExecutablesPrepareTasks = new String[executables.size()];
+		final int size = executables.size();
+		for (int index = 0; index < size; index++)
+		{
+			allExecutablesPrepareTasks[index] = executablePrepareTaskName(executables.get(index));
+		}
+		return allExecutablesPrepareTasks;
+	}
+
 	private String intellijModuleHasMainClassByConvention(final String moduleName, final String consoleEntryPoint)
 	{
 		return intellijModuleHasMainClass(moduleName, getPackageName(moduleName), consoleEntryPoint);
@@ -218,9 +203,23 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 	private void executable(@NotNull final String taskName, @NotNull final String moduleName, @NotNull final String consoleEntryPoint)
 	{
+		executables.add(taskName);
+
+		final String[] folders = getPackageName(moduleName).split("\\.");
+		final String[] generatedSourceFolders = new String[folders.length + 2];
+		generatedSourceFolders[0] = moduleName;
+		generatedSourceFolders[1] = "generatedSource";
+		arraycopy(folders, 0, generatedSourceFolders, 2, folders.length);
+		final AbsoluteDirectory generatedSourcePackageFolder = output(generatedSourceFolders);
+
+		task(executablePrepareTaskName(taskName)).dependsOn("make output").does
+		(
+			makeDirectory(generatedSourcePackageFolder),
+			execute(source("build", "build").file("generate-version-string")).inWorkingDirectory(generatedSourcePackageFolder).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArgument("version.txt")
+		);
+
 		final FindFilesFilter isInLibrary = isInRoot(library());
 		final FindFilesFilter dependentJarFilesExcludingLibraries = isInLibrary.not().and(Jar);
-
 		final AbsoluteDirectory distributionFolder = output(taskName);
 
 		task(taskName).dependsOn("compile " + moduleName).does
@@ -232,6 +231,8 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 			jarTogether(registeredPaths(moduleName)).capturing(Jar).to(distributionFolder.file(taskName + ".jar")).withoutClassPath().withMainClass(consoleEntryPoint)
 		);
 	}
+
+	private static String executablePrepareTaskName(final String taskName) {return "prepare " + taskName;}
 
 	private void debianPackagesPackageTask(@NotNull @NonNls final String packageName, @NotNull @NonNls final String... dependsOnTaskNames)
 	{
