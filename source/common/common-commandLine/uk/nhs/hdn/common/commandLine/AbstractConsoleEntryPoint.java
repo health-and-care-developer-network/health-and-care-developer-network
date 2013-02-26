@@ -26,10 +26,7 @@ import uk.nhs.hdn.common.exceptions.ShouldNeverHappenException;
 import uk.nhs.hdn.common.naming.Description;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.StringWriter;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.regex.Pattern;
 
@@ -38,6 +35,7 @@ import static java.lang.System.err;
 import static java.lang.System.out;
 import static java.util.Locale.ENGLISH;
 import static java.util.regex.Pattern.compile;
+import static uk.nhs.hdn.common.CharsetHelper.Utf8;
 import static uk.nhs.hdn.common.commandLine.ExitCode.*;
 
 public abstract class AbstractConsoleEntryPoint extends AbstractToString
@@ -46,6 +44,7 @@ public abstract class AbstractConsoleEntryPoint extends AbstractToString
 	private static final char Hyphen = '-';
 	private static final Pattern CamelCaseSplit = compile("(?<!^)(?=[A-Z])");
 	@NonNls @NotNull private static final String ConsoleEntryPoint = "ConsoleEntryPoint";
+	private static final String UnknownVersion = "unknown version";
 
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static <C extends AbstractConsoleEntryPoint> void execute(@NotNull final Class<C> consoleEntryPoint, @NotNull final String... commandLineArguments)
@@ -362,7 +361,17 @@ public abstract class AbstractConsoleEntryPoint extends AbstractToString
 
 	private void exitWithVersion()
 	{
-		final String programVersion = "2013.02.X";
+		final String programVersion;
+		@SuppressWarnings("IOResourceOpenedButNotSafelyClosed") @Nullable final InputStream versionStream = getClass().getResourceAsStream("version.txt");
+		if (versionStream == null)
+		{
+			programVersion = UnknownVersion;
+		}
+		else
+		{
+			programVersion = getStringFromStream(versionStream, UnknownVersion);
+		}
+
 		outputStream.println(format(ENGLISH, "%1$s %2$s", programName(), programVersion));
 		outputStream.println("© Crown Copyright 2013");
 		outputStream.println();
@@ -381,6 +390,45 @@ public abstract class AbstractConsoleEntryPoint extends AbstractToString
 		outputStream.println("Written by Raphael Cohn (raphael.cohn@stormmq.com)");
 		outputStream.println();
 		Ok.exit();
+	}
+
+	private static String getStringFromStream(final InputStream versionStream, @NotNull final String defaultValue)
+	{
+		final StringBuilder stringBuilder = new StringBuilder(100);
+		final Reader reader = new InputStreamReader(versionStream, Utf8);
+		try
+		{
+			final char[] buffer = new char[100];
+			do
+			{
+				final int read;
+				try
+				{
+					read = reader.read(buffer);
+				}
+				catch (IOException ignored)
+				{
+					return defaultValue;
+				}
+				if (read == -1)
+				{
+					break;
+				}
+				stringBuilder.append(buffer, 0, read);
+			}
+			while(true);
+		}
+		finally
+		{
+			try
+			{
+				reader.close();
+			}
+			catch (IOException ignored)
+			{
+			}
+		}
+		return stringBuilder.toString();
 	}
 
 	@NotNull @NonNls

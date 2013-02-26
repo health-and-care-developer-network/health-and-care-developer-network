@@ -12,6 +12,7 @@
     <orderEntry type="module" module-name="common-reflection" />
     <orderEntry type="module" module-name="common-exceptions" />
     <orderEntry type="module" module-name="common-naming" />
+    <orderEntry type="module" module-name="common" />
   </component>
 </module>
 
