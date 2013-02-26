@@ -36,7 +36,7 @@ import static uk.nhs.hdn.ckan.domain.ids.ResourceId.tsvSerialiserForResourceIds;
 import static uk.nhs.hdn.common.VariableArgumentsHelper.of;
 import static uk.nhs.hdn.common.tuples.Pair.pair;
 
-public final class CkanClientResourceSearchConsoleEntryPoint extends AbstractConsoleEntryPoint
+public final class HdnCkanResourceSearchConsoleEntryPoint extends AbstractConsoleEntryPoint
 {
 	private static final Pair<String, String>[] FieldNames = of
 	(
@@ -48,7 +48,7 @@ public final class CkanClientResourceSearchConsoleEntryPoint extends AbstractCon
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static void main(@NotNull final String... commandLineArguments)
 	{
-		execute(CkanClientResourceSearchConsoleEntryPoint.class, commandLineArguments);
+		execute(HdnCkanResourceSearchConsoleEntryPoint.class, commandLineArguments);
 	}
 
 	@Override

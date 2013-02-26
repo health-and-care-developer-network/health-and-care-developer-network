@@ -19,14 +19,14 @@ import static uk.nhs.hdn.ckan.api.RelationshipType.values;
 import static uk.nhs.hdn.ckan.domain.ids.DatasetId.tsvSerialiserForDatasetIds;
 import static uk.nhs.hdn.ckan.domain.uniqueNames.DatasetName.tsvSerialiserForDatasetNames;
 
-public final class CkanClientRelationshipsConsoleEntryPoint extends AbstractConsoleEntryPoint
+public final class HdnCkanRelationshipsConsoleEntryPoint extends AbstractConsoleEntryPoint
 {
 	@NotNull @NonNls private static final String AsDatasetIdsOption = "as-dataset-ids";
 
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static void main(@NotNull final String... commandLineArguments)
 	{
-		execute(CkanClientRelationshipsConsoleEntryPoint.class, commandLineArguments);
+		execute(HdnCkanRelationshipsConsoleEntryPoint.class, commandLineArguments);
 	}
 
 	@Override

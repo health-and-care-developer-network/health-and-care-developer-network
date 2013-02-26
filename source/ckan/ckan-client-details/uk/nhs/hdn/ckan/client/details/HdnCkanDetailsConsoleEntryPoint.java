@@ -10,12 +10,12 @@ import uk.nhs.hdn.common.http.client.exceptions.CouldNotConnectHttpException;
 import static uk.nhs.hdn.ckan.api.Api.DataGovUk;
 import static uk.nhs.hdn.ckan.client.details.DetailsAction.values;
 
-public final class CkanClientDetailsConsoleEntryPoint extends AbstractConsoleEntryPoint
+public final class HdnCkanDetailsConsoleEntryPoint extends AbstractConsoleEntryPoint
 {
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static void main(@NotNull final String... commandLineArguments)
 	{
-		execute(CkanClientDetailsConsoleEntryPoint.class, commandLineArguments);
+		execute(HdnCkanDetailsConsoleEntryPoint.class, commandLineArguments);
 	}
 
 	@Override

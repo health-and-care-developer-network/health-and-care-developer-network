@@ -1486,8 +1486,8 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="false" name="CkanClientListConsoleEntryPoint" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.ckan.client.list.CkanClientListConsoleEntryPoint" />
+    <configuration default="false" name="HdnCkanListConsoleEntryPoint" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.ckan.client.list.HdnCkanListConsoleEntryPoint" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="--tag-counts" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
@@ -1508,8 +1508,8 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="false" name="CkanClientDetailsConsoleEntryPoint" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.ckan.client.details.CkanClientDetailsConsoleEntryPoint" />
+    <configuration default="false" name="HdnCkanDetailsConsoleEntryPoint" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.ckan.client.details.HdnCkanDetailsConsoleEntryPoint" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="--dataset-by-name focus_on_health" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
@@ -1530,8 +1530,8 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="false" name="CkanClientRelationshipsConsoleEntryPoint" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.ckan.client.relationships.CkanClientRelationshipsConsoleEntryPoint" />
+    <configuration default="false" name="HdnCkanRelationshipsConsoleEntryPoint" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.ckan.client.relationships.HdnCkanRelationshipsConsoleEntryPoint" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="--version" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
@@ -1552,8 +1552,8 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="false" name="CkanClientQueryConsoleEntryPoint" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.ckan.client.query.CkanClientQueryConsoleEntryPoint" />
+    <configuration default="false" name="HdnCkanQueryConsoleEntryPoint" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.ckan.client.query.HdnCkanQueryConsoleEntryPoint" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="--revisions-since-timestamp 2013-01-28T20:06:30.061645" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
@@ -1590,8 +1590,8 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="false" name="CkanClientResourceSearchConsoleEntryPoint" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.ckan.client.resource.search.CkanClientResourceSearchConsoleEntryPoint" />
+    <configuration default="false" name="HdnCkanResourceSearchConsoleEntryPoint" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.ckan.client.resource.search.HdnCkanResourceSearchConsoleEntryPoint" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />

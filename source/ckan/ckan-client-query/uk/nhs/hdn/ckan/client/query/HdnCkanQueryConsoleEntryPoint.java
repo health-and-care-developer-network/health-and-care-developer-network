@@ -11,12 +11,12 @@ import uk.nhs.hdn.common.http.client.exceptions.UnacceptableResponseException;
 import static uk.nhs.hdn.ckan.api.Api.DataGovUk;
 import static uk.nhs.hdn.ckan.client.query.QueryAction.values;
 
-public final class CkanClientQueryConsoleEntryPoint extends AbstractConsoleEntryPoint
+public final class HdnCkanQueryConsoleEntryPoint extends AbstractConsoleEntryPoint
 {
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static void main(@NotNull final String... commandLineArguments)
 	{
-		execute(CkanClientQueryConsoleEntryPoint.class, commandLineArguments);
+		execute(HdnCkanQueryConsoleEntryPoint.class, commandLineArguments);
 	}
 
 	@Override
