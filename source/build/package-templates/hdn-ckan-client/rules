@@ -27,8 +27,8 @@ binary-indep: build install
 	# Copy the packages's files.
 	rsync -v $(RELEASE)/hdn-ckan-dataset-search/hdn-ckan-dataset-search.jar debian/$(PACKAGE)/usr/share/$(PACKAGE)/hdn-ckan-dataset-search.jar
 	rsync -v $(RELEASE)/hdn-ckan-dataset-search/hdn-ckan-dataset-search.source.zip debian/$(PACKAGE)/usr/src/$(PACKAGE)/hdn-ckan-dataset-search.zip
-	rsync -v $(RELEASE)/hdn-ckan-dataset-resource/hdn-ckan-dataset-resource.jar debian/$(PACKAGE)/usr/share/$(PACKAGE)/hdn-ckan-dataset-resource.jar
-	rsync -v $(RELEASE)/hdn-ckan-dataset-resource/hdn-ckan-dataset-resource.source.zip debian/$(PACKAGE)/usr/src/$(PACKAGE)/hdn-ckan-dataset-resource.zip
+	rsync -v $(RELEASE)/hdn-ckan-resource-search/hdn-ckan-resource-search.jar debian/$(PACKAGE)/usr/share/$(PACKAGE)/hdn-ckan-resource-search.jar
+	rsync -v $(RELEASE)/hdn-ckan-resource-search/hdn-ckan-resource-search.source.zip debian/$(PACKAGE)/usr/src/$(PACKAGE)/hdn-ckan-resource-search.zip
 	rsync -v $(RELEASE)/hdn-ckan-details/hdn-ckan-details.jar debian/$(PACKAGE)/usr/share/$(PACKAGE)/hdn-ckan-details.jar
 	rsync -v $(RELEASE)/hdn-ckan-details/hdn-ckan-details.source.zip debian/$(PACKAGE)/usr/src/$(PACKAGE)/hdn-ckan-details.zip
 	rsync -v $(RELEASE)/hdn-ckan-list/hdn-ckan-list.jar debian/$(PACKAGE)/usr/share/$(PACKAGE)/hdn-ckan-list.jar
