@@ -28,6 +28,7 @@ import java.util.List;
 
 import static com.softwarecraftsmen.orogeny.actions.CopyFilesAction.flatHardLinkFiles;
 import static com.softwarecraftsmen.orogeny.actions.DeleteDirectoryAction.deleteDirectory;
+import static com.softwarecraftsmen.orogeny.actions.EchoAction.echo;
 import static com.softwarecraftsmen.orogeny.actions.ExecuteAction.TenMinutes;
 import static com.softwarecraftsmen.orogeny.actions.ExecuteAction.execute;
 import static com.softwarecraftsmen.orogeny.actions.JarTogetherAction.jarTogether;
@@ -100,7 +101,10 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 			makeDirectory(output())
 		);
 
-		task("prepare executables").dependsOn(allExecutablesPrepareTasks()).dependsOn("make output").does();
+		task("prepare executables").dependsOn(allExecutablesPrepareTasks()).dependsOn("make output").does
+		(
+			echo("exists to ensure all executables have had version.txt generated and placed in source")
+		);
 
 		intellijProject("subprojects", "prepare executables", "build");
 
