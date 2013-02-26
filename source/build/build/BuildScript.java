@@ -46,6 +46,8 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 	private String[] debianNonRepositoryPackageTasks = {};
 
+	private String[] executables = {};
+
 	{
 		librarySubfolders("library");
 
@@ -57,6 +59,8 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 
 		final String hdnGs1ClientConsoleEntryPoint = intellijModuleHasMainClassByConvention("barcodes-gs1-client-application", "HdnGs1ClientConsoleEntryPoint");
+
+		executable("hdn-gs1-client", "barcodes-gs1-client-application", hdnGs1ClientConsoleEntryPoint);
 
 		final String hdnGs1ServerConsoleEntryPoint = intellijModuleHasMainClassByConvention("barcodes-gs1-server-application", "HdnGs1ServerConsoleEntryPoint");
 
@@ -103,8 +107,6 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 		intellijProject("subprojects", "make version", "build");
 
 		compile();
-
-		executable("hdn-gs1-client", "barcodes-gs1-client-application", hdnGs1ClientConsoleEntryPoint);
 
 		executable("hdn-gs1-server", "barcodes-gs1-server-application", hdnGs1ServerConsoleEntryPoint);
 
