@@ -94,7 +94,13 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 			makeDirectory(output())
 		);
 
-		intellijProject("subprojects", "make output", "build");
+		// stick in generated source
+		task("make version").dependsOn("make output").does
+		(
+			execute(source("build", "build").file("generate-version-string")).inWorkingDirectory(output()).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArgument("version")
+		);
+
+		intellijProject("subprojects", "make version", "build");
 
 		compile();
 
