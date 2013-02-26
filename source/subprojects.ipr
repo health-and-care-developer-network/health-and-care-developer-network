@@ -1245,12 +1245,12 @@
       <module fileurl="file://$PROJECT_DIR$/barcodes/barcodes-gs1-unitTests/barcodes-gs1-unitTests.iml" filepath="$PROJECT_DIR$/barcodes/barcodes-gs1-unitTests/barcodes-gs1-unitTests.iml" group="barcodes" />
       <module fileurl="file://$PROJECT_DIR$/build/build/build.iml" filepath="$PROJECT_DIR$/build/build/build.iml" group="build" />
       <module fileurl="file://$PROJECT_DIR$/ckan/ckan-api/ckan-api.iml" filepath="$PROJECT_DIR$/ckan/ckan-api/ckan-api.iml" group="ckan" />
-      <module fileurl="file://$PROJECT_DIR$/ckan/ckan-client-dataset-search/ckan-client-dataset-search.iml" filepath="$PROJECT_DIR$/ckan/ckan-client-dataset-search/ckan-client-dataset-search.iml" group="ckan" />
-      <module fileurl="file://$PROJECT_DIR$/ckan/ckan-client-details/ckan-client-details.iml" filepath="$PROJECT_DIR$/ckan/ckan-client-details/ckan-client-details.iml" group="ckan" />
-      <module fileurl="file://$PROJECT_DIR$/ckan/ckan-client-list/ckan-client-list.iml" filepath="$PROJECT_DIR$/ckan/ckan-client-list/ckan-client-list.iml" group="ckan" />
-      <module fileurl="file://$PROJECT_DIR$/ckan/ckan-client-query/ckan-client-query.iml" filepath="$PROJECT_DIR$/ckan/ckan-client-query/ckan-client-query.iml" group="ckan" />
-      <module fileurl="file://$PROJECT_DIR$/ckan/ckan-client-relationships/ckan-client-relationships.iml" filepath="$PROJECT_DIR$/ckan/ckan-client-relationships/ckan-client-relationships.iml" group="ckan" />
-      <module fileurl="file://$PROJECT_DIR$/ckan/ckan-client-resource-search/ckan-client-resource-search.iml" filepath="$PROJECT_DIR$/ckan/ckan-client-resource-search/ckan-client-resource-search.iml" group="ckan" />
+      <module fileurl="file://$PROJECT_DIR$/ckan/ckan-client-dataset-search/ckan-client-dataset-search.iml" filepath="$PROJECT_DIR$/ckan/ckan-client-dataset-search/ckan-client-dataset-search.iml" group="ckan/client" />
+      <module fileurl="file://$PROJECT_DIR$/ckan/ckan-client-details/ckan-client-details.iml" filepath="$PROJECT_DIR$/ckan/ckan-client-details/ckan-client-details.iml" group="ckan/client" />
+      <module fileurl="file://$PROJECT_DIR$/ckan/ckan-client-list/ckan-client-list.iml" filepath="$PROJECT_DIR$/ckan/ckan-client-list/ckan-client-list.iml" group="ckan/client" />
+      <module fileurl="file://$PROJECT_DIR$/ckan/ckan-client-query/ckan-client-query.iml" filepath="$PROJECT_DIR$/ckan/ckan-client-query/ckan-client-query.iml" group="ckan/client" />
+      <module fileurl="file://$PROJECT_DIR$/ckan/ckan-client-relationships/ckan-client-relationships.iml" filepath="$PROJECT_DIR$/ckan/ckan-client-relationships/ckan-client-relationships.iml" group="ckan/client" />
+      <module fileurl="file://$PROJECT_DIR$/ckan/ckan-client-resource-search/ckan-client-resource-search.iml" filepath="$PROJECT_DIR$/ckan/ckan-client-resource-search/ckan-client-resource-search.iml" group="ckan/client" />
       <module fileurl="file://$PROJECT_DIR$/ckan/ckan-domain/ckan-domain.iml" filepath="$PROJECT_DIR$/ckan/ckan-domain/ckan-domain.iml" group="ckan" />
       <module fileurl="file://$PROJECT_DIR$/ckan/ckan-schema/ckan-schema.iml" filepath="$PROJECT_DIR$/ckan/ckan-schema/ckan-schema.iml" group="ckan" />
       <module fileurl="file://$PROJECT_DIR$/common/common/common.iml" filepath="$PROJECT_DIR$/common/common/common.iml" group="common" />
