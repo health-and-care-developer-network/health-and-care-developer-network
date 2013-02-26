@@ -151,7 +151,7 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		debianPackagesPackageTask("hdn-reverse-proxy", "generate changelog template");
 
-		debianPackagesPackageTask("hdn-ckan-client", "generate changelog template");
+		debianPackagesPackageTask("hdn-ckan-client", "generate changelog template", "hdn-ckan-dataset-search", "hdn-ckan-resource-search", "hdn-ckan-details", "hdn-ckan-list", "hdn-ckan-query", "hdn-ckan-relationship");
 
 		debianPackagesPackageTask("hdn-data", "generate changelog template");
 
