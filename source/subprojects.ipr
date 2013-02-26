@@ -1530,8 +1530,8 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="false" name="CkanClientRelationshipConsoleEntryPoint" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.ckan.client.relationships.CkanClientRelationshipConsoleEntryPoint" />
+    <configuration default="false" name="CkanClientRelationshipsConsoleEntryPoint" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.ckan.client.relationships.CkanClientRelationshipsConsoleEntryPoint" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="--depends-on focus_on_health" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
