@@ -63,33 +63,33 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		// executable uses intellijModuleHasMainClassByConvention so must come before intellijProject
 
-		executable("hdn-gs1-client", "barcodes-gs1-client-application", intellijModuleHasMainClassByConvention("barcodes-gs1-client-application", "HdnGs1ClientConsoleEntryPoint"));
+		executable("hdn-gs1-client", "barcodes-gs1-client-application", "HdnGs1ClientConsoleEntryPoint");
 
-		executable("hdn-gs1-server", "barcodes-gs1-server-application", intellijModuleHasMainClassByConvention("barcodes-gs1-server-application", "HdnGs1ServerConsoleEntryPoint"));
+		executable("hdn-gs1-server", "barcodes-gs1-server-application", "HdnGs1ServerConsoleEntryPoint");
 
-		executable("hdn-dts-out", "dts-client-out", intellijModuleHasMainClassByConvention("dts-client-out", "HdnDtsOutConsoleEntryPoint"));
+		executable("hdn-dts-out", "dts-client-out", "HdnDtsOutConsoleEntryPoint");
 
-		executable("hdn-dts-read", "dts-client-read", intellijModuleHasMainClassByConvention("dts-client-read", "HdnDtsReadConsoleEntryPoint"));
+		executable("hdn-dts-read", "dts-client-read", "HdnDtsReadConsoleEntryPoint");
 
-		executable("hdn-dts-rats", "dts-client-rats", intellijModuleHasMainClassByConvention("dts-client-rats", "HdnDtsRatsConsoleEntryPoint"));
+		executable("hdn-dts-rats", "dts-client-rats", "HdnDtsRatsConsoleEntryPoint");
 
-		executable("hdn-number-client", "number-client", intellijModuleHasMainClassByConvention("number-client", "HdnNumberClientConsoleEntryPoint"));
+		executable("hdn-number-client", "number-client", "HdnNumberClientConsoleEntryPoint");
 
-		executable("hdn-dbs-response", "dbs-response-client", intellijModuleHasMainClassByConvention("dbs-response-client", "HdnDbsResponseConsoleEntryPoint"));
+		executable("hdn-dbs-response", "dbs-response-client", "HdnDbsResponseConsoleEntryPoint");
 
-		executable("hdn-dbs-request", "dbs-request-client", intellijModuleHasMainClassByConvention("dbs-request-client", "HdnDbsRequestConsoleEntryPoint"));
+		executable("hdn-dbs-request", "dbs-request-client", "HdnDbsRequestConsoleEntryPoint");
 
-		executable("hdn-ckan-dataset-search", "ckan-client-dataset-search", intellijModuleHasMainClassByConvention("ckan-client-dataset-search", "HdnCkanDatasetSearchConsoleEntryPoint"));
+		executable("hdn-ckan-dataset-search", "ckan-client-dataset-search", "HdnCkanDatasetSearchConsoleEntryPoint");
 
-		executable("hdn-ckan-resource-search", "ckan-client-resource-search", intellijModuleHasMainClassByConvention("ckan-client-resource-search", "HdnCkanResourceSearchConsoleEntryPoint"));
+		executable("hdn-ckan-resource-search", "ckan-client-resource-search", "HdnCkanResourceSearchConsoleEntryPoint");
 
-		executable("hdn-ckan-details", "ckan-client-details", intellijModuleHasMainClassByConvention("ckan-client-details", "HdnCkanDetailsConsoleEntryPoint"));
+		executable("hdn-ckan-details", "ckan-client-details", "HdnCkanDetailsConsoleEntryPoint");
 
-		executable("hdn-ckan-list", "ckan-client-list", intellijModuleHasMainClassByConvention("ckan-client-list", "HdnCkanListConsoleEntryPoint"));
+		executable("hdn-ckan-list", "ckan-client-list", "HdnCkanListConsoleEntryPoint");
 
-		executable("hdn-ckan-query", "ckan-client-query", intellijModuleHasMainClassByConvention("ckan-client-query", "HdnCkanQueryConsoleEntryPoint"));
+		executable("hdn-ckan-query", "ckan-client-query", "HdnCkanQueryConsoleEntryPoint");
 
-		executable("hdn-ckan-relationships", "ckan-client-relationships", intellijModuleHasMainClassByConvention("ckan-client-relationships", "HdnCkanRelationshipsConsoleEntryPoint"));
+		executable("hdn-ckan-relationships", "ckan-client-relationships", "HdnCkanRelationshipsConsoleEntryPoint");
 
 		task("clean").does
 		(
@@ -133,9 +133,9 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		debianPackagesPackageTask("hdn-dbs-request", "generate changelog template", "hdn-dbs-request");
 
-		debianPackagesPackageTask("hdn-reverse-proxy", "generate changelog template");
-
 		debianPackagesPackageTask("hdn-ckan-client", "generate changelog template", "hdn-ckan-dataset-search", "hdn-ckan-resource-search", "hdn-ckan-details", "hdn-ckan-list", "hdn-ckan-query", "hdn-ckan-relationships");
+
+		debianPackagesPackageTask("hdn-reverse-proxy", "generate changelog template");
 
 		debianPackagesPackageTask("hdn-data", "generate changelog template");
 
@@ -205,8 +205,9 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 		return "uk.nhs.hdn." + moduleName.replace("-", ".");
 	}
 
-	private void executable(@NotNull final String taskName, @NotNull final String moduleName, @NotNull final String consoleEntryPoint)
+	private void executable(@NotNull final String taskName, @NotNull final String moduleName, @NotNull final String mainClassSimpleName)
 	{
+		@NotNull final String consoleEntryPoint = intellijModuleHasMainClassByConvention(moduleName, mainClassSimpleName);
 		executables.add(taskName);
 
 		final String[] folders = getPackageName(moduleName).split("\\.");
