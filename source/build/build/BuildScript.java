@@ -82,7 +82,7 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		final String ckanClientQueryConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-query", "CkanClientQueryConsoleEntryPoint");
 
-		final String ckanClientRelationshipConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-relationship", "CkanClientRelationshipConsoleEntryPoint");
+		final String ckanClientRelationshipsConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-relationships", "CkanClientRelationshipsConsoleEntryPoint");
 
 		task("clean").does
 		(
@@ -124,7 +124,7 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		executable("hdn-ckan-query", "ckan-client-query", ckanClientQueryConsoleEntryPoint);
 
-		executable("hdn-ckan-relationship", "ckan-client-relationship", ckanClientRelationshipConsoleEntryPoint);
+		executable("hdn-ckan-relationships", "ckan-client-relationships", ckanClientRelationshipsConsoleEntryPoint);
 
 		task("executables").dependsOn("hdn-gs1-client", "hdn-gs1-server", "hdn-dts-out", "hdn-dts-read", "hdn-dts-rats", "hdn-dbs-response", "hdn-dbs-request");
 
@@ -151,7 +151,7 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		debianPackagesPackageTask("hdn-reverse-proxy", "generate changelog template");
 
-		debianPackagesPackageTask("hdn-ckan-client", "generate changelog template", "hdn-ckan-dataset-search", "hdn-ckan-resource-search", "hdn-ckan-details", "hdn-ckan-list", "hdn-ckan-query", "hdn-ckan-relationship");
+		debianPackagesPackageTask("hdn-ckan-client", "generate changelog template", "hdn-ckan-dataset-search", "hdn-ckan-resource-search", "hdn-ckan-details", "hdn-ckan-list", "hdn-ckan-query", "hdn-ckan-relationships");
 
 		debianPackagesPackageTask("hdn-data", "generate changelog template");
 

@@ -17,12 +17,12 @@ import static uk.nhs.hdn.ckan.api.Api.DataGovUk;
 import static uk.nhs.hdn.ckan.api.RelationshipType.values;
 import static uk.nhs.hdn.ckan.domain.ids.DatasetId.tsvSerialiserForDatasetIds;
 
-public final class CkanClientRelationshipConsoleEntryPoint extends AbstractConsoleEntryPoint
+public final class CkanClientRelationshipsConsoleEntryPoint extends AbstractConsoleEntryPoint
 {
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static void main(@NotNull final String... commandLineArguments)
 	{
-		execute(CkanClientRelationshipConsoleEntryPoint.class, commandLineArguments);
+		execute(CkanClientRelationshipsConsoleEntryPoint.class, commandLineArguments);
 	}
 
 	@Override
