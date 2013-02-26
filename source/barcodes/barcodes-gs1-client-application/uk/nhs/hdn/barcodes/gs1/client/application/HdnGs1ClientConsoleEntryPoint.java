@@ -28,7 +28,7 @@ import uk.nhs.hdn.common.http.client.exceptions.UnacceptableResponseException;
 
 import static uk.nhs.hdn.barcodes.gs1.client.application.Demonstration.demonstrateClientApplication;
 
-public final class Gs1BarcodesClientConsoleEntryPoint extends AbstractConsoleEntryPoint
+public final class HdnGs1ClientConsoleEntryPoint extends AbstractConsoleEntryPoint
 {
 	private static final String DomainNameOption = "domain-name";
 	private static final String PortOption = "port";
@@ -43,7 +43,7 @@ public final class Gs1BarcodesClientConsoleEntryPoint extends AbstractConsoleEnt
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static void main(@NotNull final String... commandLineArguments)
 	{
-		execute(Gs1BarcodesClientConsoleEntryPoint.class, commandLineArguments);
+		execute(HdnGs1ClientConsoleEntryPoint.class, commandLineArguments);
 	}
 
 	@Override

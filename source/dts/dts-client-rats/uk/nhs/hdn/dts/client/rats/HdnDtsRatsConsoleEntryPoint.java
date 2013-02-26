@@ -50,7 +50,7 @@ import static uk.nhs.hdn.dts.domain.identifiers.LocalIdentifier.UnknownLocalIden
 import static uk.nhs.hdn.dts.rats.request.Messages.messagesXmlSerialiser;
 import static uk.nhs.hdn.dts.rats.response.schema.ResponsesSchemaParser.ResponsesSchemaParserInstance;
 
-public final class RatsClientConsoleEntryPoint extends AbstractConsoleEntryPoint
+public final class HdnDtsRatsConsoleEntryPoint extends AbstractConsoleEntryPoint
 {
 	private static final String FromDtsNameOption = "from-dts-name";
 	private static final String LocalIdentifierOption = "local-identifier";
@@ -66,7 +66,7 @@ public final class RatsClientConsoleEntryPoint extends AbstractConsoleEntryPoint
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static void main(@NotNull final String... commandLineArguments)
 	{
-		execute(RatsClientConsoleEntryPoint.class, commandLineArguments);
+		execute(HdnDtsRatsConsoleEntryPoint.class, commandLineArguments);
 	}
 
 	@Override

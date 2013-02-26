@@ -29,20 +29,23 @@ import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.regex.Pattern;
 
 import static java.lang.String.format;
 import static java.lang.System.err;
+import static java.lang.System.out;
 import static java.util.Locale.ENGLISH;
-import static uk.nhs.hdn.common.commandLine.ExitCode.GeneralError;
-import static uk.nhs.hdn.common.commandLine.ExitCode.Help;
+import static java.util.regex.Pattern.compile;
+import static uk.nhs.hdn.common.commandLine.ExitCode.*;
 
 public abstract class AbstractConsoleEntryPoint extends AbstractToString
 {
 	private static final char Underscore = '_';
 	private static final char Hyphen = '-';
+	private static final Pattern CamelCaseSplit = compile("(?<!^)(?=[A-Z])");
+	@NonNls @NotNull private static final String ConsoleEntryPoint = "ConsoleEntryPoint";
 
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static <C extends AbstractConsoleEntryPoint> void execute(@NotNull final Class<C> consoleEntryPoint, @NotNull final String... commandLineArguments)
@@ -67,21 +70,22 @@ public abstract class AbstractConsoleEntryPoint extends AbstractToString
 
 	private static final int MaximumPortNumber = 65535;
 
-	@NotNull
-	private static final String HelpOption = "help";
+	@NotNull private static final String HelpOption = "help";
+	@NotNull private static final String VersionOption = "version";
 
-	@NotNull
-	private final PrintStream outputStream;
-	@NotNull
-	private final OptionParser options;
+	@NotNull private final PrintStream outputStream;
+	@NotNull private final PrintStream errorStream;
+	@NotNull private final OptionParser options;
 	private final boolean doesNotHaveNonOptionArguments;
 
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	protected AbstractConsoleEntryPoint()
 	{
-		outputStream = err;
+		outputStream = out;
+		errorStream = err;
 		options = new OptionParser();
 		options.accepts(HelpOption, "Displays help for options").forHelp();
+		options.accepts(VersionOption, "Displays version");
 		doesNotHaveNonOptionArguments = options(options);
 	}
 
@@ -134,18 +138,6 @@ public abstract class AbstractConsoleEntryPoint extends AbstractToString
 		{
 			options.accepts(convertUnderscoresInEnumValueAsTheyAreNotValidForLongOptions(true, enumValue), convertUnderscoresInEnumValueAsTheyAreNotValidForLongOptions(true, enumValue)).withRequiredArg().ofType(ofType).describedAs(enumValue.description());
 		}
-	}
-
-	@SuppressWarnings("MethodCanBeVariableArityMethod")
-	@NotNull
-	public static <E extends Enum<E>> Collection<String> enumAsLongOptions(@NotNull final E[] enumValues)
-	{
-		final Collection<String> options = new ArrayList<>(enumValues.length);
-		for (final E enumValue : enumValues)
-		{
-			options.add(convertUnderscoresInEnumValueAsTheyAreNotValidForLongOptions(true, enumValue));
-		}
-		return options;
 	}
 
 	@SuppressWarnings("MethodCanBeVariableArityMethod")
@@ -313,41 +305,6 @@ public abstract class AbstractConsoleEntryPoint extends AbstractToString
 		throw new CloneNotSupportedException();
 	}
 
-	@Override
-	public final boolean equals(@Nullable final Object obj)
-	{
-		if (this == obj)
-		{
-			return true;
-		}
-		if (obj == null || getClass() != obj.getClass())
-		{
-			return false;
-		}
-
-		final AbstractConsoleEntryPoint that = (AbstractConsoleEntryPoint) obj;
-
-		if (doesNotHaveNonOptionArguments != that.doesNotHaveNonOptionArguments)
-		{
-			return false;
-		}
-		if (!outputStream.equals(that.outputStream))
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	@SuppressWarnings("ConditionalExpression")
-	@Override
-	public final int hashCode()
-	{
-		int result = outputStream.hashCode();
-		result = 31 * result + (doesNotHaveNonOptionArguments ? 1 : 0);
-		return result;
-	}
-
 	private void execute(@NotNull final String... commandLineArguments)
 	{
 		final OptionSet optionSet;
@@ -364,6 +321,12 @@ public abstract class AbstractConsoleEntryPoint extends AbstractToString
 		if (optionSet.has(HelpOption))
 		{
 			exitWithHelp();
+			throw new ShouldHaveExitedException();
+		}
+
+		if (optionSet.has(VersionOption))
+		{
+			exitWithVersion();
 			throw new ShouldHaveExitedException();
 		}
 
@@ -397,9 +360,56 @@ public abstract class AbstractConsoleEntryPoint extends AbstractToString
 		Help.exit();
 	}
 
+	private void exitWithVersion()
+	{
+		final String programVersion = "2013.02.X";
+		outputStream.println(format(ENGLISH, "%1$s %2$s", programName(), programVersion));
+		outputStream.println("© Crown Copyright 2013");
+		outputStream.println();
+		outputStream.println("Licensed under the Apache License, Version 2.0 (the \"License\");");
+		outputStream.println("you may not use this file except in compliance with the License.");
+		outputStream.println("You may obtain a copy of the License at");
+		outputStream.println();
+		outputStream.println("    http://www.apache.org/licenses/LICENSE-2.0");
+		outputStream.println();
+		outputStream.println("Unless required by applicable law or agreed to in writing, software");
+		outputStream.println("distributed under the License is distributed on an \"AS IS\" BASIS,");
+		outputStream.println("WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.");
+		outputStream.println("See the License for the specific language governing permissions and");
+		outputStream.println("limitations under the License.");
+		outputStream.println();
+		outputStream.println("Written by Raphael Cohn (raphael.cohn@stormmq.com)");
+		outputStream.println();
+		Ok.exit();
+	}
+
+	@NotNull @NonNls
+	private String programName()
+	{
+		final Class<? extends AbstractConsoleEntryPoint> clazz = getClass();
+		final String simpleName = clazz.getSimpleName().replace(ConsoleEntryPoint, "");
+
+		final String[] words = CamelCaseSplit.split(simpleName);
+		final StringWriter writer = new StringWriter(simpleName.length() * 2);
+		boolean afterFirst = false;
+		for (final String word : words)
+		{
+			if (afterFirst)
+			{
+				writer.write((int) Hyphen);
+			}
+			else
+			{
+				afterFirst = true;
+			}
+			writer.write(word.toLowerCase(ENGLISH));
+		}
+		return writer.toString();
+	}
+
 	private void exitWithErrorAndHelp(@NonNls @NotNull final String message)
 	{
-		outputStream.println(message);
+		errorStream.println(message);
 		try
 		{
 			options.printHelpOn(outputStream);
@@ -414,7 +424,7 @@ public abstract class AbstractConsoleEntryPoint extends AbstractToString
 	@SuppressWarnings("CallToPrintStackTrace")
 	private void exitWithException(@NotNull final Exception e)
 	{
-		e.printStackTrace(outputStream);
+		e.printStackTrace(errorStream);
 		GeneralError.exit();
 	}
 }

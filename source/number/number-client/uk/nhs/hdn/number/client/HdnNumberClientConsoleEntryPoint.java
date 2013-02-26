@@ -14,7 +14,7 @@ import static java.util.Locale.ENGLISH;
 import static uk.nhs.hdn.common.digits.Digits.digits;
 import static uk.nhs.hdn.number.NhsNumberExtractingCheckDigitCalculator.NhsNumberExtractingCheckDigitCalculatorInstance;
 
-public final class NhsNumberClientConsoleEntryPoint extends AbstractConsoleEntryPoint
+public final class HdnNumberClientConsoleEntryPoint extends AbstractConsoleEntryPoint
 {
 	private static final String ValidateOption = "validate";
 	private static final String CreateCheckDigitOption = "create-check-digit";
@@ -22,7 +22,7 @@ public final class NhsNumberClientConsoleEntryPoint extends AbstractConsoleEntry
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static void main(@NotNull final String... commandLineArguments)
 	{
-		execute(NhsNumberClientConsoleEntryPoint.class, commandLineArguments);
+		execute(HdnNumberClientConsoleEntryPoint.class, commandLineArguments);
 	}
 
 	@Override

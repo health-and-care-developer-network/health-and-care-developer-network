@@ -33,7 +33,7 @@ import static uk.nhs.hdn.dbs.response.AbstractResponseBody.tsvSerialiserForRespo
 import static uk.nhs.hdn.dbs.response.ResponseHeader.tsvSerialiserForResponseHeader;
 import static uk.nhs.hdn.dbs.response.parsing.parsers.ResponseParser.parseResponse;
 
-public final class DbsResponseClientConsoleEntryPoint extends AbstractConsoleEntryPoint
+public final class HdnDbsResponseConsoleEntryPoint extends AbstractConsoleEntryPoint
 {
 	private static final String ResponseOption = "response";
 	private static final String IncludeHeaderOption = "include-header";
@@ -44,7 +44,7 @@ public final class DbsResponseClientConsoleEntryPoint extends AbstractConsoleEnt
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static void main(@NotNull final String... commandLineArguments)
 	{
-		execute(DbsResponseClientConsoleEntryPoint.class, commandLineArguments);
+		execute(HdnDbsResponseConsoleEntryPoint.class, commandLineArguments);
 	}
 
 	@Override

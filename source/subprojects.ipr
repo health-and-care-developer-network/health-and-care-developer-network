@@ -1285,13 +1285,13 @@
       <module fileurl="file://$PROJECT_DIR$/dbs/dbs/dbs.iml" filepath="$PROJECT_DIR$/dbs/dbs/dbs.iml" group="dbs" />
       <module fileurl="file://$PROJECT_DIR$/dbs/dbs-parsing/dbs-parsing.iml" filepath="$PROJECT_DIR$/dbs/dbs-parsing/dbs-parsing.iml" group="dbs" />
       <module fileurl="file://$PROJECT_DIR$/dbs/dbs-request/dbs-request.iml" filepath="$PROJECT_DIR$/dbs/dbs-request/dbs-request.iml" group="dbs" />
-      <module fileurl="file://$PROJECT_DIR$/dbs/dbs-request-client/dbs-request-client.iml" filepath="$PROJECT_DIR$/dbs/dbs-request-client/dbs-request-client.iml" group="dbs" />
+      <module fileurl="file://$PROJECT_DIR$/dbs/dbs-request-client/dbs-request-client.iml" filepath="$PROJECT_DIR$/dbs/dbs-request-client/dbs-request-client.iml" group="dbs/client" />
       <module fileurl="file://$PROJECT_DIR$/dbs/dbs-response/dbs-response.iml" filepath="$PROJECT_DIR$/dbs/dbs-response/dbs-response.iml" group="dbs" />
-      <module fileurl="file://$PROJECT_DIR$/dbs/dbs-response-client/dbs-response-client.iml" filepath="$PROJECT_DIR$/dbs/dbs-response-client/dbs-response-client.iml" group="dbs" />
+      <module fileurl="file://$PROJECT_DIR$/dbs/dbs-response-client/dbs-response-client.iml" filepath="$PROJECT_DIR$/dbs/dbs-response-client/dbs-response-client.iml" group="dbs/client" />
       <module fileurl="file://$PROJECT_DIR$/dbs/dbs-response-parsing/dbs-response-parsing.iml" filepath="$PROJECT_DIR$/dbs/dbs-response-parsing/dbs-response-parsing.iml" group="dbs" />
-      <module fileurl="file://$PROJECT_DIR$/dts/dts-client-out/dts-client-out.iml" filepath="$PROJECT_DIR$/dts/dts-client-out/dts-client-out.iml" group="dts" />
-      <module fileurl="file://$PROJECT_DIR$/dts/dts-client-rats/dts-client-rats.iml" filepath="$PROJECT_DIR$/dts/dts-client-rats/dts-client-rats.iml" group="dts" />
-      <module fileurl="file://$PROJECT_DIR$/dts/dts-client-read/dts-client-read.iml" filepath="$PROJECT_DIR$/dts/dts-client-read/dts-client-read.iml" group="dts" />
+      <module fileurl="file://$PROJECT_DIR$/dts/dts-client-out/dts-client-out.iml" filepath="$PROJECT_DIR$/dts/dts-client-out/dts-client-out.iml" group="dts/clients" />
+      <module fileurl="file://$PROJECT_DIR$/dts/dts-client-rats/dts-client-rats.iml" filepath="$PROJECT_DIR$/dts/dts-client-rats/dts-client-rats.iml" group="dts/clients" />
+      <module fileurl="file://$PROJECT_DIR$/dts/dts-client-read/dts-client-read.iml" filepath="$PROJECT_DIR$/dts/dts-client-read/dts-client-read.iml" group="dts/clients" />
       <module fileurl="file://$PROJECT_DIR$/dts/dts-domain/dts-domain.iml" filepath="$PROJECT_DIR$/dts/dts-domain/dts-domain.iml" group="dts" />
       <module fileurl="file://$PROJECT_DIR$/dts/dts-domain-schema/dts-domain-schema.iml" filepath="$PROJECT_DIR$/dts/dts-domain-schema/dts-domain-schema.iml" group="dts" />
       <module fileurl="file://$PROJECT_DIR$/dts/dts-rats/dts-rats.iml" filepath="$PROJECT_DIR$/dts/dts-rats/dts-rats.iml" group="dts" />
@@ -1310,8 +1310,8 @@
     <output url="file://$PROJECT_DIR$/../intellij/out" />
   </component>
   <component name="ProjectRunConfigurationManager">
-    <configuration default="false" name="Gs1BarcodesClientConsoleEntryPoint" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.barcodes.gs1.client.application.Gs1BarcodesClientConsoleEntryPoint" />
+    <configuration default="false" name="HdnGs1ClientConsoleEntryPoint" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.barcodes.gs1.client.application.HdnGs1ClientConsoleEntryPoint" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
@@ -1333,7 +1333,7 @@
       <method />
     </configuration>
     <configuration default="false" name="Gs1BarcodesClientConsoleEntryPoint (5055220798768 Cached)" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.barcodes.gs1.client.application.Gs1BarcodesClientConsoleEntryPoint" />
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.barcodes.gs1.client.application.HdnGs1ClientConsoleEntryPoint" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="--gtin 5055220798768 --cache" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
@@ -1355,7 +1355,7 @@
       <method />
     </configuration>
     <configuration default="false" name="Gs1BarcodesClientConsoleEntryPoint (5055220798768)" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.barcodes.gs1.client.application.Gs1BarcodesClientConsoleEntryPoint" />
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.barcodes.gs1.client.application.HdnGs1ClientConsoleEntryPoint" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="--gtin 5055220798768" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
@@ -1370,8 +1370,8 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="false" name="Gs1BarcodesServerConsoleEntryPoint" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.barcodes.gs1.server.application.Gs1BarcodesServerConsoleEntryPoint" />
+    <configuration default="false" name="HdnGs1ServerConsoleEntryPoint" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.barcodes.gs1.server.application.HdnGs1ServerConsoleEntryPoint" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="--data-path $MODULE_DIR$" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
@@ -1394,8 +1394,8 @@
         <option name="BuildArtifacts" enabled="true" />
       </method>
     </configuration>
-    <configuration default="false" name="RatsClientConsoleEntryPoint" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.dts.client.rats.RatsClientConsoleEntryPoint" />
+    <configuration default="false" name="HdnDtsRatsConsoleEntryPoint" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.dts.client.rats.HdnDtsRatsConsoleEntryPoint" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="--from-dts-name msg5678 --local-identifier will" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
@@ -1416,8 +1416,8 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="false" name="ReadClientConsoleEntryPoint" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.dts.client.read.ReadClientConsoleEntryPoint" />
+    <configuration default="false" name="HdnDtsReadConsoleEntryPoint" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.dts.client.read.HdnDtsReadConsoleEntryPoint" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="--validate --in /srv/hdn/dtsapp05-201301201947406678.ctl" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
@@ -1455,7 +1455,7 @@
       <method />
     </configuration>
     <configuration default="false" name="NhsNumberClientConsoleEntryPoint (Validate)" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.number.client.NhsNumberClientConsoleEntryPoint" />
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.number.client.HdnNumberClientConsoleEntryPoint" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="--validate 9449054622" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
@@ -1471,7 +1471,7 @@
       <method />
     </configuration>
     <configuration default="false" name="NhsNumberClientConsoleEntryPoint (Create Check Digit)" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.number.client.NhsNumberClientConsoleEntryPoint" />
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.number.client.HdnNumberClientConsoleEntryPoint" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="--create-check-digit 944905462" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
@@ -1533,7 +1533,7 @@
     <configuration default="false" name="CkanClientRelationshipsConsoleEntryPoint" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.ckan.client.relationships.CkanClientRelationshipsConsoleEntryPoint" />
       <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="--depends-on focus_on_health --as-dataset-ids false" />
+      <option name="PROGRAM_PARAMETERS" value="--version" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
@@ -1574,8 +1574,8 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="false" name="CkanClientDatasetSearchConsoleEntryPoint" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.ckan.client.dataset.search.CkanClientDatasetSearchConsoleEntryPoint" />
+    <configuration default="false" name="HdnCkanDatasetSearchConsoleEntryPoint" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.ckan.client.dataset.search.HdnCkanDatasetSearchConsoleEntryPoint" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="--any &quot;health&quot;" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />

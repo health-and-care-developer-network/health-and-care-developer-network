@@ -41,7 +41,7 @@ import static uk.nhs.hdn.ckan.domain.uniqueNames.DatasetName.tsvSerialiserForDat
 import static uk.nhs.hdn.common.VariableArgumentsHelper.of;
 import static uk.nhs.hdn.common.tuples.Pair.pair;
 
-public final class CkanClientDatasetSearchConsoleEntryPoint extends AbstractConsoleEntryPoint
+public final class HdnCkanDatasetSearchConsoleEntryPoint extends AbstractConsoleEntryPoint
 {
 	@NotNull @NonNls public static final String ReplacementForQ = "any";
 
@@ -62,7 +62,7 @@ public final class CkanClientDatasetSearchConsoleEntryPoint extends AbstractCons
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static void main(@NotNull final String... commandLineArguments)
 	{
-		execute(CkanClientDatasetSearchConsoleEntryPoint.class, commandLineArguments);
+		execute(HdnCkanDatasetSearchConsoleEntryPoint.class, commandLineArguments);
 	}
 
 	@Override

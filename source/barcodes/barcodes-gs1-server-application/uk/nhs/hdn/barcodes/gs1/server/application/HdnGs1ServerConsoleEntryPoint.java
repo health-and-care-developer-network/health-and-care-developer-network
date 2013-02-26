@@ -28,7 +28,7 @@ import java.io.File;
 import static uk.nhs.hdn.common.VariableArgumentsHelper.of;
 import static uk.nhs.hdn.common.commandLine.AbstractConsoleEntryPoint.execute;
 
-public final class Gs1BarcodesServerConsoleEntryPoint
+public final class HdnGs1ServerConsoleEntryPoint
 {
 	public static void main(@NotNull final String... commandLineArguments)
 	{
@@ -47,7 +47,7 @@ public final class Gs1BarcodesServerConsoleEntryPoint
 		}), commandLineArguments);
 	}
 
-	private Gs1BarcodesServerConsoleEntryPoint()
+	private HdnGs1ServerConsoleEntryPoint()
 	{
 	}
 }

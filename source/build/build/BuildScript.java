@@ -56,33 +56,33 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 		packageTemplateSubFolders("source", "package-templates");
 
 
-		final String barcodesClientConsoleEntryPoint = intellijModuleHasMainClassByConvention("barcodes-gs1-client-application", "Gs1BarcodesClientConsoleEntryPoint");
+		final String hdnGs1ClientConsoleEntryPoint = intellijModuleHasMainClassByConvention("barcodes-gs1-client-application", "HdnGs1ClientConsoleEntryPoint");
 
-		final String barcodesServerConsoleEntryPoint = intellijModuleHasMainClassByConvention("barcodes-gs1-server-application", "Gs1BarcodesServerConsoleEntryPoint");
+		final String hdnGs1ServerConsoleEntryPoint = intellijModuleHasMainClassByConvention("barcodes-gs1-server-application", "HdnGs1ServerConsoleEntryPoint");
 
-		final String dtsClientOutConsoleEntryPoint = intellijModuleHasMainClassByConvention("dts-client-out", "OutClientConsoleEntryPoint");
+		final String hdnDtsOutConsoleEntryPoint = intellijModuleHasMainClassByConvention("dts-client-out", "HdnDtsOutConsoleEntryPoint");
 
-		final String dtsClientReadConsoleEntryPoint = intellijModuleHasMainClassByConvention("dts-client-read", "ReadClientConsoleEntryPoint");
+		final String hdnDtsReadConsoleEntryPoint = intellijModuleHasMainClassByConvention("dts-client-read", "HdnDtsReadConsoleEntryPoint");
 
-		final String dtsClientRatsConsoleEntryPoint = intellijModuleHasMainClassByConvention("dts-client-rats", "RatsClientConsoleEntryPoint");
+		final String hdnDtsRatsConsoleEntryPoint = intellijModuleHasMainClassByConvention("dts-client-rats", "HdnDtsRatsConsoleEntryPoint");
 
-		final String numberClientConsoleEntryPoint = intellijModuleHasMainClassByConvention("number-client", "NhsNumberClientConsoleEntryPoint");
+		final String hdnNumberClientConsoleEntryPoint = intellijModuleHasMainClassByConvention("number-client", "HdnNumberClientConsoleEntryPoint");
 
-		final String dbsResponseClientConsoleEntryPoint = intellijModuleHasMainClassByConvention("dbs-response-client", "DbsResponseClientConsoleEntryPoint");
+		final String hdnDbsResponseConsoleEntryPoint = intellijModuleHasMainClassByConvention("dbs-response-client", "HdnDbsResponseConsoleEntryPoint");
 
-		final String dbsRequestClientConsoleEntryPoint = intellijModuleHasMainClassByConvention("dbs-request-client", "DbsRequestClientConsoleEntryPoint");
+		final String hdnDbsRequestConsoleEntryPoint = intellijModuleHasMainClassByConvention("dbs-request-client", "HdnDbsRequestConsoleEntryPoint");
 
-		final String ckanClientDatasetSearchConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-dataset-search", "CkanClientDatasetSearchConsoleEntryPoint");
+		final String hdnCkanDatasetSearchConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-dataset-search", "HdnCkanDatasetSearchConsoleEntryPoint");
 
-		final String ckanClientResourceSearchConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-resource-search", "CkanClientResourceSearchConsoleEntryPoint");
+		final String hdnCkanResourceSearchConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-resource-search", "HdnCkanResourceSearchConsoleEntryPoint");
 
-		final String ckanClientDetailsConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-details", "CkanClientDetailsConsoleEntryPoint");
+		final String hdnCkanDetailsConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-details", "HdnCkanDetailsConsoleEntryPoint");
 
-		final String ckanClientListConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-list", "CkanClientListConsoleEntryPoint");
+		final String hdnCkanListConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-list", "HdnCkanListConsoleEntryPoint");
 
-		final String ckanClientQueryConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-query", "CkanClientQueryConsoleEntryPoint");
+		final String hdnCkanQueryConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-query", "HdnCkanQueryConsoleEntryPoint");
 
-		final String ckanClientRelationshipsConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-relationships", "CkanClientRelationshipsConsoleEntryPoint");
+		final String hdnCkanRelationshipsConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-relationships", "HdnCkanRelationshipsConsoleEntryPoint");
 
 		task("clean").does
 		(
@@ -98,33 +98,33 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		compile();
 
-		executable("hdn-gs1-client", "barcodes-gs1-client-application", barcodesClientConsoleEntryPoint);
+		executable("hdn-gs1-client", "barcodes-gs1-client-application", hdnGs1ClientConsoleEntryPoint);
 
-		executable("hdn-gs1-server", "barcodes-gs1-server-application", barcodesServerConsoleEntryPoint);
+		executable("hdn-gs1-server", "barcodes-gs1-server-application", hdnGs1ServerConsoleEntryPoint);
 
-		executable("hdn-dts-out", "dts-client-out", dtsClientOutConsoleEntryPoint);
+		executable("hdn-dts-out", "dts-client-out", hdnDtsOutConsoleEntryPoint);
 
-		executable("hdn-dts-read", "dts-client-read", dtsClientReadConsoleEntryPoint);
+		executable("hdn-dts-read", "dts-client-read", hdnDtsReadConsoleEntryPoint);
 
-		executable("hdn-dts-rats", "dts-client-rats", dtsClientRatsConsoleEntryPoint);
+		executable("hdn-dts-rats", "dts-client-rats", hdnDtsRatsConsoleEntryPoint);
 
-		executable("hdn-number-client", "number-client", numberClientConsoleEntryPoint);
+		executable("hdn-number-client", "number-client", hdnNumberClientConsoleEntryPoint);
 
-		executable("hdn-dbs-response", "dbs-response-client", dbsResponseClientConsoleEntryPoint);
+		executable("hdn-dbs-response", "dbs-response-client", hdnDbsResponseConsoleEntryPoint);
 
-		executable("hdn-dbs-request", "dbs-request-client", dbsRequestClientConsoleEntryPoint);
+		executable("hdn-dbs-request", "dbs-request-client", hdnDbsRequestConsoleEntryPoint);
 
-		executable("hdn-ckan-dataset-search", "ckan-client-dataset-search", ckanClientDatasetSearchConsoleEntryPoint);
+		executable("hdn-ckan-dataset-search", "ckan-client-dataset-search", hdnCkanDatasetSearchConsoleEntryPoint);
 
-		executable("hdn-ckan-resource-search", "ckan-client-resource-search", ckanClientResourceSearchConsoleEntryPoint);
+		executable("hdn-ckan-resource-search", "ckan-client-resource-search", hdnCkanResourceSearchConsoleEntryPoint);
 
-		executable("hdn-ckan-details", "ckan-client-details", ckanClientDetailsConsoleEntryPoint);
+		executable("hdn-ckan-details", "ckan-client-details", hdnCkanDetailsConsoleEntryPoint);
 
-		executable("hdn-ckan-list", "ckan-client-list", ckanClientListConsoleEntryPoint);
+		executable("hdn-ckan-list", "ckan-client-list", hdnCkanListConsoleEntryPoint);
 
-		executable("hdn-ckan-query", "ckan-client-query", ckanClientQueryConsoleEntryPoint);
+		executable("hdn-ckan-query", "ckan-client-query", hdnCkanQueryConsoleEntryPoint);
 
-		executable("hdn-ckan-relationships", "ckan-client-relationships", ckanClientRelationshipsConsoleEntryPoint);
+		executable("hdn-ckan-relationships", "ckan-client-relationships", hdnCkanRelationshipsConsoleEntryPoint);
 
 		task("executables").dependsOn("hdn-gs1-client", "hdn-gs1-server", "hdn-dts-out", "hdn-dts-read", "hdn-dts-rats", "hdn-dbs-response", "hdn-dbs-request");
 

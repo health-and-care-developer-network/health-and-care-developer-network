@@ -80,6 +80,7 @@ public final class Api extends AbstractToString
 	@SuppressWarnings("ConstantNamingConvention") private static final String dataset = "dataset";
 	@SuppressWarnings("ConstantNamingConvention") private static final String group = "group";
 	@SuppressWarnings("ConstantNamingConvention") private static final String tag = "tag";
+	@SuppressWarnings("ConstantNamingConvention") private static final String relationships = "relationships";
 	@SuppressWarnings("ConstantNamingConvention") private static final String search = "search";
 
 	@NotNull public static final Api DataGovUk = new Api(false, "data.gov.uk", "");

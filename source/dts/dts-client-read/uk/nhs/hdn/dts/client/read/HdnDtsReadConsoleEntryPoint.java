@@ -39,7 +39,7 @@ import static uk.nhs.hdn.dts.domain.fileNames.FileExtension.ctl;
 import static uk.nhs.hdn.dts.domain.fileNames.FileName.parseFileName;
 import static uk.nhs.hdn.dts.domain.schema.ControlFileSchemaParser.ControlFileSchemaParserInstance;
 
-public final class ReadClientConsoleEntryPoint extends AbstractConsoleEntryPoint
+public final class HdnDtsReadConsoleEntryPoint extends AbstractConsoleEntryPoint
 {
 	private static final String InOption = "in";
 	private static final String ValidateOption = "validate";
@@ -127,6 +127,6 @@ public final class ReadClientConsoleEntryPoint extends AbstractConsoleEntryPoint
 
 	public static void main(@NotNull final String... commandLineArguments)
 	{
-		execute(ReadClientConsoleEntryPoint.class, commandLineArguments);
+		execute(HdnDtsReadConsoleEntryPoint.class, commandLineArguments);
 	}
 }

@@ -42,7 +42,7 @@ import static uk.nhs.hdn.dbs.request.RequestHeader.MaximumFileSequenceNumber;
 import static uk.nhs.hdn.dbs.DbsDate.DbsDateFormat;
 import static uk.nhs.hdn.dbs.FileVersion.NoPracticeOrPatientAddressReturned;
 
-public final class DbsRequestClientConsoleEntryPoint extends AbstractConsoleEntryPoint
+public final class HdnDbsRequestConsoleEntryPoint extends AbstractConsoleEntryPoint
 {
 	private static final String OutOption = "out";
 	private static final String RequestingOrganisationCodeOption = "organisation";
@@ -59,7 +59,7 @@ public final class DbsRequestClientConsoleEntryPoint extends AbstractConsoleEntr
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static void main(@NotNull final String... commandLineArguments)
 	{
-		execute(DbsRequestClientConsoleEntryPoint.class, commandLineArguments);
+		execute(HdnDbsRequestConsoleEntryPoint.class, commandLineArguments);
 	}
 
 	@Override

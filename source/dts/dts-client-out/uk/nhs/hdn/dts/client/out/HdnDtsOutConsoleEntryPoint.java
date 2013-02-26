@@ -43,7 +43,7 @@ import static uk.nhs.hdn.dts.domain.identifiers.DtsIdentifier.UnknownDtsIdentifi
 import static uk.nhs.hdn.dts.domain.identifiers.LocalIdentifier.UnknownLocalIdentifier;
 import static uk.nhs.hdn.dts.domain.identifiers.WorkflowIdentifier.UnknownWorkflowIdentifier;
 
-public final class OutClientConsoleEntryPoint extends AbstractConsoleEntryPoint
+public final class HdnDtsOutConsoleEntryPoint extends AbstractConsoleEntryPoint
 {
 	private static final String WorkflowIdentifierOption = "workflow-identifier";
 	private static final String SubjectOption = "subject";
@@ -136,6 +136,6 @@ public final class OutClientConsoleEntryPoint extends AbstractConsoleEntryPoint
 
 	public static void main(@NotNull final String... commandLineArguments)
 	{
-		execute(OutClientConsoleEntryPoint.class, commandLineArguments);
+		execute(HdnDtsOutConsoleEntryPoint.class, commandLineArguments);
 	}
 }
