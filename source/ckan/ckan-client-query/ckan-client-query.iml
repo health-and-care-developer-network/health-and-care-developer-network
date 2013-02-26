@@ -14,6 +14,7 @@
     <orderEntry type="module" module-name="ckan-domain" />
     <orderEntry type="module" module-name="ckan-schema" />
     <orderEntry type="module" module-name="common-serialisers-separatedValues" />
+    <orderEntry type="module" module-name="common-naming" />
   </component>
 </module>
 

@@ -22,7 +22,7 @@ public final class CkanClientQueryConsoleEntryPoint extends AbstractConsoleEntry
 	@Override
 	protected boolean options(@NotNull final OptionParser options)
 	{
-		options.acceptsAll(enumAsLongOptions(values()), enumDescription(values(), false, true)).withRequiredArg().ofType(String.class).describedAs("a name, UUID, tag or timestamp (eg 2013-01-28T20:06:30.061645) as appropriate");
+		oneOfEnumAsOptionWithRequiredArgument(options, values(), String.class);
 		return true;
 	}
 

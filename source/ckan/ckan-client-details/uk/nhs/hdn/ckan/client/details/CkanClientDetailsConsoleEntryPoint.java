@@ -6,7 +6,6 @@ import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.commandLine.AbstractConsoleEntryPoint;
 import uk.nhs.hdn.common.http.client.exceptions.CorruptResponseException;
 import uk.nhs.hdn.common.http.client.exceptions.CouldNotConnectHttpException;
-import uk.nhs.hdn.common.http.client.exceptions.UnacceptableResponseException;
 
 import static uk.nhs.hdn.ckan.api.Api.DataGovUk;
 import static uk.nhs.hdn.ckan.client.details.DetailsAction.values;
@@ -22,12 +21,12 @@ public final class CkanClientDetailsConsoleEntryPoint extends AbstractConsoleEnt
 	@Override
 	protected boolean options(@NotNull final OptionParser options)
 	{
-		options.acceptsAll(enumAsLongOptions(values()), enumDescription(values(), false, true)).withRequiredArg().ofType(String.class).describedAs("name or UUID");
+		oneOfEnumAsOptionWithRequiredArgument(options, values(), String.class);
 		return true;
 	}
 
 	@Override
-	protected void execute(@NotNull final OptionSet optionSet) throws CouldNotConnectHttpException, CorruptResponseException, UnacceptableResponseException
+	protected void execute(@NotNull final OptionSet optionSet) throws CouldNotConnectHttpException, CorruptResponseException
 	{
 		@NotNull final DetailsAction detailsAction = enumOptionChosen(optionSet, values());
 		@NotNull final String key = required(optionSet, convertUnderscoresInEnumValueAsTheyAreNotValidForLongOptions(true, detailsAction));

@@ -1,10 +1,10 @@
 package uk.nhs.hdn.ckan.client.query;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.ckan.api.Api;
 import uk.nhs.hdn.ckan.api.ApiMethod;
 import uk.nhs.hdn.ckan.domain.dates.MicrosecondTimestamp;
-import uk.nhs.hdn.ckan.domain.ids.DatasetId;
 import uk.nhs.hdn.ckan.domain.ids.RevisionId;
 import uk.nhs.hdn.ckan.domain.uniqueNames.DatasetKey;
 import uk.nhs.hdn.ckan.domain.uniqueNames.DatasetName;
@@ -12,6 +12,7 @@ import uk.nhs.hdn.ckan.domain.uniqueNames.TagName;
 import uk.nhs.hdn.common.http.client.exceptions.CorruptResponseException;
 import uk.nhs.hdn.common.http.client.exceptions.CouldNotConnectHttpException;
 import uk.nhs.hdn.common.http.client.exceptions.UnacceptableResponseException;
+import uk.nhs.hdn.common.naming.Description;
 import uk.nhs.hdn.common.serialisers.Serialisable;
 import uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser;
 
@@ -19,10 +20,11 @@ import static uk.nhs.hdn.ckan.domain.Revision.tsvSerialiserForRevisions;
 import static uk.nhs.hdn.ckan.domain.dates.MicrosecondTimestamp.microsecondTimestamp;
 import static uk.nhs.hdn.ckan.domain.ids.DatasetId.tsvSerialiserForDatasetIds;
 import static uk.nhs.hdn.ckan.domain.ids.RevisionId.tsvSerialiserForRevisionIds;
+import static uk.nhs.hdn.ckan.domain.uniqueNames.DatasetName.tsvSerialiserForDatasetNames;
 
-public enum QueryAction
+public enum QueryAction implements Description
 {
-	revisions_since_timestamp
+	revisions_since_timestamp("Microsecond Timestamp, eg 2013-01-28T20:06:30.061645")
 	{
 		@NotNull
 		@Override
@@ -45,7 +47,7 @@ public enum QueryAction
 			return tsvSerialiserForRevisionIds();
 		}
 	},
-	revisions_since_id
+	revisions_since_id("Revision UUID")
 	{
 		@NotNull
 		@Override
@@ -68,7 +70,7 @@ public enum QueryAction
 			return tsvSerialiserForRevisionIds();
 		}
 	},
-	revisions_by_name
+	revisions_by_name("Revision Name")
 	{
 		@NotNull
 		@Override
@@ -91,13 +93,13 @@ public enum QueryAction
 			return tsvSerialiserForRevisions();
 		}
 	},
-	revisions_by_id
+	revisions_by_id("Revision UUID")
 	{
 		@NotNull
 		@Override
 		public Object parseKey(@NotNull final String value)
 		{
-			return DatasetId.valueOf(value);
+			return RevisionId.valueOf(value);
 		}
 
 		@NotNull
@@ -114,7 +116,7 @@ public enum QueryAction
 			return tsvSerialiserForRevisions();
 		}
 	},
-	datasets_by_tag
+	dataset_ids_by_tag("Tag")
 	{
 		@NotNull
 		@Override
@@ -137,7 +139,45 @@ public enum QueryAction
 			return tsvSerialiserForDatasetIds();
 		}
 	},
+	dataset_names_by_tag("Tag")
+	{
+		@NotNull
+		@Override
+		public Object parseKey(@NotNull final String value)
+		{
+			return new TagName(value);
+		}
+
+		@NotNull
+		@Override
+		public ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final Api api, @NotNull final Object key)
+		{
+			return api.datasetNamesWithTag((TagName) key);
+		}
+
+		@NotNull
+		@Override
+		public SeparatedValueSerialiser tsvSerialiser()
+		{
+			return tsvSerialiserForDatasetNames();
+		}
+	},
 	;
+
+	@NonNls @NotNull private final String description;
+
+	QueryAction(@NotNull @NonNls final String description)
+	{
+		this.description = description;
+	}
+
+	@NotNull
+	@NonNls
+	@Override
+	public String description()
+	{
+		return description;
+	}
 
 	@NotNull
 	public abstract Object parseKey(@NotNull final String value);

@@ -15,6 +15,7 @@
     <orderEntry type="module" module-name="common-commandLine" />
     <orderEntry type="module" module-name="common-serialisers-separatedValues" />
     <orderEntry type="module" module-name="common" />
+    <orderEntry type="module" module-name="common-naming" />
   </component>
 </module>
 

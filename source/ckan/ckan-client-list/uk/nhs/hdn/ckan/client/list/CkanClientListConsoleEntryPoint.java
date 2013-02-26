@@ -23,7 +23,7 @@ public final class CkanClientListConsoleEntryPoint extends AbstractConsoleEntryP
 	@Override
 	protected boolean options(@NotNull final OptionParser options)
 	{
-		options.acceptsAll(enumAsLongOptions(values()), enumDescription(values(), false, true));
+		oneOfEnumAsOption(options, values());
 		return true;
 	}
 
@@ -34,7 +34,7 @@ public final class CkanClientListConsoleEntryPoint extends AbstractConsoleEntryP
 
 		if (optionSet.hasArgument(listAction.name()))
 		{
-			exitWithErrorAndHelp("--%1$s does not take an argument", listAction.name());
+			exitWithErrorAndHelp("--%1$s does not take an argument", convertUnderscoresInEnumValueAsTheyAreNotValidForLongOptions(true, listAction));
 			throw new ShouldHaveExitedException();
 		}
 

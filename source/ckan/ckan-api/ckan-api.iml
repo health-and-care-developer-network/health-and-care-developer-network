@@ -18,6 +18,7 @@
     <orderEntry type="module" module-name="common-http-client-json" exported="" />
     <orderEntry type="module" module-name="common-serialisers" />
     <orderEntry type="module" module-name="common-serialisers-separatedValues" />
+    <orderEntry type="module" module-name="common-naming" />
   </component>
 </module>
 

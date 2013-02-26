@@ -1489,7 +1489,7 @@
     <configuration default="false" name="CkanClientListConsoleEntryPoint" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.ckan.client.list.CkanClientListConsoleEntryPoint" />
       <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="--group-ids" />
+      <option name="PROGRAM_PARAMETERS" value="--tag-counts" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
@@ -1533,7 +1533,7 @@
     <configuration default="false" name="CkanClientRelationshipsConsoleEntryPoint" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.ckan.client.relationships.CkanClientRelationshipsConsoleEntryPoint" />
       <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="--depends-on focus_on_health" />
+      <option name="PROGRAM_PARAMETERS" value="--depends-on focus_on_health --as-dataset-ids false" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
@@ -1555,7 +1555,7 @@
     <configuration default="false" name="CkanClientQueryConsoleEntryPoint" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.ckan.client.query.CkanClientQueryConsoleEntryPoint" />
       <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="--revisions-since-id 2013-01-28T20:06:30.061645" />
+      <option name="PROGRAM_PARAMETERS" value="--revisions-since-timestamp 2013-01-28T20:06:30.061645" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
@@ -1587,6 +1587,28 @@
       <module name="ckan-client-dataset-search" />
       <envs />
       <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="CkanClientResourceSearchConsoleEntryPoint" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="uk.nhs.hdn.ckan.client.resource.search.CkanClientResourceSearchConsoleEntryPoint" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="ckan-client-resource-search" />
+      <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>

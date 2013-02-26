@@ -16,7 +16,10 @@
 
 package uk.nhs.hdn.ckan.api;
 
-public enum RelationshipType
+import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.common.naming.Description;
+
+public enum RelationshipType implements Description
 {
 	depends_on,
 	dependency_on,
@@ -27,4 +30,12 @@ public enum RelationshipType
 	links_to,
 	linked_from,
 	;
+
+	@NotNull
+	@Override
+	public String description()
+	{
+		return "Dataset Name or UUID (UUIDs do not work when returning results as Dataset Names)";
+	}
+
 }

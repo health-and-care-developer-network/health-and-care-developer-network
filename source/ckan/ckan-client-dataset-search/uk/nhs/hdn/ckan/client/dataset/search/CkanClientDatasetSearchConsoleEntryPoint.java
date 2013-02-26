@@ -71,7 +71,7 @@ public final class CkanClientDatasetSearchConsoleEntryPoint extends AbstractCons
 		for (final Pair<String, String> fieldName : FieldNames)
 		{
 			options.accepts(convertUnderscoresInValueAsTheyAreNotValidForLongOptions(true, fieldName.a), fieldName.b).withRequiredArg().ofType(String.class).describedAs("substring to search for case insensitively");
-			options.accepts(AsDatasetIdsOption, "returns results as Dataset Ids (UUIDs)").withOptionalArg().ofType(boolean.class).describedAs("true if as dataset ids;, false or unspecified to produce dataset names");
+			options.accepts(AsDatasetIdsOption, "returns results as Dataset Ids (UUIDs)").withOptionalArg().ofType(boolean.class).describedAs("true if as dataset ids; false or unspecified to produce dataset names");
 		}
 		return true;
 	}

@@ -41,7 +41,6 @@ import uk.nhs.hdn.common.tuples.Pair;
 import java.io.UnsupportedEncodingException;
 
 import static java.net.URLEncoder.encode;
-import static uk.nhs.hdn.ckan.api.RelationshipType.*;
 import static uk.nhs.hdn.ckan.api.search.UnsignedLongSearchCriterion.*;
 import static uk.nhs.hdn.ckan.schema.DatasetIdSearchObjectJsonSchema.DatasetIdSearchSchemaInstance;
 import static uk.nhs.hdn.ckan.schema.DatasetIdsArrayJsonSchema.DatasetIdsSchemaInstance;
@@ -129,55 +128,13 @@ public final class Api extends AbstractToString
 	}
 
 	@NotNull
-	public ApiMethod<DatasetId[]> datasetRelationshipDependsOn(@NotNull final DatasetKey datasetKey)
+	public ApiMethod<DatasetName[]> datasetRelationshipsByDatasetName(@SuppressWarnings("TypeMayBeWeakened") @NotNull final DatasetName datasetName, @NotNull final RelationshipType relationshipType)
 	{
-		return datasetRelationships(datasetKey, depends_on);
+		return newApi(DatasetNamesSchemaInstance, api, "1", rest, dataset, datasetName.value(), relationshipType.name());
 	}
 
 	@NotNull
-	public ApiMethod<DatasetId[]> datasetRelationshipDependencyOn(@NotNull final DatasetKey datasetKey)
-	{
-		return datasetRelationships(datasetKey, dependency_on);
-	}
-
-	@NotNull
-	public ApiMethod<DatasetId[]> datasetRelationshipDerivesFrom(@NotNull final DatasetKey datasetKey)
-	{
-		return datasetRelationships(datasetKey, derives_from);
-	}
-
-	@NotNull
-	public ApiMethod<DatasetId[]> datasetRelationshipHasDerivation(@NotNull final DatasetKey datasetKey)
-	{
-		return datasetRelationships(datasetKey, has_derivation);
-	}
-
-	@NotNull
-	public ApiMethod<DatasetId[]> datasetRelationshipChildOf(@NotNull final DatasetKey datasetKey)
-	{
-		return datasetRelationships(datasetKey, child_of);
-	}
-
-	@NotNull
-	public ApiMethod<DatasetId[]> datasetRelationshipParentOf(@NotNull final DatasetKey datasetKey)
-	{
-		return datasetRelationships(datasetKey, parent_of);
-	}
-
-	@NotNull
-	public ApiMethod<DatasetId[]> datasetRelationshipLinksTo(@NotNull final DatasetKey datasetKey)
-	{
-		return datasetRelationships(datasetKey, links_to);
-	}
-
-	@NotNull
-	public ApiMethod<DatasetId[]> datasetRelationshipLinkedFrom(@NotNull final DatasetKey datasetKey)
-	{
-		return datasetRelationships(datasetKey, linked_from);
-	}
-
-	@NotNull
-	public ApiMethod<DatasetId[]> datasetRelationships(@SuppressWarnings("TypeMayBeWeakened") @NotNull final DatasetKey datasetKey, @NotNull final RelationshipType relationshipType)
+	public ApiMethod<DatasetId[]> datasetRelationshipsByDatasetId(@SuppressWarnings("TypeMayBeWeakened") @NotNull final DatasetKey datasetKey, @NotNull final RelationshipType relationshipType)
 	{
 		return newApi(DatasetIdsSchemaInstance, api, "2", rest, dataset, datasetKey.value(), relationshipType.name());
 	}
@@ -204,6 +161,12 @@ public final class Api extends AbstractToString
 	public ApiMethod<TagName[]> allTags()
 	{
 		return newApi(TagsSchemaInstance, api, "2", rest, tag);
+	}
+
+	@NotNull
+	public ApiMethod<DatasetName[]> datasetNamesWithTag(@NotNull final TagName tagName)
+	{
+		return newApi(DatasetNamesSchemaInstance, api, "1", rest, tag, tagName.value());
 	}
 
 	@NotNull

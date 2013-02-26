@@ -23,6 +23,7 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.exceptions.ShouldNeverHappenException;
+import uk.nhs.hdn.common.naming.Description;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 
 import java.io.File;
@@ -119,6 +120,23 @@ public abstract class AbstractConsoleEntryPoint extends AbstractToString
 	}
 
 	@SuppressWarnings("MethodCanBeVariableArityMethod")
+	public static <E extends Enum<E>> void oneOfEnumAsOption(@NotNull final OptionParser options, @NotNull final E[] enumValues)
+	{
+		for (final E enumValue : enumValues)
+		{
+			options.accepts(convertUnderscoresInEnumValueAsTheyAreNotValidForLongOptions(true, enumValue), convertUnderscoresInEnumValueAsTheyAreNotValidForLongOptions(true, enumValue));
+		}
+	}
+
+	public static <E extends Enum<E> & Description> void oneOfEnumAsOptionWithRequiredArgument(@NotNull final OptionParser options, @NotNull final E[] enumValues, @NotNull final Class<?> ofType)
+	{
+		for (final E enumValue : enumValues)
+		{
+			options.accepts(convertUnderscoresInEnumValueAsTheyAreNotValidForLongOptions(true, enumValue), convertUnderscoresInEnumValueAsTheyAreNotValidForLongOptions(true, enumValue)).withRequiredArg().ofType(ofType).describedAs(enumValue.description());
+		}
+	}
+
+	@SuppressWarnings("MethodCanBeVariableArityMethod")
 	@NotNull
 	public static <E extends Enum<E>> Collection<String> enumAsLongOptions(@NotNull final E[] enumValues)
 	{
@@ -134,16 +152,25 @@ public abstract class AbstractConsoleEntryPoint extends AbstractToString
 	@NotNull
 	public <E extends Enum<E>> E enumOptionChosen(@NotNull final OptionSet optionSet, @NotNull final E[] enumValues)
 	{
+		@Nullable E enumValueFound = null;
 		for (final E enumValue : enumValues)
 		{
 			if (optionSet.has(convertUnderscoresInEnumValueAsTheyAreNotValidForLongOptions(true, enumValue)))
 			{
-				return enumValue;
+				if (enumValueFound != null)
+				{
+					exitWithErrorAndHelp("One, and only one, of " + enumDescription(enumValues, true, true), "must be provided");
+					throw new ShouldHaveExitedException();
+				}
+				enumValueFound = enumValue;
 			}
 		}
-
-		exitWithErrorAndHelp("One of " + enumDescription(enumValues, true, true), "must be provided");
-		throw new ShouldHaveExitedException();
+		if (enumValueFound == null)
+		{
+			exitWithErrorAndHelp("One, and only one, of " + enumDescription(enumValues, true, true), "must be provided");
+			throw new ShouldHaveExitedException();
+		}
+		return enumValueFound;
 	}
 
 	@NotNull

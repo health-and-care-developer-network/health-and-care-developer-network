@@ -1,5 +1,6 @@
 package uk.nhs.hdn.ckan.client.details;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.ckan.api.Api;
 import uk.nhs.hdn.ckan.api.ApiMethod;
@@ -14,6 +15,7 @@ import uk.nhs.hdn.common.arrayCreators.ArrayCreator;
 import uk.nhs.hdn.common.http.client.exceptions.CorruptResponseException;
 import uk.nhs.hdn.common.http.client.exceptions.CouldNotConnectHttpException;
 import uk.nhs.hdn.common.http.client.exceptions.UnacceptableResponseException;
+import uk.nhs.hdn.common.naming.Description;
 import uk.nhs.hdn.common.serialisers.MapSerialisable;
 import uk.nhs.hdn.common.serialisers.Serialisable;
 import uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser;
@@ -25,9 +27,9 @@ import static uk.nhs.hdn.ckan.schema.arrayCreators.DatasetArrayCreator.DatasetAr
 import static uk.nhs.hdn.ckan.schema.arrayCreators.GroupArrayCreator.GroupArray;
 import static uk.nhs.hdn.ckan.schema.arrayCreators.RevisionIdArrayCreator.RevisionIdArray;
 
-public enum DetailsAction
+public enum DetailsAction implements Description
 {
-	dataset_by_name
+	dataset_by_name("Dataset Name")
 	{
 		@NotNull
 		@Override
@@ -57,7 +59,7 @@ public enum DetailsAction
 			return DatasetArray;
 		}
 	},
-	dataset_by_id
+	dataset_by_id("Dataset UUID")
 	{
 		@NotNull
 		@Override
@@ -87,7 +89,7 @@ public enum DetailsAction
 			return DatasetArray;
 		}
 	},
-	group_by_name
+	group_by_name("Group Name")
 	{
 		@NotNull
 		@Override
@@ -117,7 +119,7 @@ public enum DetailsAction
 			return GroupArray;
 		}
 	},
-	group_by_id
+	group_by_id("Group UUID")
 	{
 		@NotNull
 		@Override
@@ -147,7 +149,7 @@ public enum DetailsAction
 			return GroupArray;
 		}
 	},
-	revision_by_id
+	revision_by_id("Revision UUID")
 	{
 		@NotNull
 		@Override
@@ -179,6 +181,13 @@ public enum DetailsAction
 	},
 	;
 
+	@NotNull private final String description;
+
+	DetailsAction(@NotNull @NonNls final String description)
+	{
+		this.description = description;
+	}
+
 	@NotNull
 	public abstract Object parseKey(@NotNull final String value);
 
@@ -191,13 +200,35 @@ public enum DetailsAction
 	@NotNull
 	public abstract ArrayCreator<? extends Serialisable> arrayCreator();
 
-	public void execute(@NotNull final Api api, @NotNull final String key) throws UnacceptableResponseException, CouldNotConnectHttpException, CorruptResponseException
+	public void execute(@NotNull final Api api, @NotNull final String key) throws CouldNotConnectHttpException, CorruptResponseException
 	{
 		final Object parsedKey = parseKey(key);
-		final MapSerialisable result = apiMethod(api, parsedKey).get();
+		final ApiMethod<? extends MapSerialisable> apiMethod = apiMethod(api, parsedKey);
+		final SeparatedValueSerialiser separatedValueSerialiser = tsvSerialiser();
+		final MapSerialisable result;
+		try
+		{
+			result = apiMethod.get();
+		}
+		catch (UnacceptableResponseException e)
+		{
+			if (e.isNotFound())
+			{
+				separatedValueSerialiser.printValuesOnStandardOut(arrayCreator().newInstance1(0));
+				return;
+			}
+			throw new IllegalStateException(e);
+		}
 		final Serialisable[] values = arrayCreator().newInstance1(1);
 		values[0] = (Serialisable) result;
-		final SeparatedValueSerialiser separatedValueSerialiser = tsvSerialiser();
 		separatedValueSerialiser.printValuesOnStandardOut(values);
+	}
+
+	@NonNls
+	@NotNull
+	@Override
+	public String description()
+	{
+		return description;
 	}
 }

@@ -67,7 +67,7 @@ public final class JsonGetHttpResponseUser<V> extends AbstractToString implement
 		}
 		catch (InvalidJsonException e)
 		{
-			throw new UnacceptableResponseException("JSON was invalid", e);
+			throw new UnacceptableResponseException("JSON was invalid", e, responseCode);
 		}
 		finally
 		{
@@ -86,34 +86,34 @@ public final class JsonGetHttpResponseUser<V> extends AbstractToString implement
 	{
 		if (responseCodeRange != Successful2xx)
 		{
-			throw new UnacceptableResponseException(format(ENGLISH, "was not a successful 2xx response code, but %1$s", responseCode));
+			throw new UnacceptableResponseException(format(ENGLISH, "was not a successful 2xx response code, but %1$s", responseCode), responseCode);
 		}
 		if (responseCode == NoContentResponseCode || contentLengthOrMinusOneIfNoneSupplied == 0L)
 		{
-			throw new UnacceptableResponseException("no content");
+			throw new UnacceptableResponseException("no content", responseCode);
 		}
 
 		if (responseCode != OkResponseCode)
 		{
-			throw new UnacceptableResponseException("unimplemented response code");
+			throw new UnacceptableResponseException("unimplemented response code", responseCode);
 		}
 
 		if (contentEncoding != null)
 		{
 			if (!contentEncoding.isEmpty() && !Identity.equalsIgnoreCase(contentEncoding))
 			{
-				throw new UnacceptableResponseException("compressed content encodings are not supported yet");
+				throw new UnacceptableResponseException("compressed content encodings are not supported yet", responseCode);
 			}
 		}
 
 		if (contentType == null)
 		{
-			throw new UnacceptableResponseException("no Content-Type supplied");
+			throw new UnacceptableResponseException("no Content-Type supplied", responseCode);
 		}
 		// Hideous. But until we have to parse anything other than JSON UTF-8, there's no point writing a content-type parser...
 		if (!contentType.replace(" ", "").equalsIgnoreCase(JsonContentTypeUtf8))
 		{
-			throw new UnacceptableResponseException("content is not " + JsonContentTypeUtf8);
+			throw new UnacceptableResponseException("content is not " + JsonContentTypeUtf8, responseCode);
 		}
 
 		return Utf8;

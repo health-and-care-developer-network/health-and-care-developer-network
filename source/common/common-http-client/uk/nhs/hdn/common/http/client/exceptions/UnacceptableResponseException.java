@@ -18,19 +18,30 @@ package uk.nhs.hdn.common.http.client.exceptions;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.common.http.ResponseCode;
 
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
+import static uk.nhs.hdn.common.http.ResponseCode.NotFoundResponseCode;
 
 public final class UnacceptableResponseException extends Exception
 {
-	public UnacceptableResponseException(@NonNls @NotNull final String because)
-	{
-		super(format(ENGLISH, "Unacceptable response because %1$s", because));
-	}
+	@ResponseCode public final int responseCode;
 
-	public UnacceptableResponseException(@NonNls @NotNull final String because, @NotNull final Exception cause)
+	public UnacceptableResponseException(@NonNls @NotNull final String because, @NotNull final Exception cause, @ResponseCode final int responseCode)
 	{
 		super(format(ENGLISH, "Unacceptable response because %1$s of exception %2$s", because, cause.getMessage()), cause);
+		this.responseCode = responseCode;
+	}
+
+	public UnacceptableResponseException(@NonNls @NotNull final String because, @ResponseCode final int responseCode)
+	{
+		super(format(ENGLISH, "Unacceptable response because %1$s", because));
+		this.responseCode = responseCode;
+	}
+
+	public boolean isNotFound()
+	{
+		return responseCode == NotFoundResponseCode;
 	}
 }
