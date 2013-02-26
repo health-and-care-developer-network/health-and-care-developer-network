@@ -74,15 +74,15 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		final String ckanClientDatasetSearchConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-dataset-search", "CkanClientDatasetSearchConsoleEntryPoint");
 
-		final String ckanClientResourceSearchConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-dataset-search", "CkanClientResourceSearchConsoleEntryPoint");
+		final String ckanClientResourceSearchConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-resource-search", "CkanClientResourceSearchConsoleEntryPoint");
 
 		final String ckanClientDetailsConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-details", "CkanClientDetailsConsoleEntryPoint");
 
-		final String ckanClientListConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-details", "CkanClientListConsoleEntryPoint");
+		final String ckanClientListConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-list", "CkanClientListConsoleEntryPoint");
 
-		final String ckanClientQueryConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-details", "CkanClientQueryConsoleEntryPoint");
+		final String ckanClientQueryConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-query", "CkanClientQueryConsoleEntryPoint");
 
-		final String ckanClientRelationshipConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-details", "CkanClientRelationshipConsoleEntryPoint");
+		final String ckanClientRelationshipConsoleEntryPoint = intellijModuleHasMainClassByConvention("ckan-client-relationship", "CkanClientRelationshipConsoleEntryPoint");
 
 		task("clean").does
 		(
