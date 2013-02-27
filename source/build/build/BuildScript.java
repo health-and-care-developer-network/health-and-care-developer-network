@@ -153,6 +153,8 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		debianPackagesPackageTask("hdn-elda", "generate changelog template");
 
+		debianPackagesPackageTask("hdn-pubby", "generate changelog template");
+
 		debianPackagesPackageTask("hdn-template", "generate changelog template");
 
 		debianPackagesPackageTask("hdn-nginx", "generate changelog template");

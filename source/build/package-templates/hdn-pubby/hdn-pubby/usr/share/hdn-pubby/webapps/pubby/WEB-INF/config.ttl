@@ -1,0 +1,86 @@
+@prefix conf:     <http://richard.cyganiak.de/2007/pubby/config.rdf#> .
+@prefix meta:     <http://example.org/metadata#> .
+@prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:     <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl:      <http://www.w3.org/2002/07/owl#> .
+@prefix dc:       <http://purl.org/dc/elements/1.1/> .
+@prefix dcterms:  <http://purl.org/dc/terms/> .
+@prefix foaf:     <http://xmlns.com/foaf/0.1/> .
+@prefix skos:     <http://www.w3.org/2004/02/skos/core#> .
+@prefix geo:      <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix units:    <http://dbpedia.org/units/> .
+@prefix geonames: <http://www.geonames.org/ontology#> .
+@prefix prv:      <http://purl.org/net/provenance/ns#> .
+@prefix prvTypes: <http://purl.org/net/provenance/types#> .
+@prefix doap:     <http://usefulinc.com/ns/doap#> .
+@prefix void:     <http://rdfs.org/ns/void#> .
+@prefix ir:       <http://www.ontologydesignpatterns.org/cp/owl/informationrealization.owl#> .
+
+@prefix dbpedia:  <http://localhost:8080/resource/> .
+@prefix p:        <http://localhost:8080/property/> .
+@prefix yago:     <http://localhost:8080/class/yago/> .
+
+<> a conf:Configuration;
+	
+	conf:projectName "HDN";
+	
+	conf:projectHomepage <http://developer.nhs.net>;
+	
+	conf:webBase <http://localhost:8080/pubby/>;
+	
+	conf:labelProperty rdfs:label, dc:title, foaf:name;
+	
+	conf:commentProperty: rdfs:comment, dc:description;
+	
+	conf:imageProperty: foaf:depiction;
+	
+	# <> is this file
+	conf:usePrefixesFrom <>;
+	
+	conf:defaultLanguage "en";
+	
+	conf:indexResource <http://dbpedia.org/resource/Wikipedia>;
+	
+	# Dataset configuration section #1 (for DBpedia resources)
+	#
+	# URIs in the SPARQL endpoint: http://dbpedia.org/resource/*
+	# URIs on the Web:             http://localhost:8080/resource/*
+	conf:dataset
+	[
+		conf:sparqlEndpoint <http://localhost:9000/sparql/>;
+		
+		# Default graph name to query (not necessary for most endpoints)
+		#conf:sparqlDefaultGraph <http://dbpedia.org>;
+		
+		conf:datasetBase <http://data.nhs.uk/>;
+		
+		conf:addSameAsStatements "true";
+		
+		conf:rdfDocumentMetadata
+		[
+			dc:creator "NHS Developer Network";
+			dc:subject "NHS";
+			dc:description "NHS data URIs";
+			dc:language "en";
+			dc:publisher <http://developer.nhs.net>;
+			dc:rights <http://www.apache.org/licenses/LICENSE-2.0>;
+		];
+		
+		
+		# Will be appended to the conf:webBase to form the public resource URIs; if not present, defaults to ""
+		conf:webResourcePrefix "resource/";
+		
+		conf:fixUnescapedCharacters "(),'!$&*+;=@";
+		
+		conf:redirectRDFRequestsToEndpoint "false";
+		
+		conf:metadataTemplate "metadata.ttl";
+		meta:pubbyUser <http://developer.nhs.nety>;
+		meta:pubbyOperator <http://developer.nhs.net>;
+		meta:endpointUser <http://developer.nhs.net>;
+		meta:endpointOperator <http://developer.nhs.net>;
+	];
+	
+	.
+	
