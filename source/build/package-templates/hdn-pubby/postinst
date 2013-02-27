@@ -19,8 +19,21 @@ set -e
 
 source "/usr/lib/hdn-apt/functions"
 
+function templateConfig()
+{
+	if [ -r /etc/hdn-hostname ]; then
+		export HDN_PUBBY_HOSTNAME_AND_PORT="$(cat /etc/hdn-hostname)"
+	else
+		export HDN_PUBBY_HOSTNAME_AND_PORT="$(hostname).cloudapp.net"
+	fi
+	
+	hdn-template /usr/share/hdn-pubby/webapps/pubby/WEB-INF/config.ttl.template >/usr/share/hdn-pubby/webapps/pubby/WEB-INF/config.ttl
+}
+
 function installWebApps()
 {
+	templateConfig
+	
 	chown --preserve-root --recursive jetty:adm /usr/share/hdn-pubby/webapps/pubby
 	
 	if [ -e /var/lib/jetty/webapps/pubby ]; then

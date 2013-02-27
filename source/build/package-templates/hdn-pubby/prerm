@@ -39,6 +39,8 @@ function uninstallWebApps()
 	fi
 	
 	chown --preserve-root --recursive root:root /usr/share/hdn-pubby/webapps/pubby
+	
+	rm /usr/share/hdn-pubby/webapps/pubby/WEB-INF/config.ttl
 }
 
 case "$1" in

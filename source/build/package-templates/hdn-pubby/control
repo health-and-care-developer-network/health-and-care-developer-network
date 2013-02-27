@@ -10,7 +10,7 @@ Standards-Version: 3.8.4.0
 Package: hdn-pubby
 Architecture: all
 Depends: hdn-jetty, ${misc:Depends}, ${shlibs:Depends}
-Pre-Depends: hdn-apt
+Pre-Depends: hdn-apt, hdn-template
 Homepage: http://hdn.nhs.uk/
 Description: HDN Pubby Server
  This package provides HDN's Pubby Server
@@ -18,5 +18,5 @@ Description: HDN Pubby Server
  scripts.
  It installs local libraries.
  .
- It Pre-Depends on hdn-apt because it uses these
+ It Pre-Depends on hdn-apt and hdn-template because it uses these
  in its install scripts.

@@ -7,7 +7,7 @@
 @prefix dc:       <http://purl.org/dc/elements/1.1/> .
 @prefix dcterms:  <http://purl.org/dc/terms/> .
 @prefix foaf:     <http://xmlns.com/foaf/0.1/> .
-@prefix skos:     <http://www.w3.org/2004/02/skos/core#> .
+@prefix skos:     <http://www.w3.orgrg/2004/02/skos/core#> .
 @prefix geo:      <http://www.w3.org/2003/01/geo/wgs84_pos#> .
 @prefix units:    <http://dbpedia.org/units/> .
 @prefix geonames: <http://www.geonames.org/ontology#> .
@@ -17,9 +17,9 @@
 @prefix void:     <http://rdfs.org/ns/void#> .
 @prefix ir:       <http://www.ontologydesignpatterns.org/cp/owl/informationrealization.owl#> .
 
-@prefix dbpedia:  <http://localhost:8080/resource/> .
-@prefix p:        <http://localhost:8080/property/> .
-@prefix yago:     <http://localhost:8080/class/yago/> .
+@prefix dbpedia:  <http://${HDN_PUBBY_HOSTNAME_AND_PORT}/pubby/resource/> .
+@prefix p:        <http://${HDN_PUBBY_HOSTNAME_AND_PORT}/pubby/property/> .
+@prefix yago:     <http://${HDN_PUBBY_HOSTNAME_AND_PORT}/pubby/class/yago/> .
 
 <> a conf:Configuration;
 	
@@ -27,13 +27,13 @@
 	
 	conf:projectHomepage <http://developer.nhs.net>;
 	
-	conf:webBase <http://localhost:8080/pubby/>;
+	conf:webBase <http://${HDN_PUBBY_HOSTNAME_AND_PORT}/pubby/>;
 	
 	conf:labelProperty rdfs:label, dc:title, foaf:name;
 	
-	conf:commentProperty: rdfs:comment, dc:description;
+	conf:commentProperty rdfs:comment, dc:description;
 	
-	conf:imageProperty: foaf:depiction;
+	conf:imageProperty foaf:depiction;
 	
 	# <> is this file
 	conf:usePrefixesFrom <>;
@@ -45,10 +45,10 @@
 	# Dataset configuration section #1 (for DBpedia resources)
 	#
 	# URIs in the SPARQL endpoint: http://dbpedia.org/resource/*
-	# URIs on the Web:             http://localhost:8080/resource/*
+	# URIs on the Web:             http://${HDN_PUBBY_HOSTNAME_AND_PORT}/resource/*
 	conf:dataset
 	[
-		conf:sparqlEndpoint <http://localhost:9000/sparql/>;
+		conf:sparqlEndpoint <http://${HDN_PUBBY_HOSTNAME_AND_PORT}sparql/>;
 		
 		# Default graph name to query (not necessary for most endpoints)
 		#conf:sparqlDefaultGraph <http://dbpedia.org>;
