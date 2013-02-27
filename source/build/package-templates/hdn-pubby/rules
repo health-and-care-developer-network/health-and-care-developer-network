@@ -38,10 +38,6 @@ binary-indep: build install
 	dh_link
 	dh_compress
 	dh_fixperms
-	
-	# Weirdness in pubby
-	chmod +x debian/$(PACKAGE)/usr/share/hdn-pubby/webapps/pubby/lda-assets/docs/dev8d2011-presentation/src/assemble
-
 	dh_installdeb
 	dh_gencontrol
 	dh_md5sums
