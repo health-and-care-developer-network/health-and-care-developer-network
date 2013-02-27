@@ -9,14 +9,14 @@ Standards-Version: 3.8.4.0
 
 Package: hdn-avahi-daemon
 Architecture: all
-Depends: avahi-daemon, hdn-firewall, ${misc:Depends}, ${shlibs:Depends}
-Pre-Depends: hdn-apt
+Depends: avahi-daemon, ${misc:Depends}, ${shlibs:Depends}
+Pre-Depends: hdn-apt, hdn-firewall
 Homepage: http://hdn.nhs.uk/
 Description: HDN Avahi Daemon Wrapper
  This package provides HDN's Avahi Daemon wrapper.
  .
  It pre-depends on packages needed to run post-install
- scripts.
+ scripts and to force the firewall triggers.
  .
  It installs firewall rules to ensure 4store's http
  daemon (4s-http) can find its backend (4s-backend)

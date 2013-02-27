@@ -67,6 +67,13 @@ function installDependencies()
 	aptWrapper "Password to autoremove: " autoremove
 }
 
+function makeLocaleUtf8()
+{
+	sudo -p "Password to reconfigure locales: " dpkg-reconfigure locales
+	sudo -p "Password to install english language pack: " apt-get --yes install language-pack-en
+	sudo -p "Password to generate locale en_GB.UTF-8: " locale-gen en_GB.UTF-8
+}
+
 function cloneSource()
 {
 	mkdir -p ~/Documents
@@ -107,6 +114,7 @@ function main()
 	checkRunningOnDebianOrUbuntu
 	updateAptRepositories
 	installDependencies
+	makeLocaleUtf8
 	cloneSource
 	prepareChroot
 }

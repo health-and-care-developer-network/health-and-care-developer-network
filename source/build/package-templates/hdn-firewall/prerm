@@ -16,8 +16,11 @@
 
 set -e
 
-function turnOffFirewall()
+source "/usr/lib/hdn-apt/functions"
+
+function stopHdnFirewall()
 {
+	stopUpstartJob "hdn-firewall"
 	hdn-firewall off
 }
 
@@ -30,14 +33,14 @@ case "$1" in
 			readonly newVersion="$5"
 		fi
 		
-		turnOffFirewall
+		stopHdnFirewall
 	;;
 
 	upgrade)
 		readonly prerm_Instance="old"
 		readonly newVersion="$2"
 		
-		turnOffFirewall
+		stopHdnFirewall
 	;;
 
 	# This target implies the old prerm script was run with the 'upgrade' target and failed.
@@ -45,7 +48,7 @@ case "$1" in
 		readonly prerm_Instance="new"
 		readonly oldVersion="$2"
 		
-		turnOffFirewall
+		stopHdnFirewall
 	;;
 
 	deconfigure)
@@ -54,6 +57,6 @@ case "$1" in
 		readonly packageBeingInstalled="$3"
 		readonly version="$4"
 		
-		turnOffFirewall
+		stopHdnFirewall
 	;;
 esac

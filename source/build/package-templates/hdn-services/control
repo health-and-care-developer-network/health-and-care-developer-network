@@ -10,7 +10,7 @@ Standards-Version: 3.8.4.0
 Package: hdn-services
 Architecture: all
 Depends: hdn-itk-samples, hdn-gs1-server, hdn-reverse-proxy, ${misc:Depends}, ${shlibs:Depends}
-Pre-Depends: hdn-apt
+Pre-Depends: hdn-apt, hdn-firewall
 Homepage: http://hdn.nhs.uk/
 Description: HDN Services
  This package provides HDN's services:-
