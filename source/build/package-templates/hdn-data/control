@@ -9,7 +9,7 @@ Standards-Version: 3.8.4.0
 
 Package: hdn-data
 Architecture: all
-Depends: hdn-itk-documentation, hdn-4store, hdn-elda, hdn-reverse-proxy, ${misc:Depends}, ${shlibs:Depends}
+Depends: hdn-itk-documentation, hdn-4store, hdn-elda, hdn-pubby, hdn-reverse-proxy, ${misc:Depends}, ${shlibs:Depends}
 Pre-Depends: hdn-apt
 Homepage: http://hdn.nhs.uk/
 Description: HDN Data Services
