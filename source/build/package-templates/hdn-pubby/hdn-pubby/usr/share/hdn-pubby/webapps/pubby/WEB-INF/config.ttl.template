@@ -48,7 +48,7 @@
 	# URIs on the Web:             http://${HDN_PUBBY_HOSTNAME_AND_PORT}/resource/*
 	conf:dataset
 	[
-		conf:sparqlEndpoint <http://${HDN_PUBBY_HOSTNAME_AND_PORT}sparql/>;
+		conf:sparqlEndpoint <http://${HDN_PUBBY_HOSTNAME_AND_PORT}/sparql/>;
 		
 		# Default graph name to query (not necessary for most endpoints)
 		#conf:sparqlDefaultGraph <http://dbpedia.org>;
