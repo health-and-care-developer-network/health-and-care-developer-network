@@ -79,6 +79,9 @@
 --append LogAndDropSpoofedSourceIp --jump LOG --log-prefix "iptables_SpoofedSourceIp " --log-level warning --log-ip-options --log-tcp-options --log-uid
 --append LogAndDropSpoofedSourceIp --jump DROP
 #--append INPUT ! --in-interface lo --source 0.0.0.0/8 --destination 255.255.255.255 --jump ACCEPT
+
+--append INPUT ! --in-interface lo --match iprange --source ${HDN_FIREWALL_hostname}          --dst-range 224.0.0.1-224.0.0.255 --jump ACCEPT
+--append INPUT ! --in-interface lo --match iprange --source ${HDN_FIREWALL_hostname}          --dst-range 224.0.1.1-224.0.1.255 --jump ACCEPT
 --append INPUT ! --in-interface lo --source ${HDN_FIREWALL_hostname}                    --jump LogAndDropSpoofedSourceIp
 #--append INPUT ! --in-interface lo --source 0.0.0.0/8                                       --jump LogAndDropSpoofedSourceIp
 #--append INPUT ! --in-interface lo --source 127.0.0.0/8                                     --jump LogAndDropSpoofedSourceIp

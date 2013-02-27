@@ -87,6 +87,11 @@
 --append LogAndDropSpoofedSourceIp --jump LOG --log-prefix "iptables_SpoofedSourceIp " --log-level warning --log-ip-options --log-tcp-options --log-uid
 --append LogAndDropSpoofedSourceIp --jump DROP
 
+# Multicast exceptions to spoofing
+--append INPUT ! --in-interface lo --match iprange --source ${HDN_FIREWALL_hostname}          --dst-range 224.0.0.1-224.0.0.255 --jump ACCEPT
+--append INPUT ! --in-interface lo --match iprange --source ${HDN_FIREWALL_hostname}          --dst-range 224.0.1.1-224.0.1.255 --jump ACCEPT
+
+# Private range spoofing
 --append INPUT ! --in-interface lo --source 0.0.0.0/8                                       ! --destination 255.255.255.255 --jump LogAndDropSpoofedSourceIp
 --append INPUT ! --in-interface lo --source 127.0.0.0/8                                     ! --destination 255.255.255.255 --jump LogAndDropSpoofedSourceIp
 --append INPUT ! --in-interface lo --source 169.254.0.0/16                                  ! --destination 255.255.255.255 --jump LogAndDropSpoofedSourceIp
@@ -110,6 +115,8 @@
 --append INPUT ! --in-interface lo --source 192.168.1.0/24  ! --destination 192.168.1.0/24  --jump LogAndDropSpoofedSourceIp
 --append INPUT ! --in-interface lo --source 192.168.10.0/24 ! --destination 192.168.10.0/24 --jump LogAndDropSpoofedSourceIp
 
+# 224.0.0.251   udp on 5353  - mulitcast DNS    - ipv6 is FF02::FB
+# mac address 01:00:5E:00:00:FB
 
 
 # Bad Destination
