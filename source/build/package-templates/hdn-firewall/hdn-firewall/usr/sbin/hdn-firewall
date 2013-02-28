@@ -89,7 +89,11 @@ function setTableNames()
 
 function exportVariablesForHdnTemplate()
 {
-	export HDN_FIREWALL_hostname="$(hostname)"
+	if [ -r /etc/hdn-hostname ]; then
+		export HDN_FIREWALL_hostname="$(head -n 1 /etc/hdn-hostname)"
+	else
+		export HDN_FIREWALL_hostname="$(hostname).cloudapp.net"
+	fi
 }
 
 function executeCommandOnWith()
