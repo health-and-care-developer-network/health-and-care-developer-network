@@ -17,6 +17,8 @@
 # Disable errors stopping the script
 set -e
 
+source "/usr/lib/hdn-apt/functions"
+
 readonly ourName="$(basename "$0")"
 
 cd "$(dirname "$0")" 1>/dev/null
@@ -28,11 +30,14 @@ function exitHelp()
 	cat 1>&2 <<-EOF
 		Usage: $ourName -h
 		Usage: $ourName --help
-		Usage: $ourName <packages>
+		Usage: $ourName
 		
-		Wraps apt-get --quiet --yes --force-yes --no-install-recommends --auto-remove --purge --verbose-versions install <packages>
+		Installs RDF files
+		To re-import do first:-
 		
-		Supports package names with trailing '+' or '-' (which causes purge)
+		    sudo invoke-rc.d 4store stop
+		    sudo rm -r /var/lib/4store hdn
+		
 	EOF
 	exit $1
 }
@@ -44,51 +49,62 @@ function exitError()
 	exitHelp 1
 }
 
-function informationMessage()
-{
-	echo "$ourName: $1" 1>&2
-}
-
 function parseCommandLine()
 {
 	if [ $# -eq 0 ]; then
-		exitError "Invalid options"
+		:
 	elif [ $# -eq 1 ]; then
 		if [ "$1" = "--help" ]; then
 			exitHelp 2
 		elif  [ "$1" = "-h" ]; then
 			exitHelp 2
 		else
-			:
+			exitError "Invalid options"
 		fi
-	else
-		:
+	else	
+		exitError "Invalid options"
 	fi
-}
-
-function sudoWrapper()
-{
-	if [ "$EUID" -ne 0 ]; then
-		exec sudo -p "$ourName: sudo needed for $ourName. Enter password: " "$0" "$@"
-	fi
-}
-
-function aptGetUpdateInstallAndClean()
-{
-	hdn-apt-update
 	
-	informationMessage "Installing"
-	apt-get --quiet --yes --force-yes --no-install-recommends --auto-remove --purge --verbose-versions install "$@"
+	if [ $UID != 0 ]; then
+		exitError "Must be run as root / sudo"
+	fi
+}
 
-	informationMessage "Autocleaning"
-	apt-get --quiet autoclean
+function importRdfFiles()
+{
+	#azure instances are 2 CPU, hence 4 segments. Of course, in a sophisticated set-up, we'd have machine profiles...
+	if [ ! -f /var/lib/4store/hdn/metadata.nt ]; then
+		set +e
+
+		invoke-rc.d 4store stop
+
+		4s-backend-setup --node 0 --cluster 1 --segments 4 hdn
+
+		4s-backend hdn
+
+		hdn-firewall off
+
+		echo "Sleeping for 10 seconds"
+		sleep 10
+
+		for rdfFile in /usr/share/hdn-4store/data/*.rdf; do
+			if [ ! -f "$rdfFile" ]; then
+				continue
+			fi
+			4s-import -v hdn "$rdfFile"
+		done
+
+		hdn-firewall on
+
+		pkill 4s-backend
+
+		set -e
+	fi
 }
 
 function main()
 {
-	parseCommandLine "$@"
-	sudoWrapper "$@"
-	aptGetUpdateInstallAndClean "$@"
+	importRdfFiles "$@"
 }
 
 main "$@"
