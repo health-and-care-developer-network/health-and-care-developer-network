@@ -91,10 +91,8 @@ function exportVariablesForHdnTemplate()
 {
 	if [ -r /etc/hdn-hostname-internal ]; then
 		export HDN_FIREWALL_hostname="$(head -n 1 /etc/hdn-hostname-internal)"
-	elif [ -r /etc/hdn-hostname ]; then
-		export HDN_FIREWALL_hostname="$(head -n 1 /etc/hdn-hostname)"
 	else
-		export HDN_FIREWALL_hostname="$(hostname).cloudapp.net"
+		export HDN_FIREWALL_hostname="$(hostname)"
 	fi
 }
 
