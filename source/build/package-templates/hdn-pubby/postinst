@@ -22,7 +22,7 @@ source "/usr/lib/hdn-apt/functions"
 function templateConfig()
 {
 	if [ -r /etc/hdn-hostname ]; then
-		export HDN_PUBBY_HOSTNAME_AND_PORT="$(cat /etc/hdn-hostname)"
+		export HDN_PUBBY_HOSTNAME_AND_PORT="$(head -n 1 /etc/hdn-hostname)"
 	else
 		export HDN_PUBBY_HOSTNAME_AND_PORT="$(hostname).cloudapp.net"
 	fi
