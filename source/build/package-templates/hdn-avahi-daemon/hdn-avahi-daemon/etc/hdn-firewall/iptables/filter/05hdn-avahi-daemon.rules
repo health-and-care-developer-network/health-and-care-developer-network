@@ -1,6 +1,3 @@
 # Allow outbound Multicast DNS (UDP)
 --append OUTPUT ! --out-interface lo --source ${HDN_FIREWALL_hostname} --protocol udp --destination-port 5353 --match state --state NEW --jump LOG --log-prefix "iptables_MulticastDns " --log-level info --log-ip-options --log-tcp-options --log-uid
---append OUTPUT ! --out-interface lo --source ${HDN_FIREWALL_hostname} --protocol udp --destination-port 5353 --match state --state NEW --jump ACCEPT
-
-# Weirdly, allow inbound Multicast DNS (UDP)
---append INPUT --protocol udp --match udp --destination-port 68 --jump ACCEPT
+--append OUTPUT ! --out-interface lo --source ${HDN_FIREWA
