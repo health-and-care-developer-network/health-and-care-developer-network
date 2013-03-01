@@ -139,9 +139,9 @@ function extractTarBall()
 	do
 		local binaryPackageName="$(basename "$binaryPackageFilePath" .deb)"
 		dpkg-deb --fsys-tarfile "$binaryPackageFilePath" >"$packagesPath"/"$binaryPackageName".tar
-		gzip -9 --stdout "$binaryPackageName".tar >"$packagesPath"/"$binaryPackageName".tar.gz
-		bzip2 -9 --stdout "$binaryPackageName".tar >"$packagesPath"/"$binaryPackageName".tar.bz2
-		xz -9 --to-stdout --extreme "$binaryPackageName".tar >"$packagesPath"/"$binaryPackageName".tar.xz
+		gzip -9 --stdout "$packagesPath"/"$binaryPackageName".tar >"$packagesPath"/"$binaryPackageName".tar.gz
+		bzip2 -9 --stdout "$packagesPath"/"$binaryPackageName".tar >"$packagesPath"/"$binaryPackageName".tar.bz2
+		xz -9 --to-stdout --extreme "$packagesPath"/"$binaryPackageName".tar >"$packagesPath"/"$binaryPackageName".tar.xz
 		rm "$binaryPackageName".tar
 	done
 }
