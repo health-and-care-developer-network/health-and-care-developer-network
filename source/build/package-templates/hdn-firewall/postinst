@@ -16,30 +16,66 @@
 
 set -e
 
-function turnOffFirewall()
+source "/usr/lib/hdn-apt/functions"
+
+function startOrRestartUpstartJobHdnFirewall()
 {
-	hdn-firewall off
+	startOrRestartUpstartJob "hdn-firewall"
 }
 
-function turnOnFirewall()
+function stopHdnFirewall()
 {
-	hdn-firewall on
+	stopUpstartJob "hdn-firewall"
 }
 
 # Some triggers are coalesced; order of triggers matters (ipsets must exist before hand)
 function processTriggers()
 {
+	# triggers are coalesced
 	local -i reloadTables=0
-	# Not quoted as iterableTriggers is a space-separated list
-	for triggerName in $iterableTriggers
+	
+	# Not quoted as $* is a space-separated list
+	for triggerName in $*
 	do
 		case "$triggerName" in
 			
 			"/etc/hdn-firewall/iptables")
 				reloadTables=1
 			;;
-
+			
+			"/etc/hdn-firewall/iptables/filter")
+				reloadTables=1
+			;;
+			
+			"/etc/hdn-firewall/iptables/mangle")
+				reloadTables=1
+			;;
+			
+			"/etc/hdn-firewall/iptables/nat")
+				reloadTables=1
+			;;
+			
+			"/etc/hdn-firewall/iptables/raw")
+				reloadTables=1
+			;;
+			
 			"/etc/hdn-firewall/ip6tables")
+				reloadTables=1
+			;;
+			
+			"/etc/hdn-firewall/ip6tables/filter")
+				reloadTables=1
+			;;
+			
+			"/etc/hdn-firewall/ip6tables/mangle")
+				reloadTables=1
+			;;
+			
+			"/etc/hdn-firewall/ip6tables/raw")
+				reloadTables=1
+			;;
+			
+			"hdn-firewall")
 				reloadTables=1
 			;;
 			
@@ -51,7 +87,7 @@ function processTriggers()
 	done
 
 	if [ $reloadTables -eq 1 ]; then
-		turnOnFirewall
+		startOrRestartUpstartJobHdnFirewall
 	fi
 }
 
@@ -60,8 +96,7 @@ case "$1" in
 		readonly postinst_Instance="any"
 		readonly mostRecentlyConfiguredVersion="$2"
 		
-		# Execute all known triggers
-		processTriggers "/etc/hdn-firewall/iptables /etc/hdn-firewall/ip6tables"
+		startOrRestartUpstartJobHdnFirewall
 	;;
 
 	triggered)
@@ -70,14 +105,15 @@ case "$1" in
 			exit 1
 		fi
 		
-		processTriggers "$2"
+		# Not quoted as $2 is a space-separated list
+		processTriggers $2
 	;;
 
 	abort-upgrade)
 		readonly postinst_Instance="old"
 		readonly newVersion="$2"
 		
-		turnOffFirewall
+		stopHdnFirewall
 	;;
 
 	abort-remove)
@@ -91,7 +127,7 @@ case "$1" in
 			readonly postinst_Instance="any"
 		fi
 		
-		turnOffFirewall
+		stopHdnFirewall
 	;;
 
 	abort-deconfigure)
@@ -104,6 +140,6 @@ case "$1" in
 		fi
 		# [removing conflicting-package version]
 		
-		turnOffFirewall
+		stopHdnFirewall
 	;;
 esac

@@ -22,30 +22,31 @@ import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.serialisers.*;
 import uk.nhs.hdn.common.serialisers.separatedValues.fieldEscapers.FieldEscaper;
 import uk.nhs.hdn.common.serialisers.separatedValues.matchers.Matcher;
-import uk.nhs.hdn.common.serialisers.separatedValues.matchers.RecurseMatcher;
 
 import java.io.OutputStream;
 import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.Stack;
 
 import static java.lang.System.out;
 import static uk.nhs.hdn.common.CharsetHelper.Utf8;
 import static uk.nhs.hdn.common.VariableArgumentsHelper.copyOf;
 import static uk.nhs.hdn.common.serialisers.separatedValues.fieldEscapers.CommaSeparatedFieldEscaper.CommaSeparatedFieldEscaperInstance;
-import static uk.nhs.hdn.common.serialisers.separatedValues.fieldEscapers.TabSeparatedFieldEscaper.TabSeparatedFieldEscaperInstance;
+import static uk.nhs.hdn.common.serialisers.separatedValues.fieldEscapers.SanitisingTabSeparatedFieldEscaper.SanitisingTabSeparatedFieldEscaperInstance;
 
+@SuppressWarnings({"ClassNamePrefixedWithPackageName", "ClassWithTooManyMethods"})
 public final class SeparatedValueSerialiser extends AbstractSerialiser
 {
 	@NotNull
-	public static SeparatedValueSerialiser tabSeparatedValueSerialiser(@SuppressWarnings("TypeMayBeWeakened") @NotNull final RecurseMatcher root, final boolean writeHeaderLine, @NotNull final String... headings)
+	public static SeparatedValueSerialiser tabSeparatedValueSerialiser(@NotNull final Matcher root, final boolean writeHeaderLine, @NotNull final String... headings)
 	{
-		return new SeparatedValueSerialiser(TabSeparatedFieldEscaperInstance, root, writeHeaderLine, headings);
+		return new SeparatedValueSerialiser(SanitisingTabSeparatedFieldEscaperInstance, root, writeHeaderLine, headings);
 	}
 
 	@NotNull
-	public static SeparatedValueSerialiser commaSeparatedValueSerialiser(@SuppressWarnings("TypeMayBeWeakened") @NotNull final RecurseMatcher root, final boolean writeHeaderLine, @NotNull final String... headings)
+	public static SeparatedValueSerialiser commaSeparatedValueSerialiser(@NotNull final Matcher root, final boolean writeHeaderLine, @NotNull final String... headings)
 	{
 		return new SeparatedValueSerialiser(CommaSeparatedFieldEscaperInstance, root, writeHeaderLine, headings);
 	}
@@ -63,7 +64,7 @@ public final class SeparatedValueSerialiser extends AbstractSerialiser
 	@Nullable
 	private SeparatedValuesLine separatedValuesLine;
 
-	public SeparatedValueSerialiser(@NotNull final FieldEscaper fieldEscaper, @SuppressWarnings("TypeMayBeWeakened") @NotNull final RecurseMatcher root, final boolean writeHeaderLine, @NotNull final String... headings)
+	public SeparatedValueSerialiser(@NotNull final FieldEscaper fieldEscaper, @NotNull final Matcher root, final boolean writeHeaderLine, @NotNull final String... headings)
 	{
 		current = root;
 		this.writeHeaderLine = writeHeaderLine;
@@ -124,7 +125,7 @@ public final class SeparatedValueSerialiser extends AbstractSerialiser
 	{
 		if (separatedValuesLine != null)
 		{
-			throw new CouldNotWriteValueException(values, "writing of nested MapSerialisable arrays is not supported");
+			writeNestedMapSerialisableValues(values);
 		}
 		for (final S value : values)
 		{
@@ -150,12 +151,7 @@ public final class SeparatedValueSerialiser extends AbstractSerialiser
 	{
 		if (separatedValuesLine != null)
 		{
-			final FlatteningValueSerialiser flatteningValueSerialiser = new FlatteningValueSerialiser();
-			final StringWriter writer1 = new StringWriter(100);
-			flatteningValueSerialiser.start(writer1, Utf8);
-			flatteningValueSerialiser.writeValue(values);
-			final String flattenedValue = writer1.toString();
-			writeValue(flattenedValue);
+			writeNestedValueSerialisableValues(values);
 			return;
 		}
 		for (final S value : values)
@@ -177,14 +173,73 @@ public final class SeparatedValueSerialiser extends AbstractSerialiser
 	}
 
 	@Override
-	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final String value) throws CouldNotWritePropertyException
+	public void writeValue(@NotNull final List<?> values) throws CouldNotWriteValueException
+	{
+		if (separatedValuesLine != null)
+		{
+			writeNestedValueObjectValues(values);
+			return;
+		}
+		for (final Object value : values)
+		{
+			separatedValuesLine = new SimpleSeparatedValuesLine(numberOfFields);
+
+			writeValue(value);
+
+			try
+			{
+				separatedValuesLine.writeLine(writer, fieldEscaper);
+			}
+			catch (CouldNotEncodeDataException | CouldNotWriteDataException e)
+			{
+				throw new CouldNotWriteValueException(value, e);
+			}
+			separatedValuesLine = null;
+		}
+	}
+
+	@SuppressWarnings("MethodCanBeVariableArityMethod")
+	private <S extends MapSerialisable> void writeNestedMapSerialisableValues(final S[] values, final char... separator) throws CouldNotWriteValueException
+	{
+		final FlatteningValueSerialiser flatteningValueSerialiser = new FlatteningValueSerialiser(separator);
+		final StringWriter writer1 = new StringWriter(100);
+		flatteningValueSerialiser.start(writer1, Utf8);
+		flatteningValueSerialiser.writeValue(values);
+		final String flattenedValue = writer1.toString();
+		writeValue(flattenedValue);
+	}
+
+	@SuppressWarnings("MethodCanBeVariableArityMethod")
+	private <S extends ValueSerialisable> void writeNestedValueSerialisableValues(final S[] values, final char... separator) throws CouldNotWriteValueException
+	{
+		final FlatteningValueSerialiser flatteningValueSerialiser = new FlatteningValueSerialiser(separator);
+		final StringWriter writer1 = new StringWriter(100);
+		flatteningValueSerialiser.start(writer1, Utf8);
+		flatteningValueSerialiser.writeValue(values);
+		final String flattenedValue = writer1.toString();
+		writeValue(flattenedValue);
+	}
+
+	@SuppressWarnings("MethodCanBeVariableArityMethod")
+	private <S extends ValueSerialisable> void writeNestedValueObjectValues(final List<?> values, final char... separator) throws CouldNotWriteValueException
+	{
+		final FlatteningValueSerialiser flatteningValueSerialiser = new FlatteningValueSerialiser(separator);
+		final StringWriter writer1 = new StringWriter(100);
+		flatteningValueSerialiser.start(writer1, Utf8);
+		flatteningValueSerialiser.writeValue(values);
+		final String flattenedValue = writer1.toString();
+		writeValue(flattenedValue);
+	}
+
+	@Override
+	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final String value)
 	{
 		final Matcher matcher = current.matchChild(name);
 		matcher.recordValue(value, separatedValuesLine);
 	}
 
 	@Override
-	public void writePropertyNull(@FieldTokenName @NonNls @NotNull final String name) throws CouldNotWritePropertyException
+	public void writePropertyNull(@FieldTokenName @NonNls @NotNull final String name)
 	{
 		writeProperty(name, "");
 	}
@@ -224,37 +279,96 @@ public final class SeparatedValueSerialiser extends AbstractSerialiser
 	}
 
 	@Override
-	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final int value) throws CouldNotWritePropertyException
+	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final int value)
 	{
 		writeProperty(name, Integer.toString(value));
 	}
 
 	@Override
-	public void writeValue(@NotNull final String value) throws CouldNotWriteValueException
+	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final long value)
+	{
+		writeProperty(name, Long.toString(value));
+	}
+
+	@SuppressWarnings("MethodCanBeVariableArityMethod")
+	@Override
+	public <S extends MapSerialisable> void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final S[] values) throws CouldNotWritePropertyException
+	{
+		final Matcher matcher = current.matchChild(name);
+		stack.push(current);
+		current = matcher;
+		try
+		{
+			writeNestedMapSerialisableValues(values, current.separator());
+		}
+		catch (CouldNotWriteValueException e)
+		{
+			throw new CouldNotWritePropertyException(name, values, e);
+		}
+		current = stack.pop();
+	}
+
+	@SuppressWarnings("MethodCanBeVariableArityMethod")
+	@Override
+	public <S extends ValueSerialisable> void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final S[] values) throws CouldNotWritePropertyException
+	{
+		final Matcher matcher = current.matchChild(name);
+		stack.push(current);
+		current = matcher;
+		try
+		{
+			writeNestedValueSerialisableValues(values, current.separator());
+		}
+		catch (CouldNotWriteValueException e)
+		{
+			throw new CouldNotWritePropertyException(name, values, e);
+		}
+		current = stack.pop();
+	}
+
+	@Override
+	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final List<?> values) throws CouldNotWritePropertyException
+	{
+		final Matcher matcher = current.matchChild(name);
+		stack.push(current);
+		current = matcher;
+		try
+		{
+			writeNestedValueObjectValues(values, current.separator());
+		}
+		catch (CouldNotWriteValueException e)
+		{
+			throw new CouldNotWritePropertyException(name, values, e);
+		}
+		current = stack.pop();
+	}
+
+	@Override
+	public void writeValue(@NotNull final String value)
 	{
 		current.recordValue(value, separatedValuesLine);
 	}
 
 	@Override
-	public void writeValue(final int value) throws CouldNotWriteValueException
+	public void writeValue(final int value)
 	{
 		writeValue(Integer.toString(value));
 	}
 
 	@Override
-	public void writeValue(final long value) throws CouldNotWriteValueException
+	public void writeValue(final long value)
 	{
 		writeValue(Long.toString(value));
 	}
 
 	@Override
-	public void writeValue(@NotNull final BigDecimal value) throws CouldNotWriteValueException
+	public void writeValue(@NotNull final BigDecimal value)
 	{
 		writeValue(value.toString());
 	}
 
 	@Override
-	public void writeValueNull() throws CouldNotWriteValueException
+	public void writeValueNull()
 	{
 		writeValue("");
 	}

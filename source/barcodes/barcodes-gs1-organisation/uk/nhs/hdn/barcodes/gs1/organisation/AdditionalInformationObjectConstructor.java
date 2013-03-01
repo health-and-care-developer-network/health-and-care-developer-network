@@ -17,15 +17,10 @@
 package uk.nhs.hdn.barcodes.gs1.organisation;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.ArrayConstructor;
-import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.ListArrayConstructor;
-import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.MapObjectConstructor;
+import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.AbstractGenericObjectConstructor;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.ObjectConstructor;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.schemaViolationInvalidJsonExceptions.SchemaViolationInvalidJsonException;
-import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 
-import java.math.BigDecimal;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -33,75 +28,13 @@ import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
 import static uk.nhs.hdn.barcodes.gs1.organisation.AdditionalInformationKey.valueOf;
 
-public final class AdditionalInformationObjectConstructor extends AbstractToString implements ObjectConstructor<Map<AdditionalInformationKey, Object>>
+public final class AdditionalInformationObjectConstructor extends AbstractGenericObjectConstructor<AdditionalInformationKey>
 {
 	@NotNull
 	public static final ObjectConstructor<?> AdditionalInformationObjectConstructorInstance = new AdditionalInformationObjectConstructor();
-	private final ListArrayConstructor listArrayConstructor;
-	private final MapObjectConstructor mapObjectConstructor;
 
 	private AdditionalInformationObjectConstructor()
 	{
-		listArrayConstructor = new ListArrayConstructor();
-		mapObjectConstructor = new MapObjectConstructor();
-		listArrayConstructor.configure(mapObjectConstructor);
-		mapObjectConstructor.configure(listArrayConstructor);
-	}
-
-	@Override
-	public void putObjectValue(@NotNull final Map<AdditionalInformationKey, Object> objectCollector, @NotNull final String key, @Nullable final Object value) throws SchemaViolationInvalidJsonException
-	{
-		addValue(objectCollector, key, value);
-	}
-
-	@Override
-	public void putArrayValue(@NotNull final Map<AdditionalInformationKey, Object> objectCollector, @NotNull final String key, @Nullable final Object value) throws SchemaViolationInvalidJsonException
-	{
-		addValue(objectCollector, key, value);
-	}
-
-	@Override
-	public void putLiteralBooleanValue(@NotNull final Map<AdditionalInformationKey, Object> objectCollector, @NotNull final String key, final boolean value) throws SchemaViolationInvalidJsonException
-	{
-		addValue(objectCollector, key, value);
-	}
-
-	@Override
-	public void putLiteralNullValue(@NotNull final Map<AdditionalInformationKey, Object> objectCollector, @NotNull final String key) throws SchemaViolationInvalidJsonException
-	{
-		addValue(objectCollector, key, null);
-	}
-
-	@Override
-	public void putConstantStringValue(@NotNull final Map<AdditionalInformationKey, Object> objectCollector, @NotNull final String key, @NotNull final String value) throws SchemaViolationInvalidJsonException
-	{
-		addValue(objectCollector, key, value);
-	}
-
-	@Override
-	public void putConstantNumberValue(@NotNull final Map<AdditionalInformationKey, Object> objectCollector, @NotNull final String key, final long value) throws SchemaViolationInvalidJsonException
-	{
-		addValue(objectCollector, key, value);
-	}
-
-	@Override
-	public void putConstantNumberValue(@NotNull final Map<AdditionalInformationKey, Object> objectCollector, @NotNull final String key, @NotNull final BigDecimal value) throws SchemaViolationInvalidJsonException
-	{
-		addValue(objectCollector, key, value);
-	}
-
-	@NotNull
-	@Override
-	public ArrayConstructor<?> arrayConstructor(@NotNull final String key)
-	{
-		return listArrayConstructor;
-	}
-
-	@NotNull
-	@Override
-	public ObjectConstructor<?> objectConstructor(@NotNull final String key)
-	{
-		return mapObjectConstructor;
 	}
 
 	@NotNull
@@ -117,12 +50,9 @@ public final class AdditionalInformationObjectConstructor extends AbstractToStri
 		return new AdditionalInformation(false, collector);
 	}
 
-	private static void addValue(final Map<AdditionalInformationKey, Object> objectCollector, final String key, @Nullable final Object value) throws SchemaViolationInvalidJsonException
-	{
-		objectCollector.put(additionalInformationKey(key), value);
-	}
-
-	private static AdditionalInformationKey additionalInformationKey(@NotNull final String key) throws SchemaViolationInvalidJsonException
+	@NotNull
+	@Override
+	protected AdditionalInformationKey convertKey(@NotNull final String key) throws SchemaViolationInvalidJsonException
 	{
 		try
 		{
@@ -133,4 +63,5 @@ public final class AdditionalInformationObjectConstructor extends AbstractToStri
 			throw new SchemaViolationInvalidJsonException(format(ENGLISH, "Additional information not recognised for key %1$s", key), e);
 		}
 	}
+
 }

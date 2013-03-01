@@ -1,0 +1,14 @@
+Document: elda-licence
+Title: ELDA Licence
+Author: ELDA
+Abstract:
+ Licence for ELDA servlet
+Section: Web Development
+
+Format: Text
+Files:
+ /usr/share/doc/hdn-elda/LICENSES/elda-LICENCE
+
+Format: HTML
+Index: /usr/share/doc/hdn-elda/LICENSES/elda-LICENCE.html
+Files: /usr/share/doc/hdn-elda/LICENSES

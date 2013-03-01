@@ -1,0 +1,102 @@
+#!/bin/bash -
+
+# © Crown Copyright 2013
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+set -e
+
+source "/usr/lib/hdn-apt/functions"
+
+function processTriggers()
+{
+	# triggers are coalesced
+	local -i reloadHdnNginx=0
+	
+	# Not quoted as $* is a space-separated list
+	for triggerName in $*
+	do
+		case "$triggerName" in
+			
+			"/etc/hdn-reverse-proxy/locations")
+				reloadHdnNginx=1
+			;;
+
+			"/etc/hdn-reverse-proxy/upstreams")
+				reloadHdnNginx=1
+			;;
+			
+			*)
+				echo "Trigger $triggerName not known" 1>&2
+			;;
+			
+		esac
+	done
+	
+	if [ $reloadHdnNginx -eq 1 ]; then
+		startOrRestartUpstartJob "hdn-nginx"
+	fi
+}
+
+case "$1" in
+	configure)
+		readonly postinst_Instance="any"
+		readonly mostRecentlyConfiguredVersion="$2"
+		
+		startOrRestartUpstartJob "hdn-nginx"
+	;;
+
+	triggered)
+		if [ $# -ne 2 ]; then
+			echo "Syntax not understood" 1>&2
+			exit 1
+		fi
+		
+		# Not quoted as $2 is a space-separated list
+		processTriggers $2
+	;;
+
+	abort-upgrade)
+		readonly postinst_Instance="old"
+		readonly newVersion="$2"
+		
+		:
+	;;
+
+	abort-remove)
+		if [ $# -gt 0 ]; then
+			if [ "$2" = "in-favour" ]; then
+				readonly postinst_Instance="conflictors"
+				readonly package="$3"
+				readonly newVersion="$4"
+			fi
+		else
+			readonly postinst_Instance="any"
+		fi
+		
+		:
+	;;
+
+	abort-deconfigure)
+		if [ $# -gt 0 ]; then
+			if [ "$2" = "in-favour" ]; then
+				readonly postinst_Instance="deconfigureds"
+				readonly failedInstallPackage="$3"
+				readonly version="$4"
+			fi
+		fi
+		# [removing conflicting-package version]
+		
+		:
+	;;
+esac

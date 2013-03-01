@@ -18,11 +18,13 @@ package uk.nhs.hdn.common.http.client.connectionConfigurations;
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.Milliseconds;
+import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 
 import java.net.HttpURLConnection;
 
-public final class TcpConnectionConfiguration implements ConnectionConfiguration
+public final class TcpConnectionConfiguration extends AbstractToString implements ConnectionConfiguration
 {
+	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
 	@NotNull
 	public static TcpConnectionConfiguration tcpConnectionConfiguration(final boolean useCaches, @Milliseconds final int connectTimeout, @Milliseconds final int readTimeout)
 	{

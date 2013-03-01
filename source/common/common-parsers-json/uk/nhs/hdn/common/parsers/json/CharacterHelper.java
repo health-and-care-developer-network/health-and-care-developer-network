@@ -36,6 +36,7 @@ public final class CharacterHelper
 	public static final char LineFeedEscapeMarker = 'n';
 	public static final char CarriageReturnEscapeMarker = 'r';
 	public static final char TabEscapeMarker = 't';
+	public static final char QuotationMarkMarker = '"';
 	public static final char UnicodeEscapeMarker = 'u';
 
 	public static final char ZeroDigit = '0';

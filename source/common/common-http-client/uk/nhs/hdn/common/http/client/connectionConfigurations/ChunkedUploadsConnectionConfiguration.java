@@ -29,5 +29,11 @@ public interface ChunkedUploadsConnectionConfiguration extends ConnectionConfigu
 		public void configure(@NotNull final HttpURLConnection httpConnection)
 		{
 		}
+
+		@Override
+		public String toString()
+		{
+			return "DoesNotSupportChunkedUploads";
+		}
 	};
 }

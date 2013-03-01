@@ -1,2 +1,1 @@
-HDN_GS1_SERVER_CLUSTER="stormmq.com"
-HDN_GS1_SERVER_COMMAND_LINE_SWITCHES="--accessible --port 5672 --secure-port 5671 --alternate-secure-port 443 --admin-port 5432 --cluster stormmq.com"
+HDN_GS1_SERVER_COMMAND_LINE_SWITCHES="--http-port 7000"

@@ -1,0 +1,78 @@
+@prefix conf:     <http://richard.cyganiak.de/2007/pubby/config.rdf#> .
+@prefix meta:     <http://example.org/metadata#> .
+@prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:     <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl:      <http://www.w3.org/2002/07/owl#> .
+@prefix dc:       <http://purl.org/dc/elements/1.1/> .
+@prefix dcterms:  <http://purl.org/dc/terms/> .
+@prefix foaf:     <http://xmlns.com/foaf/0.1/> .
+@prefix skos:     <http://www.w3.orgrg/2004/02/skos/core#> .
+@prefix geo:      <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix units:    <http://dbpedia.org/units/> .
+@prefix geonames: <http://www.geonames.org/ontology#> .
+@prefix prv:      <http://purl.org/net/provenance/ns#> .
+@prefix prvTypes: <http://purl.org/net/provenance/types#> .
+@prefix doap:     <http://usefulinc.com/ns/doap#> .
+@prefix void:     <http://rdfs.org/ns/void#> .
+@prefix ir:       <http://www.ontologydesignpatterns.org/cp/owl/informationrealization.owl#> .
+
+<> a conf:Configuration;
+	
+	conf:projectName "HDN";
+	
+	conf:projectHomepage <http://developer.nhs.net>;
+	
+	conf:webBase <http://${HDN_PUBBY_HOSTNAME_AND_PORT}/>;
+	
+	conf:labelProperty rdfs:label, dc:title, foaf:name;
+	
+	conf:commentProperty rdfs:comment, dc:description;
+	
+	conf:imageProperty foaf:depiction;
+	
+	# <> is this file
+	conf:usePrefixesFrom <>;
+	
+	conf:defaultLanguage "en";
+	
+	conf:indexResource <http://developer.nhs.uk/>;
+	
+	conf:dataset
+	[
+		conf:sparqlEndpoint <http://${HDN_PUBBY_HOSTNAME_AND_PORT}/sparql/>;
+		
+		# Default graph name to query (not necessary for most endpoints)
+		#conf:sparqlDefaultGraph <http://dbpedia.org>;
+		
+		conf:datasetBase <http://data.developer.nhs.uk/>;
+		
+		conf:addSameAsStatements "true";
+		
+		conf:rdfDocumentMetadata
+		[
+			dc:creator "NHS Developer Network";
+			dc:subject "NHS";
+			dc:description "NHS data URIs";
+			dc:language "en";
+			dc:publisher <http://data.developer.nhs.net>;
+			dc:rights <http://www.apache.org/licenses/LICENSE-2.0>;
+		];
+		
+		
+		# Will be appended to the conf:webBase to form the public resource URIs; if not present, defaults to ""
+		conf:webResourcePrefix "";
+		
+		conf:fixUnescapedCharacters "(),'!$&*+;=@";
+		
+		conf:redirectRDFRequestsToEndpoint "false";
+		
+		conf:metadataTemplate "metadata.ttl";
+		meta:pubbyUser <http://data.developer.nhs.uk>;
+		meta:pubbyOperator <http://data.developer.nhs.uk>;
+		meta:endpointUser <http://data.developer.nhs.uk>;
+		meta:endpointOperator <http://data.developer.nhs.uk>;
+	];
+	
+	.
+	

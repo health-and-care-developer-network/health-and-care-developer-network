@@ -10,7 +10,7 @@ Standards-Version: 3.8.4.0
 Package: hdn-4store
 Architecture: all
 Depends: 4store, ${misc:Depends}, ${shlibs:Depends}
-Pre-Depends: hdn-apt, procps, avahi-daemon
+Pre-Depends: hdn-apt, hdn-avahi-daemon, hdn-firewall
 Homepage: http://hdn.nhs.uk/
 Description: HDN SPARQL Server
  This package provides HDN's 4store wrapper.
@@ -23,7 +23,7 @@ Description: HDN SPARQL Server
  It Pre-Depends on hdn-apt because it uses these
  in its install scripts.
  .
- It Pre-Depends on avahi-daemon in order to try to force its
+ It Pre-Depends on hdn-avahi-daemon in order to try to force its
  installation before 4store. Avahi is a mandatory dependency.
  .
  It Pre-Depends on procps because it uses pkill in postinst.

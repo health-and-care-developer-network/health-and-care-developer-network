@@ -1,0 +1,22 @@
+Source: hdn-pubby
+Section: net
+Priority: optional
+Maintainer: Raphael Cohn <raphael.cohn@stormmq.com>
+Uploaders: Mike Kelly <mike.kelly1@nhs.net>
+Homepage: http://hdn.nhs.uk/
+Build-Depends: debhelper (>= 7), fakeroot, openjdk-7-jdk, git-core, apt-utils, gnupg, devscripts
+Standards-Version: 3.8.4.0
+
+Package: hdn-pubby
+Architecture: all
+Depends: hdn-jetty, ${misc:Depends}, ${shlibs:Depends}
+Pre-Depends: hdn-apt, hdn-template
+Homepage: http://hdn.nhs.uk/
+Description: HDN Pubby Server
+ This package provides HDN's Pubby Server
+ It pre-depends on packages needed to run post-install
+ scripts.
+ It installs local libraries.
+ .
+ It Pre-Depends on hdn-apt and hdn-template because it uses these
+ in its install scripts.

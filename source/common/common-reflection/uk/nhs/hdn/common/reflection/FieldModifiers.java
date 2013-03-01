@@ -30,7 +30,7 @@ public final class FieldModifiers extends AbstractModifiers
 
 	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
 	@NotNull
-	public static FieldModifiers fieldModifiers(@NotNull final Field field)
+	public static FieldModifiers fieldModifiers(@SuppressWarnings("TypeMayBeWeakened") @NotNull final Field field)
 	{
 		return new FieldModifiers(field.getModifiers());
 	}

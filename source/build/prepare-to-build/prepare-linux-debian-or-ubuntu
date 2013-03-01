@@ -46,19 +46,32 @@ function checkRunningOnDebianOrUbuntu()
 	fi
 }
 
+function aptWrapper()
+{
+	local -r text="$1"
+	local -r action="$2"
+	shift 2
+	sudo -p "$text" DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confold" --force-yes --no-install-recommends --auto-remove --purge "$action" "$@"
+}
+
 function updateAptRepositories()
 {
-	sudo -p "Password to update apt: " DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confold" --force-yes --no-install-recommends update
-	sudo -p "Password to dist-upgrade apt: " DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confold" --force-yes --no-install-recommends dist-upgrade
+	aptWrapper "Password to update apt: " update
+	aptWrapper "Password to dist-upgrade apt: " dist-upgrade
 }
 
 function installDependencies()
 {
-	sudo -p "Password to install build dependencies: " DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confold" --force-yes --no-install-recommends install openssh-client git-core lsb-invalid-mta apt-utils build-essential lintian fakeroot gnupg debhelper devscripts dpkg dpkg-dev openjdk-7-jdk openjdk-7-doc openjdk-7-source gzip bzip2
-	
-	sudo -p "Password to install nginx build dependencies: " DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confold" --force-yes --no-install-recommends install autotools-dev libexpat-dev libgd2-noxpm-dev libgeoip-dev liblua5.1-dev libmhash-dev libpam0g-dev libpcre3-dev libperl-dev libssl-dev libxslt1-dev zlib1g-dev libpq-dev
+	aptWrapper "Password to install build dependencies: " install openssh-client git-core lsb-invalid-mta apt-utils build-essential lintian fakeroot gnupg debhelper devscripts dpkg dpkg-dev openjdk-7-jdk openjdk-7-doc openjdk-7-source gzip bzip2
+	aptWrapper "Password to install nginx build dependencies: " install autotools-dev libexpat-dev libgd2-noxpm-dev libgeoip-dev liblua5.1-dev libmhash-dev libpam0g-dev libpcre3-dev libperl-dev libssl-dev libxslt1-dev zlib1g-dev libpq-dev
+	aptWrapper "Password to autoremove: " autoremove
+}
 
-	sudo -p "Password to autoremove: " DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confold" --force-yes --no-install-recommends autoremove
+function makeLocaleUtf8()
+{
+	sudo -p "Password to reconfigure locales: " dpkg-reconfigure locales
+	sudo -p "Password to install english language pack: " apt-get --yes install language-pack-en
+	sudo -p "Password to generate locale en_GB.UTF-8: " locale-gen en_GB.UTF-8
 }
 
 function cloneSource()
@@ -71,6 +84,11 @@ function cloneSource()
 
 	cd health-and-care-developer-network 1>/dev/null 2>/dev/null
 	git checkout development
+}
+
+function prepareChroot()
+{
+	source/build/prepare-to-build/prepare-chroot
 }
 
 function parseCommandLine()
@@ -96,7 +114,9 @@ function main()
 	checkRunningOnDebianOrUbuntu
 	updateAptRepositories
 	installDependencies
+	makeLocaleUtf8
 	cloneSource
+	prepareChroot
 }
 
 main "$@"

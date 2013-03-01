@@ -2,4 +2,7 @@
     <item name='java.util.Arrays java.util.List&lt;T&gt; asList(T...) 0'>
         <annotation name='org.jetbrains.annotations.NonNls'/>
     </item>
+    <item name='java.util.HashMap V put(K, V) 0'>
+        <annotation name='org.jetbrains.annotations.NonNls'/>
+    </item>
 </root>

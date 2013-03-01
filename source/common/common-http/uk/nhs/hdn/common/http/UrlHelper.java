@@ -27,8 +27,16 @@ import static java.util.Locale.ENGLISH;
 
 public final class UrlHelper
 {
+	public static final char HttpPortNumber = (char) 80;
+	public static final char HttpsPortNumber = (char) 443;
+
 	private UrlHelper()
 	{
+	}
+
+	public static char commonPortNumber(final boolean isHttps)
+	{
+		return isHttps ? HttpsPortNumber : HttpPortNumber;
 	}
 
 	@NotNull

@@ -23,8 +23,12 @@ import com.softwarecraftsmen.orogeny.filing.findFileFilters.FindFilesFilter;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.softwarecraftsmen.orogeny.actions.CopyFilesAction.flatHardLinkFiles;
 import static com.softwarecraftsmen.orogeny.actions.DeleteDirectoryAction.deleteDirectory;
+import static com.softwarecraftsmen.orogeny.actions.EchoAction.echo;
 import static com.softwarecraftsmen.orogeny.actions.ExecuteAction.TenMinutes;
 import static com.softwarecraftsmen.orogeny.actions.ExecuteAction.execute;
 import static com.softwarecraftsmen.orogeny.actions.JarTogetherAction.jarTogether;
@@ -46,6 +50,8 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 	private String[] debianNonRepositoryPackageTasks = {};
 
+	private final List<String> executables = new ArrayList<>(10);
+
 	{
 		librarySubfolders("library");
 
@@ -55,23 +61,35 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		packageTemplateSubFolders("source", "package-templates");
 
+		// executable uses intellijModuleHasMainClassByConvention so must come before intellijProject
 
-		final String barcodesClientConsoleEntryPoint = intellijModuleHasMainClassByConvention("barcodes-gs1-client-application", "Gs1BarcodesClientConsoleEntryPoint");
+		executable("hdn-gs1-client", "barcodes-gs1-client-application", "HdnGs1ClientConsoleEntryPoint");
 
-		final String barcodesServerConsoleEntryPoint = intellijModuleHasMainClassByConvention("barcodes-gs1-server-application", "Gs1BarcodesServerConsoleEntryPoint");
+		executable("hdn-gs1-server", "barcodes-gs1-server-application", "HdnGs1ServerConsoleEntryPoint");
 
-		final String dtsClientOutConsoleEntryPoint = intellijModuleHasMainClassByConvention("dts-client-out", "OutClientConsoleEntryPoint");
+		executable("hdn-dts-out", "dts-client-out", "HdnDtsOutConsoleEntryPoint");
 
-		final String dtsClientReadConsoleEntryPoint = intellijModuleHasMainClassByConvention("dts-client-read", "ReadClientConsoleEntryPoint");
+		executable("hdn-dts-read", "dts-client-read", "HdnDtsReadConsoleEntryPoint");
 
-		final String dtsClientRatsConsoleEntryPoint = intellijModuleHasMainClassByConvention("dts-client-rats", "RatsClientConsoleEntryPoint");
+		executable("hdn-dts-rats", "dts-client-rats", "HdnDtsRatsConsoleEntryPoint");
 
-		final String numberClientConsoleEntryPoint = intellijModuleHasMainClassByConvention("number-client", "NhsNumberClientConsoleEntryPoint");
+		executable("hdn-number-client", "number-client", "HdnNumberClientConsoleEntryPoint");
 
-		final String dbsResponseClientConsoleEntryPoint = intellijModuleHasMainClassByConvention("dbs-response-client", "DbsResponseClientClientConsoleEntryPoint");
+		executable("hdn-dbs-response", "dbs-response-client", "HdnDbsResponseConsoleEntryPoint");
 
-		final String dbsRequestClientConsoleEntryPoint = intellijModuleHasMainClassByConvention("dbs-request-client", "DbsRequestClientClientConsoleEntryPoint");
+		executable("hdn-dbs-request", "dbs-request-client", "HdnDbsRequestConsoleEntryPoint");
 
+		executable("hdn-ckan-dataset-search", "ckan-client-dataset-search", "HdnCkanDatasetSearchConsoleEntryPoint");
+
+		executable("hdn-ckan-resource-search", "ckan-client-resource-search", "HdnCkanResourceSearchConsoleEntryPoint");
+
+		executable("hdn-ckan-details", "ckan-client-details", "HdnCkanDetailsConsoleEntryPoint");
+
+		executable("hdn-ckan-list", "ckan-client-list", "HdnCkanListConsoleEntryPoint");
+
+		executable("hdn-ckan-query", "ckan-client-query", "HdnCkanQueryConsoleEntryPoint");
+
+		executable("hdn-ckan-relationships", "ckan-client-relationships", "HdnCkanRelationshipsConsoleEntryPoint");
 
 		task("clean").does
 		(
@@ -83,27 +101,16 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 			makeDirectory(output())
 		);
 
-		intellijProject("subprojects", "make output", "build");
+		task("prepare executables").dependsOn(allExecutablesPrepareTasks()).dependsOn("make output").does
+		(
+			echo("exists to ensure all executables have had version.txt generated and placed in source")
+		);
+
+		intellijProject("subprojects", "prepare executables", "build");
 
 		compile();
 
-		executable("hdn-gs1-client", "barcodes-gs1-client-application", barcodesClientConsoleEntryPoint);
-
-		executable("hdn-gs1-server", "barcodes-gs1-server-application", barcodesServerConsoleEntryPoint);
-
-		executable("hdn-dts-out", "dts-client-out", dtsClientOutConsoleEntryPoint);
-
-		executable("hdn-dts-read", "dts-client-read", dtsClientReadConsoleEntryPoint);
-
-		executable("hdn-dts-rats", "dts-client-rats", dtsClientRatsConsoleEntryPoint);
-
-		executable("hdn-number-client", "number-client", numberClientConsoleEntryPoint);
-
-		executable("hdn-dbs-response", "dbs-response-client", dbsResponseClientConsoleEntryPoint);
-
-		executable("hdn-dbs-request", "dbs-request-client", dbsResponseClientConsoleEntryPoint);
-
-		task("executables").dependsOn("hdn-gs1-client", "hdn-gs1-server", "hdn-dts-out", "hdn-dts-read", "hdn-dts-rats", "hdn-dbs-response", "hdn-dbs-request");
+		task("executables").dependsOn(allExecutables());
 
 		task("generate changelog template").dependsOn("make output").does
 		(
@@ -126,21 +133,37 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		debianPackagesPackageTask("hdn-dbs-request", "generate changelog template", "hdn-dbs-request");
 
+		debianPackagesPackageTask("hdn-ckan-client", "generate changelog template", "hdn-ckan-dataset-search", "hdn-ckan-resource-search", "hdn-ckan-details", "hdn-ckan-list", "hdn-ckan-query", "hdn-ckan-relationships");
+
+		debianPackagesPackageTask("hdn-reverse-proxy", "generate changelog template");
+
+		debianPackagesPackageTask("hdn-data", "generate changelog template");
+
+		debianPackagesPackageTask("hdn-services", "generate changelog template");
+
+		debianPackagesPackageTask("hdn-itk-samples", "generate changelog template");
+
+		debianPackagesPackageTask("hdn-itk-documentation", "generate changelog template");
+
+		debianPackagesPackageTask("hdn-avahi-daemon", "generate changelog template");
+
 		debianPackagesPackageTask("hdn-4store", "generate changelog template");
 
 		debianPackagesPackageTask("hdn-jetty", "generate changelog template");
 
 		debianPackagesPackageTask("hdn-elda", "generate changelog template");
 
-		debianPackagesPackageTask("hdn-template", "generate changelog template");
+		debianPackagesPackageTask("hdn-pubby", "generate changelog template");
 
-		debianPackagesPackageTask("hdn-services", "generate changelog template");
+		debianPackagesPackageTask("hdn-template", "generate changelog template");
 
 		debianPackagesPackageTask("hdn-nginx", "generate changelog template");
 
 		debianPackagesPackageTask("hdn-apt", "generate changelog template");
 
 		debianPackagesPackageTask("hdn-sysctl", "generate changelog template");
+
+		debianPackagesPackageTask("hdn-logging", "generate changelog template");
 
 		debianPackagesPackageTask("hdn-firewall", "generate changelog template");
 
@@ -156,8 +179,22 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		task("packages").dependsOn(debianPackagesPackageTasks).does
 		(
-			execute(source("build", "build").file("create-insecure-apt-repository")).inWorkingDirectory(output()).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArguments("packages")
+			execute(source("build", "build").file("create-insecure-apt-repository")).inWorkingDirectory(output()).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArguments("packages"),
+			execute(source("build", "build").file("create-secure-apt-repository")).inWorkingDirectory(output()).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArguments("packages", "hdn")
 		);
+	}
+
+	private String[] allExecutables() {return executables.toArray(new String[executables.size()]);}
+
+	private String[] allExecutablesPrepareTasks()
+	{
+		final String[] allExecutablesPrepareTasks = new String[executables.size()];
+		final int size = executables.size();
+		for (int index = 0; index < size; index++)
+		{
+			allExecutablesPrepareTasks[index] = executablePrepareTaskName(executables.get(index));
+		}
+		return allExecutablesPrepareTasks;
 	}
 
 	private String intellijModuleHasMainClassByConvention(final String moduleName, final String consoleEntryPoint)
@@ -170,11 +207,26 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 		return "uk.nhs.hdn." + moduleName.replace("-", ".");
 	}
 
-	private void executable(@NotNull final String taskName, @NotNull final String moduleName, @NotNull final String consoleEntryPoint)
+	private void executable(@NotNull final String taskName, @NotNull final String moduleName, @NotNull final String mainClassSimpleName)
 	{
+		@NotNull final String consoleEntryPoint = intellijModuleHasMainClassByConvention(moduleName, mainClassSimpleName);
+		executables.add(taskName);
+
+		final String[] folders = getPackageName(moduleName).split("\\.");
+		final String[] generatedSourceFolders = new String[folders.length + 2];
+		generatedSourceFolders[0] = moduleName;
+		generatedSourceFolders[1] = "generatedSource";
+		arraycopy(folders, 0, generatedSourceFolders, 2, folders.length);
+		final AbsoluteDirectory generatedSourcePackageFolder = output(generatedSourceFolders);
+
+		task(executablePrepareTaskName(taskName)).dependsOn("make output").does
+		(
+			makeDirectory(generatedSourcePackageFolder),
+			execute(source("build", "build").file("generate-version-string")).inWorkingDirectory(generatedSourcePackageFolder).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArgument("version.txt")
+		);
+
 		final FindFilesFilter isInLibrary = isInRoot(library());
 		final FindFilesFilter dependentJarFilesExcludingLibraries = isInLibrary.not().and(Jar);
-
 		final AbsoluteDirectory distributionFolder = output(taskName);
 
 		task(taskName).dependsOn("compile " + moduleName).does
@@ -186,6 +238,8 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 			jarTogether(registeredPaths(moduleName)).capturing(Jar).to(distributionFolder.file(taskName + ".jar")).withoutClassPath().withMainClass(consoleEntryPoint)
 		);
 	}
+
+	private static String executablePrepareTaskName(final String taskName) {return "prepare " + taskName;}
 
 	private void debianPackagesPackageTask(@NotNull @NonNls final String packageName, @NotNull @NonNls final String... dependsOnTaskNames)
 	{

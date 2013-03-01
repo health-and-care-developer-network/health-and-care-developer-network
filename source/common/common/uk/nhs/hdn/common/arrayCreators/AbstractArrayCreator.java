@@ -18,6 +18,9 @@ package uk.nhs.hdn.common.arrayCreators;
 
 import org.jetbrains.annotations.NotNull;
 
+import static java.lang.String.format;
+import static java.util.Locale.ENGLISH;
+
 public abstract class AbstractArrayCreator<V> implements ArrayCreator<V>
 {
 	@NotNull
@@ -29,6 +32,12 @@ public abstract class AbstractArrayCreator<V> implements ArrayCreator<V>
 	{
 		this.type = type;
 		this.arrayType = arrayType;
+	}
+
+	@Override
+	public String toString()
+	{
+		return format(ENGLISH, "%1$s(%2$s)", getClass().getSimpleName(), type.getSimpleName());
 	}
 
 	@NotNull

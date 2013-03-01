@@ -9,7 +9,8 @@ Standards-Version: 3.8.4.0
 
 Package: hdn-firewall
 Architecture: all
-Depends: iptables, upstart, hdn-template, hdn-sysctl, ${misc:Depends}
+Depends: iptables, upstart, hdn-template, hdn-sysctl, hdn-ssh-server, hdn-logging, ${misc:Depends}
+Pre-Depends: hdn-apt
 Homepage: http://hdn.nhs.uk/
 Description: HDN firewall
  This script provides firewall scripts.

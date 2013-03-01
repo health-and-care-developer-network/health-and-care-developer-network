@@ -1,2 +1,4 @@
 # This is a bug in lintian
 hdn-nginx binary: lzma-deb-archive
+
+hdn-nginx binary: unstripped-binary-or-object usr/sbin/hdn-nginx

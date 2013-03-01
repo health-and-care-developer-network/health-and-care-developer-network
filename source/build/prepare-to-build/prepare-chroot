@@ -1,0 +1,162 @@
+#!/bin/bash -
+
+# © Crown Copyright 2013
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+set -e
+
+readonly ourName="$(basename "$0")"
+
+cd "$(dirname "$0")" 1>/dev/null
+readonly crudeOurPath="$(pwd)"
+cd - 1>/dev/null
+
+function exitHelp()
+{
+	echo "Usage: $ourName [--help]" 1>&2
+	exit $1
+}
+
+function exitError()
+{
+	local -r error="$1"
+	echo "$ourName: $error" 1>&2
+	exitHelp 1
+}
+
+function aptWrapper()
+{
+	local -r text="$1"
+	local -r action="$2"
+	shift 2
+	sudo -p "$text" DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confold" --force-yes --no-install-recommends --auto-remove --purge "$action" "$@"
+}
+
+function parseCommandLine()
+{
+	if [ $# -eq 0 ]; then
+		:
+	elif [ $# -eq 1 ]; then
+		if [ "$1" = "-h" ]; then
+			exitHelp 2
+		elif [ "$1" = "--help "]; then
+			exitHelp 2
+		else
+			exitError "Invalid options"
+		fi
+	else	
+		exitError "Invalid options"
+	fi
+}
+
+function setPaths()
+{
+	readonly chrootsPath="/srv/schroot"
+}
+
+function installChrootPackages()
+{
+	aptWrapper "Password to install chroot packaging software" install debootstrap schroot
+}
+
+function installSchrootConfiguration()
+{
+	cat <<-EOF | sudo -p "Password to make ${codeNameArchitecture}.conf " tee /etc/schroot/chroot.d/${codeNameArchitecture}.conf >/dev/null
+		[${codeNameArchitecture}]
+		description=Ubuntu ${codeName} {$architecture}
+		directory=${chrootPath}
+		type=directory
+		personality=linux
+		users=HCDNAdmin
+		root-users=HCDNAdmin
+	EOF
+	
+	cat <<-EOF | sudo -p "Password to make ${codeNameArchitecture}-testing.conf " tee /etc/schroot/chroot.d/${codeNameArchitecture}-testing.conf >/dev/null
+		[${codeNameArchitecture}-testing]
+		description=Ubuntu ${codeName} {$architecture} testing for packages
+		directory=${chrootTestingPath}
+		type=directory
+		personality=linux
+		users=HCDNAdmin
+		root-users=HCDNAdmin
+		command-prefix=nice,20
+		uniontype=unionfs
+		
+	EOF
+}
+
+function makeChroot()
+{
+	sudo -p "Password to make chroot $chrootPath: " mkdir -p "${chrootPath}"
+	
+	# Consider using multistrap
+	sudo -p "Password to install chroot $chrootPath: " debootstrap --verbose --variant=minbase --arch="$architecture" "$codeName" "$chrootPath" http://azure.archive.ubuntu.com/ubuntu
+}
+
+function configureChroot()
+{
+	schroot -c "$codeNameArchitecture" -u root bash <<-EOF
+		cat <<EOK >/etc/apt/sources.list
+			deb http://azure.archive.ubuntu.com/ubuntu precise main universe multiverse restricted
+			deb-src http://azure.archive.ubuntu.com/ubuntu precise main universe multiverse restricted
+			deb http://azure.archive.ubuntu.com/ubuntu precise-updates main universe multiverse restricted
+			deb-src http://azure.archive.ubuntu.com/ubuntu precise-updates main universe multiverse restricted
+			deb http://security.ubuntu.com/ubuntu precise-security main universe multiverse restricted
+			deb-src http://security.ubuntu.com/ubuntu precise-security main universe multiverse restricted
+		EOK
+		apt-get --purge --auto-remove --no-install-recommends --yes --force-yes update
+		apt-get --purge --auto-remove --no-install-recommends --yes --force-yes install ubuntu-minimal
+		apt-get --purge --auto-remove --no-install-recommends --yes --force-yes dist-upgrade
+		dpkg-reconfigure locales
+		apt-get --yes install language-pack-en
+		locale-gen en_GB.UTF-8
+	EOF
+}
+
+function installPackagesToMakeChrootUsageFaster()
+{
+	schroot -c "$codeNameArchitecture" -u root bash <<-EOF
+		apt-get --purge --auto-remove --no-install-recommends --yes --force-yes install openjdk-7-jdk
+	EOF
+}
+
+function copyChrootForTesting()
+{
+	sudo -p "Password to copy chroot for testing: " rsync --archive --hard-links --acls --xattrs "${chrootPath}"/ "${chrootTestingPath}"/
+}
+
+function prepareChroot()
+{
+	codeName="$1"
+	architecture="$2"
+	codeNameArchitecture="$1"-"$2"
+	chrootPath="$chrootsPath"/"$codeNameArchitecture"
+	chrootTestingPath="$chrootPath"-testing
+	
+	installSchrootConfiguration
+	makeChroot
+	configureChroot
+	installPackagesToMakeChrootUsageFaster
+	copyChrootForTesting
+}
+
+function main()
+{
+	parseCommandLine "$@"
+	setPaths
+	installChrootPackages
+	prepareChroot  "precise" "amd64"
+}
+
+main "$@"

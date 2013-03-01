@@ -27,9 +27,19 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
+import java.util.List;
+
+import static java.lang.String.format;
+import static java.util.Locale.ENGLISH;
 
 public abstract class AbstractValueSerialiser extends AbstractToString implements ValueSerialiser, StartFinish
 {
+	@NotNull
+	private static final String TRUE = "true";
+
+	@NotNull
+	private static final String FALSE = "false";
+
 	@SuppressWarnings("InstanceVariableMayNotBeInitialized")
 	@NotNull
 	protected Charset charset;
@@ -56,7 +66,7 @@ public abstract class AbstractValueSerialiser extends AbstractToString implement
 	{
 		try
 		{
-			writer.close();
+			writer.flush();
 		}
 		catch (IOException e)
 		{
@@ -64,6 +74,17 @@ public abstract class AbstractValueSerialiser extends AbstractToString implement
 		}
 	}
 
+	@SuppressWarnings("ConditionalExpression")
+	@Override
+	public void writeValue(final boolean value) throws CouldNotWriteValueException
+	{
+		writeValue(convertBooleanToString(value));
+	}
+
+	@NotNull
+	protected static String convertBooleanToString(final boolean value) {return value ? TRUE : FALSE;}
+
+	// TODO: Needs to be be pulled out and abstracted so that different rules can apply for different serialisations
 	@Override
 	public void writeValue(@Nullable final Object value) throws CouldNotWriteValueException
 	{
@@ -79,9 +100,21 @@ public abstract class AbstractValueSerialiser extends AbstractToString implement
 			return;
 		}
 
+		if (value instanceof MapSerialisable[])
+		{
+			writeValue((MapSerialisable[]) value);
+			return;
+		}
+
 		if (value instanceof ValueSerialisable)
 		{
 			writeValue((ValueSerialisable) value);
+			return;
+		}
+
+		if (value instanceof ValueSerialisable[])
+		{
+			writeValue((ValueSerialisable[]) value);
 			return;
 		}
 
@@ -109,12 +142,23 @@ public abstract class AbstractValueSerialiser extends AbstractToString implement
 			return;
 		}
 
+		if (value instanceof Boolean)
+		{
+			writeValue((boolean) value);
+			return;
+		}
+
 		if (value instanceof Enum)
 		{
 			writeValue(((Enum<?>) value).name());
 			return;
 		}
 
-		throw new CouldNotWriteValueException(value, "do not know how to write values for this class");
+		if (value instanceof List)
+		{
+			writeValue((List<?>) value);
+		}
+
+		throw new CouldNotWriteValueException(value, format(ENGLISH, "do not know how to write values for this class %1$s", value.getClass().getSimpleName()));
 	}
 }

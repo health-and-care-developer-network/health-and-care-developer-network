@@ -1,0 +1,62 @@
+#!/bin/bash -
+
+# © Crown Copyright 2013
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+set -e
+
+source "/usr/lib/hdn-apt/functions"
+
+function removeHdnNginxSettings()
+{
+	# This is correct, as the job is not a daemon
+	startOrRestartUpstartJob "hdn-nginx"
+}
+
+case "$1" in
+	remove)
+		if [ $# -gt 0 ]; then
+			readonly prerm_Instance="conflictors"
+			readonly inFavour="$3"
+			readonly package="$4"
+			readonly newVersion="$5"
+		fi
+		
+		removeHdnNginxSettings
+	;;
+
+	upgrade)
+		readonly prerm_Instance="old"
+		readonly newVersion="$2"
+		
+		removeHdnNginxSettings
+	;;
+
+	# This target implies the old prerm script was run with the 'upgrade' target and failed.
+	failed-upgrade)
+		readonly prerm_Instance="new"
+		readonly oldVersion="$2"
+		
+		removeHdnNginxSettings
+	;;
+
+	deconfigure)
+		readonly prerm_Instance="deconfigureds"
+		readonly inFavour="$2"
+		readonly packageBeingInstalled="$3"
+		readonly version="$4"
+		
+		removeHdnNginxSettings
+	;;
+esac

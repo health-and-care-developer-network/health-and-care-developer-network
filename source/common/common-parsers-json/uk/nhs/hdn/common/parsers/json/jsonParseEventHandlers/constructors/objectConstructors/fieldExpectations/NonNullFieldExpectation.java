@@ -26,6 +26,24 @@ import uk.nhs.hdn.common.serialisers.FieldTokenName;
 public class NonNullFieldExpectation<X> extends FieldExpectation<X>
 {
 	@NotNull
+	public static NonNullFieldExpectation<String> nonNullStringField(@FieldTokenName @NonNls @NotNull final String key)
+	{
+		return new NonNullFieldExpectation<>(key, String.class, null, null);
+	}
+
+	@NotNull
+	public static NonNullFieldExpectation<Boolean> nonNullbooleanField(@FieldTokenName @NonNls @NotNull final String key)
+	{
+		return nonNullField(key, boolean.class);
+	}
+
+	@NotNull
+	public static NonNullFieldExpectation<Long> nonNulllongField(@FieldTokenName @NonNls @NotNull final String key)
+	{
+		return nonNullField(key, long.class);
+	}
+
+	@NotNull
 	public static <X> NonNullFieldExpectation<X> nonNullField(@FieldTokenName @NonNls @NotNull final String key, @NotNull final Class<X> constructorParameterType)
 	{
 		return new NonNullFieldExpectation<>(key, constructorParameterType, null, null);
@@ -51,6 +69,11 @@ public class NonNullFieldExpectation<X> extends FieldExpectation<X>
 
 	public NonNullFieldExpectation(@FieldTokenName @NonNls @NotNull final String key, @NotNull final Class<X> constructorParameterType, @Nullable final ArrayConstructor<?> arrayConstructor, @Nullable final ObjectConstructor<?> objectConstructor)
 	{
-		super(key, constructorParameterType, false, arrayConstructor, objectConstructor);
+		this(key, constructorParameterType, arrayConstructor, objectConstructor, null);
+	}
+
+	public NonNullFieldExpectation(@FieldTokenName @NonNls @NotNull final String key, @NotNull final Class<X> constructorParameterType, @Nullable final ArrayConstructor<?> arrayConstructor, @Nullable final ObjectConstructor<?> objectConstructor, @Nullable final X defaultValueIfMissing)
+	{
+		super(key, constructorParameterType, false, arrayConstructor, objectConstructor, defaultValueIfMissing);
 	}
 }

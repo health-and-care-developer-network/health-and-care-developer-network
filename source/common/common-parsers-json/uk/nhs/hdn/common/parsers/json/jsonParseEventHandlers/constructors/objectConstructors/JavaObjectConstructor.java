@@ -30,8 +30,11 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+import static uk.nhs.hdn.common.VariableArgumentsHelper.copyOf;
+
 public final class JavaObjectConstructor<X> implements ObjectConstructor<Object[]>
 {
+	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
 	@NotNull
 	public static <X> ObjectConstructor<?> object(@NotNull final Class<X> classX, @NotNull final FieldExpectation<?>... fieldExpectations)
 	{
@@ -39,6 +42,9 @@ public final class JavaObjectConstructor<X> implements ObjectConstructor<Object[
 	}
 
 	private final int length;
+
+	@NotNull
+	private final FieldExpectation<?>[] fieldExpectations;
 
 	@NotNull
 	private final Map<String, FieldExpectation<?>> register;
@@ -49,6 +55,7 @@ public final class JavaObjectConstructor<X> implements ObjectConstructor<Object[
 	public JavaObjectConstructor(@NotNull final Class<X> classX, @NotNull final FieldExpectation<?>... fieldExpectations)
 	{
 		length = fieldExpectations.length;
+		this.fieldExpectations = copyOf(fieldExpectations);
 		register = new HashMap<>(length);
 		final Class<?>[] parameterTypes = new Class[length];
 		for(int index = 0; index < length; index++)
@@ -56,6 +63,7 @@ public final class JavaObjectConstructor<X> implements ObjectConstructor<Object[
 			final FieldExpectation<?> fieldExpectation = fieldExpectations[index];
 			fieldExpectation.register(register, parameterTypes, index);
 		}
+
 		try
 		{
 			constructor = classX.getDeclaredConstructor(parameterTypes);
@@ -144,17 +152,21 @@ public final class JavaObjectConstructor<X> implements ObjectConstructor<Object[
 	@Override
 	public Object collect(@NotNull final Object[] collector) throws SchemaViolationInvalidJsonException
 	{
+		for (int index = 0; index < length; index++)
+		{
+			fieldExpectations[index].assignDefaultValueIfMissing(collector);
+		}
 		try
 		{
 			return constructor.newInstance(collector);
 		}
-		catch (InstantiationException | IllegalAccessException e)
+		catch (InstantiationException | IllegalAccessException | IllegalArgumentException e)
 		{
 			throw new ShouldNeverHappenException(e);
 		}
 		catch (InvocationTargetException e)
 		{
-			throw new SchemaViolationInvalidJsonException("Could not out object", e);
+			throw new SchemaViolationInvalidJsonException("Could not collect object", e);
 		}
 	}
 }

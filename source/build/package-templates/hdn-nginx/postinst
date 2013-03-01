@@ -23,6 +23,32 @@ function startOrRestartUpstartJobHdnNginx()
 	startOrRestartUpstartJob "hdn-nginx"
 }
 
+function processTriggers()
+{
+	# triggers are coalesced
+	local -i reloadHdnNginx=0
+	
+	# Not quoted as iterableTriggers is a space-separated list
+	for triggerName in $iterableTriggers
+	do
+		case "$triggerName" in
+			
+			"/etc/hdn-nginx/conf.d")
+				reloadHdnNginx=1
+			;;
+			
+			*)
+				echo "Trigger $triggerName not known" 1>&2
+			;;
+			
+		esac
+	done
+	
+	if [ $reloadHdnNginx -eq 1 ]; then
+		startOrRestartUpstartJobHdnNginx
+	fi
+}
+
 case "$1" in
 	configure)
 		readonly postinst_Instance="any"
@@ -37,6 +63,15 @@ case "$1" in
 		fi
 		
 		startOrRestartUpstartJobHdnNginx
+	;;
+
+	triggered)
+		if [ $# -ne 2 ]; then
+			echo "Syntax not understood" 1>&2
+			exit 1
+		fi
+		
+		processTriggers "$2"
 	;;
 
 	abort-upgrade)

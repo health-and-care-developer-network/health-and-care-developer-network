@@ -23,21 +23,29 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.exceptions.ShouldNeverHappenException;
+import uk.nhs.hdn.common.naming.Description;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
+import java.util.regex.Pattern;
 
 import static java.lang.String.format;
 import static java.lang.System.err;
+import static java.lang.System.out;
 import static java.util.Locale.ENGLISH;
-import static uk.nhs.hdn.common.commandLine.ExitCode.GeneralError;
-import static uk.nhs.hdn.common.commandLine.ExitCode.Help;
+import static java.util.regex.Pattern.compile;
+import static uk.nhs.hdn.common.CharsetHelper.Utf8;
+import static uk.nhs.hdn.common.commandLine.ExitCode.*;
 
 public abstract class AbstractConsoleEntryPoint extends AbstractToString
 {
+	private static final char Underscore = '_';
+	private static final char Hyphen = '-';
+	private static final Pattern CamelCaseSplit = compile("(?<!^)(?=[A-Z])");
+	@NonNls @NotNull private static final String ConsoleEntryPoint = "ConsoleEntryPoint";
+	private static final String UnknownVersion = "unknown version";
+
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static <C extends AbstractConsoleEntryPoint> void execute(@NotNull final Class<C> consoleEntryPoint, @NotNull final String... commandLineArguments)
 	{
@@ -61,22 +69,117 @@ public abstract class AbstractConsoleEntryPoint extends AbstractToString
 
 	private static final int MaximumPortNumber = 65535;
 
-	@NotNull
-	private static final String HelpOption = "help";
+	@NotNull private static final String HelpOption = "help";
+	@NotNull private static final String VersionOption = "version";
 
-	@NotNull
-	private final PrintStream outputStream;
-	@NotNull
-	private final OptionParser options;
+	@NotNull private final PrintStream outputStream;
+	@NotNull private final PrintStream errorStream;
+	@NotNull private final OptionParser options;
 	private final boolean doesNotHaveNonOptionArguments;
 
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	protected AbstractConsoleEntryPoint()
 	{
-		outputStream = err;
+		outputStream = out;
+		errorStream = err;
 		options = new OptionParser();
-		options.accepts(HelpOption).forHelp();
+		options.accepts(HelpOption, "Displays help for options").forHelp();
+		options.accepts(VersionOption, "Displays version");
 		doesNotHaveNonOptionArguments = options(options);
+	}
+
+	@SuppressWarnings("MethodCanBeVariableArityMethod")
+	@NotNull
+	public static <E extends Enum<E>> String enumDescription(@NotNull final E[] enumValues, final boolean prependDoubleDash, final boolean convertUnderscoresBecauseTheyAreNotValidInLongOptionNames)
+	{
+		final StringBuilder stringBuilder = new StringBuilder("One of ");
+		final int length = enumValues.length;
+		final int lastIndex = length - 1;
+		boolean isAfterFirst = false;
+		for(int index = 0; index < length; index++)
+		{
+			if (isAfterFirst)
+			{
+				if (index == lastIndex)
+				{
+					stringBuilder.append(" or ");
+				}
+				else
+				{
+					stringBuilder.append(", ");
+				}
+			}
+			else
+			{
+				isAfterFirst = true;
+			}
+			if (prependDoubleDash)
+			{
+				stringBuilder.append("--");
+			}
+			stringBuilder.append(convertUnderscoresInEnumValueAsTheyAreNotValidForLongOptions(convertUnderscoresBecauseTheyAreNotValidInLongOptionNames, enumValues[index]));
+		}
+		return stringBuilder.toString();
+	}
+
+	@SuppressWarnings("MethodCanBeVariableArityMethod")
+	public static <E extends Enum<E>> void oneOfEnumAsOption(@NotNull final OptionParser options, @NotNull final E[] enumValues)
+	{
+		for (final E enumValue : enumValues)
+		{
+			options.accepts(convertUnderscoresInEnumValueAsTheyAreNotValidForLongOptions(true, enumValue), convertUnderscoresInEnumValueAsTheyAreNotValidForLongOptions(true, enumValue));
+		}
+	}
+
+	public static <E extends Enum<E> & Description> void oneOfEnumAsOptionWithRequiredArgument(@NotNull final OptionParser options, @NotNull final E[] enumValues, @NotNull final Class<?> ofType)
+	{
+		for (final E enumValue : enumValues)
+		{
+			options.accepts(convertUnderscoresInEnumValueAsTheyAreNotValidForLongOptions(true, enumValue), convertUnderscoresInEnumValueAsTheyAreNotValidForLongOptions(true, enumValue)).withRequiredArg().ofType(ofType).describedAs(enumValue.description());
+		}
+	}
+
+	@SuppressWarnings("MethodCanBeVariableArityMethod")
+	@NotNull
+	public <E extends Enum<E>> E enumOptionChosen(@NotNull final OptionSet optionSet, @NotNull final E[] enumValues)
+	{
+		@Nullable E enumValueFound = null;
+		for (final E enumValue : enumValues)
+		{
+			if (optionSet.has(convertUnderscoresInEnumValueAsTheyAreNotValidForLongOptions(true, enumValue)))
+			{
+				if (enumValueFound != null)
+				{
+					exitWithErrorAndHelp("One, and only one, of " + enumDescription(enumValues, true, true), "must be provided");
+					throw new ShouldHaveExitedException();
+				}
+				enumValueFound = enumValue;
+			}
+		}
+		if (enumValueFound == null)
+		{
+			exitWithErrorAndHelp("One, and only one, of " + enumDescription(enumValues, true, true), "must be provided");
+			throw new ShouldHaveExitedException();
+		}
+		return enumValueFound;
+	}
+
+	@NotNull
+	public static String convertUnderscoresInEnumValueAsTheyAreNotValidForLongOptions(final boolean convertUnderscoresBecauseTheyAreNotValidInLongOptionNames, @NotNull final Enum<?> enumValue)
+	{
+		return convertUnderscoresInValueAsTheyAreNotValidForLongOptions(convertUnderscoresBecauseTheyAreNotValidInLongOptionNames, enumValue.name());
+	}
+
+	@NotNull
+	public static String convertUnderscoresInValueAsTheyAreNotValidForLongOptions(final boolean convertUnderscoresBecauseTheyAreNotValidInLongOptionNames, @NotNull final String value)
+	{
+		return convertUnderscoresBecauseTheyAreNotValidInLongOptionNames ? value.replace(Underscore, Hyphen) : value;
+	}
+
+	@NotNull
+	public static String reverseConversionOfUnderscoresInValueAsTheyAreNotValidForLongOptions(@NotNull final String value)
+	{
+		return value.replace(Hyphen, Underscore);
 	}
 
 	@SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
@@ -173,6 +276,20 @@ public abstract class AbstractConsoleEntryPoint extends AbstractToString
 		return dataPath;
 	}
 
+	@SuppressWarnings({"SimplifiableIfStatement", "BooleanMethodNameMustStartWithQuestion"})
+	public final boolean booleanOption(@NotNull final OptionSet optionSet, @NotNull @NonNls final String optionName)
+	{
+		if (optionSet.has(optionName))
+		{
+			if (optionSet.hasArgument(optionName))
+			{
+				return (boolean) optionSet.valueOf(optionName);
+			}
+			return true;
+		}
+		return false;
+	}
+
 	@SuppressWarnings({"ProhibitedExceptionDeclared", "FinalizeDeclaration"})
 	@Override
 	protected final void finalize() throws Throwable
@@ -185,41 +302,6 @@ public abstract class AbstractConsoleEntryPoint extends AbstractToString
 	protected final Object clone() throws CloneNotSupportedException
 	{
 		throw new CloneNotSupportedException();
-	}
-
-	@Override
-	public final boolean equals(@Nullable final Object obj)
-	{
-		if (this == obj)
-		{
-			return true;
-		}
-		if (obj == null || getClass() != obj.getClass())
-		{
-			return false;
-		}
-
-		final AbstractConsoleEntryPoint that = (AbstractConsoleEntryPoint) obj;
-
-		if (doesNotHaveNonOptionArguments != that.doesNotHaveNonOptionArguments)
-		{
-			return false;
-		}
-		if (!outputStream.equals(that.outputStream))
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	@SuppressWarnings("ConditionalExpression")
-	@Override
-	public final int hashCode()
-	{
-		int result = outputStream.hashCode();
-		result = 31 * result + (doesNotHaveNonOptionArguments ? 1 : 0);
-		return result;
 	}
 
 	private void execute(@NotNull final String... commandLineArguments)
@@ -238,6 +320,12 @@ public abstract class AbstractConsoleEntryPoint extends AbstractToString
 		if (optionSet.has(HelpOption))
 		{
 			exitWithHelp();
+			throw new ShouldHaveExitedException();
+		}
+
+		if (optionSet.has(VersionOption))
+		{
+			exitWithVersion();
 			throw new ShouldHaveExitedException();
 		}
 
@@ -271,9 +359,105 @@ public abstract class AbstractConsoleEntryPoint extends AbstractToString
 		Help.exit();
 	}
 
+	private void exitWithVersion()
+	{
+		final String programVersion;
+		@SuppressWarnings("IOResourceOpenedButNotSafelyClosed") @Nullable final InputStream versionStream = getClass().getResourceAsStream("version.txt");
+		if (versionStream == null)
+		{
+			programVersion = UnknownVersion;
+		}
+		else
+		{
+			programVersion = getStringFromStream(versionStream, UnknownVersion);
+		}
+
+		outputStream.println(format(ENGLISH, "%1$s %2$s", programName(), programVersion));
+		outputStream.println("© Crown Copyright 2013");
+		outputStream.println();
+		outputStream.println("Licensed under the Apache License, Version 2.0 (the \"License\");");
+		outputStream.println("you may not use this file except in compliance with the License.");
+		outputStream.println("You may obtain a copy of the License at");
+		outputStream.println();
+		outputStream.println("    http://www.apache.org/licenses/LICENSE-2.0");
+		outputStream.println();
+		outputStream.println("Unless required by applicable law or agreed to in writing, software");
+		outputStream.println("distributed under the License is distributed on an \"AS IS\" BASIS,");
+		outputStream.println("WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.");
+		outputStream.println("See the License for the specific language governing permissions and");
+		outputStream.println("limitations under the License.");
+		outputStream.println();
+		outputStream.println("Written by Raphael Cohn (raphael.cohn@stormmq.com)");
+		outputStream.println();
+		Ok.exit();
+	}
+
+	private static String getStringFromStream(final InputStream versionStream, @NotNull final String defaultValue)
+	{
+		final StringBuilder stringBuilder = new StringBuilder(100);
+		final Reader reader = new InputStreamReader(versionStream, Utf8);
+		try
+		{
+			final char[] buffer = new char[100];
+			do
+			{
+				final int read;
+				try
+				{
+					read = reader.read(buffer);
+				}
+				catch (IOException ignored)
+				{
+					return defaultValue;
+				}
+				if (read == -1)
+				{
+					break;
+				}
+				stringBuilder.append(buffer, 0, read);
+			}
+			while(true);
+		}
+		finally
+		{
+			try
+			{
+				reader.close();
+			}
+			catch (IOException ignored)
+			{
+			}
+		}
+		return stringBuilder.toString();
+	}
+
+	@NotNull @NonNls
+	private String programName()
+	{
+		final Class<? extends AbstractConsoleEntryPoint> clazz = getClass();
+		final String simpleName = clazz.getSimpleName().replace(ConsoleEntryPoint, "");
+
+		final String[] words = CamelCaseSplit.split(simpleName);
+		final StringWriter writer = new StringWriter(simpleName.length() * 2);
+		boolean afterFirst = false;
+		for (final String word : words)
+		{
+			if (afterFirst)
+			{
+				writer.write((int) Hyphen);
+			}
+			else
+			{
+				afterFirst = true;
+			}
+			writer.write(word.toLowerCase(ENGLISH));
+		}
+		return writer.toString();
+	}
+
 	private void exitWithErrorAndHelp(@NonNls @NotNull final String message)
 	{
-		outputStream.println(message);
+		errorStream.println(message);
 		try
 		{
 			options.printHelpOn(outputStream);
@@ -288,7 +472,7 @@ public abstract class AbstractConsoleEntryPoint extends AbstractToString
 	@SuppressWarnings("CallToPrintStackTrace")
 	private void exitWithException(@NotNull final Exception e)
 	{
-		e.printStackTrace(outputStream);
+		e.printStackTrace(errorStream);
 		GeneralError.exit();
 	}
 }

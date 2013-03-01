@@ -20,5 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 public interface ValueSerialisable
 {
+	long NullNumber = -1L;
+
 	void serialiseValue(@NotNull final ValueSerialiser valueSerialiser) throws CouldNotSerialiseValueException;
 }

@@ -1,0 +1,34 @@
+/var/log/syslog
+/var/log/kern.log
+/var/log/user.log
+/var/log/mail.log
+/var/log/daemon.log
+/var/log/auth.log
+/var/log/syslog.log
+/var/log/lpr.log
+/var/log/news.log
+/var/log/uucp.log
+/var/log/cron.log
+/var/log/authpriv.log
+/var/log/ftp.log
+/var/log/local0.log
+/var/log/local1.log
+/var/log/local2.log
+/var/log/local3.log
+/var/log/local4.log
+/var/log/local5.log
+/var/log/local6.log
+/var/log/local7.log
+{
+	maxage 31
+	daily
+	dateext
+	missingok
+	ifempty
+	compress
+	delaycompress
+	sharedscripts
+	postrotate
+		reload rsyslog >/dev/null 2>&1 || true
+	endscript
+}

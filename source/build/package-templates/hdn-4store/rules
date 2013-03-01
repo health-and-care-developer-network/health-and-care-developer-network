@@ -24,7 +24,8 @@ binary-indep: build install
 	dh_testroot
 	dh_installchangelogs
 
-	# Copy the packages's files.
+	# Decompress before packaging for maximum efficiency and useful import statistics
+	find debian/$(PACKAGE)/usr/share/$(PACKAGE)/data -type 'f' -name '*.bz2' -print0 | xargs -0 -n1 bunzip2
 	
 	dh_installdocs
 	dh_installexamples

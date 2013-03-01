@@ -66,7 +66,7 @@ public final class JavaHttpClient extends AbstractToString implements HttpClient
 	{
 		this.httpUrl = httpUrl;
 		this.httpHeaders = copyOf(httpHeaders);
-		final TcpConnectionConfiguration tcpConnectionConfiguration = tcpConnectionConfiguration(true, 10 * 1000, 10 * 1000);
+		final TcpConnectionConfiguration tcpConnectionConfiguration = tcpConnectionConfiguration(true, 10 * 1000, 1000 * 1000);
 		headConfiguration = tcpConnectionConfiguration.with(HEAD);
 		getConfiguration = tcpConnectionConfiguration.with(GET);
 		postConfiguration = tcpConnectionConfiguration.with(POST).with(supportsChunkedUploads);

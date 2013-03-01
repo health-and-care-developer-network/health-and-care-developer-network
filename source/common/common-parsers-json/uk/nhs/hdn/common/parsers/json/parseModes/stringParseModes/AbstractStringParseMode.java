@@ -166,6 +166,9 @@ public abstract class AbstractStringParseMode extends AbstractParseMode
 			case TabEscapeMarker:
 				return Tab;
 
+			case QuotationMarkMarker:
+				return QuotationMark;
+
 			default:
 				throw new InvalidJsonException(format(ENGLISH, "unrecognised simple escape sequence '%1$s' in string", (int) reverseSolidusPrefixedCharacter));
 		}

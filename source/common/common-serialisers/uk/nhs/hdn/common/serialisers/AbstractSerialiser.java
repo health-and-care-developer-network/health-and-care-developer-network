@@ -21,6 +21,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.unknown.IsUnknown;
 
+import java.util.List;
+import java.util.Map;
+
+import static uk.nhs.hdn.common.serialisers.ValueSerialisable.NullNumber;
+
 public abstract class AbstractSerialiser extends AbstractValueSerialiser implements Serialiser
 {
 	public static <V extends ValueSerialisable & IsUnknown> void writePropertyIfKnown(@NotNull final MapSerialiser mapSerialiser,
@@ -40,6 +45,42 @@ public abstract class AbstractSerialiser extends AbstractValueSerialiser impleme
 		}
 	}
 
+	public static void writeNullableProperty(@NotNull final MapSerialiser mapSerialiser, @FieldTokenName @NotNull @NonNls final String field, @Nullable final String value) throws CouldNotWritePropertyException
+	{
+		if (value == null)
+		{
+			mapSerialiser.writePropertyNull(field);
+		}
+		else
+		{
+			mapSerialiser.writeProperty(field, value);
+		}
+	}
+
+	public static void writeNullableProperty(@NotNull final MapSerialiser mapSerialiser, @NotNull @NonNls @FieldTokenName final String name, final long valueOrMinusOne) throws CouldNotWritePropertyException
+	{
+		if (valueOrMinusOne == NullNumber)
+		{
+			mapSerialiser.writePropertyNull(name);
+		}
+		else
+		{
+			mapSerialiser.writeProperty(name, valueOrMinusOne);
+		}
+	}
+
+	public static void writeNullableProperty(@NotNull final MapSerialiser mapSerialiser, @NotNull @NonNls @FieldTokenName final String name, @Nullable final Boolean value) throws CouldNotWritePropertyException
+	{
+		if (value == null)
+		{
+			mapSerialiser.writePropertyNull(name);
+		}
+		else
+		{
+			mapSerialiser.writeProperty(name, (boolean) value);
+		}
+	}
+
 	public static void writeNullableProperty(@NotNull final MapSerialiser mapSerialiser, @NotNull @NonNls @FieldTokenName final String name, @Nullable final ValueSerialisable valueSerialisable) throws CouldNotWritePropertyException
 	{
 		if (valueSerialisable == null)
@@ -49,6 +90,13 @@ public abstract class AbstractSerialiser extends AbstractValueSerialiser impleme
 		mapSerialiser.writeProperty(name, valueSerialisable);
 	}
 
+	@Override
+	public final void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final boolean value) throws CouldNotWritePropertyException
+	{
+		writeProperty(name, convertBooleanToString(value));
+	}
+
+	@SuppressWarnings("MethodWithMultipleReturnPoints")
 	@Override
 	public final void writeProperty(@NonNls @NotNull final String name, @Nullable final Object value) throws CouldNotWritePropertyException
 	{
@@ -64,15 +112,57 @@ public abstract class AbstractSerialiser extends AbstractValueSerialiser impleme
 			return;
 		}
 
+		if (value instanceof MapSerialisable[])
+		{
+			writeProperty(name, (MapSerialisable[]) value);
+			return;
+		}
+
 		if (value instanceof ValueSerialisable)
 		{
 			writeProperty(name, (ValueSerialisable) value);
 			return;
 		}
 
+		if (value instanceof ValueSerialisable[])
+		{
+			writeProperty(name, (ValueSerialisable[]) value);
+			return;
+		}
+
+		if (value instanceof Integer)
+		{
+			writeProperty(name, (int) value);
+			return;
+		}
+
+		if (value instanceof Long)
+		{
+			writeProperty(name, (long) value);
+			return;
+		}
+
 		if (value instanceof String)
 		{
 			writeProperty(name, (String) value);
+			return;
+		}
+
+		if (value instanceof Boolean)
+		{
+			writeProperty(name, (boolean) value);
+			return;
+		}
+
+		if (value instanceof Map)
+		{
+			writeProperty(name, new GenericMapSerialisable((Map<?, ?>) value));
+			return;
+		}
+
+		if (value instanceof List)
+		{
+			writeProperty(name, (List<?>) value);
 			return;
 		}
 
@@ -103,4 +193,5 @@ public abstract class AbstractSerialiser extends AbstractValueSerialiser impleme
 
 		super.writeValue(value);
 	}
+
 }

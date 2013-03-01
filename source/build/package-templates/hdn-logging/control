@@ -1,0 +1,23 @@
+Source: hdn-logging
+Section: admin
+Priority: important
+Maintainer: Raphael Cohn <raphael.cohn@stormmq.com>
+Uploaders: Mike Kelly <mike.kelly1@nhs.net>
+Homepage: http://hdn.nhs.uk/
+Build-Depends: debhelper (>= 7), fakeroot, openjdk-7-jdk, git-core, apt-utils, gnupg, devscripts
+Standards-Version: 3.8.4.0
+
+Package: hdn-logging
+Architecture: all
+Depends: upstart, rsyslog, logrotate, ${misc:Depends}
+Pre-Depends: hdn-apt
+Homepage: http://hdn.nhs.uk/
+Description: HDN logging
+ This package makes various log-related
+ changes.
+ .
+ It enables boot logging.
+ .
+ It makes rcS jobs more verbose during boot.
+ .
+ It changes rsyslog.

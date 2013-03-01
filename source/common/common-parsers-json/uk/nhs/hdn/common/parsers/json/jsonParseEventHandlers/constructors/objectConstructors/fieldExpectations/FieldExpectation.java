@@ -28,14 +28,29 @@ import uk.nhs.hdn.common.serialisers.FieldTokenName;
 import java.math.BigDecimal;
 import java.util.Map;
 
+import static java.lang.String.format;
+import static java.util.Locale.ENGLISH;
+
 public class FieldExpectation<X> extends AbstractToString
 {
+	@NotNull
+	public static FieldExpectation<String> nullableStringField(@FieldTokenName @NonNls @NotNull final String key)
+	{
+		return new FieldExpectation<>(key, String.class, true, null, null, null);
+	}
+
+	@NotNull
+	public static FieldExpectation<Long> nullablelongField(@FieldTokenName @NonNls @NotNull final String key, final long defaultValue)
+	{
+		return new FieldExpectation<>(key, long.class, true, null, null, defaultValue);
+	}
+
 	@NotNull
 	@FieldTokenName
 	@NonNls
 	private final String key;
 	@NotNull
-	private final Class<X> constructorParameterType;
+	protected final Class<X> constructorParameterType;
 	private final boolean nullDisallowed;
 	private final boolean booleanDisallowed;
 	private final boolean integerDisallowed;
@@ -43,10 +58,13 @@ public class FieldExpectation<X> extends AbstractToString
 	private final ArrayConstructor<?> arrayConstructor;
 	@Nullable
 	private final ObjectConstructor<?> objectConstructor;
+	@Nullable
+	private final X defaultValueIfMissing;
 	private int constructorParameterIndex;
 
-	public FieldExpectation(@FieldTokenName @NonNls @NotNull final String key, @NotNull final Class<X> constructorParameterType, final boolean nullPermitted, @Nullable final ArrayConstructor<?> arrayConstructor, @Nullable final ObjectConstructor<?> objectConstructor)
+	public FieldExpectation(@FieldTokenName @NonNls @NotNull final String key, @NotNull final Class<X> constructorParameterType, final boolean nullPermitted, @Nullable final ArrayConstructor<?> arrayConstructor, @Nullable final ObjectConstructor<?> objectConstructor, @Nullable final X defaultValueIfMissing)
 	{
+		this.defaultValueIfMissing = defaultValueIfMissing;
 		if (key.isEmpty())
 		{
 			throw new IllegalArgumentException("key can not be empty");
@@ -74,7 +92,7 @@ public class FieldExpectation<X> extends AbstractToString
 	{
 		if (register.put(key, this) != null)
 		{
-			throw new IllegalStateException("Already registered");
+			throw new IllegalStateException(format(ENGLISH, "Already registered key %1$s", key));
 		}
 		this.constructorParameterIndex = constructorParameterIndex;
 		parameterTypes[constructorParameterIndex] = constructorParameterType;
@@ -108,7 +126,7 @@ public class FieldExpectation<X> extends AbstractToString
 		}
 		try
 		{
-			constructorArguments[constructorParameterIndex] = constructorParameterType.cast(value);
+			putValueWithCast(constructorArguments, value);
 		}
 		catch(ClassCastException e)
 		{
@@ -124,7 +142,7 @@ public class FieldExpectation<X> extends AbstractToString
 		}
 		try
 		{
-			constructorArguments[constructorParameterIndex] = constructorParameterType.cast(value);
+			putValueWithCast(constructorArguments, value);
 		}
 		catch (ClassCastException e)
 		{
@@ -138,7 +156,7 @@ public class FieldExpectation<X> extends AbstractToString
 		{
 			throw new UnexpectedLiteralBooleanValueForSchemaViolationInvalidJsonException();
 		}
-		constructorArguments[constructorParameterIndex] = value;
+		putValue(constructorArguments, value);
 	}
 
 	@SuppressWarnings("MethodCanBeVariableArityMethod")
@@ -148,13 +166,14 @@ public class FieldExpectation<X> extends AbstractToString
 		{
 			throw new UnexpectedLiteralNullValueForSchemaViolationInvalidJsonException();
 		}
+		putValue(constructorArguments, null);
 	}
 
 	public void putConstantStringValue(@NotNull final Object[] constructorArguments, @NotNull final String value) throws SchemaViolationInvalidJsonException
 	{
 		try
 		{
-			constructorArguments[constructorParameterIndex] = constructorParameterType.cast(value);
+			putValue(constructorArguments, value);
 		}
 		catch (ClassCastException e)
 		{
@@ -168,18 +187,48 @@ public class FieldExpectation<X> extends AbstractToString
 		{
 			throw new UnexpectedConstantNumberValueForSchemaViolationInvalidJsonException();
 		}
-		constructorArguments[constructorParameterIndex] = value;
+		putValue(constructorArguments, value);
 	}
 
 	public void putConstantNumberValue(@NotNull final Object[] constructorArguments, @NotNull final BigDecimal value) throws SchemaViolationInvalidJsonException
 	{
 		try
 		{
-			constructorArguments[constructorParameterIndex] = constructorParameterType.cast(value);
+			putValueWithCast(constructorArguments, value);
 		}
 		catch (ClassCastException e)
 		{
 			throw new NumberValueTypeMismatchForSchemaViolationInvalidJsonException(e);
 		}
+	}
+
+	@SuppressWarnings("MethodCanBeVariableArityMethod")
+	public void assignDefaultValueIfMissing(@NotNull final Object[] constructorArguments) throws SchemaViolationInvalidJsonException
+	{
+		if (constructorArguments[constructorParameterIndex] != null)
+		{
+			return;
+		}
+
+		if (defaultValueIfMissing != null)
+		{
+			putValue(constructorArguments, defaultValueIfMissing);
+			return;
+		}
+
+		if (nullDisallowed)
+		{
+			throw new SchemaViolationInvalidJsonException("value is missing and null is disallowed");
+		}
+	}
+
+	protected final void putValueWithCast(@NotNull final Object[] constructorArguments, @Nullable final Object value)
+	{
+		putValue(constructorArguments, constructorParameterType.cast(value));
+	}
+
+	protected final void putValue(@NotNull final Object[] constructorArguments, @Nullable final Object value)
+	{
+		constructorArguments[constructorParameterIndex] = value;
 	}
 }

@@ -23,9 +23,20 @@ import java.io.IOException;
 import java.io.Writer;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
+import java.util.List;
+
+import static java.util.Arrays.copyOf;
 
 public final class FlatteningValueSerialiser extends AbstractValueSerialiser
 {
+	@NotNull
+	private final char[] separator;
+
+	public FlatteningValueSerialiser(@NotNull final char... separator)
+	{
+		this.separator = copyOf(separator, separator.length);
+	}
+
 	public void start(@NotNull final Writer writer, @NotNull final Charset charset)
 	{
 		this.writer = writer;
@@ -36,8 +47,24 @@ public final class FlatteningValueSerialiser extends AbstractValueSerialiser
 	@Override
 	public <S extends MapSerialisable> void writeValue(@NotNull final S[] values) throws CouldNotWriteValueException
 	{
+		boolean afterFirst = false;
 		for (final S value : values)
 		{
+			if (afterFirst)
+			{
+				try
+				{
+					writer.write(separator);
+				}
+				catch (IOException e)
+				{
+					throw new CouldNotWriteValueException(values, new CouldNotWriteDataException(e));
+				}
+			}
+			else
+			{
+				afterFirst = true;
+			}
 			writeValue(value);
 		}
 	}
@@ -46,8 +73,49 @@ public final class FlatteningValueSerialiser extends AbstractValueSerialiser
 	@Override
 	public <S extends ValueSerialisable> void writeValue(@NotNull final S[] values) throws CouldNotWriteValueException
 	{
+		boolean afterFirst = false;
 		for (final S value : values)
 		{
+			if (afterFirst)
+			{
+				try
+				{
+					writer.write(separator);
+				}
+				catch (IOException e)
+				{
+					throw new CouldNotWriteValueException(values, new CouldNotWriteDataException(e));
+				}
+			}
+			else
+			{
+				afterFirst = true;
+			}
+			writeValue(value);
+		}
+	}
+
+	@Override
+	public void writeValue(@NotNull final List<?> values) throws CouldNotWriteValueException
+	{
+		boolean afterFirst = false;
+		for (final Object value : values)
+		{
+			if (afterFirst)
+			{
+				try
+				{
+					writer.write(separator);
+				}
+				catch (IOException e)
+				{
+					throw new CouldNotWriteValueException(values, new CouldNotWriteDataException(e));
+				}
+			}
+			else
+			{
+				afterFirst = true;
+			}
 			writeValue(value);
 		}
 	}
@@ -79,14 +147,14 @@ public final class FlatteningValueSerialiser extends AbstractValueSerialiser
 		}
 		catch (IOException e)
 		{
-			throw new CouldNotWriteValueException(this, new CouldNotWriteDataException(e));
+			throw new CouldNotWriteValueException(value, new CouldNotWriteDataException(e));
 		}
 	}
 
 	@Override
 	public void writeValue(@NotNull final MapSerialisable value) throws CouldNotWriteValueException
 	{
-		throw new CouldNotWriteValueException(value, "maps can not be flattened");
+		writeValue(value.toString());
 	}
 
 	@Override

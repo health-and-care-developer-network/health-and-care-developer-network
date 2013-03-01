@@ -88,4 +88,11 @@ public final class RecurseMatcher extends AbstractMatcher
 	{
 		throw new IllegalArgumentException(format(ENGLISH, "This matcher is not a leaf and can not record the value %1$s", rawValue));
 	}
+
+	@NotNull
+	@Override
+	public char[] separator()
+	{
+		throw new IllegalArgumentException("This matcher is not a leaf and can not have a separator");
+	}
 }

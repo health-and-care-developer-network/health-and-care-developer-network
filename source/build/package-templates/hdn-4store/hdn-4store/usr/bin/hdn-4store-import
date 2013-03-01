@@ -1,0 +1,119 @@
+#!/bin/bash -
+
+# © Crown Copyright 2013
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Disable errors stopping the script
+set -e
+
+source "/usr/lib/hdn-apt/functions"
+
+readonly ourName="$(basename "$0")"
+
+cd "$(dirname "$0")" 1>/dev/null
+readonly crudeOurPath="$(pwd)"
+cd - 1>/dev/null
+
+function exitHelp()
+{
+	cat 1>&2 <<-EOF
+		Usage: $ourName -h
+		Usage: $ourName --help
+		Usage: $ourName <databaseName> <segments>
+		
+		Installs RDF files
+		To re-import do first:-
+		
+		    sudo invoke-rc.d 4store stop
+		    sudo rm -r /var/lib/4store/hdn
+		
+	EOF
+	exit $1
+}
+
+function exitError()
+{
+	local -r error="$1"
+	echo "$ourName: $error" 1>&2
+	exitHelp 1
+}
+
+function parseCommandLine()
+{
+	if [ $# -eq 1 ]; then
+		if [ "$1" = "--help" ]; then
+			exitHelp 2
+		elif  [ "$1" = "-h" ]; then
+			exitHelp 2
+		else
+			exitError "Invalid options"
+		fi
+	elif [ $# -eq 2 ]; then
+		readonly databaseName="$1"
+		readonly segments="$2"
+	else
+		exitError "Invalid options"
+	fi
+	
+	if [ $UID != 0 ]; then
+		exitError "Must be run as root / sudo"
+	fi
+}
+
+function importRdfFiles()
+{
+	if [ -d /var/lib/4store/"$databaseName"  ]; then
+		echo "$ourName: Database $databaseName already exists, doing nothing (delete /var/lib/4store/$databaseName and re-run if you wish to force import)"
+	else
+		set +e
+		
+		# pkill used rather than invoke-rc.d as the latter uses the configure file, which can refer to a database that does not yet exist
+		pkill 4s-httpd
+		pkill 4s-backend
+		
+		stopUpstartJob "hdn-firewall"
+		
+		stopUpstartJob "avahi-daemon"
+		
+		startOrRestartUpstartJob "avahi-daemon"
+		
+		4s-backend-setup --node 0 --cluster 1 --segments $segments "$databaseName"
+		
+		4s-backend hdn
+		
+		echo "Sleeping for 30 seconds"
+		sleep 30
+		
+		for rdfFile in /usr/share/hdn-4store/data/"$databaseName"/*.rdf; do
+			if [ ! -f "$rdfFile" ]; then
+				continue
+			fi
+			4s-import -v "$databaseName" "$rdfFile"
+		done
+		
+		pkill 4s-backend
+		
+		startOrRestartUpstartJob "hdn-firewall"
+		
+		set -e
+	fi
+}
+
+function main()
+{
+	parseCommandLine "$@"
+	importRdfFiles
+}
+
+main "$@"

@@ -21,27 +21,8 @@ source "/usr/lib/hdn-apt/functions"
 
 function createHdnDatabaseIfMissing()
 {
-	# azure instances are 2 CPU, hence 4 segments. Of course, in a sophisticated set-up, we'd have machine profiles...
-	if [ ! -f /var/lib/4store/hdn/metadata.nt ]; then
-		set +e
-		
-		invoke-rc.d 4store stop
-	
-		4s-backend-setup --node 0 --cluster 1 --segments 4 hdn
-		
-		4s-backend hdn
-		
-		for rdfBz2File in /usr/share/hdn-4store/data/*.rdf.bz2; do
-			if [ ! -f "$rdfBz2File" ]; then
-				continue
-			fi
-			4s-import -v hdn <(bunzip2 --stdout "$rdfBz2File")
-		done
-		
-		pkill 4s-backend
-		
-		set -e
-	fi
+	#azure instances are 2 CPU, hence 4 segments. Of course, in a sophisticated set-up, we'd have machine profiles...
+	/usr/bin/hdn-4store-import hdn 4
 }
 
 function cleanUpFolderPermissions()

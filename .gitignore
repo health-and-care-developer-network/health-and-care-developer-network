@@ -1,5 +1,3 @@
-*.class
-
 # IntelliJ
 *.iws
 
@@ -13,3 +11,9 @@ release/
 # GNU Privacy Guard (GPG)
 *.gpg
 *.gpg~
+
+# Temporary suppression of ITK outputs
+source/build/package-templates/hdn-itk-documentation/hdn-itk-documentation/srv/hdn-itk-documentation/itk/itk-api/
+source/build/package-templates/hdn-itk-documentation/hdn-itk-documentation/srv/hdn-itk-documentation/itk/itk-ri/
+source/build/package-templates/hdn-itk-documentation/hdn-itk-documentation/srv/hdn-itk-documentation/itk/itk-samples/
+source/build/package-templates/hdn-itk-documentation/hdn-itk-documentation/srv/hdn-itk-documentation/itk/staging/
