@@ -30,6 +30,7 @@ import static com.softwarecraftsmen.orogeny.actions.CopyFilesAction.flatHardLink
 import static com.softwarecraftsmen.orogeny.actions.DeleteDirectoryAction.deleteDirectory;
 import static com.softwarecraftsmen.orogeny.actions.EchoAction.echo;
 import static com.softwarecraftsmen.orogeny.actions.ExecuteAction.TenMinutes;
+import static com.softwarecraftsmen.orogeny.actions.ExecuteAction.OneHour;
 import static com.softwarecraftsmen.orogeny.actions.ExecuteAction.execute;
 import static com.softwarecraftsmen.orogeny.actions.JarTogetherAction.jarTogether;
 import static com.softwarecraftsmen.orogeny.actions.MakeDirectoryAction.makeDirectory;
@@ -179,8 +180,8 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		task("packages").dependsOn(debianPackagesPackageTasks).does
 		(
-			execute(source("build", "build").file("create-insecure-apt-repository")).inWorkingDirectory(output()).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArguments("packages"),
-			execute(source("build", "build").file("create-secure-apt-repository")).inWorkingDirectory(output()).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArguments("packages", "hdn")
+			execute(source("build", "build").file("create-insecure-apt-repository")).inWorkingDirectory(output()).forUpTo(OneHour).withInheritedEnvironmentVariables().withArguments("packages"),
+			execute(source("build", "build").file("create-secure-apt-repository")).inWorkingDirectory(output()).forUpTo(OneHour).withInheritedEnvironmentVariables().withArguments("packages", "hdn")
 		);
 	}
 
@@ -262,7 +263,7 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		task(taskName).dependsOn(dependsOnTaskNames).does
 		(
-			execute(source("build", "build").file("create-debian-package")).inWorkingDirectory(output()).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArguments(packagesFolder, packageName)
+			execute(source("build", "build").file("create-debian-package")).inWorkingDirectory(output()).forUpTo(OneHour).withInheritedEnvironmentVariables().withArguments(packagesFolder, packageName)
 		);
 
 		return expandedDebianPackageTasks;
