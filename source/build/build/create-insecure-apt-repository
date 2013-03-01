@@ -77,9 +77,10 @@ function createPackagesFile()
 
 function compressPackagesFile()
 {
-    readonly packagesFile="$packagesPath"/Packages
-    gzip --stdout --best "$packagesFile" >"$packagesFile".gz
-    bzip2 --stdout --best "$packagesFile" >"$packagesFile".bz2
+	readonly packagesFile="$packagesPath"/Packages
+	gzip --stdout --best "$packagesFile" >"$packagesFile".gz
+	bzip2 --stdout --best "$packagesFile" >"$packagesFile".bz2
+	xz --stdout --best "$packagesFile" >"$packagesFile".xz
 }
 
 function createAptSourcesSnippet()
