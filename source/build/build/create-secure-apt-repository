@@ -106,7 +106,7 @@ function installPackages()
 	rsync -a --link-dest="$packagesPath" --include='*/' --include='*.deb' --exclude='*' "$packagesPath"/ "$destinationPackagesPath"/
 	
 	mkdir -p "$tarballsPath"
-	rsync -a --link-dest="$packagesPath" --include='*/' --include='*.tar' --include='*.gz' --include='*.bz2' --include='*.xz' --exclude='*' "$packagesPath"/ "$tarballsPath"/
+	rsync -a --link-dest="$packagesPath" --include='*/' --exclude='Packages.*' --include='*.tar' --include='*.gz' --include='*.bz2' --include='*.xz' --exclude='*' "$packagesPath"/ "$tarballsPath"/
 	
 }
 
