@@ -77,7 +77,7 @@ function setPaths()
 	readonly packageTemplatesPath="$sourcePath"/build/package-templates
 	readonly keyringsPath="$packageTemplatesPath"/hdn-keyring-private/hdn-keyring-private/etc/hdn-keyring-private
 	readonly keyringPath="$keyringsPath"/"$keyring"
-	readonly repositoryKey="$archiveDirPath"/"$repositoryName".key
+	readonly repositoryKey="$archiveDirPath"/"$repositoryName".gpg
 	readonly fileFilePath="$archiveDirPath"/hdn.secure.file.sources.list
 	readonly httpFilePath="$archiveDirPath"/hdn.secure.http.sources.list
 	readonly httpsFilePath="$archiveDirPath"/hdn.secure.https.sources.list
