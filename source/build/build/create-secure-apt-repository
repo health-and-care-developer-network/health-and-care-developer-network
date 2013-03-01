@@ -71,6 +71,7 @@ function setPaths()
 	
 	readonly distributionPath="$archiveDirPath"/"$codeName"
 	readonly distsCodeNamePath="$archiveDirPath"/dists/"$codeName"
+	readonly tarballsPath="$archiveDirPath"/tarballs
 	
 	# Used by gpg
 	readonly packageTemplatesPath="$sourcePath"/build/package-templates
@@ -102,7 +103,11 @@ function makePaths()
 function installPackages()
 {
 	readonly destinationPackagesPath="$distributionPath"/main
-	rsync -a --link-dest="$packagesPath" --include='*/' --include='*.deb' --include='*.tar' --include='*.gz' --include='*.bz2' --include='*.xz' --exclude='*' "$packagesPath"/ "$destinationPackagesPath"/
+	rsync -a --link-dest="$packagesPath" --include='*/' --include='*.deb' --exclude='*' "$packagesPath"/ "$destinationPackagesPath"/
+	
+	mkdir -p "$tarballsPath"
+	rsync -a --link-dest="$packagesPath" --include='*/' --include='*.tar' --include='*.gz' --include='*.bz2' --include='*.xz' --exclude='*' "$packagesPath"/ "$tarballsPath"/
+	
 }
 
 function createAptFtparchiveConfiguration()
