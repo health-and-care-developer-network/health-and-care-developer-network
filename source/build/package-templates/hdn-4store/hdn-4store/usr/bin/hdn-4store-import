@@ -112,7 +112,7 @@ function importRdfFiles()
 
 function main()
 {
-	parseCommandLine
+	parseCommandLine "$@"
 	importRdfFiles
 }
 
