@@ -71,6 +71,9 @@ types
 	application/x-sea sea;
 	application/x-unix-archive ar;
 	application/x-shar shar;
+	
+	text/plain list;
+	application/pgp-keys gpg, pgp;
 
 	application/octet-stream bin exe dll;
 	application/octet-stream dmg;
