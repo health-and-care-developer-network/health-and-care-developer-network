@@ -60,7 +60,7 @@ types
 	application/x-tar tar;
 	application/x-bzip2 bzip2;
 	application/x-xz xz;
-	application/x-compress z Z;
+	application/x-compress z;
 	application/x-lzip lz;
 	application/lzma lzma;
 	application/x-lzop lzop;
@@ -73,7 +73,6 @@ types
 	application/x-shar shar;
 
 	application/octet-stream bin exe dll;
-	application/octet-stream deb;
 	application/octet-stream dmg;
 	application/octet-stream iso img;
 	application/octet-stream msi msp msm;
