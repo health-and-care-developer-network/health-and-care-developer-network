@@ -30,13 +30,13 @@ function exitHelp()
 	cat 1>&2 <<-EOF
 		Usage: $ourName -h
 		Usage: $ourName --help
-		Usage: $ourName
+		Usage: $ourName <databaseName> <segments>
 		
 		Installs RDF files
 		To re-import do first:-
 		
 		    sudo invoke-rc.d 4store stop
-		    sudo rm -r /var/lib/4store hdn
+		    sudo rm -r /var/lib/4store/hdn
 		
 	EOF
 	exit $1
@@ -51,9 +51,7 @@ function exitError()
 
 function parseCommandLine()
 {
-	if [ $# -eq 0 ]; then
-		:
-	elif [ $# -eq 1 ]; then
+	if [ $# -eq 1 ]; then
 		if [ "$1" = "--help" ]; then
 			exitHelp 2
 		elif  [ "$1" = "-h" ]; then
@@ -61,7 +59,10 @@ function parseCommandLine()
 		else
 			exitError "Invalid options"
 		fi
-	else	
+	elif [ $# -eq 2 ]; then
+		readonly databaseName="$1"
+		readonly segments="$2"
+	else
 		exitError "Invalid options"
 	fi
 	
@@ -72,15 +73,14 @@ function parseCommandLine()
 
 function importRdfFiles()
 {
-	local -r databaseName="$1"
-	local -ir segments=$2
-	
 	if [ -d /var/lib/4store/"$databaseName"  ]; then
 		echo "$ourName: Database $databaseName already exists, doing nothing (delete /var/lib/4store/$databaseName and re-run if you wish to force import)"
 	else
 		set +e
 		
-		invoke-rc.d 4store stop
+		# pkill used rather than invoke-rc.d as the latter uses the configure file, which can refer to a database that does not yet exist
+		pkill 4s-httpd
+		pkill 4s-backend
 		
 		stopUpstartJob "hdn-firewall"
 		
@@ -112,8 +112,8 @@ function importRdfFiles()
 
 function main()
 {
-	#azure instances are 2 CPU, hence 4 segments. Of course, in a sophisticated set-up, we'd have machine profiles...
-	importRdfFiles "hdn" 4
+	parseCommandLine
+	importRdfFiles
 }
 
 main "$@"
