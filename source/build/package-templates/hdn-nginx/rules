@@ -75,7 +75,6 @@ config.status: config.env config.sub config.guess
 	    --with-sha1=/usr/include/openssl \
 	    --with-md5=/usr/include/openssl \
 	    --without-http_access_module \
-	    --without-http_autoindex_module \
 	    --without-http_browser_module \
 	    --without-http_empty_gif_module \
 	    --without-http_fastcgi_module \
