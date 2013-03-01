@@ -34,6 +34,7 @@ Pre-Depends: hdn-apt
 Conflicts: nginx, nginx-common, nginx-doc, ngnix-full, ngnix-light, nginx-extras, nginx-naxsi, nginx-full-dbg, nginx-light-dbg, nginx-extras-dbg, nginx-naxsi-debug
 Replaces: nginx, nginx-common, nginx-doc, nginx-extras, nginx-full, nginx-light, nginx-naxsi
 Provides: httpd, nginx
+Pre-Depends: dpkg (>= 1.15.6~)
 Description: small, but very powerful and efficient web server and mail proxy
  Nginx (engine x) is a web server created by Igor Sysoev and kindly provided to
  the open-source community. This server can be used as standalone HTTP server

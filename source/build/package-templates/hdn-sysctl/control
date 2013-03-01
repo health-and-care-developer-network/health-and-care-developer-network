@@ -10,7 +10,7 @@ Standards-Version: 3.8.4.0
 Package: hdn-sysctl
 Architecture: all
 Depends: hdn-apt, ${misc:Depends}
-Pre-Depends: procps
+Pre-Depends: procps, dpkg (>= 1.15.6~)
 Homepage: http://hdn.nhs.uk/
 Description: HDN hdn-sysctl
  This package provides a way to allow

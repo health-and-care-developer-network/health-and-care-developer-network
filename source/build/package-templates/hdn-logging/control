@@ -10,7 +10,7 @@ Standards-Version: 3.8.4.0
 Package: hdn-logging
 Architecture: all
 Depends: upstart, rsyslog, logrotate, ${misc:Depends}
-Pre-Depends: hdn-apt
+Pre-Depends: hdn-apt, dpkg (>= 1.15.6~)
 Homepage: http://hdn.nhs.uk/
 Description: HDN logging
  This package makes various log-related

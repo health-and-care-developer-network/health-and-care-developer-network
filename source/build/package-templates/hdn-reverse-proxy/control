@@ -10,7 +10,7 @@ Standards-Version: 3.8.4.0
 Package: hdn-reverse-proxy
 Architecture: all
 Depends: hdn-firewall, hdn-smtp, ${misc:Depends}, ${shlibs:Depends}
-Pre-Depends: hdn-apt, hdn-nginx
+Pre-Depends: hdn-apt, hdn-nginx, dpkg (>= 1.15.6~)
 Homepage: http://hdn.nhs.uk/
 Description: HDN Reverse Proxy
  This package provides a configuration and dependencies

@@ -11,7 +11,7 @@ Package: hdn-jstatd
 Architecture: all
 Depends: coreutils (>= 7.4-2ubuntu3), hdn-java-common, ${misc:Depends}
 Homepage: http://hdn.nhs.uk/
-Pre-Depends: hdn-apt
+Pre-Depends: hdn-apt, dpkg (>= 1.15.6~)
 Description: HDN jstatd wrapper
  This package provides a wrapper around
  jstatd, which is an useful daemon for

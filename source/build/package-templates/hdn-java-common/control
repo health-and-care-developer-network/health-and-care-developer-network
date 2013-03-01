@@ -10,6 +10,7 @@ Standards-Version: 3.8.4.0
 Package: hdn-java-common
 Architecture: all
 Depends: coreutils (>= 7.4-2ubuntu3), fakeroot, openjdk-7-jdk, ${misc:Depends}
+Pre-Depends: dpkg (>= 1.15.6~)
 Homepage: http://hdn.nhs.uk/
 Description: HDN Java common files
  This package provides common files for
