@@ -23,8 +23,8 @@ function processTriggers()
 	# triggers are coalesced
 	local -i reloadHdnNginx=0
 	
-	# Not quoted as iterableTriggers is a space-separated list
-	for triggerName in $iterableTriggers
+	# Not quoted as $* is a space-separated list
+	for triggerName in $*
 	do
 		case "$triggerName" in
 			
@@ -62,7 +62,8 @@ case "$1" in
 			exit 1
 		fi
 		
-		processTriggers "$2"
+		# Not quoted as $2 is a space-separated list
+		processTriggers $2
 	;;
 
 	abort-upgrade)

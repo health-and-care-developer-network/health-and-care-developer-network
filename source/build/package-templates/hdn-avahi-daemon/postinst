@@ -19,11 +19,14 @@ set -e
 
 source "/usr/lib/hdn-apt/functions"
 
+function startOrRestartHdnFirewall()
+{
+	startOrRestartUpstartJob "hdn-firewall"
+}
+
 function startOrRestartAvahiDaemon()
 {
-	set +e
-	invoke-rc.d 4store restart
-	set -e
+	startOrRestartUpstartJob "avahi-daemon"
 }
 
 case "$1" in
@@ -31,6 +34,7 @@ case "$1" in
 		readonly postinst_Instance="any"
 		readonly mostRecentlyConfiguredVersion="$2"
 		
+		startOrRestartHdnFirewall
 		startOrRestartAvahiDaemon
 	;;
 
