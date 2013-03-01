@@ -102,7 +102,7 @@ function makePaths()
 function installPackages()
 {
 	readonly destinationPackagesPath="$distributionPath"/main
-	rsync -a --link-dest="$packagesPath" --include='*/' --include='*.deb' --include='*.tar' --include='*.gz' --include='*.bzip2' --include='*.xz' --exclude='*' "$packagesPath"/ "$destinationPackagesPath"/
+	rsync -a --link-dest="$packagesPath" --include='*/' --include='*.deb' --include='*.tar' --include='*.gz' --include='*.bz2' --include='*.xz' --exclude='*' "$packagesPath"/ "$destinationPackagesPath"/
 }
 
 function createAptFtparchiveConfiguration()
