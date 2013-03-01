@@ -39,7 +39,7 @@ public final class CrossCheck2RequestBody extends AbstractRequestBody
 		this.nhsNumber = nhsNumber;
 		if (familyNameFirstThreeCharacters.length() == 0 || familyNameFirstThreeCharacters.length() > 3)
 		{
-			throw new IllegalArgumentException("familtNameFirstThreeCharacters can not be empty or more than 3 characters");
+			throw new IllegalArgumentException("familyNameFirstThreeCharacters can not be empty or more than 3 characters");
 		}
 		this.familyNameFirstThreeCharacters = familyNameFirstThreeCharacters;
 		this.givenNameFirstCharacter = givenNameFirstCharacter;
