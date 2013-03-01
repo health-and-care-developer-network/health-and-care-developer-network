@@ -134,8 +134,8 @@ function installPackages()
 			if [ ! -f "$zipJarFile" ]; then
 				continue
 			fi
-			local zipjarFileName="$(basename "$zipJarFile")"
-			local destFilePath="$jarsPath"/"$zipJarFile"
+			local zipJarFileName="$(basename "$zipJarFile")"
+			local destFilePath="$jarsPath"/"$zipJarFileName"
 			if [ -f "$destFilePath" ]; then
 				continue
 			fi
@@ -146,8 +146,8 @@ function installPackages()
 			if [ ! -f "$zipJarFile" ]; then
 				continue
 			fi
-			local zipjarFileName="$(basename "$zipJarFile")"
-			local destFilePath="$jarsPath"/"$zipJarFile"
+			local zipJarFileName="$(basename "$zipJarFile")"
+			local destFilePath="$jarsPath"/"$zipJarFileName"
 			if [ -f "$destFilePath" ]; then
 				continue
 			fi
