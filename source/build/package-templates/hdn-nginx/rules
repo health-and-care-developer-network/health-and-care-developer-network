@@ -145,7 +145,7 @@ install:
 	dh_shlibdeps
 	dh_gencontrol
 	dh_md5sums
-	dh_builddeb -- -z9 -Zlzma
+	dh_builddeb -- -z9 -Zxz
 
 binary-arch: install build-dbg
 	dh_testdir

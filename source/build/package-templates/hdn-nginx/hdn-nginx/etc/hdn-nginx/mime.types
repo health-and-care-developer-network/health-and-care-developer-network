@@ -25,7 +25,6 @@ types
 	image/x-ms-bmp bmp;
 	image/svg+xml svg svgz;
 
-	application/java-archive jar war ear;
 	application/json json;
 	application/mac-binhex40 hqx;
 	application/msword doc;
@@ -37,24 +36,38 @@ types
 	application/vnd.wap.wmlc wmlc;
 	application/vnd.google-earth.kml+xml kml;
 	application/vnd.google-earth.kmz kmz;
-	application/x-7z-compressed 7z;
 	application/x-chrome-extension crx;
 	application/x-cocoa cco;
 	application/x-java-archive-diff jardiff;
 	application/x-java-jnlp-file jnlp;
-	application/x-makeself run;
 	application/x-perl pl pm;
 	application/x-pilot prc pdb;
-	application/x-rar-compressed rar;
-	application/x-redhat-package-manager rpm;
-	application/x-sea sea;
 	application/x-shockwave-flash swf;
-	application/x-stuffit sit;
 	application/x-tcl tcl tk;
 	application/x-x509-ca-cert	der pem crt;
 	application/x-xpinstall xpi;
 	application/xhtml+xml xhtml;
+	
+	# Packages
+	application/x-deb deb;
+	application/x-redhat-package-manager rpm;
+	
+	# Archives
+	application/java-archive jar war ear;
 	application/zip zip;
+	application/x-tar tar;
+	application/x-bzip2 bzip2;
+	application/x-xz xz;
+	application/x-compress z Z;
+	application/x-lzip lz;
+	application/lzma lzma;
+	application/x-lzop lzop;
+	application/x-makeself run;
+	application/x-stuffit sit;
+	application/x-rar-compressed rar;
+	application/x-7z-compressed 7z;
+	application/x-sea sea;
+	application/x-unix-archive ar;
 
 	application/octet-stream bin exe dll;
 	application/octet-stream deb;

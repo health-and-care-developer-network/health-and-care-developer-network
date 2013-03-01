@@ -35,7 +35,7 @@ binary-indep: build install
 	dh_installdeb
 	dh_gencontrol
 	dh_md5sums
-	dh_builddeb -- -z9 -Zlzma
+	dh_builddeb -- -z9 -Zxz
 
 binary-arch: build install
 
