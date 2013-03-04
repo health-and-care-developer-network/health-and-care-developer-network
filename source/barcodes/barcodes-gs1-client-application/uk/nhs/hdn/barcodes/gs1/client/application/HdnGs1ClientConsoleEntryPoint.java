@@ -36,7 +36,7 @@ public final class HdnGs1ClientConsoleEntryPoint extends AbstractConsoleEntryPoi
 	private static final String GtinOption = "gtin";
 	private static final String CacheOption = "cache";
 
-	private static final String DefaultDomainName = "data.developer.nhs.uk";
+	private static final String DefaultDomainName = "services.developer.nhs.uk";
 	private static final int DefaultPort = 80;
 	private static final String DefaultImaginaryBarcodeButRealCompanyPrefix = "5055220798768";
 
