@@ -38,6 +38,7 @@ import static uk.nhs.hdn.common.CharsetHelper.Utf8;
 import static uk.nhs.hdn.dts.client.rats.DtsRatsClient.*;
 import static uk.nhs.hdn.dts.domain.DtsName.UnknownDtsName;
 import static uk.nhs.hdn.dts.domain.identifiers.LocalIdentifier.UnknownLocalIdentifier;
+import static uk.nhs.hdn.dts.rats.response.Response.tsvSerialiserForResponse;
 
 public final class HdnDtsRatsConsoleEntryPoint extends AbstractConsoleEntryPoint
 {
@@ -96,18 +97,17 @@ public final class HdnDtsRatsConsoleEntryPoint extends AbstractConsoleEntryPoint
 	private static void demonstrate(final DtsName fromDtsName, final LocalIdentifier localIdentifier, final String domainName, final char httpPort, final boolean useHttps, final String path) throws CouldNotConnectHttpException, UnacceptableResponseException, CorruptResponseException, CouldNotUploadException
 	{
 		final DtsRatsClient dtsRatsClient = new DtsRatsClient(useHttps, domainName, httpPort, path);
-		final Response[] responses = dtsRatsClient.request(fromDtsName, localIdentifier);
-		outputResponses(responses);
+		outputResponses(dtsRatsClient.request(fromDtsName, localIdentifier));
 	}
 
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	private static void outputResponses(final Response... responses)
 	{
-		final SeparatedValueSerialiser separatedValueSerialiser = Response.tsvSerialiserForResponse();
+		final SeparatedValueSerialiser separatedValueSerialiser = tsvSerialiserForResponse();
 		try
 		{
 			separatedValueSerialiser.start(out, Utf8);
-			final MapSerialisable[] responses1 = responses;
+			@SuppressWarnings("UnnecessaryLocalVariable") final MapSerialisable[] responses1 = responses;
 			separatedValueSerialiser.writeValue(responses1);
 			separatedValueSerialiser.finish();
 		}

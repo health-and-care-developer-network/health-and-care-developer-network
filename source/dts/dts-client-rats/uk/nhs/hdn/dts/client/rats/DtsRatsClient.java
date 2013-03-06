@@ -48,14 +48,18 @@ public final class DtsRatsClient extends AbstractToString
 	}
 
 	@NotNull
-	public Response[] request(@NotNull final DtsName fromDtsName, @NotNull final LocalIdentifier localIdentifier) throws CouldNotConnectHttpException, UnacceptableResponseException, CorruptResponseException, CouldNotUploadException
+	public Response request(@NotNull final DtsName fromDtsName, @NotNull final LocalIdentifier localIdentifier) throws CouldNotConnectHttpException, UnacceptableResponseException, CorruptResponseException, CouldNotUploadException
 	{
-		return request(new Message(fromDtsName, localIdentifier));
+		return request(new Message(fromDtsName, localIdentifier))[0];
 	}
 
 	@NotNull
 	public Response[] request(@NotNull final Message... message) throws CouldNotConnectHttpException, UnacceptableResponseException, CorruptResponseException, CouldNotUploadException
 	{
+		if (message.length == 0)
+		{
+			throw new IllegalArgumentException("Please specify at least one message");
+		}
 		final Messages messages = new Messages(message);
 		return httpClient.post(new LegacyXmlByteArrayUploadContent(messages, messagesXmlSerialiser()), new LegacyXmlGetHttpResponseUser<>(ResponsesSchemaParserInstance));
 	}
