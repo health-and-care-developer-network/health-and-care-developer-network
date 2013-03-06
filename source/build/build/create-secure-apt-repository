@@ -256,15 +256,15 @@ function generateSourceListSnippets()
 	cat <<-EOF >"$httpFilePath"
 		# To use this sources.list do:-
 		# sudo ln -s $httpFilePath /etc/apt/sources.list.d/00hdn.sources.list
-		deb http://${serverName}/archives/${repositoryName}/ ${codeName} ${sectionNames}
-		deb-src http://${serverName}/archives/${repositoryName}/ ${codeName} ${sectionNames}
+		deb http://${serverName}/repositories/${repositoryName}/ ${codeName} ${sectionNames}
+		deb-src http://${serverName}/repositories/${repositoryName}/ ${codeName} ${sectionNames}
 	EOF
 
 	cat <<-EOF >"$httpsFilePath"
 		# To use this sources.list do:-
 		# sudo ln -s $httpsFilePath /etc/apt/sources.list.d/00hdn.sources.list
-		deb https://${serverName}/archives/${repositoryName}/ ${codeName} ${sectionNames}
-		deb-src https://${serverName}/archives/${repositoryName}/ ${codeName} ${sectionNames}
+		deb https://${serverName}/repositories/${repositoryName}/ ${codeName} ${sectionNames}
+		deb-src https://${serverName}/repositories/${repositoryName}/ ${codeName} ${sectionNames}
 	EOF
 }
 
