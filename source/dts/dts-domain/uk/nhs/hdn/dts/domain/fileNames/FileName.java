@@ -203,6 +203,12 @@ public final class FileName
 		return siteIdentifier + app;
 	}
 
+	@NotNull
+	public TransactionSequenceIdentifier sequenceIdentifier()
+	{
+		return sequenceIdentifier;
+	}
+
 	@Override
 	public boolean equals(@Nullable final Object obj)
 	{

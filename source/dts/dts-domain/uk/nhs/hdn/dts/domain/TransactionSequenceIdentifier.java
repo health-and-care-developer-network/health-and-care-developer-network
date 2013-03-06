@@ -32,8 +32,6 @@ public final class TransactionSequenceIdentifier
 	private static final TransactionSequenceIdentifier BeginningOfSequence = new TransactionSequenceIdentifier(new ZeroPaddedDecimalUnsignedInteger(Width, 1L));
 	private static final long Maximum = 99999999L;
 
-	// Used by jopt-simple via reflection in command line parsing
-	@SuppressWarnings("UnusedDeclaration")
 	@NotNull
 	public static TransactionSequenceIdentifier valueOf(@SuppressWarnings("TypeMayBeWeakened") @NotNull final String value)
 	{
