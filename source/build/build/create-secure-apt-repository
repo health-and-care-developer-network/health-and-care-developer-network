@@ -251,18 +251,20 @@ function generateSourceListSnippets()
 		deb-src file:${archiveDirPath}/ ${codeName} ${sectionNames}
 	EOF
 	
+	readonly serverName="services.developer.nhs.uk"
+	
 	cat <<-EOF >"$httpFilePath"
 		# To use this sources.list do:-
 		# sudo ln -s $httpFilePath /etc/apt/sources.list.d/00hdn.sources.list
-		deb http://$(hostname).cloudapp.net/archives/${repositoryName}/ ${codeName} ${sectionNames}
-		deb-src http://$(hostname).cloudapp.net/archives/${repositoryName}/ ${codeName} ${sectionNames}
+		deb http://${serverName}/archives/${repositoryName}/ ${codeName} ${sectionNames}
+		deb-src http://${serverName}/archives/${repositoryName}/ ${codeName} ${sectionNames}
 	EOF
 
 	cat <<-EOF >"$httpsFilePath"
 		# To use this sources.list do:-
 		# sudo ln -s $httpsFilePath /etc/apt/sources.list.d/00hdn.sources.list
-		deb https://$(hostname).cloudapp.net/archives/${repositoryName}/ ${codeName} ${sectionNames}
-		deb-src https://$(hostname).cloudapp.net/archives/${repositoryName}/ ${codeName} ${sectionNames}
+		deb https://${serverName}/archives/${repositoryName}/ ${codeName} ${sectionNames}
+		deb-src https://${serverName}/archives/${repositoryName}/ ${codeName} ${sectionNames}
 	EOF
 }
 
