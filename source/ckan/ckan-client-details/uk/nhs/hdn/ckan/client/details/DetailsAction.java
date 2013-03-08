@@ -3,7 +3,6 @@ package uk.nhs.hdn.ckan.client.details;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.ckan.api.CkanApi;
-import uk.nhs.hdn.common.http.client.ApiMethod;
 import uk.nhs.hdn.ckan.domain.ids.DatasetId;
 import uk.nhs.hdn.ckan.domain.ids.GroupId;
 import uk.nhs.hdn.ckan.domain.ids.RevisionId;
@@ -12,6 +11,7 @@ import uk.nhs.hdn.ckan.domain.uniqueNames.DatasetName;
 import uk.nhs.hdn.ckan.domain.uniqueNames.GroupKey;
 import uk.nhs.hdn.ckan.domain.uniqueNames.GroupName;
 import uk.nhs.hdn.common.arrayCreators.ArrayCreator;
+import uk.nhs.hdn.common.http.client.ApiMethod;
 import uk.nhs.hdn.common.http.client.exceptions.CorruptResponseException;
 import uk.nhs.hdn.common.http.client.exceptions.CouldNotConnectHttpException;
 import uk.nhs.hdn.common.http.client.exceptions.UnacceptableResponseException;
@@ -22,10 +22,10 @@ import uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser;
 
 import static uk.nhs.hdn.ckan.domain.Dataset.tsvSerialiserForDatasets;
 import static uk.nhs.hdn.ckan.domain.Group.tsvSerialiserForGroups;
-import static uk.nhs.hdn.ckan.domain.ids.RevisionId.tsvSerialiserForRevisionIds;
+import static uk.nhs.hdn.ckan.domain.Revision.tsvSerialiserForRevisions;
 import static uk.nhs.hdn.ckan.schema.arrayCreators.DatasetArrayCreator.DatasetArray;
 import static uk.nhs.hdn.ckan.schema.arrayCreators.GroupArrayCreator.GroupArray;
-import static uk.nhs.hdn.ckan.schema.arrayCreators.RevisionIdArrayCreator.RevisionIdArray;
+import static uk.nhs.hdn.ckan.schema.arrayCreators.RevisionArrayCreator.RevisionArray;
 
 public enum DetailsAction implements Description
 {
@@ -169,14 +169,14 @@ public enum DetailsAction implements Description
 		@Override
 		public SeparatedValueSerialiser tsvSerialiser()
 		{
-			return tsvSerialiserForRevisionIds();
+			return tsvSerialiserForRevisions();
 		}
 
 		@NotNull
 		@Override
 		public ArrayCreator<? extends Serialisable> arrayCreator()
 		{
-			return RevisionIdArray;
+			return RevisionArray;
 		}
 	},
 	;
