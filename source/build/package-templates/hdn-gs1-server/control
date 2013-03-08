@@ -10,7 +10,7 @@ Standards-Version: 3.8.4.0
 Package: hdn-gs1-server
 Architecture: all
 Depends: hdn-java-common, hdn-jstatd, ${misc:Depends}, ${shlibs:Depends}
-Pre-Depends: adduser, hdn-apt
+Pre-Depends: adduser, hdn-apt, dpkg (>= 1.15.6~)
 Homepage: http://hdn.nhs.uk/
 Description: HDN REST Web Services Server
  This package provides HDN's REST Web Services Server

@@ -1,0 +1,122 @@
+.itk-sender {
+  color: #006dcc;
+}
+.itk-label-sender {
+  background-color: #006dcc;
+}
+
+.itk-callback {
+  color: #49afcd;
+}
+.itk-label-callback {
+  background-color: #49afcd;
+}
+
+.itk-receiver {
+  color: #f89406;
+}
+.itk-label-receiver {
+  background-color: #f89406;
+}
+
+.itk-application {
+  color: #da4f49;
+}
+.itk-label-application {
+  background-color: #da4f49;
+}
+
+.label-large {
+    font-size: 30px;
+}
+/* Suppress the banner on the site */
+#banner{
+	display:none;
+}
+/* Suppress the breadcrumbs on the site */
+#breadcrumbs {
+	display:none;
+}
+
+/* Suppress power by ? */
+#poweredBy {
+}
+
+#publishDate, #projectVersion {
+	
+	margin-left: 50px;
+	display: block;
+	list-style-type: none;
+}
+
+#publishDate {
+	margin-top: -20px;
+}
+
+table {
+	border: 0pt;
+}
+
+td {
+	vertical-align: top;
+}
+
+.container, .navbar-fixed-top .container {
+	min-width: 940px;
+	max-width: 1300px;
+	width: 80%;
+}
+
+.fortyfivepc {
+	width: 48%;
+}
+
+.fortypc {
+	width: 40%;
+}
+.fiftyfivepc {
+	width: 55%;
+}
+.fiftypc {
+	width: 50%;
+}
+
+.table-striped tbody tr:nth-child(odd) td.implemented, td.implemented {
+	background-color: green;
+	color: white;
+}
+
+.table-striped tbody tr:nth-child(odd) td.in-progress, td.in-progress, .table-striped tbody tr:nth-child(odd) td.abstract, td.abstract {
+    background-color: orange;
+    color: white;
+}
+
+.table-striped tbody tr:nth-child(odd) td.not-started, td.not-started {
+    background-color: red;
+    color: white;
+}
+
+.tab-title {
+	font-size: 1.3em;
+	font-weight: bold;
+}
+
+.step-heading {
+	font-size: 1.5em;
+  font-weight: bold;
+}
+
+.horizontal-spacer {
+	margin-top: 40px;
+	margin-bottom: 10px;
+}
+
+.caption {
+	font-style: italic;
+	text-align: center;
+	font-size: 1.1em;
+}
+
+.pre-spaced {
+	margin-top: 20px;
+}

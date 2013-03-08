@@ -133,6 +133,20 @@ function removeBuildLog()
 	rm "$packagesPath"/"$sourcePackageName"_*_*.build
 }
 
+function extractTarBall()
+{
+	for binaryPackageFilePath in "$packagesPath"/"$sourcePackageName"_*_*.deb
+	do
+		local binaryPackageName="$(basename "$binaryPackageFilePath" .deb)"
+		dpkg-deb --fsys-tarfile "$binaryPackageFilePath" >"$packagesPath"/"$binaryPackageName".tar
+		gzip -9 --stdout "$packagesPath"/"$binaryPackageName".tar >"$packagesPath"/"$binaryPackageName".tar.gz
+		bzip2 -9 --stdout "$packagesPath"/"$binaryPackageName".tar >"$packagesPath"/"$binaryPackageName".tar.bz2
+		xz -9 --to-stdout --extreme "$packagesPath"/"$binaryPackageName".tar >"$packagesPath"/"$binaryPackageName".tar.xz
+		
+		touch --reference="$binaryPackageFilePath" "$packagesPath"/"$binaryPackageName".tar "$packagesPath"/"$binaryPackageName".tar.gz "$packagesPath"/"$binaryPackageName".tar.bz2 "$packagesPath"/"$binaryPackageName".tar.xz
+	done
+}
+
 function removePackageContents()
 {
 	cd "$packagesPath" >/dev/null
@@ -171,6 +185,7 @@ function main()
 	buildPackage
 	findSourcePackageName
 	removeBuildLog
+	extractTarBall
 	removePackageContents
 }
 

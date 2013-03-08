@@ -29,8 +29,7 @@ import java.util.List;
 import static com.softwarecraftsmen.orogeny.actions.CopyFilesAction.flatHardLinkFiles;
 import static com.softwarecraftsmen.orogeny.actions.DeleteDirectoryAction.deleteDirectory;
 import static com.softwarecraftsmen.orogeny.actions.EchoAction.echo;
-import static com.softwarecraftsmen.orogeny.actions.ExecuteAction.TenMinutes;
-import static com.softwarecraftsmen.orogeny.actions.ExecuteAction.execute;
+import static com.softwarecraftsmen.orogeny.actions.ExecuteAction.*;
 import static com.softwarecraftsmen.orogeny.actions.JarTogetherAction.jarTogether;
 import static com.softwarecraftsmen.orogeny.actions.MakeDirectoryAction.makeDirectory;
 import static com.softwarecraftsmen.orogeny.actions.ZipTogetherAction.zipTogether;
@@ -179,8 +178,8 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		task("packages").dependsOn(debianPackagesPackageTasks).does
 		(
-			execute(source("build", "build").file("create-insecure-apt-repository")).inWorkingDirectory(output()).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArguments("packages"),
-			execute(source("build", "build").file("create-secure-apt-repository")).inWorkingDirectory(output()).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArguments("packages", "hdn")
+			execute(source("build", "build").file("create-insecure-apt-repository")).inWorkingDirectory(output()).forUpTo(OneHour).withInheritedEnvironmentVariables().withArguments("packages"),
+			execute(source("build", "build").file("create-secure-apt-repository")).inWorkingDirectory(output()).forUpTo(OneHour).withInheritedEnvironmentVariables().withArguments("packages", "hdn")
 		);
 	}
 
@@ -232,7 +231,7 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 		task(taskName).dependsOn("compile " + moduleName).does
 		(
 			makeDirectory(distributionFolder),
-			jarTogether(registeredPaths(moduleName)).capturing(dependentJarFilesExcludingLibraries).to(distributionFolder.file(taskName + "-without-depdencies.jar")).withClassPath(filesFilteredAbsolutePaths(registeredPaths(moduleName), isInLibrary)).withMainClass(consoleEntryPoint),
+			jarTogether(registeredPaths(moduleName)).capturing(dependentJarFilesExcludingLibraries).to(distributionFolder.file(taskName + "-without-third-party-dependencies.jar")).withClassPath(filesFilteredAbsolutePaths(registeredPaths(moduleName), isInLibrary)).withMainClass(consoleEntryPoint),
 			flatHardLinkFiles(isInLibrary.and(Jar)).from(registeredPaths(moduleName)).to(distributionFolder),
 			zipTogether(registeredPaths(moduleName + ".source.zip")).capturing(fileHasExtension("source.zip")).to(distributionFolder.file(taskName + ".source.zip")),
 			jarTogether(registeredPaths(moduleName)).capturing(Jar).to(distributionFolder.file(taskName + ".jar")).withoutClassPath().withMainClass(consoleEntryPoint)
@@ -262,7 +261,7 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		task(taskName).dependsOn(dependsOnTaskNames).does
 		(
-			execute(source("build", "build").file("create-debian-package")).inWorkingDirectory(output()).forUpTo(TenMinutes).withInheritedEnvironmentVariables().withArguments(packagesFolder, packageName)
+			execute(source("build", "build").file("create-debian-package")).inWorkingDirectory(output()).forUpTo(OneHour).withInheritedEnvironmentVariables().withArguments(packagesFolder, packageName)
 		);
 
 		return expandedDebianPackageTasks;

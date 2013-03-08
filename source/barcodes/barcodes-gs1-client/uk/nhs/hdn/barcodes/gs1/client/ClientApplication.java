@@ -16,6 +16,7 @@
 
 package uk.nhs.hdn.barcodes.gs1.client;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.barcodes.gs1.organisation.Tuple;
 import uk.nhs.hdn.common.http.client.HttpClient;
@@ -28,14 +29,20 @@ import static uk.nhs.hdn.barcodes.gs1.client.HttpClientHelper.*;
 
 public final class ClientApplication extends AbstractToString
 {
-	private final boolean useHttps;
-	@NotNull
-	private final String domainName;
-	private final char portNumber;
-	@NotNull
-	private final HttpClient allHttpClient;
+	@NotNull @NonNls public static final String DefaultDomainName = "services.developer.nhs.uk";
+	public static final char DefaultPort = (char) 80;
 
-	@SuppressWarnings("UseOfSystemOutOrSystemErr")
+	private final boolean useHttps;
+	@NotNull private final String domainName;
+	private final char portNumber;
+	@NotNull private final HttpClient allHttpClient;
+
+	@SuppressWarnings("UnusedDeclaration")
+	public ClientApplication()
+	{
+		this(false, DefaultDomainName, DefaultPort);
+	}
+
 	public ClientApplication(final boolean useHttps, @NotNull final String domainName, final char portNumber)
 	{
 		this.useHttps = useHttps;

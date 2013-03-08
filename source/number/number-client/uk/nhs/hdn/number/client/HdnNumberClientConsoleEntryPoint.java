@@ -43,7 +43,7 @@ public final class HdnNumberClientConsoleEntryPoint extends AbstractConsoleEntry
 		{
 			if (hasCreateCheckDigit)
 			{
-				exitWithErrorAndHelp("--%1$s and --%2$s are mutually incompatible", ValidateOption, CreateCheckDigitOption);
+				exitWithErrorAndHelp("--%1$s and --%2$s are mutually incompatible", ValidateOption, (Object) CreateCheckDigitOption);
 			}
 
 			final String nhsNumberToValidate = required(optionSet, ValidateOption);
@@ -58,7 +58,7 @@ public final class HdnNumberClientConsoleEntryPoint extends AbstractConsoleEntry
 			return;
 		}
 
-		exitWithErrorAndHelp("Either --%1$s or --%2$s is required", ValidateOption, CreateCheckDigitOption);
+		exitWithErrorAndHelp("Either --%1$s or --%2$s is required", ValidateOption, (Object) CreateCheckDigitOption);
 	}
 
 	private static void validateNhsNumber(@NotNull final String nhsNumberToValidate)

@@ -10,6 +10,7 @@ Standards-Version: 3.8.4.0
 Package: hdn-itk-documentation
 Architecture: all
 Depends: ${misc:Depends}, ${shlibs:Depends}
+Pre-Depends: dpkg (>= 1.15.6~)
 Homepage: http://hdn.nhs.uk/
 Description: HDN ITK Documentation
  This package provides the required documentation

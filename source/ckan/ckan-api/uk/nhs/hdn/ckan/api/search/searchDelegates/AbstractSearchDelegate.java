@@ -80,7 +80,7 @@ public abstract class AbstractSearchDelegate<S extends ValueSerialisable, T> ext
 		long count;
 		do
 		{
-			final SearchResult<S> searchResult = search(searchCriteria, offset, MaximumLimit).get();
+			final SearchResult<S> searchResult = search(searchCriteria, offset, MaximumLimit).execute();
 			final S[] results = searchResult.results;
 			count = searchResult.count;
 			final long length = (long) results.length;

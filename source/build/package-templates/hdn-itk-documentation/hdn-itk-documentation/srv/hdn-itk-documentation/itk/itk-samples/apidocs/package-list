@@ -1,0 +1,8 @@
+uk.nhs.interoperability.client.samples
+uk.nhs.interoperability.client.samples.adt
+uk.nhs.interoperability.client.samples.cda
+uk.nhs.interoperability.client.samples.notification
+uk.nhs.interoperability.client.samples.smsp
+uk.nhs.interoperability.consumer.adt
+uk.nhs.interoperability.consumer.appemulator
+uk.nhs.interoperability.consumer.smsp

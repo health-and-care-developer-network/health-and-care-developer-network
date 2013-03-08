@@ -20,7 +20,7 @@ import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.ckan.api.Api;
+import uk.nhs.hdn.ckan.api.CkanApi;
 import uk.nhs.hdn.ckan.api.search.SearchCriteria;
 import uk.nhs.hdn.ckan.api.search.searchDelegates.SearchDelegate;
 import uk.nhs.hdn.ckan.domain.Dataset;
@@ -32,7 +32,7 @@ import uk.nhs.hdn.common.http.client.exceptions.UnacceptableResponseException;
 import uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser;
 import uk.nhs.hdn.common.tuples.Pair;
 
-import static uk.nhs.hdn.ckan.api.Api.DataGovUk;
+import static uk.nhs.hdn.ckan.api.ConcreteCkanApi.DataGovUk;
 import static uk.nhs.hdn.ckan.api.search.ManySearchCriteria.noSearchCriteria;
 import static uk.nhs.hdn.ckan.api.search.StringSearchCriterion.*;
 import static uk.nhs.hdn.ckan.domain.Dataset.*;
@@ -100,15 +100,15 @@ public final class HdnCkanDatasetSearchConsoleEntryPoint extends AbstractConsole
 	{
 		final SearchDelegate<? extends DatasetKey, Dataset> searchDelegate;
 		final SeparatedValueSerialiser separatedValueSerialiser;
-		final Api api = DataGovUk;
+		final CkanApi ckanApi = DataGovUk;
 		if (asDatasetIds)
 		{
-			searchDelegate = api.datasetIdSearchDelegate();
+			searchDelegate = ckanApi.datasetIdSearchDelegate();
 			separatedValueSerialiser = tsvSerialiserForDatasetIds();
 		}
 		else
 		{
-			searchDelegate = api.datasetNameSearchDelegate();
+			searchDelegate = ckanApi.datasetNameSearchDelegate();
 			separatedValueSerialiser = tsvSerialiserForDatasetNames();
 		}
 		final DatasetKey[] datasetKeys = searchDelegate.allResults(searchCriteria);

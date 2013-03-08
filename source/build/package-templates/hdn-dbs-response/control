@@ -10,6 +10,7 @@ Standards-Version: 3.8.4.0
 Package: hdn-dbs-response
 Architecture: all
 Depends: coreutils (>= 7.4-2ubuntu3), openjdk-7-jdk | openjdk-7-jre, ${misc:Depends}
+Pre-Depends: dpkg (>= 1.15.6~)
 Recommends: hdn-java-common
 Homepage: http://hdn.nhs.uk/
 Description: HDN DBS Response Client

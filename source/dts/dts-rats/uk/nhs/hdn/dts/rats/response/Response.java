@@ -3,11 +3,16 @@ package uk.nhs.hdn.dts.rats.response;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
-import uk.nhs.hdn.common.serialisers.*;
+import uk.nhs.hdn.common.serialisers.CouldNotSerialiseMapException;
+import uk.nhs.hdn.common.serialisers.CouldNotWritePropertyException;
+import uk.nhs.hdn.common.serialisers.MapSerialisable;
+import uk.nhs.hdn.common.serialisers.MapSerialiser;
 import uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser;
 import uk.nhs.hdn.common.serialisers.separatedValues.matchers.RecurseMatcher;
 import uk.nhs.hdn.dts.rats.Message;
 import uk.nhs.hdn.dts.rats.response.details.Details;
+
+import java.util.Map;
 
 import static uk.nhs.hdn.common.serialisers.AbstractSerialiser.writePropertyIfKnown;
 import static uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser.commaSeparatedValueSerialiser;
@@ -125,6 +130,14 @@ public final class Response extends AbstractToString implements MapSerialisable
 	public boolean hasDetails()
 	{
 		return details.isKnown();
+	}
+
+	public void addToMap(@NotNull final Map<Message, Response> map)
+	{
+		if (map.put(message, this) != null)
+		{
+			throw new IllegalArgumentException("map already contains this reponse");
+		}
 	}
 
 	@Override

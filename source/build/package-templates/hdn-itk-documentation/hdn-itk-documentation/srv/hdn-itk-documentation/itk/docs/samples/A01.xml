@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:itk="urn:nhs-itk:ns:201005">
+	<soap:Header xmlns:local="local-namespace-uri">
+		<wsa:MessageID>__MESSAGEID__</wsa:MessageID>
+		<wsa:Action>urn:nhs-itk:services:201005:admitPatientPH-v1-0</wsa:Action>
+		<wsa:To>__SENDTO__</wsa:To>
+		<local:LocalHeaderElement>Local_Data_To_Be_Ignored</local:LocalHeaderElement>
+		<wsa:From>
+			<wsa:Address>http://localhost</wsa:Address>
+		</wsa:From>
+		<wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+			<wsu:Timestamp xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" wsu:Id="D6CD5232-14CF-11DF-9423-1F9A910D4703">
+				<wsu:Created>__TIMESTAMP__</wsu:Created>
+				<wsu:Expires>__EXPIRES__</wsu:Expires>
+			</wsu:Timestamp>
+			<wsse:UsernameToken>
+				<wsse:Username>TKS Server test</wsse:Username>
+			</wsse:UsernameToken>
+		</wsse:Security>
+	</soap:Header>
+	<soap:Body>
+		<itk:DistributionEnvelope xmlns:itk="urn:nhs-itk:ns:201005" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:hl7v2="urn:hl7-org:v2xml">
+			<itk:header service="urn:nhs-itk:services:201005:admitPatientPH-v1-0" trackingid="2D37D9CA-5223-41C7-A159-F33D5A914EB5">
+				<itk:auditIdentity>
+					<itk:id uri="urn:nhs-uk:identity:cfh:nic:lab:itk-demonstrator"/>
+				</itk:auditIdentity>
+				<itk:manifest count="1">
+					<itk:manifestitem mimetype="text/plain" base64="true" compressed="false" id="uuid_E808A967-49B2-498B-AD75-1D7A0F1262D7" encrypted="false"/>
+				</itk:manifest>
+			</itk:header>
+			<itk:payloads count="1">
+				<itk:payload id="uuid_E808A967-49B2-498B-AD75-1D7A0F1262D7">TVNIfF5+XCZ8UEFTfFJDQnxST1VURXxST1VURXwyMDEwMTAxMDE0MTh8fEFEVF5BMDFeQURUX0EwMXwxMzkxMzIwNDUzMzM4MDU1fFB8Mi40fDF8MjAxMDEwMTAxNDE4NTd8fHxHQlJ8VU5JQ09ERXxFTnx8aVRLdjEuMA0KRVZOfHwyMDEwMTAxMDE0MDB8fHwxMTExMTExMTFeQ29ydGFuYV5FbWlseV5eXk1pc3NeXlJDQjU1fDIwMTAxMDEwMTQwMA0KUElEfDF8fDMzMzMzMzMzMDFeXl5OSFN8fFNNSVRIXkZSRURSSUNBXkpeXk1SU15eTHxTQ0hNSURUXkhFTEdBUl5ZfDE5NjUxMjEzMTUxNXwyfHx8MjkgV0VTVCBBVkVOVUVeQlVSWVRIT1JQRV5NQUxUT05eTk9SVEggWU9SS1NISVJFXllPMzIgNVRUXkdCUl5IfHwrNDQxMjM0NTY3ODkwfHxFTnxNfEMyMnx8fHx8QXxCZXJsaW58fHxHQlJ8fERFVQ0KUEQxfHx8TUFMVE9OIEdQIFBSQUNUSUNFXl5ZMDY2MDF8RzU2MTI5MDheVG93bmxleV5HcmVnb3J5Xl5eRHJeXl5HTUMNCk5LMXwxfFNNSVRIXkFMQkVSVF5KXl5NUl5eTHwxfDI5IFdFU1QgQVZFTlVFXkJVUllUSE9SUEVeTUFMVE9OXk5PUlRIIFlPUktTSElSRV5ZTzMyIDVUVF5HQlJeSHwrNDQxMjM0NTY3ODkwfHx8fHx8fHx8fDF8MTk2MzExMTExNTEzfHx8fEVODQpQVjF8MXxJfFJDQl5PQlMxXkJBWTItNl5SQ0I1NXwxM3x8fEMzNDU2Nzg5XkRhcndpbl5TYW11ZWxeXl5Ecl5eXkdNQ3xHNTYxMjkwOF5Ub3dubGV5XkdyZWdvcnleXl5Ecl5eXkdNQ3xDMzQ1Njc4OV5EYXJ3aW5eU2FtdWVsXl5eRHJeXl5HTUN8MzAwfHx8fDE5fHx8fHwyMTM5Xl5eVklTSVRJRHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHwyMDEwMTAyMDE3MTYNClBWMnx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8Qw0KQUwxfDF8REF8Wjg4LjV8NXx8MTk5ODA3MDExNzU1DQpERzF8MXx8TjM5LjNeU3RyZXNzIEluY29udGluZW5jZV5JQ0QxMHx8MjAxMDEwMDkwOTAwfEF8fHx8fHx8fHwxfEMzNDU2Nzg5XkRhcndpbl5TYW11ZWxeXl5Ecl5eXkdNQ3xEfE58MjAxMDEwMDkwOTAwDQpQUjF8MXx8WlpTNF5Db2xvbmljIGV4YW1pbmF0aW9uXk9QQ1M0fHwyMDEwMTAyMDIwNTZ8RHwzNHx8fHx8QzM0NTY3ODleRGFyd2luXlNhbXVlbF5eXkRyXl5eR01DfEMzfHxOMzkuMw0KWlUxfDIwMTAxMDA3MTIzNHwxfEN8MjAxMDEwMDkxMzAwfHw1MDB8fHx8fHx8fHwyMDEwMTAwODEyMDB8MjAxMDEwMDgxMTU2fDAyfFl8MA0KWlUzfDAwNHwwM3w1fHx8fHxOb3JtYWx8OGJ8fDF8MQ0KWlU0fHwyMDEwMTAwODE3NTZ8MjAxMDEwMDkwMDAwDQpaVTh8WnwxfE5v
+				</itk:payload>
+			</itk:payloads>
+		</itk:DistributionEnvelope>
+	</soap:Body>
+</soap:Envelope>

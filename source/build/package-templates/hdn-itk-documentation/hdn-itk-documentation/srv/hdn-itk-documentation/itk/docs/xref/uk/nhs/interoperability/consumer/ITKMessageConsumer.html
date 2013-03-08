@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>ITKMessageConsumer xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../apidocs/uk/nhs/interoperability/consumer/ITKMessageConsumer.html">View Javadoc</a></div><pre>
+
+<a class="jxr_linenumber" name="1" href="#1">1</a>   <em class="jxr_comment">/*</em>
+<a class="jxr_linenumber" name="2" href="#2">2</a>   <em class="jxr_comment">   Licensed under the Apache License, Version 2.0 (the "License");</em>
+<a class="jxr_linenumber" name="3" href="#3">3</a>   <em class="jxr_comment">   you may not use this file except in compliance with the License.</em>
+<a class="jxr_linenumber" name="4" href="#4">4</a>   <em class="jxr_comment">   You may obtain a copy of the License at</em>
+<a class="jxr_linenumber" name="5" href="#5">5</a>   
+<a class="jxr_linenumber" name="6" href="#6">6</a>   <em class="jxr_comment">     <a href="http://www.apache.org/licenses/LICENSE-2.0" target="alexandria_uri">http://www.apache.org/licenses/LICENSE-2.0</a></em>
+<a class="jxr_linenumber" name="7" href="#7">7</a>   
+<a class="jxr_linenumber" name="8" href="#8">8</a>   <em class="jxr_comment">   Unless required by applicable law or agreed to in writing, software</em>
+<a class="jxr_linenumber" name="9" href="#9">9</a>   <em class="jxr_comment">   distributed under the License is distributed on an "AS IS" BASIS,</em>
+<a class="jxr_linenumber" name="10" href="#10">10</a>  <em class="jxr_comment">   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</em>
+<a class="jxr_linenumber" name="11" href="#11">11</a>  <em class="jxr_comment">   See the License for the specific language governing permissions and</em>
+<a class="jxr_linenumber" name="12" href="#12">12</a>  <em class="jxr_comment">   limitations under the License.</em>
+<a class="jxr_linenumber" name="13" href="#13">13</a>  <em class="jxr_comment">*/</em>
+<a class="jxr_linenumber" name="14" href="#14">14</a>  <strong class="jxr_keyword">package</strong> uk.nhs.interoperability.consumer;
+<a class="jxr_linenumber" name="15" href="#15">15</a>  
+<a class="jxr_linenumber" name="16" href="#16">16</a>  <strong class="jxr_keyword">import</strong> com.xmlsolutions.annotation.Requirement;
+<a class="jxr_linenumber" name="17" href="#17">17</a>  
+<a class="jxr_linenumber" name="18" href="#18">18</a>  <strong class="jxr_keyword">import</strong> uk.nhs.interoperability.infrastructure.ITKMessagingException;
+<a class="jxr_linenumber" name="19" href="#19">19</a>  <strong class="jxr_keyword">import</strong> uk.nhs.interoperability.payload.ITKMessage;
+<a class="jxr_linenumber" name="20" href="#20">20</a>  
+<a class="jxr_linenumber" name="21" href="#21">21</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="22" href="#22">22</a>  <em class="jxr_javadoccomment"> * API contract for between the transport and application</em>
+<a class="jxr_linenumber" name="23" href="#23">23</a>  <em class="jxr_javadoccomment"> * layers for a message/document consumer application. In this</em>
+<a class="jxr_linenumber" name="24" href="#24">24</a>  <em class="jxr_javadoccomment"> * context the message/document consumer may be the receiver of</em>
+<a class="jxr_linenumber" name="25" href="#25">25</a>  <em class="jxr_javadoccomment"> * a clinical correspondence message such as a discharge advice</em>
+<a class="jxr_linenumber" name="26" href="#26">26</a>  <em class="jxr_javadoccomment"> * or it may be the service provider in a query/response pattern</em>
+<a class="jxr_linenumber" name="27" href="#27">27</a>  <em class="jxr_javadoccomment"> * such as Spine Mini Services.&lt;br/&gt;&lt;br/&gt;</em>
+<a class="jxr_linenumber" name="28" href="#28">28</a>  <em class="jxr_javadoccomment"> * </em>
+<a class="jxr_linenumber" name="29" href="#29">29</a>  <em class="jxr_javadoccomment"> * It is anticipated that clinical applications will either</em>
+<a class="jxr_linenumber" name="30" href="#30">30</a>  <em class="jxr_javadoccomment"> * implement this interface directly - or use an an adaptor</em>
+<a class="jxr_linenumber" name="31" href="#31">31</a>  <em class="jxr_javadoccomment"> * that is compliant with this interface</em>
+<a class="jxr_linenumber" name="32" href="#32">32</a>  <em class="jxr_javadoccomment"> * </em>
+<a class="jxr_linenumber" name="33" href="#33">33</a>  <em class="jxr_javadoccomment"> * @author Michael Odling-Smee</em>
+<a class="jxr_linenumber" name="34" href="#34">34</a>  <em class="jxr_javadoccomment"> * @author Nicholas Jones</em>
+<a class="jxr_linenumber" name="35" href="#35">35</a>  <em class="jxr_javadoccomment"> * @since version 0.1</em>
+<a class="jxr_linenumber" name="36" href="#36">36</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="37" href="#37">37</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">interface</strong> <a href="../../../../uk/nhs/interoperability/consumer/ITKMessageConsumer.html">ITKMessageConsumer</a> {
+<a class="jxr_linenumber" name="38" href="#38">38</a>  
+<a class="jxr_linenumber" name="39" href="#39">39</a>  
+<a class="jxr_linenumber" name="40" href="#40">40</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="41" href="#41">41</a>  <em class="jxr_javadoccomment">	 * Call to process a request message where the application response is returned</em>
+<a class="jxr_linenumber" name="42" href="#42">42</a>  <em class="jxr_javadoccomment">	 * synchronously (in the same thread)</em>
+<a class="jxr_linenumber" name="43" href="#43">43</a>  <em class="jxr_javadoccomment">	 * </em>
+<a class="jxr_linenumber" name="44" href="#44">44</a>  <em class="jxr_javadoccomment">	 * @param request The itk request message to process. Examples might include an</em>
+<a class="jxr_linenumber" name="45" href="#45">45</a>  <em class="jxr_javadoccomment">	 * Spine Mini Services &lt;code&gt;getPatientDetailsByNHSNumberRequest-v1-0&lt;/code&gt;</em>
+<a class="jxr_linenumber" name="46" href="#46">46</a>  <em class="jxr_javadoccomment">	 * message</em>
+<a class="jxr_linenumber" name="47" href="#47">47</a>  <em class="jxr_javadoccomment">	 * </em>
+<a class="jxr_linenumber" name="48" href="#48">48</a>  <em class="jxr_javadoccomment">	 * @return an &lt;code&gt;ITKMessage&lt;/code&gt; representing the application/business response</em>
+<a class="jxr_linenumber" name="49" href="#49">49</a>  <em class="jxr_javadoccomment">	 * to the provided &lt;code&gt;request&lt;/code&gt;. The response may represent business processing</em>
+<a class="jxr_linenumber" name="50" href="#50">50</a>  <em class="jxr_javadoccomment">	 * success or failure depending on the contents of the &lt;code&gt;request&lt;/code&gt; and the</em>
+<a class="jxr_linenumber" name="51" href="#51">51</a>  <em class="jxr_javadoccomment">	 * implementation of the underlying service.</em>
+<a class="jxr_linenumber" name="52" href="#52">52</a>  <em class="jxr_javadoccomment">	 * </em>
+<a class="jxr_linenumber" name="53" href="#53">53</a>  <em class="jxr_javadoccomment">	 * @throws ITKMessagingException if there are any syntactic, semantic or more general</em>
+<a class="jxr_linenumber" name="54" href="#54">54</a>  <em class="jxr_javadoccomment">	 * application processing issues when processing the request or constructing the response.</em>
+<a class="jxr_linenumber" name="55" href="#55">55</a>  <em class="jxr_javadoccomment">	 * In this context the {@link ITKMessagingException} should not be used to represent</em>
+<a class="jxr_linenumber" name="56" href="#56">56</a>  <em class="jxr_javadoccomment">	 * business processing failures such as a query returned no results - in general the</em>
+<a class="jxr_linenumber" name="57" href="#57">57</a>  <em class="jxr_javadoccomment">	 * underlying messaging specifications support "error" business response to support</em>
+<a class="jxr_linenumber" name="58" href="#58">58</a>  <em class="jxr_javadoccomment">	 * these types of failure.</em>
+<a class="jxr_linenumber" name="59" href="#59">59</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="60" href="#60">60</a>  	@Requirement(traceTo={<span class="jxr_string">"WS-PAT-01"</span>})
+<a class="jxr_linenumber" name="61" href="#61">61</a>  	<strong class="jxr_keyword">public</strong> <a href="../../../../uk/nhs/interoperability/payload/ITKMessage.html">ITKMessage</a> onSyncMessage(<a href="../../../../uk/nhs/interoperability/payload/ITKMessage.html">ITKMessage</a> request) <strong class="jxr_keyword">throws</strong> ITKMessagingException;
+<a class="jxr_linenumber" name="62" href="#62">62</a>  	
+<a class="jxr_linenumber" name="63" href="#63">63</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="64" href="#64">64</a>  <em class="jxr_javadoccomment">	 * Call to process a request message where no application response is returned</em>
+<a class="jxr_linenumber" name="65" href="#65">65</a>  <em class="jxr_javadoccomment">	 * synchronously. This may be because no application response is expected, or</em>
+<a class="jxr_linenumber" name="66" href="#66">66</a>  <em class="jxr_javadoccomment">	 * because the resulting response will be sent back to the &lt;code&gt;request&lt;/code&gt;</em>
+<a class="jxr_linenumber" name="67" href="#67">67</a>  <em class="jxr_javadoccomment">	 * originator asynchronously.</em>
+<a class="jxr_linenumber" name="68" href="#68">68</a>  <em class="jxr_javadoccomment">	 * </em>
+<a class="jxr_linenumber" name="69" href="#69">69</a>  <em class="jxr_javadoccomment">	 * @param request The itk request message to process. Examples might include an</em>
+<a class="jxr_linenumber" name="70" href="#70">70</a>  <em class="jxr_javadoccomment">	 * Spine Mini Services &lt;code&gt;nonCodedCDADocument-v2-0&lt;/code&gt;</em>
+<a class="jxr_linenumber" name="71" href="#71">71</a>  <em class="jxr_javadoccomment">	 * message</em>
+<a class="jxr_linenumber" name="72" href="#72">72</a>  <em class="jxr_javadoccomment">	 * </em>
+<a class="jxr_linenumber" name="73" href="#73">73</a>  <em class="jxr_javadoccomment">	 * @throws ITKMessagingException if there are any syntactic, semantic or more general</em>
+<a class="jxr_linenumber" name="74" href="#74">74</a>  <em class="jxr_javadoccomment">	 * application processing issues when processing the request or constructing the response.</em>
+<a class="jxr_linenumber" name="75" href="#75">75</a>  <em class="jxr_javadoccomment">	 * In general it is recommended that full syntactic and as much business level validation</em>
+<a class="jxr_linenumber" name="76" href="#76">76</a>  <em class="jxr_javadoccomment">	 * as practical is performed against the &lt;code&gt;request&lt;/code&gt; prior to the method returning</em>
+<a class="jxr_linenumber" name="77" href="#77">77</a>  <em class="jxr_javadoccomment">	 * such that faults can be raised and reported back via the underlying transport.</em>
+<a class="jxr_linenumber" name="78" href="#78">78</a>  <em class="jxr_javadoccomment">	 *  </em>
+<a class="jxr_linenumber" name="79" href="#79">79</a>  <em class="jxr_javadoccomment">	 * In this context the {@link ITKMessagingException} should not be used to represent</em>
+<a class="jxr_linenumber" name="80" href="#80">80</a>  <em class="jxr_javadoccomment">	 * business processing failures such as a query returned no results - in general the</em>
+<a class="jxr_linenumber" name="81" href="#81">81</a>  <em class="jxr_javadoccomment">	 * underlying messaging specifications support "error" business response to support</em>
+<a class="jxr_linenumber" name="82" href="#82">82</a>  <em class="jxr_javadoccomment">	 * these types of failure.</em>
+<a class="jxr_linenumber" name="83" href="#83">83</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="84" href="#84">84</a>  	@Requirement(traceTo={<span class="jxr_string">"WS-PAT-02"</span>})
+<a class="jxr_linenumber" name="85" href="#85">85</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> onMessage(<a href="../../../../uk/nhs/interoperability/payload/ITKMessage.html">ITKMessage</a> request) <strong class="jxr_keyword">throws</strong> ITKMessagingException;
+<a class="jxr_linenumber" name="86" href="#86">86</a>  }
+</pre>
+<hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
+</html>
+

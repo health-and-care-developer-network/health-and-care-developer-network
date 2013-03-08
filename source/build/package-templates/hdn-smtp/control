@@ -10,6 +10,7 @@ Standards-Version: 3.8.4.0
 Package: hdn-smtp
 Architecture: all
 Depends: lsb-invalid-mta, hdn-firewall, ${misc:Depends}
+Pre-Depends: dpkg (>= 1.15.6~)
 Homepage: http://hdn.nhs.uk/
 Description: HDN hdn-smtp
  This package provides essential smtp mail

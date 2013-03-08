@@ -62,20 +62,20 @@ public final class HdnDtsReadConsoleEntryPoint extends AbstractConsoleEntryPoint
 			throw new ShouldHaveExitedException();
 		}
 
-		final File controlFileFile = readableFile(optionSet, InOption);
+		final File controlFile = readableFile(optionSet, InOption);
 		final boolean validateControlFileName = optionSet.has(ValidateOption);
 
 		if (validateControlFileName)
 		{
-			validateControlFileName(controlFileFile);
+			validateControlFileName(controlFile);
 		}
 
-		parseControlFile(controlFileFile, out);
+		parseControlFile(controlFile, out);
 	}
 
-	private void validateControlFileName(final File controFile)
+	private void validateControlFileName(final File controlFile)
 	{
-		final String name = controFile.getName();
+		final String name = controlFile.getName();
 		final FileName fileName;
 		try
 		{
@@ -83,12 +83,12 @@ public final class HdnDtsReadConsoleEntryPoint extends AbstractConsoleEntryPoint
 		}
 		catch(RuntimeException e)
 		{
-			exitWithErrorAndHelp(InOption, controFile, format(ENGLISH, "because the file name was not valid (%1$s)", e.getMessage()));
+			exitWithErrorAndHelp(InOption, controlFile, format(ENGLISH, "because the file name was not valid (%1$s)", e.getMessage()));
 			throw new ShouldHaveExitedException(e);
 		}
 		if (!fileName.hasFileExtension(ctl))
 		{
-			exitWithErrorAndHelp(InOption, controFile, "because the file name did not end with extension .ctl");
+			exitWithErrorAndHelp(InOption, controlFile, "because the file name did not end with extension .ctl");
 			throw new ShouldHaveExitedException();
 		}
 	}

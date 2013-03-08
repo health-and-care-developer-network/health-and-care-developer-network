@@ -74,7 +74,7 @@ public final class Tuple extends AbstractToString implements MapSerialisable, Se
 		leaf(trustField, 1),
 		leaf(organsationNameField, 2),
 		recurse(additionalInformationField,
-		leaf(PostCode.name(), 3)
+			leaf(PostCode.name(), 3)
 		)
 	);
 

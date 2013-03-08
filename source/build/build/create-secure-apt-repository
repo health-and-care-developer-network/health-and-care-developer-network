@@ -47,6 +47,12 @@ function gpgWrapped()
 	gpg --verbose --no-greeting --no-permission-warning --no-random-seed-file --homedir "$keyringPath" "$@"
 }
 
+function getVersionFromLatestAuthorDate()
+{
+	local -ir secondsSince1970="$(git log -n 1 --pretty="format:%at")"
+	readonly packageVersion="$(date -u -d @${secondsSince1970} +%Y.%m.%d.%H%M)"
+}
+
 function setPaths()
 {
 	readonly sourcePath="$crudeOurPath"/../..
@@ -71,12 +77,16 @@ function setPaths()
 	
 	readonly distributionPath="$archiveDirPath"/"$codeName"
 	readonly distsCodeNamePath="$archiveDirPath"/dists/"$codeName"
+	readonly tarballsPath="$archiveDirPath"/tarballs
+	
+	getVersionFromLatestAuthorDate
+	readonly jarsPath="$archiveDirPath"/jars/"$packageVersion"
 	
 	# Used by gpg
 	readonly packageTemplatesPath="$sourcePath"/build/package-templates
 	readonly keyringsPath="$packageTemplatesPath"/hdn-keyring-private/hdn-keyring-private/etc/hdn-keyring-private
 	readonly keyringPath="$keyringsPath"/"$keyring"
-	readonly repositoryKey="$archiveDirPath"/"$repositoryName".key
+	readonly repositoryKey="$archiveDirPath"/"$repositoryName".gpg
 	readonly fileFilePath="$archiveDirPath"/hdn.secure.file.sources.list
 	readonly httpFilePath="$archiveDirPath"/hdn.secure.http.sources.list
 	readonly httpsFilePath="$archiveDirPath"/hdn.secure.https.sources.list
@@ -103,6 +113,48 @@ function installPackages()
 {
 	readonly destinationPackagesPath="$distributionPath"/main
 	rsync -a --link-dest="$packagesPath" --include='*/' --include='*.deb' --exclude='*' "$packagesPath"/ "$destinationPackagesPath"/
+	
+	# Install tarballs
+	mkdir -p "$tarballsPath"
+	rsync -a --link-dest="$packagesPath" --include='*/' --exclude='Packages.*' --include='*.tar' --include='*.gz' --include='*.bz2' --include='*.xz' --exclude='*' "$packagesPath"/ "$tarballsPath"/
+	
+	# Install jar and source zip files
+	mkdir -p "$jarsPath"
+	for folderPath in "$releasePath"/*; do
+		if [ ! -d "$folderPath" ]; then
+			continue
+		fi
+		
+		local folderName="$(basename "$folderPath")"
+		if [ "$folderName" = "secure-apt-repositories" ]; then
+			continue
+		fi
+		
+		for zipJarFile in "$folderPath"/*.{zip,jar}; do
+			if [ ! -f "$zipJarFile" ]; then
+				continue
+			fi
+			local zipJarFileName="$(basename "$zipJarFile")"
+			local destFilePath="$jarsPath"/"$zipJarFileName"
+			if [ -f "$destFilePath" ]; then
+				continue
+			fi
+			ln "$zipJarFile" "$destFilePath"
+		done
+		
+		for zipJarFile in "$folderPath"/distribution/*.jar; do
+			if [ ! -f "$zipJarFile" ]; then
+				continue
+			fi
+			local zipJarFileName="$(basename "$zipJarFile")"
+			local destFilePath="$jarsPath"/"$zipJarFileName"
+			if [ -f "$destFilePath" ]; then
+				continue
+			fi
+			ln "$zipJarFile" "$destFilePath"
+		done
+		
+	done
 }
 
 function createAptFtparchiveConfiguration()
@@ -199,18 +251,20 @@ function generateSourceListSnippets()
 		deb-src file:${archiveDirPath}/ ${codeName} ${sectionNames}
 	EOF
 	
+	readonly serverName="services.developer.nhs.uk"
+	
 	cat <<-EOF >"$httpFilePath"
 		# To use this sources.list do:-
 		# sudo ln -s $httpFilePath /etc/apt/sources.list.d/00hdn.sources.list
-		deb http://$(hostname).cloudapp.net/archives/${repositoryName}/ ${codeName} ${sectionNames}
-		deb-src http://$(hostname).cloudapp.net/archives/${repositoryName}/ ${codeName} ${sectionNames}
+		deb http://${serverName}/repositories/${repositoryName}/ ${codeName} ${sectionNames}
+		deb-src http://${serverName}/repositories/${repositoryName}/ ${codeName} ${sectionNames}
 	EOF
 
 	cat <<-EOF >"$httpsFilePath"
 		# To use this sources.list do:-
 		# sudo ln -s $httpsFilePath /etc/apt/sources.list.d/00hdn.sources.list
-		deb https://$(hostname).cloudapp.net/archives/${repositoryName}/ ${codeName} ${sectionNames}
-		deb-src https://$(hostname).cloudapp.net/archives/${repositoryName}/ ${codeName} ${sectionNames}
+		deb https://${serverName}/repositories/${repositoryName}/ ${codeName} ${sectionNames}
+		deb-src https://${serverName}/repositories/${repositoryName}/ ${codeName} ${sectionNames}
 	EOF
 }
 

@@ -7,7 +7,7 @@ import uk.nhs.hdn.common.commandLine.AbstractConsoleEntryPoint;
 import uk.nhs.hdn.common.http.client.exceptions.CorruptResponseException;
 import uk.nhs.hdn.common.http.client.exceptions.CouldNotConnectHttpException;
 
-import static uk.nhs.hdn.ckan.api.Api.DataGovUk;
+import static uk.nhs.hdn.ckan.api.ConcreteCkanApi.DataGovUk;
 import static uk.nhs.hdn.ckan.client.details.DetailsAction.values;
 
 public final class HdnCkanDetailsConsoleEntryPoint extends AbstractConsoleEntryPoint

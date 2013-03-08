@@ -1,0 +1,146 @@
+<soap:Envelope xmlns:itk="urn:nhs-itk:ns:201005"
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsa="http://www.w3.org/2005/08/addressing">
+    <soap:Header>
+        <wsa:MessageID>A2FDF7A4-B332-440B-B2DF-7CDE2E6DA508</wsa:MessageID>
+        <wsa:Action>urn:nhs-itk:services:201005:SendBusinessAck-v1-0</wsa:Action>
+        <wsa:To>http://localhost:8080/itk-samples/cda/callback</wsa:To>
+        <wsa:From>
+            <wsa:Address>http://127.0.0.1:4000/syncsoap</wsa:Address>
+        </wsa:From>
+        <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+            <wsu:Timestamp wsu:Id="D6CD5232-14CF-11DF-9423-1F9A910D4703" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+                <wsu:Created>2013-02-05T11:01:00+0000</wsu:Created>
+                <wsu:Expires>2013-02-05T12:01:00+0000</wsu:Expires>
+            </wsu:Timestamp>
+            <wsse:UsernameToken>
+                <wsse:Username>APPLICATIONA</wsse:Username>
+            </wsse:UsernameToken>
+        </wsse:Security>
+    </soap:Header>
+    <soap:Body>
+        <itk:DistributionEnvelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <itk:header
+                service="urn:nhs-itk:services:201005:SendBusinessAck-v1-0" trackingid="2A966984-423B-46F2-8944-35D368B8F230">
+                <itk:addresslist>
+                    <itk:address uri="urn:nhs-uk:addressing:ods:R59:oncology"/>
+                </itk:addresslist>
+                <itk:auditIdentity>
+                    <itk:id uri="urn:nhs-uk:identity:cfh:ri:consumer-application-emulator"/>
+                </itk:auditIdentity>
+                <itk:manifest count="1">
+                    <itk:manifestitem
+                        id="uuid_CDE4A7DB-979B-4D15-A7F3-53F247B4BAA7"
+                        mimetype="text/xml" profileid="urn:nhs-en:profile:ITKBusinessAcknowledgement-v1-0"/>
+                </itk:manifest>
+                <itk:senderAddress uri="urn:nhs-uk:addressing:ods:TESTORGS:ORGA"/>
+            </itk:header>
+            <itk:payloads count="1">
+                <itk:payload id="uuid_CDE4A7DB-979B-4D15-A7F3-53F247B4BAA7">
+                    <v3:BusinessResponseMessage xmlns:v3="urn:hl7-org:v3">
+                        <v3:id root="CDE4A7DB-979B-4D15-A7F3-53F247B4BAA7"/>
+                        <v3:creationTime value="201302051101"/>
+                        <v3:interactionId
+                            extension="urn:nhs-itk:interaction:ITKBusinessAcknowledgement-v1-0" root="2.16.840.1.113883.2.1.3.2.4.12"/>
+                        <v3:acknowledgedBy3 typeCode="AA">
+                            <v3:conveyingTransmission>
+                                <v3:id root="7D6D9D40-AE1A-11DB-97F9-B18E1E0994AA"/>
+                            </v3:conveyingTransmission>
+                            <v3:acknowledgementDetail typeCode="IF">
+                                <v3:code code="LOCAL1234567"
+                                    codeSystem="1.2.3.4.5.6.7.8.9.0" displayName="For Information display name"/>
+                            </v3:acknowledgementDetail>
+                        </v3:acknowledgedBy3>
+                        <v3:communicationFunction1 typeCode="SND">
+                            <v3:entity classCode="ENT" determinerCode="INSTANCE">
+                                <v3:id
+                                    extension="urn:nhs-uk:addressing:ods:TESTORGS:CDAEMULATORLOCAL" root="2.16.840.1.113883.2.1.3.2.4.18.22"/>
+                            </v3:entity>
+                        </v3:communicationFunction1>
+                        <v3:communicationFunction typeCode="RCV">
+                            <v3:entity classCode="ENT" determinerCode="INSTANCE">
+                                <v3:id
+                                    extension="urn:nhs-uk:addressing:ods:R59:oncology" root="2.16.840.1.113883.2.1.3.2.4.18.22"/>
+                            </v3:entity>
+                        </v3:communicationFunction>
+                        <v3:controlActEvent1 classCode="CACT" moodCode="EVN">
+                            <v3:author contextControlCode="OP" typeCode="AUT">
+
+                                <v3:COCD_TP145207GB01.AssignedAuthorDevice classCode="ASSIGNED">
+                                    <v3:id extension="DEVICEID001" root="2.16.840.1.113883.2.1.3.2.4.18.24"/>
+                                    <v3:templateId
+                                    extension="COCD_TP145207GB01#AssignedAuthorDevice" root="2.16.840.1.113883.2.1.3.2.4.18.2"/>
+                                    <v3:assignedAuthoringDevice
+                                    classCode="DEV" determinerCode="INSTANCE">
+                                    <v3:manufacturerModelName>LOCALManufacturerModelRef
+		                    </v3:manufacturerModelName>
+                                    <v3:softwareName>LOCALSoftwareName</v3:softwareName>
+                                    <v3:templateId
+                                    extension="COCD_TP145207GB01#assignedAuthoringDevice" root="2.16.840.1.113883.2.1.3.2.4.18.2"/>
+                                    </v3:assignedAuthoringDevice>
+                                    <v3:representedOrganization
+                                    classCode="ORG" determinerCode="INSTANCE">
+                                    <v3:id extension="Y896543" root="2.16.840.1.113883.2.1.3.2.4.19.1"/>
+                                    <v3:name>Anytown NHS Trust</v3:name>
+                                    <v3:templateId
+                                    extension="COCD_TP145207GB01#representedOrganization" root="2.16.840.1.113883.2.1.3.2.4.18.2"/>
+                                    </v3:representedOrganization>
+                                </v3:COCD_TP145207GB01.AssignedAuthorDevice>
+                            </v3:author>
+                        </v3:controlActEvent1>
+                        <v3:acknowledgedBy2 typeCode="AA">
+                            <v3:conveyingTransmission>
+                                <v3:id root="7D6D9D40-AE1A-11DB-97FF-B18E1E0994AB"/>
+                                <v3:controlActEvent classCode="CACT" moodCode="EVN">
+                                    <v3:author typeCode="AUT">
+
+                                    <v3:COCD_TP145200GB01.AssignedAuthor classCode="ASSIGNED">
+                                    <v3:code code="NR0080"
+                                    codeSystem="2.16.840.1.113883.2.1.3.2.4.17.124" displayName="Staff Grade"/>
+                                    <v3:id extension="12367890" root="2.16.840.1.113883.2.1.3.2.4.18.24"/>
+                                    <v3:templateId
+                                    extension="COCD_TP145200GB01#AssignedAuthor" root="2.16.840.1.113883.2.1.3.2.4.18.2"/>
+                                    <v3:assignedPerson
+                                    classCode="PSN" determinerCode="INSTANCE">
+                                    <v3:name>Jane Bristow</v3:name>
+                                    <v3:templateId
+                                    extension="COCD_TP145200GB01#assignedPerson" root="2.16.840.1.113883.2.1.3.2.4.18.2"/>
+                                    </v3:assignedPerson>
+                                    <v3:representedOrganization
+                                    classCode="ORG" determinerCode="INSTANCE">
+                                    <v3:id
+                                    extension="Y896543" root="2.16.840.1.113883.2.1.3.2.4.19.1"/>
+                                    <v3:name>Anytown NHS Trust</v3:name>
+                                    <v3:templateId
+                                    extension="COCD_TP145200GB01#representedOrganization" root="2.16.840.1.113883.2.1.3.2.4.18.2"/>
+                                    </v3:representedOrganization>
+                                    </v3:COCD_TP145200GB01.AssignedAuthor>
+                                    </v3:author>
+                                    <v3:reason typeCode="RSON">
+                                    <v3:detectedIssueEvent
+                                    classCode="ALRT" moodCode="EVN">
+                                    <v3:text>Further business details relating to payload response
+		                        </v3:text>
+                                    </v3:detectedIssueEvent>
+                                    </v3:reason>
+                                    <v3:reason typeCode="RSON">
+                                    <v3:detectedIssueEvent
+                                    classCode="ALRT" moodCode="EVN">
+                                    <v3:code code="389"
+                                    codeSystem="2.16.840.1.113883.2.1.3.2.4.18.30.180999" displayName="Warning:Unexpected code; Render only">
+                                    <v3:originalText>Warning: Rendering only</v3:originalText>
+                                    <v3:qualifier code="WG" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.317"/>
+                                    </v3:code>
+                                    </v3:detectedIssueEvent>
+                                    </v3:reason>
+                                </v3:controlActEvent>
+                            </v3:conveyingTransmission>
+                            <v3:acknowledgementDetail typeCode="IF">
+                                <v3:code code="LOCAL678924" displayName="FURTHER INFO"/>
+                            </v3:acknowledgementDetail>
+                        </v3:acknowledgedBy2>
+                    </v3:BusinessResponseMessage>
+                </itk:payload>
+            </itk:payloads>
+        </itk:DistributionEnvelope>
+    </soap:Body>
+</soap:Envelope>

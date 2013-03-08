@@ -31,9 +31,6 @@ import static uk.nhs.hdn.common.serialisers.AbstractSerialiser.writeNullableProp
 
 public final class KnownResponseBody extends AbstractResponseBody
 {
-	private static final int Space = (int) ' ';
-	private static final int MaximumSizeOfOtherGivenNames = 35;
-
 	@NotNull
 	public final NhsNumber traceResultNhsNumber;
 	@Nullable

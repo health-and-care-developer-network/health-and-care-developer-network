@@ -26,6 +26,8 @@ import uk.nhs.hdn.common.http.client.exceptions.CorruptResponseException;
 import uk.nhs.hdn.common.http.client.exceptions.CouldNotConnectHttpException;
 import uk.nhs.hdn.common.http.client.exceptions.UnacceptableResponseException;
 
+import static uk.nhs.hdn.barcodes.gs1.client.ClientApplication.DefaultDomainName;
+import static uk.nhs.hdn.barcodes.gs1.client.ClientApplication.DefaultPort;
 import static uk.nhs.hdn.barcodes.gs1.client.application.Demonstration.demonstrateClientApplication;
 
 public final class HdnGs1ClientConsoleEntryPoint extends AbstractConsoleEntryPoint
@@ -36,8 +38,6 @@ public final class HdnGs1ClientConsoleEntryPoint extends AbstractConsoleEntryPoi
 	private static final String GtinOption = "gtin";
 	private static final String CacheOption = "cache";
 
-	private static final String DefaultDomainName = "localhost";
-	private static final int DefaultPort = 7000;
 	private static final String DefaultImaginaryBarcodeButRealCompanyPrefix = "5055220798768";
 
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
@@ -50,7 +50,7 @@ public final class HdnGs1ClientConsoleEntryPoint extends AbstractConsoleEntryPoi
 	protected boolean options(@NotNull final OptionParser options)
 	{
 		options.accepts(DomainNameOption).withRequiredArg().ofType(String.class).defaultsTo(DefaultDomainName).describedAs("domain name to connect to");
-		options.accepts(PortOption).withRequiredArg().ofType(Integer.class).defaultsTo(DefaultPort).describedAs("port to connect to HTTP(S) on");
+		options.accepts(PortOption).withRequiredArg().ofType(Integer.class).defaultsTo((int) DefaultPort).describedAs("port to connect to HTTP(S) on");
 		options.accepts(UseHttpsOption);
 		options.accepts(CacheOption);
 		options.accepts(GtinOption).requiredIf(CacheOption).withRequiredArg().ofType(String.class).defaultsTo(DefaultImaginaryBarcodeButRealCompanyPrefix).describedAs("A sequence of 12, 13 or 14 barcode digits 0 to 9 inclusive representing a GTIN-12, GTIN-13 or GTIN-14 (Global Trade Item Number)");

@@ -17,7 +17,7 @@
 package uk.nhs.hdn.ckan.api.search.searchDelegates;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.ckan.api.ApiMethod;
+import uk.nhs.hdn.common.http.client.ApiMethod;
 import uk.nhs.hdn.ckan.api.search.SearchCriteria;
 import uk.nhs.hdn.ckan.domain.SearchResult;
 import uk.nhs.hdn.common.http.client.exceptions.CorruptResponseException;

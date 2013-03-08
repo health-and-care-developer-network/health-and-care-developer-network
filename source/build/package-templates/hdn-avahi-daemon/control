@@ -10,7 +10,7 @@ Standards-Version: 3.8.4.0
 Package: hdn-avahi-daemon
 Architecture: all
 Depends: avahi-daemon, ${misc:Depends}, ${shlibs:Depends}
-Pre-Depends: hdn-apt, hdn-firewall
+Pre-Depends: hdn-apt, hdn-firewall, dpkg (>= 1.15.6~)
 Homepage: http://hdn.nhs.uk/
 Description: HDN Avahi Daemon Wrapper
  This package provides HDN's Avahi Daemon wrapper.

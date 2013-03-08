@@ -9,7 +9,7 @@ Standards-Version: 3.8.4.0
 
 Package: hdn-apt
 Depends: apt, ${misc:Depends}
-Pre-Depends: dpkg (>= 1.15.5.6ubuntu4.5), coreutils (>= 7.4-2ubuntu3), debconf (>= 0.5) | debconf-2.0
+Pre-Depends: dpkg (>= 1.15.6~), coreutils (>= 7.4-2ubuntu3), debconf (>= 0.5) | debconf-2.0
 Architecture: all
 Description: utilities to ease working with apt
  The utilities include:-
