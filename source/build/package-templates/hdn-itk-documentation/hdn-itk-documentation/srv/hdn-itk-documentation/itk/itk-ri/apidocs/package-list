@@ -1,0 +1,10 @@
+uk.nhs.interoperability.consumer
+uk.nhs.interoperability.infrastructure
+uk.nhs.interoperability.payload
+uk.nhs.interoperability.service
+uk.nhs.interoperability.source
+uk.nhs.interoperability.transform
+uk.nhs.interoperability.transport
+uk.nhs.interoperability.transport.WS
+uk.nhs.interoperability.util
+uk.nhs.interoperability.util.xml

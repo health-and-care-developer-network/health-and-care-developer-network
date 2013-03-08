@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:itk="urn:nhs-itk:ns:201005">
+	<soap:Header xmlns:local="local-namespace-uri">
+		<wsa:MessageID>__MESSAGEID__</wsa:MessageID>
+		<wsa:Action>urn:nhs-itk:services:201005:queryPatientDemographics-v1-0</wsa:Action>
+		<wsa:To>__SENDTO__</wsa:To>
+		<local:LocalHeaderElement>Local_Data_To_Be_Ignored</local:LocalHeaderElement>
+		<wsa:From>
+			<wsa:Address>http://localhost</wsa:Address>
+		</wsa:From>
+		<wsa:ReplyTo>
+			<wsa:Address>__REPLYTO__</wsa:Address>
+		</wsa:ReplyTo>
+		<wsa:FaultTo>
+			<wsa:Address>__FAULTTO__</wsa:Address>
+		</wsa:FaultTo>
+		<wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+			<wsu:Timestamp xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" wsu:Id="D6CD5232-14CF-11DF-9423-1F9A910D4703">
+				<wsu:Created>__TIMESTAMP__</wsu:Created>
+				<wsu:Expires>__EXPIRES__</wsu:Expires>
+			</wsu:Timestamp>
+			<wsse:UsernameToken>
+				<wsse:Username>TKS Server test</wsse:Username>
+			</wsse:UsernameToken>
+		</wsse:Security>
+	</soap:Header>
+	<soap:Body>
+		<itk:DistributionEnvelope xmlns:itk="urn:nhs-itk:ns:201005" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:hl7v2="urn:hl7-org:v2xml">
+			<itk:header service="urn:nhs-itk:services:201005:queryPatientDemographics-v1-0" trackingid="2D37D9CA-5223-41C7-A159-F33D5A914EB5">
+				<itk:auditIdentity>
+					<itk:id uri="urn:nhs-uk:identity:cfh:nic:lab:itk-demonstrator"/>
+				</itk:auditIdentity>
+				<itk:manifest count="1">
+					<itk:manifestitem mimetype="text/xml" base64="false" compressed="false" id="uuid_E808A967-49B2-498B-AD75-1D7A0F1262D7" encrypted="false"/>
+				</itk:manifest>
+			</itk:header>
+			<itk:payloads count="1">
+				<itk:payload id="uuid_E808A967-49B2-498B-AD75-1D7A0F1262D7">
+<hl7v2:RSP_K21 xmlns:hl7v2="urn:hl7-org:v2xml">
+	<hl7v2:MSH>
+		<hl7v2:MSH.1>|</hl7v2:MSH.1>
+		<hl7v2:MSH.2>^~\&amp;</hl7v2:MSH.2>
+		<hl7v2:MSH.3>
+			<hl7v2:HD.1>PAS</hl7v2:HD.1>
+		</hl7v2:MSH.3>
+		<hl7v2:MSH.4>
+			<hl7v2:HD.1>ORG1</hl7v2:HD.1>
+		</hl7v2:MSH.4>
+		<hl7v2:MSH.5>
+			<hl7v2:HD.1>CarefxITK</hl7v2:HD.1>
+		</hl7v2:MSH.5>
+		<hl7v2:MSH.6>
+			<hl7v2:HD.1>ORG1</hl7v2:HD.1>
+		</hl7v2:MSH.6>
+		<hl7v2:MSH.7>
+			<hl7v2:TS.1>20100511125611</hl7v2:TS.1>
+		</hl7v2:MSH.7>
+		<hl7v2:MSH.9>
+			<hl7v2:MSG.1>RSP</hl7v2:MSG.1>
+			<hl7v2:MSG.2>K21</hl7v2:MSG.2>
+			<hl7v2:MSG.3>RSP_K21</hl7v2:MSG.3>
+		</hl7v2:MSH.9>
+		<hl7v2:MSH.10>306944</hl7v2:MSH.10>
+		<hl7v2:MSH.11>
+			<hl7v2:PT.1>P</hl7v2:PT.1>
+		</hl7v2:MSH.11>
+		<hl7v2:MSH.12>
+			<hl7v2:VID.1>2.4</hl7v2:VID.1>
+		</hl7v2:MSH.12>
+		<hl7v2:MSH.17>GBR</hl7v2:MSH.17>
+		<hl7v2:MSH.19>
+			<hl7v2:CE.1>EN</hl7v2:CE.1>
+		</hl7v2:MSH.19>
+		<hl7v2:MSH.21>ITKv1.0</hl7v2:MSH.21>
+	</hl7v2:MSH>
+	<hl7v2:MSA>
+		<hl7v2:MSA.1>AA</hl7v2:MSA.1>
+		<hl7v2:MSA.2>04857982024975328990</hl7v2:MSA.2>
+	</hl7v2:MSA>
+	<hl7v2:QAK>
+		<hl7v2:QAK.1>QRY123</hl7v2:QAK.1>
+		<hl7v2:QAK.2>OK</hl7v2:QAK.2>
+		<hl7v2:QAK.3>
+			<hl7v2:CE.1>Q21</hl7v2:CE.1>
+			<hl7v2:CE.2>Get Person Demographics</hl7v2:CE.2>
+		</hl7v2:QAK.3>
+		<hl7v2:QAK.5>1</hl7v2:QAK.5>
+	</hl7v2:QAK>
+	<hl7v2:QPD>
+		<hl7v2:QPD.1>
+			<hl7v2:CE.1>Q21</hl7v2:CE.1>
+			<hl7v2:CE.2>Get Person Demographics</hl7v2:CE.2>
+		</hl7v2:QPD.1>
+		<hl7v2:QPD.2>QRY123</hl7v2:QPD.2>
+		<hl7v2:QPD.3>
+			<hl7v2:QSC.1>112234</hl7v2:QSC.1>
+			<hl7v2:QSC.4>METRO HOSPITAL</hl7v2:QSC.4>
+		</hl7v2:QPD.3>
+	</hl7v2:QPD>
+	<hl7v2:RSP_K21.QUERY_RESPONSE>
+		<hl7v2:PID>
+			<hl7v2:PID.1>1</hl7v2:PID.1>
+			<hl7v2:PID.3>
+				<hl7v2:CX.1>112234</hl7v2:CX.1>
+				<hl7v2:CX.4>
+					<HD.1 xmlns="urn:hl7-org:v2xml">METRO HOSPITAL</HD.1>
+				</hl7v2:CX.4>
+			</hl7v2:PID.3>
+			<hl7v2:PID.5>
+				<hl7v2:XPN.1>Esther</hl7v2:XPN.1>
+				<hl7v2:XPN.2>Priya</hl7v2:XPN.2>
+				<hl7v2:XPN.5>MS</hl7v2:XPN.5>
+				<hl7v2:XPN.7>L</hl7v2:XPN.7>
+			</hl7v2:PID.5>
+			<hl7v2:PID.7>
+				<hl7v2:TS.1>19861129000000</hl7v2:TS.1>
+			</hl7v2:PID.7>
+			<hl7v2:PID.8>2</hl7v2:PID.8>
+			<hl7v2:PID.11>
+				<hl7v2:XAD.1>1 Birley Close</hl7v2:XAD.1>
+				<hl7v2:XAD.2>Appley Bridge</hl7v2:XAD.2>
+				<hl7v2:XAD.3>Wigan</hl7v2:XAD.3>
+				<hl7v2:XAD.5>WN6 9JL</hl7v2:XAD.5>
+				<hl7v2:XAD.6>GBR</hl7v2:XAD.6>
+				<hl7v2:XAD.7>H</hl7v2:XAD.7>
+				<hl7v2:XAD.8>Q31</hl7v2:XAD.8>
+				<hl7v2:XAD.9>Lancashire</hl7v2:XAD.9>
+			</hl7v2:PID.11>
+			<hl7v2:PID.15>
+				<hl7v2:CE.1>EN</hl7v2:CE.1>
+			</hl7v2:PID.15>
+			<hl7v2:PID.16>
+				<hl7v2:CE.1>M</hl7v2:CE.1>
+			</hl7v2:PID.16>
+			<hl7v2:PID.17>
+				<hl7v2:CE.1>C22</hl7v2:CE.1>
+			</hl7v2:PID.17>
+			<hl7v2:PID.22>
+				<hl7v2:CE.1>A</hl7v2:CE.1>
+			</hl7v2:PID.22>
+			<hl7v2:PID.23>Berlin</hl7v2:PID.23>
+			<hl7v2:PID.24>N</hl7v2:PID.24>
+			<hl7v2:PID.26>
+				<hl7v2:CE.1>GBR</hl7v2:CE.1>
+			</hl7v2:PID.26>
+			<hl7v2:PID.28>
+				<hl7v2:CE.1>DEU</hl7v2:CE.1>
+			</hl7v2:PID.28>
+			<hl7v2:PID.32>ED</hl7v2:PID.32>
+		</hl7v2:PID>
+		<hl7v2:PD1>
+			<hl7v2:PD1.3>
+				<hl7v2:XON.1>ST JOHN'S WOOD MED PRACT</hl7v2:XON.1>
+				<hl7v2:XON.3>E87609</hl7v2:XON.3>
+			</hl7v2:PD1.3>
+			<hl7v2:PD1.4>
+				<hl7v2:XCN.1>G9312382</hl7v2:XCN.1>
+				<hl7v2:XCN.2>
+					<FN.1 xmlns="urn:hl7-org:v2xml">Abadi</FN.1>
+				</hl7v2:XCN.2>
+				<hl7v2:XCN.3>DI</hl7v2:XCN.3>
+				<hl7v2:XCN.6>Dr</hl7v2:XCN.6>
+			</hl7v2:PD1.4>
+		</hl7v2:PD1>
+	</hl7v2:RSP_K21.QUERY_RESPONSE>
+</hl7v2:RSP_K21>
+				</itk:payload>
+			</itk:payloads>
+		</itk:DistributionEnvelope>
+	</soap:Body>
+</soap:Envelope>

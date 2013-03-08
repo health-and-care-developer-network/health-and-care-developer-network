@@ -1,0 +1,11 @@
+<soap:Envelope xmlns:itk="urn:nhs-itk:ns:201005"
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsa="http://www.w3.org/2005/08/addressing">
+    <soap:Header>
+        <wsa:MessageID>21BE8367-ADE7-4CD3-BB6A-0378AC9C2A91</wsa:MessageID>
+        <wsa:Action>urn:nhs-itk:services:201005:admitPatientPH-v1-0Response</wsa:Action>
+        <wsa:To/>
+    </soap:Header>
+    <soap:Body>
+        <itk:SimpleMessageResponse>OK</itk:SimpleMessageResponse>
+    </soap:Body>
+</soap:Envelope>

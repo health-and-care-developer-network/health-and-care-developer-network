@@ -1,0 +1,48 @@
+<soap:Envelope xmlns:itk="urn:nhs-itk:ns:201005"
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsa="http://www.w3.org/2005/08/addressing">
+    <soap:Header>
+        <wsa:MessageID>D9319532-C9C4-4D9A-84E8-BFAA18717942</wsa:MessageID>
+        <wsa:Action>urn:nhs-itk:ns:201005:InfrastructureAcknowledgment</wsa:Action>
+        <wsa:To>http://localhost:8080/itk-samples/cda/callback</wsa:To>
+        <wsa:From>
+            <wsa:Address>http://127.0.0.1:4000/syncsoap</wsa:Address>
+        </wsa:From>
+        <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+            <wsu:Timestamp wsu:Id="D6CD5232-14CF-11DF-9423-1F9A910D4703" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+                <wsu:Created>2013-02-04T13:41:28+0000</wsu:Created>
+                <wsu:Expires>2013-02-04T14:41:28+0000</wsu:Expires>
+            </wsu:Timestamp>
+            <wsse:UsernameToken>
+                <wsse:Username>APPLICATIONA</wsse:Username>
+            </wsse:UsernameToken>
+        </wsse:Security>
+    </soap:Header>
+    <soap:Body>
+        <itk:DistributionEnvelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <itk:header
+                service="urn:nhs-itk:ns:201005:InfrastructureAcknowledgment" trackingid="24088320-64AA-439C-B9F7-B7B7FFD8DD81">
+                <itk:addresslist>
+                    <itk:address uri="urn:nhs-uk:addressing:ods:R59:oncology"/>
+                </itk:addresslist>
+                <itk:auditIdentity>
+                    <itk:id uri="urn:nhs-uk:identity:cfh:ri:application"/>
+                </itk:auditIdentity>
+                <itk:manifest count="1">
+                    <itk:manifestitem id="uuid_6931E0D7-DD26-4BE1-918E-CC7897AD4552" mimetype="text/xml" profileid="urn:nhs-en:profile:ITKInfrastructureAcknowledgement-v1-0"/>
+                </itk:manifest>
+                <itk:senderAddress uri="urn:nhs-uk:addressing:ods:TESTORGS:CDASTORELOCAL"/>
+            </itk:header>
+            <itk:payloads count="1">
+                <itk:payload id="uuid_6931E0D7-DD26-4BE1-918E-CC7897AD4552">
+                    <itk:InfrastructureResponse result="OK"
+                        serviceRef="urn:nhs-itk:services:201005:SendCDADocument-v2-0"
+                        timestamp="2013-02-04T13:41:28+0000" trackingIdRef="6931E0D7-DD26-4BE1-918E-CC7897AD4552">
+                        <itk:reportingIdentity>
+                            <itk:id uri="urn:nhs-uk:identity:cfh:ri:application"/>
+                        </itk:reportingIdentity>
+                    </itk:InfrastructureResponse>
+                </itk:payload>
+            </itk:payloads>
+        </itk:DistributionEnvelope>
+    </soap:Body>
+</soap:Envelope>

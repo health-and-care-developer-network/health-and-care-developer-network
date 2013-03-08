@@ -4,7 +4,9 @@ ROOT=../../..
 RELEASE=$(ROOT)/release
 SOURCE=$(ROOT)/source
 PACKAGE_TEMPLATES=$(SOURCE)/build/package-templates
-ITK_SAMPLES_VERSION=-0.1-SNAPSHOT
+ITK_API_VERSION=-0.1-SNAPSHOT
+ITK_RI_VERSION=-0.1-SNAPSHOT
+ITK_SAMPLES_VERSION=
 
 build: build-stamp
 build-stamp:
