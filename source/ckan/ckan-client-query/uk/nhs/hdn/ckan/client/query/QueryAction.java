@@ -2,8 +2,8 @@ package uk.nhs.hdn.ckan.client.query;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.ckan.api.Api;
-import uk.nhs.hdn.ckan.api.ApiMethod;
+import uk.nhs.hdn.ckan.api.CkanApi;
+import uk.nhs.hdn.common.http.client.ApiMethod;
 import uk.nhs.hdn.ckan.domain.dates.MicrosecondTimestamp;
 import uk.nhs.hdn.ckan.domain.ids.RevisionId;
 import uk.nhs.hdn.ckan.domain.uniqueNames.DatasetKey;
@@ -35,9 +35,9 @@ public enum QueryAction implements Description
 
 		@NotNull
 		@Override
-		public ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final Api api, @NotNull final Object key)
+		public ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final CkanApi ckanApi, @NotNull final Object key)
 		{
-			return api.revisions((MicrosecondTimestamp) key);
+			return ckanApi.revisions((MicrosecondTimestamp) key);
 		}
 
 		@NotNull
@@ -58,9 +58,9 @@ public enum QueryAction implements Description
 
 		@NotNull
 		@Override
-		public ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final Api api, @NotNull final Object key)
+		public ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final CkanApi ckanApi, @NotNull final Object key)
 		{
-			return api.revisions((RevisionId) key);
+			return ckanApi.revisions((RevisionId) key);
 		}
 
 		@NotNull
@@ -81,9 +81,9 @@ public enum QueryAction implements Description
 
 		@NotNull
 		@Override
-		public ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final Api api, @NotNull final Object key)
+		public ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final CkanApi ckanApi, @NotNull final Object key)
 		{
-			return api.datasetRevisions((DatasetKey) key);
+			return ckanApi.datasetRevisions((DatasetKey) key);
 		}
 
 		@NotNull
@@ -104,9 +104,9 @@ public enum QueryAction implements Description
 
 		@NotNull
 		@Override
-		public ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final Api api, @NotNull final Object key)
+		public ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final CkanApi ckanApi, @NotNull final Object key)
 		{
-			return api.datasetRevisions((DatasetKey) key);
+			return ckanApi.datasetRevisions((DatasetKey) key);
 		}
 
 		@NotNull
@@ -127,9 +127,9 @@ public enum QueryAction implements Description
 
 		@NotNull
 		@Override
-		public ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final Api api, @NotNull final Object key)
+		public ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final CkanApi ckanApi, @NotNull final Object key)
 		{
-			return api.datasetIdsWithTag((TagName) key);
+			return ckanApi.datasetIdsWithTag((TagName) key);
 		}
 
 		@NotNull
@@ -150,9 +150,9 @@ public enum QueryAction implements Description
 
 		@NotNull
 		@Override
-		public ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final Api api, @NotNull final Object key)
+		public ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final CkanApi ckanApi, @NotNull final Object key)
 		{
-			return api.datasetNamesWithTag((TagName) key);
+			return ckanApi.datasetNamesWithTag((TagName) key);
 		}
 
 		@NotNull
@@ -183,15 +183,15 @@ public enum QueryAction implements Description
 	public abstract Object parseKey(@NotNull final String value);
 
 	@NotNull
-	public abstract ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final Api api, @NotNull final Object key);
+	public abstract ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final CkanApi ckanApi, @NotNull final Object key);
 
 	@NotNull
 	public abstract SeparatedValueSerialiser tsvSerialiser();
 
-	public void execute(@NotNull final Api api, @NotNull final String key) throws UnacceptableResponseException, CouldNotConnectHttpException, CorruptResponseException
+	public void execute(@NotNull final CkanApi ckanApi, @NotNull final String key) throws UnacceptableResponseException, CouldNotConnectHttpException, CorruptResponseException
 	{
 		final Object parsedKey = parseKey(key);
-		final Serialisable[] result = apiMethod(api, parsedKey).get();
+		final Serialisable[] result = apiMethod(ckanApi, parsedKey).execute();
 		tsvSerialiser().printValuesOnStandardOut(result);
 	}
 }

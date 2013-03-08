@@ -4,7 +4,7 @@ import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.ckan.api.ApiMethod;
+import uk.nhs.hdn.common.http.client.ApiMethod;
 import uk.nhs.hdn.ckan.api.RelationshipType;
 import uk.nhs.hdn.ckan.domain.uniqueNames.DatasetKey;
 import uk.nhs.hdn.ckan.domain.uniqueNames.DatasetName;
@@ -14,7 +14,7 @@ import uk.nhs.hdn.common.http.client.exceptions.CouldNotConnectHttpException;
 import uk.nhs.hdn.common.http.client.exceptions.UnacceptableResponseException;
 import uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser;
 
-import static uk.nhs.hdn.ckan.api.Api.DataGovUk;
+import static uk.nhs.hdn.ckan.api.ConcreteCkanApi.DataGovUk;
 import static uk.nhs.hdn.ckan.api.RelationshipType.values;
 import static uk.nhs.hdn.ckan.domain.ids.DatasetId.tsvSerialiserForDatasetIds;
 import static uk.nhs.hdn.ckan.domain.uniqueNames.DatasetName.tsvSerialiserForDatasetNames;
@@ -63,7 +63,7 @@ public final class HdnCkanRelationshipsConsoleEntryPoint extends AbstractConsole
 			apiMethod = DataGovUk.datasetRelationshipsByDatasetName(key, relationshipType);
 			separatedValueSerialiser = tsvSerialiserForDatasetNames();
 		}
-		final DatasetKey[] datasetKeys = apiMethod.get();
+		final DatasetKey[] datasetKeys = apiMethod.execute();
 		separatedValueSerialiser.printValuesOnStandardOut(datasetKeys);
 	}
 }

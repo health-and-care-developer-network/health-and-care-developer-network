@@ -28,7 +28,7 @@ import uk.nhs.hdn.common.http.client.exceptions.CouldNotConnectHttpException;
 import uk.nhs.hdn.common.http.client.exceptions.UnacceptableResponseException;
 import uk.nhs.hdn.common.tuples.Pair;
 
-import static uk.nhs.hdn.ckan.api.Api.DataGovUk;
+import static uk.nhs.hdn.ckan.api.ConcreteCkanApi.DataGovUk;
 import static uk.nhs.hdn.ckan.api.search.ManySearchCriteria.noSearchCriteria;
 import static uk.nhs.hdn.ckan.api.search.StringSearchCriterion.resourceSearchCriterion;
 import static uk.nhs.hdn.ckan.domain.Resource.*;

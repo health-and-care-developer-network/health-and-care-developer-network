@@ -2,8 +2,8 @@ package uk.nhs.hdn.ckan.client.details;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.ckan.api.Api;
-import uk.nhs.hdn.ckan.api.ApiMethod;
+import uk.nhs.hdn.ckan.api.CkanApi;
+import uk.nhs.hdn.common.http.client.ApiMethod;
 import uk.nhs.hdn.ckan.domain.ids.DatasetId;
 import uk.nhs.hdn.ckan.domain.ids.GroupId;
 import uk.nhs.hdn.ckan.domain.ids.RevisionId;
@@ -40,9 +40,9 @@ public enum DetailsAction implements Description
 
 		@NotNull
 		@Override
-		public ApiMethod<? extends MapSerialisable> apiMethod(@NotNull final Api api, @NotNull final Object key)
+		public ApiMethod<? extends MapSerialisable> apiMethod(@NotNull final CkanApi ckanApi, @NotNull final Object key)
 		{
-			return api.dataset((DatasetKey) key);
+			return ckanApi.dataset((DatasetKey) key);
 		}
 
 		@NotNull
@@ -70,9 +70,9 @@ public enum DetailsAction implements Description
 
 		@NotNull
 		@Override
-		public ApiMethod<? extends MapSerialisable> apiMethod(@NotNull final Api api, @NotNull final Object key)
+		public ApiMethod<? extends MapSerialisable> apiMethod(@NotNull final CkanApi ckanApi, @NotNull final Object key)
 		{
-			return api.dataset((DatasetKey) key);
+			return ckanApi.dataset((DatasetKey) key);
 		}
 
 		@NotNull
@@ -100,9 +100,9 @@ public enum DetailsAction implements Description
 
 		@NotNull
 		@Override
-		public ApiMethod<? extends MapSerialisable> apiMethod(@NotNull final Api api, @NotNull final Object key)
+		public ApiMethod<? extends MapSerialisable> apiMethod(@NotNull final CkanApi ckanApi, @NotNull final Object key)
 		{
-			return api.group((GroupKey) key);
+			return ckanApi.group((GroupKey) key);
 		}
 
 		@NotNull
@@ -130,9 +130,9 @@ public enum DetailsAction implements Description
 
 		@NotNull
 		@Override
-		public ApiMethod<? extends MapSerialisable> apiMethod(@NotNull final Api api, @NotNull final Object key)
+		public ApiMethod<? extends MapSerialisable> apiMethod(@NotNull final CkanApi ckanApi, @NotNull final Object key)
 		{
-			return api.group((GroupKey) key);
+			return ckanApi.group((GroupKey) key);
 		}
 
 		@NotNull
@@ -160,9 +160,9 @@ public enum DetailsAction implements Description
 
 		@NotNull
 		@Override
-		public ApiMethod<? extends MapSerialisable> apiMethod(@NotNull final Api api, @NotNull final Object key)
+		public ApiMethod<? extends MapSerialisable> apiMethod(@NotNull final CkanApi ckanApi, @NotNull final Object key)
 		{
-			return api.revision((RevisionId) key);
+			return ckanApi.revision((RevisionId) key);
 		}
 
 		@NotNull
@@ -192,7 +192,7 @@ public enum DetailsAction implements Description
 	public abstract Object parseKey(@NotNull final String value);
 
 	@NotNull
-	public abstract ApiMethod<? extends MapSerialisable> apiMethod(@NotNull final Api api, @NotNull final Object key);
+	public abstract ApiMethod<? extends MapSerialisable> apiMethod(@NotNull final CkanApi ckanApi, @NotNull final Object key);
 
 	@NotNull
 	public abstract SeparatedValueSerialiser tsvSerialiser();
@@ -200,15 +200,15 @@ public enum DetailsAction implements Description
 	@NotNull
 	public abstract ArrayCreator<? extends Serialisable> arrayCreator();
 
-	public void execute(@NotNull final Api api, @NotNull final String key) throws CouldNotConnectHttpException, CorruptResponseException
+	public void execute(@NotNull final CkanApi ckanApi, @NotNull final String key) throws CouldNotConnectHttpException, CorruptResponseException
 	{
 		final Object parsedKey = parseKey(key);
-		final ApiMethod<? extends MapSerialisable> apiMethod = apiMethod(api, parsedKey);
+		final ApiMethod<? extends MapSerialisable> apiMethod = apiMethod(ckanApi, parsedKey);
 		final SeparatedValueSerialiser separatedValueSerialiser = tsvSerialiser();
 		final MapSerialisable result;
 		try
 		{
-			result = apiMethod.get();
+			result = apiMethod.execute();
 		}
 		catch (UnacceptableResponseException e)
 		{

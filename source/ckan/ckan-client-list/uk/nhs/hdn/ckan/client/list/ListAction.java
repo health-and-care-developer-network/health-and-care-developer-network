@@ -1,8 +1,8 @@
 package uk.nhs.hdn.ckan.client.list;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.ckan.api.Api;
-import uk.nhs.hdn.ckan.api.ApiMethod;
+import uk.nhs.hdn.ckan.api.CkanApi;
+import uk.nhs.hdn.common.http.client.ApiMethod;
 import uk.nhs.hdn.common.http.client.exceptions.CorruptResponseException;
 import uk.nhs.hdn.common.http.client.exceptions.CouldNotConnectHttpException;
 import uk.nhs.hdn.common.http.client.exceptions.UnacceptableResponseException;
@@ -23,9 +23,9 @@ public enum ListAction
 	{
 		@NotNull
 		@Override
-		public ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final Api api)
+		public ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final CkanApi ckanApi)
 		{
-			return api.allDatasetNames();
+			return ckanApi.allDatasetNames();
 		}
 
 		@NotNull
@@ -39,9 +39,9 @@ public enum ListAction
 	{
 		@NotNull
 		@Override
-		public ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final Api api)
+		public ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final CkanApi ckanApi)
 		{
-			return api.allDatasetIds();
+			return ckanApi.allDatasetIds();
 		}
 
 		@NotNull
@@ -55,9 +55,9 @@ public enum ListAction
 	{
 		@NotNull
 		@Override
-		public ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final Api api)
+		public ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final CkanApi ckanApi)
 		{
-			return api.allGroupNames();
+			return ckanApi.allGroupNames();
 		}
 
 		@NotNull
@@ -71,9 +71,9 @@ public enum ListAction
 	{
 		@NotNull
 		@Override
-		public ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final Api api)
+		public ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final CkanApi ckanApi)
 		{
-			return api.allGroupIds();
+			return ckanApi.allGroupIds();
 		}
 
 		@NotNull
@@ -87,9 +87,9 @@ public enum ListAction
 	{
 		@NotNull
 		@Override
-		public ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final Api api)
+		public ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final CkanApi ckanApi)
 		{
-			return api.allTags();
+			return ckanApi.allTags();
 		}
 
 		@NotNull
@@ -103,9 +103,9 @@ public enum ListAction
 	{
 		@NotNull
 		@Override
-		public ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final Api api)
+		public ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final CkanApi ckanApi)
 		{
-			return api.allLicences();
+			return ckanApi.allLicences();
 		}
 
 		@NotNull
@@ -119,9 +119,9 @@ public enum ListAction
 	{
 		@NotNull
 		@Override
-		public ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final Api api)
+		public ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final CkanApi ckanApi)
 		{
-			return api.tagCounts();
+			return ckanApi.tagCounts();
 		}
 
 		@NotNull
@@ -134,14 +134,14 @@ public enum ListAction
 	;
 
 	@NotNull
-	public abstract ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final Api api);
+	public abstract ApiMethod<? extends Serialisable[]> apiMethod(@NotNull final CkanApi ckanApi);
 
 	@NotNull
 	public abstract SeparatedValueSerialiser tsvSerialiser();
 
-	public void execute(@NotNull final Api api) throws UnacceptableResponseException, CouldNotConnectHttpException, CorruptResponseException
+	public void execute(@NotNull final CkanApi ckanApi) throws UnacceptableResponseException, CouldNotConnectHttpException, CorruptResponseException
 	{
-		final Serialisable[] result = apiMethod(api).get();
+		final Serialisable[] result = apiMethod(ckanApi).execute();
 		final SeparatedValueSerialiser separatedValueSerialiser = tsvSerialiser();
 		separatedValueSerialiser.printValuesOnStandardOut(result);
 	}

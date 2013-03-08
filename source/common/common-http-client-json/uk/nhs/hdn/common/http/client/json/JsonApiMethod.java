@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.ckan.api;
+package uk.nhs.hdn.common.http.client.json;
 
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.common.http.client.ApiMethod;
 import uk.nhs.hdn.common.http.client.HttpClient;
 import uk.nhs.hdn.common.http.client.exceptions.CorruptResponseException;
 import uk.nhs.hdn.common.http.client.exceptions.CouldNotConnectHttpException;
 import uk.nhs.hdn.common.http.client.exceptions.UnacceptableResponseException;
 import uk.nhs.hdn.common.http.client.getHttpResponseUsers.GetHttpResponseUser;
-import uk.nhs.hdn.common.http.client.json.JsonGetHttpResponseUser;
 import uk.nhs.hdn.common.parsers.json.JsonSchema;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 
-public final class ApiMethod<V> extends AbstractToString
+public final class JsonApiMethod<V> extends AbstractToString implements ApiMethod<V>
 {
 	@NotNull
 	private final HttpClient httpClient;
@@ -34,14 +34,15 @@ public final class ApiMethod<V> extends AbstractToString
 	private final GetHttpResponseUser<V> getHttpResponseUser;
 
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
-	public ApiMethod(@NotNull final HttpClient httpClient, @NotNull final JsonSchema<V> jsonSchema)
+	public JsonApiMethod(@NotNull final HttpClient httpClient, @NotNull final JsonSchema<V> jsonSchema)
 	{
 		this.httpClient = httpClient;
 		getHttpResponseUser = new JsonGetHttpResponseUser<>(jsonSchema);
 	}
 
+	@Override
 	@NotNull
-	public V get() throws UnacceptableResponseException, CorruptResponseException, CouldNotConnectHttpException
+	public V execute() throws UnacceptableResponseException, CorruptResponseException, CouldNotConnectHttpException
 	{
 		return httpClient.get(getHttpResponseUser);
 	}
