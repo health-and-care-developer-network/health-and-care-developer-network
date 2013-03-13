@@ -11,6 +11,7 @@
     <orderEntry type="module" module-name="common-reflection" />
     <orderEntry type="module" module-name="common-digits" exported="" />
     <orderEntry type="module" module-name="common-exceptions" exported="" />
+    <orderEntry type="module" module-name="common-naming" />
   </component>
 </module>
 

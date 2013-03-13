@@ -1,4 +1,4 @@
-Source: hdn-dts-read
+Source: hdn-pseudonymisation-client
 Section: java
 Priority: optional
 Maintainer: Raphael Cohn <raphael.cohn@stormmq.com>
@@ -7,14 +7,14 @@ Homepage: http://hdn.nhs.uk/
 Build-Depends: debhelper (>= 7), fakeroot, openjdk-7-jdk, git-core, apt-utils, gnupg, devscripts
 Standards-Version: 3.8.4.0
 
-Package: hdn-dts-read
+Package: hdn-pseudonymisation-client
 Architecture: all
 Depends: coreutils (>= 7.4-2ubuntu3), openjdk-7-jdk | openjdk-7-jre, ${misc:Depends}
 Pre-Depends: dpkg (>= 1.15.6~)
 Recommends: hdn-java-common
 Homepage: http://hdn.nhs.uk/
-Description: GS1 DTS out client
+Description: HDN pseudonymisation client
  This package provides the HDN Data
  Transfer Service (DTS) out client
  .
- To run it, call /usr/bin/hdn-dts-read .
+ To run it, call /usr/bin/hdn-pseudonymisation-client .

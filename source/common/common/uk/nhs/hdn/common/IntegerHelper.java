@@ -16,6 +16,8 @@
 
 package uk.nhs.hdn.common;
 
+import org.jetbrains.annotations.NotNull;
+
 import static java.lang.StrictMath.pow;
 
 public final class IntegerHelper
@@ -29,6 +31,19 @@ public final class IntegerHelper
 	public static boolean isEven(final int value)
 	{
 		return value % 2 == 0;
+	}
+
+	@SuppressWarnings({"NumericCastThatLosesPrecision", "MagicNumber"})
+	@NotNull
+	public static byte[] signedIntegerToByteArray(final int value)
+	{
+		return new byte[]
+		{
+			(byte) (value >>> 24),
+			(byte) (value >>> 16),
+			(byte) (value >>> 8),
+			(byte) value
+		};
 	}
 
 	private IntegerHelper()

@@ -1301,6 +1301,8 @@
       <module fileurl="file://$PROJECT_DIR$/number/number-client/number-client.iml" filepath="$PROJECT_DIR$/number/number-client/number-client.iml" group="number" />
       <module fileurl="file://$PROJECT_DIR$/build/package-templates/package-templates.iml" filepath="$PROJECT_DIR$/build/package-templates/package-templates.iml" group="build" />
       <module fileurl="file://$PROJECT_DIR$/build/prepare-to-build/prepare-to-build.iml" filepath="$PROJECT_DIR$/build/prepare-to-build/prepare-to-build.iml" group="build" />
+      <module fileurl="file://$PROJECT_DIR$/pseudonymisation/pseudonymisation/pseudonymisation.iml" filepath="$PROJECT_DIR$/pseudonymisation/pseudonymisation/pseudonymisation.iml" group="pseudonymisation" />
+      <module fileurl="file://$PROJECT_DIR$/pseudonymisation/pseudonymisation-client/pseudonymisation-client.iml" filepath="$PROJECT_DIR$/pseudonymisation/pseudonymisation-client/pseudonymisation-client.iml" group="pseudonymisation" />
     </modules>
   </component>
   <component name="ProjectResources">

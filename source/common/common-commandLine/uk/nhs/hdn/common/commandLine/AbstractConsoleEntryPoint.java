@@ -28,6 +28,7 @@ import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import static java.lang.String.format;
@@ -203,6 +204,19 @@ public abstract class AbstractConsoleEntryPoint extends AbstractToString
 	public final <S> S defaulted(@NotNull final OptionSet optionSet, @NonNls @NotNull final String optionName)
 	{
 		return (S) optionSet.valueOf(optionName);
+	}
+
+	@SuppressWarnings({"MethodMayBeStatic", "QuestionableName", "unchecked"})
+	@NotNull
+	public final <S> List<S> atLeastOneOfDefaulted(@NotNull final OptionSet optionSet, @NonNls @NotNull final String optionName)
+	{
+		final List<S> values = (List<S>) optionSet.valuesOf(optionName);
+		if (values.isEmpty())
+		{
+			exitWithErrorAndHelp(optionName, "", "specify at least one value");
+			throw new ShouldHaveExitedException();
+		}
+		return values;
 	}
 
 	@SuppressWarnings({"MethodMayBeStatic", "QuestionableName", "unchecked"})

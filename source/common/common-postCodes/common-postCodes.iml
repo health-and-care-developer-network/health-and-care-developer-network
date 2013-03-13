@@ -11,6 +11,7 @@
     <orderEntry type="module" module-name="common-reflection" />
     <orderEntry type="module" module-name="common-parsers" />
     <orderEntry type="module" module-name="common-serialisers" />
+    <orderEntry type="module" module-name="common-naming" exported="" />
   </component>
 </module>
 
