@@ -32,6 +32,11 @@ public final class MapIndexTable<N extends Normalisable> implements IndexTable<N
 	private final Map<N, IndexTableRow<N>> table;
 	private final Map<Pseudonymiser<N>, Set<PsuedonymisedValue>> previouslyPseudonymisedValues;
 
+	public MapIndexTable()
+	{
+		this(1, 1);
+	}
+
 	public MapIndexTable(final int rowsEstimate, final int rowSizeEstimate)
 	{
 		this.rowsEstimate = rowsEstimate;
@@ -76,7 +81,7 @@ public final class MapIndexTable<N extends Normalisable> implements IndexTable<N
 	{
 		for (final Map.Entry<N, IndexTableRow<N>> entry : table.entrySet())
 		{
-			final N valueToPsuedonymise = entry.getKey();
+			@Nullable final N valueToPsuedonymise = entry.getKey();
 			final IndexTableRow<N> pseudonymisedValues = entry.getValue();
 
 			if (psuedonymisedValuesUser.use(valueToPsuedonymise, pseudonymisedValues))

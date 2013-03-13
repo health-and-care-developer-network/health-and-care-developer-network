@@ -17,6 +17,7 @@
 package uk.nhs.hdn.pseudonymisation.client;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.naming.Normalisable;
 import uk.nhs.hdn.common.parsers.separatedValueParsers.fieldParsers.CouldNotParseFieldException;
 import uk.nhs.hdn.common.parsers.separatedValueParsers.separatedValuesParseEventHandlers.AbstractSingleLineSeparatedValueParseEventHandler;
@@ -53,7 +54,7 @@ public final class PseudonymisingSingleLineSeparatedValueParseEventHandler<N ext
 		}
 		expectingEndOfLine = true;
 
-		final N valueToPseudonymise;
+		@Nullable final N valueToPseudonymise;
 		try
 		{
 			valueToPseudonymise = (N) dataKind.parse(value);

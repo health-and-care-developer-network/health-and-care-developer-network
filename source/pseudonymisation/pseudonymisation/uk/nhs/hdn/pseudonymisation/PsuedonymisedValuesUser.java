@@ -17,9 +17,10 @@
 package uk.nhs.hdn.pseudonymisation;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.naming.Normalisable;
 
 public interface PsuedonymisedValuesUser<N extends Normalisable, X extends Exception>
 {
-	boolean use(@NotNull final N valueToPsuedonymise, @NotNull final PsuedonymisedValues<N> pseudonymisedValues) throws X;
+	boolean use(@Nullable final N valueToPsuedonymise, @NotNull final PsuedonymisedValues<N> pseudonymisedValues) throws X;
 }
