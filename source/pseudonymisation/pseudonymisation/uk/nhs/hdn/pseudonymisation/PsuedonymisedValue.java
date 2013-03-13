@@ -42,7 +42,7 @@ public final class PsuedonymisedValue extends AbstractToString
 	public PsuedonymisedValue(@NotNull final byte[] value, @Nullable final byte[] salt)
 	{
 		this.value = copyOf(value, value.length);
-		this.salt = Arrays.equals(salt, NoSalt) ? NoSalt : copyOf(value, value.length);
+		this.salt = salt == null ? NoSalt : copyOf(salt, salt.length);
 	}
 
 	@NotNull

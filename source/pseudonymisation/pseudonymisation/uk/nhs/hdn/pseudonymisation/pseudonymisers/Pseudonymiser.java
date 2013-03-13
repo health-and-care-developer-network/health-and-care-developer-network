@@ -10,4 +10,6 @@ public interface Pseudonymiser<N extends Normalisable>
 	int size();
 
 	void pseudonymise(@Nullable final N valueToPsuedonymise, @NotNull final IndexTable<N> indexTable);
+
+	boolean hasSalt();
 }

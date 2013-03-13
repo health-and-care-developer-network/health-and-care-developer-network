@@ -19,6 +19,7 @@ package uk.nhs.hdn.pseudonymisation.pseudonymisers;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.naming.Normalisable;
+import uk.nhs.hdn.common.reflection.toString.ExcludeFromToString;
 import uk.nhs.hdn.pseudonymisation.DuplicatePsuedonymisedValueException;
 import uk.nhs.hdn.pseudonymisation.IndexTable;
 import uk.nhs.hdn.pseudonymisation.PsuedonymisedValue;
@@ -30,11 +31,12 @@ import static uk.nhs.hdn.common.UUIDHelper.uuidToByteArray;
 
 public final class UuidPseudonymiser<N extends Normalisable> extends AbstractPseudonymiser<N>
 {
-	@NotNull private final UUID uuidForNull;
+	private static final int UuidSize = 16;
+	@NotNull @ExcludeFromToString private final UUID uuidForNull;
 
 	public UuidPseudonymiser()
 	{
-		super(16);
+		super(UuidSize, false);
 		uuidForNull = randomUUID();
 	}
 
@@ -66,33 +68,5 @@ public final class UuidPseudonymiser<N extends Normalisable> extends AbstractPse
 			}
 		}
 		while (true);
-	}
-
-	@Override
-	public boolean equals(@Nullable final Object obj)
-	{
-		if (this == obj)
-		{
-			return true;
-		}
-		if (obj == null || getClass() != obj.getClass())
-		{
-			return false;
-		}
-
-		final UuidPseudonymiser<?> that = (UuidPseudonymiser<?>) obj;
-
-		if (!uuidForNull.equals(that.uuidForNull))
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return uuidForNull.hashCode();
 	}
 }

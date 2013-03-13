@@ -19,6 +19,7 @@ package uk.nhs.hdn.pseudonymisation.pseudonymisers;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.naming.Normalisable;
+import uk.nhs.hdn.common.reflection.toString.ExcludeFromToString;
 import uk.nhs.hdn.pseudonymisation.DuplicatePsuedonymisedValueException;
 import uk.nhs.hdn.pseudonymisation.IndexTable;
 import uk.nhs.hdn.pseudonymisation.PsuedonymisedValue;
@@ -32,7 +33,7 @@ public final class Signed64BitSequencePseudonymiser<N extends Normalisable> exte
 
 	private final long initialValue;
 
-	private long nextSequenceValue;
+	@ExcludeFromToString private long nextSequenceValue;
 
 	public Signed64BitSequencePseudonymiser()
 	{
@@ -41,7 +42,7 @@ public final class Signed64BitSequencePseudonymiser<N extends Normalisable> exte
 
 	public Signed64BitSequencePseudonymiser(final long initialValue)
 	{
-		super(8);
+		super(8, false);
 		if (initialValue == NullAssignableValue)
 		{
 			throw new IllegalArgumentException("Initial long value can not be that reserved for null");
@@ -96,6 +97,10 @@ public final class Signed64BitSequencePseudonymiser<N extends Normalisable> exte
 		{
 			return false;
 		}
+		if (!super.equals(obj))
+		{
+			return false;
+		}
 
 		final Signed64BitSequencePseudonymiser<?> that = (Signed64BitSequencePseudonymiser<?>) obj;
 
@@ -110,6 +115,8 @@ public final class Signed64BitSequencePseudonymiser<N extends Normalisable> exte
 	@Override
 	public int hashCode()
 	{
-		return (int) (initialValue ^ (initialValue >>> 32));
+		int result = super.hashCode();
+		result = 31 * result + (int) (initialValue ^ (initialValue >>> 32));
+		return result;
 	}
 }

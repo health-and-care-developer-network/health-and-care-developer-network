@@ -19,6 +19,7 @@ package uk.nhs.hdn.pseudonymisation.pseudonymisers;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.naming.Normalisable;
+import uk.nhs.hdn.common.reflection.toString.ExcludeFromToString;
 import uk.nhs.hdn.pseudonymisation.DuplicatePsuedonymisedValueException;
 import uk.nhs.hdn.pseudonymisation.IndexTable;
 import uk.nhs.hdn.pseudonymisation.PsuedonymisedValue;
@@ -32,7 +33,7 @@ public final class Signed32BitSequencePseudonymiser<N extends Normalisable> exte
 
 	private final int initialValue;
 
-	private int nextSequenceValue;
+	@ExcludeFromToString private int nextSequenceValue;
 
 	public Signed32BitSequencePseudonymiser()
 	{
@@ -41,7 +42,7 @@ public final class Signed32BitSequencePseudonymiser<N extends Normalisable> exte
 
 	public Signed32BitSequencePseudonymiser(final int initialValue)
 	{
-		super(4);
+		super(4, false);
 		if (initialValue == NullAssignableValue)
 		{
 			throw new IllegalArgumentException("Initial int value can not be that reserved for null");
@@ -96,6 +97,10 @@ public final class Signed32BitSequencePseudonymiser<N extends Normalisable> exte
 		{
 			return false;
 		}
+		if (!super.equals(obj))
+		{
+			return false;
+		}
 
 		final Signed32BitSequencePseudonymiser<?> that = (Signed32BitSequencePseudonymiser<?>) obj;
 
@@ -110,6 +115,8 @@ public final class Signed32BitSequencePseudonymiser<N extends Normalisable> exte
 	@Override
 	public int hashCode()
 	{
-		return initialValue;
+		int result = super.hashCode();
+		result = 31 * result + initialValue;
+		return result;
 	}
 }

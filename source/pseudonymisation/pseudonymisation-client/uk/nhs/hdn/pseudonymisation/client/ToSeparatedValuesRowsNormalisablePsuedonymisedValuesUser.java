@@ -54,7 +54,9 @@ public final class ToSeparatedValuesRowsNormalisablePsuedonymisedValuesUser<N ex
 	{
 		final SeparatedValuesLine separatedValuesLine = new VariableListSeparatedValuesLine();
 
-		int index = 0;
+		separatedValuesLine.recordValue(0, valueToPsuedonymise.normalised());
+
+		int index = 1;
 		for (final Pseudonymiser<N> pseudonymiser : psuedonymisersInOutputOrder)
 		{
 			@SuppressWarnings("ConstantConditions") @NotNull final PsuedonymisedValue psuedonymisedValue = pseudonymisedValues.get(pseudonymiser);

@@ -16,20 +16,65 @@
 
 package uk.nhs.hdn.pseudonymisation.pseudonymisers;
 
+import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.naming.Normalisable;
+import uk.nhs.hdn.common.reflection.toString.AbstractToString;
+import uk.nhs.hdn.common.reflection.toString.ExcludeFromToString;
 
-public abstract class AbstractPseudonymiser<N extends Normalisable> implements Pseudonymiser<N>
+public abstract class AbstractPseudonymiser<N extends Normalisable> extends AbstractToString implements Pseudonymiser<N>
 {
-	private final int size;
+	@ExcludeFromToString private final int size;
+	@ExcludeFromToString private final boolean hasSalt;
 
-	protected AbstractPseudonymiser(final int size)
+	protected AbstractPseudonymiser(final int size, final boolean hasSalt)
 	{
 		this.size = size;
+		this.hasSalt = hasSalt;
 	}
 
 	@Override
 	public final int size()
 	{
 		return size;
+	}
+
+	@Override
+	public boolean hasSalt()
+	{
+		return hasSalt;
+	}
+
+	@Override
+	public boolean equals(@Nullable final Object obj)
+	{
+		if (this == obj)
+		{
+			return true;
+		}
+		if (obj == null || getClass() != obj.getClass())
+		{
+			return false;
+		}
+
+		final AbstractPseudonymiser<?> that = (AbstractPseudonymiser<?>) obj;
+
+		if (hasSalt != that.hasSalt)
+		{
+			return false;
+		}
+		if (size != that.size)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int result = size;
+		result = 31 * result + (hasSalt ? 1 : 0);
+		return result;
 	}
 }
