@@ -18,6 +18,7 @@ package uk.nhs.hdn.pseudonymisation.client;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.naming.Normalisable;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hdn.common.serialisers.CouldNotEncodeDataException;
@@ -50,11 +51,11 @@ public final class ToSeparatedValuesRowsNormalisablePsuedonymisedValuesUser<N ex
 
 	@SuppressWarnings("FeatureEnvy")
 	@Override
-	public boolean use(@NotNull final N valueToPsuedonymise, @NotNull final PsuedonymisedValues<N> pseudonymisedValues) throws CouldNotWriteDataException
+	public boolean use(@Nullable final N valueToPsuedonymise, @NotNull final PsuedonymisedValues<N> pseudonymisedValues) throws CouldNotWriteDataException
 	{
 		final SeparatedValuesLine separatedValuesLine = new VariableListSeparatedValuesLine();
 
-		separatedValuesLine.recordValue(0, valueToPsuedonymise.normalised());
+		separatedValuesLine.recordValue(0, valueToPsuedonymise == null ? "" : valueToPsuedonymise.normalised());
 
 		int index = 1;
 		for (final Pseudonymiser<N> pseudonymiser : psuedonymisersInOutputOrder)
