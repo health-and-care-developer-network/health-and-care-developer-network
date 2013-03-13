@@ -90,6 +90,8 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		executable("hdn-ckan-relationships", "ckan-client-relationships", "HdnCkanRelationshipsConsoleEntryPoint");
 
+		executable("hdn-pseudonymisation-client", "pseudonymisation-client", "HdnPseudonymisationClientConsoleEntryPoint");
+
 		task("clean").does
 		(
 			deleteDirectory(output())
@@ -133,6 +135,8 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 		debianPackagesPackageTask("hdn-dbs-request", "generate changelog template", "hdn-dbs-request");
 
 		debianPackagesPackageTask("hdn-ckan-client", "generate changelog template", "hdn-ckan-dataset-search", "hdn-ckan-resource-search", "hdn-ckan-details", "hdn-ckan-list", "hdn-ckan-query", "hdn-ckan-relationships");
+		
+		debianPackagesPackageTask("hdn-pseudonymisation-client", "generate changelog template", "hdn-pseudonymisation-client");
 
 		debianPackagesPackageTask("hdn-reverse-proxy", "generate changelog template");
 
