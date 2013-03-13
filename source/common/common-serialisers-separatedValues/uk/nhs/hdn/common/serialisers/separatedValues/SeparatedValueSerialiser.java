@@ -103,7 +103,7 @@ public final class SeparatedValueSerialiser extends AbstractSerialiser
 		super.start(outputStream, charset);
 		if (writeHeaderLine)
 		{
-			final SimpleSeparatedValuesLine headerLine = new SimpleSeparatedValuesLine(numberOfFields);
+			final FixedArraySeparatedValuesLine headerLine = new FixedArraySeparatedValuesLine(numberOfFields);
 			for(int index = 0; index < numberOfFields; index++)
 			{
 				headerLine.recordValue(index, headings[index]);
@@ -129,7 +129,7 @@ public final class SeparatedValueSerialiser extends AbstractSerialiser
 		}
 		for (final S value : values)
 		{
-			separatedValuesLine = new SimpleSeparatedValuesLine(numberOfFields);
+			separatedValuesLine = new FixedArraySeparatedValuesLine(numberOfFields);
 
 			writeValue(value);
 
@@ -156,7 +156,7 @@ public final class SeparatedValueSerialiser extends AbstractSerialiser
 		}
 		for (final S value : values)
 		{
-			separatedValuesLine = new SimpleSeparatedValuesLine(numberOfFields);
+			separatedValuesLine = new FixedArraySeparatedValuesLine(numberOfFields);
 
 			writeValue(value);
 
@@ -182,7 +182,7 @@ public final class SeparatedValueSerialiser extends AbstractSerialiser
 		}
 		for (final Object value : values)
 		{
-			separatedValuesLine = new SimpleSeparatedValuesLine(numberOfFields);
+			separatedValuesLine = new FixedArraySeparatedValuesLine(numberOfFields);
 
 			writeValue(value);
 

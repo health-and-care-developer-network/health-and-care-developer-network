@@ -20,25 +20,29 @@ import org.jetbrains.annotations.NotNull;
 
 import static java.lang.StrictMath.pow;
 
-public final class IntegerHelper
+public final class LongHelper
 {
 	@SuppressWarnings("NumericCastThatLosesPrecision")
-	public static int power(final int x, final int n)
+	public static long power(final long x, @SuppressWarnings("StandardVariableNames") final long n)
 	{
-		return (int) pow((double) x, (double) n);
+		return (long) pow((double) x, (double) n);
 	}
 
-	public static boolean isEven(final int value)
+	public static boolean isEven(final long value)
 	{
-		return value % 2 == 0;
+		return value % 2L == 0L;
 	}
 
 	@SuppressWarnings({"NumericCastThatLosesPrecision", "MagicNumber"})
 	@NotNull
-	public static byte[] signedIntegerToByteArray(final int value)
+	public static byte[] signedLongToByteArray(final long value)
 	{
 		return new byte[]
 		{
+			(byte) (value >>> 54),
+			(byte) (value >>> 48),
+			(byte) (value >>> 40),
+			(byte) (value >>> 32),
 			(byte) (value >>> 24),
 			(byte) (value >>> 16),
 			(byte) (value >>> 8),
@@ -46,7 +50,7 @@ public final class IntegerHelper
 		};
 	}
 
-	private IntegerHelper()
+	private LongHelper()
 	{
 	}
 }

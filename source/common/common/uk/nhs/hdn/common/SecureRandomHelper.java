@@ -18,35 +18,22 @@ package uk.nhs.hdn.common;
 
 import org.jetbrains.annotations.NotNull;
 
-import static java.lang.StrictMath.pow;
+import java.security.SecureRandom;
 
-public final class IntegerHelper
+public final class SecureRandomHelper
 {
-	@SuppressWarnings("NumericCastThatLosesPrecision")
-	public static int power(final int x, final int n)
+	@NotNull private final SecureRandom secureRandom;
+
+	public SecureRandomHelper(@NotNull final SecureRandom secureRandom)
 	{
-		return (int) pow((double) x, (double) n);
+		this.secureRandom = secureRandom;
 	}
 
-	public static boolean isEven(final int value)
-	{
-		return value % 2 == 0;
-	}
-
-	@SuppressWarnings({"NumericCastThatLosesPrecision", "MagicNumber"})
 	@NotNull
-	public static byte[] signedIntegerToByteArray(final int value)
+	public byte[] randomBytes(final int number)
 	{
-		return new byte[]
-		{
-			(byte) (value >>> 24),
-			(byte) (value >>> 16),
-			(byte) (value >>> 8),
-			(byte) value
-		};
-	}
-
-	private IntegerHelper()
-	{
+		final byte[] randomBytes = new byte[number];
+		secureRandom.nextBytes(randomBytes);
+		return randomBytes;
 	}
 }

@@ -9,8 +9,9 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="IntelliJ Annotations" level="project" />
     <orderEntry type="module" module-name="common-reflection" />
-    <orderEntry type="module" module-name="common-digits" exported="" />
-    <orderEntry type="module" module-name="common-exceptions" exported="" />
+    <orderEntry type="module" module-name="common-postCodes" />
+    <orderEntry type="module" module-name="number" />
+    <orderEntry type="module" module-name="common" />
     <orderEntry type="module" module-name="common-naming" />
   </component>
 </module>

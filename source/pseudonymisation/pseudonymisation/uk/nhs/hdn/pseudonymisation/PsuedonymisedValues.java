@@ -14,39 +14,19 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.common;
+package uk.nhs.hdn.pseudonymisation;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import uk.nhs.hdn.common.naming.Normalisable;
+import uk.nhs.hdn.pseudonymisation.pseudonymisers.Pseudonymiser;
 
-import static java.lang.StrictMath.pow;
-
-public final class IntegerHelper
+public interface PsuedonymisedValues<N extends Normalisable>
 {
-	@SuppressWarnings("NumericCastThatLosesPrecision")
-	public static int power(final int x, final int n)
-	{
-		return (int) pow((double) x, (double) n);
-	}
+	boolean has(@NotNull final Pseudonymiser<N> pseudonymiser);
 
-	public static boolean isEven(final int value)
-	{
-		return value % 2 == 0;
-	}
+	@Nullable
+	PsuedonymisedValue get(@NotNull final Pseudonymiser<N> pseudonymiser);
 
-	@SuppressWarnings({"NumericCastThatLosesPrecision", "MagicNumber"})
-	@NotNull
-	public static byte[] signedIntegerToByteArray(final int value)
-	{
-		return new byte[]
-		{
-			(byte) (value >>> 24),
-			(byte) (value >>> 16),
-			(byte) (value >>> 8),
-			(byte) value
-		};
-	}
-
-	private IntegerHelper()
-	{
-	}
+	void iterate(@NotNull final PsuedonymisedValueUser<N> psuedonymisedValueUser);
 }

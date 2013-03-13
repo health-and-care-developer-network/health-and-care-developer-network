@@ -20,7 +20,6 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
-import uk.nhs.hdn.common.reflection.toString.ExcludeFromToString;
 import uk.nhs.hdn.common.serialisers.CouldNotEncodeDataException;
 import uk.nhs.hdn.common.serialisers.CouldNotWriteDataException;
 import uk.nhs.hdn.common.serialisers.separatedValues.fieldEscapers.FieldEscaper;
@@ -30,41 +29,44 @@ import java.io.Writer;
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
 
-public final class SimpleSeparatedValuesLine extends AbstractToString implements SeparatedValuesLine
+public abstract class AbstractSeparatedValuesLine extends AbstractToString implements SeparatedValuesLine
 {
-	@ExcludeFromToString
-	private final int length;
-	@NotNull
-	private final String[] fields;
-
-	public SimpleSeparatedValuesLine(final int length)
+	protected AbstractSeparatedValuesLine()
 	{
-		this.length = length;
-		fields = new String[length];
 	}
 
 	@Override
-	public void recordValue(final int index, @NotNull @NonNls final String rawValue)
+	public final void recordValue(final int index, @NotNull @NonNls final String rawValue)
 	{
-		if (index >= length || length < 0)
+		if (index < 0)
 		{
-			throw new IllegalArgumentException(format(ENGLISH, "index %1$s is out of range (0 < index < %2$s)", index, length));
+			throw new IllegalArgumentException(format(ENGLISH, "index %1$s is out of range (index < 0)", index));
 		}
-		if (fields[index] != null)
+		if (isFieldAlreadyRecorded(index))
 		{
 			throw new IllegalArgumentException(format(ENGLISH, "index %1$s has already been recorded", index));
 		}
-		fields[index] = rawValue;
+		store(index, rawValue);
 	}
 
+	protected abstract boolean isFieldAlreadyRecorded(final int index);
+
+	protected abstract void store(final int index, @Nullable final String rawValue);
+
+	@Nullable
+	protected abstract String load(final int index);
+
+	protected abstract int size();
+
 	@Override
-	public void writeLine(@NotNull final Writer writer, @NotNull final FieldEscaper fieldEscaper) throws CouldNotWriteDataException, CouldNotEncodeDataException
+	public final void writeLine(@NotNull final Writer writer, @NotNull final FieldEscaper fieldEscaper) throws CouldNotWriteDataException, CouldNotEncodeDataException
 	{
-		if (length != 0)
+		final int size = size();
+		if (size != 0)
 		{
 			writeField(writer, fieldEscaper, 0);
 
-			for(int index = 1; index < length; index++)
+			for(int index = 1; index < size; index++)
 			{
 				fieldEscaper.writeFieldSeparator(writer);
 				writeField(writer, fieldEscaper, index);
@@ -76,7 +78,7 @@ public final class SimpleSeparatedValuesLine extends AbstractToString implements
 
 	private void writeField(final Writer writer, final FieldEscaper fieldEscaper, final int index) throws CouldNotWriteDataException, CouldNotEncodeDataException
 	{
-		@Nullable final String field = fields[index];
+		@Nullable final String field = load(index);
 		final String actualField = field == null ? "" : field;
 		fieldEscaper.escape(actualField, writer);
 	}

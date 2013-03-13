@@ -14,39 +14,35 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.common;
+package uk.nhs.hdn.pseudonymisation.client;
 
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.common.naming.Normalisable;
+import uk.nhs.hdn.common.postCodes.AbstractPostCode;
+import uk.nhs.hdn.number.NhsNumber;
 
-import static java.lang.StrictMath.pow;
-
-public final class IntegerHelper
+public enum DataKind
 {
-	@SuppressWarnings("NumericCastThatLosesPrecision")
-	public static int power(final int x, final int n)
+	post_code
 	{
-		return (int) pow((double) x, (double) n);
-	}
-
-	public static boolean isEven(final int value)
-	{
-		return value % 2 == 0;
-	}
-
-	@SuppressWarnings({"NumericCastThatLosesPrecision", "MagicNumber"})
-	@NotNull
-	public static byte[] signedIntegerToByteArray(final int value)
-	{
-		return new byte[]
+		@NotNull
+		@Override
+		public Normalisable parse(@NotNull final String value)
 		{
-			(byte) (value >>> 24),
-			(byte) (value >>> 16),
-			(byte) (value >>> 8),
-			(byte) value
-		};
-	}
-
-	private IntegerHelper()
+			return AbstractPostCode.valueOf(value);
+		}
+	},
+	nhs_number
 	{
-	}
+		@NotNull
+		@Override
+		public Normalisable parse(@NotNull final String value)
+		{
+			return NhsNumber.valueOf(value);
+		}
+	},
+	;
+
+	@NotNull
+	public abstract Normalisable parse(@NotNull final String value);
 }

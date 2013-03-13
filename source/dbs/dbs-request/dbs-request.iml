@@ -13,6 +13,7 @@
     <orderEntry type="module" module-name="number" />
     <orderEntry type="module" module-name="common-postCodes" />
     <orderEntry type="module" module-name="common-serialisers-separatedValues" />
+    <orderEntry type="module" module-name="common-naming" />
   </component>
 </module>
 
