@@ -17,6 +17,7 @@
 package uk.nhs.hdn.pseudonymisation.client;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.naming.Normalisable;
 import uk.nhs.hdn.common.postCodes.AbstractPostCode;
 import uk.nhs.hdn.number.NhsNumber;
@@ -25,24 +26,32 @@ public enum DataKind
 {
 	post_code
 	{
-		@NotNull
+		@Nullable
 		@Override
 		public Normalisable parse(@NotNull final String value)
 		{
+			if (value.isEmpty())
+			{
+				return null;
+			}
 			return AbstractPostCode.valueOf(value);
 		}
 	},
 	nhs_number
 	{
-		@NotNull
+		@Nullable
 		@Override
 		public Normalisable parse(@NotNull final String value)
 		{
+			if (value.isEmpty())
+			{
+				return null;
+			}
 			return NhsNumber.valueOf(value);
 		}
 	},
 	;
 
-	@NotNull
+	@Nullable
 	public abstract Normalisable parse(@NotNull final String value);
 }
