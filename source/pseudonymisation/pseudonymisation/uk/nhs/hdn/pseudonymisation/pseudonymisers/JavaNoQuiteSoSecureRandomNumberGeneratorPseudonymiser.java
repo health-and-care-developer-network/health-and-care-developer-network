@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.SecureRandomHelper;
 import uk.nhs.hdn.common.naming.Normalisable;
+import uk.nhs.hdn.common.reflection.toString.ExcludeFromToString;
 import uk.nhs.hdn.pseudonymisation.DuplicatePsuedonymisedValueException;
 import uk.nhs.hdn.pseudonymisation.IndexTable;
 import uk.nhs.hdn.pseudonymisation.PsuedonymisedValue;
@@ -29,8 +30,8 @@ import java.util.Arrays;
 
 public final class JavaNoQuiteSoSecureRandomNumberGeneratorPseudonymiser<N extends Normalisable> extends AbstractPseudonymiser<N>
 {
-	@NotNull private final SecureRandomHelper secureRandomHelper;
-	@NotNull private final byte[] randomBytesForNull;
+	@NotNull @ExcludeFromToString private final SecureRandomHelper secureRandomHelper;
+	@NotNull @ExcludeFromToString private final byte[] randomBytesForNull;
 
 	// WARNING! The Java CSPRNG on Windows uses CRYPT_GEN_*, which has been broken in the past
 	// WARNING! THe default Java CSPRNG is to use a SHA1 based generator
@@ -42,7 +43,7 @@ public final class JavaNoQuiteSoSecureRandomNumberGeneratorPseudonymiser<N exten
 
 	public JavaNoQuiteSoSecureRandomNumberGeneratorPseudonymiser(final int size, @NotNull final SecureRandom secureRandom)
 	{
-		super(size);
+		super(size, false);
 		if (size < 4)
 		{
 			throw new IllegalArgumentException("size should be at least 4");
@@ -83,33 +84,5 @@ public final class JavaNoQuiteSoSecureRandomNumberGeneratorPseudonymiser<N exten
 			}
 		}
 		while (true);
-	}
-
-	@Override
-	public boolean equals(@Nullable final Object obj)
-	{
-		if (this == obj)
-		{
-			return true;
-		}
-		if (obj == null || getClass() != obj.getClass())
-		{
-			return false;
-		}
-
-		final JavaNoQuiteSoSecureRandomNumberGeneratorPseudonymiser<?> that = (JavaNoQuiteSoSecureRandomNumberGeneratorPseudonymiser<?>) obj;
-
-		if (!secureRandomHelper.equals(that.secureRandomHelper))
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return secureRandomHelper.hashCode();
 	}
 }

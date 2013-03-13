@@ -42,7 +42,7 @@ public final class HdnPseudonymisationClientConsoleEntryPoint extends AbstractCo
 {
 	private static final String FileOption = "file";
 	private static final String DataKindOption = "data-kind";
-	private static final String PseudeonymsiersOption = "pseudeonymsiers";
+	private static final String PseudonymsiersOption = "pseudonymsiers";
 
 	@NonNls @NotNull private static final String FileDefault = "-";
 
@@ -56,7 +56,7 @@ public final class HdnPseudonymisationClientConsoleEntryPoint extends AbstractCo
 	protected boolean options(@NotNull final OptionParser options)
 	{
 		options.accepts(DataKindOption, enumDescription(DataKind.values(), false, false)).withRequiredArg().ofType(DataKind.class).defaultsTo(nhs_number).describedAs("Post Code or NHS Number data is being pseudeonymsied");
-		options.accepts(PseudeonymsiersOption, enumDescription(values(), false, false)).withRequiredArg().ofType(PseudonymisationAction.class).defaultsTo(values()).describedAs("one or more pseudonymisation operations");
+		options.accepts(PseudonymsiersOption, enumDescription(values(), false, false)).withRequiredArg().ofType(PseudonymisationAction.class).defaultsTo(values()).describedAs("one or more pseudonymisation operations");
 		options.accepts(FileOption, "Path to file of data-kind").withRequiredArg().ofType(String.class).defaultsTo(FileDefault).describedAs("Path to data-kind file (one per line, LF separated), or - to use standard in");
 		return true;
 	}
@@ -65,7 +65,7 @@ public final class HdnPseudonymisationClientConsoleEntryPoint extends AbstractCo
 	protected void execute(@NotNull final OptionSet optionSet) throws IOException, CouldNotParseException, CouldNotWriteDataException
 	{
 		final DataKind dataKind = defaulted(optionSet, DataKindOption);
-		final List<PseudonymisationAction> pseudonymisationActions = atLeastOneOfDefaulted(optionSet, PseudeonymsiersOption);
+		final List<PseudonymisationAction> pseudonymisationActions = atLeastOneOfDefaulted(optionSet, PseudonymsiersOption);
 
 		final String path = defaulted(optionSet, FileOption);
 
@@ -112,28 +112,8 @@ public final class HdnPseudonymisationClientConsoleEntryPoint extends AbstractCo
 			}
 		}
 
-		//noinspection unchecked
-		writeOut(indexTable, pseudonymisers);
-	}
-
-	@SuppressWarnings("unchecked")
-	private static <N extends Normalisable> void writeOut(final IndexTable<N> indexTable, @NotNull final Pseudonymiser<N>... pseudonymisers) throws CouldNotWriteDataException
-	{
-		@SuppressWarnings("UseOfSystemOutOrSystemErr") final Writer writer = new BufferedWriter(new OutputStreamWriter(out));
-		try
-		{
-			indexTable.iterate(new ToSeparatedValuesRowsNormalisablePsuedonymisedValuesUser<N>(writer, SanitisingTabSeparatedFieldEscaperInstance, pseudonymisers));
-		}
-		finally
-		{
-			try
-			{
-				writer.close();
-			}
-			catch (IOException ignored)
-			{
-			}
-		}
+		//noinspection UseOfSystemOutOrSystemErr
+		new WriteOutSeparatedValues(SanitisingTabSeparatedFieldEscaperInstance, out, dataKind).writeOut(indexTable, pseudonymisers);
 	}
 
 }

@@ -21,6 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.MessageDigestHelper;
 import uk.nhs.hdn.common.SecureRandomHelper;
 import uk.nhs.hdn.common.naming.Normalisable;
+import uk.nhs.hdn.common.reflection.toString.ExcludeFromToString;
 import uk.nhs.hdn.pseudonymisation.DuplicatePsuedonymisedValueException;
 import uk.nhs.hdn.pseudonymisation.IndexTable;
 import uk.nhs.hdn.pseudonymisation.PsuedonymisedValue;
@@ -34,9 +35,9 @@ public final class HashPseudonymiser<N extends Normalisable> extends AbstractPse
 {
 	private final int mostSignificantBytesToKeep;
 	@NotNull private final MessageDigestHelper messageDigestHelper;
-	@NotNull private final PsuedonymisedValue bytesForNull;
-	@NotNull private final SecureRandomHelper secureRandomHelper;
-	private final int messageDigestLength;
+	@NotNull @ExcludeFromToString private final PsuedonymisedValue bytesForNull;
+	@NotNull @ExcludeFromToString private final SecureRandomHelper secureRandomHelper;
+	@ExcludeFromToString private final int messageDigestLength;
 
 	public HashPseudonymiser(@NotNull final MessageDigestHelper messageDigestHelper)
 	{
@@ -45,7 +46,7 @@ public final class HashPseudonymiser<N extends Normalisable> extends AbstractPse
 
 	public HashPseudonymiser(final int mostSignificantBytesToKeep, @NotNull final MessageDigestHelper messageDigestHelper)
 	{
-		super(mostSignificantBytesToKeep);
+		super(mostSignificantBytesToKeep, true);
 		messageDigestLength = messageDigestHelper.digestLength();
 		if (mostSignificantBytesToKeep < 4 || mostSignificantBytesToKeep > messageDigestLength)
 		{
@@ -89,7 +90,7 @@ public final class HashPseudonymiser<N extends Normalisable> extends AbstractPse
 		while (collisionOffset + mostSignificantBytesToKeep <= messageDigestLength)
 		{
 			final byte[] sequenceValueAsBytes = copyOfRange(hash, collisionOffset, collisionOffset + mostSignificantBytesToKeep);
-			final PsuedonymisedValue psuedonymisedValue = new PsuedonymisedValue(salt, sequenceValueAsBytes);
+			final PsuedonymisedValue psuedonymisedValue = new PsuedonymisedValue(sequenceValueAsBytes, salt);
 			try
 			{
 				indexTable.add(valueToPsuedonymise, this, psuedonymisedValue);
@@ -119,14 +120,14 @@ public final class HashPseudonymiser<N extends Normalisable> extends AbstractPse
 		{
 			return false;
 		}
+		if (!super.equals(obj))
+		{
+			return false;
+		}
 
 		final HashPseudonymiser<?> that = (HashPseudonymiser<?>) obj;
 
 		if (mostSignificantBytesToKeep != that.mostSignificantBytesToKeep)
-		{
-			return false;
-		}
-		if (!bytesForNull.equals(that.bytesForNull))
 		{
 			return false;
 		}
@@ -141,9 +142,9 @@ public final class HashPseudonymiser<N extends Normalisable> extends AbstractPse
 	@Override
 	public int hashCode()
 	{
-		int result = mostSignificantBytesToKeep;
+		int result = super.hashCode();
+		result = 31 * result + mostSignificantBytesToKeep;
 		result = 31 * result + messageDigestHelper.hashCode();
-		result = 31 * result + bytesForNull.hashCode();
 		return result;
 	}
 }
