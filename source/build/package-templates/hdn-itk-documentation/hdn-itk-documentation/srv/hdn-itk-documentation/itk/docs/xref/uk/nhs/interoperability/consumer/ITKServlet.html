@@ -151,13 +151,13 @@
 <a class="jxr_linenumber" name="141" href="#141">141</a> 				<em class="jxr_comment">// TODO : CM_DE_009: Check that the distribution envelope count is ok (manifest count = payload count)</em>
 <a class="jxr_linenumber" name="142" href="#142">142</a> 				
 <a class="jxr_linenumber" name="143" href="#143">143</a> 				<em class="jxr_comment">// TODO : CM_DE_009: Check Authorisation based on DE AuditIdentity</em>
-<a class="jxr_linenumber" name="144" href="#144">144</a> 				<strong class="jxr_keyword">if</strong> (itkMessageProperties.getAuditIdentity().length()==0) {
+<a class="jxr_linenumber" name="144" href="#144">144</a> 				<strong class="jxr_keyword">if</strong> (itkMessageProperties.getAuditIdentity().getURI().length()==0) {
 <a class="jxr_linenumber" name="145" href="#145">145</a> 					Logger.warn(<span class="jxr_string">"Audit Identity not populated - message will be rejected"</span>);
 <a class="jxr_linenumber" name="146" href="#146">146</a> 					<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../uk/nhs/interoperability/infrastructure/ITKMessagingException.html">ITKMessagingException</a>(itkMessageProperties, ITKMessagingException.INVALID_MESSAGE_CODE, 
 <a class="jxr_linenumber" name="147" href="#147">147</a> 							<span class="jxr_string">"Audit Identity not populated - message will be rejected"</span> );
 <a class="jxr_linenumber" name="148" href="#148">148</a> 				}
 <a class="jxr_linenumber" name="149" href="#149">149</a> 				<em class="jxr_comment">// TODO : THIS EXAMPLE BASED ON TKWAutotest check - should be replaced with real lookup.</em>
-<a class="jxr_linenumber" name="150" href="#150">150</a> 				<strong class="jxr_keyword">if</strong> (itkMessageProperties.getAuditIdentity().contains(<span class="jxr_string">"INVALID"</span>)) {
+<a class="jxr_linenumber" name="150" href="#150">150</a> 				<strong class="jxr_keyword">if</strong> (itkMessageProperties.getAuditIdentity().getURI().contains(<span class="jxr_string">"INVALID"</span>)) {
 <a class="jxr_linenumber" name="151" href="#151">151</a> 					Logger.warn(<span class="jxr_string">"Audit Identity not populated - message will be rejected"</span>);
 <a class="jxr_linenumber" name="152" href="#152">152</a> 					<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../uk/nhs/interoperability/infrastructure/ITKMessagingException.html">ITKMessagingException</a>(itkMessageProperties, ITKMessagingException.INVALID_MESSAGE_CODE, 
 <a class="jxr_linenumber" name="153" href="#153">153</a> 							<span class="jxr_string">"Audit Identity not populated - message will be rejected"</span> );
