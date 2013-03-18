@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:DocumentEntry 
+ xmlns:hl7v2="urn:org:openhealthtools:ihe:common:hl7v2" 
+ xmlns:p0="htt//www.w3.org/XML/1998/namespace" 
+ xmlns:tns="urn:org:openhealthtools:ihe:xds:metadata" 
+ xmlns:xsi="htt//www.w3.org/2001/XMLSchema-instance" 
+ xsi:schemaLocation="urn:org:openhealthtools:ihe:xds:metadata metadata.xsd urn:org:openhealthtools:ihe:common:hl7v2 ../../../org.openhealthtools.ihe.common.hl7v2/resources/schema/hl7v2_wrapper.xsd htt//www.w3.org/XML/1998/namespace htt//www.w3.org/2001/xml.xsd ">
+  <authorInstitution>
+  	<Component>
+		<Value>St Mary's Hospital and Clinics</Value>
+  	</Component>
+	<Component>
+	    <Value></Value>
+	</Component>
+  </authorInstitution>
+  <authorPerson>
+    <Component>
+		<Value>ae21667b95a7792a</Value>
+  	</Component>
+    <Component>
+		<Component>
+			<Value>Jordan</Value>
+  		</Component>
+  	</Component>
+  	<Component>
+		<Value>Pearl</Value>
+  	</Component>
+  	<Component/> <!-- second name(s) -->
+  	<Component/> <!-- suffix -->
+  	<Component/> <!-- prefix -->
+  	<Component>MD</Component>
+  	<Component/> <!-- source table -->
+  	<Component>
+  		<Component/>
+		<Component>
+			<Value>2.16.840.1.113883.3.933</Value>
+  		</Component>
+  		<Component>
+			<Value>ISO</Value>
+  		</Component>
+  	</Component>
+  </authorPerson>
+  <classCode>
+    <code>Consult</code>
+    <displayName>
+      <LocalizedString value="Consult"/>
+    </displayName>
+    <schemeName>Connect-a-thon classCodes</schemeName>
+  </classCode>
+  <confidentialityCode>
+    <code>N</code>
+    <displayName>
+      <LocalizedString value="Normal"/>
+    </displayName>
+    <schemeName>Connect-a-thon confidentialityCodes</schemeName>
+  </confidentialityCode>
+  <creationTime>20060614</creationTime>
+  <formatCode>
+    <code>CDAR2/IHE 1.0</code>
+    <displayName>
+      <LocalizedString value="CDAR2/IHE 1.0"/>
+    </displayName>
+    <schemeName>Connect-a-thon formatCodes</schemeName>
+  </formatCode>
+  <healthCareFacilityTypeCode>
+    <code>Outpatient</code>
+    <displayName>
+      <LocalizedString value="Outpatient"/>
+    </displayName>
+    <schemeName>Connect-a-thon healthcareFacilityTypeCodes</schemeName>
+  </healthCareFacilityTypeCode>
+  <languageCode>en-US</languageCode>
+  <patientId>
+  	<Component>
+  		<Value>JM19400814</Value>
+  	</Component>
+  	<Component/>
+  	<Component/>
+  	<Component>
+		<Component>
+			    <Value>HIMSS2005</Value>
+		</Component>
+		<Component>
+			<Value>1.3.6.1.4.1.21367.2005.1.1</Value>
+  		</Component>
+  		<Component>
+			<Value>ISO</Value>
+  		</Component>
+  	</Component>
+  </patientId>
+  <practiceSettingCode>
+    <code>General Medicine</code>
+    <displayName>
+      <LocalizedString value="General Medicine"/>
+    </displayName>
+    <schemeName>Connect-a-thon practiceSettingCodes</schemeName>
+  </practiceSettingCode>
+  <sourcePatientId>
+    <Component>JM19400814</Component>
+  	<Component/>
+  	<Component/>
+  	<Component>
+  		<Component/>
+		<Component>
+			<Value>1.3.6.1.4.1.21367.2005.1.1</Value>
+  		</Component>
+  		<Component>
+			<Value>ISO</Value>
+  		</Component>
+  	</Component>
+  </sourcePatientId>
+  <sourcePatientInfo>
+  	 <!-- <Field ItemNo="PID-1"></Field> PID 1 -->
+  	<!-- <Field ItemNo="PID-2"></Field>  PID 2 -->
+  	<Field ItemNo="PID-3">
+  		<Component>JM19400814</Component>
+  		<Component/>
+  		<Component/>
+  		<Component>
+  			<Component>
+			    <Value>HIMSS2005</Value>
+			</Component>
+			<Component>
+				<Value>1.3.6.1.4.1.21367.2005.1.1</Value>
+  			</Component>
+  			<Component>
+				<Value>ISO</Value>
+  			</Component>
+  		</Component>
+  	</Field> 
+  	<!-- <Field ItemNo="PID-4"></Field>  PID 4 -->
+  	<Field ItemNo="PID-5">
+  		<Component>
+			<Component>
+				<Value>Murphy</Value>
+  			</Component>
+  		</Component>
+  		<Component>
+			<Value>Joyce</Value>
+  		</Component>
+  	</Field>
+  	<!--  <Field ItemNo="PID-6"></Field> PID 6 -->
+  	<Field ItemNo="PID-7">
+  		<Component>
+			<Value>19691128</Value>
+  		</Component>
+  	</Field>
+  	<Field ItemNo="PID-8">
+  		<Component>
+			<Value>F</Value>
+  		</Component>
+  	</Field>
+  	<Field ItemNo="PID-11">
+  		<Component>
+			<Value>1234 Some St. USA</Value>
+  		</Component>
+  	</Field>
+  </sourcePatientInfo>
+  <typeCode>
+    <code>11488-4</code>
+    <displayName>
+      <LocalizedString value="Consultation Note"/>
+    </displayName>
+    <schemeName>LOINC</schemeName>
+  </typeCode>
+  <title>
+	<LocalizedString value=""/>
+  </title>
+</tns:DocumentEntry>

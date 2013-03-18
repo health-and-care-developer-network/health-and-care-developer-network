@@ -1,0 +1,397 @@
+<ohf:rhioConfigurations xmlns:ohf="http://config.common.ihe.ohf.eclipse.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://localhost/rhio.xsd http://localhost/rhio.xsd">
+
+    <!--==================================================================-->
+    <!--======================== RHIO CONFIGS ============================-->
+    <!--==================================================================-->
+
+    <rhio>
+        <name>XDS.a RHIO</name>
+        <publicHealthcareAffinityDomain>false</publicHealthcareAffinityDomain>
+        <config>
+            <registryId>lswin10</registryId>
+            <repositoryId>lswin10</repositoryId>
+            <pixId>lswin10</pixId>
+            <auditId>lswin10</auditId>
+        </config>
+    </rhio>
+
+    <rhio>
+        <name>XDS.b RHIO</name>
+        <publicHealthcareAffinityDomain>false</publicHealthcareAffinityDomain>
+        <config>
+            <registryId>IBM-XDS-B</registryId>
+            <repositoryId>IBM-XDS-B</repositoryId>
+            <pixId>lswin10</pixId>
+            <auditId>lswin10</auditId>
+        </config>
+    </rhio>
+    
+	<rhio>
+        <name>NIST-XDS.a</name>
+        <publicHealthcareAffinityDomain>false</publicHealthcareAffinityDomain>
+        <config>
+            <registryId>NIST-A</registryId>
+            <repositoryId>NIST-A</repositoryId>
+            <auditId>lswin10</auditId>
+        </config>
+    </rhio> 
+    
+	<rhio>
+        <name>NIST-XDS.b</name>
+        <publicHealthcareAffinityDomain>false</publicHealthcareAffinityDomain>
+        <config>
+            <registryId>NIST-B</registryId>
+            <repositoryId>NIST-B</repositoryId>
+            <auditId>lswin10</auditId>
+        </config>
+    </rhio>     
+
+    <!--==================================================================-->
+    <!--======================== REGISTRY CONFIGS ========================-->
+    <!--==================================================================-->
+
+    <registry xdsVersion="a">
+        <id>lswin10</id>
+        <storedQueryUrl>
+            <unsecured>http://localhost:8887/IBMXDSRegistry/XDSa/Registry</unsecured>
+            <!--<secured>http://lswin10.dfw.ibm.com:9044/XDSRegistryWS/services/XDSRegistry</secured>-->
+        </storedQueryUrl>
+        <nonStoredQueryUrl>
+            <unsecured>http://localhost:8887/IBMXDSRegistry/XDSa/Registry</unsecured>
+            <!--<secured>http://lswin10.dfw.ibm.com:9044/XDSRegistryWS/services/XDSRegistry</secured>-->
+        </nonStoredQueryUrl>
+        <pixFeedUrl>
+            <unsecured>mllp://lswin10.dfw.ibm.com:3777</unsecured>
+            <secured>mllps://lswin10.dfw.ibm.com:3778</secured>
+        </pixFeedUrl>
+    </registry>
+
+    <registry xdsVersion="b">
+        <id>IBM-XDS-B</id>
+        <storedQueryUrl>
+            <unsecured>http://localhost:8887/IBMXDSRegistry/XDSb/Soap12/Registry</unsecured>
+        </storedQueryUrl>
+    </registry>
+    
+    <registry xdsVersion="a">
+        <id>NIST-A</id>
+        <storedQueryUrl>
+            <unsecured>http://129.6.24.109:9080/axis2/services/xdsregistryb</unsecured>
+            <secured>https://129.6.24.109:9443/axis2/services/xdsregistryb</secured>
+        </storedQueryUrl>
+        <nonStoredQueryUrl>
+            <unsecured>http://129.6.24.109:9080/axis2/services/xdsregistrya</unsecured>
+            <secured>https://129.6.24.109:9443/axis2/services/xdsregistrya</secured>
+        </nonStoredQueryUrl>
+    </registry>    
+    
+    <registry xdsVersion="b">
+        <id>NIST-B</id>
+        <storedQueryUrl>
+            <unsecured>http://129.6.24.109:9080/axis2/services/xdsregistryb</unsecured>
+            <secured>https://129.6.24.109:9443/axis2/services/xdsregistryb</secured>
+        </storedQueryUrl>
+    </registry>        
+
+
+    <!--==================================================================-->
+    <!--======================== REPOSITORY CONFIGS ======================-->
+    <!--==================================================================-->
+
+
+    <repository xdsVersion="a">
+        <id>lswin10</id>
+        <provideRegisterUrl>
+            <unsecured>http://lswin110.rchland.ibm.com:9082/IBMXDSRepository/XDSa/ProvideAndRegister</unsecured>
+            <!-- <secured>https://lswin10.dfw.ibm.com:9044/IHIIRepository/SubmissionSetReceiver</secured> -->
+        </provideRegisterUrl>
+    </repository>
+
+    <repository xdsVersion="b">
+        <id>IBM-XDS-B</id>
+		<repositoryUniqueId>asdf1234</repositoryUniqueId>
+        <provideRegisterUrl>
+            <unsecured>http://lswin110.rchland.ibm.com:9082/IBMXDSRepository/XDSb/SOAP12/Repository</unsecured>
+        </provideRegisterUrl>
+        <retrieveDocumentUrl>
+            <unsecured>http://lswin110.rchland.ibm.com:9082/IBMXDSRepository/XDSb/SOAP12/Repository</unsecured>
+        </retrieveDocumentUrl>
+    </repository>
+
+    <repository xdsVersion="a">
+        <id>NIST-A</id>
+        <provideRegisterUrl>
+            <unsecured>http://129.6.24.109:9080/axis2/services/xdsrepositorya</unsecured>
+            <secured>https://129.6.24.109:9443/axis2/services/xdsrepositorya</secured>
+        </provideRegisterUrl>
+    </repository>
+
+    <repository xdsVersion="b">
+        <id>NIST-B</id>
+		<repositoryUniqueId>nistRepository</repositoryUniqueId>
+        <provideRegisterUrl>
+            <unsecured>http://129.6.24.109:9080/axis2/services/xdsrepositoryb</unsecured>
+            <secured>https://129.6.24.109:9443/axis2/services/xdsrepositoryb</secured>
+        </provideRegisterUrl>
+        <retrieveDocumentUrl>
+            <unsecured>http://129.6.24.109:9080/axis2/services/xdsrepositoryb</unsecured>
+            <secured>https://129.6.24.109:9443/axis2/services/xdsrepositoryb</secured>
+        </retrieveDocumentUrl>
+    </repository>
+
+
+
+
+    <!--==================================================================-->
+    <!--======================== XCA GATEWAY CONFIGS =====================-->
+    <!--==================================================================-->
+
+
+    <xcaGateway>
+        <id>GATEWAY_IBM</id>
+        <retrieveDocumentUrl>
+            <unsecured>http://lswin10.dfw.ibm.com:9080/IHIIRepository/SubmissionSetReceiver</unsecured>
+            <secured>https://lswin10.dfw.ibm.com:9044/IHIIRepository/SubmissionSetReceiver</secured>
+        </retrieveDocumentUrl>
+        <storedQueryUrl>
+            <unsecured>http://lswin10.dfw.ibm.com:9080/XDSRegistryWS/services/XDSRegistry</unsecured>
+            <secured>http://lswin10.dfw.ibm.com:9044/XDSRegistryWS/services/XDSRegistry</secured>
+        </storedQueryUrl>        
+    </xcaGateway>
+
+    <!--==================================================================-->
+    <!--======================== PIX CONFIGS =============================-->
+    <!--==================================================================-->
+
+    <pix>
+        <id>lswin10</id>
+        <pixFeedUrl>
+            <unsecured>mllp://lsaix26.dfw.ibm.com:3600</unsecured>
+        </pixFeedUrl>
+        <pixQueryUrl>
+            <unsecured>mllp://lsaix26.dfw.ibm.com:3600</unsecured>
+        </pixQueryUrl>
+        <pdqQueryUrl>
+            <unsecured>mllp://lsaix26.dfw.ibm.com:3600</unsecured>
+        </pdqQueryUrl>         
+        <pixServerPropertiesId>IBM PIX Server</pixServerPropertiesId>
+        <pixSourcePropertiesId>IBM PIX Server</pixSourcePropertiesId>
+        <pixConsumerPropertiesId>IBMPIXPDQClient</pixConsumerPropertiesId>
+        <pdqServerPropertiesId>IBM PIX Server</pdqServerPropertiesId>
+        <pdqConsumerPropertiesId>IBMPIXPDQClient</pdqConsumerPropertiesId>
+    </pix>
+
+
+    <!--==================================================================-->
+    <!--======================== PIX MESSAGE QUERY =======================-->
+    <!--==================================================================-->
+
+    <messageQueryName>
+        <id>IHEDEMO</id>
+        <qpd11Identifier>IHE PDQ Query</qpd11Identifier>
+        <qpd12Text></qpd12Text>
+        <qpd13NameOfCodingSystem></qpd13NameOfCodingSystem>
+    </messageQueryName>
+
+    <!--==================================================================-->
+    <!--======================== PIX PROPERTIES ==========================-->
+    <!--==================================================================-->
+
+<!--IBMPIXSource|IBM|PIXMgr|IBM-->
+
+    <pixProperties>
+        <id>IBM PIX Server</id>
+        <facility>XDSDEMO</facility>
+        <application>XDSDEMO_ADT</application>
+        <assigningAuthorityNamespaceId></assigningAuthorityNamespaceId>
+        <assigningAuthorityUniversalId>1.3.6.1.4.1.21367.2007.1.2.400</assigningAuthorityUniversalId>
+        <assigningAuthorityUniversalIdType>ISO</assigningAuthorityUniversalIdType>
+    </pixProperties>
+
+    <pixProperties>
+        <id>IBMPIXPDQClient</id>
+        <application>XDSDEMO_ADT</application>
+        <facility>XDSDEMO</facility>
+        <assigningAuthorityNamespaceId></assigningAuthorityNamespaceId>
+        <assigningAuthorityUniversalId>1.3.6.1.4.1.21367.2007.1.2.400</assigningAuthorityUniversalId>
+        <assigningAuthorityUniversalIdType>ISO</assigningAuthorityUniversalIdType>
+    </pixProperties>
+
+
+<!--
+    <pixProperties>
+        <id>IBM PIX Server</id>
+        <application>PIXMgr</application>
+        <facility>IBM</facility>
+        <assigningAuthorityNamespaceId></assigningAuthorityNamespaceId>
+        <assigningAuthorityUniversalId>1.3.6.1.4.1.21367.2007.1.2.400</assigningAuthorityUniversalId>
+        <assigningAuthorityUniversalIdType>ISO</assigningAuthorityUniversalIdType>
+    </pixProperties>
+
+    <pixProperties>
+        <id>IBMPIXPDQClient</id>
+        <application>PIXMgr</application>
+        <facility>XDSDEMO</facility>
+        <assigningAuthorityNamespaceId></assigningAuthorityNamespaceId>
+        <assigningAuthorityUniversalId>1.3.6.1.4.1.21367.2007.1.2.400</assigningAuthorityUniversalId>
+        <assigningAuthorityUniversalIdType>ISO</assigningAuthorityUniversalIdType>
+    </pixProperties>
+-->
+    <!--==================================================================-->
+    <!--======================== AUDIT PROPERTIES ========================-->
+    <!--==================================================================-->
+
+    <audit>
+        <id>lswin10</id>
+        <url>
+            <unsecured>udp://lswin10.dfw.ibm.com:515</unsecured>
+        </url>
+    </audit>
+
+
+
+
+
+	<!--  MESA-Specific Settings for IBM -->
+
+    <rhio>
+        <name>IBM MESA consumer port 3600 receiving app MESA_XREF and facility XYZ_HOSPITAL</name>
+        <publicHealthcareAffinityDomain>false</publicHealthcareAffinityDomain>
+        <config>
+            <registryId>NIST-A</registryId>
+            <repositoryId>NIST-A</repositoryId>
+            <pixId>IBM MESA consumer port 3600 receiving app MESA_XREF and facility XYZ_HOSPITAL</pixId>
+            <auditId>mesa-arr</auditId>
+        </config>
+    </rhio>
+    <rhio>
+        <name>IBM MESA consumer port 3700 receiving app MESA_XREF and facility XYZ_HOSPITAL</name>
+        <publicHealthcareAffinityDomain>false</publicHealthcareAffinityDomain>
+        <config>
+            <registryId>NIST-A</registryId>
+            <repositoryId>NIST-A</repositoryId>
+            <pixId>IBM MESA consumer port 3700 receiving app MESA_XREF and facility XYZ_HOSPITAL</pixId>
+            <auditId>mesa-arr</auditId>
+        </config>
+    </rhio>
+    <rhio>
+        <name>IBM MESA Source port 3600 receiving application MESA_OP and facility XYZ_HOSPITAL</name>
+        <publicHealthcareAffinityDomain>false</publicHealthcareAffinityDomain>
+        <config>
+            <registryId>NIST-A</registryId>
+            <repositoryId>NIST-A</repositoryId>
+            <pixId>IBM MESA Source port 3600 receiving application MESA_OP and facility XYZ_HOSPITAL</pixId>
+            <auditId>mesa-arr</auditId>
+        </config>
+    </rhio>
+
+    <pix>
+        <id>IBM MESA consumer port 3600 receiving app MESA_XREF and facility XYZ_HOSPITAL</id>
+        <pixFeedUrl>
+            <unsecured>mllp://hii012.almaden.ibm.com:3600</unsecured>
+        </pixFeedUrl>
+        <pixQueryUrl>
+            <unsecured>mllp://hii012.almaden.ibm.com:3600</unsecured>
+        </pixQueryUrl>
+        <pdqQueryUrl>
+            <unsecured>mllp://hii012.almaden.ibm.com:3600</unsecured>
+        </pdqQueryUrl>
+        <!--1-->
+        <pixServerPropertiesId>MESA XYZ_HOSPITAL MESA_XREF</pixServerPropertiesId>
+        <pixSourcePropertiesId>MESA XYZ_HOSPITAL MESA_XREF</pixSourcePropertiesId>
+        <pixConsumerPropertiesId>MESA MESA_ADT DOMAIN1_ADMITTING</pixConsumerPropertiesId>
+        <pdqServerPropertiesId>MESA XYZ_HOSPITAL MESA_XREF</pdqServerPropertiesId>
+        <pdqConsumerPropertiesId></pdqConsumerPropertiesId>
+        <defaultMessageQueryNameId>IHEDEMO</defaultMessageQueryNameId>
+    </pix>
+
+    <pix>
+        <id>IBM MESA consumer port 3700 receiving app MESA_XREF and facility XYZ_HOSPITAL</id>
+        <pixFeedUrl>
+            <unsecured>mllp://hii012.almaden.ibm.com:3600</unsecured>
+        </pixFeedUrl>
+        <pixQueryUrl>
+            <unsecured>mllp://hii012.almaden.ibm.com:3600</unsecured>
+        </pixQueryUrl>
+        <pdqQueryUrl>
+            <unsecured>mllp://hii012.almaden.ibm.com:3600</unsecured>
+        </pdqQueryUrl>
+        <!--2-->
+        <pixServerPropertiesId>MESA XYZ_HOSPITAL MESA_XREF</pixServerPropertiesId>
+        <pixSourcePropertiesId>MESA XYZ_HOSPITAL MESA_XREF</pixSourcePropertiesId>
+        <pixConsumerPropertiesId>MESA MESA_ADT DOMAIN1_ADMITTING</pixConsumerPropertiesId>
+        <pdqServerPropertiesId>MESA XYZ_HOSPITAL MESA_XREF</pdqServerPropertiesId>
+        <pdqConsumerPropertiesId>MESA MESA_ADT DOMAIN1_ADMITTING</pdqConsumerPropertiesId>
+        <defaultMessageQueryNameId>IHEDEMO</defaultMessageQueryNameId>
+    </pix>
+
+    <pix>
+        <id>IBM MESA Source port 3600 receiving application MESA_OP and facility XYZ_HOSPITAL</id>
+        <pixFeedUrl>
+            <unsecured>mllp://hii012.almaden.ibm.com:3600</unsecured>
+        </pixFeedUrl>
+        <pixQueryUrl>
+            <unsecured>mllp://hii012.almaden.ibm.com:3600</unsecured>
+        </pixQueryUrl>
+        <pdqQueryUrl>
+            <unsecured>mllp://hii012.almaden.ibm.com:3600</unsecured>
+        </pdqQueryUrl>
+        <!--3-->
+        <pixServerPropertiesId>MESA XYZ_HOSPITAL MESA_OP</pixServerPropertiesId>
+        <pixSourcePropertiesId>MESA MESA_ADT XYZ_ADMITTING</pixSourcePropertiesId>
+        <pixConsumerPropertiesId>MESA MESA_ADT DOMAIN1_ADMITTING</pixConsumerPropertiesId>
+        <pdqServerPropertiesId>MESA XYZ_HOSPITAL MESA_XREF</pdqServerPropertiesId>
+        <pdqConsumerPropertiesId></pdqConsumerPropertiesId>
+        <defaultClientPropertiesId>MESA MESA_ADT XYZ_ADMITTING</defaultClientPropertiesId>
+    </pix>
+
+
+    <audit>
+        <id>mesa-arr</id>
+        <url>
+            <unsecured>udp://hii012.almaden.ibm.com:4000</unsecured>
+        </url>
+    </audit>
+
+    <pixProperties>
+        <id>MESA XYZ_HOSPITAL MESA_XREF</id>
+        <facility>XYZ_HOSPITAL</facility>
+        <application>MESA_XREF</application>
+        <assigningAuthorityNamespaceId>HIMSS2005</assigningAuthorityNamespaceId>
+        <assigningAuthorityUniversalId>1.3.6.1.4.1.21367.2005.1.1</assigningAuthorityUniversalId>
+        <assigningAuthorityUniversalIdType>ISO</assigningAuthorityUniversalIdType>
+    </pixProperties>
+
+    <pixProperties>
+        <id>MESA XYZ_HOSPITAL MESA_OP</id>
+        <facility>XYZ_HOSPITAL</facility>
+        <application>MESA_OP</application>
+        <assigningAuthorityNamespaceId>HIMSS2005</assigningAuthorityNamespaceId>
+        <assigningAuthorityUniversalId>1.3.6.1.4.1.21367.2005.1.1</assigningAuthorityUniversalId>
+        <assigningAuthorityUniversalIdType>ISO</assigningAuthorityUniversalIdType>
+    </pixProperties>
+
+    <pixProperties>
+        <id>MESA MESA_ADT DOMAIN1_ADMITTING</id>
+        <application>MESA_ADT</application>
+        <facility>DOMAIN1_ADMITTING</facility>
+        <assigningAuthorityNamespaceId>OHF1</assigningAuthorityNamespaceId>
+        <assigningAuthorityNamespaceId>HIMSS2005</assigningAuthorityNamespaceId>
+        <assigningAuthorityUniversalId>1.3.6.1.4.1.21367.2005.1.1</assigningAuthorityUniversalId>
+        <assigningAuthorityUniversalIdType>ISO</assigningAuthorityUniversalIdType>
+    </pixProperties>
+
+    <pixProperties>
+        <id>MESA MESA_ADT XYZ_ADMITTING</id>
+        <application>MESA_ADT</application>
+        <facility>XYZ_ADMITTING</facility>
+        <assigningAuthorityNamespaceId>OHF1</assigningAuthorityNamespaceId>
+        <assigningAuthorityNamespaceId>HIMSS2005</assigningAuthorityNamespaceId>
+        <assigningAuthorityUniversalId>1.3.6.1.4.1.21367.2005.1.1</assigningAuthorityUniversalId>
+        <assigningAuthorityUniversalIdType>ISO</assigningAuthorityUniversalIdType>
+    </pixProperties>
+
+
+
+
+</ohf:rhioConfigurations>

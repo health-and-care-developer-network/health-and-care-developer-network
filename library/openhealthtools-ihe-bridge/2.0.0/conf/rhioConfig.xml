@@ -1,0 +1,256 @@
+<ohf:rhioConfigurations xmlns:ohf="http://config.common.ihe.ohf.eclipse.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://localhost/rhio.xsd http://localhost/rhio.xsd">
+
+    <!--==================================================================-->
+    <!--======================== RHIO CONFIGS ============================-->
+    <!--==================================================================-->
+
+    <rhio>
+        <name>XDS.a RHIO</name>
+        <publicHealthcareAffinityDomain>false</publicHealthcareAffinityDomain>
+        <config>
+            <registryId>IBM-XDS-A</registryId>
+            <repositoryId>IBM-XDS-A</repositoryId>
+            <pixId>lswin10</pixId>
+            <auditId>lswin10</auditId>
+        </config>
+    </rhio>
+
+    <rhio>
+        <name>XDS.b RHIO</name>
+        <publicHealthcareAffinityDomain>false</publicHealthcareAffinityDomain>
+        <config>
+            <registryId>IBM-XDS-B</registryId>
+            <repositoryId>IBM-XDS-B</repositoryId>
+            <pixId>lswin10</pixId>
+            <auditId>lswin10</auditId>
+        </config>
+    </rhio>
+    
+	<rhio>
+        <name>NIST-XDS.a</name>
+        <publicHealthcareAffinityDomain>false</publicHealthcareAffinityDomain>
+        <config>
+            <registryId>NIST-A</registryId>
+            <repositoryId>NIST-A</repositoryId>
+            <auditId>lswin10</auditId>
+        </config>
+    </rhio> 
+    
+	<rhio>
+        <name>NIST-XDS.b</name>
+        <publicHealthcareAffinityDomain>false</publicHealthcareAffinityDomain>
+        <config>
+            <registryId>NIST-B</registryId>
+            <repositoryId>NIST-B</repositoryId>
+            <auditId>lswin10</auditId>
+        </config>
+    </rhio>     
+
+
+    <!--==================================================================-->
+    <!--======================== REGISTRY CONFIGS ========================-->
+    <!--==================================================================-->
+
+    <registry xdsVersion="a">
+        <id>IBM-XDS-A</id>
+        <storedQueryUrl>
+            <unsecured>http://xds-ibm.lgs.com:9081/IBMXDSRegistry/XDSa/Registry</unsecured>
+            <!--<secured>http://lswin10.dfw.ibm.com:9444/IBMXDSRegistry/XDSa/Registry</secured>-->
+        </storedQueryUrl>
+        <nonStoredQueryUrl>
+            <unsecured>http://xds-ibm.lgs.com:9081/IBMXDSRegistry/XDSa/Registry</unsecured>
+            <!--<secured>http://lswin10.dfw.ibm.com:9444/IBMXDSRegistry/XDSa/Registry</secured>-->
+        </nonStoredQueryUrl>
+        <pixFeedUrl>
+            <unsecured>mllp://xds-ibm.lgs.com:3777</unsecured>
+            <!-- <secured>mllps://lswin10.dfw.ibm.com:3778</secured> -->
+        </pixFeedUrl>
+    </registry>
+
+    <registry xdsVersion="b">
+        <id>IBM-XDS-B</id>
+        <storedQueryUrl>
+            <unsecured>http://xds-ibm.lgs.com:9080/IBMXDSRegistry/XDSb/SOAP12/Registry</unsecured>
+            <!--<secured>http://lswin10.dfw.ibm.com:9444/IBMXDSRegistry/XDSb/Soap12/Registry</secured>-->
+        </storedQueryUrl>
+    </registry>
+    
+    <registry xdsVersion="a">
+        <id>NIST-A</id>
+        <storedQueryUrl>
+            <unsecured>http://ihexds.nist.gov:9080/tf5/services/xdsregistrya</unsecured>
+			<secured>https://ihexds.nist.gov:9085/tf5/services/xdsregistrya</secured>
+        </storedQueryUrl>
+        <nonStoredQueryUrl>
+            <unsecured>http://ihexds.nist.gov:9080/tf5/services/xdsregistrya</unsecured>
+			<secured>https://ihexds.nist.gov:9085/tf5/services/xdsregistrya</secured>
+        </nonStoredQueryUrl>
+    </registry>    
+    
+    <registry xdsVersion="b">
+        <id>NIST-B</id>
+        <storedQueryUrl>
+            <unsecured>http://ihexds.nist.gov:9080/tf5/services/xdsregistryb</unsecured>
+			<secured>https://ihexds.nist.gov:9085/tf5/services/xdsregistryb</secured>
+        </storedQueryUrl>
+    </registry>        
+
+
+    <!--==================================================================-->
+    <!--======================== REPOSITORY CONFIGS ======================-->
+    <!--==================================================================-->
+
+
+    <repository xdsVersion="a">
+        <id>IBM-XDS-A</id>
+        <provideRegisterUrl>
+            <unsecured>http://xds-ibm.lgs.com:9081/IBMXDSRepository/XDSa/ProvideAndRegister</unsecured>
+            <!--<secured>https://lswin10.dfw.ibm.com:9444/IBMXDSRepository/XDSa/ProvideAndRegister</secured>-->
+        </provideRegisterUrl>
+    </repository>
+
+    <repository xdsVersion="b">
+        <id>IBM-XDS-B</id>
+		<repositoryUniqueId>1.3.6.1.4.1.21367.2009.5.1.228</repositoryUniqueId>
+        <provideRegisterUrl>
+            <unsecured>http://xds-ibm.lgs.com:9080/IBMXDSRepository/XDSb/SOAP12/Repository</unsecured>
+            <!--<secured>https://lswin10.dfw.ibm.com:9444/IBMXDSRepository/XDSb/SOAP12/Repository</secured>-->
+        </provideRegisterUrl>
+        <retrieveDocumentUrl>
+            <unsecured>http://xds-ibm.lgs.com:9080/IBMXDSRepository/XDSb/SOAP12/Repository</unsecured>
+            <!--<secured>https://lswin10.dfw.ibm.com:9444/IBMXDSRepository/XDSb/SOAP12/Repository</secured>-->
+        </retrieveDocumentUrl>
+    </repository>
+
+    <repository xdsVersion="a">
+        <id>NIST-A</id>
+        <provideRegisterUrl>
+            <unsecured>http://ihexds.nist.gov:9080/tf5/services/xdsrepositorya</unsecured>
+			<secured>https://ihexds.nist.gov:9085/tf5/services/xdsrepositorya</secured>
+        </provideRegisterUrl>
+    </repository>
+
+    <repository xdsVersion="b">
+        <id>NIST-B</id>
+		<repositoryUniqueId>1.19.6.24.109.42.1.5</repositoryUniqueId>
+        <provideRegisterUrl>
+            <unsecured>http://ihexds.nist.gov:9080/tf5/services/xdsrepositoryb</unsecured>
+			<secured>https://ihexds.nist.gov:9085/tf5/services/xdsrepositoryb</secured>
+        </provideRegisterUrl>
+        <retrieveDocumentUrl>
+            <unsecured>http://ihexds.nist.gov:9080/tf5/services/xdsrepositoryb</unsecured>
+			<secured>https://ihexds.nist.gov:9085/tf5/services/xdsrepositoryb</secured>
+        </retrieveDocumentUrl>
+    </repository>
+
+
+
+
+    <!--==================================================================-->
+    <!--======================== XCA GATEWAY CONFIGS =====================-->
+    <!--==================================================================-->
+
+
+    <xcaGateway>
+        <id>GATEWAY_IBM</id>
+        <retrieveDocumentUrl>
+            <unsecured>http://lswin10.dfw.ibm.com:9080/IHIIRepository/SubmissionSetReceiver</unsecured>
+            <secured>https://lswin10.dfw.ibm.com:9044/IHIIRepository/SubmissionSetReceiver</secured>
+        </retrieveDocumentUrl>
+        <storedQueryUrl>
+            <unsecured>http://lswin10.dfw.ibm.com:9080/XDSRegistryWS/services/XDSRegistry</unsecured>
+            <secured>http://lswin10.dfw.ibm.com:9044/XDSRegistryWS/services/XDSRegistry</secured>
+        </storedQueryUrl>        
+    </xcaGateway>
+
+    <!--==================================================================-->
+    <!--======================== PIX CONFIGS =============================-->
+    <!--==================================================================-->
+
+    <pix>
+        <id>lswin10</id>
+        <pixFeedUrl>
+            <unsecured>mllp://lsaix26.dfw.ibm.com:3600</unsecured>
+        </pixFeedUrl>
+        <pixQueryUrl>
+            <unsecured>mllp://lsaix26.dfw.ibm.com:3600</unsecured>
+        </pixQueryUrl>
+        <pdqQueryUrl>
+            <unsecured>mllp://lsaix26.dfw.ibm.com:3600</unsecured>
+        </pdqQueryUrl>
+        <pixServerPropertiesId>IBM PIX Server</pixServerPropertiesId>
+        <pixSourcePropertiesId>IBM PIX Server</pixSourcePropertiesId>
+        <pixConsumerPropertiesId>IBMPIXPDQClient</pixConsumerPropertiesId>
+        <pdqServerPropertiesId>IBM PIX Server</pdqServerPropertiesId>
+        <pdqConsumerPropertiesId>IBMPIXPDQClient</pdqConsumerPropertiesId>
+    </pix>
+
+
+    <!--==================================================================-->
+    <!--======================== PIX MESSAGE QUERY =======================-->
+    <!--==================================================================-->
+
+    <messageQueryName>
+        <id>IHEDEMO</id>
+        <qpd11Identifier>QRY_PDQ_1001</qpd11Identifier>
+        <qpd12Text>Query By Name</qpd12Text>
+        <qpd13NameOfCodingSystem>IHEDEMO</qpd13NameOfCodingSystem>
+    </messageQueryName>
+
+    <!--==================================================================-->
+    <!--======================== PIX PROPERTIES ==========================-->
+    <!--==================================================================-->
+
+<!--IBMPIXSource|IBM|PIXMgr|IBM-->
+
+    <pixProperties>
+        <id>IBM PIX Server</id>
+        <facility>XDSDEMO</facility>
+        <application>XDSDEMO_ADT</application>
+        <assigningAuthorityNamespaceId></assigningAuthorityNamespaceId>
+        <assigningAuthorityUniversalId>1.3.6.1.4.1.21367.2007.1.2.400</assigningAuthorityUniversalId>
+        <assigningAuthorityUniversalIdType>ISO</assigningAuthorityUniversalIdType>
+    </pixProperties>
+
+    <pixProperties>
+        <id>IBMPIXPDQClient</id>
+        <application>XDSDEMO_ADT</application>
+        <facility>XDSDEMO</facility>
+        <assigningAuthorityNamespaceId></assigningAuthorityNamespaceId>
+        <assigningAuthorityUniversalId>1.3.6.1.4.1.21367.2007.1.2.400</assigningAuthorityUniversalId>
+        <assigningAuthorityUniversalIdType>ISO</assigningAuthorityUniversalIdType>
+    </pixProperties>
+
+
+<!--
+    <pixProperties>
+        <id>IBM PIX Server</id>
+        <application>PIXMgr</application>
+        <facility>IBM</facility>
+        <assigningAuthorityNamespaceId></assigningAuthorityNamespaceId>
+        <assigningAuthorityUniversalId>1.3.6.1.4.1.21367.2007.1.2.400</assigningAuthorityUniversalId>
+        <assigningAuthorityUniversalIdType>ISO</assigningAuthorityUniversalIdType>
+    </pixProperties>
+
+    <pixProperties>
+        <id>IBMPIXPDQClient</id>
+        <application>PIXMgr</application>
+        <facility>XDSDEMO</facility>
+        <assigningAuthorityNamespaceId></assigningAuthorityNamespaceId>
+        <assigningAuthorityUniversalId>1.3.6.1.4.1.21367.2007.1.2.400</assigningAuthorityUniversalId>
+        <assigningAuthorityUniversalIdType>ISO</assigningAuthorityUniversalIdType>
+    </pixProperties>
+-->
+    <!--==================================================================-->
+    <!--======================== AUDIT PROPERTIES ========================-->
+    <!--==================================================================-->
+
+    <audit>
+        <id>lswin10</id>
+        <url>
+            <unsecured>udp://xds-ibm.lgs.com:515</unsecured>
+        </url>
+    </audit>
+
+
+</ohf:rhioConfigurations>

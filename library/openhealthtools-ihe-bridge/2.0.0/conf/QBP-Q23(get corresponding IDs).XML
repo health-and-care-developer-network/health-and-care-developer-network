@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<HL7v2xConformanceProfile HL7Version="2.5" ProfileType="HL7">
+<MetaData Name="EclipseOHF" OrgName="IBM" Version="0.0.1" Status="InProg" Topics="" />
+<Encodings>
+	<Encoding>ER7</Encoding>
+</Encodings>
+<DynamicDef AccAck="NE" AppAck="AL" MsgAckMode="Immediate" />
+<HL7v2xStaticDef MsgType="QBP" EventType="Q23" MsgStructID="QBP_Q21" EventDesc="Get Corresponding IDs" Role="">
+<MetaData Name="" OrgName="IBM" Version="0.0.1" Status="Final" Topics="" />
+
+<Segment Name="MSH" LongName="Message Header" Usage="R" Min="1" Max="1">
+	<Field Name="MSH-1 Field Separator" Usage="R" Min="1" Max="1" Datatype="ST" Length="1" ItemNo="00001" ConstantValue="|">
+		<Reference>2.15.9.1</Reference>
+	</Field>
+
+	<Field Name="MSH-2 Encoding Characters" Usage="R" Min="1" Max="1" Datatype="ST" Length="4" ItemNo="00002" ConstantValue="^~\&amp;">
+		<Reference>2.15.9.2</Reference>
+	</Field>
+
+	<Field Name="MSH-3 Sending Application" Usage="R" Min="0" Max="1" Datatype="HD" Length="227" Table="0361" ItemNo="00003">
+		<Reference>2.15.9.3</Reference>
+		<Component Name="MSH-3-1 sending application: namespace ID" Usage="R" Datatype="IS" ConstantValue="OHFSource"></Component>
+		<Component Name="MSH-3-2 sending application: universal ID" Usage="O" Datatype="ST"></Component>
+		<Component Name="MSH-3-3 sending application: universal ID type" Usage="O" Datatype="ID"></Component>
+	</Field>
+
+	<Field Name="MSH-4 Sending Facility" Usage="R" Min="0" Max="1" Datatype="HD" Length="227" Table="0362" ItemNo="00004">
+		<Reference>2.15.9.4</Reference>
+		<Component Name="MSH-4-1 sending facility: namespace ID" Usage="R" Datatype="IS" ConstantValue="OHFFacility"></Component>
+		<Component Name="MSH-4-2 sending facility: universal ID" Usage="O" Datatype="ST"></Component>
+		<Component Name="MSH-4-3 sending facility: universal ID type" Usage="O" Datatype="ID"></Component>
+	</Field>
+
+	<Field Name="MSH-5 Receiving Application" Usage="R" Min="0" Max="1" Datatype="HD" Length="227" Table="0361" ItemNo="00005">
+		<Reference>2.15.9.5</Reference>
+		<Component Name="MSH-5-1 receiving application: namespace ID" Usage="R" Datatype="IS" ConstantValue="PIXMgr"></Component>
+		<Component Name="MSH-5-2 receiving application: universal ID" Usage="O" Datatype="ST"></Component>
+		<Component Name="MSH-5-3 receiving application: universal ID type" Usage="O" Datatype="ID"></Component>
+	</Field>
+	
+	<Field Name="MSH-6 Receiving Facility" Usage="R" Min="0" Max="1" Datatype="HD" Length="227" Table="0362" ItemNo="00006">
+		<Reference>2.15.9.6</Reference>
+		<Component Name="MSH-6-1 receiving facility: namespace ID" Usage="R" Datatype="IS" ConstantValue="IBM"></Component>
+		<Component Name="MSH-6-2 receiving facility: universal ID" Usage="O" Datatype="ST"></Component>
+		<Component Name="MSH-6-3 receiving facility: universal ID type" Usage="O" Datatype="ID"></Component>
+	</Field>
+	
+	<Field Name="MSH-7 Date/Time Of Message" Usage="R" Min="1" Max="1" Datatype="TS" Length="26" ItemNo="00007">
+		<Reference>2.15.9.7</Reference>
+	</Field>
+	
+	<Field Name="MSH-8 Security" Usage="O" Min="0" Max="1" Datatype="ST" Length="40" ItemNo="00008">
+		<Reference>2.15.9.8</Reference>
+	</Field>
+	
+	<Field Name="MSH-9 Message Type" Usage="R" Min="1" Max="1" Datatype="MSG" Length="15" ItemNo="00009">
+		<Reference>2.15.9.9</Reference>
+		<Component Name="MSH-9-1 message type: message code" Usage="R" Datatype="ID" Length="3" Table="0076" ConstantValue="QBP"></Component>
+		<Component Name="MSH-9-2 message type: trigger event" Usage="R" Datatype="ID" Length="3" Table="0003" ConstantValue="Q23"></Component>
+		<Component Name="MSH-9-3 message type: message structure" Usage="R" Datatype="ID" Length="7" Table="0354"></Component>
+	</Field>
+	
+	<Field Name="MSH-10 Message Control ID" Usage="R" Min="1" Max="1" Datatype="ST" Length="20" ItemNo="00010">
+		<Reference>2.15.9.10</Reference>
+	</Field>
+	
+	<Field Name="MSH-11 Processing ID" Usage="R" Min="1" Max="1" Datatype="PT" Length="3" ItemNo="00011">
+		<Reference>2.15.9.11</Reference>
+		<Component Name="MSH-11-1 processing ID: processing ID" Usage="R" Datatype="ID" ConstantValue="P"></Component>
+		<Component Name="MSH-11-2 processing ID: processing mode" Usage="O" Datatype="ID"></Component>
+	</Field>
+	
+	<Field Name="MSH-12 Version ID" Usage="R" Min="1" Max="1" Datatype="VID" Length="60" ItemNo="00012">
+		<Reference>2.15.9.12</Reference>
+		<Component Name="MSH-12-1 version ID: version ID" Usage="R" Datatype="ID" Length="3" Table="0104" ConstantValue="2.5"></Component>
+		<Component Name="MSH-12-2 version ID: internationalization code" Usage="O" Datatype="CE">
+			<SubComponent Name="MSH-12-2-1 version ID: internationalization code: identifier" Usage="O" Datatype="ST"></SubComponent>
+			<SubComponent Name="MSH-12-2-2 version ID: internationalization code: text" Usage="O" Datatype="ST"></SubComponent>
+			<SubComponent Name="MSH-12-2-3 version ID: internationalization code: name of coding system" Usage="O" Datatype="ID"></SubComponent>
+			<SubComponent Name="MSH-12-2-4 version ID: internationalization code: alternate identifier" Usage="O" Datatype="ST"></SubComponent>
+			<SubComponent Name="MSH-12-2-5 version ID: internationalization code: alternate text" Usage="O" Datatype="ST"></SubComponent>
+			<SubComponent Name="MSH-12-2-6 version ID: internationalization code: name of alternate coding system" Usage="O" Datatype="ID"></SubComponent>
+		</Component>
+		<Component Name="MSH-12-3 version ID: international version ID" Usage="O" Datatype="CE">
+			<SubComponent Name="MSH-12-3-1 version ID: international version ID: identifier" Usage="O" Datatype="ST"></SubComponent>
+			<SubComponent Name="MSH-12-3-2 version ID: international version ID: text" Usage="O" Datatype="ST"></SubComponent>
+			<SubComponent Name="MSH-12-3-3 version ID: international version ID: name of coding system" Usage="O" Datatype="ID"></SubComponent>
+			<SubComponent Name="MSH-12-3-4 version ID: international version ID: alternate identifier" Usage="O" Datatype="ST"></SubComponent>
+			<SubComponent Name="MSH-12-3-5 version ID: international version ID: alternate text" Usage="O" Datatype="ST"></SubComponent>
+			<SubComponent Name="MSH-12-3-6 version ID: international version ID: name of alternate coding system" Usage="O" Datatype="ID"></SubComponent>
+		</Component>
+	</Field>
+
+	<Field Name="MSH-13 Sequence Number" Usage="O" Min="0" Max="1" Datatype="NM" Length="15" ItemNo="00013">
+		<Reference>2.15.9.13</Reference>
+	</Field>
+	
+	<Field Name="MSH-14 Continuation Pointer" Usage="O" Min="0" Max="1" Datatype="ST" Length="180" ItemNo="00014">
+		<Reference>2.15.9.14</Reference>
+	</Field>
+	
+	<Field Name="MSH-15 Accept Acknowledgment Type" Usage="O" Min="0" Max="1" Datatype="ID" Length="2" Table="0155" ItemNo="00015">
+		<Reference>2.15.9.15</Reference>
+	</Field>
+	
+	<Field Name="MSH-16 Application Acknowledgment Type" Usage="O" Min="0" Max="1" Datatype="ID" Length="2" Table="0155" ItemNo="00016">
+		<Reference>2.15.9.16</Reference>
+	</Field>
+	
+	<Field Name="MSH-17 Country Code" Usage="O" Min="0" Max="1" Datatype="ID" Length="3" Table="0399" ItemNo="00017">
+		<Reference>2.15.9.17</Reference>
+	</Field>
+	
+	<Field Name="MSH-18 Character Set" Usage="O" Min="0" Max="*" Datatype="ID" Length="16" Table="0211" ItemNo="00692" ConstantValue="ASCII">
+		<Reference>2.15.9.18</Reference>
+	</Field>
+	
+	<Field Name="MSH-19 Principal Language Of Message" Usage="O" Min="1" Max="1" Datatype="CE" Length="250" ItemNo="00693">
+		<Reference>2.15.9.19</Reference>
+		<Component Name="MSH-19-1 principle language of message: identifier" Usage="O" Datatype="ST"></Component>
+		<Component Name="MSH-19-2 principle language of message: text" Usage="O" Datatype="ST"></Component>
+		<Component Name="MSH-19-3 principle language of message: name of coding system" Usage="O" Datatype="ID"></Component>
+		<Component Name="MSH-19-4 principle language of message: alternate identifier" Usage="O" Datatype="ST"></Component>
+		<Component Name="MSH-19-5 principle language of message: alternate text" Usage="O" Datatype="ST"></Component>
+		<Component Name="MSH-19-6 principle language of message: name of alternate coding system" Usage="O" Datatype="ID"></Component>
+	</Field>
+	
+	<Field Name="MSH-20 Alternate Character Set Handling Scheme" Usage="O" Min="0" Max="1" Datatype="ID" Length="20" Table="0356" ItemNo="01317">
+		<Reference>2.15.9.20</Reference>
+	</Field>
+	
+	<Field Name="MSH-21 Message Profile Identifier" Usage="O" Min="0" Max="*" Datatype="EI" Length="427" ItemNo="01598">
+		<Reference>2.15.9.21</Reference>
+		<Component Name="MSH-21-1 message profile identifier: entity identifier" Usage="O" Datatype="ST"></Component>
+		<Component Name="MSH-21-2 message profile identifier: namespace id" Usage="O" Datatype="IS"></Component>
+		<Component Name="MSH-21-3 message profile identifier: universal id" Usage="O" Datatype="ST"></Component>
+		<Component Name="MSH-21-4 message profile identifier: universal id type" Usage="O" Datatype="ID"></Component>
+	</Field>
+</Segment>
+
+<Segment Name = "QPD" LongName="Query Parameter Definition" Usage="R" Min="1" Max="1">
+	<Field Name="QPD-1 Message Query Name" Usage="R" Min="1" Max="1" Datatype="CE" Length="250" ItemNo="01375">
+		<Reference>5.5.4.1</Reference>
+		<Component Name="QPD-1-1 message query name: identifier" Usage="R" Datatype="ST" ConstantValue="Q23"></Component>
+		<Component Name="QPD-1-2 message query name: text" Usage="O" Datatype="ST" ConstantValue="Get Corresponding IDs"></Component>
+		<Component Name="QPD-1-3 message query name: name of coding system" Usage="O" Datatype="ID" ConstantValue="HL7nnnn"></Component>
+		<Component Name="QPD-1-4 message query name: alternate identifier" Usage="O" Datatype="ST"></Component>
+		<Component Name="QPD-1-5 message query name: alternate text" Usage="O" Datatype="ST"></Component>
+		<Component Name="QPD-1-6 message query name: name of alternate coding system" Usage="O" Datatype="ID"></Component>
+	</Field>
+	
+	<Field Name="QPD-2 Query Tag" Usage="O" Min="0" Max="1" Datatype="ST" Length="32" ItemNo="00696">
+		<Reference>5.5.4.2</Reference>
+	</Field>
+	
+	<Field Name="QPD-3 Person Identifier" Usage="R" Min="1" Max="1" Datatype="CX" Length="250">
+		<Reference>5.5.4.3</Reference>
+		<Component Name="QPD-3-1 person identifier: ID" Usage="O" Datatype="ST"></Component>
+        <Component Name="QPD-3-2 person identifier: check digit" Usage="O" Datatype="ST"></Component>
+        <Component Name="QPD-3-3 person identifier: code identifying the check digit scheme employed" Usage="O" Datatype="ID"></Component>
+        <Component Name="QPD-3-4 person identifier: assigning authority" Usage="O" Datatype="HD">
+			<SubComponent Name="QPD-3-4-1 person identifier: assigning authority: namespace ID" Usage="O" Datatype="IS"></SubComponent>
+			<SubComponent Name="QPD-3-4-2 person identifier: assigning authority: universal ID" Usage="O" Datatype="ST"></SubComponent>
+			<SubComponent Name="QPD-3-4-3 person identifier: assigning authority: universal ID type" Usage="O" Datatype="ID"></SubComponent>
+        </Component>
+	</Field>
+
+	<Field Name="QPD-4 What Domains Returned" Usage="O" Min="0" Max="*" Datatype="CX">
+		<Reference>5.5.4.3</Reference>
+		<Component Name="QPD-4-1 what domains returned: ID" Usage="O" Datatype="ST"></Component>
+		<Component Name="QPD-4-2 what domains returned: check digit" Usage="O" Datatype="ST"></Component>
+		<Component Name="QPD-4-3 what domains returned: code identifying the check digit scheme employed" Usage="O" Datatype="ID"></Component>
+		<Component Name="QPD-4-4 what domains returned: assigning authority" Usage="O" Datatype="HD">
+			<SubComponent Name="QPD-4-4-1 what domains returned: assigning authority: namespace id" Usage="O" Datatype="IS"></SubComponent>
+		    <SubComponent Name="QPD-4-4-2 what domains returned: assigning authority: universal id" Usage="O" Datatype="ST"></SubComponent>
+		    <SubComponent Name="QPD-4-4-3 what domains returned: assigning authority: universal id type" Usage="O" Datatype="ID"></SubComponent>
+		</Component>
+		<Component Name="QPD-4-5 what domains returned: identifier type code" Usage="O" Datatype="IS"></Component>
+		<Component Name="QPD-4-6 what domains returned: assigning facility" Usage="O" Datatype="HD">
+			<SubComponent Name="QPD-4-6-1 what domains returned: assigning facility: namespace id" Usage="O" Datatype="IS"></SubComponent>
+		    <SubComponent Name="QPD-4-6-2 what domains returned: assigning facility: universal id" Usage="O" Datatype="ST"></SubComponent>
+		    <SubComponent Name="QPD-4-6-3 what domains returned: assigning facility: universal id type" Usage="O" Datatype="ID"></SubComponent>
+		</Component>
+	</Field>
+</Segment>	
+	
+<Segment Name = "RCP" LongName="Response Control Parameter" Usage="R" Min="1" Max="1">
+	<Field Name="RCP-1 Query Priority" Usage="R" Min="1" Max="1" Datatype="ID" Length="1" Table="0091" ItemNo="00027" ConstantValue="I">
+		<Reference>5.5.6.1</Reference>
+	</Field>
+	
+	<Field Name="RCP-2 Quantity Limited Request" Usage="O" Min="0" Max="1" Datatype="CQ" Length="10" Table="0126" ItemNo="00031">
+		<Reference>5.5.6.2</Reference>
+		<Component Name="RCP-2-1 quantity limited request: quantity" Usage="O" Datatype="NM"></Component>
+		<Component Name="RCP-2-2 quantity limited request: units" Usage="O" Datatype="CE">
+			<SubComponent Name="RCP-2-2-1 quantity limited request: units: identifer" Usage="O" Datatype="ST"></SubComponent>
+			<SubComponent Name="RCP-2-2-2 quantity limited request: units: text" Usage="O" Datatype="ST"></SubComponent>
+			<SubComponent Name="RCP-2-2-3 quantity limited request: units: name of coding system" Usage="O" Datatype="ID"></SubComponent>
+			<SubComponent Name="RCP-2-2-4 quantity limited request: units: alternate identifier" Usage="O" Datatype="ST"></SubComponent>
+			<SubComponent Name="RCP-2-2-5 quantity limited request: units: alternate text" Usage="O" Datatype="ST"></SubComponent>
+			<SubComponent Name="RCP-2-2-6 quantity limited request: units: name of alternate coding system" Usage="O" Datatype="ID"></SubComponent>
+		</Component>
+	</Field>
+	
+	<Field Name="RCP-3 Response Modality" Usage="O" Min="0" Max="1" Datatype="CE" Length="250" Table="0394" ItemNo="01440">
+		<Reference>5.5.6.3</Reference>
+		<Component Name="RCP-3-1 response modality: identifier" Usage="O" Datatype="ST"></Component>
+		<Component Name="RCP-3-2 response modality: text" Usage="O" Datatype="ST"></Component>
+		<Component Name="RCP-3-3 response modality: name of coding system" Usage="O" Datatype="ID"></Component>
+		<Component Name="RCP-3-4 response modality: alternate identifier" Usage="O" Datatype="ST"></Component>
+		<Component Name="RCP-3-5 response modality: alternate text" Usage="O" Datatype="ST"></Component>
+		<Component Name="RCP-3-6 response modality: name of alternate coding system" Usage="O" Datatype="ID"></Component>
+	</Field>
+	
+	<Field Name="RCP-4 Execution and Delivery Time" Usage="O" Min="0" Max="1" Datatype="TS" Length="26" ItemNo="01441">
+		<Reference>5.5.6.4</Reference>
+		<Component Name="RCP-4-1 time" Usage="O" Datatype="DTM"></Component>
+	</Field>
+	
+	<Field Name="RCP-5 Modify Indicator" Usage="O" Min="0" Max="1" Datatype="ID" Length="1" Table="0395" ItemNo="01443">
+		<Reference>5.5.6.5</Reference>
+	</Field>
+	
+	<Field Name="RCP-6 Sort-by Field" Usage="O" Min="0" Max="*" Datatype="SRT" Length="512" ItemNo="01624">
+		<Reference>5.5.6.6</Reference>
+		<Component Name="RCP-6-1 sorty-by field: sort-by field" Usage="O" Min="0" Max="*" Datatype="ST"></Component>
+		<Component Name="RCP-6-2 sorty-by field: sequencing" Usage="O" Min="0" Max="*" Datatype="ID"></Component>
+	</Field>
+	
+	<Field Name="RCP-7 Segment Group Inclusion" Usage="O" Min="0" Max="*" Datatype="ID" Length="256" ItemNo="01594">
+		<Reference>5.5.6.7</Reference>
+	</Field>
+</Segment>
+	
+</HL7v2xStaticDef>
+</HL7v2xConformanceProfile>
+

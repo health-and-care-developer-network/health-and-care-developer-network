@@ -1,0 +1,25 @@
+The download zip extracts to the current folder (bad), so move it into a temp folder before unzipping
+
+The 2.0.0 download is a zip of four zips:-
+org.openhealthtools.ihe.bridge.install.axis2_2.0.0.zip
+org.openhealthtools.ihe.bridge.install_2.0.0.zip
+org.openhealthtools.ihe.bridge_2.0.0.zip
+org.openhealthtools.ihe_2.0.0.zip
+
+Unzip org.openhealthtools.ihe.bridge.install.axis2_2.0.0.zip - it should unzip into org.openhealthtools.ihe.bridge.install.axis2_2.0.0 .
+
+Next, from the repository root
+
+    rsync -a -v /path/to/org.openhealthtools.ihe.bridge.install.axis2_2.0.0/ library/openhealthtools-ihe-bridge/2.0.0/
+
+Then
+
+    cd library/openhealthtools-ihe-bridge/2.0.0/webapps
+    mkdir bridge
+    mv bridge.war bridge/
+    cd bridge
+    unzip bridge.war
+    rm bridge.war
+
+Finally, check-in.
+
