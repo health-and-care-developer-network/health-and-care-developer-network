@@ -4,7 +4,7 @@ ROOT=../../..
 RELEASE=$(ROOT)/release
 SOURCE=$(ROOT)/source
 LIBRARY=$(ROOT)/library
-OPENHEALTHTOOLS_IHE_BRIDGE_VERSION=0.3.3
+OPENHEALTHTOOLS_IHE_BRIDGE_VERSION=2.0.0
 
 build: build-stamp
 build-stamp:
