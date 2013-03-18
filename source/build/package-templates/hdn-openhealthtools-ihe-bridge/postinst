@@ -21,13 +21,13 @@ source "/usr/lib/hdn-apt/functions"
 
 function installWebApps()
 {
-	chown --preserve-root --recursive jetty:adm /usr/share/hdn-openhealthtools-ihe-bridge/webapps/openhealthtools-ihe-bridge
+	chown --preserve-root --recursive jetty:adm /usr/share/hdn-openhealthtools-ihe-bridge/webapps/bridge
 	
-	if [ -e /var/lib/jetty/webapps/openhealthtools-ihe-bridge ]; then
-		rm -r /var/lib/jetty/webapps/openhealthtools-ihe-bridge
+	if [ -e /var/lib/jetty/webapps/bridge ]; then
+		rm -r /var/lib/jetty/webapps/bridge
 	fi
 	
-	ln -s /usr/share/hdn-openhealthtools-ihe-bridge/webapps/openhealthtools-ihe-bridge /var/lib/jetty/webapps/openhealthtools-ihe-bridge
+	ln -s /usr/share/hdn-openhealthtools-ihe-bridge/webapps/bridge /var/lib/jetty/webapps/bridge
 }
 
 function startOrRestartJetty()

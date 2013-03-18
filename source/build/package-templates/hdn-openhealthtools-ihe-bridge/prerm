@@ -34,13 +34,11 @@ function stopJetty()
 
 function uninstallWebApps()
 {
-	if [ -e /var/lib/jetty/webapps/openhealthtools-ihe-bridge ]; then
-		rm -r /var/lib/jetty/webapps/openhealthtools-ihe-bridge
+	if [ -e /var/lib/jetty/webapps/bridge ]; then
+		rm -r /var/lib/jetty/webapps/bridge
 	fi
 	
-	chown --preserve-root --recursive root:root /usr/share/hdn-openhealthtools-ihe-bridge/webapps/openhealthtools-ihe-bridge
-	
-	rm /usr/share/hdn-openhealthtools-ihe-bridge/webapps/openhealthtools-ihe-bridge/WEB-INF/config.ttl
+	chown --preserve-root --recursive root:root /usr/share/hdn-openhealthtools-ihe-bridge/webapps/bridge
 }
 
 case "$1" in
