@@ -1,5 +1,6 @@
 package uk.nhs.hdn.number;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.digits.AbstractCheckDigitNumber;
 import uk.nhs.hdn.common.digits.Digits;
@@ -20,7 +21,7 @@ public final class NhsNumber extends AbstractCheckDigitNumber<NhsNumberExtractin
 
 	@SuppressWarnings("FeatureEnvy")
 	@NotNull
-	public static NhsNumber valueOf(@NotNull final String digits)
+	public static NhsNumber valueOf(@NotNull @NonNls final String digits)
 	{
 		final Digits parsedDigits;
 
