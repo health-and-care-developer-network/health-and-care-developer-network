@@ -1,0 +1,50 @@
+*         -text
+
+*.java    text eol=lf diff=java
+
+*.jar     binary
+*.war     binary
+*.ear     binary
+*.mar     binary
+*.rar     binary
+*.aar     binary
+
+*.gif     binary
+*.jpg     binary
+*.jpeg    binary
+*.tif     binary
+*.tiff    binary
+*.png     binary
+
+*.o       binary
+*.dll     binary
+*.dylib   binary
+
+*.zip     binary
+*.tar     binary
+*.gz      binary
+*.bz2     binary
+*.xz      binary
+*.deb     binary
+*.rpm     binary
+
+*.html    text diff=html
+*.css     text
+*.js      text
+
+*.txt     text
+*.sql     text
+*.xml     text
+
+*.cs      text diff=csharp eol=crlf
+*.csproj  text merge=union eol=crlf
+*.sln     text merge=union eol=crlf
+*.docx    diff=astextplain
+*.xaml    text
+*.tt      text
+*.ps1     text
+*.cmd     text eol=crlf
+*.msbuild text eol=crlf
+*.md      text eol=crlf
+*.cmd     text eol=crlf
+*.bat     text eol=crlf
