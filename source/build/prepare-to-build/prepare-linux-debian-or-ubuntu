@@ -83,7 +83,8 @@ function cloneSource()
 	git clone https://github.com/health-and-care-developer-network/health-and-care-developer-network.git
 
 	cd health-and-care-developer-network 1>/dev/null 2>/dev/null
-	git checkout development
+	
+	git checkout -b development origin/development
 }
 
 function prepareChroot()
