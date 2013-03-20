@@ -1,0 +1,74 @@
+**
+ * OHT IHE Profiles Release 2.0 Notes
+ * https://www.projects.openhealthtools.org/sf/projects/iheprofiles/
+ *
+ * August 16, 2012
+ * 
+ * This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     IBM Corporation - initial API and implementation
+ *
+ **************************************************************************
+
+  Release 2.0 of the OHT IHE Profiles Project has four distribution packages - 
+
+  1) IHE Profiles Core Plug-ins containing IHE Profiles ATNA, PDQ, PIX, XUA, XDS Components
+  2) The Bridge Installation Package containing configuration files, binaries for RPC-style web services 
+  3) The Bridge Installation Package containing configuration files, binaries for document literal style web services
+  4) The Bridge Standalone Plugins containing just the Bridge core logic plus the IHE core plug-ins
+
+  Javadoc for Release 2.0 can be found in online at:
+  https://www.projects.openhealthtools.org/sf/projects/iheprofiles/javadocs/
+
+  This Release now requires the use of Java JRE 6, Eclipse 3.6.x, EMF 2.6.x and MDHT 1.0
+
+  
+  Issues closed by this Release:
+
+Artifact ID	Title		      Target 	Assigned 	Resolution	Item Link
+				     milestone  To
+artf2963	ATNA/Bridge UserAuth...	2.0.0	Jesse Pangburn  FIXED		https://www.projects.openhealthtools.org/sf/go/artf2963/
+artf2961	ATNA/Bridge UserAuth...	2.0.0	None		FIXED		https://www.projects.openhealthtools.org/sf/go/artf2961/
+artf2776	Add dynamic docu...	2.0.0	Jesse Pangburn	FIXED		https://www.projects.openhealthtools.org/sf/go/artf2776/
+artf2203	[Issue 43] - Expose ..	2.0.0	Anthony LaRocca	WONTFIX		https://www.projects.openhealthtools.org/sf/go/artf2203/
+artf2242	[Issue 82] - Update ...	2.0.0	Sarah Knoop	FIXED		https://www.projects.openhealthtools.org/sf/go/artf2242/
+artf2790	CP 474			2.0.0	Sondra Renly	FIXED		https://www.projects.openhealthtools.org/sf/go/artf2790/
+artf2778	CP 479			2.0.0	Sarah Knoop	FIXED		https://www.projects.openhealthtools.org/sf/go/artf2778/
+artf2787	CP 564			2.0.0	Sondra Renly	WORKSFORME	https://www.projects.openhealthtools.org/sf/go/artf2787/
+artf2792	CP 591			2.0.0	Sondra Renly	WORKSFORME	https://www.projects.openhealthtools.org/sf/go/artf2792/
+artf2791	CP 506			2.0.0	Anthony LaRocca	FIXED		https://www.projects.openhealthtools.org/sf/go/artf2791/
+artf2551	PDQ Consumer getter...	2.0.0	Sondra Renly	WONTFIX		https://www.projects.openhealthtools.org/sf/go/artf2551/
+artf2286	[Issue 126] - 'String...2.0.0	Sarah Knoop	FIXED		https://www.projects.openhealthtools.org/sf/go/artf2286/
+artf2287	[Issue 127] - Invalid.. 2.0.0	Sarah Knoop	FIXED		https://www.projects.openhealthtools.org/sf/go/artf2287/
+artf2784	CP 539			2.0.0	Anthony LaRocca	FIXED		https://www.projects.openhealthtools.org/sf/go/artf2784/
+artf2780	CP 510			2.0.0	Jesse Pangburn	INVALID		https://www.projects.openhealthtools.org/sf/go/artf2780/
+artf2785	CP 561			2.0.0	Jesse Pangburn	INVALID		https://www.projects.openhealthtools.org/sf/go/artf2785/
+artf2793	CP 577			2.0.0	Sarah Knoop	INVALID		https://www.projects.openhealthtools.org/sf/go/artf2793/
+artf2788	CP 567			2.0.0	Sarah Knoop	FIXED		https://www.projects.openhealthtools.org/sf/go/artf2788/
+artf2783	CP 455			2.0.0	Anthony LaRocca	FIXED		https://www.projects.openhealthtools.org/sf/go/artf2783/
+artf2789	CP 454			2.0.0	Anthony LaRocca	INVALID		https://www.projects.openhealthtools.org/sf/go/artf2789/
+artf2786	CP 563			2.0.0	Sondra Renly	FIXED		https://www.projects.openhealthtools.org/sf/go/artf2786/
+artf2292	[Issue 132] - multi aut 2.0.0	Sarah Knoop	FIXED		https://www.projects.openhealthtools.org/sf/go/artf2292/
+artf2296	[Issue 136] - Folders	2.0.0	Sarah Knoop	WONTFIX		https://www.projects.openhealthtools.org/sf/go/artf2296/
+artf2457	XDS Submission Set..	2.0.0	Sarah Knoop	FIXED		https://www.projects.openhealthtools.org/sf/go/artf2457/
+artf2556	EMF jars are missing 	2.0.0	Sarah Knoop	FIXED		https://www.projects.openhealthtools.org/sf/go/artf2556/
+artf2992	Typo in DICOMEvent... 	2.0.0	Sondra Renly	FIXED		https://www.projects.openhealthtools.org/sf/go/artf2992/
+artf3006	ATNA TLS - Socket 	2.0.0	None		INVALID		https://www.projects.openhealthtools.org/sf/go/artf3006/
+artf3251	FindFolder impl		2.0.0	Sarah Knoop	FIXED		https://www.projects.openhealthtools.org/sf/go/artf3251/
+artf3026	NA2012 - PDQ Cont	2.0.0	Sondra Renly	FIXED		https://www.projects.openhealthtools.org/sf/go/artf3026/
+artf2779	CP 509			2.0.0	Sarah Knoop	INVALID		https://www.projects.openhealthtools.org/sf/go/artf2779/
+artf2331	Update Plugins C32	2.0.0	Anthony LaRocca	FIXED		https://www.projects.openhealthtools.org/sf/go/artf2331/
+artf2330	Resource Conlflict 	2.0.0	Anthony LaRocca	FIXED		https://www.projects.openhealthtools.org/sf/go/artf2330/
+artf2825	XUA STS client		2.0.0	Sarah Knoop	FIXED		https://www.projects.openhealthtools.org/sf/go/artf2825/
+artf3133	SHINNY - SAML signature 2.0.0	Jesse Pangburn	FIXED		https://www.projects.openhealthtools.org/sf/go/artf3133/
+artf2295	[Issue 135] - Logging 	2.0.0	Sarah Knoop	FIXED		https://www.projects.openhealthtools.org/sf/go/artf2295/
+artf2726	Restore custom ATNA 	2.0.0	Jesse Pangburn	FIXED		https://www.projects.openhealthtools.org/sf/go/artf2726/
+artf2937	Install 64-bit plat..	2.0.0	Anthony LaRocca	FIXED		https://www.projects.openhealthtools.org/sf/go/artf2937/
+artf2781	CP 521			2.0.0	Sarah Knoop	FIXED		https://www.projects.openhealthtools.org/sf/go/artf2781/
+artf3280	Patch for TLSSys	2.0.0	Jesse Pangburn	FIXED		https://www.projects.openhealthtools.org/sf/go/artf3280/
+artf2347	SOAP Faults 		2.0.0	Jesse Pangburn	WONTFIX		https://www.projects.openhealthtools.org/sf/go/artf2347/
+artf3033	RDS with a home comm	2.0.0	Jesse Pangburn	FIXED		https://www.projects.openhealthtools.org/sf/go/artf3033/

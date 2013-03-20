@@ -1,0 +1,35 @@
+<serviceGroup>
+	<service name="ohf-bridge">
+		<!--<schema elementFormDefault="unqualified" attributeFormDefault="unqualified" />-->
+		<description>
+			Open Health Tool/IHE Profiles Project - Bridge Web service
+		</description>
+		<parameter name="ServiceClass" locked="true">org.openhealthtools.ihe.bridge.ws.OHFBridge</parameter>
+		<parameter name="doclitBare" locked="true">true</parameter>
+		<messageReceivers>
+			<!-- ONE AND ONLY ONE OF THESE RECEIVERS CAN BE UNCOMMENTED -->
+			<!-- this is the normal default message receiver, it returns xsi:nil="true" elements and blank ones -->
+			<messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-out" class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
+			<!-- this is the 2.0 backwards compatibility receiver, it removes xsi:nil="true" elements such as the OnDemand Document's newDocumentUniqueId field -->
+			<!--messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-out" class="org.openhealthtools.ihe.bridge.ws.axis2.RPCMessageReceiverStripNils"/-->
+			<!-- this receiver trims the message response aggressively to weed out xsi:nil="true" elements and blank elements like <givenName></givenName>.  Brief
+				testing shows this costs an extra 20ms processing time when returning 20 documents in a RSQ, but reduces message size from 206K to 109K.  If
+				clients to your bridge are running over the internet, this may be a worthwhile trade for you. -->
+			<!--messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-out" class="org.openhealthtools.ihe.bridge.ws.axis2.RPCMessageReceiverStripNilsAndBlanks"/-->
+		</messageReceivers>
+		<!--<module ref="addressing"/>-->
+	</service>
+	<service name="ohf-bridge-admin">
+		<!--<schema elementFormDefault="unqualified" attributeFormDefault="unqualified" />-->
+		<description>
+			Open Health Tool/IHE Profiles Project - Bridge Web service Administration
+		</description>
+		<parameter name="ServiceClass" locked="true">org.openhealthtools.ihe.bridge.ws.OHFBridgeAdmin</parameter>
+		<parameter name="doclitBare" locked="true">true</parameter>
+		<messageReceivers>
+			<messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-out" class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
+		</messageReceivers>
+
+		<!--<module ref="addressing"/>-->
+	</service>
+</serviceGroup>

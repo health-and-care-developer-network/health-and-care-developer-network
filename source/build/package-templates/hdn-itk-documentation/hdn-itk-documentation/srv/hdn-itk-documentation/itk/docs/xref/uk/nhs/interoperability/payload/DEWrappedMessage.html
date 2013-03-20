@@ -121,52 +121,55 @@
 <a class="jxr_linenumber" name="111" href="#111">111</a> 		deXML += <span class="jxr_string">"&lt;Service&gt;"</span>+<strong class="jxr_keyword">this</strong>.messageProperties.getServiceId()+<span class="jxr_string">"&lt;/Service&gt;"</span>;
 <a class="jxr_linenumber" name="112" href="#112">112</a> 		deXML += <span class="jxr_string">"&lt;TrackingId&gt;"</span> + <strong class="jxr_keyword">this</strong>.trackingId + <span class="jxr_string">"&lt;/TrackingId&gt;"</span>;
 <a class="jxr_linenumber" name="113" href="#113">113</a> 		deXML += <span class="jxr_string">"&lt;Sender&gt;"</span>+<strong class="jxr_keyword">this</strong>.messageProperties.getFromAddress().getURI()+<span class="jxr_string">"&lt;/Sender&gt;"</span>;
-<a class="jxr_linenumber" name="114" href="#114">114</a> 		deXML += <span class="jxr_string">"&lt;Recipient&gt;"</span>+<strong class="jxr_keyword">this</strong>.messageProperties.getToAddress().getURI()+<span class="jxr_string">"&lt;/Recipient&gt;"</span>;
-<a class="jxr_linenumber" name="115" href="#115">115</a> 		deXML += <span class="jxr_string">"&lt;Author&gt;"</span>+<strong class="jxr_keyword">this</strong>.messageProperties.getAuditIdentity()+<span class="jxr_string">"&lt;/Author&gt;"</span>;
-<a class="jxr_linenumber" name="116" href="#116">116</a> 		deXML += <span class="jxr_string">"&lt;Manifest id=\&quot;"</span>+<strong class="jxr_keyword">this</strong>.messageProperties.getBusinessPayloadId()+
-<a class="jxr_linenumber" name="117" href="#117">117</a> 					<span class="jxr_string">"\&quot; type=\&quot;"</span>+<strong class="jxr_keyword">this</strong>.mimeType+<span class="jxr_string">"\&quot;"</span>+
-<a class="jxr_linenumber" name="118" href="#118">118</a> 				    <span class="jxr_string">" profileid=\&quot;"</span>+<strong class="jxr_keyword">this</strong>.messageProperties.getProfileId()+<span class="jxr_string">"\&quot; "</span>;
-<a class="jxr_linenumber" name="119" href="#119">119</a> 		<strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong>.isBase64){
-<a class="jxr_linenumber" name="120" href="#120">120</a> 			deXML += <span class="jxr_string">" base64=\&quot;true\&quot; "</span>;
-<a class="jxr_linenumber" name="121" href="#121">121</a> 		}
-<a class="jxr_linenumber" name="122" href="#122">122</a> 		deXML += <span class="jxr_string">" /&gt;"</span>;
-<a class="jxr_linenumber" name="123" href="#123">123</a> 		<em class="jxr_comment">//Add handling specifications if set</em>
-<a class="jxr_linenumber" name="124" href="#124">124</a> 		<strong class="jxr_keyword">if</strong> (!<strong class="jxr_keyword">this</strong>.getMessageProperties().getHandlingSpecifications().isEmpty()) {
-<a class="jxr_linenumber" name="125" href="#125">125</a> 			deXML += <span class="jxr_string">"&lt;HandlingSpecs&gt;"</span>;
-<a class="jxr_linenumber" name="126" href="#126">126</a> 			<strong class="jxr_keyword">for</strong> (Map.Entry&lt;String, String&gt; entry: <strong class="jxr_keyword">this</strong>.getMessageProperties().getHandlingSpecifications().entrySet()) {
-<a class="jxr_linenumber" name="127" href="#127">127</a> 				<em class="jxr_comment">//Add handling specifications</em>
-<a class="jxr_linenumber" name="128" href="#128">128</a> 				deXML += <span class="jxr_string">"&lt;Spec key=\&quot;"</span> + entry.getKey() + <span class="jxr_string">"\&quot; value=\&quot;"</span> + entry.getValue() + <span class="jxr_string">"\&quot;/&gt;"</span>;
-<a class="jxr_linenumber" name="129" href="#129">129</a> 			}
-<a class="jxr_linenumber" name="130" href="#130">130</a> 			deXML += <span class="jxr_string">"&lt;/HandlingSpecs&gt;"</span>;
-<a class="jxr_linenumber" name="131" href="#131">131</a> 		}
-<a class="jxr_linenumber" name="132" href="#132">132</a> 		deXML += <span class="jxr_string">"&lt;Payload id=\&quot;"</span>+<strong class="jxr_keyword">this</strong>.messageProperties.getBusinessPayloadId()+
-<a class="jxr_linenumber" name="133" href="#133">133</a> 				<span class="jxr_string">"\&quot;&gt;"</span>+<strong class="jxr_keyword">this</strong>.getBusinessPayload()+<span class="jxr_string">"&lt;/Payload&gt;"</span>;
-<a class="jxr_linenumber" name="134" href="#134">134</a> 		<strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong>.addressed){
-<a class="jxr_linenumber" name="135" href="#135">135</a> 			deXML += <span class="jxr_string">"&lt;Addressed/&gt;"</span>;
-<a class="jxr_linenumber" name="136" href="#136">136</a> 		}
-<a class="jxr_linenumber" name="137" href="#137">137</a> 		deXML += <span class="jxr_string">"&lt;/ITKMessage&gt;"</span>;
-<a class="jxr_linenumber" name="138" href="#138">138</a> 		Logger.trace(<span class="jxr_string">"DEXML:"</span>+deXML);
-<a class="jxr_linenumber" name="139" href="#139">139</a> 		fullPayload = TransformManager.doTransform(<span class="jxr_string">"ToDistributionEnvelope.xslt"</span>, deXML);
-<a class="jxr_linenumber" name="140" href="#140">140</a> 
-<a class="jxr_linenumber" name="141" href="#141">141</a> 		<strong class="jxr_keyword">return</strong> fullPayload;
-<a class="jxr_linenumber" name="142" href="#142">142</a> 		
-<a class="jxr_linenumber" name="143" href="#143">143</a> 	}
-<a class="jxr_linenumber" name="144" href="#144">144</a> 	
-<a class="jxr_linenumber" name="145" href="#145">145</a> 	<em class="jxr_comment">/*<em class="jxr_comment"> (non-Javadoc)</em></em>
-<a class="jxr_linenumber" name="146" href="#146">146</a> <em class="jxr_comment">	 * @see uk.nhs.interoperability.payload.ITKMessageImpl#setBusinessPayload(java.lang.String)</em>
-<a class="jxr_linenumber" name="147" href="#147">147</a> <em class="jxr_comment">	 */</em>
-<a class="jxr_linenumber" name="148" href="#148">148</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setBusinessPayload(String businessPayload) {
-<a class="jxr_linenumber" name="149" href="#149">149</a> 		<strong class="jxr_keyword">if</strong> (businessPayload != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="150" href="#150">150</a> 			<strong class="jxr_keyword">if</strong> (businessPayload.startsWith(<span class="jxr_string">"&lt;?xml"</span>)) {
-<a class="jxr_linenumber" name="151" href="#151">151</a> 				<em class="jxr_comment">//Remove any XML declarations</em>
-<a class="jxr_linenumber" name="152" href="#152">152</a> 				<strong class="jxr_keyword">this</strong>.businessPayload = businessPayload.substring(businessPayload.indexOf(<span class="jxr_string">"&gt;"</span>)+1);
-<a class="jxr_linenumber" name="153" href="#153">153</a> 			} <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="154" href="#154">154</a> 				<strong class="jxr_keyword">this</strong>.businessPayload = businessPayload;
-<a class="jxr_linenumber" name="155" href="#155">155</a> 			}
-<a class="jxr_linenumber" name="156" href="#156">156</a> 			
-<a class="jxr_linenumber" name="157" href="#157">157</a> 		}
-<a class="jxr_linenumber" name="158" href="#158">158</a> 	}
-<a class="jxr_linenumber" name="159" href="#159">159</a> }
+<a class="jxr_linenumber" name="114" href="#114">114</a> 		deXML += <span class="jxr_string">"&lt;SenderType&gt;"</span>+<strong class="jxr_keyword">this</strong>.messageProperties.getFromAddress().getType()+<span class="jxr_string">"&lt;/SenderType&gt;"</span>;
+<a class="jxr_linenumber" name="115" href="#115">115</a> 		deXML += <span class="jxr_string">"&lt;Recipient&gt;"</span>+<strong class="jxr_keyword">this</strong>.messageProperties.getToAddress().getURI()+<span class="jxr_string">"&lt;/Recipient&gt;"</span>;
+<a class="jxr_linenumber" name="116" href="#116">116</a> 		deXML += <span class="jxr_string">"&lt;RecipientType&gt;"</span>+<strong class="jxr_keyword">this</strong>.messageProperties.getToAddress().getType()+<span class="jxr_string">"&lt;/RecipientType&gt;"</span>;
+<a class="jxr_linenumber" name="117" href="#117">117</a> 		deXML += <span class="jxr_string">"&lt;Author&gt;"</span>+<strong class="jxr_keyword">this</strong>.messageProperties.getAuditIdentity().getURI()+<span class="jxr_string">"&lt;/Author&gt;"</span>;
+<a class="jxr_linenumber" name="118" href="#118">118</a> 		deXML += <span class="jxr_string">"&lt;AuthorType&gt;"</span>+<strong class="jxr_keyword">this</strong>.messageProperties.getAuditIdentity().getType()+<span class="jxr_string">"&lt;/AuthorType&gt;"</span>;
+<a class="jxr_linenumber" name="119" href="#119">119</a> 		deXML += <span class="jxr_string">"&lt;Manifest id=\&quot;"</span>+<strong class="jxr_keyword">this</strong>.messageProperties.getBusinessPayloadId()+
+<a class="jxr_linenumber" name="120" href="#120">120</a> 					<span class="jxr_string">"\&quot; type=\&quot;"</span>+<strong class="jxr_keyword">this</strong>.mimeType+<span class="jxr_string">"\&quot;"</span>+
+<a class="jxr_linenumber" name="121" href="#121">121</a> 				    <span class="jxr_string">" profileid=\&quot;"</span>+<strong class="jxr_keyword">this</strong>.messageProperties.getProfileId()+<span class="jxr_string">"\&quot; "</span>;
+<a class="jxr_linenumber" name="122" href="#122">122</a> 		<strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong>.isBase64){
+<a class="jxr_linenumber" name="123" href="#123">123</a> 			deXML += <span class="jxr_string">" base64=\&quot;true\&quot; "</span>;
+<a class="jxr_linenumber" name="124" href="#124">124</a> 		}
+<a class="jxr_linenumber" name="125" href="#125">125</a> 		deXML += <span class="jxr_string">" /&gt;"</span>;
+<a class="jxr_linenumber" name="126" href="#126">126</a> 		<em class="jxr_comment">//Add handling specifications if set</em>
+<a class="jxr_linenumber" name="127" href="#127">127</a> 		<strong class="jxr_keyword">if</strong> (!<strong class="jxr_keyword">this</strong>.getMessageProperties().getHandlingSpecifications().isEmpty()) {
+<a class="jxr_linenumber" name="128" href="#128">128</a> 			deXML += <span class="jxr_string">"&lt;HandlingSpecs&gt;"</span>;
+<a class="jxr_linenumber" name="129" href="#129">129</a> 			<strong class="jxr_keyword">for</strong> (Map.Entry&lt;String, String&gt; entry: <strong class="jxr_keyword">this</strong>.getMessageProperties().getHandlingSpecifications().entrySet()) {
+<a class="jxr_linenumber" name="130" href="#130">130</a> 				<em class="jxr_comment">//Add handling specifications</em>
+<a class="jxr_linenumber" name="131" href="#131">131</a> 				deXML += <span class="jxr_string">"&lt;Spec key=\&quot;"</span> + entry.getKey() + <span class="jxr_string">"\&quot; value=\&quot;"</span> + entry.getValue() + <span class="jxr_string">"\&quot;/&gt;"</span>;
+<a class="jxr_linenumber" name="132" href="#132">132</a> 			}
+<a class="jxr_linenumber" name="133" href="#133">133</a> 			deXML += <span class="jxr_string">"&lt;/HandlingSpecs&gt;"</span>;
+<a class="jxr_linenumber" name="134" href="#134">134</a> 		}
+<a class="jxr_linenumber" name="135" href="#135">135</a> 		deXML += <span class="jxr_string">"&lt;Payload id=\&quot;"</span>+<strong class="jxr_keyword">this</strong>.messageProperties.getBusinessPayloadId()+
+<a class="jxr_linenumber" name="136" href="#136">136</a> 				<span class="jxr_string">"\&quot;&gt;"</span>+<strong class="jxr_keyword">this</strong>.getBusinessPayload()+<span class="jxr_string">"&lt;/Payload&gt;"</span>;
+<a class="jxr_linenumber" name="137" href="#137">137</a> 		<strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong>.addressed){
+<a class="jxr_linenumber" name="138" href="#138">138</a> 			deXML += <span class="jxr_string">"&lt;Addressed/&gt;"</span>;
+<a class="jxr_linenumber" name="139" href="#139">139</a> 		}
+<a class="jxr_linenumber" name="140" href="#140">140</a> 		deXML += <span class="jxr_string">"&lt;/ITKMessage&gt;"</span>;
+<a class="jxr_linenumber" name="141" href="#141">141</a> 		Logger.trace(<span class="jxr_string">"DEXML:"</span>+deXML);
+<a class="jxr_linenumber" name="142" href="#142">142</a> 		fullPayload = TransformManager.doTransform(<span class="jxr_string">"ToDistributionEnvelope.xslt"</span>, deXML);
+<a class="jxr_linenumber" name="143" href="#143">143</a> 
+<a class="jxr_linenumber" name="144" href="#144">144</a> 		<strong class="jxr_keyword">return</strong> fullPayload;
+<a class="jxr_linenumber" name="145" href="#145">145</a> 		
+<a class="jxr_linenumber" name="146" href="#146">146</a> 	}
+<a class="jxr_linenumber" name="147" href="#147">147</a> 	
+<a class="jxr_linenumber" name="148" href="#148">148</a> 	<em class="jxr_comment">/*<em class="jxr_comment"> (non-Javadoc)</em></em>
+<a class="jxr_linenumber" name="149" href="#149">149</a> <em class="jxr_comment">	 * @see uk.nhs.interoperability.payload.ITKMessageImpl#setBusinessPayload(java.lang.String)</em>
+<a class="jxr_linenumber" name="150" href="#150">150</a> <em class="jxr_comment">	 */</em>
+<a class="jxr_linenumber" name="151" href="#151">151</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setBusinessPayload(String businessPayload) {
+<a class="jxr_linenumber" name="152" href="#152">152</a> 		<strong class="jxr_keyword">if</strong> (businessPayload != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="153" href="#153">153</a> 			<strong class="jxr_keyword">if</strong> (businessPayload.startsWith(<span class="jxr_string">"&lt;?xml"</span>)) {
+<a class="jxr_linenumber" name="154" href="#154">154</a> 				<em class="jxr_comment">//Remove any XML declarations</em>
+<a class="jxr_linenumber" name="155" href="#155">155</a> 				<strong class="jxr_keyword">this</strong>.businessPayload = businessPayload.substring(businessPayload.indexOf(<span class="jxr_string">"&gt;"</span>)+1);
+<a class="jxr_linenumber" name="156" href="#156">156</a> 			} <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="157" href="#157">157</a> 				<strong class="jxr_keyword">this</strong>.businessPayload = businessPayload;
+<a class="jxr_linenumber" name="158" href="#158">158</a> 			}
+<a class="jxr_linenumber" name="159" href="#159">159</a> 			
+<a class="jxr_linenumber" name="160" href="#160">160</a> 		}
+<a class="jxr_linenumber" name="161" href="#161">161</a> 	}
+<a class="jxr_linenumber" name="162" href="#162">162</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>

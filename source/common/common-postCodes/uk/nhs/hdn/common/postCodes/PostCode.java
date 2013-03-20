@@ -18,11 +18,12 @@ package uk.nhs.hdn.common.postCodes;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.common.naming.Normalisable;
 import uk.nhs.hdn.common.parsers.charaterSets.BitSetCharacterSet;
 import uk.nhs.hdn.common.parsers.charaterSets.CharacterSet;
 import uk.nhs.hdn.common.serialisers.ValueSerialisable;
 
-public interface PostCode extends ValueSerialisable
+public interface PostCode extends ValueSerialisable, Normalisable
 {
 	int Ascii0 = 48;
 	int Ascii9 = 57;
@@ -38,7 +39,4 @@ public interface PostCode extends ValueSerialisable
 	@NotNull
 	@NonNls
 	CharacterSet ValidAlphabeticPostcodeUnitCharacters = new BitSetCharacterSet("ABDEFGHJLNPQRSTUWXYZ".toCharArray()); // excludes CIKMOV
-
-	@NotNull
-	String normalised();
 }

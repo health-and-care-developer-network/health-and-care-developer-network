@@ -38,8 +38,7 @@ public final class HdnDbsResponseConsoleEntryPoint extends AbstractConsoleEntryP
 	private static final String ResponseOption = "response";
 	private static final String IncludeHeaderOption = "include-header";
 
-	@NonNls
-	private static final String ResponseDefault = "-";
+	@NonNls @NotNull private static final String ResponseDefault = "-";
 
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static void main(@NotNull final String... commandLineArguments)
@@ -64,6 +63,10 @@ public final class HdnDbsResponseConsoleEntryPoint extends AbstractConsoleEntryP
 		final InputStream inputStream;
 		if (path.equals(ResponseDefault))
 		{
+			if (in.available() == 0)
+			{
+				throw new IllegalStateException("It appears that stdin is not provided");
+			}
 			inputStream = in;
 		}
 		else

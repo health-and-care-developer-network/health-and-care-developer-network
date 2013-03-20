@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<!-- Log4J configuration file -->
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+<!--               Appenders                  -->
+
+ <appender name="Ganymede" class="org.apache.log4j.net.SocketAppender">
+    <param name="remoteHost" value="localhost"/>
+    <param name="port" value="4445"/>
+    <param name="locationInfo" value="true"/>
+  </appender>
+
+  <appender name="LogClient" class="org.apache.log4j.net.SocketAppender">
+    <param name="RemoteHost" value="localhost"/>
+    <param name="Port" value="7777"/>
+  </appender>
+
+  <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+  	<!--param name="Target" value="System.out"/-->
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern"
+             value="[%-5p][%d{HH:mm:ss}][%-30.30c] %m%n"/>
+    </layout>
+  </appender>
+
+	<appender name="file" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="bridge.log"/>
+		<param name="MaxFileSize" value="4MB"/>
+		<param name="MaxBackupIndex" value="5"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%-5p][%d{HH:mm:ss}][%-30.30c] %m%n"/>
+		</layout>
+	</appender>
+
+	<appender name="bridge" class="org.openhealthtools.ihe.bridge.BridgeTransactionAwareLog4jAppender">
+		<param name="File" value="bridge"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%-5p][%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ}][%-30.30c] %m%n"/>
+		</layout>
+	</appender>
+
+	<appender name="audit.file" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="audit.log"/>
+		<param name="MaxFileSize" value="4MB"/>
+		<param name="MaxBackupIndex" value="5"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%-5p][%d{HH:mm:ss}][%-30.30c] %m%n"/>
+		</layout>
+	</appender>
+
+ 	<!--                  Categories                     -->
+
+  <category name="org">
+    <priority value="debug" />
+  </category>
+
+
+  <category name="org.apache">
+    <priority value="error" />
+  </category>
+
+  <category name="org.apache.axis.message">
+    <priority value="error" />
+  </category>
+
+  <category name="org.apache.axis.attachments">
+    <priority value="error" />
+  </category>
+
+  <category name="org.apache.axis.utils.NSStack">
+    <priority value="error" />
+  </category>
+
+  <category name="org.apache.axis.encoding">
+    <priority value="error" />
+  </category>
+
+  <category name="org.apache.axis.i18n">
+    <priority value="error" />
+  </category>
+
+  <category name="org.apache.axis.transport.http">
+    <priority value="error" />
+  </category>
+
+  <category name="org.apache.axis.attachments.ManagedMemoryDataSource">
+    <priority value="error" />
+  </category>  
+
+  <category name="org.apache.axis.description.OperationDesc">
+    <priority value="error" />
+  </category>
+
+  <category name="org.apache.commons">
+    <priority value="error" />
+  </category>
+
+  <category name="org.apache.commons.httpclient">
+    <priority value="error" />
+  </category>
+
+
+  <category name="org.openhealthtools.ihe.xds.metadata.extract">
+    <priority value="error" />
+  </category>
+
+  <category name="org.openhealthtools.ihe.xds.soap">
+    <priority value="debug" />
+  </category>
+
+  <root>
+    <priority value="debug" />
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="file" />
+    <appender-ref ref="bridge" />
+    <!--appender-ref ref="Ganymede" /-->
+  </root>
+
+</log4j:configuration>
+
+
+<!--
+   Log4J Configuration Quick Reference:
+   ====================================
+
+
+   Priority order is DEBUG < INFO < WARN < ERROR < FATAL
+
+
+   PatternLayout conversion characters:
+
+    %c   Category of the logging event
+    %C   Fully qualified class name of the caller
+    %d   Date of the logging event  (example: %d{HH:mm:ss,SSS} )
+    %F   File name where the logging request was issued (caution: extremely slow)
+    %l   Location information of the caller (caution: extremely slow)
+    %L   Line number from where the logging request was issued (caution: extremely slow)
+    %m   Application-supplied message
+    %M   Method name from where the logging request was issued (caution: extremely slow)
+    %n   Line separator
+    %p   Priority of the logging event
+    %r   Number of milliseconds since the start of the application
+    %t   Name of the thread that generated the logging event
+    %x   Nested diagnotic context associated with the thread
+    %%   A single percent sign
+
+   Format modifiers examples:
+
+    %20c     Left pad with spaces if category is less than 20 characters long
+    %-20c    Right pad with spaces if category is less than 20 characters long
+    %.30c    Truncate from the beginning if category is more than 30 chars long
+    %20.30c  Left pad 20 chars + truncate from beginning if more than 30 chars
+    %-20.30c Right pad 20 chars + truncate from beginning if more than 30 chars
+
+   Examples:  "%r [%t] %-5p %c %x - %m\n"
+              "%-6r [%15.15t] %-5p %30.30c %x - %m\n"
+
+-->

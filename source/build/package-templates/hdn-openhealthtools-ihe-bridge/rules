@@ -1,0 +1,50 @@
+#!/usr/bin/make -f
+PACKAGE=$(shell dh_listpackages)
+ROOT=../../..
+RELEASE=$(ROOT)/release
+SOURCE=$(ROOT)/source
+LIBRARY=$(ROOT)/library
+OPENHEALTHTOOLS_IHE_BRIDGE_VERSION=2.0.0
+
+build: build-stamp
+build-stamp:
+	dh_testdir
+
+clean:
+	dh_testdir
+	dh_testroot
+	dh_clean
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_prep --exclude=debian/$(PACKAGE)
+	dh_installdirs
+
+binary-indep: build install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs
+
+	# Copy the packages's files.
+	rsync -v -a $(LIBRARY)/openhealthtools-ihe-bridge/$(OPENHEALTHTOOLS_IHE_BRIDGE_VERSION)/webapps/bridge/ debian/$(PACKAGE)/usr/share/$(PACKAGE)/webapps/bridge/
+	rsync -v -a --exclude=bridge.properties $(LIBRARY)/openhealthtools-ihe-bridge/$(OPENHEALTHTOOLS_IHE_BRIDGE_VERSION)/conf/ debian/$(PACKAGE)/usr/share/$(PACKAGE)/webapps/bridge/WEB-INF/eclipse/configuration/
+	find debian/$(PACKAGE)/usr/share/$(PACKAGE) -type f -exec chmod 0644 {} \;
+	find debian/$(PACKAGE)/usr/share/$(PACKAGE) -type d -exec chmod 0755 {} \;
+	
+	dh_installdocs
+	dh_installexamples
+	dh_installman
+	dh_lintian
+	dh_link
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb -- -z9 -Zxz
+
+binary-arch: build install
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install

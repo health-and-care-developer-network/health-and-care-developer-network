@@ -1,8 +1,10 @@
 package uk.nhs.hdn.number;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.digits.AbstractCheckDigitNumber;
 import uk.nhs.hdn.common.digits.Digits;
+import uk.nhs.hdn.common.naming.Normalisable;
 import uk.nhs.hdn.common.serialisers.CouldNotSerialiseValueException;
 import uk.nhs.hdn.common.serialisers.CouldNotWriteValueException;
 import uk.nhs.hdn.common.serialisers.ValueSerialisable;
@@ -13,13 +15,13 @@ import static java.util.Locale.ENGLISH;
 import static uk.nhs.hdn.common.digits.Digits.digits;
 import static uk.nhs.hdn.number.NhsNumberExtractingCheckDigitCalculator.NhsNumberExtractingCheckDigitCalculatorInstance;
 
-public final class NhsNumber extends AbstractCheckDigitNumber<NhsNumberExtractingCheckDigitCalculator> implements ValueSerialisable
+public final class NhsNumber extends AbstractCheckDigitNumber<NhsNumberExtractingCheckDigitCalculator> implements ValueSerialisable, Normalisable
 {
 	private static final int NhsNumberHasSeparators = 12;
 
 	@SuppressWarnings("FeatureEnvy")
 	@NotNull
-	public static NhsNumber valueOf(@NotNull final String digits)
+	public static NhsNumber valueOf(@NotNull @NonNls final String digits)
 	{
 		final Digits parsedDigits;
 
@@ -60,9 +62,16 @@ public final class NhsNumber extends AbstractCheckDigitNumber<NhsNumberExtractin
 	}
 
 	@NotNull
-	public CharSequence toDigitsString()
+	@Override
+	public String normalised()
 	{
 		return digits.toString();
+	}
+
+	@NotNull
+	public CharSequence toDigitsString()
+	{
+		return normalised();
 	}
 
 	@SuppressWarnings("MagicCharacter")
