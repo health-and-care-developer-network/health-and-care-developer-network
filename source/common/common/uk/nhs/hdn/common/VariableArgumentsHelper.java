@@ -34,6 +34,12 @@ public final class VariableArgumentsHelper
 		return values;
 	}
 
+	@NotNull
+	public static char[] of(@NonNls @NotNull final char... values)
+	{
+		return values;
+	}
+
 	@SafeVarargs
 	@NotNull
 	public static <E> E[] copyOf(@NotNull final E... values)

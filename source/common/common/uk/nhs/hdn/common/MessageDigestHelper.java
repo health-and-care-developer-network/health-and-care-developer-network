@@ -80,6 +80,14 @@ public enum MessageDigestHelper implements ActualName
 
 	@SuppressWarnings("MethodCanBeVariableArityMethod")
 	@NotNull
+	public byte[] digest(@NotNull final byte[] values)
+	{
+		@SuppressWarnings("LocalVariableHidesMemberVariable") final MessageDigest messageDigest = messageDigest();
+		return messageDigest.digest(values);
+	}
+
+	@SuppressWarnings("MethodCanBeVariableArityMethod")
+	@NotNull
 	public byte[] saltAndValueDigest(@NotNull final byte[] salt, @NotNull final byte[] values)
 	{
 		@SuppressWarnings("LocalVariableHidesMemberVariable") final MessageDigest messageDigest = messageDigest();
