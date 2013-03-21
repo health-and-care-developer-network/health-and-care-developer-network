@@ -94,6 +94,8 @@ function exportVariablesForHdnTemplate()
 	
 	export HDN_FIREWALL_IPV4_PORTSCAN_WHITELIST="10.0.0.0/8,194.176.0.0/16"
 	export HDN_FIREWALL_IPV6_PORTSCAN_WHITELIST="::1"
+	
+	export HDN_FIREWALL_IPV4_NETWORK="10.0.0.0/8"
 }
 
 function executeCommandOnWith()
