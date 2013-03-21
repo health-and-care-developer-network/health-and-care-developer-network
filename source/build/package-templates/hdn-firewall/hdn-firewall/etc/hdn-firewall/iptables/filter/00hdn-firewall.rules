@@ -86,8 +86,8 @@
 
 # Azure DHCP configuration
 
---append INPUT ! --in-interface lo --source ${HDN_FIREWALL_IPV4_NETWORK} --protocol udp --source-port 67 --destination-port 68
---append OUTPUT ! --in-interface lo --destination ${HDN_FIREWALL_IPV4_NETWORK},255.255.255.255 --protocol udp --source-port 67 --destination-port 68
+--append INPUT ! --in-interface lo --source ${HDN_FIREWALL_IPV4_NETWORK} --protocol udp --source-port 67 --destination-port 68 --jump ACCEPT
+--append OUTPUT ! --out-interface lo --destination ${HDN_FIREWALL_IPV4_NETWORK},255.255.255.255 --protocol udp --source-port 67 --destination-port 68 --jump ACCEPT
 
 
 
