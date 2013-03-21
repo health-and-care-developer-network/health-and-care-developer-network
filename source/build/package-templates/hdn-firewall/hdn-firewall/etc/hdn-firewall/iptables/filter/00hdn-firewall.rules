@@ -25,10 +25,7 @@
 --append DropPortscanWhitelist --jump LOG --log-prefix "iptables_PortscanWhitelist " --log-level notice --log-ip-options --log-tcp-options --log-uid
 --append DropPortscanWhitelist --jump DROP
 --new-chain LogAndDropPortscan
---append LogAndDropPortscan ! --in-interface lo --source 10.0.0.0/8      --jump DropPortscanWhitelist
---append LogAndDropPortscan ! --in-interface lo --source 195.20.214.0/24 --jump DropPortscanWhitelist
---append LogAndDropPortscan ! --in-interface lo --source 195.20.215.0/24 --jump DropPortscanWhitelist
---append LogAndDropPortscan ! --in-interface lo --source 94.193.215.144  --jump DropPortscanWhitelist
+--append LogAndDropPortscan ! --in-interface lo --source ${HDN_FIREWALL_IPV4_PORTSCAN_WHITELIST} --jump DropPortscanWhitelist
 --append LogAndDropPortscan --jump LOG --log-prefix "iptables_Portscan " --log-level warning --log-ip-options --log-tcp-options --log-uid
 --append LogAndDropPortscan --jump DROP
 
@@ -67,9 +64,9 @@
 
 # No restrictions on loopback interface for 127.0.0.0/8 addresses or assigned addresses
 --append INPUT  --in-interface lo  --source 127.0.0.0/8                  --destination 127.0.0.0/8                  --jump ACCEPT
---append INPUT  --in-interface lo  --source ${HDN_FIREWALL_hostname} --destination ${HDN_FIREWALL_hostname} --jump ACCEPT
+--append INPUT  --in-interface lo  --source ${HDN_FIREWALL_HOSTNAMES_AND_IPV4_ADDRESSES} --destination ${HDN_FIREWALL_HOSTNAMES_AND_IPV4_ADDRESSES} --jump ACCEPT
 --append OUTPUT --out-interface lo --source 127.0.0.0/8                  --destination 127.0.0.0/8                  --jump ACCEPT
---append OUTPUT --out-interface lo --source ${HDN_FIREWALL_hostname} --destination ${HDN_FIREWALL_hostname} --jump ACCEPT
+--append OUTPUT --out-interface lo --source ${HDN_FIREWALL_HOSTNAMES_AND_IPV4_ADDRESSES} --destination ${HDN_FIREWALL_HOSTNAMES_AND_IPV4_ADDRESSES} --jump ACCEPT
 
 # Other loopback addresses destroyed
 --new-chain LogAndDropStrangeLoopback
@@ -80,19 +77,31 @@
 
 
 
+# DHCP and Multicast DNS exceptions to spoofing.
+
+# Multicast DNS
+--append INPUT ! --in-interface lo --match iprange --source ${HDN_FIREWALL_HOSTNAMES_AND_IPV4_ADDRESSES}          --dst-range 224.0.0.1-224.0.0.255 --jump ACCEPT
+--append INPUT ! --in-interface lo --match iprange --source ${HDN_FIREWALL_HOSTNAMES_AND_IPV4_ADDRESSES}          --dst-range 224.0.1.1-224.0.1.255 --jump ACCEPT
+
+
+# Azure DHCP configuration
+
+--append INPUT ! --in-interface lo --source ${HDN_FIREWALL_IPV4_NETWORK} --protocol udp --source-port 67 --destination-port 68 --jump ACCEPT
+--append OUTPUT ! --out-interface lo --destination ${HDN_FIREWALL_IPV4_NETWORK},255.255.255.255 --protocol udp --source-port 67 --destination-port 68 --jump ACCEPT
+
+
+
 # Spoofing
 
-# All Private Address Ranges except 10.0.0.0/8, 192.168.1.0/24 and 192.168.10.0/24 are spoofed. (Refer RFC5735 http://tools.ietf.org/html/rfc5735)
+# All Private Address Ranges except ${HDN_FIREWALL_IPV4_NETWORK} are spoofed. (Refer RFC5735 http://tools.ietf.org/html/rfc5735)
 --new-chain LogAndDropSpoofedSourceIp
 --append LogAndDropSpoofedSourceIp --jump LOG --log-prefix "iptables_SpoofedSourceIp " --log-level warning --log-ip-options --log-tcp-options --log-uid
 --append LogAndDropSpoofedSourceIp --jump DROP
 
-# Multicast exceptions to spoofing
---append INPUT ! --in-interface lo --match iprange --source ${HDN_FIREWALL_hostname}          --dst-range 224.0.0.1-224.0.0.255 --jump ACCEPT
---append INPUT ! --in-interface lo --match iprange --source ${HDN_FIREWALL_hostname}          --dst-range 224.0.1.1-224.0.1.255 --jump ACCEPT
 
 # Private range spoofing
 --append INPUT ! --in-interface lo --source 0.0.0.0/8                                       ! --destination 255.255.255.255 --jump LogAndDropSpoofedSourceIp
+--append INPUT ! --in-interface lo --source 10.0.0.0/8                                      ! --destination 255.255.255.255 --jump LogAndDropSpoofedSourceIp
 --append INPUT ! --in-interface lo --source 127.0.0.0/8                                     ! --destination 255.255.255.255 --jump LogAndDropSpoofedSourceIp
 --append INPUT ! --in-interface lo --source 169.254.0.0/16                                  ! --destination 255.255.255.255 --jump LogAndDropSpoofedSourceIp
 --append INPUT ! --in-interface lo --source 172.16.0.0/12                                   ! --destination 255.255.255.255 --jump LogAndDropSpoofedSourceIp
@@ -111,12 +120,8 @@
 
 
 # Private address ranges 10.0.0.0/8, 192.168.1.0/24 and 192.168.10.0/24 are banned when mismatched, viz:-
---append INPUT ! --in-interface lo --source 10.0.0.0/8      ! --destination 10.0.0.0/8      --jump LogAndDropSpoofedSourceIp
---append INPUT ! --in-interface lo --source 192.168.1.0/24  ! --destination 192.168.1.0/24  --jump LogAndDropSpoofedSourceIp
---append INPUT ! --in-interface lo --source 192.168.10.0/24 ! --destination 192.168.10.0/24 --jump LogAndDropSpoofedSourceIp
+--append INPUT ! --in-interface lo --source ${HDN_FIREWALL_IPV4_NETWORK}      ! --destination ${HDN_FIREWALL_IPV4_NETWORK}      --jump LogAndDropSpoofedSourceIp
 
-# 224.0.0.251   udp on 5353  - mulitcast DNS    - ipv6 is FF02::FB
-# mac address 01:00:5E:00:00:FB
 
 
 # Bad Destination
@@ -146,52 +151,44 @@
 # ICMP: Review  http://securityvulns.com/Jdocument154.html  and  http://www.cisco.com/warp/public/707/cisco-sa-20050412-icmp.shtml
 
 # Allow inbound ICMP Echo Request (Ping) and outbound ICMP Echo Reply (Ping) (but not associated error replies)
---append INPUT  ! --in-interface lo  --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type echo-request --match state --state NEW         --jump ACCEPT
---append OUTPUT ! --out-interface lo --source ${HDN_FIREWALL_hostname}      --protocol icmp --icmp-type echo-reply   --match state --state ESTABLISHED --jump ACCEPT
+--append INPUT  ! --in-interface lo  --destination ${HDN_FIREWALL_HOSTNAMES_AND_IPV4_ADDRESSES} --protocol icmp --icmp-type echo-request --match state --state NEW         --jump ACCEPT
+--append OUTPUT ! --out-interface lo --source ${HDN_FIREWALL_HOSTNAMES_AND_IPV4_ADDRESSES}      --protocol icmp --icmp-type echo-reply   --match state --state ESTABLISHED --jump ACCEPT
 
 # Allow outbound ICMP Echo Request (Ping) to our network and Google DNS
---append OUTPUT ! --out-interface lo --source ${HDN_FIREWALL_hostname} --destination 8.8.8.8         --protocol icmp --icmp-type echo-request --match state --state NEW --jump ACCEPT
---append OUTPUT ! --out-interface lo --source ${HDN_FIREWALL_hostname} --destination 8.8.4.4         --protocol icmp --icmp-type echo-request --match state --state NEW --jump ACCEPT
---append OUTPUT ! --out-interface lo --source ${HDN_FIREWALL_hostname} --destination 10.0.0.0/8      --protocol icmp --icmp-type echo-request --match state --state NEW --jump ACCEPT
---append OUTPUT ! --out-interface lo --source ${HDN_FIREWALL_hostname} --destination 195.20.214.0/24 --protocol icmp --icmp-type echo-request --match state --state NEW --jump ACCEPT
---append OUTPUT ! --out-interface lo --source ${HDN_FIREWALL_hostname} --destination 195.20.215.0/24 --protocol icmp --icmp-type echo-request --match state --state NEW --jump ACCEPT
+--append OUTPUT ! --out-interface lo --source ${HDN_FIREWALL_HOSTNAMES_AND_IPV4_ADDRESSES} --destination 8.8.8.8         --protocol icmp --icmp-type echo-request --match state --state NEW --jump ACCEPT
+--append OUTPUT ! --out-interface lo --source ${HDN_FIREWALL_HOSTNAMES_AND_IPV4_ADDRESSES} --destination 8.8.4.4         --protocol icmp --icmp-type echo-request --match state --state NEW --jump ACCEPT
+--append OUTPUT ! --out-interface lo --source ${HDN_FIREWALL_HOSTNAMES_AND_IPV4_ADDRESSES} --destination ${HDN_FIREWALL_IPV4_NETWORK}      --protocol icmp --icmp-type echo-request --match state --state NEW --jump ACCEPT
 
 # Allow inbound ICMP Echo Reply (Ping) and associated error replies from our network and Google DNS
---append INPUT ! --in-interface lo --source 8.8.8.8         --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type echo-reply              --match state --state ESTABLISHED --jump ACCEPT
---append INPUT ! --in-interface lo --source 8.8.4.4         --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type echo-reply              --match state --state ESTABLISHED --jump ACCEPT
---append INPUT ! --in-interface lo --source 10.0.0.0/8      --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type echo-reply              --match state --state ESTABLISHED --jump ACCEPT
---append INPUT ! --in-interface lo --source 195.20.214.0/24 --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type echo-reply              --match state --state ESTABLISHED --jump ACCEPT
---append INPUT ! --in-interface lo --source 195.20.215.0/24 --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type echo-reply              --match state --state ESTABLISHED --jump ACCEPT
---append INPUT ! --in-interface lo --source 8.8.8.8         --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type destination-unreachable --match state --state ESTABLISHED --jump ACCEPT
---append INPUT ! --in-interface lo --source 8.8.4.4         --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type destination-unreachable --match state --state ESTABLISHED --jump ACCEPT
---append INPUT ! --in-interface lo --source 10.0.0.0/8      --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type destination-unreachable --match state --state ESTABLISHED --jump ACCEPT
---append INPUT ! --in-interface lo --source 195.20.214.0/24 --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type destination-unreachable --match state --state ESTABLISHED --jump ACCEPT
---append INPUT ! --in-interface lo --source 195.20.215.0/24 --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type destination-unreachable --match state --state ESTABLISHED --jump ACCEPT
---append INPUT ! --in-interface lo --source 8.8.8.8         --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type ttl-zero-during-transit --match state --state ESTABLISHED --jump ACCEPT
---append INPUT ! --in-interface lo --source 8.8.4.4         --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type ttl-zero-during-transit --match state --state ESTABLISHED --jump ACCEPT
---append INPUT ! --in-interface lo --source 10.0.0.0/8      --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type ttl-zero-during-transit --match state --state ESTABLISHED --jump ACCEPT
---append INPUT ! --in-interface lo --source 195.20.214.0/24 --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type ttl-zero-during-transit --match state --state ESTABLISHED --jump ACCEPT
---append INPUT ! --in-interface lo --source 195.20.215.0/24 --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type ttl-zero-during-transit --match state --state ESTABLISHED --jump ACCEPT
+--append INPUT ! --in-interface lo --source 8.8.8.8         --destination ${HDN_FIREWALL_HOSTNAMES_AND_IPV4_ADDRESSES} --protocol icmp --icmp-type echo-reply              --match state --state ESTABLISHED --jump ACCEPT
+--append INPUT ! --in-interface lo --source 8.8.4.4         --destination ${HDN_FIREWALL_HOSTNAMES_AND_IPV4_ADDRESSES} --protocol icmp --icmp-type echo-reply              --match state --state ESTABLISHED --jump ACCEPT
+--append INPUT ! --in-interface lo --source ${HDN_FIREWALL_IPV4_NETWORK}      --destination ${HDN_FIREWALL_HOSTNAMES_AND_IPV4_ADDRESSES} --protocol icmp --icmp-type echo-reply              --match state --state ESTABLISHED --jump ACCEPT
+--append INPUT ! --in-interface lo --source 8.8.8.8         --destination ${HDN_FIREWALL_HOSTNAMES_AND_IPV4_ADDRESSES} --protocol icmp --icmp-type destination-unreachable --match state --state ESTABLISHED --jump ACCEPT
+--append INPUT ! --in-interface lo --source 8.8.4.4         --destination ${HDN_FIREWALL_HOSTNAMES_AND_IPV4_ADDRESSES} --protocol icmp --icmp-type destination-unreachable --match state --state ESTABLISHED --jump ACCEPT
+--append INPUT ! --in-interface lo --source ${HDN_FIREWALL_IPV4_NETWORK}      --destination ${HDN_FIREWALL_HOSTNAMES_AND_IPV4_ADDRESSES} --protocol icmp --icmp-type destination-unreachable --match state --state ESTABLISHED --jump ACCEPT
+--append INPUT ! --in-interface lo --source 8.8.8.8         --destination ${HDN_FIREWALL_HOSTNAMES_AND_IPV4_ADDRESSES} --protocol icmp --icmp-type ttl-zero-during-transit --match state --state ESTABLISHED --jump ACCEPT
+--append INPUT ! --in-interface lo --source 8.8.4.4         --destination ${HDN_FIREWALL_HOSTNAMES_AND_IPV4_ADDRESSES} --protocol icmp --icmp-type ttl-zero-during-transit --match state --state ESTABLISHED --jump ACCEPT
+--append INPUT ! --in-interface lo --source ${HDN_FIREWALL_IPV4_NETWORK}      --destination ${HDN_FIREWALL_HOSTNAMES_AND_IPV4_ADDRESSES} --protocol icmp --icmp-type ttl-zero-during-transit --match state --state ESTABLISHED --jump ACCEPT
 
 # Allow specific inbound ICMP Destination Unreachable (Type 3) for outgoing connections
 # Especially Don't Fragment (DF, Code 4), which is used for Path MTU discovery (PMTUD)
 # Note: Port unreachable should only be for UDP, not TCP
---append INPUT ! --in-interface lo --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type fragmentation-needed --match state --state RELATED --jump ACCEPT
---append INPUT ! --in-interface lo --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type network-unreachable  --match state --state RELATED --jump ACCEPT
---append INPUT ! --in-interface lo --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type host-unreachable     --match state --state RELATED --jump ACCEPT
---append INPUT ! --in-interface lo --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type port-unreachable     --match state --state RELATED --jump ACCEPT
+--append INPUT ! --in-interface lo --destination ${HDN_FIREWALL_HOSTNAMES_AND_IPV4_ADDRESSES} --protocol icmp --icmp-type fragmentation-needed --match state --state RELATED --jump ACCEPT
+--append INPUT ! --in-interface lo --destination ${HDN_FIREWALL_HOSTNAMES_AND_IPV4_ADDRESSES} --protocol icmp --icmp-type network-unreachable  --match state --state RELATED --jump ACCEPT
+--append INPUT ! --in-interface lo --destination ${HDN_FIREWALL_HOSTNAMES_AND_IPV4_ADDRESSES} --protocol icmp --icmp-type host-unreachable     --match state --state RELATED --jump ACCEPT
+--append INPUT ! --in-interface lo --destination ${HDN_FIREWALL_HOSTNAMES_AND_IPV4_ADDRESSES} --protocol icmp --icmp-type port-unreachable     --match state --state RELATED --jump ACCEPT
 
 # Unusual ICMP Destination Unreachable replies to outgoing connections are logged but permitted
 --new-chain LogAndAcceptOddIcmp
 --append LogAndAcceptOddIcmp --jump LOG --log-prefix "iptables_OddIcmpDestination " --log-level notice --log-ip-options --log-tcp-options --log-uid
 --append LogAndAcceptOddIcmp --jump ACCEPT
---append INPUT ! --in-interface lo --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type destination-unreachable --match state --state RELATED --jump LogAndAcceptOddIcmp
+--append INPUT ! --in-interface lo --destination ${HDN_FIREWALL_HOSTNAMES_AND_IPV4_ADDRESSES} --protocol icmp --icmp-type destination-unreachable --match state --state RELATED --jump LogAndAcceptOddIcmp
 
 # Allow inbound ICMP ttl-zero-during-transit and ttl-zero-during-reassembly for initiated connections (so we can resend)
---append INPUT ! --in-interface lo --destination ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type time-exceeded --match state --state RELATED --jump ACCEPT
+--append INPUT ! --in-interface lo --destination ${HDN_FIREWALL_HOSTNAMES_AND_IPV4_ADDRESSES} --protocol icmp --icmp-type time-exceeded --match state --state RELATED --jump ACCEPT
 
 # Allow outbound ICMP fragment reassembly
---append OUTPUT ! --out-interface lo --source ${HDN_FIREWALL_hostname} --protocol icmp --icmp-type ttl-zero-during-reassembly --match state --state RELATED --jump ACCEPT
+--append OUTPUT ! --out-interface lo --source ${HDN_FIREWALL_HOSTNAMES_AND_IPV4_ADDRESSES} --protocol icmp --icmp-type ttl-zero-during-reassembly --match state --state RELATED --jump ACCEPT
 
 # Drop remaining ICMP
 --new-chain LogAndDropIcmpOther

@@ -1,0 +1,236 @@
+#!/bin/bash -
+
+# © Crown Copyright 2013
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Disable errors stopping the script
+set -e
+
+readonly ourName="$(basename "$0")"
+
+cd "$(dirname "$0")" 1>/dev/null
+readonly crudeOurPath="$(pwd)"
+cd - 1>/dev/null
+
+function exitHelp()
+{
+	cat 1>&2 <<-EOF
+		Usage: $ourName -h
+		Usage: $ourName --help
+		Usage: $ourName <command>
+	
+		Options
+		<command>
+		    on               resets the firewall as if for off
+		                     then re-reads all iptables & iptables6 rules and sets the
+		                     state of the firewall. Existing connections are preserved
+		                     only if the firewall configuration explicitly does so.
+		
+		    dry-run          outputs what on would set firewall rules to, suitable for use
+		                     with iptables-restore and ip6tables-restore
+		
+		    interactive      pauses for upto 5s and expects user input to apply rules on,
+		                     otherwise reverts to off. Will pause once for iptables and
+		                     once for ip6tables.
+		
+		    off              resets the firewall to ACCEPT for all tables and chains.
+		
+		    status           status of firewall
+		
+	EOF
+	exit $1
+}
+
+function exitError()
+{
+	local -r error="$1"
+	echo "$ourName: $error" 1>&2
+	exitHelp 1
+}
+
+function parseCommandLine()
+{
+	if [ $# -eq 0 ]; then
+		exitError "Invalid options"
+	elif [ $# -eq 1 ]; then
+		if [ "$1" = "--help" ]; then
+			exitHelp 2
+		elif  [ "$1" = "-h" ]; then
+			exitHelp 2
+		else
+			readonly command="$1"
+		fi
+	fi
+}
+
+function guardSuperUserPrivileges()
+{
+	if [ $EUID != 0 ]; then
+		exec sudo -p "$ourName requires your password to run as root: " "$0" "$@"
+	fi
+}
+
+function setPaths()
+{
+	readonly setsFolderPath=/etc/hdn-ipset/sets
+}
+
+function sourceDefault()
+{
+	if [ -r /etc/default/hdn-ipset ]; then
+		source /etc/default/hdn-ipset
+	fi
+}
+
+function exportVariablesForHdnTemplate()
+{
+	:
+}
+
+function allInMemoryIpSetsSorted()
+{
+	ipset list | grep '^Name: ' | cut -f2 -d' ' | sort
+}
+
+function allOnDiskIpSets()
+{
+	for setFilePreamble in "$setsFolderPath"/*.preamble
+	do
+		if [ ! -f "$setFilePreamble" ]; then
+			continue;
+		fi
+		
+		local setName="$(basename "$setFilePreamble" .preamble)"
+		
+		echo "$setName"
+	done
+}
+
+function allOnDiskIpSetsSorted()
+{
+	allOnDiskIpSets | sort
+}
+
+function allIpSetsInMemoryToDelete()
+{
+	join -v 1 <(allInMemoryIpSetsSorted) <(allOnDiskIpSetsSorted)
+}
+
+function deleteAllIpSetsInMemoryButNotOnDisk()
+{
+	ipset flush
+	
+	IFS= while read ipsetName
+	do
+		ipset delete "$ipsetName"
+	done <(allIpSetsInMemoryToDelete)
+
+function generateRestoreFile()
+{
+	local -r setFilePreamble1="$1"
+	
+	local -r setName="$(basename "$setFilePreamble" .preamble)"
+	local -r setFolderPath="$setsFolderPath"/"$setName"
+	
+	cat "$setFilePreamble1"
+	printf "\n"
+	
+	if [ ! -d "$setFolderPath" ]; then
+		return 0
+	fi
+	
+	for setFragment in $(run-parts --lsbsysinit --list --regex '.*\.entries' -- "$setsFolderPath"/"$tableName")
+	do
+		if [ ! -r "$setFragment" ]; then
+			continue
+		fi
+		
+		printf "\n# ${setFragment}\n"
+		cat "$setFragment"
+		printf "\n"
+	done
+}
+
+function restoreIpsets()
+{
+	local -r ipsetCommand="$1"
+	for setFilePreamble in "$setsFolderPath"/*.preamble
+	do
+		if [ ! -f "$setFilePreamble" ]; then
+			continue;
+		fi
+		
+		generateRestoreFile "$setFilePreamble" | $ipsetCommand
+	done
+}
+
+function restoreIpsetsForReal()
+{
+	restoreIpsets "ipset restore"
+}
+
+function restoreIpsetsDryRun()
+{
+	restoreIpsets "cat"
+}
+
+function execureCommandFlush()
+{
+	ipset flush
+}
+
+function executeCommandStatus()
+{
+	ipset list
+}
+
+function executeCommand()
+{
+	case "$command" in
+		
+		on)
+			deleteAllIpSetsInMemoryButNotOnDisk
+			restoreIpsetsForReal
+		;;
+		
+		dry-run)
+			restoreIpsetsDryRun
+		;;
+		
+		off)
+			executeCommandFlush
+		;;
+		
+		status)
+			executeCommandStatus
+		;;
+		
+		*)
+			exitError "Unrecognised command $command"
+		;;
+		
+	esac
+}
+
+function main()
+{
+	parseCommandLine "$@"
+	guardSuperUserPrivileges "$@"
+	setPaths
+	sourceDefault
+	exportVariablesForHdnTemplate
+	executeCommand
+}
+
+main "$@"
