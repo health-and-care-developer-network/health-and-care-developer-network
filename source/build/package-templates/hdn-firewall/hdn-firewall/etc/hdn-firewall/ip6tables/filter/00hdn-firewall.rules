@@ -16,10 +16,7 @@
 --append DropPortscanWhitelist --jump LOG --log-prefix "iptables_PortscanWhitelist " --log-level notice --log-ip-options --log-tcp-options --log-uid
 --append DropPortscanWhitelist --jump DROP
 --new-chain LogAndDropPortscan
-#--append LogAndDropPortscan ! --in-interface lo --source 10.0.0.0/8      --jump DropPortscanWhitelist
-#--append LogAndDropPortscan ! --in-interface lo --source 195.20.214.0/24 --jump DropPortscanWhitelist
-#--append LogAndDropPortscan ! --in-interface lo --source 195.20.215.0/24 --jump DropPortscanWhitelist
-#--append LogAndDropPortscan ! --in-interface lo --source 94.193.215.144  --jump DropPortscanWhitelist
+--append LogAndDropPortscan ! --in-interface lo --source ${HDN_FIREWALL_IPV6_PORTSCAN_WHITELIST}      --jump DropPortscanWhitelist
 --append LogAndDropPortscan --jump LOG --log-prefix "iptables_Portscan " --log-level warning --log-ip-options --log-tcp-options --log-uid
 --append LogAndDropPortscan --jump DROP
 
@@ -60,9 +57,9 @@
 
 # No restrictions on loopback interface for 127.0.0.0/8 addresses or assigned addresses
 --append INPUT --in-interface lo --source ::1                          --destination ::1                          --jump ACCEPT
---append INPUT --in-interface lo --source ${HDN_FIREWALL_hostname} --destination ${HDN_FIREWALL_hostname} --jump ACCEPT
+--append INPUT --in-interface lo --source ${HDN_FIREWALL_HOSTNAMES_AND_IPV6_ADDRESSES} --destination ${HDN_FIREWALL_HOSTNAMES_AND_IPV6_ADDRESSES} --jump ACCEPT
 --append OUTPUT --out-interface lo --source ::1                        --destination ::1                            --jump ACCEPT
---append OUTPUT --out-interface lo --source ${HDN_FIREWALL_hostname} --destination ${HDN_FIREWALL_hostname} --jump ACCEPT
+--append OUTPUT --out-interface lo --source ${HDN_FIREWALL_HOSTNAMES_AND_IPV6_ADDRESSES} --destination ${HDN_FIREWALL_HOSTNAMES_AND_IPV6_ADDRESSES} --jump ACCEPT
 
 # Other loopback addresses destroyed
 --new-chain LogAndDropStrangeLoopback
@@ -80,9 +77,9 @@
 --append LogAndDropSpoofedSourceIp --jump DROP
 #--append INPUT ! --in-interface lo --source 0.0.0.0/8 --destination 255.255.255.255 --jump ACCEPT
 
---append INPUT ! --in-interface lo --match iprange --source ${HDN_FIREWALL_hostname}          --dst-range 224.0.0.1-224.0.0.255 --jump ACCEPT
---append INPUT ! --in-interface lo --match iprange --source ${HDN_FIREWALL_hostname}          --dst-range 224.0.1.1-224.0.1.255 --jump ACCEPT
---append INPUT ! --in-interface lo --source ${HDN_FIREWALL_hostname}                    --jump LogAndDropSpoofedSourceIp
+--append INPUT ! --in-interface lo --match iprange --source ${HDN_FIREWALL_HOSTNAMES_AND_IPV6_ADDRESSES}          --dst-range 224.0.0.1-224.0.0.255 --jump ACCEPT
+--append INPUT ! --in-interface lo --match iprange --source ${HDN_FIREWALL_HOSTNAMES_AND_IPV6_ADDRESSES}          --dst-range 224.0.1.1-224.0.1.255 --jump ACCEPT
+--append INPUT ! --in-interface lo --source ${HDN_FIREWALL_HOSTNAMES_AND_IPV6_ADDRESSES}                    --jump LogAndDropSpoofedSourceIp
 #--append INPUT ! --in-interface lo --source 0.0.0.0/8                                       --jump LogAndDropSpoofedSourceIp
 #--append INPUT ! --in-interface lo --source 127.0.0.0/8                                     --jump LogAndDropSpoofedSourceIp
 #--append INPUT ! --in-interface lo --source 169.254.0.0/16                                  --jump LogAndDropSpoofedSourceIp

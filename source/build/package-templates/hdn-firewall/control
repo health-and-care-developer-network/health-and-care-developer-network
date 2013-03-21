@@ -10,7 +10,7 @@ Standards-Version: 3.8.4.0
 Package: hdn-firewall
 Architecture: all
 Depends: iptables, upstart, hdn-template, hdn-sysctl, hdn-ssh-server, hdn-logging, ${misc:Depends}
-Pre-Depends: hdn-apt, dpkg (>= 1.15.6~)
+Pre-Depends: hdn-apt, dpkg (>= 1.15.6~), hdn-nss
 Homepage: http://hdn.nhs.uk/
 Description: HDN firewall
  This script provides firewall scripts.
@@ -20,3 +20,7 @@ Description: HDN firewall
  .
  The dependency on upstart wraps dependencies on initscripts,
  debianutils (run-parts), lsb-base and ifupdown.
+ .
+ hdn-nss is a pre-dependency to ensure the current hostname
+ is always resolvable, as is the current gateway
+ (using /etc/nsswitch.conf).

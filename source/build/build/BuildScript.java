@@ -182,6 +182,8 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		debianPackagesPackageTask("hdn-ssh-server", "generate changelog template");
 
+		debianPackagesPackageTask("hdn-nss", "generate changelog template");
+
 		task("packages").dependsOn(debianPackagesPackageTasks).does
 		(
 			execute(source("build", "build").file("create-insecure-apt-repository")).inWorkingDirectory(output()).forUpTo(OneHour).withInheritedEnvironmentVariables().withArguments("packages"),
