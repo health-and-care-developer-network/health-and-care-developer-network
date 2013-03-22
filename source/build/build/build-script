@@ -73,10 +73,11 @@ function correctForJenkins()
 	
 	readonly osName="$(uname)"
 	
-	readonly USING_JENKINS
-	if [ -z "$JENKINS_SERVER_COOKIE" ];
+	if [ -z "$JENKINS_SERVER_COOKIE" ]; then
 		export USING_JENKINS=n
 	else
+		export USING_JENKINS=y
+		
 		if [ "$osName" = "Linux" ]; then
 			readonly ubuntuCodename="$(lsb_release -c | awk '{ORS=""; print $2}')"
 			if [ "$ubuntuCodename" = "precise" ]; then
@@ -90,8 +91,6 @@ function correctForJenkins()
 		else
 			exitError "Running under Jenkins only supported on Ubuntu 12.04 Linux, not $osName"
 		fi
-		
-		export USING_JENKINS=y
 	fi
 }
 
