@@ -82,8 +82,7 @@ function correctForJenkins()
 			readonly ubuntuCodename="$(lsb_release -c | awk '{ORS=""; print $2}')"
 			if [ "$ubuntuCodename" = "precise" ]; then
 				unset LD_LIBRARY_PATH
-				#LD_LIBRARY_PATH=/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/server:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64:/usr/lib/jvm/java-7-openjdk-amd64/jre/../lib/amd64:/usr/lib/jvm/java-6-openjdk-amd64/jre/lib/amd64/server:/usr/lib/jvm/java-6-openjdk-amd64/jre/lib/amd64:/usr/lib/jvm/java-6-openjdk-amd64/jre/../lib/amd64
-				export LD_LIBRARY_PATH=/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/server:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64
+				#export LD_LIBRARY_PATH=/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/server:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64
 				export PATH=/usr/lib/jvm/java-7-openjdk-amd64/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games
 			else
 				exitError "Running under Jenkins only supported on Ubuntu 12.04 Linux, not $ubuntuCodename Linux"
@@ -92,6 +91,9 @@ function correctForJenkins()
 			exitError "Running under Jenkins only supported on Ubuntu 12.04 Linux, not $osName"
 		fi
 	fi
+	
+	# Output the current environment to any logging - useful for fixing Jenkins problems
+	env
 }
 
 function changeToRoot()
