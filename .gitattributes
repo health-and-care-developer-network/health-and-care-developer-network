@@ -1,6 +1,7 @@
 *         -text
 
-*.java    text eol=lf diff=java
+*.java    -text diff=java
+*.html    -text diff=html
 
 *.jar     binary
 *.war     binary
@@ -28,23 +29,12 @@
 *.deb     binary
 *.rpm     binary
 
-*.html    text diff=html
-*.css     text
-*.js      text
-
-*.txt     text
-*.sql     text
-*.xml     text
-
-*.cs      text diff=csharp eol=crlf
-*.csproj  text merge=union eol=crlf
-*.sln     text merge=union eol=crlf
-*.docx    diff=astextplain
-*.xaml    text
-*.tt      text
-*.ps1     text
+*.cs      text eol=crlf diff=csharp
+*.csproj  text eol=crlf merge=union
+*.sln     text eol=crlf merge=union
+*.docx    text eol=crlf diff=astextplain
+*.xaml    text eol=crlf
 *.cmd     text eol=crlf
 *.msbuild text eol=crlf
-*.md      text eol=crlf
 *.cmd     text eol=crlf
 *.bat     text eol=crlf
