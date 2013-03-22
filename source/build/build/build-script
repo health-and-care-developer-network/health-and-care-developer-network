@@ -68,13 +68,13 @@ function setPaths()
 
 function correctForJenkins()
 {
-	# Output to logs the current environment
+	# Output the current environment to any logging - useful for fixing Jenkins problems
 	env
 	
 	readonly osName="$(uname)"
 	
 	readonly USING_JENKINS
-	if [ -z $JENKINS_SERVER_COOKIE ];
+	if [ -z "$JENKINS_SERVER_COOKIE" ];
 		export USING_JENKINS=n
 	else
 		if [ "$osName" = "Linux" ]; then
