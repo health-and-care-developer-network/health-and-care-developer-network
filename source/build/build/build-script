@@ -41,9 +41,12 @@ function exitError()
 
 function setPaths()
 {
-	readonly sourcePath="$crudeOurPath"/../..
-	readonly rootPath="$sourcePath"/..
+	cd "$crudeOurPath"/../../.. >/dev/null
+	readonly rootPath="$(pwd)"
+	cd - >/dev/null
+	
 	readonly libraryPath="$rootPath"/library
+	readonly sourcePath="$rootPath"/source
 }
 
 function parseCommandLine()
@@ -63,21 +66,21 @@ function parseCommandLine()
 	fi
 }
 
-function changeToSourceControlRoot()
+function changeToRoot()
 {
-	cd "$crudeOurPath" >/dev/null
+	cd "$rootPath" >/dev/null
 }
 
 function executeBuildScript()
 {
-	exec -a build java -server -d64 -Xms1024m -Xmx2048m -jar "$libraryPath"/orogeny/orogeny-with-dependencies.jar --script BuildScript.java --task "$taskName"
+	exec -a build java -server -d64 -Xms1024m -Xmx2048m -jar "$libraryPath"/orogeny/orogeny-with-dependencies.jar --script "$sourcePath"/build/build/BuildScript.java --task "$taskName"
 }
 
 function main()
 {
 	parseCommandLine "$@"
 	setPaths
-	changeToSourceControlRoot
+	changeToRoot
 	executeBuildScript
 }
 

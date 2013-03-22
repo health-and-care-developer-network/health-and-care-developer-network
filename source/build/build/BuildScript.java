@@ -39,8 +39,9 @@ import static com.softwarecraftsmen.orogeny.filing.findFileFilters.AbstractFindF
 import static com.softwarecraftsmen.orogeny.filing.findFileFilters.FileHasExtensionFindFilesFilter.fileHasExtension;
 import static java.lang.System.arraycopy;
 
+//@BaseDirectory("../../health-and-care-developer-network")
 @SuppressWarnings({"ClassWithoutPackageStatement", "HardCodedStringLiteral", "ClassNameSameAsAncestorName", "DuplicateStringLiteralInspection", "ZeroLengthArrayAllocation", "StringConcatenation"})
-@BaseDirectory("../../health-and-care-developer-network")
+@BaseDirectory("../../..")
 @UpperCaseEnvironmentVariableOnWindows("PATH")
 @TasksExecuteInParallel(true)
 public final class BuildScript extends AbstractIntelliJConvenientBuildScript
