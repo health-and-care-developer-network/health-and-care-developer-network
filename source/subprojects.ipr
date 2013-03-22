@@ -1807,7 +1807,6 @@
       </ANNOTATIONS>
       <CLASSES>
         <root url="jar://$PROJECT_DIR$/../library/orogeny/orogeny-without-dependencies.jar!/" />
-        <root url="jar://$PROJECT_DIR$/../library/orogeny/jna.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
