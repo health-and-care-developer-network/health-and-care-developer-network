@@ -39,16 +39,6 @@ function exitError()
 	exitHelp 1
 }
 
-function setPaths()
-{
-	cd "$crudeOurPath"/../../.. >/dev/null
-	readonly rootPath="$(pwd)"
-	cd - >/dev/null
-	
-	readonly libraryPath="$rootPath"/library
-	readonly sourcePath="$rootPath"/source
-}
-
 function parseCommandLine()
 {
 	if [ $# -eq 0 ]; then
@@ -66,6 +56,45 @@ function parseCommandLine()
 	fi
 }
 
+function setPaths()
+{
+	cd "$crudeOurPath"/../../.. >/dev/null
+	readonly rootPath="$(pwd)"
+	cd - >/dev/null
+	
+	readonly libraryPath="$rootPath"/library
+	readonly sourcePath="$rootPath"/source
+}
+
+function correctForJenkins()
+{
+	# Output to logs the current environment
+	env
+	
+	readonly osName="$(uname)"
+	
+	readonly USING_JENKINS
+	if [ -z $JENKINS_SERVER_COOKIE ];
+		export USING_JENKINS=n
+	else
+		if [ "$osName" = "Linux" ]; then
+			readonly ubuntuCodename="$(lsb_release -c | awk '{ORS=""; print $2}')"
+			if [ "$ubuntuCodename" = "precise" ]; then
+				unset LD_LIBRARY_PATH
+				#LD_LIBRARY_PATH=/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/server:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64:/usr/lib/jvm/java-7-openjdk-amd64/jre/../lib/amd64:/usr/lib/jvm/java-6-openjdk-amd64/jre/lib/amd64/server:/usr/lib/jvm/java-6-openjdk-amd64/jre/lib/amd64:/usr/lib/jvm/java-6-openjdk-amd64/jre/../lib/amd64
+				export LD_LIBRARY_PATH=/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/server:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64
+				export PATH=/usr/lib/jvm/java-7-openjdk-amd64/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games
+			else
+				exitError "Running under Jenkins only supported on Ubuntu 12.04 Linux, not $ubuntuCodename Linux"
+			fi
+		else
+			exitError "Running under Jenkins only supported on Ubuntu 12.04 Linux, not $osName"
+		fi
+		
+		export USING_JENKINS=y
+	fi
+}
+
 function changeToRoot()
 {
 	cd "$rootPath" >/dev/null
@@ -80,6 +109,7 @@ function main()
 {
 	parseCommandLine "$@"
 	setPaths
+	correctForJenkins
 	changeToRoot
 	executeBuildScript
 }
