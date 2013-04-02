@@ -119,6 +119,7 @@ function buildPackage()
 	cd "$packagePath" >/dev/null
 	DH_VERBOSE=1 GNUPGHOME="$packageGnupgHome" debuild --no-conf --rootcmd="fakeroot" \
 	-nc -D -b \
+	-k0xFFC9095B \
 	--lintian-opts --info --verbose --fail-on-warnings --checksums --display-info --pedantic
 	cd - >/dev/null
 }
