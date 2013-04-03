@@ -1,0 +1,10 @@
+<div class="breadcrumbs">
+	<div class="wrapper">
+		<?php if ( function_exists('yoast_breadcrumb') ) {
+            $breadcrumbs = yoast_breadcrumb( '<ul><li>', '</li></ul>', false );
+            $find = array('|', '<li> <span typeof="v:Breadcrumb"><strong class="breadcrumb_last" property="v:title">Forums</strong></span></span></li>', '<li> <span typeof="v:Breadcrumb"><a href="http://developer.nhs.uk/community-forums/" rel="v:url" property="v:title">Forums</a></span>  <span class="bc_arrow" aria-hidden="true" data-icon="&#x2a;"></span></li>', '<li> <span typeof="v:Breadcrumb"><a href="http://developer.nhs.uk/topics/" rel="v:url" property="v:title">Topics</a></span>  <span class="bc_arrow" aria-hidden="true" data-icon="&#x2a;"></span></li>');
+            $replace = array(' <span class="bc_arrow" aria-hidden="true" data-icon="&#x2a;"></span></li><li>', '<li> <span typeof="v:Breadcrumb"><a href="http://developer.nhs.uk/community/" rel="v:url" property="v:title">Community</a></span>  <span class="bc_arrow" aria-hidden="true" data-icon="*"></span></li> <li> <span typeof="v:Breadcrumb"><strong class="breadcrumb_last" property="v:title">Forums</strong></span></li>','<li> <span typeof="v:Breadcrumb"><a href="http://developer.nhs.uk/community/" rel="v:url" property="v:title">Community</a></span>  <span class="bc_arrow" aria-hidden="true" data-icon="*"></span></li><li> <span typeof="v:Breadcrumb"><a href="http://developer.nhs.uk/community-forums/" rel="v:url" property="v:title">Forums</a></span>  <span class="bc_arrow" aria-hidden="true" data-icon="&#x2a;"></span></li>', '<li> <span typeof="v:Breadcrumb"><a href="http://developer.nhs.uk/community/" rel="v:url" property="v:title">Community</a></span>  <span class="bc_arrow" aria-hidden="true" data-icon="*"></span></li><li> <span typeof="v:Breadcrumb"><a href="http://developer.nhs.uk/community-forums/" rel="v:url" property="v:title">Forums</a></span>  <span class="bc_arrow" aria-hidden="true" data-icon="&#x2a;"></span></li>' );
+            echo str_replace( $find, $replace, $breadcrumbs );
+        } ?>
+	</div><!--end wrapper-->
+</div><!--end breadcrumbs-->

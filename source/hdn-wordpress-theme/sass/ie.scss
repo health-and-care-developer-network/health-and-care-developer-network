@@ -1,0 +1,82 @@
+/* Welcome to Compass. Use this file to write IE specific override styles.
+ * Import this file using the following HTML or equivalent:
+ * <!--[if IE]>
+ *   <link href="/stylesheets/ie.css" media="screen, projection" rel="stylesheet" type="text/css" />
+ * <![endif]--> */
+
+.post-type-archive-library .page_title,
+.single-library .page_title
+{
+	hgroup{
+		background: url(img/css/library_header_icon.png) no-repeat;
+		background-position: left center;
+	}
+}
+
+.post-type-archive-downloads-data .page_title,
+.single-downloads-data .page_title
+{
+	hgroup{
+		background: url(img/css/download_header_icon.png) no-repeat;
+		background-position: left center;
+	}
+}
+
+.post-type-archive-testcentre .page_title,
+.single-testcentre .page_title
+{
+	hgroup{
+		background: url(img/css/test_header_icon.png) no-repeat;
+		background-position: left center;
+	}
+}
+
+.search-results .page_title{
+	hgroup{
+		background: url(img/css/search_header_icon.png) no-repeat;
+		background-position: left center;
+	}
+}
+
+.page-template-contributors-php .page_title{
+	hgroup{
+		background: url(img/css/contributor_header_icon.png) no-repeat;
+		background-position: left center;
+	}
+}
+
+
+.tax-learning-key-words .page_title,
+.tax-learning-categories .page_title,
+.post-type-archive-learn .page_title,
+.single-learn .page_title
+{
+	
+	hgroup{
+		background: url(img/css/learn_header_icon.png) no-repeat;
+		background-position: left center;
+	}
+}
+
+.tax-community-key-words .page_title,
+.tax-community-categories .page_title,
+.bbPress .page_title,
+.post-type-archive-community .page_title,
+.single-community .page_title
+{
+	
+	hgroup{
+		background: url(img/css/community_header_icon.png) no-repeat;
+		background-position: left center;
+	}
+}
+
+.bbPress .page_title hgroup.Market{
+	background: url(img/css/market_header_icon.png) no-repeat;
+	background-position: left center;
+}
+
+.beta_nav ul{
+	position: relative;
+	left: 210px;
+}

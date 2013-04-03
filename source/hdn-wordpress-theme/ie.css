@@ -1,0 +1,59 @@
+/* Welcome to Compass. Use this file to write IE specific override styles.
+ * Import this file using the following HTML or equivalent:
+ * <!--[if IE]>
+ *   <link href="/stylesheets/ie.css" media="screen, projection" rel="stylesheet" type="text/css" />
+ * <![endif]--> */
+/* line 10, sass/ie.scss */
+.post-type-archive-library .page_title hgroup,
+.single-library .page_title hgroup {
+  background: url(img/css/library_header_icon.png) no-repeat;
+  background-position: left center; }
+
+/* line 19, sass/ie.scss */
+.post-type-archive-downloads-data .page_title hgroup,
+.single-downloads-data .page_title hgroup {
+  background: url(img/css/download_header_icon.png) no-repeat;
+  background-position: left center; }
+
+/* line 28, sass/ie.scss */
+.post-type-archive-testcentre .page_title hgroup,
+.single-testcentre .page_title hgroup {
+  background: url(img/css/test_header_icon.png) no-repeat;
+  background-position: left center; }
+
+/* line 35, sass/ie.scss */
+.search-results .page_title hgroup {
+  background: url(img/css/search_header_icon.png) no-repeat;
+  background-position: left center; }
+
+/* line 42, sass/ie.scss */
+.page-template-contributors-php .page_title hgroup {
+  background: url(img/css/contributor_header_icon.png) no-repeat;
+  background-position: left center; }
+
+/* line 55, sass/ie.scss */
+.tax-learning-key-words .page_title hgroup,
+.tax-learning-categories .page_title hgroup,
+.post-type-archive-learn .page_title hgroup,
+.single-learn .page_title hgroup {
+  background: url(img/css/learn_header_icon.png) no-repeat;
+  background-position: left center; }
+
+/* line 68, sass/ie.scss */
+.tax-community-key-words .page_title hgroup,
+.tax-community-categories .page_title hgroup,
+.bbPress .page_title hgroup,
+.post-type-archive-community .page_title hgroup,
+.single-community .page_title hgroup {
+  background: url(img/css/community_header_icon.png) no-repeat;
+  background-position: left center; }
+
+/* line 74, sass/ie.scss */
+.bbPress .page_title hgroup.Market {
+  background: url(img/css/market_header_icon.png) no-repeat;
+  background-position: left center; }
+
+/* line 79, sass/ie.scss */
+.beta_nav ul {
+  position: relative;
+  left: 210px; }

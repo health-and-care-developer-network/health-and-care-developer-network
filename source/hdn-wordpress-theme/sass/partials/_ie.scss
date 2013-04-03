@@ -1,0 +1,47 @@
+.lt-ie8{
+	.wrapper{
+		width: 960px;
+	}
+
+	.beta_nav{
+		width: 550px;
+	}
+
+	.one_third{
+		width: 33.2%;
+		float: left;
+	}
+	
+	.nav_boxes{
+		a .nav_box{
+		margin: 0 14px 30px 14px;
+		}
+	}
+	a .nav_box{
+		h2{
+			margin-top: 24px;
+		}
+
+		.lg_icon{
+			display: none;
+		}
+		br{
+			display: none;
+		}
+	}
+
+	.tree_nav{
+		.parent .expand{
+			background: url(img/css/tree_arrows.jpg) no-repeat;
+		}
+	}
+}
+
+.lt-ie9{
+
+	a .nav_box{
+		.lg_icon{
+			line-height: 10px;
+		}
+	}
+}

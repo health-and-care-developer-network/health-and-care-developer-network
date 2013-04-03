@@ -1,0 +1,254 @@
+/*------------Colours---------*/
+/* line 18, sass/partials/_variables.scss */
+.breadcrumb_last {
+  color: #0072c6; }
+
+/* line 24, sass/partials/_variables.scss */
+.single-library .breadcrumb_last,
+.post-type-archive-library .breadcrumb_last {
+  color: #006b55; }
+/* line 28, sass/partials/_variables.scss */
+.single-library .two_thirds a, .single-library .two_thirds .current,
+.post-type-archive-library .two_thirds a,
+.post-type-archive-library .two_thirds .current {
+  color: #006b55; }
+/* line 34, sass/partials/_variables.scss */
+.single-library .content_wrap h2, .single-library .content_wrap h4, .single-library .content_wrap a,
+.post-type-archive-library .content_wrap h2,
+.post-type-archive-library .content_wrap h4,
+.post-type-archive-library .content_wrap a {
+  color: #006b55; }
+/* line 39, sass/partials/_variables.scss */
+.single-library ul.share_btns,
+.post-type-archive-library ul.share_btns {
+  border-left: 2px solid #006b55 !important; }
+
+/* line 46, sass/partials/_variables.scss */
+.single-downloads-data .breadcrumb_last,
+.post-type-archive-downloads-data .breadcrumb_last {
+  color: #931638; }
+/* line 50, sass/partials/_variables.scss */
+.single-downloads-data .two_thirds a, .single-downloads-data .two_thirds .current,
+.post-type-archive-downloads-data .two_thirds a,
+.post-type-archive-downloads-data .two_thirds .current {
+  color: #931638; }
+/* line 56, sass/partials/_variables.scss */
+.single-downloads-data .content_wrap h2, .single-downloads-data .content_wrap h4, .single-downloads-data .content_wrap a,
+.post-type-archive-downloads-data .content_wrap h2,
+.post-type-archive-downloads-data .content_wrap h4,
+.post-type-archive-downloads-data .content_wrap a {
+  color: #931638; }
+/* line 61, sass/partials/_variables.scss */
+.single-downloads-data ul.share_btns,
+.post-type-archive-downloads-data ul.share_btns {
+  border-left: 2px solid #931638 !important; }
+
+/* line 68, sass/partials/_variables.scss */
+.single-testcentre .breadcrumb_last,
+.post-type-archive-testcentre .breadcrumb_last {
+  color: #56008c; }
+/* line 72, sass/partials/_variables.scss */
+.single-testcentre .two_thirds a, .single-testcentre .two_thirds .current,
+.post-type-archive-testcentre .two_thirds a,
+.post-type-archive-testcentre .two_thirds .current {
+  color: #56008c; }
+/* line 78, sass/partials/_variables.scss */
+.single-testcentre .content_wrap h2, .single-testcentre .content_wrap h4, .single-testcentre .content_wrap a,
+.post-type-archive-testcentre .content_wrap h2,
+.post-type-archive-testcentre .content_wrap h4,
+.post-type-archive-testcentre .content_wrap a {
+  color: #56008c; }
+/* line 83, sass/partials/_variables.scss */
+.single-testcentre ul.share_btns,
+.post-type-archive-testcentre ul.share_btns {
+  border-left: 2px solid #56008c !important; }
+
+/* line 92, sass/partials/_variables.scss */
+.tax-learning-key-words .breadcrumb_last,
+.tax-learning-categories .breadcrumb_last,
+.single-learn .breadcrumb_last,
+.post-type-archive-learn .breadcrumb_last {
+  color: #e28c05; }
+/* line 96, sass/partials/_variables.scss */
+.tax-learning-key-words .two_thirds a, .tax-learning-key-words .two_thirds .current,
+.tax-learning-categories .two_thirds a,
+.tax-learning-categories .two_thirds .current,
+.single-learn .two_thirds a,
+.single-learn .two_thirds .current,
+.post-type-archive-learn .two_thirds a,
+.post-type-archive-learn .two_thirds .current {
+  color: #e28c05; }
+/* line 102, sass/partials/_variables.scss */
+.tax-learning-key-words .content_wrap h2, .tax-learning-key-words .content_wrap h4, .tax-learning-key-words .content_wrap a,
+.tax-learning-categories .content_wrap h2,
+.tax-learning-categories .content_wrap h4,
+.tax-learning-categories .content_wrap a,
+.single-learn .content_wrap h2,
+.single-learn .content_wrap h4,
+.single-learn .content_wrap a,
+.post-type-archive-learn .content_wrap h2,
+.post-type-archive-learn .content_wrap h4,
+.post-type-archive-learn .content_wrap a {
+  color: #e28c05; }
+/* line 107, sass/partials/_variables.scss */
+.tax-learning-key-words ul.share_btns,
+.tax-learning-categories ul.share_btns,
+.single-learn ul.share_btns,
+.post-type-archive-learn ul.share_btns {
+  border-left: 2px solid #e28c05 !important; }
+/* line 111, sass/partials/_variables.scss */
+.tax-learning-key-words .left_bar_list h3,
+.tax-learning-categories .left_bar_list h3,
+.single-learn .left_bar_list h3,
+.post-type-archive-learn .left_bar_list h3 {
+  color: #e28c05; }
+
+/* line 121, sass/partials/_variables.scss */
+.tax-community-categories .breadcrumb_last,
+.tax-community-key-words .breadcrumb_last,
+.bbPress .breadcrumb_last,
+.single-community .breadcrumb_last,
+.post-type-archive-community .breadcrumb_last {
+  color: #00aa9e; }
+/* line 125, sass/partials/_variables.scss */
+.tax-community-categories .two_thirds a, .tax-community-categories .two_thirds .current,
+.tax-community-key-words .two_thirds a,
+.tax-community-key-words .two_thirds .current,
+.bbPress .two_thirds a,
+.bbPress .two_thirds .current,
+.single-community .two_thirds a,
+.single-community .two_thirds .current,
+.post-type-archive-community .two_thirds a,
+.post-type-archive-community .two_thirds .current {
+  color: #00aa9e; }
+/* line 131, sass/partials/_variables.scss */
+.tax-community-categories .content_wrap h2, .tax-community-categories .content_wrap h4, .tax-community-categories .content_wrap a,
+.tax-community-key-words .content_wrap h2,
+.tax-community-key-words .content_wrap h4,
+.tax-community-key-words .content_wrap a,
+.bbPress .content_wrap h2,
+.bbPress .content_wrap h4,
+.bbPress .content_wrap a,
+.single-community .content_wrap h2,
+.single-community .content_wrap h4,
+.single-community .content_wrap a,
+.post-type-archive-community .content_wrap h2,
+.post-type-archive-community .content_wrap h4,
+.post-type-archive-community .content_wrap a {
+  color: #00aa9e; }
+/* line 136, sass/partials/_variables.scss */
+.tax-community-categories ul.share_btns,
+.tax-community-key-words ul.share_btns,
+.bbPress ul.share_btns,
+.single-community ul.share_btns,
+.post-type-archive-community ul.share_btns {
+  border-left: 2px solid #00aa9e !important; }
+/* line 140, sass/partials/_variables.scss */
+.tax-community-categories .left_bar_list h3,
+.tax-community-key-words .left_bar_list h3,
+.bbPress .left_bar_list h3,
+.single-community .left_bar_list h3,
+.post-type-archive-community .left_bar_list h3 {
+  color: #00aa9e; }
+
+/* line 148, sass/partials/_variables.scss */
+.bbPress .Market .breadcrumb_last {
+  color: #00adc6; }
+/* line 152, sass/partials/_variables.scss */
+.bbPress .Market .two_thirds a, .bbPress .Market .two_thirds .current {
+  color: #00adc6; }
+/* line 158, sass/partials/_variables.scss */
+.bbPress .Market .content_wrap h2, .bbPress .Market .content_wrap h4, .bbPress .Market .content_wrap a {
+  color: #00adc6; }
+/* line 163, sass/partials/_variables.scss */
+.bbPress .Market ul.share_btns {
+  border-left: 2px solid #00adc6 !important; }
+/* line 167, sass/partials/_variables.scss */
+.bbPress .Market .left_bar_list h3 {
+  color: #00adc6; }
+
+/*---boxes--*/
+/* line 6, sass/editor-style.scss */
+.grey_box {
+  padding: 10px 15px 0 15px;
+  font-size: 14px;
+  font-size: 0.88rem;
+  background: #f5f5f5;
+  border: 1px solid #d8d8d8;
+  margin-bottom: 24px; }
+  /* line 13, sass/editor-style.scss */
+  .grey_box p {
+    margin-bottom: 10px !important;
+    color: #6b6b6b; }
+
+/* line 19, sass/editor-style.scss */
+.green_box {
+  padding: 10px 15px 0 15px;
+  font-size: 14px;
+  font-size: 0.88rem;
+  background: #b2d2cc;
+  border: 1px solid #006b55;
+  margin-bottom: 24px; }
+  /* line 26, sass/editor-style.scss */
+  .green_box p {
+    margin-bottom: 10px !important;
+    color: #006b55; }
+
+/* line 32, sass/editor-style.scss */
+.red_box {
+  padding: 10px 15px 0 15px;
+  font-size: 14px;
+  font-size: 0.88rem;
+  background: #deb9c3;
+  border: 1px solid #931638;
+  margin-bottom: 24px; }
+  /* line 39, sass/editor-style.scss */
+  .red_box p {
+    margin-bottom: 10px !important;
+    color: #931638; }
+
+/* line 45, sass/editor-style.scss */
+.blue_box {
+  padding: 10px 15px 0 15px;
+  font-size: 14px;
+  font-size: 0.88rem;
+  background: #b2d4ed;
+  border: 1px solid #0072c6;
+  margin-bottom: 24px; }
+  /* line 52, sass/editor-style.scss */
+  .blue_box p {
+    margin-bottom: 10px !important;
+    color: #0072c6; }
+
+/* line 58, sass/editor-style.scss */
+a.btn_mce {
+  color: white !important;
+  -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+  padding: 10px 20px;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out; }
+
+/* line 69, sass/editor-style.scss */
+a.red_btn {
+  border: 1px solid #bf1d49;
+  background-color: #931638; }
+
+/* line 74, sass/editor-style.scss */
+a.aquaGreen_btn {
+  border: 1px solid #00ddcd;
+  background-color: #00aa9e; }
+
+/* line 80, sass/editor-style.scss */
+a.purple_btn {
+  border: 1px solid #7500bf;
+  background-color: #56008c; }
+
+/* line 86, sass/editor-style.scss */
+a.orange_btn {
+  border: 1px solid #faa520;
+  background-color: #e28c05; }

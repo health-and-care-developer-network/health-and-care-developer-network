@@ -1,0 +1,144 @@
+@font-face {
+	font-family: 'hdnicons';
+	src: url('iconfont/iconhdn.eot'); /* IE9 Compat Modes */
+	src: url('iconfont/iconhdn.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+	     url('iconfont/iconhdn.woff') format('woff'), /* Modern Browsers */
+	     url('iconfont/iconhdn.ttf')  format('truetype'), /* Safari, Android, iOS */
+	     url('iconfont/iconhdn.svg#svgFontName') format('svg'); /* Legacy iOS */
+}
+
+body{
+	font-family: "Ubuntu","Helvetica Neue", Helvetica, Arial, sans-serif;
+	line-height: 24px;
+	line-height: 1.50rem;
+}
+
+.content_wrap a{
+	color: $blue;
+}
+
+
+.result strong{
+	color: #fff;
+	background: $blue;
+	padding: 0 2px;
+	@include border-radius(3px); 
+}
+/*--------------headings---------------*/
+h1, .alpha{
+	font-size: 36px;
+	font-size: 2.25rem;
+	line-height: 46px;
+	line-height: 2.88rem
+} 
+
+h2, .beta{
+	font-size: 30px;
+	font-size: 1.88rem;
+	line-height: 30px;
+	line-height: 1.88rem;
+}
+
+h3, .gamma{
+	font-size: 24px;
+	font-size: 1.50rem;
+	font-weight: 300;
+}
+
+h4, .delta{
+	font-size: 18px;
+	font-size: 1.12rem;
+}
+
+h5, .epsilon{
+	font-size: 16px;
+	font-size: 1rem;
+}
+
+h6, .zetz{
+	font-size: 14px;
+	font-size: 0.88rem;
+	font-weight: 500;
+}
+
+.red{
+	h2, h3, h4, a{
+		color: $red;
+	}
+}
+.green{
+	h2, h3, h4, a{
+		color: $green;
+	}
+}
+.purple{
+	h2, h3, h4, a{
+		color: $purple;
+	}
+}
+.orange{
+	h2, h3, h4, a{
+		color: $orange;
+	}
+}
+.aquablue{
+	h2, h3, h4, a{
+		color: $aquaBlue;
+	}
+}
+.aquagreen{
+	h2, h3, h4, a{
+		color: $aquaGreen;
+	}
+}
+
+
+.art_txt{
+	h1{
+		font-size: 24px;
+		font-size: 1.50rem;
+		font-weight: 300;
+		border-bottom: 1px solid $midGrey;
+		margin-bottom: 5px;
+	}
+	h2{
+		font-size: 20px;
+		font-size: 1.25rem;
+		font-weight: 300;
+	}
+	h3{
+		font-size: 18px;
+		font-size: 1.12rem;
+		font-weight: 300;
+	}
+	h4{
+		font-size: 16px;
+		font-size: 1rem;
+	}
+	p{
+		font-size: 14px;
+		font-size: 0.88rem;
+	}
+} 
+
+/*--------------links---------------*/
+a{
+	text-decoration: none;
+}
+
+a:hover{
+	text-decoration: underline;
+} 
+
+/*--------------lists---------------*/
+
+p.no{
+	margin-left: 30px;
+}
+
+
+table{
+	font-size: 14px;
+	font-size: 0.88rem;
+}
+

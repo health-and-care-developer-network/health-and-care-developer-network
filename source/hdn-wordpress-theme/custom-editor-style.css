@@ -1,0 +1,186 @@
+/*------------Colours---------*/
+/* line 17, sass/partials/_variables.scss */
+.breadcrumb_last {
+  color: #0072c6; }
+
+/* line 23, sass/partials/_variables.scss */
+.single-library .breadcrumb_last,
+.post-type-archive-library .breadcrumb_last {
+  color: #006b55; }
+/* line 27, sass/partials/_variables.scss */
+.single-library .two_thirds a, .single-library .two_thirds .current,
+.post-type-archive-library .two_thirds a,
+.post-type-archive-library .two_thirds .current {
+  color: #006b55; }
+/* line 33, sass/partials/_variables.scss */
+.single-library .content_wrap h2, .single-library .content_wrap h4, .single-library .content_wrap a,
+.post-type-archive-library .content_wrap h2,
+.post-type-archive-library .content_wrap h4,
+.post-type-archive-library .content_wrap a {
+  color: #006b55; }
+/* line 38, sass/partials/_variables.scss */
+.single-library ul.share_btns,
+.post-type-archive-library ul.share_btns {
+  border-left: 2px solid #006b55 !important; }
+
+/* line 45, sass/partials/_variables.scss */
+.single-downloads-data .breadcrumb_last,
+.post-type-archive-downloads-data .breadcrumb_last {
+  color: #931638; }
+/* line 49, sass/partials/_variables.scss */
+.single-downloads-data .two_thirds a, .single-downloads-data .two_thirds .current,
+.post-type-archive-downloads-data .two_thirds a,
+.post-type-archive-downloads-data .two_thirds .current {
+  color: #931638; }
+/* line 55, sass/partials/_variables.scss */
+.single-downloads-data .content_wrap h2, .single-downloads-data .content_wrap h4, .single-downloads-data .content_wrap a,
+.post-type-archive-downloads-data .content_wrap h2,
+.post-type-archive-downloads-data .content_wrap h4,
+.post-type-archive-downloads-data .content_wrap a {
+  color: #931638; }
+/* line 60, sass/partials/_variables.scss */
+.single-downloads-data ul.share_btns,
+.post-type-archive-downloads-data ul.share_btns {
+  border-left: 2px solid #931638 !important; }
+
+/* line 67, sass/partials/_variables.scss */
+.single-testcentre .breadcrumb_last,
+.post-type-archive-testcentre .breadcrumb_last {
+  color: #56008c; }
+/* line 71, sass/partials/_variables.scss */
+.single-testcentre .two_thirds a, .single-testcentre .two_thirds .current,
+.post-type-archive-testcentre .two_thirds a,
+.post-type-archive-testcentre .two_thirds .current {
+  color: #56008c; }
+/* line 77, sass/partials/_variables.scss */
+.single-testcentre .content_wrap h2, .single-testcentre .content_wrap h4, .single-testcentre .content_wrap a,
+.post-type-archive-testcentre .content_wrap h2,
+.post-type-archive-testcentre .content_wrap h4,
+.post-type-archive-testcentre .content_wrap a {
+  color: #56008c; }
+/* line 82, sass/partials/_variables.scss */
+.single-testcentre ul.share_btns,
+.post-type-archive-testcentre ul.share_btns {
+  border-left: 2px solid #56008c !important; }
+
+/* line 91, sass/partials/_variables.scss */
+.tax-learning-key-words .breadcrumb_last,
+.tax-learning-categories .breadcrumb_last,
+.single-learn .breadcrumb_last,
+.post-type-archive-learn .breadcrumb_last {
+  color: #e28c05; }
+/* line 95, sass/partials/_variables.scss */
+.tax-learning-key-words .two_thirds a, .tax-learning-key-words .two_thirds .current,
+.tax-learning-categories .two_thirds a,
+.tax-learning-categories .two_thirds .current,
+.single-learn .two_thirds a,
+.single-learn .two_thirds .current,
+.post-type-archive-learn .two_thirds a,
+.post-type-archive-learn .two_thirds .current {
+  color: #e28c05; }
+/* line 101, sass/partials/_variables.scss */
+.tax-learning-key-words .content_wrap h2, .tax-learning-key-words .content_wrap h4, .tax-learning-key-words .content_wrap a,
+.tax-learning-categories .content_wrap h2,
+.tax-learning-categories .content_wrap h4,
+.tax-learning-categories .content_wrap a,
+.single-learn .content_wrap h2,
+.single-learn .content_wrap h4,
+.single-learn .content_wrap a,
+.post-type-archive-learn .content_wrap h2,
+.post-type-archive-learn .content_wrap h4,
+.post-type-archive-learn .content_wrap a {
+  color: #e28c05; }
+/* line 106, sass/partials/_variables.scss */
+.tax-learning-key-words ul.share_btns,
+.tax-learning-categories ul.share_btns,
+.single-learn ul.share_btns,
+.post-type-archive-learn ul.share_btns {
+  border-left: 2px solid #e28c05 !important; }
+/* line 110, sass/partials/_variables.scss */
+.tax-learning-key-words .left_bar_list h3,
+.tax-learning-categories .left_bar_list h3,
+.single-learn .left_bar_list h3,
+.post-type-archive-learn .left_bar_list h3 {
+  color: #e28c05; }
+
+/* line 120, sass/partials/_variables.scss */
+.tax-community-categories .breadcrumb_last,
+.tax-community-key-words .breadcrumb_last,
+.bbPress .breadcrumb_last,
+.single-community .breadcrumb_last,
+.post-type-archive-community .breadcrumb_last {
+  color: #00aa9e; }
+/* line 124, sass/partials/_variables.scss */
+.tax-community-categories .two_thirds a, .tax-community-categories .two_thirds .current,
+.tax-community-key-words .two_thirds a,
+.tax-community-key-words .two_thirds .current,
+.bbPress .two_thirds a,
+.bbPress .two_thirds .current,
+.single-community .two_thirds a,
+.single-community .two_thirds .current,
+.post-type-archive-community .two_thirds a,
+.post-type-archive-community .two_thirds .current {
+  color: #00aa9e; }
+/* line 130, sass/partials/_variables.scss */
+.tax-community-categories .content_wrap h2, .tax-community-categories .content_wrap h4, .tax-community-categories .content_wrap a,
+.tax-community-key-words .content_wrap h2,
+.tax-community-key-words .content_wrap h4,
+.tax-community-key-words .content_wrap a,
+.bbPress .content_wrap h2,
+.bbPress .content_wrap h4,
+.bbPress .content_wrap a,
+.single-community .content_wrap h2,
+.single-community .content_wrap h4,
+.single-community .content_wrap a,
+.post-type-archive-community .content_wrap h2,
+.post-type-archive-community .content_wrap h4,
+.post-type-archive-community .content_wrap a {
+  color: #00aa9e; }
+/* line 135, sass/partials/_variables.scss */
+.tax-community-categories ul.share_btns,
+.tax-community-key-words ul.share_btns,
+.bbPress ul.share_btns,
+.single-community ul.share_btns,
+.post-type-archive-community ul.share_btns {
+  border-left: 2px solid #00aa9e !important; }
+/* line 139, sass/partials/_variables.scss */
+.tax-community-categories .left_bar_list h3,
+.tax-community-key-words .left_bar_list h3,
+.bbPress .left_bar_list h3,
+.single-community .left_bar_list h3,
+.post-type-archive-community .left_bar_list h3 {
+  color: #00aa9e; }
+
+/* line 147, sass/partials/_variables.scss */
+.bbPress .Market .breadcrumb_last {
+  color: #00adc6; }
+/* line 151, sass/partials/_variables.scss */
+.bbPress .Market .two_thirds a, .bbPress .Market .two_thirds .current {
+  color: #00adc6; }
+/* line 157, sass/partials/_variables.scss */
+.bbPress .Market .content_wrap h2, .bbPress .Market .content_wrap h4, .bbPress .Market .content_wrap a {
+  color: #00adc6; }
+/* line 162, sass/partials/_variables.scss */
+.bbPress .Market ul.share_btns {
+  border-left: 2px solid #00adc6 !important; }
+/* line 166, sass/partials/_variables.scss */
+.bbPress .Market .left_bar_list h3 {
+  color: #00adc6; }
+
+/*---boxes--*/
+/* line 4, sass/custom-editor-style.scss */
+.grey_box {
+  padding: 10px 15px;
+  font-size: 14px;
+  font-size: 0.88rem;
+  background: #f5f5f5;
+  border: 1px solid #d8d8d8; }
+  /* line 10, sass/custom-editor-style.scss */
+  .grey_box p {
+    float: left;
+    margin-bottom: 0 !important;
+    color: #6b6b6b; }
+
+/* line 17, sass/custom-editor-style.scss */
+body#tinymce.wp-editor a {
+  color: #4CA6CF; }
