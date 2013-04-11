@@ -1,0 +1,10 @@
+TEAM
+
+	Russell Poulter -- Designer/developer -- @russpoulter
+
+	Thanks to Harry Roberts (@csswizardry) for his Vanilla starting point.
+	
+SITE
+
+	HTML
+	CSS

@@ -1,0 +1,90 @@
+@import "compass/css3";
+@import "partials/variables";
+@import "partials/mixins";
+
+/*---boxes--*/
+.grey_box{
+	padding: 10px 15px 0 15px;
+	font-size: 14px;
+	font-size: 0.88rem;
+	background: #f5f5f5;
+	border:1px solid $midGrey;
+	margin-bottom: 24px;
+	p{
+		margin-bottom: 10px !important;
+		color: $metaGrey;
+	}
+}
+
+.green_box{
+	padding: 10px 15px 0 15px;
+	font-size: 14px;
+	font-size: 0.88rem;
+	background: tint( $green, 70% );
+	border:1px solid $green;
+	margin-bottom: 24px;
+	p{
+		margin-bottom: 10px !important;
+		color: $green;
+	}
+}
+
+.red_box{
+	padding: 10px 15px 0 15px;
+	font-size: 14px;
+	font-size: 0.88rem;
+	background: tint( $red, 70% );
+	border:1px solid $red;
+	margin-bottom: 24px;
+	p{
+		margin-bottom: 10px !important;
+		color: $red;
+	}
+}
+
+.blue_box{
+	padding: 10px 15px 0 15px;
+	font-size: 14px;
+	font-size: 0.88rem;
+	background: tint( $blue, 70% );
+	border:1px solid $blue;
+	margin-bottom: 24px;
+	p{
+		margin-bottom: 10px !important;
+		color: $blue;
+	}
+}
+
+a.btn_mce{
+	color: #fff !important;
+	@include box-shadow(0 0 4px rgba(0,0,0,.3));
+	padding: 10px 20px;
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	-ms-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+}
+
+a.red_btn{
+	border: 1px solid lighten($red, 10%);
+	background-color: $red;
+}
+
+a.aquaGreen_btn{
+	border: 1px solid lighten($aquaGreen, 10%);
+	background-color: $aquaGreen;
+}
+
+
+a.purple_btn{
+	border: 1px solid lighten($purple, 10%);
+	background-color: $purple;
+}
+
+
+a.orange_btn{
+	border: 1px solid lighten($orange, 10%);
+	background-color: $orange;
+}
+

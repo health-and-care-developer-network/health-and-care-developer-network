@@ -1,0 +1,463 @@
+/*---Tree Nav--*/
+
+.tree_wrap, .left_bar{
+	@include background-image(linear-gradient(left, #fff 0%, #fcfcfc 100%));
+	border-right: 1px solid $midGrey;
+}
+
+.tree_nav{
+	padding: 30px 50px 30px 0;
+	font-size: 14px;
+	font-size: 0.88rem;
+	line-height: 28px;
+	line-height: 1.75rem;
+	height: inherit;
+
+	ul li ul li{
+		list-style: disc;
+		margin-left: 17px;
+	}
+	
+	ul li.parent{
+		list-style: none;
+		margin-left: 0;
+		font-weight: 500;
+	}
+
+	a{
+		color: $darkGrey;
+	}
+
+	.parent .expand{
+		background: url(img/css/tree_arrows.svg) no-repeat;
+		background-position: bottom;
+		display: block;
+		width: 10px;
+		height: 11px;
+		text-indent: 100%;
+		white-space: nowrap;
+		overflow: hidden;
+		float: left;
+		margin: 8px 5px 0 0;
+	}
+
+	.parent .open{
+			background-position: top;	
+		}
+	
+	.current_page_ancestor a.expand{
+		background-position: top;
+	}
+
+	ul li ul{
+		margin-left: 15px;
+		display: none;
+		font-weight: 300;
+	}
+
+	li.current_page_ancestor ul{
+		display: block;
+	}
+}
+
+/*---Nav Boxes--*/
+
+
+.nav_box{
+	position: relative;
+	margin: 0px 0px 30px 30px;
+	padding: 10px 12px 10px 12px;
+	background-color: $boxGrey;
+	border: solid darken($boxGrey, 5%);
+	border-width: 0 8px 8px 8px;
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	-ms-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+	h2{
+		margin: 0px 0 5px 0;
+		padding-bottom: 0;
+		border-bottom: none;
+	}
+
+	h3{
+		font-weight: 500;
+	}
+	p{
+		color: $darkGrey;
+	}
+	a{
+		color: $darkGrey;
+	}
+
+	ul li.sub_cat{
+		padding-top:24px;
+		font-weight: 500;
+	}
+
+	ul.sub_cat_list{
+		list-style: disc;
+		margin-left: 20px;
+		ul{
+			list-style: circle;
+			padding-left: 10px;
+			font-weight: 300;
+		}
+	} 
+}
+
+
+
+.fw_nav_boxes .nav_box{
+	margin: 0px 0px 0px 30px;
+}
+
+a.box:hover{
+	text-decoration: none;
+}
+
+a:hover .nav_box{
+	text-decoration: none;
+	background: lighten($boxGrey, 5%); 
+}
+
+.line{
+	height: 8px;
+	margin: 0 0px 0px 30px;
+}
+
+.nav_boxes{
+	.nav_box{
+		margin: 0 15px 0 15px;
+		min-height: 202px;
+	}
+	.line{
+	margin: 0 15px 0 15px;
+}
+} 
+
+.lg_icon{
+	font-size: 60px;
+	display: block;
+	position: relative;
+	top: 14px;
+}
+
+.red_line{
+	background-color: $red;
+}
+.green_line{
+	background-color: $green;
+}
+.purple_line{
+	background-color: $purple;
+}
+.orange_line{
+	background-color: $orange;
+}
+.aquaBlue_line{
+	background-color: $aquaBlue;
+}
+.aquaGreen_line{
+	background-color: $aquaGreen;
+}
+
+.box .aquagreen{
+	h3{
+		padding: 5px 0 24px 0;
+	}
+}
+
+.comm_box_cont{
+	border-bottom: 1px solid $metaGrey;
+	margin-bottom: 14px;
+	font-size: 14px;
+	font-size: 0.88rem;
+	p{
+		margin-bottom: 14px;
+		}
+	article{
+		margin-bottom: 24px;
+		h4 a{
+			color: $aquaGreen;
+		}
+
+		p.meta{
+			color: $metaGrey;
+			font-size: 14px;
+			font-size: 0.88rem;
+			padding-bottom: 5px;
+			margin-bottom: 0;
+		}
+	}
+}
+
+/*---download_item--*/
+.download_item{
+	padding: 30px 40px 30px 0;
+	border-bottom: 1px solid $midGrey;
+	h4{
+		padding-bottom: 5px;
+	}
+	p{
+		font-size: 14px;
+		font-size: 0.88rem; 
+	}
+	p.sm_print{
+			color: $midGrey;
+		}
+
+	.dl_btn{
+		margin: 24px 0;
+	}
+}
+
+.likes{
+	padding: 10px 15px;
+	font-size: 14px;
+	font-size: 0.88rem;
+	background: #f5f5f5;
+	border:1px solid $midGrey;
+	p{
+		float: left;
+		margin-bottom: 0 !important;
+		color: $metaGrey;
+	}
+}
+
+a.zilla-likes{
+	position: relative;
+	top: 3px;
+	float: right;
+	padding-left: 20px;
+	background: url(img/css/like_thumbs.svg) no-repeat;
+	background-position: bottom left;
+	display: block;
+	height: 16px;
+	color: $metaGrey !important;
+}
+
+a.zilla-likes:hover{
+	background-position: top left;
+	text-decoration: none;
+}
+
+a.active{
+	background-position: top left;
+}
+
+.zilla-likes-count{
+	position: relative;
+	bottom: 3px;
+}
+
+/*---tabs--*/
+.ui-tabs{
+	margin-bottom: 24px;
+	.ui-tabs-nav {
+		padding-left: 5px;
+		margin-bottom: 0px;
+		padding-bottom: 6px;
+		border-bottom: 1px solid $midGrey;
+		li{
+			display: inline;
+			list-style: none;
+			a{
+				padding: 10px;
+				border-top :1px solid $midGrey;
+				border-left :1px solid $midGrey;
+				border-right :1px solid $midGrey;
+				font-weight: 500;
+				background: #f5f5f5;
+				outline: none;
+				color: $metaGrey;
+			}
+			a:hover{
+				text-decoration: none;
+				background: #f9f9f9;
+			}
+		}
+		li.ui-tabs-active a{
+			background: #fff;
+			border-bottom: 1px solid #fff;
+		}
+	}
+	.ui-tabs-panel{
+		border-bottom: 1px solid $midGrey;
+		border-right: 1px solid $midGrey;
+		border-left: 1px solid $midGrey;
+		padding: 15px;
+	}
+}
+
+/*---boxes--*/
+.grey_box{
+	padding: 10px 15px 0 15px;
+	font-size: 14px;
+	font-size: 0.88rem;
+	background: #f5f5f5;
+	border:1px solid $midGrey;
+	margin-bottom: 24px;
+	p{
+		margin-bottom: 10px !important;
+		color: $metaGrey;
+	}
+}
+
+.green_box{
+	padding: 10px 15px 0 15px;
+	font-size: 14px;
+	font-size: 0.88rem;
+	background: tint( $green, 70% );
+	border:1px solid $green;
+	margin-bottom: 24px;
+	p{
+		margin-bottom: 10px !important;
+		color: $green;
+	}
+}
+
+.red_box{
+	padding: 10px 15px 0 15px;
+	font-size: 14px;
+	font-size: 0.88rem;
+	background: tint( $red, 70% );
+	border:1px solid $red;
+	margin-bottom: 24px;
+	p{
+		margin-bottom: 10px !important;
+		color: $red;
+	}
+}
+
+.blue_box{
+	padding: 10px 15px 0 15px;
+	font-size: 14px;
+	font-size: 0.88rem;
+	background: tint( $blue, 70% );
+	border:1px solid $blue;
+	margin-bottom: 24px;
+	p{
+		margin-bottom: 10px !important;
+		color: $blue;
+	}
+}
+
+/*---login-box--*/
+
+.login-register-password{
+	max-width: 474px;
+	border-left: 1px solid $midGrey;
+	margin: 0px auto;
+	margin-bottom: 48px;
+}
+
+.tab_container_login, .sidebox{
+	padding: 48px 11.39%;
+	border-right: 1px solid $midGrey;
+	border-bottom: 1px solid $midGrey;
+	background: $lightGrey;
+	p{
+		color: $metaGrey;
+		font-weight: 300;
+		margin-bottom: 24px;
+	}
+}
+
+.sidebox{
+	border-top: 1px solid $midGrey;
+}
+
+.username, .password,{
+	width: 100%;
+	margin-bottom: 15px;
+	label{
+		width: 29%;
+		display: block;
+		float: left;
+		padding-top: 5px;
+		color: $metaGrey;
+	}
+	input{
+		width: 68%;
+		outline: none;
+		color: #7c868d;
+		font-size: 13px;
+		font-size: 0.81rem;
+		height: 17px;
+		padding: 7px 1%;
+		border: 1px solid rgba(180,180,180,.65);
+		background-color: #fff;
+		@include box-shadow(-1px 1px 0 rgba(255,255,255,.1), inset -1px 2px 3px rgba(0,0,0,.05));
+		&.user_email_full{
+			width: 98%;
+		}
+	}
+}
+
+.rememberme{
+	float: left;
+	margin-top: 24px;
+	label{
+		font-size: 14px;
+		font-size: 0.88rem;
+		font-weight: 300;
+	}
+}
+
+.user-submit{
+	color: #fff !important;
+	@include box-shadow(0 0 4px rgba(0,0,0,.3));
+	padding: 10px 20px;
+	display: block;
+	float: left;
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	-ms-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+	border: 1px solid lighten($blue, 10%);
+	background-color: $blue;
+	float: right;
+	margin-top: 15px;
+	&:hover{
+	text-decoration: none;
+	@include box-shadow(0 0 10px rgba(0,0,0,.5));
+	background-color: lighten($blue, 3%);
+	}
+}
+
+ul.tabs_login li{
+	width: 33.33%;
+	text-align: center;
+	display: block;
+	float: left;
+	border-top: 1px solid $midGrey;
+	border-bottom: 2px solid $midGrey;
+	&.active_login{
+		border-bottom: 2px solid $lightGrey;
+		a{
+			background: $lightGrey;
+		}
+	} 
+	a{
+		background: $boxGrey;
+		border-right: 1px solid $midGrey;
+		display: block;
+		padding:10px 0;
+		font-size: 14px;
+		font-size: 0.88rem;
+		color: $metaGrey;
+	}
+}
+
+.social_login{
+	background: #ededed;
+	border-right: 1px solid $midGrey;
+	border-bottom: 1px solid $midGrey;
+	padding: 48px 11.39%;
+}
+
+
+

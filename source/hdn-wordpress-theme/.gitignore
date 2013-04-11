@@ -1,0 +1,30 @@
+# Don't add the Local settings file to the repository #
+wp-config-local.php
+
+# If using SASS to compile stylesheets this saves conflicts, plus there not needed! #
+wp-content/themes/HDN/.sass-cache/*
+
+# No need to add the upgrade folder to the repo #
+htdocs/wp-content/upgrade/*
+
+# sitemaps not needed locally #
+htdocs/sitemap.xml
+htdocs/sitemap.xml.gz
+
+# no need for these #
+readme.html
+license.txt
+.log
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+
+# Sublime Text Project files #
+######################
+hdn-wp.sublime-project
+hdn-wp.sublime-workspace
