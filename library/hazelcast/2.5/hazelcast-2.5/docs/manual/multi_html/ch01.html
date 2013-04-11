@@ -1,0 +1,135 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;1.&nbsp;Introduction</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="index.html" title="Hazelcast Documentation"><link rel="prev" href="index.html" title="Hazelcast Documentation"><link rel="next" href="ch02.html" title="Chapter&nbsp;2.&nbsp;Distributed Data Structures"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;1.&nbsp;Introduction</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="index.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch02.html">Next</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;1.&nbsp;Introduction"><div class="titlepage"><div><div><h2 class="title"><a name="Introduction"></a>Chapter&nbsp;1.&nbsp;Introduction</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="ch01.html#GettingStarted">1.1. Getting Started (Tutorial)</a></span></dt></dl></div><p>
+    Hazelcast is a clustering and highly scalable data distribution platform for Java. Hazelcast helps architects and
+    developers to easily design and develop faster, highly scalable and reliable applications for their businesses.
+    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Distributed implementations of
+                <code class="literal">java.util.{Queue, Set, List, Map}</code>
+            </p></li><li class="listitem"><p>Distributed implementation of
+                <code class="literal">java.util.concurrent.ExecutorService</code>
+            </p></li><li class="listitem"><p>Distributed implementation of
+                <code class="literal">java.util.concurrency.locks.Lock</code>
+            </p></li><li class="listitem"><p>Distributed
+                <code class="literal">Topic</code>
+                for publish/subscribe messaging
+            </p></li><li class="listitem"><p>Transaction support and J2EE container integration via JCA
+            </p></li><li class="listitem"><p>Distributed listeners and events
+            </p></li><li class="listitem"><p>Support for cluster info and membership events
+            </p></li><li class="listitem"><p>Dynamic HTTP session clustering
+            </p></li><li class="listitem"><p>Dynamic clustering
+            </p></li><li class="listitem"><p>Dynamic scaling to hundreds of servers
+            </p></li><li class="listitem"><p>Dynamic partitioning with backups
+            </p></li><li class="listitem"><p>Dynamic fail-over
+            </p></li></ul></div><p>
+    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Super simple to use; include a single jar
+            </p></li><li class="listitem"><p>Super fast; thousands of operations per sec.
+            </p></li><li class="listitem"><p>Super small; less than a MB
+            </p></li><li class="listitem"><p>Super efficient; very nice to CPU and RAM
+            </p></li></ul></div><p>
+    To install Hazelcast:
+    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Download hazelcast-_version_.zip from
+                <a class="link" href="http://www.hazelcast.com" target="_top">www.hazelcast.com</a>
+            </p></li><li class="listitem"><p>Unzip hazelcast-_version_.zip file
+            </p></li><li class="listitem"><p>Add hazelcast.jar file into your classpath
+            </p></li></ul></div><p>
+    Hazelcast is pure Java. JVMs that are running Hazelcast will dynamically cluster. Although by default Hazelcast will
+    use multicast for discovery, it can also be configured to only use TCP/IP for environments where multicast is not
+    available or preferred (<a class="link" href="ch12s02.html#ConfigTcpIp" title="12.2.1.&nbsp;Configuring TCP/IP Cluster">Click here for more info</a>). Communication among
+    cluster members is always
+    TCP/IP with Java NIO beauty. Default configuration comes with 1 backup so if one node fails, no data will be lost.
+    It is as simple as using<code class="literal">java.util.{Queue, Set, List, Map}</code>. Just add the hazelcast.jar into your
+    classpath and start coding.
+</p><div class="sect1" title="1.1.&nbsp;Getting Started (Tutorial)"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="GettingStarted"></a>1.1.&nbsp;Getting Started (Tutorial)</h2></div></div></div><p>
+        In this short tutorial, we will create simple Java application using Hazelcast distributed map and queue.
+        Then we will run our application twice to have two nodes (JVMs) clustered and finalize this tutorial
+        with connecting to our cluster from another Java application by using Hazelcast Native Java Client API.
+    </p><p>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Download the latest
+                    <a class="link" href="http://www.hazelcast.com/downloads.jsp" target="_top">Hazelcast zip</a>.
+                </p></li><li class="listitem"><p>Unzip it and add the
+                    <code class="literal">lib/hazelcast.jar</code>
+                    to your class path.
+                </p></li><li class="listitem"><p>Create a Java class and import Hazelcast libraries.</p></li><li class="listitem"><p>Following code will start the first node and create and use
+                    <code class="literal">customers</code>
+                    map and queue.
+                    </p><pre class="programlisting">
+<strong class="hl-keyword">import</strong> com.hazelcast.core.Hazelcast;
+<strong class="hl-keyword">import</strong> java.util.Map;
+<strong class="hl-keyword">import</strong> java.util.Queue;
+
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">class</strong> GettingStarted {
+
+    <strong class="hl-keyword">public</strong> <strong class="hl-keyword">static</strong> <strong class="hl-keyword">void</strong> main(String[] args) {
+        Config cfg = <strong class="hl-keyword">new</strong> Config();
+        HazelcastInstance instance = Hazelcast.newHazelcastInstance(cfg);
+        Map&lt;Integer, String&gt; mapCustomers = instance.getMap(<font font-style="normal" color="#008000">"customers"</font>);
+        mapCustomers.put(<span class="hl-number">1</span>, <font font-style="normal" color="#008000">"Joe"</font>);
+        mapCustomers.put(<span class="hl-number">2</span>, <font font-style="normal" color="#008000">"Ali"</font>);
+        mapCustomers.put(<span class="hl-number">3</span>, <font font-style="normal" color="#008000">"Avi"</font>);
+
+        System.out.println(<font font-style="normal" color="#008000">"Customer with key 1: "</font>+ mapCustomers.get(<span class="hl-number">1</span>));
+        System.out.println(<font font-style="normal" color="#008000">"Map Size:"</font> + mapCustomers.size());
+
+        Queue&lt;String&gt; queueCustomers = instance.getQueue(<font font-style="normal" color="#008000">"customers"</font>);
+        queueCustomers.offer(<font font-style="normal" color="#008000">"Tom"</font>);
+        queueCustomers.offer(<font font-style="normal" color="#008000">"Mary"</font>);
+        queueCustomers.offer(<font font-style="normal" color="#008000">"Jane"</font>);
+        System.out.println(<font font-style="normal" color="#008000">"First customer: "</font> + queueCustomers.poll());
+        System.out.println(<font font-style="normal" color="#008000">"Second customer: "</font>+ queueCustomers.peek());
+        System.out.println(<font font-style="normal" color="#008000">"Queue size: "</font> + queueCustomers.size());
+    }
+}
+</pre><p>
+                </p></li><li class="listitem"><p>Run this class second time to get the second node started.</p></li><li class="listitem"><p>Have you seen they formed a cluster? You should see something like this:
+                    </p><pre class="programlisting">
+Members [2] {
+	Member [127.0.0.1:5701]
+	Member [127.0.0.1:5702] this
+}
+                            </pre><p>
+                </p></li></ul></div><p>
+    </p><p>
+        <span class="bold"><strong>Connecting Hazelcast Cluster with Java Client API</strong></span>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Besides
+                    <code class="literal">hazelcast.jar</code>
+                    you should also add
+                    <code class="literal">hazelcast-client.jar</code>
+                    to your classpath.
+                </p></li><li class="listitem"><p>Following code will start a Hazelcast Client, connect to our two node cluster
+                    and print the size of our
+                    <code class="literal">customers</code>
+                    map.
+                    </p><pre class="programlisting">
+<strong class="hl-keyword">package</strong> com.hazelcast.test;
+
+<strong class="hl-keyword">import</strong> com.hazelcast.client.ClientConfig;
+<strong class="hl-keyword">import</strong> com.hazelcast.client.HazelcastClient;
+<strong class="hl-keyword">import</strong> com.hazelcast.core.HazelcastInstance;
+<strong class="hl-keyword">import</strong> com.hazelcast.core.IMap;
+
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">class</strong> GettingStartedClient {
+
+    <strong class="hl-keyword">public</strong> <strong class="hl-keyword">static</strong> <strong class="hl-keyword">void</strong> main(String[] args) {
+        ClientConfig clientConfig = <strong class="hl-keyword">new</strong> ClientConfig();
+        clientConfig.addAddress(<font font-style="normal" color="#008000">"127.0.0.1:5701"</font>);
+        HazelcastInstance client = HazelcastClient.newHazelcastClient(clientConfig);
+        IMap map = client.getMap(<font font-style="normal" color="#008000">"customers"</font>);
+        System.out.println(<font font-style="normal" color="#008000">"Map Size:"</font> + map.size());
+    }
+}
+</pre><p>
+                </p></li><li class="listitem"><p>When you run it, you will see the client properly connects to the cluster and print the map
+                    size as 3.
+                </p></li></ul></div><p>
+    </p><p>
+        <span class="bold"><strong>What is Next?</strong></span>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>You can browse
+                    <a class="link" href="http://www.hazelcast.com/docs.jsp" target="_top">documentation</a>
+                    and resources for detailed features and examples.
+                </p></li><li class="listitem"><p>You can email your questions to Hazelcast
+                    <a class="link" href="http://groups.google.com/group/hazelcast" target="_top">mail group</a>.
+                </p></li><li class="listitem"><p>You can browse Hazelcast
+                    <a class="link" href="http://code.google.com/p/hazelcast/source/browse/#svn/trunk" target="_top">source
+                        code</a>.
+                </p></li></ul></div><p>
+    </p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="index.html">Prev</a>&nbsp;</td><td width="20%" align="center">&nbsp;</td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Hazelcast Documentation&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;2.&nbsp;Distributed Data Structures</td></tr></table></div></body></html>

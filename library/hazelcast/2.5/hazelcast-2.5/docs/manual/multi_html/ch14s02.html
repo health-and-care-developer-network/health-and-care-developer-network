@@ -1,0 +1,138 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>14.2.&nbsp;Spring Managed Context</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="ch14.html" title="Chapter&nbsp;14.&nbsp;Spring Integration"><link rel="prev" href="ch14.html" title="Chapter&nbsp;14.&nbsp;Spring Integration"><link rel="next" href="ch14s03.html" title="14.3.&nbsp;Spring Cache"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">14.2.&nbsp;Spring Managed Context</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch14.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;14.&nbsp;Spring Integration</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch14s03.html">Next</a></td></tr></table><hr></div><div class="sect1" title="14.2.&nbsp;Spring Managed Context"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="SpringContext"></a>14.2.&nbsp;Spring Managed Context</h2></div></div></div><p>
+        It's often desired to access Spring managed beans, to apply bean properties or to apply factory callbacks
+        such as <code class="code">ApplicationContextAware</code>, <code class="code">BeanNameAware</code> or to apply bean post-processing
+        such as <code class="code">InitializingBean</code>, <code class="code">@PostConstruct</code> like annotations
+        while using Hazelcast distributed <code class="code">ExecutorService</code> or <code class="code">DistributedTask</code>s or more
+        generally any Hazelcast managed object. Achieving those features are as simple as adding <code class="code">@SpringAware</code>
+        annotation to your distributed object types. Once you have configured HazelcastInstance as explained in
+        Spring configuration,
+        just mark any distributed type with <code class="code">@SpringAware</code> annotation.
+
+        </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;beans</font> <font font-style="bold" color="#0A1777">xmlns</font>=<font font-style="bold" color="#008000">"http://www.springframework.org/schema/beans"</font>
+       <font font-style="bold" color="#0A1777">xmlns:xsi</font>=<font font-style="bold" color="#008000">"http://www.w3.org/2001/XMLSchema-instance"</font>
+       <font font-style="bold" color="#0A1777">xmlns:context</font>=<font font-style="bold" color="#008000">"http://www.springframework.org/schema/context"</font>
+       <font font-style="bold" color="#0A1777">xmlns:hz</font>=<font font-style="bold" color="#008000">"http://www.hazelcast.com/schema/spring"</font>
+       <font font-style="bold" color="#0A1777">xsi:schemaLocation</font>=<font font-style="bold" color="#008000">"http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		        http://www.springframework.org/schema/context
+                http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                http://www.hazelcast.com/schema/spring
+                http://www.hazelcast.com/schema/spring/hazelcast-spring-2.5.xsd"</font><font font-style="bold" color="#0A1777">&gt;</font>
+
+    <font font-style="bold" color="#0A1777">&lt;context:annotation-config /&gt;</font>
+
+    <font font-style="bold" color="#0A1777">&lt;hz:hazelcast</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"instance"</font><font font-style="bold" color="#0A1777">&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;hz:config&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;hz:group</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"dev"</font> <font font-style="bold" color="#0A1777">password</font>=<font font-style="bold" color="#008000">"password"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;hz:network</font> <font font-style="bold" color="#0A1777">port</font>=<font font-style="bold" color="#008000">"5701"</font> <font font-style="bold" color="#0A1777">port-auto-increment</font>=<font font-style="bold" color="#008000">"false"</font><font font-style="bold" color="#0A1777">&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;hz:join&gt;</font>
+                    <font font-style="bold" color="#0A1777">&lt;hz:multicast</font> <font font-style="bold" color="#0A1777">enabled</font>=<font font-style="bold" color="#008000">"false"</font><font font-style="bold" color="#0A1777"> /&gt;</font>
+                    <font font-style="bold" color="#0A1777">&lt;hz:tcp-ip</font> <font font-style="bold" color="#0A1777">enabled</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">&gt;</font>
+                        <font font-style="bold" color="#0A1777">&lt;hz:members&gt;</font>10.10.1.2, 10.10.1.3<font font-style="bold" color="#0A1777">&lt;/hz:members&gt;</font>
+                    <font font-style="bold" color="#0A1777">&lt;/hz:tcp-ip&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;/hz:join&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;/hz:network&gt;</font>
+            ...
+        <font font-style="bold" color="#0A1777">&lt;/hz:config&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/hz:hazelcast&gt;</font>
+
+    <font font-style="bold" color="#0A1777">&lt;bean</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"someBean"</font> <font font-style="bold" color="#0A1777">class</font>=<font font-style="bold" color="#008000">"com.hazelcast.examples.spring.SomeBean"</font> <font font-style="bold" color="#0A1777">scope</font>=<font font-style="bold" color="#008000">"singleton"</font><font font-style="bold" color="#0A1777"> /&gt;</font>
+    ...
+<font font-style="bold" color="#0A1777">&lt;/beans&gt;</font>
+</pre><p>
+
+    <span class="bold"><strong>ExecutorService example:</strong></span>
+
+    </p><pre class="programlisting">
+<em><span class="hl-annotation" style="color: gray">@SpringAware</span></em>
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">class</strong> SomeTask <strong class="hl-keyword">implements</strong> Callable&lt;Long&gt;, ApplicationContextAware, Serializable {
+
+    <strong class="hl-keyword">private</strong> <strong class="hl-keyword">transient</strong> ApplicationContext context;
+
+    <strong class="hl-keyword">private</strong> <strong class="hl-keyword">transient</strong> SomeBean someBean;
+
+    <strong class="hl-keyword">public</strong> Long call() <strong class="hl-keyword">throws</strong> Exception {
+        <strong class="hl-keyword">return</strong> someBean.value;
+    }
+
+    <strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> setApplicationContext(<strong class="hl-keyword">final</strong> ApplicationContext applicationContext)
+        <strong class="hl-keyword">throws</strong> BeansException {
+        context = applicationContext;
+    }
+
+    <em><span class="hl-annotation" style="color: gray">@Autowired</span></em>
+    <strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> setSomeBean(<strong class="hl-keyword">final</strong> SomeBean someBean) {
+        <strong class="hl-keyword">this</strong>.someBean = someBean;
+    }
+}
+</pre><p>
+
+   </p><pre class="programlisting">
+HazelcastInstance hazelcast = (HazelcastInstance) context.getBean(<font font-style="normal" color="#008000">"hazelcast"</font>);
+SomeBean bean = (SomeBean) context.getBean(<font font-style="normal" color="#008000">"someBean"</font>);
+
+Future&lt;Long&gt; f = hazelcast.getExecutorService().submit(<strong class="hl-keyword">new</strong> SomeTask());
+Assert.assertEquals(bean.value, f.get().longValue());
+
+<em class="hl-comment" style="color: silver">// choose a member</em>
+Member member = hazelcast.getCluster().getMembers().iterator().next();
+
+Future&lt;Long&gt; f2 = (Future&lt;Long&gt;) hazelcast.getExecutorService()
+    .submit(<strong class="hl-keyword">new</strong> DistributedTask&lt;Long&gt;(<strong class="hl-keyword">new</strong> SomeTask(), member));
+Assert.assertEquals(bean.value, f2.get().longValue());
+
+</pre><p>
+
+
+    <span class="bold"><strong>Distributed Map value example:</strong></span>
+
+    </p><pre class="programlisting">
+<em><span class="hl-annotation" style="color: gray">@SpringAware</span></em>
+<em><span class="hl-annotation" style="color: gray">@Component("someValue")</span></em>
+<em><span class="hl-annotation" style="color: gray">@Scope("prototype")</span></em>
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">class</strong> SomeValue <strong class="hl-keyword">implements</strong> Serializable, ApplicationContextAware {
+
+    <strong class="hl-keyword">transient</strong> ApplicationContext context;
+
+    <strong class="hl-keyword">transient</strong> SomeBean someBean;
+
+    <strong class="hl-keyword">transient</strong> <strong class="hl-keyword">boolean</strong> init = false;
+
+    <strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> setApplicationContext(<strong class="hl-keyword">final</strong> ApplicationContext applicationContext)
+        <strong class="hl-keyword">throws</strong> BeansException {
+        context = applicationContext;
+    }
+
+    <em><span class="hl-annotation" style="color: gray">@Autowired</span></em>
+    <strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> setSomeBean(<strong class="hl-keyword">final</strong> SomeBean someBean) {
+        <strong class="hl-keyword">this</strong>.someBean = someBean;
+    }
+
+    <em><span class="hl-annotation" style="color: gray">@PostConstruct</span></em>
+    <strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> init() {
+        someBean.doSomethingUseful();
+        init = true;
+    }
+    ...
+}
+</pre><p>
+
+   On Node-1;
+</p><pre class="programlisting">
+HazelcastInstance hazelcast = (HazelcastInstance) context.getBean(<font font-style="normal" color="#008000">"hazelcast"</font>);
+SomeValue value = (SomeValue) context.getBean(<font font-style="normal" color="#008000">"someValue"</font>)
+IMap&lt;String, SomeValue&gt; map = hazelcast.getMap(<font font-style="normal" color="#008000">"values"</font>);
+map.put(<font font-style="normal" color="#008000">"key"</font>, value);
+</pre><p>
+
+    On Node-2;
+    </p><pre class="programlisting">
+HazelcastInstance hazelcast = (HazelcastInstance) context.getBean(<font font-style="normal" color="#008000">"hazelcast"</font>);
+IMap&lt;String, SomeValue&gt; map = hazelcast.getMap(<font font-style="normal" color="#008000">"values"</font>);
+SomeValue value = map.get(<font font-style="normal" color="#008000">"key"</font>);
+Assert.assertTrue(value.init);
+</pre><p>
+        <span class="italic">Note that, Spring managed properties/fields are marked as <code class="code">transient</code>.</span>
+    </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch14.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch14.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch14s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;14.&nbsp;Spring Integration&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;14.3.&nbsp;Spring Cache</td></tr></table></div></body></html>

@@ -1,0 +1,35 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;6.&nbsp;Monitoring with JMX</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="index.html" title="Hazelcast Documentation"><link rel="prev" href="ch05.html" title="Chapter&nbsp;5.&nbsp;Data Affinity"><link rel="next" href="ch07.html" title="Chapter&nbsp;7.&nbsp;Cluster Utilities"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;6.&nbsp;Monitoring with JMX</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch05.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch07.html">Next</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;6.&nbsp;Monitoring with JMX"><div class="titlepage"><div><div><h2 class="title"><a name="JMX"></a>Chapter&nbsp;6.&nbsp;Monitoring with JMX</h2></div></div></div><div class="simplesect"><div class="titlepage"></div><p>
+    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Add the following system properties to enable
+                <a class="link" href="http://download.oracle.com/javase/1.5.0/docs/guide/management/agent.html" target="_top">jmx agent
+                </a>
+            </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem"><p>-Dcom.sun.management.jmxremote</p></li><li class="listitem"><p>-Dcom.sun.management.jmxremote.port=_portNo_ (to specify jmx port)
+                        <span class="emphasis"><em>optional</em></span>
+                    </p></li><li class="listitem"><p>-Dcom.sun.management.jmxremote.authenticate=false (to disable jmx auth)
+                        <span class="emphasis"><em>optional</em></span>
+                    </p></li></ul></div></li><li class="listitem"><p>Enable Hazelcast property
+                <span class="emphasis"><em>hazelcast.jmx</em></span>
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem"><p>using Hazelcast configuration (api, xml, spring)</p></li><li class="listitem"><p>or set system property -Dhazelcast.jmx=true</p></li></ul></div><p>
+            </p></li><li class="listitem"><p>Use jconsole, jvisualvm (with mbean plugin) or another jmx-compliant monitoring
+                tool.
+            </p></li></ul></div><p>
+    <span class="bold"><strong>Following attributes can be monitored:</strong></span>
+    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Cluster
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem"><p>config</p></li><li class="listitem"><p>group name</p></li><li class="listitem"><p>count of members and their addresses (host:port)</p></li><li class="listitem"><p>operations: restart, shutdown cluster</p></li></ul></div><p>
+            </p></li><li class="listitem"><p>Member
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem"><p>inet address</p></li><li class="listitem"><p>port</p></li><li class="listitem"><p>lite member state</p></li></ul></div><p>
+            </p></li><li class="listitem"><p>Statistics
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem"><p>count of instances</p></li><li class="listitem"><p>number of instances created, destroyed since startup</p></li><li class="listitem"><p>max instances created, destroyed per second</p></li></ul></div><p>
+            </p></li><li class="listitem"><p>AtomicNumber
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem"><p>name</p></li><li class="listitem"><p>actual value</p></li><li class="listitem"><p>operations: add, set, compareAndSet, reset</p></li></ul></div><p>
+            </p></li><li class="listitem"><p>List, Set
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem"><p>name</p></li><li class="listitem"><p>size</p></li><li class="listitem"><p>items (as strings)</p></li><li class="listitem"><p>operations: clear, reset statistics</p></li></ul></div><p>
+            </p></li><li class="listitem"><p>Map
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem"><p>name</p></li><li class="listitem"><p>size</p></li><li class="listitem"><p>operations: clear</p></li></ul></div><p>
+            </p></li><li class="listitem"><p>Queue
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem"><p>name</p></li><li class="listitem"><p>size</p></li><li class="listitem"><p>received and served items</p></li><li class="listitem"><p>operations: clear, reset statistics</p></li></ul></div><p>
+            </p></li><li class="listitem"><p>Topic
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem"><p>name</p></li><li class="listitem"><p>number of messages dispatched since creation, in last second</p></li><li class="listitem"><p>max messages dispatched per second</p></li></ul></div><p>
+            </p></li></ul></div><p>
+    </p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch05.html">Prev</a>&nbsp;</td><td width="20%" align="center">&nbsp;</td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch07.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;5.&nbsp;Data Affinity&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;7.&nbsp;Cluster Utilities</td></tr></table></div></body></html>

@@ -1,0 +1,178 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>8.2.&nbsp;J2EE Integration</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="ch08.html" title="Chapter&nbsp;8.&nbsp;Transactions"><link rel="prev" href="ch08.html" title="Chapter&nbsp;8.&nbsp;Transactions"><link rel="next" href="ch09.html" title="Chapter&nbsp;9.&nbsp;Distributed Executor Service"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">8.2.&nbsp;J2EE Integration</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch08.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;8.&nbsp;Transactions</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch09.html">Next</a></td></tr></table><hr></div><div class="sect1" title="8.2.&nbsp;J2EE Integration"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="JEEIntegration"></a>8.2.&nbsp;J2EE Integration</h2></div></div></div><p>Hazelcast can be integrated into J2EE containers via Hazelcast Resource Adapter (
+        hazelcast-ra.rar ). After proper configuration, Hazelcast can participate in standard J2EE
+        transactions.
+        </p><pre class="programlisting">&lt;%<em><span class="hl-annotation" style="color: gray">@page</span></em> <strong class="hl-keyword">import</strong>=<font font-style="normal" color="#008000">"javax.resource.ResourceException"</font> %&gt;
+&lt;%<em><span class="hl-annotation" style="color: gray">@page</span></em> <strong class="hl-keyword">import</strong>=<font font-style="normal" color="#008000">"javax.transaction.*"</font> %&gt;
+&lt;%<em><span class="hl-annotation" style="color: gray">@page</span></em> <strong class="hl-keyword">import</strong>=<font font-style="normal" color="#008000">"javax.naming.*"</font> %&gt;
+&lt;%<em><span class="hl-annotation" style="color: gray">@page</span></em> <strong class="hl-keyword">import</strong>=<font font-style="normal" color="#008000">"javax.resource.cci.*"</font> %&gt; 
+&lt;%<em><span class="hl-annotation" style="color: gray">@page</span></em> <strong class="hl-keyword">import</strong>=<font font-style="normal" color="#008000">"java.util.*"</font> %&gt; 
+&lt;%<em><span class="hl-annotation" style="color: gray">@page</span></em> <strong class="hl-keyword">import</strong>=<font font-style="normal" color="#008000">"com.hazelcast.core.Hazelcast"</font> %&gt; 
+
+&lt;%
+UserTransaction txn = null;
+Connection conn = null;
+Config cfg = <strong class="hl-keyword">new</strong> Config();
+HazelcastInstance hz = Hazelcast.newHazelcastInstance(cfg);
+Queue queue = hz.getQueue (<font font-style="normal" color="#008000">"default"</font>);
+Map map     = hz.getMap   (<font font-style="normal" color="#008000">"default"</font>);
+Set set     = hz.getSet   (<font font-style="normal" color="#008000">"default"</font>);
+List list   = hz.getList  (<font font-style="normal" color="#008000">"default"</font>);
+
+<strong class="hl-keyword">try</strong> { 
+    Context context = <strong class="hl-keyword">new</strong> InitialContext(); 
+    txn = (UserTransaction) context.lookup(<font font-style="normal" color="#008000">"java:comp/UserTransaction"</font>); 
+    txn.begin(); 
+    
+    ConnectionFactory cf = (ConnectionFactory) context.lookup (<font font-style="normal" color="#008000">"java:comp/env/HazelcastCF"</font>); 
+    conn = cf.getConnection();  
+    
+    queue.offer(<font font-style="normal" color="#008000">"newitem"</font>);
+    map.put (<font font-style="normal" color="#008000">"1"</font>, <font font-style="normal" color="#008000">"value1"</font>);
+    set.add (<font font-style="normal" color="#008000">"item1"</font>);
+    list.add (<font font-style="normal" color="#008000">"listitem1"</font>);
+    
+    txn.commit(); 
+} <strong class="hl-keyword">catch</strong> (Throwable e) { 
+    <strong class="hl-keyword">if</strong> (txn != null) {
+        <strong class="hl-keyword">try</strong> {
+            txn.rollback();
+        } <strong class="hl-keyword">catch</strong> (Exception ix) {ix.printStackTrace();};
+    }
+    e.printStackTrace();
+} <strong class="hl-keyword">finally</strong> { 
+    <strong class="hl-keyword">if</strong> (conn != null) {
+        <strong class="hl-keyword">try</strong> {
+            conn.close();
+        } <strong class="hl-keyword">catch</strong> (Exception ignored) {};
+    }
+}
+%&gt;
+</pre><p>
+    </p><div class="sect2" title="8.2.1.&nbsp;Resource Adapter Configuration"><div class="titlepage"><div><div><h3 class="title"><a name="JEEIntegrationConfig"></a>8.2.1.&nbsp;Resource Adapter Configuration</h3></div></div></div><p>Deploying and configuring Hazelcast resource adapter is no different than any other
+            resource adapter since it is a standard
+            <code class="literal">JCA</code>
+            resource adapter but
+            resource adapter installation and configuration is container specific, so please consult
+            your J2EE vendor documentation for details. Most common steps are:
+            </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Add the
+                        <code class="literal">hazelcast.jar</code>
+                        to container's classpath. Usually
+                        there is a lib directory that is loaded automatically by the container on
+                        startup.
+                    </p></li><li class="listitem"><p>Deploy<code class="literal">hazelcast-ra.rar</code>. Usually there is a some kind of
+                        deploy directory. Name of the directory varies by container.
+                    </p></li><li class="listitem"><p>Make container specific configurations when/after
+                        deploying<code class="literal">hazelcast-ra.rar</code>. Besides container specific
+                        configurations,
+                        <code class="literal">JNDI</code>
+                        name for Hazelcast resource is
+                        set.
+                    </p></li><li class="listitem"><p>Configure your application to use the Hazelcast resource. Updating
+                        <code class="literal">web.xml</code>
+                        and/or
+                        <code class="literal">ejb-jar.xml</code>
+                        to let
+                        container know that your application will use the Hazelcast resource and
+                        define the resource reference.
+                    </p></li><li class="listitem"><p>Make container specific application configuration to specify
+                        <code class="literal">JNDI</code>
+                        name used for the resource in the application.
+                    </p></li></ol></div><p>
+        </p></div><div class="sect2" title="8.2.2.&nbsp;Sample Glassfish v3 Web Application Configuration"><div class="titlepage"><div><div><h3 class="title"><a name="JEEIntegrationGlassfishSample"></a>8.2.2.&nbsp;Sample Glassfish v3 Web Application Configuration</h3></div></div></div><p>
+            </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Place the
+                        <code class="literal">hazelcast-&lt;version&gt;.jar</code>
+                        into
+                        <code class="literal">GLASSFISH_HOME/glassfish/domains/domain1/lib/ext/</code>
+                        directory.
+                    </p></li><li class="listitem"><p>Place the
+                        <code class="literal">hazelcast-ra-&lt;version&gt;.rar</code>
+                        into
+                        <code class="literal">GLASSFISH_HOME/glassfish/domains/domain1/autodeploy/</code>
+                        directory
+                    </p></li><li class="listitem"><p>Add the following lines to the
+                        <code class="literal">web.xml</code>
+                        file.
+                        </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;resource-ref&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;res-ref-name&gt;</font>HazelcastCF<font font-style="bold" color="#0A1777">&lt;/res-ref-name&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;res-type&gt;</font>com.hazelcast.jca.ConnectionFactoryImpl<font font-style="bold" color="#0A1777">&lt;/res-type&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;res-auth&gt;</font>Container<font font-style="bold" color="#0A1777">&lt;/res-auth&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/resource-ref&gt;</font>
+</pre><p>
+                    </p></li></ol></div><p>
+            Notice that we didn't have to put
+            <code class="literal">sun-ra.xml</code>
+            into the
+            rar file because it comes with the
+            <code class="literal">hazelcast-ra-&lt;version&gt;.rar</code>
+            file already.
+        </p><p>If Hazelcast resource is used from EJBs, you should configure
+            <code class="literal">ejb-jar.xml</code>
+            for resource reference and
+            <code class="literal">JNDI</code>
+            definitions, just like we did for<code class="literal">web.xml</code>.
+        </p></div><div class="sect2" title="8.2.3.&nbsp;Sample JBoss Web Application Configuration"><div class="titlepage"><div><div><h3 class="title"><a name="JEEIntegrationJBossSample"></a>8.2.3.&nbsp;Sample JBoss Web Application Configuration</h3></div></div></div><p>
+            </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Place the
+                        <code class="literal">hazelcast-&lt;version&gt;.jar</code>
+                        into
+                        <code class="literal">JBOSS_HOME/server/deploy/default/lib</code>
+                        directory.
+                    </p></li><li class="listitem"><p>Place the
+                        <code class="literal">hazelcast-ra-&lt;version&gt;.rar</code>
+                        into
+                        <code class="literal">JBOSS_HOME/server/deploy/default/deploy</code>
+                        directory
+                    </p></li><li class="listitem"><p>Create a
+                        <code class="literal">hazelcast-ds.xml</code>
+                        at
+                        <code class="literal">JBOSS_HOME/server/deploy/default/deploy</code>
+                        directory
+                        containing the following content. Make sure to set the
+                        <code class="literal">rar-name</code>
+                        element
+                        to<code class="literal">hazelcast-ra-&lt;version&gt;.rar</code>.
+                        </p><pre class="programlisting"><span class="hl-directive" style="color: maroon">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<strong class="hl-tag" style="color: blue">&lt;!DOCTYPE connection-factories
+  PUBLIC "-//JBoss//DTD JBOSS JCA Config 1.5//EN"
+  "http://www.jboss.org/j2ee/dtd/jboss-ds_1_5.dtd"&gt;</strong>
+
+<font font-style="bold" color="#0A1777">&lt;connection-factories&gt;</font> 
+ <font font-style="bold" color="#0A1777">&lt;tx-connection-factory&gt;</font>
+      <font font-style="bold" color="#0A1777">&lt;local-transaction/&gt;</font>
+      <font font-style="bold" color="#0A1777">&lt;track-connection-by-tx&gt;</font>true<font font-style="bold" color="#0A1777">&lt;/track-connection-by-tx&gt;</font>
+      <font font-style="bold" color="#0A1777">&lt;jndi-name&gt;</font>HazelcastCF<font font-style="bold" color="#0A1777">&lt;/jndi-name&gt;</font>
+      <font font-style="bold" color="#0A1777">&lt;rar-name&gt;</font>hazelcast-ra-<font font-style="bold" color="#0A1777">&lt;version&gt;</font>.rar<font font-style="bold" color="#0A1777">&lt;/rar-name&gt;</font>
+      <font font-style="bold" color="#0A1777">&lt;connection-definition&gt;</font>
+           javax.resource.cci.ConnectionFactory
+      <font font-style="bold" color="#0A1777">&lt;/connection-definition&gt;</font> 
+  <font font-style="bold" color="#0A1777">&lt;/tx-connection-factory&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/connection-factories&gt;</font>
+</pre><p>
+                    </p></li><li class="listitem"><p>Add the following lines to the
+                        <code class="literal">web.xml</code>
+                        file.
+                        </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;resource-ref&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;res-ref-name&gt;</font>HazelcastCF<font font-style="bold" color="#0A1777">&lt;/res-ref-name&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;res-type&gt;</font>com.hazelcast.jca.ConnectionFactoryImpl<font font-style="bold" color="#0A1777">&lt;/res-type&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;res-auth&gt;</font>Container<font font-style="bold" color="#0A1777">&lt;/res-auth&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/resource-ref&gt;</font>
+</pre><p>
+                    </p></li><li class="listitem"><p>Add the following lines to the
+                        <code class="literal">jboss-web.xml</code>
+                        file.
+                        </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;resource-ref&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;res-ref-name&gt;</font>HazelcastCF<font font-style="bold" color="#0A1777">&lt;/res-ref-name&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;jndi-name&gt;</font>java:HazelcastCF<font font-style="bold" color="#0A1777">&lt;/jndi-name&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/resource-ref&gt;</font> 
+</pre><p>
+                    </p></li></ul></div><p>
+            If Hazelcast resource is used from EJBs, you should configure
+            <code class="literal">ejb-jar.xml</code>
+            and
+            <code class="literal">jboss.xml</code>
+            for resource
+            reference and
+            <code class="literal">JNDI</code>
+            definitions.
+        </p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch08.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch08.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch09.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;8.&nbsp;Transactions&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;9.&nbsp;Distributed Executor Service</td></tr></table></div></body></html>

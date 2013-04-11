@@ -1,0 +1,91 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;11.&nbsp;WAN Replication</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="index.html" title="Hazelcast Documentation"><link rel="prev" href="ch10.html" title="Chapter&nbsp;10.&nbsp;Http Session Clustering with HazelcastWM"><link rel="next" href="ch12.html" title="Chapter&nbsp;12.&nbsp;Configuration"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;11.&nbsp;WAN Replication</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch10.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch12.html">Next</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;11.&nbsp;WAN Replication"><div class="titlepage"><div><div><h2 class="title"><a name="WanReplication"></a>Chapter&nbsp;11.&nbsp;WAN Replication</h2></div></div></div><div class="simplesect"><div class="titlepage"></div><p>
+        There are cases where you would need to synchronize multiple clusters. Synchronization of clusters
+        is named as WAN (Wide Area Network) Replication because it is mainly used for replicating different
+        clusters running on WAN. Imagine having different clusters in New York, London and Tokyo.
+        Each cluster would be operating at very high speed in their LAN (Local Area Network) settings but you would
+        want some or all parts of the data in these clusters replicating to each other.
+        So updates in Tokyo cluster goes to London and NY,
+        in the meantime updates in New York cluster is synchronized to Tokyo and London.
+    </p><p>
+        You can setup active-passive WAN
+        Replication where only one active node replicating its updates on the passive one. You can also setup
+        active-active replication where each cluster is actively updating and replication to the other cluster(s).
+    </p><p>
+        In the active-active replication setup, there might be cases where each node is updating the same entry in the
+        same named distributed map. Thus, conflicts will occur when merging. For those cases, conflict-resolution
+        will be needed. Here is how you can setup WAN Replication for London cluster for instance:
+    </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;hazelcast&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;wan-replication</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"my-wan-cluster"</font><font font-style="bold" color="#0A1777">&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;target-cluster</font> <font font-style="bold" color="#0A1777">group-name</font>=<font font-style="bold" color="#008000">"tokyo"</font> <font font-style="bold" color="#0A1777">group-password</font>=<font font-style="bold" color="#008000">"tokyo-pass"</font><font font-style="bold" color="#0A1777">&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;replication-impl&gt;</font>com.hazelcast.impl.wan.WanNoDelayReplication<font font-style="bold" color="#0A1777">&lt;/replication-impl&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;end-points&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;address&gt;</font>10.2.1.1:5701<font font-style="bold" color="#0A1777">&lt;/address&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;address&gt;</font>10.2.1.2:5701<font font-style="bold" color="#0A1777">&lt;/address&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;/end-points&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;/target-cluster&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;target-cluster</font> <font font-style="bold" color="#0A1777">group-name</font>=<font font-style="bold" color="#008000">"london"</font> <font font-style="bold" color="#0A1777">group-password</font>=<font font-style="bold" color="#008000">"london-pass"</font><font font-style="bold" color="#0A1777">&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;replication-impl&gt;</font>com.hazelcast.impl.wan.WanNoDelayReplication<font font-style="bold" color="#0A1777">&lt;/replication-impl&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;end-points&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;address&gt;</font>10.3.5.1:5701<font font-style="bold" color="#0A1777">&lt;/address&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;address&gt;</font>10.3.5.2:5701<font font-style="bold" color="#0A1777">&lt;/address&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;/end-points&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;/target-cluster&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/wan-replication&gt;</font>
+
+    <font font-style="bold" color="#0A1777">&lt;network&gt;</font>
+    ...
+    <font font-style="bold" color="#0A1777">&lt;/network&gt;</font>
+
+<font font-style="bold" color="#0A1777">&lt;/network&gt;</font>
+...
+<font font-style="bold" color="#0A1777">&lt;/hazelcast&gt;</font>
+</pre><p>
+        This can be the configuration of the cluster running in NY, replicating to Tokyo and London.
+        Tokyo and London clusters should have similar configurations if they are also active replicas.
+    </p><p>
+        If NY and London cluster configurations contain
+        <code class="literal">wan-replication</code>
+        element and
+        Tokyo cluster doesn't then it means NY and London are active endpoints and Tokyo is passive endpoint.
+    </p><p>
+        As noted earlier you can have Hazelcast replicate some or all of the data in your clusters. You might have
+        5 different distributed maps but you might want only one of these maps replicating across clusters.
+        So you mark which maps to replicate by adding
+        <code class="literal">wan-replication-ref</code>
+        element into map configuration.
+    </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;hazelcast&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;wan-replication</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"my-wan-cluster"</font><font font-style="bold" color="#0A1777">&gt;</font>
+        ...
+    <font font-style="bold" color="#0A1777">&lt;/wan-replication&gt;</font>
+
+    <font font-style="bold" color="#0A1777">&lt;network&gt;</font>
+    ...
+    <font font-style="bold" color="#0A1777">&lt;/network&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;map</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"my-shared-map"</font><font font-style="bold" color="#0A1777">&gt;</font>
+        ...
+        <font font-style="bold" color="#0A1777">&lt;wan-replication-ref</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"my-wan-cluster"</font><font font-style="bold" color="#0A1777">&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;merge-policy&gt;</font>hz.PASS_THROUGH<font font-style="bold" color="#0A1777">&lt;/merge-policy&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;/wan-replication-ref&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/map&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/network&gt;</font>
+...
+<font font-style="bold" color="#0A1777">&lt;/hazelcast&gt;</font>
+</pre><p>
+        Here we have
+        <code class="literal">my-shared-map</code>
+        is configured to replicate itself to the cluster targets defined
+        in the
+        <code class="literal">wan-replication</code>
+        element.
+    </p><p>
+        Note that you will also need to define a
+        <code class="literal">merge policy</code>
+        for merging replica entries and resolving conflicts
+        during the merge. Default merge policy is
+        <code class="literal">hz.PASS_THROUGH</code>
+        which will apply all in-coming updates as is.
+    </p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch10.html">Prev</a>&nbsp;</td><td width="20%" align="center">&nbsp;</td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch12.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;10.&nbsp;Http Session Clustering with HazelcastWM&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;12.&nbsp;Configuration</td></tr></table></div></body></html>

@@ -1,0 +1,101 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;16.&nbsp;Internals</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="index.html" title="Hazelcast Documentation"><link rel="prev" href="ch15s03.html" title="15.3.&nbsp;Rest Client"><link rel="next" href="ch16s02.html" title="16.2.&nbsp;Internals 3: Cluster Membership"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;16.&nbsp;Internals</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch15s03.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch16s02.html">Next</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;16.&nbsp;Internals"><div class="titlepage"><div><div><h2 class="title"><a name="Internals"></a>Chapter&nbsp;16.&nbsp;Internals</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="ch16.html#InternalsSerialization">16.1. Internals 2: Serialization</a></span></dt><dt><span class="sect1"><a href="ch16s02.html">16.2. Internals 3: Cluster Membership</a></span></dt><dt><span class="sect1"><a href="ch16s03.html">16.3. Internals 4: Distributed Map</a></span></dt></dl></div><div class="sect1" title="16.1.&nbsp;Internals 2: Serialization"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="InternalsSerialization"></a>16.1.&nbsp;Internals 2: Serialization</h2></div></div></div><p>All your distributed objects such as your key and value objects, objects you offer into
+        distributed queue and your distributed callable/runnable objects have to
+        be<code class="literal">Serializable</code>.
+    </p><p>Hazelcast serializes all your objects into an instance
+        of<code class="literal">com.hazelcast.nio.Data</code>.
+        <code class="literal">Data</code>
+        is the binary
+        representation of an object. When Hazelcast serializes an object into<code class="literal">Data</code>,
+        it first checks whether the object is an instance of well-known, optimizable object
+        such as<code class="literal">String, Long, Integer, byte[], ByteBuffer, Date</code>. If not, it then checks
+        whether the object is an instance
+        of<code class="literal">com.hazelcast.nio.DataSerializable</code>. If not, Hazelcast
+        uses standard java serialization to convert the object into binary format. See
+        <code class="literal">com.hazelcast.nio.Serializer</code>
+        for details.
+    </p><p>So for faster serialization, Hazelcast recommends to use of
+        <code class="literal">String, Long,
+            Integer, byte[]
+        </code>
+        objects or to implement
+        <code class="literal">com.hazelcast.nio.DataSerializable</code>
+        interface. Here is an
+        example of a class implementing
+        <code class="literal">com.hazelcast.nio.DataSerializable</code>
+        interface.
+        </p><pre class="programlisting"><strong class="hl-keyword">public</strong> <strong class="hl-keyword">class</strong> Address <strong class="hl-keyword">implements</strong> com.hazelcast.nio.DataSerializable {
+    <strong class="hl-keyword">private</strong> String street;
+    <strong class="hl-keyword">private</strong> <strong class="hl-keyword">int</strong> zipCode;
+    <strong class="hl-keyword">private</strong> String city;
+    <strong class="hl-keyword">private</strong> String state;
+
+    <strong class="hl-keyword">public</strong> Address() {}
+
+    <em class="hl-comment" style="color: silver">//getters setters..</em>
+
+    <strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> writeData(DataOutput out) <strong class="hl-keyword">throws</strong> IOException {
+        out.writeUTF(street);
+        out.writeInt(zipCode);
+        out.writeUTF(city);
+        out.writeUTF(state);
+    }
+
+    <strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> readData (DataInput in) <strong class="hl-keyword">throws</strong> IOException {
+        street    = in.readUTF();
+        zipCode = in.readInt();
+        city    = in.readUTF();
+        state    = in.readUTF();
+    }
+}
+</pre><p>
+        Lets take a look at another example which is encapsulating a
+        <code class="literal">DataSerializable</code>
+        field.</p><pre class="programlisting"><strong class="hl-keyword">public</strong> <strong class="hl-keyword">class</strong> Employee <strong class="hl-keyword">implements</strong> com.hazelcast.nio.DataSerializable {
+    <strong class="hl-keyword">private</strong> String firstName;
+    <strong class="hl-keyword">private</strong> String lastName;
+    <strong class="hl-keyword">private</strong> <strong class="hl-keyword">int</strong> age;
+    <strong class="hl-keyword">private</strong> <strong class="hl-keyword">double</strong> salary;
+    <strong class="hl-keyword">private</strong> Address address; <em class="hl-comment" style="color: silver">//address itself is DataSerializable</em>
+
+    <strong class="hl-keyword">public</strong> Employee() {}
+
+    <em class="hl-comment" style="color: silver">//getters setters..</em>
+
+    <strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> writeData(DataOutput out) <strong class="hl-keyword">throws</strong> IOException {
+        out.writeUTF(firstName);
+        out.writeUTF(lastName);
+        out.writeInt(age);
+        out.writeDouble (salary);
+        address.writeData (out);
+    }
+
+    <strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> readData (DataInput in) <strong class="hl-keyword">throws</strong> IOException {
+        firstName = in.readUTF();
+        lastName  = in.readUTF();
+        age       = in.readInt();
+        salary       = in.readDouble();
+        address   = <strong class="hl-keyword">new</strong> Address();
+        <em class="hl-comment" style="color: silver">// since Address is DataSerializable let it read its own internal state</em>
+        address.readData (in);
+    }
+}
+</pre><p>As you can see, since
+        <code class="literal">address</code>
+        field itself
+        is<code class="literal">DataSerializable</code>, it is calling
+        <code class="literal">address.writeData(out)</code>
+        when writing and
+        <code class="literal">address.readData(in)</code>
+        when reading.
+    </p><p>
+        <span class="bold"><strong>Caution:</strong></span>
+        Hazelcast serialization is done on the user
+        thread and it assumes that there will be only one object serialization at a time. So
+        putting any Hazelcast operation that will require to serialize anything else will
+        break the serialization. For Example: Putting</p><pre class="programlisting">Hazelcast.getMap(<font font-style="normal" color="#008000">"anyMap"</font>).put(<font font-style="normal" color="#008000">"key"</font>, <font font-style="normal" color="#008000">"dummy value"</font>);
+</pre><p>line in readData or writeData methods will break the serialization. If you have
+        to perform such an operation, at least it should be performed in another thread
+        which will force the serialization to take on different thread.
+    </p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch15s03.html">Prev</a>&nbsp;</td><td width="20%" align="center">&nbsp;</td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch16s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">15.3.&nbsp;Rest Client&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;16.2.&nbsp;Internals 3: Cluster Membership</td></tr></table></div></body></html>

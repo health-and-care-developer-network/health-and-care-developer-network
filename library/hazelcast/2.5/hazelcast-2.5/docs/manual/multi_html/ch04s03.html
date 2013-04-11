@@ -1,0 +1,68 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>4.3.&nbsp;Cluster Member Security</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="ch04.html" title="Chapter&nbsp;4.&nbsp;Security (Enterprise Edition Only)"><link rel="prev" href="ch04s02.html" title="4.2.&nbsp;ClusterLoginModule"><link rel="next" href="ch04s04.html" title="4.4.&nbsp;Native Client Security"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">4.3.&nbsp;Cluster Member Security</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch04s02.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;4.&nbsp;Security
+            <sup>(Enterprise Edition Only)</sup>
+        </th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch04s04.html">Next</a></td></tr></table><hr></div><div class="sect1" title="4.3.&nbsp;Cluster Member Security"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="MemberSecurity"></a>4.3.&nbsp;Cluster Member Security</h2></div></div></div><p>Hazelcast supports standard Java Security (JAAS) based authentication between cluster
+        members. You should configure one or more<code class="code">LoginModule</code>s and an instance of
+        <code class="literal">com.hazelcast.security.ICredentialsFactory</code>. Although Hazelcast has
+        default implementations using cluster group and group-password and
+        <code class="literal">UsernamePasswordCredentials</code>
+        on authentication, it is advised to
+        implement these according to specific needs and environment.
+        </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;security</font> <font font-style="bold" color="#0A1777">enabled</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;member-credentials-factory</font> <font font-style="bold" color="#0A1777">class-name</font>=<font font-style="bold" color="#008000">"com.hazelcast.examples.MyCredentialsFactory"</font><font font-style="bold" color="#0A1777">&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;properties&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"property1"</font><font font-style="bold" color="#0A1777">&gt;</font>value1<font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"property2"</font><font font-style="bold" color="#0A1777">&gt;</font>value2<font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;/properties&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/member-credentials-factory&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;member-login-modules&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;login-module</font> <font font-style="bold" color="#0A1777">class-name</font>=<font font-style="bold" color="#008000">"com.hazelcast.examples.MyRequiredLoginModule"</font> <font font-style="bold" color="#0A1777">usage</font>=<font font-style="bold" color="#008000">"required"</font><font font-style="bold" color="#0A1777">&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;properties&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"property3"</font><font font-style="bold" color="#0A1777">&gt;</font>value3<font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;/properties&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;/login-module&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;login-module</font> <font font-style="bold" color="#0A1777">class-name</font>=<font font-style="bold" color="#008000">"com.hazelcast.examples.MySufficientLoginModule"</font> <font font-style="bold" color="#0A1777">usage</font>=<font font-style="bold" color="#008000">"sufficient"</font><font font-style="bold" color="#0A1777">&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;properties&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"property4"</font><font font-style="bold" color="#0A1777">&gt;</font>value4<font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;/properties&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;/login-module&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;login-module</font> <font font-style="bold" color="#0A1777">class-name</font>=<font font-style="bold" color="#008000">"com.hazelcast.examples.MyOptionalLoginModule"</font> <font font-style="bold" color="#0A1777">usage</font>=<font font-style="bold" color="#008000">"optional"</font><font font-style="bold" color="#0A1777">&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;properties&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"property5"</font><font font-style="bold" color="#0A1777">&gt;</font>value5<font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;/properties&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;/login-module&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/member-login-modules&gt;</font>
+    ...
+<font font-style="bold" color="#0A1777">&lt;/security&gt;</font>
+</pre><p>
+        You can define as many as<code class="literal">LoginModule</code>s you wanted in
+        configuration. Those are executed in given order. Usage attribute has 4 values; 'required',
+        'requisite', 'sufficient' and 'optional' as defined in
+        <code class="code">javax.security.auth.login.AppConfigurationEntry.LoginModuleControlFlag</code>.
+    </p><p>
+        </p><pre class="programlisting">
+<strong class="hl-keyword">package</strong> com.hazelcast.security;
+<strong class="hl-tag" style="color: blue">/**
+ * ICredentialsFactory is used to create Credentials objects to be used
+ * during node authentication before connection accepted by master node.
+ */</strong>
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">interface</strong> ICredentialsFactory {
+
+    <strong class="hl-keyword">void</strong> configure(GroupConfig groupConfig, Properties properties);
+
+    Credentials newCredentials();
+
+    <strong class="hl-keyword">void</strong> destroy();
+}
+</pre><p>
+    </p><p>
+        Properties defined in configuration are passed to
+        <code class="code">ICredentialsFactory.configure()</code>
+        method as
+        <code class="code">java.util.Properties</code>
+        and to
+        <code class="code">LoginModule.initialize()</code>
+        method as<code class="code">java.util.Map</code>.
+    </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch04s02.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch04.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch04s04.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">4.2.&nbsp;ClusterLoginModule&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;4.4.&nbsp;Native Client Security</td></tr></table></div></body></html>

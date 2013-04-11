@@ -1,0 +1,130 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;9.&nbsp;Distributed Executor Service</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="index.html" title="Hazelcast Documentation"><link rel="prev" href="ch08s02.html" title="8.2.&nbsp;J2EE Integration"><link rel="next" href="ch09s02.html" title="9.2.&nbsp;Execution Cancellation"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;9.&nbsp;Distributed Executor Service</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch08s02.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch09s02.html">Next</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;9.&nbsp;Distributed Executor Service"><div class="titlepage"><div><div><h2 class="title"><a name="ExecutorService"></a>Chapter&nbsp;9.&nbsp;Distributed Executor Service</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="ch09.html#DistributedExecution">9.1. Distributed Execution</a></span></dt><dt><span class="sect1"><a href="ch09s02.html">9.2. Execution Cancellation</a></span></dt><dt><span class="sect1"><a href="ch09s03.html">9.3. Execution Callback</a></span></dt></dl></div><div class="simplesect"><div class="titlepage"></div><p>
+    One of the coolest features of Java 1.5 is the Executor framework, which allows you to asynchronously execute
+    your tasks, logical units of works, such as database query, complex calculation, image rendering etc. So one nice
+    way of executing such tasks would be running them asynchronously and doing other things meanwhile. When ready, get
+    the result and move on. If execution of the task takes longer than expected, you may consider canceling the task
+    execution. In Java Executor framework, tasks are implemented as
+    <code class="literal">java.util.concurrent.Callable</code> and <code class="literal">java.util.Runnable</code>.
+
+    </p><pre class="programlisting"><strong class="hl-keyword">import</strong> java.util.concurrent.Callable;
+<strong class="hl-keyword">import</strong> java.io.Serializable;
+
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">class</strong> Echo <strong class="hl-keyword">implements</strong> Callable&lt;String&gt;, Serializable {
+    String input = null;
+
+    <strong class="hl-keyword">public</strong> Echo() {
+    }
+
+    <strong class="hl-keyword">public</strong> Echo(String input) {
+        <strong class="hl-keyword">this</strong>.input = input;
+    }
+
+    <strong class="hl-keyword">public</strong> String call() {
+        <strong class="hl-keyword">return</strong> Hazelcast.getCluster().getLocalMember().toString() + <font font-style="normal" color="#008000">":"</font> + input;
+    }
+}
+</pre><p>
+
+    Echo callable above, for instance, in its
+    <code class="literal">call()</code>
+    method, is returning the local member and the input passed in. Remember that
+    <code class="literal">Hazelcast.getCluster().getLocalMember()</code>
+    returns the local member and
+    <code class="literal">toString()</code>
+    returns the member's address
+    <code class="literal">(ip + port)</code>
+    in String form, just to see which member actually executed the code for our example. Of course, call() method can do
+    and return anything you like.
+
+    Executing a task by using executor framework is very straight forward. Simply obtain a
+    <code class="literal">ExecutorService</code>
+    instance, generally via
+    <code class="literal">Executors</code> and submit the task which returns a <code class="literal">Future</code>. After executing task, you don't have to wait for
+    execution to complete, you can process other things and when ready use the future object to retrieve the result as
+    show in code below.
+
+    </p><pre class="programlisting">ExecutorService executorService = Executors.newSingleThreadExecutor();
+Future&lt;String&gt; future = executorService.submit (<strong class="hl-keyword">new</strong> Echo(<font font-style="normal" color="#008000">"myinput"</font>));
+<em class="hl-comment" style="color: silver">//while it is executing, do some useful stuff</em>
+<em class="hl-comment" style="color: silver">//when ready, get the result of your execution</em>
+String result = future.get();
+</pre><p>
+
+    If you need access to the current <code class="literal">HazelcastInstance</code> you are executing the task under, implement the interface <code class="literal">HazelcastInstanceAware</code>.
+    This will call the method <code class="literal">setHazelcastInstance()</code> prior to executing your task.
+        
+    </p></div><div class="sect1" title="9.1.&nbsp;Distributed Execution"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="DistributedExecution"></a>9.1.&nbsp;Distributed Execution</h2></div></div></div><p>Distributed executor service is a distributed implementation of java.util.concurrent.ExecutorService.
+        It allows you to execute your code in cluster. In this chapter, all the code samples are based on the Echo class
+        above.
+        Please note that Echo class is
+        <code class="literal">Serializable</code>
+        .
+        You can ask Hazelcast to execute your code (<code class="literal">Runnable, Callable</code>):
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>on a specific cluster member you choose.
+                </p></li><li class="listitem"><p>on the member owning the key you choose.
+                </p></li><li class="listitem"><p>on the member Hazelcast will pick.
+                </p></li><li class="listitem"><p>on all or subset of the cluster members.
+                </p></li></ul></div><p>
+        </p><pre class="programlisting"><strong class="hl-keyword">import</strong> com.hazelcast.core.Member;
+<strong class="hl-keyword">import</strong> com.hazelcast.core.Hazelcast;
+<strong class="hl-keyword">import</strong> com.hazelcast.core.MultiTask;
+<strong class="hl-keyword">import</strong> com.hazelcast.core.DistributedTask;
+<strong class="hl-keyword">import</strong> java.util.concurrent.ExecutorService;   
+<strong class="hl-keyword">import</strong> java.util.concurrent.FutureTask;   
+<strong class="hl-keyword">import</strong> java.util.concurrent.Future;   
+<strong class="hl-keyword">import</strong> java.util.Set;
+<strong class="hl-keyword">import</strong> com.hazelcast.config.Config;
+
+
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> echoOnTheMember(String input, Member member) <strong class="hl-keyword">throws</strong> Exception {
+   FutureTask&lt;String&gt; task = <strong class="hl-keyword">new</strong> DistributedTask&lt;String&gt;(<strong class="hl-keyword">new</strong> Echo(input), member);
+   Config cfg = <strong class="hl-keyword">new</strong> Config();
+   HazelcastInstance hz = Hazelcast.newHazelcastInstance(cfg);
+   ExecutorService executorService = hz.getExecutorService();
+   executorService.execute(task);
+   String echoResult = task.get();
+}
+
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> echoOnTheMemberOwningTheKey(String input, Object key) <strong class="hl-keyword">throws</strong> Exception {
+   FutureTask&lt;String&gt; task = <strong class="hl-keyword">new</strong> DistributedTask&lt;String&gt;(<strong class="hl-keyword">new</strong> Echo(input), key);
+   Config cfg = <strong class="hl-keyword">new</strong> Config();
+   HazelcastInstance hz = Hazelcast.newHazelcastInstance(cfg);
+   ExecutorService executorService = hz.getExecutorService();
+   executorService.execute(task);
+   String echoResult = task.get();
+}
+
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> echoOnSomewhere(String input) <strong class="hl-keyword">throws</strong> Exception { 
+   Config cfg = <strong class="hl-keyword">new</strong> Config();
+   HazelcastInstance hz = Hazelcast.newHazelcastInstance(cfg);
+   ExecutorService executorService = hz.getExecutorService();
+   Future&lt;String&gt; task = executorService.submit(<strong class="hl-keyword">new</strong> Echo(input));
+   String echoResult = task.get();
+}
+
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> echoOnMembers(String input, Set&lt;Member&gt; members) <strong class="hl-keyword">throws</strong> Exception {
+   Config cfg = <strong class="hl-keyword">new</strong> Config();
+   HazelcastInstance hz = Hazelcast.newHazelcastInstance(cfg);
+   MultiTask&lt;String&gt; task = <strong class="hl-keyword">new</strong> MultiTask&lt;String&gt;(<strong class="hl-keyword">new</strong> Echo(input), members);
+   ExecutorService executorService = hz.getExecutorService();
+   executorService.execute(task);
+   Collection&lt;String&gt; results = task.get();
+} 
+</pre><p>
+        Note that you can obtain the set of cluster members via
+        <code class="literal">Hazelcast.getCluster().getMembers()</code>
+        call.
+        You can also extend the
+        <code class="literal">MultiTask</code>
+        class to override
+        <code class="literal">set(V result), setException(Throwable exception), done()</code>
+        methods for custom behaviour.
+        Just like
+        <code class="literal">java.util.concurrent.FutureTask.get() , MultiTask.get()</code>
+        will throw
+        <code class="literal">java.util.concurrent.ExecutionException</code>
+        if any of the executions throws exception.
+
+    </p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch08s02.html">Prev</a>&nbsp;</td><td width="20%" align="center">&nbsp;</td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch09s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">8.2.&nbsp;J2EE Integration&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;9.2.&nbsp;Execution Cancellation</td></tr></table></div></body></html>

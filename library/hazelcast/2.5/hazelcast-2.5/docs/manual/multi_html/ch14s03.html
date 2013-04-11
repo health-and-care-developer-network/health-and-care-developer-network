@@ -1,0 +1,22 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>14.3.&nbsp;Spring Cache</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="ch14.html" title="Chapter&nbsp;14.&nbsp;Spring Integration"><link rel="prev" href="ch14s02.html" title="14.2.&nbsp;Spring Managed Context"><link rel="next" href="ch14s04.html" title="14.4.&nbsp;Hibernate 2nd Level Cache Config"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">14.3.&nbsp;Spring Cache</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch14s02.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;14.&nbsp;Spring Integration</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch14s04.html">Next</a></td></tr></table><hr></div><div class="sect1" title="14.3.&nbsp;Spring Cache"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="SpringCache"></a>14.3.&nbsp;Spring Cache</h2></div></div></div><p>
+        As of version 3.1, Spring Framework provides support for adding caching into an existing Spring application.
+        To use Hazelcast as Spring cache provider, you should just define a <code class="code">com.hazelcast.spring.cache.HazelcastCacheManager</code>
+        bean and register it as Spring cache manager.
+
+    </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;cache:annotation-driven</font> <font font-style="bold" color="#0A1777">cache-manager</font>=<font font-style="bold" color="#008000">"cacheManager"</font><font font-style="bold" color="#0A1777"> /&gt;</font>
+
+<font font-style="bold" color="#0A1777">&lt;hz:hazelcast</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"hazelcast"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    ...
+<font font-style="bold" color="#0A1777">&lt;/hz:hazelcast&gt;</font>
+
+<font font-style="bold" color="#0A1777">&lt;bean</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"cacheManager"</font> <font font-style="bold" color="#0A1777">class</font>=<font font-style="bold" color="#008000">"com.hazelcast.spring.cache.HazelcastCacheManager"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;constructor-arg</font> <font font-style="bold" color="#0A1777">ref</font>=<font font-style="bold" color="#008000">"instance"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/bean&gt;</font>
+</pre><p>
+    <span class="italic">For more info see
+        <a class="link" href="http://static.springsource.org/spring/docs/3.1.x/spring-framework-reference/html/cache.html" target="_top">
+            Spring Cache Abstraction
+        </a>.</span>
+    </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch14s02.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch14.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch14s04.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">14.2.&nbsp;Spring Managed Context&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;14.4.&nbsp;Hibernate 2nd Level Cache Config</td></tr></table></div></body></html>

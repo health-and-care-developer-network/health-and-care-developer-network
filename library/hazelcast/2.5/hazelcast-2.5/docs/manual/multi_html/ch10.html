@@ -1,0 +1,180 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;10.&nbsp;Http Session Clustering with HazelcastWM</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="index.html" title="Hazelcast Documentation"><link rel="prev" href="ch09s03.html" title="9.3.&nbsp;Execution Callback"><link rel="next" href="ch11.html" title="Chapter&nbsp;11.&nbsp;WAN Replication"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;10.&nbsp;Http Session Clustering with HazelcastWM</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch09s03.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch11.html">Next</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;10.&nbsp;Http Session Clustering with HazelcastWM"><div class="titlepage"><div><div><h2 class="title"><a name="HttpSessionClustering"></a>Chapter&nbsp;10.&nbsp;Http Session Clustering with HazelcastWM</h2></div></div></div><div class="simplesect"><div class="titlepage"></div><p>
+    Say you have more than one web servers (A, B, C) with a load balancer in front of them. If server A goes down
+    then your users on that server will be directed to one of the live servers (B or C) but their sessions will be lost!
+    So we have to have all these sessions backed up somewhere if we don't want to lose the sessions upon server crashes.
+    Hazelcast WM allows you to cluster user http sessions automatically. The following are required for enabling
+    Hazelcast Session Clustering:
+    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Target application or web server should support Java 1.5+
+            </p></li><li class="listitem"><p>Target application or web server should support Servlet 2.4+ spec
+            </p></li><li class="listitem"><p>Session objects that needs to be clustered have to be Serializable
+            </p></li></ul></div><p>
+    Here are the steps to setup Hazelcast Session Clustering:
+    </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Put the
+                <code class="literal">hazelcast</code>
+                and
+                <code class="literal">hazelcast-wm</code>
+                jars in your
+                <code class="literal">WEB-INF/lib</code>
+                directory. Optionally if you wish to connect to a cluster as a client add
+                <code class="literal">hazelcast-client</code>
+                as well.
+            </p></li><li class="listitem"><p>Put the following xml into
+                <code class="literal">web.xml</code>
+                file. Make sure Hazelcast filter is placed
+                before all the other filters if any; put it at the top for example.
+            </p><p>
+                </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;filter&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;filter-name&gt;</font>hazelcast-filter<font font-style="bold" color="#0A1777">&lt;/filter-name&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;filter-class&gt;</font>com.hazelcast.web.WebFilter<font font-style="bold" color="#0A1777">&lt;/filter-class&gt;</font>
+    <em class="hl-comment" style="color: silver">&lt;!--
+        Name of the distributed map storing
+        your web session objects
+    --&gt;</em>
+    <font font-style="bold" color="#0A1777">&lt;init-param&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;param-name&gt;</font>map-name<font font-style="bold" color="#0A1777">&lt;/param-name&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;param-value&gt;</font>my-sessions<font font-style="bold" color="#0A1777">&lt;/param-value&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/init-param&gt;</font>
+    <em class="hl-comment" style="color: silver">&lt;!--
+        How is your load-balancer configured?
+        stick-session means all requests of a session
+        is routed to the node where the session is first created.
+        This is excellent for performance.
+        If sticky-session is set to false, when a session is updated
+        on a node, entry for this session on all other nodes is invalidated.
+        You have to know how your load-balancer is configured before
+        setting this parameter. Default is true.
+    --&gt;</em>
+    <font font-style="bold" color="#0A1777">&lt;init-param&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;param-name&gt;</font>sticky-session<font font-style="bold" color="#0A1777">&lt;/param-name&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;param-value&gt;</font>true<font font-style="bold" color="#0A1777">&lt;/param-value&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/init-param&gt;</font>
+    <em class="hl-comment" style="color: silver">&lt;!--
+        Name of session id cookie
+    --&gt;</em>
+    <font font-style="bold" color="#0A1777">&lt;init-param&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;param-name&gt;</font>cookie-name<font font-style="bold" color="#0A1777">&lt;/param-name&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;param-value&gt;</font>hazelcast.sessionId<font font-style="bold" color="#0A1777">&lt;/param-value&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/init-param&gt;</font>
+    <em class="hl-comment" style="color: silver">&lt;!--
+        Domain of session id cookie. Default is based on incoming request.
+    --&gt;</em>
+    <font font-style="bold" color="#0A1777">&lt;init-param&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;param-name&gt;</font>cookie-domain<font font-style="bold" color="#0A1777">&lt;/param-name&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;param-value&gt;</font>.mywebsite.com<font font-style="bold" color="#0A1777">&lt;/param-value&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/init-param&gt;</font>
+    <em class="hl-comment" style="color: silver">&lt;!--
+        Should cookie only be sent using a secure protocol? Default is false.
+    --&gt;</em>
+    <font font-style="bold" color="#0A1777">&lt;init-param&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;param-name&gt;</font>cookie-secure<font font-style="bold" color="#0A1777">&lt;/param-name&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;param-value&gt;</font>false<font font-style="bold" color="#0A1777">&lt;/param-value&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/init-param&gt;</font>
+    <em class="hl-comment" style="color: silver">&lt;!--
+        Should HttpOnly attribute be set on cookie ? Default is false.
+    --&gt;</em>
+    <font font-style="bold" color="#0A1777">&lt;init-param&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;param-name&gt;</font>cookie-http-only<font font-style="bold" color="#0A1777">&lt;/param-name&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;param-value&gt;</font>false<font font-style="bold" color="#0A1777">&lt;/param-value&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/init-param&gt;</font>
+    <em class="hl-comment" style="color: silver">&lt;!--
+        Are you debugging? Default is false.
+    --&gt;</em>
+    <font font-style="bold" color="#0A1777">&lt;init-param&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;param-name&gt;</font>debug<font font-style="bold" color="#0A1777">&lt;/param-name&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;param-value&gt;</font>true<font font-style="bold" color="#0A1777">&lt;/param-value&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/init-param&gt;</font>
+    <em class="hl-comment" style="color: silver">&lt;!--
+        Configuration xml location;
+            * as servlet resource OR
+            * as classpath resource OR
+            * as URL
+        Default is one of hazelcast-default.xml
+        or hazelcast.xml in classpath.
+    --&gt;</em>
+    <font font-style="bold" color="#0A1777">&lt;init-param&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;param-name&gt;</font>config-location<font font-style="bold" color="#0A1777">&lt;/param-name&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;param-value&gt;</font>/WEB-INF/hazelcast.xml<font font-style="bold" color="#0A1777">&lt;/param-value&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/init-param&gt;</font>
+    <em class="hl-comment" style="color: silver">&lt;!--
+        Do you want to use an existing HazelcastInstance?
+        Default is null.
+    --&gt;</em>
+    <font font-style="bold" color="#0A1777">&lt;init-param&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;param-name&gt;</font>instance-name<font font-style="bold" color="#0A1777">&lt;/param-name&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;param-value&gt;</font>default<font font-style="bold" color="#0A1777">&lt;/param-value&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/init-param&gt;</font>
+</pre><p>
+ 
+</p><pre class="programlisting">
+    <em class="hl-comment" style="color: silver">&lt;!--
+        Do you want to connect as a client to an existing cluster?
+        Default is false.
+    --&gt;</em>
+    <font font-style="bold" color="#0A1777">&lt;init-param&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;param-name&gt;</font>use-client<font font-style="bold" color="#0A1777">&lt;/param-name&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;param-value&gt;</font>false<font font-style="bold" color="#0A1777">&lt;/param-value&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/init-param&gt;</font>
+    <em class="hl-comment" style="color: silver">&lt;!--
+        Client configuration location;
+            * as servlet resource OR
+            * as classpath resource OR
+            * as URL
+        Default is null.
+    --&gt;</em>
+    <font font-style="bold" color="#0A1777">&lt;init-param&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;param-name&gt;</font>client-config-location<font font-style="bold" color="#0A1777">&lt;/param-name&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;param-value&gt;</font>/WEB-INF/hazelcast-client.properties<font font-style="bold" color="#0A1777">&lt;/param-value&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/init-param&gt;</font>
+    <em class="hl-comment" style="color: silver">&lt;!--
+        Do you want to shutdown HazelcastInstance during
+        web application undeploy process?
+        Default is true.
+    --&gt;</em>
+    <font font-style="bold" color="#0A1777">&lt;init-param&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;param-name&gt;</font>shutdown-on-destroy<font font-style="bold" color="#0A1777">&lt;/param-name&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;param-value&gt;</font>true<font font-style="bold" color="#0A1777">&lt;/param-value&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/init-param&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/filter&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;filter-mapping&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;filter-name&gt;</font>hazelcast-filter<font font-style="bold" color="#0A1777">&lt;/filter-name&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;url-pattern&gt;</font>/*<font font-style="bold" color="#0A1777">&lt;/url-pattern&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;dispatcher&gt;</font>FORWARD<font font-style="bold" color="#0A1777">&lt;/dispatcher&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;dispatcher&gt;</font>INCLUDE<font font-style="bold" color="#0A1777">&lt;/dispatcher&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;dispatcher&gt;</font>REQUEST<font font-style="bold" color="#0A1777">&lt;/dispatcher&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/filter-mapping&gt;</font>
+
+<font font-style="bold" color="#0A1777">&lt;listener&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;listener-class&gt;</font>com.hazelcast.web.SessionListener<font font-style="bold" color="#0A1777">&lt;/listener-class&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/listener&gt;</font>
+</pre><p>
+            </p></li><li class="listitem"><p>Package and deploy your war file as you would normally do.
+            </p></li></ol></div><p>
+
+    It is that easy! All http requests will go through Hazelcast
+    <code class="literal">WebFilter</code>
+    and it will put the
+    session objects into Hazelcast distributed map if needed.
+    </p><p>
+        <span class="bold"><strong>Info about sticky-sessions:</strong></span>
+    </p><p>
+        Hazelcast holds whole session attributes in a distributed map and in local http session. Local session is required
+        for fast access to data and distributed map is needed for fail-safety.
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+                    <span class="italic">If sticky-session is not used, whenever a session a attribute
+                    is updated in a node (in both node local session and clustered cache),
+                    that attribute should be invalidated in all other nodes' local sessions,
+                    because now they have dirty value. So when a request arrives one of those other nodes
+                    that attribute value is fetched from clustered cache.</span>
+                </p></li><li class="listitem"><p>
+                    <span class="italic">To overcome performance penalty of sending invalidation messages during updates,
+                        sticky-sessions can be used.
+                        If Hazelcast knows sessions are sticky, invalidation will not be send, because Hazelcast assumes there is
+                        no other local session at the moment. When a server is down, requests belonging to a session hold
+                        in that server will routed to other one and that server will fetch session data from clustered cache.
+                        That means using sticky-sessions, one will not suffer performance penalty of accessing clustered data
+                        and can benefit recover from a server failure.</span>
+                </p></li></ul></div><p>
+    </p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch09s03.html">Prev</a>&nbsp;</td><td width="20%" align="center">&nbsp;</td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch11.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">9.3.&nbsp;Execution Callback&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;11.&nbsp;WAN Replication</td></tr></table></div></body></html>

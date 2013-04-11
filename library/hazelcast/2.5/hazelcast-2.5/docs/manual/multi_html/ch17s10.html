@@ -1,0 +1,90 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>17.10.&nbsp;Console</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="ch17.html" title="Chapter&nbsp;17.&nbsp;Management Center"><link rel="prev" href="ch17s09.html" title="17.9.&nbsp;Time Travel"><link rel="next" href="ch18.html" title="Chapter&nbsp;18.&nbsp;Miscellaneous"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">17.10.&nbsp;Console</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch17s09.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;17.&nbsp;Management Center</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch18.html">Next</a></td></tr></table><hr></div><div class="sect1" title="17.10.&nbsp;Console"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="MC_Console"></a>17.10.&nbsp;Console</h2></div></div></div><p>
+        The console tool enables you execute commands on the cluster.
+        You can read or write on instances but first you should set namespace.
+        For example if you have a map with name "mapCustomers".
+        To get a customer with key "Jack" you should first set the namespace with command "ns mapCustomers".
+        Then you can take the object by "m.get Jack"
+        Here is the command list:
+        </p><pre class="programlisting">
+-- General commands
+echo true|false                      //turns on/off echo of commands (default false)
+silent true|false                    //turns on/off silent of command output (default false)
+#<font font-style="bold" color="#0A1777">&lt;number&gt;</font> <font font-style="bold" color="#0A1777">&lt;command&gt;</font>                  //repeats <font font-style="bold" color="#0A1777">&lt;number&gt;</font> time <font font-style="bold" color="#0A1777">&lt;command&gt;</font>, replace $i in <font font-style="bold" color="#0A1777">&lt;command&gt;</font> with current iteration (0..<font font-style="bold" color="#0A1777">&lt;number-1&gt;</font>)
+&amp;<font font-style="bold" color="#0A1777">&lt;number&gt;</font> <font font-style="bold" color="#0A1777">&lt;command&gt;</font>                  //forks <font font-style="bold" color="#0A1777">&lt;number&gt;</font> threads to execute <font font-style="bold" color="#0A1777">&lt;command&gt;</font>, replace $t in <font font-style="bold" color="#0A1777">&lt;command&gt;</font> with current thread number (0..<font font-style="bold" color="#0A1777">&lt;number-1&gt;</font>
+     When using #x or &amp;x, is is advised to use silent true as well.
+     When using &amp;x with m.putmany and m.removemany, each thread will get a different share of keys unless a start key index is specified
+jvm                                  //displays info about the runtime
+who                                  //displays info about the cluster
+whoami                               //displays info about this cluster member
+ns <font font-style="bold" color="#0A1777">&lt;string&gt;</font>                          //switch the namespace for using the distributed queue/map/set/list <font font-style="bold" color="#0A1777">&lt;string&gt;</font> (defaults to "default"
+@<font font-style="bold" color="#0A1777">&lt;file&gt;</font>                              //executes the given <font font-style="bold" color="#0A1777">&lt;file&gt;</font> script. Use '//' for comments in the script
+
+-- Queue commands
+q.offer <font font-style="bold" color="#0A1777">&lt;string&gt;</font>                     //adds a string object to the queue
+q.poll                               //takes an object from the queue
+q.offermany <font font-style="bold" color="#0A1777">&lt;number&gt;</font> [<font font-style="bold" color="#0A1777">&lt;size&gt;</font>]        //adds indicated number of string objects to the queue ('obj<font font-style="bold" color="#0A1777">&lt;i&gt;</font>' or byte[<font font-style="bold" color="#0A1777">&lt;size&gt;</font>])
+q.pollmany <font font-style="bold" color="#0A1777">&lt;number&gt;</font>                  //takes indicated number of objects from the queue
+q.iterator [remove]                  //iterates the queue, remove if specified
+q.size                               //size of the queue
+q.clear                              //clears the queue
+
+-- Set commands
+s.add <font font-style="bold" color="#0A1777">&lt;string&gt;</font>                       //adds a string object to the set
+s.remove <font font-style="bold" color="#0A1777">&lt;string&gt;</font>                    //removes the string object from the set
+s.addmany <font font-style="bold" color="#0A1777">&lt;number&gt;</font>                   //adds indicated number of string objects to the set ('obj<font font-style="bold" color="#0A1777">&lt;i&gt;</font>')
+s.removemany <font font-style="bold" color="#0A1777">&lt;number&gt;</font>                //takes indicated number of objects from the set
+s.iterator [remove]                  //iterates the set, removes if specified
+s.size                               //size of the set
+s.clear                              //clears the set
+
+-- Lock commands
+lock <font font-style="bold" color="#0A1777">&lt;key&gt;</font>                           //same as Hazelcast.getLock(key).lock()
+tryLock <font font-style="bold" color="#0A1777">&lt;key&gt;</font>                        //same as Hazelcast.getLock(key).tryLock()
+tryLock <font font-style="bold" color="#0A1777">&lt;key&gt;</font> <font font-style="bold" color="#0A1777">&lt;time&gt;</font>                 //same as tryLock <font font-style="bold" color="#0A1777">&lt;key&gt;</font> with timeout in seconds
+unlock <font font-style="bold" color="#0A1777">&lt;key&gt;</font>                         //same as Hazelcast.getLock(key).unlock()
+
+-- Map commands
+m.put <font font-style="bold" color="#0A1777">&lt;key&gt;</font> <font font-style="bold" color="#0A1777">&lt;value&gt;</font>                  //puts an entry to the map
+m.remove <font font-style="bold" color="#0A1777">&lt;key&gt;</font>                       //removes the entry of given key from the map
+m.get <font font-style="bold" color="#0A1777">&lt;key&gt;</font>                          //returns the value of given key from the map
+m.putmany <font font-style="bold" color="#0A1777">&lt;number&gt;</font> [<font font-style="bold" color="#0A1777">&lt;size&gt;</font>] [<font font-style="bold" color="#0A1777">&lt;index&gt;</font>]//puts indicated number of entries to the map ('key<font font-style="bold" color="#0A1777">&lt;i&gt;</font>':byte[<font font-style="bold" color="#0A1777">&lt;size&gt;</font>], <font font-style="bold" color="#0A1777">&lt;index&gt;</font>+(0..<font font-style="bold" color="#0A1777">&lt;number&gt;</font>)
+m.removemany <font font-style="bold" color="#0A1777">&lt;number&gt;</font> [<font font-style="bold" color="#0A1777">&lt;index&gt;</font>]      //removes indicated number of entries from the map ('key<font font-style="bold" color="#0A1777">&lt;i&gt;</font>', <font font-style="bold" color="#0A1777">&lt;index&gt;</font>+(0..<font font-style="bold" color="#0A1777">&lt;number&gt;</font>)
+     When using &amp;x with m.putmany and m.removemany, each thread will get a different share of keys unless a start key <font font-style="bold" color="#0A1777">&lt;index&gt;</font> is specified
+m.keys                               //iterates the keys of the map
+m.values                             //iterates the values of the map
+m.entries                            //iterates the entries of the map
+m.iterator [remove]                  //iterates the keys of the map, remove if specified
+m.size                               //size of the map
+m.clear                              //clears the map
+m.destroy                            //destroys the map
+m.lock <font font-style="bold" color="#0A1777">&lt;key&gt;</font>                         //locks the key
+m.tryLock <font font-style="bold" color="#0A1777">&lt;key&gt;</font>                      //tries to lock the key and returns immediately
+m.tryLock <font font-style="bold" color="#0A1777">&lt;key&gt;</font> <font font-style="bold" color="#0A1777">&lt;time&gt;</font>               //tries to lock the key within given seconds
+m.unlock <font font-style="bold" color="#0A1777">&lt;key&gt;</font>                       //unlocks the key
+
+-- List commands:
+l.add <font font-style="bold" color="#0A1777">&lt;string&gt;</font>
+l.add <font font-style="bold" color="#0A1777">&lt;index&gt;</font> <font font-style="bold" color="#0A1777">&lt;string&gt;</font>
+l.contains <font font-style="bold" color="#0A1777">&lt;string&gt;</font>
+l.remove <font font-style="bold" color="#0A1777">&lt;string&gt;</font>
+l.remove <font font-style="bold" color="#0A1777">&lt;index&gt;</font>
+l.set <font font-style="bold" color="#0A1777">&lt;index&gt;</font> <font font-style="bold" color="#0A1777">&lt;string&gt;</font>
+l.iterator [remove]
+l.size
+l.clear
+-- AtomicNumber commands:
+a.get
+a.set <font font-style="bold" color="#0A1777">&lt;long&gt;</font>
+a.inc
+a.dec
+-- Executor Service commands:
+execute	<font font-style="bold" color="#0A1777">&lt;echo-input&gt;</font>				//executes an echo task on random member
+execute0nKey	<font font-style="bold" color="#0A1777">&lt;echo-input&gt;</font> <font font-style="bold" color="#0A1777">&lt;key&gt;</font>		//executes an echo task on the member that owns the given key
+execute0nMember <font font-style="bold" color="#0A1777">&lt;echo-input&gt;</font> <font font-style="bold" color="#0A1777">&lt;key&gt;</font>	//executes an echo task on the member with given index
+execute0nMembers <font font-style="bold" color="#0A1777">&lt;echo-input&gt;</font> 		//executes an echo task on all of the members
+</pre><p>
+    </p><p>
+        <span class="inlinemediaobject"><img src="images/console.jpg" width="70%"></span>
+    </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch17s09.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch17.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch18.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">17.9.&nbsp;Time Travel&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;18.&nbsp;Miscellaneous</td></tr></table></div></body></html>

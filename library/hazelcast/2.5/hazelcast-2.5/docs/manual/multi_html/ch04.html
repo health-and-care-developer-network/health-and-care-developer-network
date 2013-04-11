@@ -1,0 +1,85 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;4.&nbsp;Security (Enterprise Edition Only)</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="index.html" title="Hazelcast Documentation"><link rel="prev" href="ch03.html" title="Chapter&nbsp;3.&nbsp;Elastic Memory (Enterprise Edition Only)"><link rel="next" href="ch04s02.html" title="4.2.&nbsp;ClusterLoginModule"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;4.&nbsp;Security
+            <sup>(Enterprise Edition Only)</sup>
+        </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch04s02.html">Next</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;4.&nbsp;Security (Enterprise Edition Only)"><div class="titlepage"><div><div><h2 class="title"><a name="Security"></a>Chapter&nbsp;4.&nbsp;Security
+            <sup>(Enterprise Edition Only)</sup>
+        </h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="ch04.html#Credentials">4.1. Credentials</a></span></dt><dt><span class="sect1"><a href="ch04s02.html">4.2. ClusterLoginModule</a></span></dt><dt><span class="sect1"><a href="ch04s03.html">4.3. Cluster Member Security</a></span></dt><dt><span class="sect1"><a href="ch04s04.html">4.4. Native Client Security</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch04s04.html#d0e1373">4.4.1. Authentication</a></span></dt><dt><span class="sect2"><a href="ch04s04.html#d0e1409">4.4.2. Authorization</a></span></dt><dt><span class="sect2"><a href="ch04s04.html#d0e1468">4.4.3. Permissions</a></span></dt></dl></dd></dl></div><p>
+    Hazelcast has an extensible, JAAS based security feature
+    which can be used to authenticate both cluster members and clients and to do access control checks
+    on client operations. Access control can be done according to endpoint principal and/or endpoint address.
+    Security can be enabled and configured either in configuration xml or using Config api.
+    </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;hazelcast</font> <font font-style="bold" color="#0A1777">xsi:schemaLocation</font>=<font font-style="bold" color="#008000">"http://www.hazelcast.com/schema/config
+    http://www.hazelcast.com/schema/config/hazelcast-config-2.5.xsd"</font>
+    <font font-style="bold" color="#0A1777">xmlns</font>=<font font-style="bold" color="#008000">"http://www.hazelcast.com/schema/config"</font>
+    <font font-style="bold" color="#0A1777">xmlns:xsi</font>=<font font-style="bold" color="#008000">"http://www.w3.org/2001/XMLSchema-instance"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    
+    ...
+    <font font-style="bold" color="#0A1777">&lt;security</font> <font font-style="bold" color="#0A1777">enabled</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    ...
+    <font font-style="bold" color="#0A1777">&lt;/security&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/hazelcast&gt;</font>
+</pre><p>
+    </p><pre class="programlisting">Config cfg = <strong class="hl-keyword">new</strong> Config();
+SecurityConfig securityCfg = cfg.getSecurityConfig();
+securityCfg.setEnabled(true);
+</pre><p>
+
+    <span class="italic">Also see how to <a class="link" href="ch12s08.html" title="12.8.&nbsp;Setting License Key (Enterprise Edition Only)">configure license key</a>.</span>
+</p><div class="sect1" title="4.1.&nbsp;Credentials"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Credentials"></a>4.1.&nbsp;Credentials</h2></div></div></div><p>One of the key elements in Hazelcast security is
+        <code class="literal">Credentials</code>
+        object. It
+        is used to carry all credentials of an endpoint (member or client).
+        <code class="literal">Credentials</code>
+        is an interface which extends
+        <code class="code">Serializable</code>
+        and has three methods to be implemented. Users,
+        according to their needs, can either implement
+        <code class="literal">Credentials</code>
+        interface or
+        extend
+        <code class="literal">AbstractCredentials</code>
+        class which is an abstract implementation of
+        <code class="literal">Credentials</code>.
+        </p><pre class="programlisting">
+<strong class="hl-keyword">package</strong> com.hazelcast.security;
+...
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">interface</strong> Credentials <strong class="hl-keyword">extends</strong> Serializable {
+
+    String getEndpoint();
+
+    <strong class="hl-keyword">void</strong> setEndpoint(String endpoint) ;
+    
+    String getPrincipal() ;    
+}
+</pre><p>
+        <code class="code">Credentials.setEndpoint()</code>
+        method is called by Hazelcast when auth request arrives to node
+        before authentication takes place.
+        </p><pre class="programlisting">
+<strong class="hl-keyword">package</strong> com.hazelcast.security;
+...
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">abstract</strong> <strong class="hl-keyword">class</strong> AbstractCredentials <strong class="hl-keyword">implements</strong> Credentials, DataSerializable {
+    <strong class="hl-keyword">private</strong> <strong class="hl-keyword">transient</strong> String endpoint;
+    <strong class="hl-keyword">private</strong> String principal;
+
+    ...
+}
+</pre><p>
+        <code class="literal">UsernamePasswordCredentials</code>, a custom implementation of
+        <code class="literal">Credentials</code>
+        can be found in Hazelcast
+        <code class="code">com.hazelcast.security</code>
+        package. It is used by default configuration during
+        authentication process of both members and clients.
+        </p><pre class="programlisting">
+<strong class="hl-keyword">package</strong> com.hazelcast.security;
+...
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">class</strong> UsernamePasswordCredentials <strong class="hl-keyword">extends</strong> Credentials {
+    <strong class="hl-keyword">private</strong> <strong class="hl-keyword">byte</strong>[] password;
+    ...
+}
+</pre><p>
+    </p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03.html">Prev</a>&nbsp;</td><td width="20%" align="center">&nbsp;</td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch04s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;3.&nbsp;Elastic Memory
+            <sup>(Enterprise Edition Only)</sup>
+        &nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;4.2.&nbsp;ClusterLoginModule</td></tr></table></div></body></html>

@@ -1,0 +1,34 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>14.4.&nbsp;Hibernate 2nd Level Cache Config</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="ch14.html" title="Chapter&nbsp;14.&nbsp;Spring Integration"><link rel="prev" href="ch14s03.html" title="14.3.&nbsp;Spring Cache"><link rel="next" href="ch14s05.html" title="14.5.&nbsp;Spring Data - JPA"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">14.4.&nbsp;Hibernate 2nd Level Cache Config</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch14s03.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;14.&nbsp;Spring Integration</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch14s05.html">Next</a></td></tr></table><hr></div><div class="sect1" title="14.4.&nbsp;Hibernate 2nd Level Cache Config"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="SpringHibernate"></a>14.4.&nbsp;Hibernate 2nd Level Cache Config</h2></div></div></div><p>
+    If you are using Hibernate with Hazelcast as 2nd level cache provider, you
+    can easily create
+    <code class="code">CacheProvider</code>
+    or
+    <code class="code">RegionFactory</code>
+    instances within
+    Spring configuration. That way it is possible to use same
+    <code class="code">HazelcastInstance</code>
+    as Hibernate L2
+    cache instance.
+    </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;hz:hibernate-cache-provider</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"cacheProvider"</font> <font font-style="bold" color="#0A1777">instance-ref</font>=<font font-style="bold" color="#008000">"instance"</font><font font-style="bold" color="#0A1777"> /&gt;</font>
+...
+
+<font font-style="bold" color="#0A1777">&lt;bean</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"sessionFactory"</font> <font font-style="bold" color="#0A1777">class</font>=<font font-style="bold" color="#008000">"org.springframework.orm.hibernate3.LocalSessionFactoryBean"</font> <font font-style="bold" color="#0A1777">scope</font>=<font font-style="bold" color="#008000">"singleton"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"dataSource"</font> <font font-style="bold" color="#0A1777">ref</font>=<font font-style="bold" color="#008000">"dataSource"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"cacheProvider"</font> <font font-style="bold" color="#0A1777">ref</font>=<font font-style="bold" color="#008000">"cacheProvider"</font><font font-style="bold" color="#0A1777"> /&gt;</font>
+    ...
+<font font-style="bold" color="#0A1777">&lt;/bean&gt;</font>
+</pre><p>
+    Or by Spring version 3.1
+    </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;hz:hibernate-region-factory</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"regionFactory"</font> <font font-style="bold" color="#0A1777">instance-ref</font>=<font font-style="bold" color="#008000">"instance"</font><font font-style="bold" color="#0A1777"> /&gt;</font>
+...
+<font font-style="bold" color="#0A1777">&lt;bean</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"sessionFactory"</font> <font font-style="bold" color="#0A1777">class</font>=<font font-style="bold" color="#008000">"org.springframework.orm.hibernate3.LocalSessionFactoryBean"</font> <font font-style="bold" color="#0A1777">scope</font>=<font font-style="bold" color="#008000">"singleton"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"dataSource"</font> <font font-style="bold" color="#0A1777">ref</font>=<font font-style="bold" color="#008000">"dataSource"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"cacheRegionFactory"</font> <font font-style="bold" color="#0A1777">ref</font>=<font font-style="bold" color="#008000">"regionFactory"</font><font font-style="bold" color="#0A1777"> /&gt;</font>
+    ...
+<font font-style="bold" color="#0A1777">&lt;/bean&gt;</font>
+</pre><p>
+        </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch14s03.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch14.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch14s05.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">14.3.&nbsp;Spring Cache&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;14.5.&nbsp;Spring Data - JPA</td></tr></table></div></body></html>

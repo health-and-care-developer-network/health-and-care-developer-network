@@ -1,0 +1,33 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>15.2.&nbsp;Memcache Client</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="ch15.html" title="Chapter&nbsp;15.&nbsp;Clients"><link rel="prev" href="ch15.html" title="Chapter&nbsp;15.&nbsp;Clients"><link rel="next" href="ch15s03.html" title="15.3.&nbsp;Rest Client"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">15.2.&nbsp;Memcache Client</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch15.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;15.&nbsp;Clients</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch15s03.html">Next</a></td></tr></table><hr></div><div class="sect1" title="15.2.&nbsp;Memcache Client"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="MemcacheClient"></a>15.2.&nbsp;Memcache Client</h2></div></div></div><p>A Memcache client written in any language can talk directly to Hazelcast cluster. No
+        additional configuration is required. Here is an example: Let's say your cluster's members
+        are:</p><pre class="programlisting">Members [<span class="hl-number">5</span>] {
+    Member [<span class="hl-number">10.20</span>.<span class="hl-number">17.1</span>:<span class="hl-number">5701</span>]
+    Member [<span class="hl-number">10.20</span>.<span class="hl-number">17.2</span>:<span class="hl-number">5701</span>]
+    Member [<span class="hl-number">10.20</span>.<span class="hl-number">17.4</span>:<span class="hl-number">5701</span>]
+    Member [<span class="hl-number">10.20</span>.<span class="hl-number">17.3</span>:<span class="hl-number">5701</span>]
+    Member [<span class="hl-number">10.20</span>.<span class="hl-number">17.5</span>:<span class="hl-number">5701</span>]
+ }
+</pre><p>And you have a PHP application that uses PHP Memcache client to cache things in
+        Hazelcast. All you need to do is have your PHP memcache client connect to one of these
+        members. It doesn't matter which member the client connects to because Hazelcast cluster
+        looks as one giant machine (Single System Image). PHP client code sample:
+</p><pre class="programlisting">&lt;?php
+    $memcache = <strong class="hl-keyword">new</strong> Memcache;
+    $memcache-&gt;connect(<font font-style="normal" color="#008000">'10.20.17.1'</font>, <span class="hl-number">5701</span>) or die (<font font-style="normal" color="#008000">"Could not connect"</font>);
+    $memcache-&gt;set(<font font-style="normal" color="#008000">'key1'</font>,<font font-style="normal" color="#008000">'value1'</font>,<span class="hl-number">0</span>,<span class="hl-number">3600</span>);
+    $get_result = $memcache-&gt;get(<font font-style="normal" color="#008000">'key1'</font>); <em class="hl-comment" style="color: silver">//retrieve your data</em>
+    var_dump($get_result); <em class="hl-comment" style="color: silver">//show it</em>
+?&gt;
+</pre><p>Notice that memcache client is connecting to
+        <code class="literal">10.20.17.1</code>
+        and
+        using port<code class="literal">5701</code>. Java client code sample with SpyMemcached client:
+    </p><pre class="programlisting">
+MemcachedClient client = <strong class="hl-keyword">new</strong> MemcachedClient(AddrUtil.getAddresses(<font font-style="normal" color="#008000">"10.20.17.1:5701 10.20.17.2:5701"</font>));
+client.set(<font font-style="normal" color="#008000">"key1"</font>, <span class="hl-number">3600</span>, <font font-style="normal" color="#008000">"value1"</font>);
+System.out.println(client.get(<font font-style="normal" color="#008000">"key1"</font>));
+</pre><p>An entry written with a memcache client can be read by another memcache client
+        written in another language.
+    </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch15.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch15.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch15s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;15.&nbsp;Clients&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;15.3.&nbsp;Rest Client</td></tr></table></div></body></html>

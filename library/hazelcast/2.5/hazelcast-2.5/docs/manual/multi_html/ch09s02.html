@@ -1,0 +1,73 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>9.2.&nbsp;Execution Cancellation</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="ch09.html" title="Chapter&nbsp;9.&nbsp;Distributed Executor Service"><link rel="prev" href="ch09.html" title="Chapter&nbsp;9.&nbsp;Distributed Executor Service"><link rel="next" href="ch09s03.html" title="9.3.&nbsp;Execution Callback"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">9.2.&nbsp;Execution Cancellation</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch09.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;9.&nbsp;Distributed Executor Service</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch09s03.html">Next</a></td></tr></table><hr></div><div class="sect1" title="9.2.&nbsp;Execution Cancellation"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="ExecutionCancellation"></a>9.2.&nbsp;Execution Cancellation</h2></div></div></div><p>What if the code you execute in cluster takes longer than acceptable. If you cannot
+        stop/cancel that task it will keep eating your resources. Standard Java executor framework
+        solves this problem with by introducing
+        <code class="literal">cancel()</code>
+        api and 'encouraging' us
+        to code and design for cancellations, which is highly ignored part of software development.
+        </p><pre class="programlisting"><strong class="hl-keyword">public</strong> <strong class="hl-keyword">class</strong> Fibonacci <strong class="hl-keyword">implements</strong> Callable&lt;Long&gt;, Serializable {
+    <strong class="hl-keyword">int</strong> input = <span class="hl-number">0</span>; 
+
+    <strong class="hl-keyword">public</strong> Fibonacci() { 
+    } 
+
+    <strong class="hl-keyword">public</strong> Fibonacci(<strong class="hl-keyword">int</strong> input) { 
+        <strong class="hl-keyword">this</strong>.input = input;
+    } 
+
+    <strong class="hl-keyword">public</strong> Long call() {
+        <strong class="hl-keyword">return</strong> calculate (input);
+    }
+
+    <strong class="hl-keyword">private</strong> <strong class="hl-keyword">long</strong> calculate (<strong class="hl-keyword">int</strong> n) {
+        <strong class="hl-keyword">if</strong> (Thread.currentThread().isInterrupted()) <strong class="hl-keyword">return</strong> <span class="hl-number">0</span>;
+        <strong class="hl-keyword">if</strong> (n &lt;= <span class="hl-number">1</span>) <strong class="hl-keyword">return</strong> n;
+        <strong class="hl-keyword">else</strong> <strong class="hl-keyword">return</strong> calculate(n-<span class="hl-number">1</span>) + calculate(n-<span class="hl-number">2</span>);
+    }
+}
+</pre><p>
+        The callable class above calculates the fibonacci number for a given number. In
+        the calculate method, we are checking to see if the current thread is interrupted so that
+        code can be responsive to cancellations once the execution started. Following
+        <code class="literal">fib()</code>
+        method submits the Fibonacci calculation task for number 'n'
+        and waits maximum 3 seconds for result. If the execution doesn't complete in 3 seconds,
+        <code class="literal">future.get()</code>
+        will throw
+        <code class="literal">TimeoutException</code>
+        and upon
+        catching it we interruptibly cancel the execution for saving some CPU cycles.
+        </p><pre class="programlisting"><strong class="hl-keyword">long</strong> fib(<strong class="hl-keyword">int</strong> n) <strong class="hl-keyword">throws</strong> Exception {
+    Config cfg = <strong class="hl-keyword">new</strong> Config();
+    HazelcastInstance hz = Hazelcast.newHazelcastInstance(cfg);
+    ExecutorService es = hz.getExecutorService();
+    Future future = es.submit(<strong class="hl-keyword">new</strong> Fibonacci(n));  
+    <strong class="hl-keyword">try</strong> {
+        <strong class="hl-keyword">return</strong> future.get(<span class="hl-number">3</span>, TimeUnit.SECONDS);
+    } <strong class="hl-keyword">catch</strong> (TimeoutException e) {
+        future.cancel(true);            
+    }
+    <strong class="hl-keyword">return</strong> -<span class="hl-number">1</span>;
+}
+</pre><p>
+        <code class="literal">fib(20)</code>
+        will probably will take less than 3 seconds but
+        <code class="literal">fib(50)</code>
+        will take
+        way longer. (This is not the example for writing better fibonacci calculation code but for
+        showing how to cancel a running execution that takes too long.)
+        <code class="literal">future.cancel(false)</code>
+        can
+        only cancel execution before it is running (executing) but
+        <code class="literal">future.cancel(true)</code>
+        can
+        interrupt running executions if your code is able to handle the interruption. So if you are
+        willing to be able to cancel already running task then your task has to be designed to
+        handle interruption. If
+        <code class="literal">calculate (int n)</code>
+        method didn't have if
+        <code class="literal">(Thread.currentThread().isInterrupted())</code>
+        line, then you wouldn't be
+        able to cancel the execution after it started.
+    </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch09.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch09.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch09s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;9.&nbsp;Distributed Executor Service&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;9.3.&nbsp;Execution Callback</td></tr></table></div></body></html>

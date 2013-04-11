@@ -1,0 +1,396 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>4.4.&nbsp;Native Client Security</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="ch04.html" title="Chapter&nbsp;4.&nbsp;Security (Enterprise Edition Only)"><link rel="prev" href="ch04s03.html" title="4.3.&nbsp;Cluster Member Security"><link rel="next" href="ch05.html" title="Chapter&nbsp;5.&nbsp;Data Affinity"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">4.4.&nbsp;Native Client Security</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch04s03.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;4.&nbsp;Security
+            <sup>(Enterprise Edition Only)</sup>
+        </th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch05.html">Next</a></td></tr></table><hr></div><div class="sect1" title="4.4.&nbsp;Native Client Security"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="ClientSecurity"></a>4.4.&nbsp;Native Client Security</h2></div></div></div><p>Hazelcast's Client security includes both authentication and authorization.</p><div class="sect2" title="4.4.1.&nbsp;Authentication"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1373"></a>4.4.1.&nbsp;Authentication</h3></div></div></div><p>Authentication mechanism just works the same as cluster member authentication. Implementation of client
+            authentication requires a
+            <code class="literal">Credentials</code>
+            and one or more
+            <code class="literal">LoginModule</code>(s). Client side does not have/need a factory object to
+            create
+            <code class="literal">Credentials</code>
+            objects like<code class="literal">ICredentialsFactory</code>.
+            <code class="literal">Credentials</code>
+            must be created at client side and sent to connected node
+            during connection process.
+            </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;security</font> <font font-style="bold" color="#0A1777">enabled</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;client-login-modules&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;login-module</font> <font font-style="bold" color="#0A1777">class-name</font>=<font font-style="bold" color="#008000">"com.hazelcast.examples.MyRequiredClientLoginModule"</font> <font font-style="bold" color="#0A1777">usage</font>=<font font-style="bold" color="#008000">"required"</font><font font-style="bold" color="#0A1777">&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;properties&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"property3"</font><font font-style="bold" color="#0A1777">&gt;</font>value3<font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;/properties&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;/login-module&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;login-module</font> <font font-style="bold" color="#0A1777">class-name</font>=<font font-style="bold" color="#008000">"com.hazelcast.examples.MySufficientClientLoginModule"</font> <font font-style="bold" color="#0A1777">usage</font>=<font font-style="bold" color="#008000">"sufficient"</font><font font-style="bold" color="#0A1777">&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;properties&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"property4"</font><font font-style="bold" color="#0A1777">&gt;</font>value4<font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;/properties&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;/login-module&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;login-module</font> <font font-style="bold" color="#0A1777">class-name</font>=<font font-style="bold" color="#008000">"com.hazelcast.examples.MyOptionalClientLoginModule"</font> <font font-style="bold" color="#0A1777">usage</font>=<font font-style="bold" color="#008000">"optional"</font><font font-style="bold" color="#0A1777">&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;properties&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"property5"</font><font font-style="bold" color="#0A1777">&gt;</font>value5<font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;/properties&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;/login-module&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/client-login-modules&gt;</font>
+    ...
+<font font-style="bold" color="#0A1777">&lt;/security&gt;</font>
+</pre><p>
+        </p><p>You can define as many as<code class="literal">LoginModule</code>s you wanted in
+            configuration. Those are executed in given order. Usage attribute has 4 values; 'required',
+            'requisite', 'sufficient' and 'optional' as defined in
+            <code class="code">javax.security.auth.login.AppConfigurationEntry.LoginModuleControlFlag</code>.
+        </p><p>
+            </p><pre class="programlisting">
+<strong class="hl-keyword">final</strong> Credentials credentials = <strong class="hl-keyword">new</strong> UsernamePasswordCredentials(<font font-style="normal" color="#008000">"dev"</font>, <font font-style="normal" color="#008000">"dev-pass"</font>);
+HazelcastInstance client = HazelcastClient.newHazelcastClient(credentials, <font font-style="normal" color="#008000">"localhost"</font>);
+</pre><p>
+        </p></div><div class="sect2" title="4.4.2.&nbsp;Authorization"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1409"></a>4.4.2.&nbsp;Authorization</h3></div></div></div><p>Hazelcast client authorization is configured by a client permission policy. Hazelcast has a default
+            permission policy
+            implementation that uses permission configurations defined in Hazelcast security configuration. Default
+            policy permission checks are done
+            against instance types (map, queue...), instance names (map, queue etc. name), instance actions (put, get,
+            remove, add...),
+            client endpoint addresses and client principal defined by
+            <code class="literal">Credentials</code>
+            object.
+            <span class="italic">Instance and principal names and endpoint addresses
+                can be defined as wildcards(*). Take a look at
+                <a class="link" href="ch12s05.html" title="12.5.&nbsp;Wildcard Configuration">Wildcard Name Configuration</a>
+                and
+                <a class="link" href="ch12s02.html#ConfigSpecifyInterfaces" title="12.2.2.&nbsp;Specifying Network Interfaces">Newtwork Configuration</a>
+                pages.
+            </span>
+        </p><p>
+            </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;security</font> <font font-style="bold" color="#0A1777">enabled</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;client-permissions&gt;</font>
+        <em class="hl-comment" style="color: silver">&lt;!-- Principal 'admin' from endpoint '127.0.0.1' has all permissions. --&gt;</em>
+        <font font-style="bold" color="#0A1777">&lt;all-permissions</font> <font font-style="bold" color="#0A1777">principal</font>=<font font-style="bold" color="#008000">"admin"</font><font font-style="bold" color="#0A1777">&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;endpoints&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;endpoint&gt;</font>127.0.0.1<font font-style="bold" color="#0A1777">&lt;/endpoint&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;/endpoints&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;/all-permissions&gt;</font>
+        
+        <em class="hl-comment" style="color: silver">&lt;!-- Principals named 'dev' from all endpoints have 'create', 'destroy', 
+            'put', 'get' permissions for map named 'default'. --&gt;</em>
+        <font font-style="bold" color="#0A1777">&lt;map-permission</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"default"</font> <font font-style="bold" color="#0A1777">principal</font>=<font font-style="bold" color="#008000">"dev"</font><font font-style="bold" color="#0A1777">&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;actions&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;action&gt;</font>create<font font-style="bold" color="#0A1777">&lt;/action&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;action&gt;</font>destroy<font font-style="bold" color="#0A1777">&lt;/action&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;action&gt;</font>put<font font-style="bold" color="#0A1777">&lt;/action&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;action&gt;</font>get<font font-style="bold" color="#0A1777">&lt;/action&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;/actions&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;/map-permission&gt;</font>
+        
+        <em class="hl-comment" style="color: silver">&lt;!-- All principals from endpoints '127.0.0.1' or matching to '10.10.*.*' 
+            have 'put', 'get', 'remove' permissions for map 
+            whose name matches to 'com.foo.entity.*'. --&gt;</em>
+        <font font-style="bold" color="#0A1777">&lt;map-permission</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"com.foo.entity.*"</font><font font-style="bold" color="#0A1777">&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;endpoints&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;endpoint&gt;</font>10.10.*.*<font font-style="bold" color="#0A1777">&lt;/endpoint&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;endpoint&gt;</font>127.0.0.1<font font-style="bold" color="#0A1777">&lt;/endpoint&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;/endpoints&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;actions&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;action&gt;</font>put<font font-style="bold" color="#0A1777">&lt;/action&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;action&gt;</font>get<font font-style="bold" color="#0A1777">&lt;/action&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;action&gt;</font>remove<font font-style="bold" color="#0A1777">&lt;/action&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;/actions&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;/map-permission&gt;</font>
+        
+        <em class="hl-comment" style="color: silver">&lt;!-- Principals named 'dev' from endpoints matching to either 
+            '192.168.1.1-100' or '192.168.2.*' 
+            have 'create', 'offer', 'poll' permissions for all queues. --&gt;</em>
+        <font font-style="bold" color="#0A1777">&lt;queue-permission</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"*"</font> <font font-style="bold" color="#0A1777">principal</font>=<font font-style="bold" color="#008000">"dev"</font><font font-style="bold" color="#0A1777">&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;endpoints&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;endpoint&gt;</font>192.168.1.1-100<font font-style="bold" color="#0A1777">&lt;/endpoint&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;endpoint&gt;</font>192.168.2.*<font font-style="bold" color="#0A1777">&lt;/endpoint&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;/endpoints&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;actions&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;action&gt;</font>create<font font-style="bold" color="#0A1777">&lt;/action&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;action&gt;</font>offer<font font-style="bold" color="#0A1777">&lt;/action&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;action&gt;</font>poll<font font-style="bold" color="#0A1777">&lt;/action&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;/actions&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;/queue-permission&gt;</font>
+        
+        <em class="hl-comment" style="color: silver">&lt;!-- All principals from all endpoints have transaction permission.--&gt;</em>
+        <font font-style="bold" color="#0A1777">&lt;transaction-permission /&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/client-permissions&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/security&gt;</font>
+</pre><p>
+        </p><p>Users also can define their own policy by implementing<code class="literal">
+            com.hazelcast.security.IPermissionPolicy</code>.
+            </p><pre class="programlisting">
+<strong class="hl-keyword">package</strong> com.hazelcast.security;
+<strong class="hl-tag" style="color: blue">/**
+ * IPermissionPolicy is used to determine any Subject's 
+ * permissions to perform a security sensitive Hazelcast operation.
+ *
+ */</strong>
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">interface</strong> IPermissionPolicy {
+    <strong class="hl-keyword">void</strong> configure(SecurityConfig securityConfig, Properties properties);
+    
+    PermissionCollection getPermissions(Subject subject, Class&lt;? <strong class="hl-keyword">extends</strong> Permission&gt; type);
+    
+    <strong class="hl-keyword">void</strong> destroy();
+}</pre><p>
+        </p><p>Permission policy implementations can access
+            <code class="code">client-permissions</code>
+            in
+            configuration by using
+            <code class="code">SecurityConfig.getClientPermissionConfigs()</code>
+            during
+            <code class="code">configure(SecurityConfig securityConfig, Properties properties)</code>
+            method
+            is called by Hazelcast.
+            <code class="code">IPermissionPolicy.getPermissions(Subject subject,
+                Class&lt;? extends Permission&gt; type)
+            </code>
+            method is used to determine a client
+            request has been granted permission to do a security-sensitive operation. Permission
+            policy should return a
+            <code class="literal">PermissionCollection</code>
+            containing permissions of
+            given type for given<code class="literal">Subject</code>. Hazelcast access controller will call
+            <code class="code">PermissionCollection.implies(Permission)</code>
+            on returning
+            <code class="literal">PermissionCollection</code>
+            and will decide if current
+            <code class="literal">Subject</code>
+            has permitted to access to requested resources or
+            not.
+        </p></div><div class="sect2" title="4.4.3.&nbsp;Permissions"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1468"></a>4.4.3.&nbsp;Permissions</h3></div></div></div><p>
+            </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>
+                        <span class="bold"><strong>All Permission</strong></span>
+                    </p><p>
+                        </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;all-permissions</font> <font font-style="bold" color="#0A1777">principal</font>=<font font-style="bold" color="#008000">"principal"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;endpoints&gt;</font>
+        ...
+    <font font-style="bold" color="#0A1777">&lt;/endpoints&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/all-permissions&gt;</font>
+</pre><p>
+                    </p></li><li class="listitem"><p>
+                        <span class="bold"><strong>Map Permission</strong></span>
+                    </p><p>
+                        </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;map-permission</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"name"</font> <font font-style="bold" color="#0A1777">principal</font>=<font font-style="bold" color="#008000">"principal"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;endpoints&gt;</font>
+        ...
+    <font font-style="bold" color="#0A1777">&lt;/endpoints&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;actions&gt;</font>
+        ...
+    <font font-style="bold" color="#0A1777">&lt;/actions&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/map-permission&gt;</font>
+</pre><p>
+                    </p><p>
+                        <span class="bold"><strong>Actions:</strong></span>
+                        <span class="italic">all, create, destroy,
+                            put, get, remove, listen, lock, stats
+                        </span>
+                    </p></li><li class="listitem"><p>
+                        <span class="bold"><strong>Queue Permission</strong></span>
+                    </p><p>
+                        </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;queue-permission</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"name"</font> <font font-style="bold" color="#0A1777">principal</font>=<font font-style="bold" color="#008000">"principal"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;endpoints&gt;</font>
+        ...
+    <font font-style="bold" color="#0A1777">&lt;/endpoints&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;actions&gt;</font>
+        ...
+    <font font-style="bold" color="#0A1777">&lt;/actions&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/queue-permission&gt;</font>
+</pre><p>
+                    </p><p>
+                        <span class="bold"><strong>Actions:</strong></span>
+                        <span class="italic">all, create, destroy,
+                            offer, poll, get, remove, listen, stats
+                        </span>
+                    </p></li><li class="listitem"><p>
+                        <span class="bold"><strong>Multimap Permission</strong></span>
+                    </p><p>
+                        </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;multimap-permission</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"name"</font> <font font-style="bold" color="#0A1777">principal</font>=<font font-style="bold" color="#008000">"principal"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;endpoints&gt;</font>
+        ...
+    <font font-style="bold" color="#0A1777">&lt;/endpoints&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;actions&gt;</font>
+        ...
+    <font font-style="bold" color="#0A1777">&lt;/actions&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/multimap-permission&gt;</font>
+</pre><p>
+                    </p><p>
+                        <span class="bold"><strong>Actions:</strong></span>
+                        <span class="italic">all, create, destroy,
+                            put, get, remove, listen, lock, stats
+                        </span>
+                    </p></li><li class="listitem"><p>
+                        <span class="bold"><strong>Topic Permission</strong></span>
+                    </p><p>
+                        </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;topic-permission</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"name"</font> <font font-style="bold" color="#0A1777">principal</font>=<font font-style="bold" color="#008000">"principal"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;endpoints&gt;</font>
+        ...
+    <font font-style="bold" color="#0A1777">&lt;/endpoints&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;actions&gt;</font>
+        ...
+    <font font-style="bold" color="#0A1777">&lt;/actions&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/topic-permission&gt;</font>
+</pre><p>
+                    </p><p>
+                        <span class="bold"><strong>Actions:</strong></span>
+                        <span class="italic">create, destroy,
+                            publish, listen, stats
+                        </span>
+                    </p></li><li class="listitem"><p>
+                        <span class="bold"><strong>List Permission</strong></span>
+                    </p><p>
+                        </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;list-permission</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"name"</font> <font font-style="bold" color="#0A1777">principal</font>=<font font-style="bold" color="#008000">"principal"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;endpoints&gt;</font>
+        ...
+    <font font-style="bold" color="#0A1777">&lt;/endpoints&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;actions&gt;</font>
+        ...
+    <font font-style="bold" color="#0A1777">&lt;/actions&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/list-permission&gt;</font>
+</pre><p>
+                    </p><p>
+                        <span class="bold"><strong>Actions:</strong></span>
+                        <span class="italic">all, create, destroy,
+                            add, set, get, remove, listen
+                        </span>
+                    </p></li><li class="listitem"><p>
+                        <span class="bold"><strong>Set Permission</strong></span>
+                    </p><p>
+                        </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;set-permission</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"name"</font> <font font-style="bold" color="#0A1777">principal</font>=<font font-style="bold" color="#008000">"principal"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;endpoints&gt;</font>
+        ...
+    <font font-style="bold" color="#0A1777">&lt;/endpoints&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;actions&gt;</font>
+        ...
+    <font font-style="bold" color="#0A1777">&lt;/actions&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/set-permission&gt;</font>
+</pre><p>
+                    </p><p>
+                        <span class="bold"><strong>Actions:</strong></span>
+                        <span class="italic">all, create, destroy,
+                            add, get, remove, listen
+                        </span>
+                    </p></li><li class="listitem"><p>
+                        <span class="bold"><strong>Lock Permission</strong></span>
+                    </p><p>
+                        </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;lock-permission</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"name"</font> <font font-style="bold" color="#0A1777">principal</font>=<font font-style="bold" color="#008000">"principal"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;endpoints&gt;</font>
+        ...
+    <font font-style="bold" color="#0A1777">&lt;/endpoints&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;actions&gt;</font>
+        ...
+    <font font-style="bold" color="#0A1777">&lt;/actions&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/lock-permission&gt;</font>
+</pre><p>
+                    </p><p>
+                        <span class="bold"><strong>Actions:</strong></span>
+                        <span class="italic">all, create, destroy,
+                            lock, stats
+                        </span>
+                    </p></li><li class="listitem"><p>
+                        <span class="bold"><strong>AtomicNumber Permission</strong></span>
+                    </p><p>
+                        </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;atomic-number-permission</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"name"</font> <font font-style="bold" color="#0A1777">principal</font>=<font font-style="bold" color="#008000">"principal"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;endpoints&gt;</font>
+        ...
+    <font font-style="bold" color="#0A1777">&lt;/endpoints&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;actions&gt;</font>
+        ...
+    <font font-style="bold" color="#0A1777">&lt;/actions&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/atomic-number-permission&gt;</font>
+</pre><p>
+                    </p><p>
+                        <span class="bold"><strong>Actions:</strong></span>
+                        <span class="italic">all, create, destroy,
+                            increment, decrement, get, set, add, stats
+                        </span>
+                    </p></li><li class="listitem"><p>
+                        <span class="bold"><strong>CountDownLatch Permission</strong></span>
+                    </p><p>
+                        </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;countdown-latch-permission</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"name"</font> <font font-style="bold" color="#0A1777">principal</font>=<font font-style="bold" color="#008000">"principal"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;endpoints&gt;</font>
+        ...
+    <font font-style="bold" color="#0A1777">&lt;/endpoints&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;actions&gt;</font>
+        ...
+    <font font-style="bold" color="#0A1777">&lt;/actions&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/countdown-latch-permission&gt;</font>
+</pre><p>
+                    </p><p>
+                        <span class="bold"><strong>Actions:</strong></span>
+                        <span class="italic">all, create, destroy,
+                            countdown, set, stats
+                        </span>
+                    </p></li><li class="listitem"><p>
+                        <span class="bold"><strong>Semaphore Permission</strong></span>
+                    </p><p>
+                        </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;semaphore-permission</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"name"</font> <font font-style="bold" color="#0A1777">principal</font>=<font font-style="bold" color="#008000">"principal"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;endpoints&gt;</font>
+        ...
+    <font font-style="bold" color="#0A1777">&lt;/endpoints&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;actions&gt;</font>
+        ...
+    <font font-style="bold" color="#0A1777">&lt;/actions&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/semaphore-permission&gt;</font>
+</pre><p>
+                    </p><p>
+                        <span class="bold"><strong>Actions:</strong></span>
+                        <span class="italic">all, create, destroy,
+                            acquire, release, drain, stats
+                        </span>
+                    </p></li><li class="listitem"><p>
+                        <span class="bold"><strong>Executor Service Permission</strong></span>
+                    </p><p>
+                        </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;executor-service-permission</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"name"</font> <font font-style="bold" color="#0A1777">principal</font>=<font font-style="bold" color="#008000">"principal"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;endpoints&gt;</font>
+        ...
+    <font font-style="bold" color="#0A1777">&lt;/endpoints&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;actions&gt;</font>
+        ...
+    <font font-style="bold" color="#0A1777">&lt;/actions&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/executor-service-permission&gt;</font>
+</pre><p>
+                    </p><p>
+                        <span class="bold"><strong>Actions:</strong></span>
+                        <span class="italic">all, create, destroy,
+                            execute
+                        </span>
+                    </p></li><li class="listitem"><p>
+                        <span class="bold"><strong>Listener Permission</strong></span>
+                    </p><p>
+                        </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;listener-permission</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"name"</font> <font font-style="bold" color="#0A1777">principal</font>=<font font-style="bold" color="#008000">"principal"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;endpoints&gt;</font>
+        ...
+    <font font-style="bold" color="#0A1777">&lt;/endpoints&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/listener-permission&gt;</font>
+</pre><p>
+                    </p><p>
+                        <span class="bold"><strong>Names:</strong></span>
+                        <span class="italic">all, instance,
+                            member
+                        </span>
+                    </p></li><li class="listitem"><p>
+                        <span class="bold"><strong>Transaction Permission</strong></span>
+                    </p><p>
+                        </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;transaction-permission</font> <font font-style="bold" color="#0A1777">principal</font>=<font font-style="bold" color="#008000">"principal"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;endpoints&gt;</font>
+        ...
+    <font font-style="bold" color="#0A1777">&lt;/endpoints&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/transaction-permission&gt;</font>
+</pre><p>
+                    </p></li></ol></div><p>
+        </p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch04s03.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch04.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch05.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">4.3.&nbsp;Cluster Member Security&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;5.&nbsp;Data Affinity</td></tr></table></div></body></html>

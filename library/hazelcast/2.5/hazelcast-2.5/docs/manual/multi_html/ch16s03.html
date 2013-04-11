@@ -1,0 +1,104 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>16.3.&nbsp;Internals 4: Distributed Map</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="ch16.html" title="Chapter&nbsp;16.&nbsp;Internals"><link rel="prev" href="ch16s02.html" title="16.2.&nbsp;Internals 3: Cluster Membership"><link rel="next" href="ch17.html" title="Chapter&nbsp;17.&nbsp;Management Center"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">16.3.&nbsp;Internals 4: Distributed Map</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch16s02.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;16.&nbsp;Internals</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch17.html">Next</a></td></tr></table><hr></div><div class="sect1" title="16.3.&nbsp;Internals 4: Distributed Map"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="InternalsDistributedMap"></a>16.3.&nbsp;Internals 4: Distributed Map</h2></div></div></div><p>Hazelcast distributed map is a peer to peer, partitioned implementation so entries put
+        into the map will be almost evenly partitioned onto the existing members. Entries are
+        partitioned according to their keys.
+    </p><p>Every key is owned by a member. So every key-aware operation, such as
+        <code class="literal">put,
+            remove, get
+        </code>
+        is routed to the member owning the key.
+    </p><p>
+        <span class="bold"><strong>
+            <span class="italic">
+                Q. How does Hazelcast determine the owner of a key?
+            </span>
+        </strong></span>
+    </p><p>Hazelcast creates fixed number of virtual partitions (blocks). Partition count is set to
+        <code class="literal">271</code>
+        by default. Each key falls into one of these partitions. Each
+        partition is owned/managed by a member. Oldest member of the cluster will assign the
+        ownerships of the partitions and let every member know who owns which partitions. So at any
+        given time, each member knows the owner member of a each partition. Hazelcast will convert
+        your key object to
+        <code class="literal">com.hazelcast.nio.Data</code>
+        then calculate the partition of
+        the owner:<code class="literal">partition-of-the-key = hash(keyData) % PARTITION_COUNT</code>. Since
+        each member(JVM) knows the owner of each partition, each member can find out which member
+        owns the key.
+    </p><p>
+        <span class="bold"><strong>
+            <span class="italic">
+                Q. Can I get the owner of a key?
+            </span>
+        </strong></span>
+    </p><p>Yes. Use Partition API to get the partition that your key falls into and then get the
+        owner of that partition. Note that owner of the partition can change over time as new
+        members join or existing members leave the cluster.</p><pre class="programlisting">PartitionService partitionService = Hazelcast.getPartitionService();
+Partition partition = partitionService.getPartition(key);
+Member ownerMember = partition.getOwner();
+</pre><p>Locally owned entries can be obtained by
+        calling<code class="literal">map.localKeySet()</code>.
+    </p><p>
+        <span class="bold"><strong>
+            <span class="italic">
+                Q. What happens when a new member joins?
+            </span>
+        </strong></span>
+    </p><p>Just like any other member in the cluster, the oldest member also knows who owns which
+        partition and what the oldest member knows is always right. The oldest member is also
+        responsible for redistributing the partition ownerships when a new member joins. Since there
+        is new member, oldest member will take ownership of some of the partitions and give them to
+        the new member. It will try to move the least amount of data possible. New ownership
+        information of all partitions is then sent to all members.
+    </p><p>Notice that the new ownership information may not reach each member at the same time and
+        the cluster never stops responding to user map operations even during joins so if a member
+        routes the operation to a wrong member, target member will tell the caller to
+        <code class="literal">re-do</code>
+        the operation.
+    </p><p>If a member's partition is given to the new member, then the member will send all entries
+        of that partition to the new member (Migrating the entries). Eventually every member in the
+        cluster will own almost same number of partitions, and almost same number of entries. Also
+        eventually every member will know the owner of each partition (and each key).
+    </p><p>You can listen for migration events.
+        <code class="literal">MigrationEvent</code>
+        contains
+        the<code class="literal">partitionId</code>,<code class="literal">oldOwner</code>, and
+        <code class="literal">newOwner</code>
+        information.
+        </p><pre class="programlisting">PartitionService partitionService = Hazelcast.getPartitionService();
+partitionService.addMigrationListener(<strong class="hl-keyword">new</strong> MigrationListener () {
+
+   <strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> migrationStarted(MigrationEvent migrationEvent) {
+      System.out.println(migrationEvent);
+   }
+
+   <strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> migrationCompleted(MigrationEvent migrationEvent) {
+      System.out.println(migrationEvent);
+   }
+});
+</pre><p>
+        <span class="bold"><strong>
+            <span class="italic">Q. How about distributed set and
+                list?
+            </span>
+        </strong></span>
+    </p><p>Both distributed set and list are implemented on top of distributed map. The underlying
+        distributed map doesn't hold value; it only knows the key. Items added to both list and set
+        are treated as keys. Unlike distributed set, since distributed list can have duplicate
+        items, if an existing item is added again,
+        <code class="literal">copyCount</code>
+        of the entry
+        (<code class="literal">com.hazelcast.impl.ConcurrentMapManager.Record</code>) is incremented. Also note that index
+        based methods of distributed list, such as
+        <code class="literal">List.get(index)</code>
+        and<code class="literal">List.indexOf(Object)</code>, are not supported because it is too costly
+        to keep distributed indexes of list items so it is not worth implementing.
+    </p><p>Check out the
+        <code class="literal">com.hazelcast.impl.ConcurrentMapManager</code>
+        class for the
+        implementation. As you will see, the implementation is lock-free because
+        <code class="literal">ConcurrentMapManager</code>
+        is a singleton and processed by only one thread,
+        the<code class="literal">ServiceThread</code>.
+    </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch16s02.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch16.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch17.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">16.2.&nbsp;Internals 3: Cluster Membership&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;17.&nbsp;Management Center</td></tr></table></div></body></html>

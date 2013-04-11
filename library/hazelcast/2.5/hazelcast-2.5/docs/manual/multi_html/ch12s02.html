@@ -1,0 +1,482 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>12.2.&nbsp;Network Configuration</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="ch12.html" title="Chapter&nbsp;12.&nbsp;Configuration"><link rel="prev" href="ch12.html" title="Chapter&nbsp;12.&nbsp;Configuration"><link rel="next" href="ch12s03.html" title="12.3.&nbsp;Partition Group Configuration"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">12.2.&nbsp;Network Configuration</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch12.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;12.&nbsp;Configuration</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch12s03.html">Next</a></td></tr></table><hr></div><div class="sect1" title="12.2.&nbsp;Network Configuration"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="NetworkConfig"></a>12.2.&nbsp;Network Configuration</h2></div></div></div><div class="sect2" title="12.2.1.&nbsp;Configuring TCP/IP Cluster"><div class="titlepage"><div><div><h3 class="title"><a name="ConfigTcpIp"></a>12.2.1.&nbsp;Configuring TCP/IP Cluster</h3></div></div></div><p>If multicast is not preferred way of discovery for your environment, then you can configure Hazelcast for full
+        TCP/IP cluster. As configuration below shows, while
+        <code class="literal">enable</code>
+        attribute of
+        <code class="literal">multicast</code>
+        is set to false,
+        <code class="literal">tcp-ip</code>
+        has to be set to true. For the none-multicast option, all or subset of cluster members' hostnames and/or ip
+        addresses must be listed. Note that all of the cluster members don't have to be listed there but at least one of
+        them has to be active in cluster when a new member joins. The tcp-ip tag accepts an attribute called
+        "conn-timeout-seconds".
+        The default value is 5. Increasing this value is recommended if you have many IP's listed and members
+        can not properly build up the cluster.
+
+        </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;hazelcast&gt;</font>
+    ...
+    <font font-style="bold" color="#0A1777">&lt;network&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;port</font> <font font-style="bold" color="#0A1777">auto-increment</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">&gt;</font>5701<font font-style="bold" color="#0A1777">&lt;/port&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;join&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;multicast</font> <font font-style="bold" color="#0A1777">enabled</font>=<font font-style="bold" color="#008000">"false"</font><font font-style="bold" color="#0A1777">&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;multicast-group&gt;</font>224.2.2.3<font font-style="bold" color="#0A1777">&lt;/multicast-group&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;multicast-port&gt;</font>54327<font font-style="bold" color="#0A1777">&lt;/multicast-port&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;/multicast&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;tcp-ip</font> <font font-style="bold" color="#0A1777">enabled</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;hostname&gt;</font>machine1<font font-style="bold" color="#0A1777">&lt;/hostname&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;hostname&gt;</font>machine2<font font-style="bold" color="#0A1777">&lt;/hostname&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;hostname&gt;</font>machine3:5799<font font-style="bold" color="#0A1777">&lt;/hostname&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;interface&gt;</font>192.168.1.0-7<font font-style="bold" color="#0A1777">&lt;/interface&gt;</font>     
+                <font font-style="bold" color="#0A1777">&lt;interface&gt;</font>192.168.1.21<font font-style="bold" color="#0A1777">&lt;/interface&gt;</font> 
+            <font font-style="bold" color="#0A1777">&lt;/tcp-ip&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;/join&gt;</font>
+        ...
+    <font font-style="bold" color="#0A1777">&lt;/network&gt;</font>
+    ...
+<font font-style="bold" color="#0A1777">&lt;/hazelcast&gt;</font>
+</pre><p>
+
+    </p></div><div class="sect2" title="12.2.2.&nbsp;Specifying Network Interfaces"><div class="titlepage"><div><div><h3 class="title"><a name="ConfigSpecifyInterfaces"></a>12.2.2.&nbsp;Specifying Network Interfaces</h3></div></div></div><p>
+        You can also specify which network interfaces that Hazelcast should use. Servers mostly have more than one
+        network
+        interface so you may want to list the valid IPs. Range characters ('*' and '-') can be used for simplicity. So
+        10.3.10.*, for instance, refers to IPs between 10.3.10.0 and 10.3.10.255. Interface 10.3.10.4-18 refers to IPs
+        between 10.3.10.4 and 10.3.10.18 (4 and 18 included). If network interface configuration is enabled (disabled by
+        default) and if Hazelcast cannot find an matching interface, then it will print a message on console and won't
+        start on that node.
+        </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;hazelcast&gt;</font>
+    ...
+    <font font-style="bold" color="#0A1777">&lt;network&gt;</font>
+        ....
+        <font font-style="bold" color="#0A1777">&lt;interfaces</font> <font font-style="bold" color="#0A1777">enabled</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;interface&gt;</font>10.3.16.*<font font-style="bold" color="#0A1777">&lt;/interface&gt;</font> 
+            <font font-style="bold" color="#0A1777">&lt;interface&gt;</font>10.3.10.4-18<font font-style="bold" color="#0A1777">&lt;/interface&gt;</font> 
+            <font font-style="bold" color="#0A1777">&lt;interface&gt;</font>192.168.1.3<font font-style="bold" color="#0A1777">&lt;/interface&gt;</font>         
+        <font font-style="bold" color="#0A1777">&lt;/interfaces&gt;</font>    
+    <font font-style="bold" color="#0A1777">&lt;/network&gt;</font>
+    ...
+<font font-style="bold" color="#0A1777">&lt;/hazelcast&gt;</font> 
+</pre><p>
+
+
+    </p></div><div class="sect2" title="12.2.3.&nbsp;EC2 Auto Discovery"><div class="titlepage"><div><div><h3 class="title"><a name="EC2AutoDiscovery"></a>12.2.3.&nbsp;EC2 Auto Discovery</h3></div></div></div><p>Hazelcast supports EC2 Auto Discovery as of 1.9.4. It is useful when you don't want or
+        can't provide the list of possible IP addresses. Here is a sample configuration:
+        Disable join over multicast and tcp/ip and enable aws. Also provide the credentials.
+        The aws tag accepts an attribute called "conn-timeout-seconds". The default value is 5.
+        Increasing this value is recommended if you have many IP's listed and members can not properly build up the
+        cluster.
+        </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;join&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;multicast</font> <font font-style="bold" color="#0A1777">enabled</font>=<font font-style="bold" color="#008000">"false"</font><font font-style="bold" color="#0A1777">&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;multicast-group&gt;</font>224.2.2.3<font font-style="bold" color="#0A1777">&lt;/multicast-group&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;multicast-port&gt;</font>54327<font font-style="bold" color="#0A1777">&lt;/multicast-port&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/multicast&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;tcp-ip</font> <font font-style="bold" color="#0A1777">enabled</font>=<font font-style="bold" color="#008000">"false"</font><font font-style="bold" color="#0A1777">&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;interface&gt;</font>192.168.1.2<font font-style="bold" color="#0A1777">&lt;/interface&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/tcp-ip&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;aws</font> <font font-style="bold" color="#0A1777">enabled</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;access-key&gt;</font>my-access-key<font font-style="bold" color="#0A1777">&lt;/access-key&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;secret-key&gt;</font>my-secret-key<font font-style="bold" color="#0A1777">&lt;/secret-key&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;region&gt;</font>us-west-1<font font-style="bold" color="#0A1777">&lt;/region&gt;</font>                              <em class="hl-comment" style="color: silver">&lt;!-- optional, default is us-east-1 --&gt;</em>
+        <font font-style="bold" color="#0A1777">&lt;host-header&gt;</font>ec2.amazonaws.com<font font-style="bold" color="#0A1777">&lt;/host-header&gt;</font>              <em class="hl-comment" style="color: silver">&lt;!-- optional, default is ec2.amazonaws.com.
+                                                If set, region shouldn't be set as it will override this property --&gt;</em>
+        <font font-style="bold" color="#0A1777">&lt;security-group-name&gt;</font>hazelcast-sg<font font-style="bold" color="#0A1777">&lt;/security-group-name&gt;</font> <em class="hl-comment" style="color: silver">&lt;!-- optional --&gt;</em>
+        <font font-style="bold" color="#0A1777">&lt;tag-key&gt;</font>type<font font-style="bold" color="#0A1777">&lt;/tag-key&gt;</font>                                  <em class="hl-comment" style="color: silver">&lt;!-- optional --&gt;</em>
+        <font font-style="bold" color="#0A1777">&lt;tag-value&gt;</font>hz-nodes<font font-style="bold" color="#0A1777">&lt;/tag-value&gt;</font>                          <em class="hl-comment" style="color: silver">&lt;!-- optional --&gt;</em>
+    <font font-style="bold" color="#0A1777">&lt;/aws&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/join&gt;</font>
+</pre><p>
+        You need to add hazelcast-cloud.jar dependency into your project. Note that it is
+        also bundled inside hazelcast-all.jar. hazelcast-cloud module doesn't depend on any other third party modules.
+    </p></div><div class="sect2" title="12.2.4.&nbsp;Network Partitioning (Split-Brain Syndrome)"><div class="titlepage"><div><div><h3 class="title"><a name="NetworkPartitioning"></a>12.2.4.&nbsp;Network Partitioning (Split-Brain Syndrome)</h3></div></div></div><p>Imagine that you have 10-node cluster and for some reason the network is divided into two
+        in a way that 4 servers cannot see the other 6. As a result you ended up having two separate
+        clusters; 4-node cluster and 6-node cluster. Members in each sub-cluster are thinking that
+        the other nodes are dead even though they are not. This situation is called Network
+        Partitioning (aka Split-Brain Syndrome).
+    </p><p>Since it is a network failure, there is no way to avoid it programatically and your
+        application will run as two separate independent clusters but we should be able to answer the
+        following questions: "What will happen after the network failure is fixed and connectivity
+        is restored between these two clusters? Will these two clusters merge into one again? If
+        they do, how are the data conflicts resolved, because you might end up having two different
+        values for the same key in the same map?"
+    </p><p>Here is how Hazelcast deals with it:
+        </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>The oldest member of the cluster checks if there is another cluster with the
+                    same group-name and group-password in the network.
+                </p></li><li class="listitem"><p>If the oldest member founds such cluster, then figures out which cluster
+                    should merge to the other.
+                </p></li><li class="listitem"><p>Each member of the merging cluster will do the following:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>pause
+                        </p></li><li class="listitem"><p>take locally owned map entries</p></li><li class="listitem"><p>close all its network connections (detach from its cluster)</p></li><li class="listitem"><p>join to the new cluster</p></li><li class="listitem"><p>send merge request for each its locally owned map entry</p></li><li class="listitem"><p>resume
+                        </p></li></ul></div></li></ol></div><p>
+        So each member of the merging cluster is actually rejoining to the new
+        cluster and sending merge request for each its locally owned map entry.
+    </p><p>
+        <span class="bold"><strong>
+            <span class="italic">Q: Which cluster will merge into the
+                other?
+            </span>
+        </strong></span>
+    </p><p>A. Smaller cluster will merge into the bigger one. If they have equal number of members
+        then a hashing algorithm determines the merging cluster.
+    </p><p>
+        <span class="italic">
+            <span class="bold"><strong>Q. Each cluster may have different versions
+                of the same key in the same map. How is the conflict
+                resolved?
+            </strong></span>
+        </span>
+    </p><p>A. Destination cluster will decide how to handle merging entry based on the
+        <code class="literal">MergePolicy</code>
+        set for that map. There are built-in merge policies such
+        as
+        <code class="literal">hz.NO_MERGE, hz.ADD_NEW_ENTRY and hz.LATEST_UPDATE</code>
+        but you can develop
+        your own merge policy by implementing <code class="literal">com.hazelcast.merge.MergePolicy</code>. You
+        should register your custom merge policy in the configuration so that Hazelcast can find it
+        by name.
+        </p><pre class="programlisting">
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">interface</strong> MergePolicy {
+    <strong class="hl-tag" style="color: blue">/**
+    * Returns the value of the entry after the merge
+    * of entries with the same key. Returning value can be
+    * You should consider the case where existingEntry is null.
+    *
+    * @param mapName       name of the map
+    * @param mergingEntry  entry merging into the destination cluster
+    * @param existingEntry existing entry in the destination cluster
+    * @return final value of the entry. If returns null then no change on the entry.
+    */</strong>
+    Object merge(String mapName, MapEntry mergingEntry, MapEntry existingEntry);
+}</pre><p>
+     </p><p>
+        Here is how merge policies are registered and specified per map.
+        </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;hazelcast&gt;</font>
+    ...
+    <font font-style="bold" color="#0A1777">&lt;map</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"default"</font><font font-style="bold" color="#0A1777">&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;backup-count&gt;</font>1<font font-style="bold" color="#0A1777">&lt;/backup-count&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;eviction-policy&gt;</font>NONE<font font-style="bold" color="#0A1777">&lt;/eviction-policy&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;max-size&gt;</font>0<font font-style="bold" color="#0A1777">&lt;/max-size&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;eviction-percentage&gt;</font>25<font font-style="bold" color="#0A1777">&lt;/eviction-percentage&gt;</font>
+        <em class="hl-comment" style="color: silver">&lt;!--
+            While recovering from split-brain (network partitioning),
+            map entries in the small cluster will merge into the bigger cluster
+            based on the policy set here. When an entry merge into the
+            cluster, there might an existing entry with the same key already.
+            Values of these entries might be different for that same key.
+            Which value should be set for the key? Conflict is resolved by
+            the policy set here. Default policy is hz.ADD_NEW_ENTRY
+
+            There are built-in merge policies such as
+            hz.NO_MERGE      ; no entry will merge.
+            hz.ADD_NEW_ENTRY ; entry will be added if the merging entry's key
+                               doesn't exist in the cluster.
+            hz.HIGHER_HITS   ; entry with the higher hits wins.
+            hz.LATEST_UPDATE ; entry with the latest update wins.
+        --&gt;</em>
+        <font font-style="bold" color="#0A1777">&lt;merge-policy&gt;</font>MY_MERGE_POLICY<font font-style="bold" color="#0A1777">&lt;/merge-policy&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/map&gt;</font>
+
+    <font font-style="bold" color="#0A1777">&lt;merge-policies&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;map-merge-policy</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"MY_MERGE_POLICY"</font><font font-style="bold" color="#0A1777">&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;class-name&gt;</font>com.acme.MyOwnMergePolicy<font font-style="bold" color="#0A1777">&lt;/class-name&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;/map-merge-policy&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/merge-policies&gt;</font>
+    ...
+<font font-style="bold" color="#0A1777">&lt;/hazelcast&gt;</font>
+</pre><p>
+    </p></div><div class="sect2" title="12.2.5.&nbsp;SSL"><div class="titlepage"><div><div><h3 class="title"><a name="SSL"></a>12.2.5.&nbsp;SSL</h3></div></div></div><p>
+    Hazelcast allows you to use SSL socket communication among all Hazelcast
+    members. You need to implement <code class="code">com.hazelcast.nio.ssl.SSLContextFactory</code>
+    and configure SSL section in network configuration.
+
+    </p><pre class="programlisting">
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">class</strong> MySSLContextFactory <strong class="hl-keyword">implements</strong> SSLContextFactory {
+    <strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> init(Properties properties) <strong class="hl-keyword">throws</strong> Exception {
+    }
+
+    <strong class="hl-keyword">public</strong> SSLContext getSSLContext() {
+        ...
+        SSLContext sslCtx = SSLContext.getInstance(protocol);
+        <strong class="hl-keyword">return</strong> sslCtx;
+    }
+}
+</pre><p>
+
+    </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;hazelcast&gt;</font>
+    ...
+    <font font-style="bold" color="#0A1777">&lt;network&gt;</font>
+        ...
+        <font font-style="bold" color="#0A1777">&lt;ssl</font> <font font-style="bold" color="#0A1777">enabled</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;factory-class-name&gt;</font>com.hazelcast.examples.MySSLContextFactory<font font-style="bold" color="#0A1777">&lt;/factory-class-name&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;properties&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"foo"</font><font font-style="bold" color="#0A1777">&gt;</font>bar<font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;/properties&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;/ssl&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/network&gt;</font>
+    ...
+<font font-style="bold" color="#0A1777">&lt;/hazelcast&gt;</font>
+</pre><p>
+    Hazelcast provides a default SSLContextFactory; <code class="code">com.hazelcast.nio.ssl.BasicSSLContextFactory</code> which
+    uses configured keystore to initialize <code class="code">SSLContext</code>. All required is to define <code class="literal">keyStore</code> and
+    <code class="literal">keyStorePassword</code>. Also you can set <code class="literal">keyManagerAlgorithm</code> (default <code class="code">SunX509</code>),
+    <code class="literal">trustManagerAlgorithm</code> (default <code class="code">SunX509</code>) and <code class="literal">protocol</code> (default <code class="code">TLS</code>).
+
+    </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;hazelcast&gt;</font>
+    ...
+    <font font-style="bold" color="#0A1777">&lt;network&gt;</font>
+        ...
+        <font font-style="bold" color="#0A1777">&lt;ssl</font> <font font-style="bold" color="#0A1777">enabled</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;factory-class-name&gt;</font>com.hazelcast.nio.ssl.BasicSSLContextFactory<font font-style="bold" color="#0A1777">&lt;/factory-class-name&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;properties&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"keyStore"</font><font font-style="bold" color="#0A1777">&gt;</font>keyStore<font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"keyStorePassword"</font><font font-style="bold" color="#0A1777">&gt;</font>keyStorePassword<font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"keyManagerAlgorithm"</font><font font-style="bold" color="#0A1777">&gt;</font>SunX509<font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"trustManagerAlgorithm"</font><font font-style="bold" color="#0A1777">&gt;</font>SunX509<font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"protocol"</font><font font-style="bold" color="#0A1777">&gt;</font>TLS<font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;/properties&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;/ssl&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/network&gt;</font>
+    ...
+<font font-style="bold" color="#0A1777">&lt;/hazelcast&gt;</font>
+</pre><p>
+
+    You can also set <code class="literal">keyStore</code> and <code class="literal">keyStorePassword</code> through
+    <code class="literal">javax.net.ssl.keyStore</code> and <code class="literal">javax.net.ssl.keyStorePassword</code> system properties.
+
+    <span class="italic">Note that, you can not use SSL when <a class="link" href="ch12s02.html#Encryption" title="12.2.6.&nbsp;Encryption">Hazelcast Encryption</a> is enabled.</span>
+    </p></div><div class="sect2" title="12.2.6.&nbsp;Encryption"><div class="titlepage"><div><div><h3 class="title"><a name="Encryption"></a>12.2.6.&nbsp;Encryption</h3></div></div></div><p>
+    Hazelcast allows you to encrypt entire socket level communication among all Hazelcast
+    members. Encryption is based on
+    <a class="link" href="http://java.sun.com/javase/6/docs/technotes/guides/security/crypto/CryptoSpec.html" target="_top">Java
+        Cryptography Architecture
+    </a>
+    and both symmetric and asymmetric encryption are supported.
+    In symmetric encryption, each node uses the same key, so the key is shared.
+    Here is a sample configuration for symmetric encryption:
+    </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;hazelcast&gt;</font>
+    ...
+    <font font-style="bold" color="#0A1777">&lt;network&gt;</font>
+        ...
+        <em class="hl-comment" style="color: silver">&lt;!--
+            Make sure to set enabled=true
+            Make sure this configuration is exactly the same on
+            all members
+        --&gt;</em>
+        <font font-style="bold" color="#0A1777">&lt;symmetric-encryption</font> <font font-style="bold" color="#0A1777">enabled</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">&gt;</font>
+            <em class="hl-comment" style="color: silver">&lt;!--
+               encryption algorithm such as
+               DES/ECB/PKCS5Padding,
+               PBEWithMD5AndDES,
+               Blowfish,
+               DESede
+            --&gt;</em>
+            <font font-style="bold" color="#0A1777">&lt;algorithm&gt;</font>PBEWithMD5AndDES<font font-style="bold" color="#0A1777">&lt;/algorithm&gt;</font>
+
+            <em class="hl-comment" style="color: silver">&lt;!-- salt value to use when generating the secret key --&gt;</em>
+            <font font-style="bold" color="#0A1777">&lt;salt&gt;</font>thesalt<font font-style="bold" color="#0A1777">&lt;/salt&gt;</font>
+
+            <em class="hl-comment" style="color: silver">&lt;!-- pass phrase to use when generating the secret key --&gt;</em>
+            <font font-style="bold" color="#0A1777">&lt;password&gt;</font>thepass<font font-style="bold" color="#0A1777">&lt;/password&gt;</font>
+
+            <em class="hl-comment" style="color: silver">&lt;!-- iteration count to use when generating the secret key --&gt;</em>
+            <font font-style="bold" color="#0A1777">&lt;iteration-count&gt;</font>19<font font-style="bold" color="#0A1777">&lt;/iteration-count&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;/symmetric-encryption&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/network&gt;</font>
+    ...
+<font font-style="bold" color="#0A1777">&lt;/hazelcast&gt;</font>
+</pre><p>
+    In asymmetric encryption, public and private key pair is used. Data is encrypted with
+    one of these keys and decrypted with the other.
+    The idea is that each node has to have its own private key and other trusted members'
+    public key. So that means, for each member, we should do the followings:
+    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Pick a unique name for the member. We will use the name as the key alias. Let's name them as member1,
+                member2...memberN.
+            </p></li><li class="listitem"><p>Generate the keystore and the private key for the member1.
+                <code class="literal">keytool -genkey -alias member1 -keyalg RSA -keypass thekeypass -keystore keystore -storetype
+                    JKS
+                </code>
+                Remember all the parameters you used here because you will need this information when
+                you configure asymmetric-encryption in your hazelcast.xml file.
+            </p></li><li class="listitem"><p>Create a public certificate file so that we can add it to the other members' keystore
+                <code class="literal">keytool -export -alias member1 -keypass thekeypass -storepass thestorepass -keystore keystore
+                    -rfc -file member1.cer
+                </code>
+            </p></li><li class="listitem"><p>Now take all the other members' public certificates, and add (import) them into member1's keystore
+                </p><pre class="programlisting"> keytool -<strong class="hl-keyword">import</strong> -alias member2 -file member2.cer -keystore keystore -storepass thestorepass
+
+ keytool -<strong class="hl-keyword">import</strong> -alias member3 -file member3.cer -keystore keystore -storepass thestorepass
+
+ ...
+
+ keytool -<strong class="hl-keyword">import</strong> -alias memberN -file memberN.cer -keystore keystore -storepass thestorepass
+
+</pre><p>
+            </p></li></ul></div><p>
+    You should repeat these steps for each trusted member in your cluster.
+    Here is a sample configuration for asymmetric encryption:
+    </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;hazelcast&gt;</font>
+    ...
+    <font font-style="bold" color="#0A1777">&lt;network&gt;</font>
+        ...
+        <em class="hl-comment" style="color: silver">&lt;!--
+            Make sure to set enabled=true
+        --&gt;</em>
+        <font font-style="bold" color="#0A1777">&lt;asymmetric-encryption</font> <font font-style="bold" color="#0A1777">enabled</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">&gt;</font>
+            <em class="hl-comment" style="color: silver">&lt;!-- encryption algorithm --&gt;</em>
+            <font font-style="bold" color="#0A1777">&lt;algorithm&gt;</font>RSA/NONE/PKCS1PADDING<font font-style="bold" color="#0A1777">&lt;/algorithm&gt;</font>
+            <em class="hl-comment" style="color: silver">&lt;!-- private key password --&gt;</em>
+            <font font-style="bold" color="#0A1777">&lt;keyPassword&gt;</font>thekeypass<font font-style="bold" color="#0A1777">&lt;/keyPassword&gt;</font>
+            <em class="hl-comment" style="color: silver">&lt;!-- private key alias --&gt;</em>
+            <font font-style="bold" color="#0A1777">&lt;keyAlias&gt;</font>member1<font font-style="bold" color="#0A1777">&lt;/keyAlias&gt;</font>
+            <em class="hl-comment" style="color: silver">&lt;!-- key store type --&gt;</em>
+            <font font-style="bold" color="#0A1777">&lt;storeType&gt;</font>JKS<font font-style="bold" color="#0A1777">&lt;/storeType&gt;</font>
+            <em class="hl-comment" style="color: silver">&lt;!-- key store password --&gt;</em>
+            <font font-style="bold" color="#0A1777">&lt;storePassword&gt;</font>thestorepass<font font-style="bold" color="#0A1777">&lt;/storePassword&gt;</font>
+            <em class="hl-comment" style="color: silver">&lt;!-- path to the key store --&gt;</em> 
+            <font font-style="bold" color="#0A1777">&lt;storePath&gt;</font>keystore<font font-style="bold" color="#0A1777">&lt;/storePath&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;/asymmetric-encryption&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/network&gt;</font>
+    ...
+<font font-style="bold" color="#0A1777">&lt;/hazelcast&gt;</font>
+</pre><p>
+
+</p></div><div class="sect2" title="12.2.7.&nbsp;Socket Interceptor"><div class="titlepage"><div><div><h3 class="title"><a name="SocketInterceptor"></a>12.2.7.&nbsp;Socket Interceptor</h3></div></div></div><p>
+    Hazelcast allows you to intercept socket connections before a node joins to cluster or a client connects to a node.
+    This provides ability to add custom hooks to join/connection procedure (like identity checking using Kerberos, etc.).
+    You should implement <code class="code">com.hazelcast.nio.MemberSocketInterceptor</code> for members and
+    <code class="code">com.hazelcast.nio.SocketInterceptor</code> for clients.
+
+    </p><pre class="programlisting">
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">class</strong> MySocketInterceptor <strong class="hl-keyword">implements</strong> MemberSocketInterceptor {
+    <strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> init(SocketInterceptorConfig socketInterceptorConfig) {
+        <em class="hl-comment" style="color: silver">// initialize interceptor</em>
+    }
+
+    <strong class="hl-keyword">void</strong> onConnect(Socket connectedSocket) <strong class="hl-keyword">throws</strong> IOException {
+        <em class="hl-comment" style="color: silver">// do something meaningful when connected</em>
+    }
+
+    <strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> onAccept(Socket acceptedSocket) <strong class="hl-keyword">throws</strong> IOException {
+        <em class="hl-comment" style="color: silver">// do something meaningful when accepted a connection</em>
+    }
+}
+</pre><p>
+
+    </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;hazelcast&gt;</font>
+    ...
+    <font font-style="bold" color="#0A1777">&lt;network&gt;</font>
+        ...
+       <font font-style="bold" color="#0A1777">&lt;socket-interceptor</font> <font font-style="bold" color="#0A1777">enabled</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">&gt;</font>
+           <font font-style="bold" color="#0A1777">&lt;class-name&gt;</font>com.hazelcast.examples.MySocketInterceptor<font font-style="bold" color="#0A1777">&lt;/class-name&gt;</font>
+           <font font-style="bold" color="#0A1777">&lt;properties&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"kerberos-host"</font><font font-style="bold" color="#0A1777">&gt;</font>kerb-host-name<font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"kerberos-config-file"</font><font font-style="bold" color="#0A1777">&gt;</font>kerb.conf<font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+           <font font-style="bold" color="#0A1777">&lt;/properties&gt;</font>
+       <font font-style="bold" color="#0A1777">&lt;/socket-interceptor&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/network&gt;</font>
+    ...
+<font font-style="bold" color="#0A1777">&lt;/hazelcast&gt;</font>
+</pre><p>
+
+
+</p><pre class="programlisting">
+
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">class</strong> MyClientSocketInterceptor <strong class="hl-keyword">implements</strong> SocketInterceptor {
+    <strong class="hl-keyword">void</strong> onConnect(Socket connectedSocket) <strong class="hl-keyword">throws</strong> IOException {
+        <em class="hl-comment" style="color: silver">// do something meaningful when connected</em>
+    }
+}
+
+ClientConfig clientConfig = <strong class="hl-keyword">new</strong> ClientConfig();
+clientConfig.setGroupConfig(<strong class="hl-keyword">new</strong> GroupConfig(<font font-style="normal" color="#008000">"dev"</font>,<font font-style="normal" color="#008000">"dev-pass"</font>)).addAddress(<font font-style="normal" color="#008000">"10.10.3.4"</font>);
+
+MyClientSocketInterceptor myClientSocketInterceptor = <strong class="hl-keyword">new</strong> MyClientSocketInterceptor();
+clientConfig.setSocketInterceptor(myClientSocketInterceptor);
+HazelcastInstance client = HazelcastClient.newHazelcastClient(clientConfig);
+</pre><p>
+
+</p></div><div class="sect2" title="12.2.8.&nbsp;IPv6 Support"><div class="titlepage"><div><div><h3 class="title"><a name="IPv6"></a>12.2.8.&nbsp;IPv6 Support</h3></div></div></div><p>
+    Hazelcast supports IPv6 addresses seamlessly. [<span class="emphasis"><em>IPv6 support has been switched off by default.
+        <a class="link" href="ch12s02.html#IPv6-Note">See note below</a></em></span>]
+        All you need is to define IPv6 addresses or interfaces in
+    <a class="link" href="ch12s02.html" title="12.2.&nbsp;Network Configuration">network configuration</a>. Only limitation at the moment is you can not define
+    wildcard IPv6 addresses in <a class="link" href="ch12s02.html#ConfigTcpIp" title="12.2.1.&nbsp;Configuring TCP/IP Cluster">TCP-IP</a> join configuration.
+    <a class="link" href="ch12s02.html#ConfigSpecifyInterfaces" title="12.2.2.&nbsp;Specifying Network Interfaces">Interfaces</a> section does not have this limitation, you can
+    configure wildcard IPv6 interfaces same as IPv4 interfaces.
+
+    </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;hazelcast&gt;</font>
+    ...
+    <font font-style="bold" color="#0A1777">&lt;network&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;port</font> <font font-style="bold" color="#0A1777">auto-increment</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">&gt;</font>5701<font font-style="bold" color="#0A1777">&lt;/port&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;join&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;multicast</font> <font font-style="bold" color="#0A1777">enabled</font>=<font font-style="bold" color="#008000">"false"</font><font font-style="bold" color="#0A1777">&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;multicast-group&gt;</font>FF02:0:0:0:0:0:0:1<font font-style="bold" color="#0A1777">&lt;/multicast-group&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;multicast-port&gt;</font>54327<font font-style="bold" color="#0A1777">&lt;/multicast-port&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;/multicast&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;tcp-ip</font> <font font-style="bold" color="#0A1777">enabled</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;member&gt;</font>[fe80::223:6cff:fe93:7c7e]:5701<font font-style="bold" color="#0A1777">&lt;/member&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;interface&gt;</font>192.168.1.0-7<font font-style="bold" color="#0A1777">&lt;/interface&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;interface&gt;</font>192.168.1.*<font font-style="bold" color="#0A1777">&lt;/interface&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;interface&gt;</font>fe80:0:0:0:45c5:47ee:fe15:493a<font font-style="bold" color="#0A1777">&lt;/interface&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;/tcp-ip&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;/join&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;interfaces</font> <font font-style="bold" color="#0A1777">enabled</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;interface&gt;</font>10.3.16.*<font font-style="bold" color="#0A1777">&lt;/interface&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;interface&gt;</font>10.3.10.4-18<font font-style="bold" color="#0A1777">&lt;/interface&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;interface&gt;</font>fe80:0:0:0:45c5:47ee:fe15:*<font font-style="bold" color="#0A1777">&lt;/interface&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;interface&gt;</font>fe80::223:6cff:fe93:0-5555<font font-style="bold" color="#0A1777">&lt;/interface&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;/interfaces&gt;</font>
+        ...
+    <font font-style="bold" color="#0A1777">&lt;/network&gt;</font>
+</pre><p>
+</p><p>
+        JVM has two system properties for setting the preferred protocol stack &#8212;IPv4 or IPv6&#8212; as well as the preferred
+        address family types &#8212;inet4 or inet6. On a dual stack machine IPv6 stack is preferred by default, this can be
+        changed through <code class="code">java.net.preferIPv4Stack=&lt;true|false&gt;</code> system property. And when querying name
+        services JVM prefers IPv4 addressed over IPv6 addresses and will return an IPv4 address if possible. This can be
+        changed through <code class="code">java.net.preferIPv6Addresses=&lt;true|false&gt;</code> system property.
+    </p><p>
+    Also see additional <a class="link" href="http://docs.oracle.com/javase/1.5.0/docs/guide/net/ipv6_guide/index.html#details" target="_top">
+        details on IPv6 support in Java
+    </a>.
+    </p><p><a name="IPv6-Note"></a>
+    <span class="bold"><strong>Note:</strong></span>
+    </p><p>
+        IPv6 support has been switched off by default, since some platforms have issues in use of IPv6 stack. And some other
+        platforms such as Amazon AWS have no support at all. To enable IPv6 support, just set configuration property
+        <code class="code">hazelcast.prefer.ipv4.stack</code> to false.
+        See <a class="link" href="ch12s06.html" title="12.6.&nbsp;Advanced Configuration Properties">Configuration Properties.</a>
+    </p></div><div class="sect2" title="12.2.9.&nbsp;Restricting Outbound Ports"><div class="titlepage"><div><div><h3 class="title"><a name="OutboundPorts"></a>12.2.9.&nbsp;Restricting Outbound Ports</h3></div></div></div><p>
+    By default Hazelcast lets the system to pick up an ephemeral port during socket bind operation.
+    But security policies/firewalls may require to restrict outbound ports to be used by Hazelcast enabled applications.
+    To fulfill this requirement, you can configure Hazelcast to use only defined outbound ports.
+
+    </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;hazelcast&gt;</font>
+    ...
+    <font font-style="bold" color="#0A1777">&lt;network&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;port</font> <font font-style="bold" color="#0A1777">auto-increment</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">&gt;</font>5701<font font-style="bold" color="#0A1777">&lt;/port&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;outbound-ports&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;ports&gt;</font>33000-35000<font font-style="bold" color="#0A1777">&lt;/ports&gt;</font>   <em class="hl-comment" style="color: silver">&lt;!-- ports between 33000 and 35000 --&gt;</em>
+            <font font-style="bold" color="#0A1777">&lt;ports&gt;</font>37000,37001,37002,37003<font font-style="bold" color="#0A1777">&lt;/ports&gt;</font> <em class="hl-comment" style="color: silver">&lt;!-- comma separated ports --&gt;</em>
+            <font font-style="bold" color="#0A1777">&lt;ports&gt;</font>38000,38500-38600<font font-style="bold" color="#0A1777">&lt;/ports&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;/outbound-ports&gt;</font>
+        ...
+    <font font-style="bold" color="#0A1777">&lt;/network&gt;</font>
+    ...
+<font font-style="bold" color="#0A1777">&lt;/hazelcast&gt;</font>
+</pre><p>
+
+
+    </p><pre class="programlisting">
+    ...
+
+    NetworkConfig networkConfig = config.getNetworkConfig();
+    networkConfig.addOutboundPortDefinition(<font font-style="normal" color="#008000">"35000-35100"</font>);         <em class="hl-comment" style="color: silver">// ports between 35000 and 35100</em>
+    networkConfig.addOutboundPortDefinition(<font font-style="normal" color="#008000">"36001, 36002, 36003"</font>); <em class="hl-comment" style="color: silver">// comma separated ports</em>
+    networkConfig.addOutboundPort(<span class="hl-number">37000</span>);
+    networkConfig.addOutboundPort(<span class="hl-number">37001</span>);
+    ...
+</pre><p>
+
+    <span class="italic">* You can use port ranges and/or comma separated ports.</span>
+    </p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch12.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch12.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch12s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;12.&nbsp;Configuration&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;12.3.&nbsp;Partition Group Configuration</td></tr></table></div></body></html>

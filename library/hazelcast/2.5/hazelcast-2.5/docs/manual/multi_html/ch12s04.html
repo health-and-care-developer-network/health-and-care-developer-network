@@ -1,0 +1,197 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>12.4.&nbsp;Listener Configurations</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="ch12.html" title="Chapter&nbsp;12.&nbsp;Configuration"><link rel="prev" href="ch12s03.html" title="12.3.&nbsp;Partition Group Configuration"><link rel="next" href="ch12s05.html" title="12.5.&nbsp;Wildcard Configuration"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">12.4.&nbsp;Listener Configurations</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch12s03.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;12.&nbsp;Configuration</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch12s05.html">Next</a></td></tr></table><hr></div><div class="sect1" title="12.4.&nbsp;Listener Configurations"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="ListenerConfig"></a>12.4.&nbsp;Listener Configurations</h2></div></div></div><p>
+        Hazelcast provides various event listener extensions to receive specific event types. These are:
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+                    <span class="bold"><strong>MembershipListener</strong></span> for cluster membership events
+                </p></li><li class="listitem"><p>
+                    <span class="bold"><strong>InstanceListener</strong></span> for distributed instance creation and destroy events
+                </p></li><li class="listitem"><p>
+                    <span class="bold"><strong>MigrationListener</strong></span> for partition migration start and complete events
+                </p></li><li class="listitem"><p>
+                    <span class="bold"><strong>LifecycleListener</strong></span> for HazelcastInstance lifecycle events
+                </p></li><li class="listitem"><p>
+                    <span class="bold"><strong>EntryListener</strong></span> for IMap and MultiMap entry events
+                </p></li><li class="listitem"><p>
+                    <span class="bold"><strong>ItemListener</strong></span> for IQueue, ISet and IList item events
+                </p></li><li class="listitem"><p>
+                    <span class="bold"><strong>MessageListener</strong></span> for ITopic message events
+                </p></li></ul></div><p>
+        These listeners can be added to and removed from related object using Hazelcast API. Such as
+        </p><pre class="programlisting">MembershipListener listener = <strong class="hl-keyword">new</strong> MyMembershipListener();
+hazelcastInstance.getCluster().addMembershipListener(listener);
+hazelcastInstance.getCluster().removeMembershipListener(listener);</pre><p>
+        </p><pre class="programlisting">EntryListener listener = <strong class="hl-keyword">new</strong> MyEntryListener();
+IMap map = hazelcastInstance.getMap(<font font-style="normal" color="#008000">"default"</font>);
+map.addEntryListener(listener, true);
+map.removeEntryListener(listener);</pre><p>
+        </p><pre class="programlisting">ItemListener listener = <strong class="hl-keyword">new</strong> MyItemListener();
+IQueue queue = hazelcastInstance.getQueue(<font font-style="normal" color="#008000">"default"</font>);
+queue.addItemListener(listener, true);
+queue.removeItemListener(listener);</pre><p>
+    </p><p>
+        Downside of attaching listeners using API is possibility of missing events between creation of object and registering listener. To overcome this race condition Hazelcast introduces registration of listeners in configuration. Listeners can be registered using either Hazelcast XML configuration, Config API or Spring configuration.
+    </p><p>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+                    <span class="bold"><strong>MembershipListener</strong></span>
+                </p><p>
+                    <span class="italic">Hazelcast XML configuration</span>
+                    </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;listeners&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;listener&gt;</font>com.hazelcast.examples.MembershipListener<font font-style="bold" color="#0A1777">&lt;/listener&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/listeners&gt;</font></pre><p>
+                </p><p><span class="italic">Config API</span>
+                    </p><pre class="programlisting">
+config.addListenerConfig(<strong class="hl-keyword">new</strong> ListenerConfig(<font font-style="normal" color="#008000">"com.hazelcast.examples.MembershipListener"</font>));</pre><p>
+                </p><p>
+                    <span class="italic">Spring XML configuration</span>
+                    </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;hz:listeners&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;hz:listener</font> <font font-style="bold" color="#0A1777">class-name</font>=<font font-style="bold" color="#008000">"com.hazelcast.spring.DummyMembershipListener"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;hz:listener</font> <font font-style="bold" color="#0A1777">implementation</font>=<font font-style="bold" color="#008000">"dummyMembershipListener"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/hz:listeners&gt;</font></pre><p>
+                </p></li><li class="listitem"><p>
+                    <span class="bold"><strong>InstanceListener</strong></span>
+                </p><p>
+                    <span class="italic">Hazelcast XML configuration</span>
+                    </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;listeners&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;listener&gt;</font>com.hazelcast.examples.InstanceListener<font font-style="bold" color="#0A1777">&lt;/listener&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/listeners&gt;</font></pre><p>
+                </p><p><span class="italic">Config API</span>
+                    </p><pre class="programlisting">
+config.addListenerConfig(<strong class="hl-keyword">new</strong> ListenerConfig(<font font-style="normal" color="#008000">"com.hazelcast.examples.InstanceListener"</font>));</pre><p>
+                </p><p>
+                <span class="italic">Spring XML configuration</span>
+                </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;hz:listeners&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;hz:listener</font> <font font-style="bold" color="#0A1777">class-name</font>=<font font-style="bold" color="#008000">"com.hazelcast.spring.DummyInstanceListener"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;hz:listener</font> <font font-style="bold" color="#0A1777">implementation</font>=<font font-style="bold" color="#008000">"dummyInstanceListener"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/hz:listeners&gt;</font></pre><p>
+                </p></li><li class="listitem"><p>
+                    <span class="bold"><strong>MigrationListener</strong></span>
+                </p><p>
+                    <span class="italic">Hazelcast XML configuration</span>
+                    </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;listeners&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;listener&gt;</font>com.hazelcast.examples.MigrationListener<font font-style="bold" color="#0A1777">&lt;/listener&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/listeners&gt;</font></pre><p>
+                </p><p><span class="italic">Config API</span>
+                    </p><pre class="programlisting">
+config.addListenerConfig(<strong class="hl-keyword">new</strong> ListenerConfig(<font font-style="normal" color="#008000">"com.hazelcast.examples.MigrationListener"</font>));</pre><p>
+                </p><p>
+                    <span class="italic">Spring XML configuration</span>
+                    </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;hz:listeners&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;hz:listener</font> <font font-style="bold" color="#0A1777">class-name</font>=<font font-style="bold" color="#008000">"com.hazelcast.spring.DummyMigrationListener"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;hz:listener</font> <font font-style="bold" color="#0A1777">implementation</font>=<font font-style="bold" color="#008000">"dummyMigrationListener"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/hz:listeners&gt;</font></pre><p>
+                </p></li><li class="listitem"><p>
+                    <span class="bold"><strong>LifecycleListener</strong></span>
+                </p><p>
+                    <span class="italic">Hazelcast XML configuration</span>
+                    </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;listeners&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;listener&gt;</font>com.hazelcast.examples.LifecycleListener<font font-style="bold" color="#0A1777">&lt;/listener&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/listeners&gt;</font></pre><p>
+                </p><p><span class="italic">Config API</span>
+                    </p><pre class="programlisting">
+                        config.addListenerConfig(<strong class="hl-keyword">new</strong> ListenerConfig(<font font-style="normal" color="#008000">"com.hazelcast.examples.LifecycleListener"</font>));</pre><p>
+                </p><p>
+                    <span class="italic">Spring XML configuration</span>
+                    </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;hz:listeners&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;hz:listener</font> <font font-style="bold" color="#0A1777">class-name</font>=<font font-style="bold" color="#008000">"com.hazelcast.spring.DummyLifecycleListener"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;hz:listener</font> <font font-style="bold" color="#0A1777">implementation</font>=<font font-style="bold" color="#008000">"dummyLifecycleListener"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/hz:listeners&gt;</font></pre><p>
+                </p></li><li class="listitem"><p>
+                    <span class="bold"><strong>EntryListener</strong></span> for IMap
+                </p><p>
+                    <span class="italic">Hazelcast XML configuration</span>
+                    </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;map</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"default"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    ...
+    <font font-style="bold" color="#0A1777">&lt;entry-listeners&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;entry-listener</font> <font font-style="bold" color="#0A1777">include-value</font>=<font font-style="bold" color="#008000">"true"</font> <font font-style="bold" color="#0A1777">local</font>=<font font-style="bold" color="#008000">"false"</font><font font-style="bold" color="#0A1777">&gt;</font>com.hazelcast.examples.EntryListener<font font-style="bold" color="#0A1777">&lt;/entry-listener&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/entry-listeners&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/map&gt;</font></pre><p>
+                </p><p><span class="italic">Config API</span>
+                    </p><pre class="programlisting">
+mapConfig.addEntryListenerConfig(<strong class="hl-keyword">new</strong> EntryListenerConfig(<font font-style="normal" color="#008000">"com.hazelcast.examples.EntryListener"</font>, false, false));</pre><p>
+                </p><p>
+                <span class="italic">Spring XML configuration</span>
+                </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;hz:map</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"default"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;hz:entry-listeners&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;hz:entry-listener</font> <font font-style="bold" color="#0A1777">class-name</font>=<font font-style="bold" color="#008000">"com.hazelcast.spring.DummyEntryListener"</font> <font font-style="bold" color="#0A1777">include-value</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;hz:entry-listener</font> <font font-style="bold" color="#0A1777">implementation</font>=<font font-style="bold" color="#008000">"dummyEntryListener"</font> <font font-style="bold" color="#0A1777">local</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/hz:entry-listeners&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/hz:map&gt;</font></pre><p>
+                </p></li><li class="listitem"><p>
+                    <span class="bold"><strong>EntryListener</strong></span> for MultiMap
+                </p><p>
+                    <span class="italic">Hazelcast XML configuration</span>
+                    </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;multimap</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"default"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;value-collection-type&gt;</font>SET<font font-style="bold" color="#0A1777">&lt;/value-collection-type&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;entry-listeners&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;entry-listener</font> <font font-style="bold" color="#0A1777">include-value</font>=<font font-style="bold" color="#008000">"true"</font> <font font-style="bold" color="#0A1777">local</font>=<font font-style="bold" color="#008000">"false"</font><font font-style="bold" color="#0A1777">&gt;</font>com.hazelcast.examples.EntryListener<font font-style="bold" color="#0A1777">&lt;/entry-listener&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/entry-listeners&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/multimap&gt;</font></pre><p>
+                </p><p><span class="italic">Config API</span>
+                    </p><pre class="programlisting">
+multiMapConfig.addEntryListenerConfig(<strong class="hl-keyword">new</strong> EntryListenerConfig(<font font-style="normal" color="#008000">"com.hazelcast.examples.EntryListener"</font>, false, false));</pre><p>
+                </p><p>
+                    <span class="italic">Spring XML configuration</span>
+                    </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;hz:multimap</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"default"</font> <font font-style="bold" color="#0A1777">value-collection-type</font>=<font font-style="bold" color="#008000">"LIST"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;hz:entry-listeners&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;hz:entry-listener</font> <font font-style="bold" color="#0A1777">class-name</font>=<font font-style="bold" color="#008000">"com.hazelcast.spring.DummyEntryListener"</font> <font font-style="bold" color="#0A1777">include-value</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;hz:entry-listener</font> <font font-style="bold" color="#0A1777">implementation</font>=<font font-style="bold" color="#008000">"dummyEntryListener"</font> <font font-style="bold" color="#0A1777">local</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/hz:entry-listeners&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/hz:multimap&gt;</font></pre><p>
+                </p></li><li class="listitem"><p>
+                    <span class="bold"><strong>ItemListener</strong></span> for IQueue
+                </p><p>
+                    <span class="italic">Hazelcast XML configuration</span>
+                    </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;queue</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"default"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    ...
+    <font font-style="bold" color="#0A1777">&lt;item-listeners&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;item-listener</font> <font font-style="bold" color="#0A1777">include-value</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">&gt;</font>com.hazelcast.examples.ItemListener<font font-style="bold" color="#0A1777">&lt;/item-listener&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/item-listeners&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/queue&gt;</font></pre><p>
+                </p><p><span class="italic">Config API</span>
+                    </p><pre class="programlisting">
+queueConfig.addItemListenerConfig(<strong class="hl-keyword">new</strong> ItemListenerConfig(<font font-style="normal" color="#008000">"com.hazelcast.examples.ItemListener"</font>, true));</pre><p>
+                </p><p>
+                    <span class="italic">Spring XML configuration</span>
+                    </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;hz:queue</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"default"</font> <font font-style="bold" color="#0A1777">max-size-per-jvm</font>=<font font-style="bold" color="#008000">"1000"</font> <font font-style="bold" color="#0A1777">backing-map-ref</font>=<font font-style="bold" color="#008000">"default"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;hz:item-listeners&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;hz:item-listener</font> <font font-style="bold" color="#0A1777">class-name</font>=<font font-style="bold" color="#008000">"com.hazelcast.spring.DummyItemListener"</font> <font font-style="bold" color="#0A1777">include-value</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/hz:item-listeners&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/hz:queue&gt;</font></pre><p>
+                </p></li><li class="listitem"><p>
+                    <span class="bold"><strong>MessageListener</strong></span> for ITopic
+                </p><p>
+                    <span class="italic">Hazelcast XML configuration</span>
+                    </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;topic</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"default"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;message-listeners&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;message-listener&gt;</font>com.hazelcast.examples.MessageListener<font font-style="bold" color="#0A1777">&lt;/message-listener&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/message-listeners&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/topic&gt;</font></pre><p>
+                </p><p><span class="italic">Config API</span>
+                    </p><pre class="programlisting">
+topicConfig.addMessageListenerConfig(<strong class="hl-keyword">new</strong> ListenerConfig(<font font-style="normal" color="#008000">"com.hazelcast.examples.MessageListener"</font>));</pre><p>
+                </p><p>
+                    <span class="italic">Spring XML configuration</span>
+                    </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;hz:topic</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"default"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;hz:message-listeners&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;hz:message-listener</font> <font font-style="bold" color="#0A1777">class-name</font>=<font font-style="bold" color="#008000">"com.hazelcast.spring.DummyMessageListener"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/hz:message-listeners&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/hz:topic&gt;</font></pre><p>
+                </p></li></ul></div><p>
+    </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch12s03.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch12.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch12s05.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">12.3.&nbsp;Partition Group Configuration&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;12.5.&nbsp;Wildcard Configuration</td></tr></table></div></body></html>

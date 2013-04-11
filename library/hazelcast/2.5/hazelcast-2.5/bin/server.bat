@@ -1,0 +1,1 @@
+java -server -Xms1G -Xmx1G -cp ../lib/hazelcast-2.5.jar com.hazelcast.examples.StartServer

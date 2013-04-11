@@ -1,0 +1,72 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>14.5.&nbsp;Spring Data - JPA</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="ch14.html" title="Chapter&nbsp;14.&nbsp;Spring Integration"><link rel="prev" href="ch14s04.html" title="14.4.&nbsp;Hibernate 2nd Level Cache Config"><link rel="next" href="ch14s06.html" title="14.6.&nbsp;Spring Data - MongoDB"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">14.5.&nbsp;Spring Data - JPA</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch14s04.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;14.&nbsp;Spring Integration</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch14s06.html">Next</a></td></tr></table><hr></div><div class="sect1" title="14.5.&nbsp;Spring Data - JPA"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="SpringJPA"></a>14.5.&nbsp;Spring Data - JPA</h2></div></div></div><p>
+        Hazelcast supports JPA persistence integrated with <a class="link" href="http://www.springsource.org/spring-data/jpa" target="_top">
+        Spring Data-JPA</a> module.
+        Your POJOs are mapped and persisted to your relational database.
+        To use JPA persistence first you should create a Repository interface extending CrudRepository class with object type that you want to persist..
+        </p><pre class="programlisting">
+<strong class="hl-keyword">package</strong> com.hazelcast.jpa.repository;
+
+<strong class="hl-keyword">import</strong> com.hazelcast.jpa.Product;
+<strong class="hl-keyword">import</strong> org.springframework.data.repository.CrudRepository;
+
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">interface</strong> ProductRepository <strong class="hl-keyword">extends</strong> CrudRepository&lt;Product, Long&gt; {
+
+}
+</pre><p>
+        Then you should add your data source and repository definition to you Spring configuration,
+        </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;jpa:repositories</font>
+       <font font-style="bold" color="#0A1777">base-package</font>=<font font-style="bold" color="#008000">"com.hazelcast.jpa.repository"</font><font font-style="bold" color="#0A1777"> /&gt;</font>
+
+    <font font-style="bold" color="#0A1777">&lt;bean</font> <font font-style="bold" color="#0A1777">class</font>=<font font-style="bold" color="#008000">"com.hazelcast.jpa.SpringJPAMapStore"</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"jpamapstore"</font><font font-style="bold" color="#0A1777">&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"crudRepository"</font> <font font-style="bold" color="#0A1777">ref</font>=<font font-style="bold" color="#008000">"productRepository"</font><font font-style="bold" color="#0A1777"> /&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/bean&gt;</font>
+
+    <font font-style="bold" color="#0A1777">&lt;bean</font> <font font-style="bold" color="#0A1777">class</font>=<font font-style="bold" color="#008000">"org.apache.commons.dbcp.BasicDataSource"</font> <font font-style="bold" color="#0A1777">destroy-method</font>=<font font-style="bold" color="#008000">"close"</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"dataSource"</font><font font-style="bold" color="#0A1777">&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"driverClassName"</font> <font font-style="bold" color="#0A1777">value</font>=<font font-style="bold" color="#008000">"com.mysql.jdbc.Driver"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+             <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"url"</font> <font font-style="bold" color="#0A1777">value</font>=<font font-style="bold" color="#008000">"jdbc:mysql://localhost:3306/YOUR_DB"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+             <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"username"</font> <font font-style="bold" color="#0A1777">value</font>=<font font-style="bold" color="#008000">"YOUR_USERNAME"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+             <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"password"</font> <font font-style="bold" color="#0A1777">value</font>=<font font-style="bold" color="#008000">"YOUR_PASSWORD"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/bean&gt;</font>
+
+    <font font-style="bold" color="#0A1777">&lt;bean</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"entityManagerFactory"</font>
+      <font font-style="bold" color="#0A1777">class</font>=<font font-style="bold" color="#008000">"org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"</font><font font-style="bold" color="#0A1777">&gt;</font>
+      <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"dataSource"</font> <font font-style="bold" color="#0A1777">ref</font>=<font font-style="bold" color="#008000">"dataSource"</font><font font-style="bold" color="#0A1777"> /&gt;</font>
+      <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"jpaVendorAdapter"</font><font font-style="bold" color="#0A1777">&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;bean</font> <font font-style="bold" color="#0A1777">class</font>=<font font-style="bold" color="#008000">"org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"</font><font font-style="bold" color="#0A1777">&gt;</font>
+          <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"generateDdl"</font> <font font-style="bold" color="#0A1777">value</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777"> /&gt;</font>
+          <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"database"</font> <font font-style="bold" color="#0A1777">value</font>=<font font-style="bold" color="#008000">"MYSQL"</font><font font-style="bold" color="#0A1777"> /&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;/bean&gt;</font>
+      <font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"persistenceUnitName"</font> <font font-style="bold" color="#0A1777">value</font>=<font font-style="bold" color="#008000">"jpa.sample"</font><font font-style="bold" color="#0A1777"> /&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/bean&gt;</font>
+
+    <font font-style="bold" color="#0A1777">&lt;bean</font> <font font-style="bold" color="#0A1777">class</font>=<font font-style="bold" color="#008000">"org.springframework.orm.jpa.JpaTransactionManager"</font>
+      <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"transactionManager"</font><font font-style="bold" color="#0A1777">&gt;</font>
+      <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"entityManagerFactory"</font>
+          <font font-style="bold" color="#0A1777">ref</font>=<font font-style="bold" color="#008000">"entityManagerFactory"</font><font font-style="bold" color="#0A1777"> /&gt;</font>
+      <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"jpaDialect"</font><font font-style="bold" color="#0A1777">&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;bean</font> <font font-style="bold" color="#0A1777">class</font>=<font font-style="bold" color="#008000">"org.springframework.orm.jpa.vendor.HibernateJpaDialect"</font><font font-style="bold" color="#0A1777"> /&gt;</font>
+      <font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/bean&gt;</font>
+    </pre><p>
+    In the example configuration above, Hibernate and MYSQL is configured,
+        you change them according your ORM and database selection.
+        Also you should define your persistence unit with persistence.xml under META-INF directory.
+
+        </p><pre class="programlisting">
+<span class="hl-directive" style="color: maroon">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<font font-style="bold" color="#0A1777">&lt;persistence</font> <font font-style="bold" color="#0A1777">version</font>=<font font-style="bold" color="#008000">"2.0"</font> <font font-style="bold" color="#0A1777">xmlns</font>=<font font-style="bold" color="#008000">"http://java.sun.com/xml/ns/persistence"</font> <font font-style="bold" color="#0A1777">xmlns:xsi</font>=<font font-style="bold" color="#008000">"http://www.w3.org/2001/XMLSchema-instance"</font> <font font-style="bold" color="#0A1777">xsi:schemaLocation</font>=<font font-style="bold" color="#008000">"http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"</font><font font-style="bold" color="#0A1777">&gt;</font>
+	<font font-style="bold" color="#0A1777">&lt;persistence-unit</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"jpa.sample"</font><font font-style="bold" color="#0A1777"> /&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/persistence&gt;</font>
+</pre><p>
+
+        By default, the key is expected to be the same with id of the JPA object. You can change this behaviour and customize MapStore implementation extending SpringJPAMapStore class.
+
+    <span class="italic">For more info see
+        <a class="link" href="http://static.springsource.org/spring-data/data-jpa/docs/current/reference/html/" target="_top">
+            Spring Data JPA Reference
+        </a>.</span>
+    </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch14s04.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch14.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch14s06.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">14.4.&nbsp;Hibernate 2nd Level Cache Config&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;14.6.&nbsp;Spring Data - MongoDB</td></tr></table></div></body></html>

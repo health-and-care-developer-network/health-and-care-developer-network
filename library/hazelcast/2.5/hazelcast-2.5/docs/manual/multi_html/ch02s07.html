@@ -1,0 +1,40 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>2.7.&nbsp;Distributed Lock</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="ch02.html" title="Chapter&nbsp;2.&nbsp;Distributed Data Structures"><link rel="prev" href="ch02s06.html" title="2.6.&nbsp;Distributed List"><link rel="next" href="ch02s08.html" title="2.8.&nbsp;Distributed Events"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">2.7.&nbsp;Distributed Lock</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch02s06.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;2.&nbsp;Distributed Data Structures</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch02s08.html">Next</a></td></tr></table><hr></div><div class="sect1" title="2.7.&nbsp;Distributed Lock"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Lock"></a>2.7.&nbsp;Distributed Lock</h2></div></div></div><p>
+        </p><pre class="programlisting"><strong class="hl-keyword">import</strong> com.hazelcast.core.Hazelcast;
+<strong class="hl-keyword">import</strong> com.hazelcast.config.Config;
+<strong class="hl-keyword">import</strong> java.util.concurrent.locks.Lock;
+
+Config cfg = <strong class="hl-keyword">new</strong> Config();
+HazelcastInstance hz = Hazelcast.newHazelcastInstance(cfg);
+Lock lock = hz.getLock(myLockedObject);
+lock.lock();
+<strong class="hl-keyword">try</strong> {
+    <em class="hl-comment" style="color: silver">// do something here</em>
+} <strong class="hl-keyword">finally</strong> {
+    lock.unlock();
+} 
+ 
+</pre><p>
+
+        <code class="literal">java.util.concurrent.locks.Lock.tryLock()</code>
+        with timeout is also supported. All operations on the Lock that
+        <code class="literal">Hazelcast.getLock(Object obj)</code>
+        returns are cluster-wide and Lock behaves just like
+        <code class="literal">java.util.concurrent.lock.ReentrantLock</code>.
+
+        </p><pre class="programlisting"><strong class="hl-keyword">if</strong> (lock.tryLock (<span class="hl-number">5000</span>, TimeUnit.MILLISECONDS)) {
+    <strong class="hl-keyword">try</strong> {  
+       <em class="hl-comment" style="color: silver">// do some stuff here..  </em>
+    } 
+    <strong class="hl-keyword">finally</strong> {  
+      lock.unlock();  
+    }   
+} 
+</pre><p>
+
+        Locks are fail-safe. If a member holds a lock and some of the members go down, cluster will keep your locks safe
+        and available. Moreover, when a member leaves the cluster, all the locks acquired by this dead member will be
+        removed so that these locks can be available for live members immediately.
+
+    </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch02s06.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch02.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch02s08.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">2.6.&nbsp;Distributed List&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;2.8.&nbsp;Distributed Events</td></tr></table></div></body></html>

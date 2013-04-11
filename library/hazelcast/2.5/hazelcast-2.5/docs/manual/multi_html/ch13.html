@@ -1,0 +1,206 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;13.&nbsp;Hibernate Second Level Cache</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="index.html" title="Hazelcast Documentation"><link rel="prev" href="ch12s08.html" title="12.8.&nbsp;Setting License Key (Enterprise Edition Only)"><link rel="next" href="ch14.html" title="Chapter&nbsp;14.&nbsp;Spring Integration"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;13.&nbsp;Hibernate Second Level Cache</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch12s08.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch14.html">Next</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;13.&nbsp;Hibernate Second Level Cache"><div class="titlepage"><div><div><h2 class="title"><a name="HibernateSecondLevelCache"></a>Chapter&nbsp;13.&nbsp;Hibernate Second Level Cache</h2></div></div></div><div class="simplesect"><div class="titlepage"></div><p>
+    Hazelcast provides distributed second level cache for
+    your Hibernate entities, collections and queries. Hazelcast has two implementations of Hibernate
+    2nd level cache, one for hibernate-pre-3.3 and one for hibernate-3.3.x versions. In your
+    Hibernate configuration file (ex: hibernate.cfg.xml), add these properties:
+    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>To enable use of second level cache
+                </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"hibernate.cache.use_second_level_cache"</font><font font-style="bold" color="#0A1777">&gt;</font>true<font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+</pre><p>
+            </p></li><li class="listitem"><p>To enable use of query cache
+                </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"hibernate.cache.use_query_cache"</font><font font-style="bold" color="#0A1777">&gt;</font>true<font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+</pre><p>
+            </p></li><li class="listitem"><p>And to force minimal puts into cache
+                </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"hibernate.cache.use_minimal_puts"</font><font font-style="bold" color="#0A1777">&gt;</font>true<font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+</pre><p>
+            </p></li><li class="listitem"><p>To configure Hazelcast for Hibernate, it is enough to put configuration file named
+                <code class="literal">hazelcast.xml</code>
+                into root of your classpath. If Hazelcast can
+                not find
+                <code class="literal">hazelcast.xml</code>
+                then it will use default configuration
+                from hazelcast.jar.
+            </p></li><li class="listitem"><p>You can define custom named Hazelcast configuration xml file with one of these
+                Hibernate configuration properties.
+                </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"hibernate.cache.provider_configuration_file_resource_path"</font><font font-style="bold" color="#0A1777">&gt;</font>
+     hazelcast-custom-config.xml
+<font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+                </pre><p>
+                or
+                </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"hibernate.cache.hazelcast.configuration_file_path"</font><font font-style="bold" color="#0A1777">&gt;</font>
+     hazelcast-custom-config.xml
+<font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+                </pre><p>
+            </p></li><li class="listitem"><p>You can set up Hazelcast to connect cluster as LiteMember. LiteMember is a
+                member of the cluster, it has socket connection to every member in the cluster and
+                it knows where the data, but does not contain any data.
+                </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"hibernate.cache.hazelcast.use_lite_member"</font><font font-style="bold" color="#0A1777">&gt;</font>true<font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+</pre><p>
+            </p></li><li class="listitem"><p>You can set up Hazelcast to connect cluster as Native Client. Native client is not
+                member and it connects to one of the cluster members and delegates all cluster wide
+                operations to it. When the relied cluster member dies, client will transparently
+                switch to another live member. <span class="italic">(Native Client property takes precedence
+                    over LiteMember property.)</span>
+                </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"hibernate.cache.hazelcast.use_native_client"</font><font font-style="bold" color="#0A1777">&gt;</font>true<font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+</pre><p>
+                To setup Native Client properly, you should add Hazelcast 
+                <span class="bold"><strong>group-name</strong></span>, 
+                <span class="bold"><strong>group-password</strong></span> and
+                <span class="bold"><strong>cluster member address</strong></span> properties. 
+                Native Client
+                will connect to defined member and will get addresses of all members in the cluster.
+                If the connected member will die or leave the cluster, client will automatically
+                switch to another member in the cluster.
+                </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"hibernate.cache.hazelcast.native_client_address"</font><font font-style="bold" color="#0A1777">&gt;</font>10.34.22.15<font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"hibernate.cache.hazelcast.native_client_group"</font><font font-style="bold" color="#0A1777">&gt;</font>dev<font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"hibernate.cache.hazelcast.native_client_password"</font><font font-style="bold" color="#0A1777">&gt;</font>dev-pass<font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+</pre><p>
+                <span class="italic">To use Native Client you should add
+                    <code class="literal">hazelcast-client-&lt;version&gt;.jar</code>
+                    into your
+                    classpath.
+                </span>
+            </p><p>
+                <a class="link" href="ch15.html#NativeClient" title="15.1.&nbsp;Native Client">Read more about NativeClient &amp; LiteMember</a>
+            </p></li><li class="listitem"><p>If you are using one of Hibernate pre-3.3 version, add following property.
+                </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"hibernate.cache.provider_class"</font><font font-style="bold" color="#0A1777">&gt;</font>
+     com.hazelcast.hibernate.provider.HazelcastCacheProvider
+<font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+				</pre><p>
+            </p></li><li class="listitem"><p>If you are using Hibernate 3.3.x (or newer) version, you can choose to use either
+                configuration property above (Hibernate has a built-in bridge to use old-style cache
+                implementations) or following property.
+                </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"hibernate.cache.region.factory_class"</font><font font-style="bold" color="#0A1777">&gt;</font>
+     com.hazelcast.hibernate.HazelcastCacheRegionFactory
+<font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+				</pre><p>
+
+                Or as an alternative you can use <code class="code">HazelcastLocalCacheRegionFactory</code>
+                which stores data in local node and sends invalidation messages when an entry is updated on local.
+                </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"hibernate.cache.region.factory_class"</font><font font-style="bold" color="#0A1777">&gt;</font>
+     com.hazelcast.hibernate.HazelcastLocalCacheRegionFactory
+<font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+                </pre><p>
+            </p></li></ul></div><p>
+    Hazelcast creates a separate distributed map for each Hibernate cache region. So
+    these regions can be configured easily via Hazelcast map configuration. You can define 
+    <span class="bold"><strong>backup</strong></span>,
+    <span class="bold"><strong>eviction</strong></span>,
+    <span class="bold"><strong>TTL</strong></span> and
+    <span class="bold"><strong>Near Cache</strong></span> properties.
+    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+                <a class="link" href="ch02s03.html#MapBackup" title="2.3.1.&nbsp;Backups">Backup Configuration</a>
+            </p></li><li class="listitem"><p>
+                <a class="link" href="ch02s03.html#MapEviction" title="2.3.2.&nbsp;Eviction">Eviction And TTL Configuration</a>
+            </p></li><li class="listitem"><p>
+                <a class="link" href="ch02s03.html#MapNearCache" title="2.3.5.&nbsp;Near Cache">Near Cache Configuration</a>
+            </p></li></ul></div><p>
+    Hibernate has four cache concurrency strategies:
+    <span class="emphasis"><em>read-only</em></span>, 
+    <span class="emphasis"><em>read-write</em></span>, 
+    <span class="emphasis"><em>nonstrict-read-write</em></span> and
+    <span class="emphasis"><em>transactional</em></span>. 
+    But Hibernate does not forces cache providers to support all strategies. And Hazelcast supports
+    first three (<span class="bold"><strong>read-only</strong></span>, 
+    	<span class="bold"><strong>read-write</strong></span>, 
+    	<span class="bold"><strong>nonstrict-read-write</strong></span>) of these four strategies. 
+    	Hazelcast has no support for<span class="emphasis"><em>transactional</em></span> strategy yet.
+    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>If you are using xml based class configurations, you should add a
+                <span class="emphasis"><em>cache</em></span> element into your configuration with
+                <span class="emphasis"><em>usage</em></span> attribute with one of 
+                <span class="emphasis"><em>read-only</em></span>, 
+                <span class="emphasis"><em>read-write</em></span>, 
+                <span class="emphasis"><em>nonstrict-read-write</em></span>.
+                </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;class</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"eg.Immutable"</font> <font font-style="bold" color="#0A1777">mutable</font>=<font font-style="bold" color="#008000">"false"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;cache</font> <font font-style="bold" color="#0A1777">usage</font>=<font font-style="bold" color="#008000">"read-only"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+    .... 
+<font font-style="bold" color="#0A1777">&lt;/class&gt;</font>
+
+<font font-style="bold" color="#0A1777">&lt;class</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"eg.Cat"</font> <font font-style="bold" color="#0A1777">....</font><font font-style="bold" color="#0A1777"> &gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;cache</font> <font font-style="bold" color="#0A1777">usage</font>=<font font-style="bold" color="#008000">"read-write"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+    ....
+    <font font-style="bold" color="#0A1777">&lt;set</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"kittens"</font> <font font-style="bold" color="#0A1777">...</font><font font-style="bold" color="#0A1777"> &gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;cache</font> <font font-style="bold" color="#0A1777">usage</font>=<font font-style="bold" color="#008000">"read-write"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+        ....
+    <font font-style="bold" color="#0A1777">&lt;/set&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/class&gt;</font>
+</pre><p>
+            </p></li><li class="listitem"><p>If you are using Hibernate-Annotations then you can add
+                <span class="emphasis"><em>class-cache</em></span> or
+                <span class="emphasis"><em>collection-cache</em></span> element into your Hibernate configuration file with
+                <span class="emphasis"><em>usage</em></span> attribute with one of 
+                <span class="emphasis"><em>read only</em></span>,
+                <span class="emphasis"><em>read/write</em></span>,
+                <span class="emphasis"><em>nonstrict read/write</em></span>.
+                </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;class-cache</font> <font font-style="bold" color="#0A1777">usage</font>=<font font-style="bold" color="#008000">"read-only"</font> <font font-style="bold" color="#0A1777">class</font>=<font font-style="bold" color="#008000">"eg.Immutable"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;class-cache</font> <font font-style="bold" color="#0A1777">usage</font>=<font font-style="bold" color="#008000">"read-write"</font> <font font-style="bold" color="#0A1777">class</font>=<font font-style="bold" color="#008000">"eg.Cat"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;collection-cache</font> <font font-style="bold" color="#0A1777">collection</font>=<font font-style="bold" color="#008000">"eg.Cat.kittens"</font> <font font-style="bold" color="#0A1777">usage</font>=<font font-style="bold" color="#008000">"read-write"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+</pre><p>
+            </p></li></ul></div><p>
+    OR
+    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Alternatively, you can put Hibernate Annotation's
+                <span class="emphasis"><em>@Cache</em></span>
+                annotation on your entities and collections.
+                </p><pre class="programlisting"><em><span class="hl-annotation" style="color: gray">@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)</span></em>
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">class</strong> Cat <strong class="hl-keyword">implements</strong> Serializable {
+     ...
+}
+</pre><p>
+            </p></li></ul></div><p>
+    The last thing you should be aware of is to drop
+    hazelcast-hibernate-&lt;version&gt;.jar into your classpath.
+
+    </p><div class="itemizedlist" title="Additional Properties:"><p class="title"><b>Additional Properties:</b></p><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+                <span class="bold"><strong>Accessing underlying
+                    <code class="code">HazelcastInstance</code>
+                </strong></span>
+            </p><p>Using
+                <code class="code">com.hazelcast.hibernate.instance.HazelcastAccessor</code>
+                you can access the underlying
+                <code class="code">HazelcastInstance</code>
+                used by Hibernate SessionFactory.
+                </p><pre class="programlisting">SessionFactory sessionFactory = ...;
+HazelcastInstance hazelcastInstance = HazelcastAccessor.getHazelcastInstance(sessionFactory);        
+</pre><p>
+            </p></li><li class="listitem"><p>
+                <span class="bold"><strong>Changing/setting lock timeout value of
+                    <span class="italic">read-write</span>
+                    strategy
+                </strong></span>
+            </p><p>Lock timeout value can be set using
+                <code class="literal">hibernate.cache.hazelcast.lock_timeout</code>
+                Hibernate property.
+                Value should be in milliseconds and default value is 10000 ms (10 seconds).
+            </p></li><li class="listitem"><p>
+                <span class="bold"><strong>Using named
+                    <code class="literal">HazelcastInstance</code>
+                </strong></span>
+            </p><p>
+            	Instead of creating a new <code class="literal">HazelcastInstance</code> for each <code class="literal">SessionFactory</code>,
+                an existing instance can be used by setting
+                <code class="literal">hibernate.cache.hazelcast.instance_name</code>
+                Hibernate property to <code class="literal">HazelcastInstance</code>'s name.
+                For more information see <a class="link" href="ch12.html#NamedHazelcastInstance">Named HazelcastInstance</a>.
+            </p></li><li class="listitem"><p>
+                <span class="bold"><strong>Disabling shutdown during SessionFactory.close()</strong></span>
+            </p><p>Shutting down
+                <code class="literal">HazelcastInstance</code>
+                can be disabled during
+                <code class="code">SessionFactory.close()</code>
+                by setting
+                <code class="literal">hibernate.cache.hazelcast.shutdown_on_session_factory_close</code>
+                Hibernate property to false.
+                <span class="italic">(In this case Hazelcast property
+                    <code class="literal">hazelcast.shutdownhook.enabled</code>
+                    should not
+                    be set to false.)
+                </span>
+                Default value is <code class="literal">true</code>.
+            </p></li></ul></div><p>
+    </p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch12s08.html">Prev</a>&nbsp;</td><td width="20%" align="center">&nbsp;</td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch14.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">12.8.&nbsp;Setting License Key <sup>(Enterprise Edition Only)</sup>&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;14.&nbsp;Spring Integration</td></tr></table></div></body></html>

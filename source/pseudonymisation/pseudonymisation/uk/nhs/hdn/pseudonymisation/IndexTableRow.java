@@ -37,6 +37,7 @@ public final class IndexTableRow<N extends Normalisable> implements Psuedonymise
 		row = new HashMap<>(rowSizeEstimate);
 	}
 
+	@Override
 	public boolean has(@NotNull final Pseudonymiser<N> pseudonymiser)
 	{
 		return row.containsKey(pseudonymiser);
@@ -56,6 +57,7 @@ public final class IndexTableRow<N extends Normalisable> implements Psuedonymise
 		throw new DuplicatePsuedonymisedValueException();
 	}
 
+	@Override
 	@Nullable
 	public PsuedonymisedValue get(@NotNull final Pseudonymiser<N> pseudonymiser)
 	{

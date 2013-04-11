@@ -1,0 +1,149 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;2.&nbsp;Distributed Data Structures</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="index.html" title="Hazelcast Documentation"><link rel="prev" href="ch01.html" title="Chapter&nbsp;1.&nbsp;Introduction"><link rel="next" href="ch02s02.html" title="2.2.&nbsp;Distributed Topic"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;2.&nbsp;Distributed Data Structures</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch01.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch02s02.html">Next</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;2.&nbsp;Distributed Data Structures"><div class="titlepage"><div><div><h2 class="title"><a name="DDS"></a>Chapter&nbsp;2.&nbsp;Distributed Data Structures</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="ch02.html#Queue">2.1. Distributed Queue</a></span></dt><dt><span class="sect1"><a href="ch02s02.html">2.2. Distributed Topic</a></span></dt><dt><span class="sect1"><a href="ch02s03.html">2.3. Distributed Map</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch02s03.html#MapBackup">2.3.1. Backups</a></span></dt><dt><span class="sect2"><a href="ch02s03.html#MapEviction">2.3.2. Eviction</a></span></dt><dt><span class="sect2"><a href="ch02s03.html#MapPersistence">2.3.3. Persistence</a></span></dt><dt><span class="sect2"><a href="ch02s03.html#MapQuery">2.3.4. Query</a></span></dt><dt><span class="sect2"><a href="ch02s03.html#MapNearCache">2.3.5. Near Cache</a></span></dt><dt><span class="sect2"><a href="ch02s03.html#MapEntry">2.3.6. Entry Statistics</a></span></dt><dt><span class="sect2"><a href="ch02s03.html#MapIndex">2.3.7. Indexing</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch02s04.html">2.4. Distributed MultiMap</a></span></dt><dt><span class="sect1"><a href="ch02s05.html">2.5. Distributed Set</a></span></dt><dt><span class="sect1"><a href="ch02s06.html">2.6. Distributed List</a></span></dt><dt><span class="sect1"><a href="ch02s07.html">2.7. Distributed Lock</a></span></dt><dt><span class="sect1"><a href="ch02s08.html">2.8. Distributed Events</a></span></dt></dl></div><p>
+    Common Features of all Hazelcast Data Structures:
+    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Data in the cluster is almost evenly distributed (partitioned) across all nodes.
+                So each node carries ~ (1/n
+                <code class="literal">*</code>
+                total-data) + backups , n being the
+                number of nodes in the cluster.
+            </p></li><li class="listitem"><p>If a member goes down, its backup replica that also holds the same data, will
+                dynamically redistribute the data including the ownership and locks on them to
+                remaining live nodes. As a result, no data will get lost.
+            </p></li><li class="listitem"><p>When a new node joins the cluster, new node takes ownership(responsibility) and
+                load of -some- of the entire data in the cluster. Eventually the new node will carry
+                almost (1/n
+                <code class="literal">*</code>
+                total-data) + backups and becomes the new partition
+                reducing the load on others.
+            </p></li><li class="listitem"><p>There is no single cluster master or something that can cause single point of
+                failure. Every node in the cluster has equal rights and responsibilities. No-one is
+                superior. And no dependency on external 'server' or 'master' kind of concept.
+            </p></li></ul></div><p>
+    Here is how you can retrieve existing data structure instances (map, queue, set,
+    lock, topic, etc.) and how you can listen for instance events to get notified when an instance
+    is created or destroyed.
+    </p><pre class="programlisting"><strong class="hl-keyword">import</strong> java.util.Collection;
+<strong class="hl-keyword">import</strong> com.hazelcast.config.Config;
+<strong class="hl-keyword">import</strong> com.hazelcast.core.*;
+
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">class</strong> Sample <strong class="hl-keyword">implements</strong> InstanceListener {
+    <strong class="hl-keyword">public</strong> <strong class="hl-keyword">static</strong> <strong class="hl-keyword">void</strong> main(String[] args) {
+        Sample sample = <strong class="hl-keyword">new</strong> Sample();
+
+        Config cfg = <strong class="hl-keyword">new</strong> Config();
+        HazelcastInstance hz = Hazelcast.newHazelcastInstance(cfg);
+        hz.addInstanceListener(sample);
+
+        Collection&lt;Instance&gt; instances = hz.getInstances();
+        <strong class="hl-keyword">for</strong> (Instance instance : instances) {
+            System.out.println(instance.getInstanceType() + <font font-style="normal" color="#008000">","</font> + instance.getId());
+        }
+    }
+
+    <strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> instanceCreated(InstanceEvent event) {
+        Instance instance = event.getInstance();
+        System.out.println(<font font-style="normal" color="#008000">"Created "</font> + instance.getInstanceType() + <font font-style="normal" color="#008000">","</font> + instance.getId());
+    }
+
+    <strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> instanceDestroyed(InstanceEvent event) {
+        Instance instance = event.getInstance();
+        System.out.println(<font font-style="normal" color="#008000">"Destroyed "</font> + instance.getInstanceType() + <font font-style="normal" color="#008000">","</font> + instance.getId());
+    }
+}</pre><p>
+</p><div class="sect1" title="2.1.&nbsp;Distributed Queue"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Queue"></a>2.1.&nbsp;Distributed Queue</h2></div></div></div><p>Hazelcast distributed queue is an implementation
+        of<code class="literal">java.util.concurrent.BlockingQueue</code>.
+        </p><pre class="programlisting"><strong class="hl-keyword">import</strong> com.hazelcast.core.Hazelcast;
+<strong class="hl-keyword">import</strong> java.util.concurrent.BlockingQueue;
+<strong class="hl-keyword">import</strong> java.util.concurrent.TimeUnit;
+<strong class="hl-keyword">import</strong> com.hazelcast.config.Config;
+
+Config cfg = <strong class="hl-keyword">new</strong> Config();
+HazelcastInstance hz = Hazelcast.newHazelcastInstance(cfg);
+BlockingQueue&lt;MyTask&gt; q = hz.getQueue(<font font-style="normal" color="#008000">"tasks"</font>);
+q.put(<strong class="hl-keyword">new</strong> MyTask());
+MyTask task = q.take();
+
+<strong class="hl-keyword">boolean</strong> offered = q.offer(<strong class="hl-keyword">new</strong> MyTask(), <span class="hl-number">10</span>, TimeUnit.SECONDS);
+task = q.poll (<span class="hl-number">5</span>, TimeUnit.SECONDS);
+<strong class="hl-keyword">if</strong> (task != null) {
+    <em class="hl-comment" style="color: silver">//process task</em>
+}
+</pre><p>
+        If you have 10 million tasks in your "tasks" queue and you are running that
+        code over 10 JVMs (or servers), then each server carries 1 million task objects (plus
+        backups). FIFO ordering will apply to all queue operations cluster-wide. User objects (such
+        as
+        <code class="literal">MyTask</code>
+        in the example above), that are (en/de)queued have to
+        be<code class="literal">Serializable</code>. Maximum capacity per JVM and the TTL (Time to Live)
+        for a queue can be configured.
+        </p><p>
+            Distributed queues are backed by distributed maps. Thus,
+            queues can have custom backup counts and persistent storage. Hazelcast will generate
+            cluster-wide unique id for each element in the queue.
+        </p><p>
+        Sample configuration:
+        </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;hazelcast&gt;</font>
+    ...
+    <font font-style="bold" color="#0A1777">&lt;queue</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"tasks"</font><font font-style="bold" color="#0A1777">&gt;</font>
+        <em class="hl-comment" style="color: silver">&lt;!--
+            Maximum size of the queue. When a JVM's local queue size reaches the maximum,
+            all put/offer operations will get blocked until the queue size
+            of the JVM goes down below the maximum.
+            Any integer between 0 and Integer.MAX_VALUE. 0 means Integer.MAX_VALUE. Default is 0.
+        --&gt;</em>
+        <font font-style="bold" color="#0A1777">&lt;max-size-per-jvm&gt;</font>10000<font font-style="bold" color="#0A1777">&lt;/max-size-per-jvm&gt;</font>
+        
+        <em class="hl-comment" style="color: silver">&lt;!--
+            Name of the map configuration that will be used for the backing distributed
+            map for this queue.
+        --&gt;</em>
+        <font font-style="bold" color="#0A1777">&lt;backing-map-ref&gt;</font>queue-map<font font-style="bold" color="#0A1777">&lt;/backing-map-ref&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/queue&gt;</font>
+
+    <font font-style="bold" color="#0A1777">&lt;map</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"queue-map"</font><font font-style="bold" color="#0A1777">&gt;</font>
+
+        <font font-style="bold" color="#0A1777">&lt;backup-count&gt;</font>1<font font-style="bold" color="#0A1777">&lt;/backup-count&gt;</font>
+
+        <font font-style="bold" color="#0A1777">&lt;map-store</font> <font font-style="bold" color="#0A1777">enabled</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">&gt;</font>
+
+            <font font-style="bold" color="#0A1777">&lt;class-name&gt;</font>com.your,company.storage.DBMapStore<font font-style="bold" color="#0A1777">&lt;/class-name&gt;</font>
+
+            <font font-style="bold" color="#0A1777">&lt;write-delay-seconds&gt;</font>0<font font-style="bold" color="#0A1777">&lt;/write-delay-seconds&gt;</font>
+
+        <font font-style="bold" color="#0A1777">&lt;/map-store&gt;</font>
+
+        ...
+
+    <font font-style="bold" color="#0A1777">&lt;/map&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/hazelcast&gt;</font>
+</pre><p>
+        If the backing map has no
+        <code class="literal">map-store</code>
+        defined then your
+        distributed queue will be in-memory only. If the backing map has a
+        <code class="literal">map-store</code>
+        defined then Hazelcast will call your
+        <code class="literal">MapStore</code>
+        implementation to persist queue elements. Even if you reboot
+        your cluster Hazelcast will rebuild the queue with its content. When implementing a
+        <code class="literal">MapStore</code>
+        for the backing map, note that type of the
+        <code class="literal">key</code>
+        is always
+        <code class="literal">Long</code>
+        and values are the elements you place into the queue. So make
+        sure
+        <code class="literal">MapStore.loadAllKeys</code>
+        returns
+        <code class="literal">Set&lt;Long&gt;</code>
+        for
+        instance.
+    </p><p>
+    <span class="bold"><strong>To learn about wildcard configuration feature, see
+        <a class="link" href="ch12s05.html" title="12.5.&nbsp;Wildcard Configuration">Wildcard Configuration
+        </a>
+        page.
+    </strong></span>
+</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch01.html">Prev</a>&nbsp;</td><td width="20%" align="center">&nbsp;</td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch02s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;1.&nbsp;Introduction&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;2.2.&nbsp;Distributed Topic</td></tr></table></div></body></html>

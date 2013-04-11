@@ -1,0 +1,12 @@
+com.hazelcast.client
+com.hazelcast.config
+com.hazelcast.core
+com.hazelcast.hibernate.instance
+com.hazelcast.impl.monitor
+com.hazelcast.jmx
+com.hazelcast.merge
+com.hazelcast.monitor
+com.hazelcast.nio
+com.hazelcast.partition
+com.hazelcast.query
+com.hazelcast.security

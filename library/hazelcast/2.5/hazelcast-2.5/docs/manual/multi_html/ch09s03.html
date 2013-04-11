@@ -1,0 +1,57 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>9.3.&nbsp;Execution Callback</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="ch09.html" title="Chapter&nbsp;9.&nbsp;Distributed Executor Service"><link rel="prev" href="ch09s02.html" title="9.2.&nbsp;Execution Cancellation"><link rel="next" href="ch10.html" title="Chapter&nbsp;10.&nbsp;Http Session Clustering with HazelcastWM"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">9.3.&nbsp;Execution Callback</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch09s02.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;9.&nbsp;Distributed Executor Service</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch10.html">Next</a></td></tr></table><hr></div><div class="sect1" title="9.3.&nbsp;Execution Callback"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="ExecutionCallback"></a>9.3.&nbsp;Execution Callback</h2></div></div></div><p>
+        <code class="literal">ExecutionCallback</code>
+        allows you to asynchronously get notified when the execution is done.
+        When implementing
+        <code class="literal">ExecutionCallback.done(Future)</code>
+        method, you can check if the task is
+        already cancelled.
+        </p><pre class="programlisting"><strong class="hl-keyword">import</strong> com.hazelcast.core.Hazelcast;
+<strong class="hl-keyword">import</strong> com.hazelcast.core.ExecutionCallback;
+<strong class="hl-keyword">import</strong> com.hazelcast.core.DistributedTask;
+<strong class="hl-keyword">import</strong> java.util.concurrent.ExecutorService;    
+<strong class="hl-keyword">import</strong> java.util.concurrent.Future;
+<strong class="hl-keyword">import</strong> com.hazelcast.config.Config;
+
+Config cfg = <strong class="hl-keyword">new</strong> Config();
+HazelcastInstance hz = Hazelcast.newHazelcastInstance(cfg);
+ExecutorService es = hz.getExecutorService();
+DistributedTask&lt;String&gt; task = <strong class="hl-keyword">new</strong> DistributedTask&lt;String&gt;(<strong class="hl-keyword">new</strong> Fibonacci(<span class="hl-number">10</span>));
+task.setExecutionCallback(<strong class="hl-keyword">new</strong> ExecutionCallback&lt;Long&gt; () {
+    <strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> done (Future&lt;Long&gt; future) { 
+        <strong class="hl-keyword">try</strong> {
+            <strong class="hl-keyword">if</strong> (! future.isCancelled()) {
+                System.out.println(<font font-style="normal" color="#008000">"Fibonacci calculation result = "</font> + future.get());
+            }
+        } <strong class="hl-keyword">catch</strong> (Exception e) {
+            e.printStackTrace();
+        }
+    }
+});
+es.execute(task);
+</pre><p>
+        You could have achieved the same results by extending
+        <code class="literal">DistributedTask</code>
+        and overriding the
+        <code class="literal">DistributedTask.done()</code>
+        method.
+        </p><pre class="programlisting"><strong class="hl-keyword">import</strong> com.hazelcast.core.Hazelcast;
+<strong class="hl-keyword">import</strong> com.hazelcast.core.DistributedTask;
+<strong class="hl-keyword">import</strong> java.util.concurrent.ExecutorService;    
+<strong class="hl-keyword">import</strong> java.util.concurrent.Future; 
+        
+ExecutorService es = Hazelcast.getExecutorService();
+es.execute(<strong class="hl-keyword">new</strong> DistributedTask&lt;String&gt;(<strong class="hl-keyword">new</strong> Fibonacci(<span class="hl-number">10</span>)) {
+    <strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> done () { 
+        <strong class="hl-keyword">try</strong> {
+            <strong class="hl-keyword">if</strong> (! isCancelled()) {
+                System.out.println(<font font-style="normal" color="#008000">"Fibonacci calculation result = "</font> + get());
+            }
+        } <strong class="hl-keyword">catch</strong> (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}); 
+</pre><p>
+    </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch09s02.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch09.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch10.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">9.2.&nbsp;Execution Cancellation&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;10.&nbsp;Http Session Clustering with HazelcastWM</td></tr></table></div></body></html>

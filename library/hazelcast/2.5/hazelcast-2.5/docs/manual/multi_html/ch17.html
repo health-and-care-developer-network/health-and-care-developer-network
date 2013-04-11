@@ -1,0 +1,66 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;17.&nbsp;Management Center</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="index.html" title="Hazelcast Documentation"><link rel="prev" href="ch16s03.html" title="16.3.&nbsp;Internals 4: Distributed Map"><link rel="next" href="ch17s02.html" title="17.2.&nbsp;Maps"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;17.&nbsp;Management Center</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch16s03.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch17s02.html">Next</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;17.&nbsp;Management Center"><div class="titlepage"><div><div><h2 class="title"><a name="ManagementCenter"></a>Chapter&nbsp;17.&nbsp;Management Center</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="ch17.html#MC_Intro">17.1. Introduction</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch17.html#MC_Installation">17.1.1. Installation</a></span></dt><dt><span class="sect2"><a href="ch17.html#MC_UserAdministration">17.1.2. User Administration</a></span></dt><dt><span class="sect2"><a href="ch17.html#MC_ToolOverview">17.1.3. Tool Overview</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch17s02.html">17.2. Maps</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch17s02.html#MC_MapMonitoring">17.2.1. Monitoring Maps</a></span></dt><dt><span class="sect2"><a href="ch17s02.html#MC_MapBrowser">17.2.2. Map Browser</a></span></dt><dt><span class="sect2"><a href="ch17s02.html#MC_MapConfiguration">17.2.3. Map Configuration</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch17s03.html">17.3. Queues</a></span></dt><dt><span class="sect1"><a href="ch17s04.html">17.4. Topics</a></span></dt><dt><span class="sect1"><a href="ch17s05.html">17.5. Members</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch17s05.html#MC_MemberMonitoring">17.5.1. Monitoring</a></span></dt><dt><span class="sect2"><a href="ch17s05.html#MC_MemberOperations">17.5.2. Operations</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch17s06.html">17.6. Alerting System</a></span></dt><dt><span class="sect1"><a href="ch17s07.html">17.7. System Logs</a></span></dt><dt><span class="sect1"><a href="ch17s08.html">17.8. Scripting</a></span></dt><dt><span class="sect1"><a href="ch17s09.html">17.9. Time Travel</a></span></dt><dt><span class="sect1"><a href="ch17s10.html">17.10. Console</a></span></dt></dl></div><div class="sect1" title="17.1.&nbsp;Introduction"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="MC_Intro"></a>17.1.&nbsp;Introduction</h2></div></div></div><p>
+        Hazelcast Management Center enables you to monitor and manage your servers running hazelcast.
+        With Management Center, in addition to monitoring overall state of your clusters, you can also analyze
+        and browse your data structures in details.
+        You can also update map configurations and take thread dump from nodes.
+        With its scripting module, you can run scritps (JavaScript, Groovy etc.) on your servers.
+        Version 2.0 is a web based tool so you can deploy it into your internal server and serve your users.
+    </p><div class="sect2" title="17.1.1.&nbsp;Installation"><div class="titlepage"><div><div><h3 class="title"><a name="MC_Installation"></a>17.1.1.&nbsp;Installation</h3></div></div></div><p>
+            It is important to understand how it actually works. Basically you will deploy
+            <code class="literal">mancenter.war</code>
+            application into your Java web server and then tell
+            Hazelcast nodes to talk to that web application. That means, your Hazelcast nodes should know the
+            URL of
+            <code class="literal">mancenter</code>
+            application before they start.
+        </p><p>Here are the steps:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Download the latest Hazelcast zip from
+                    <a class="link" href="http://www.hazelcast.com/downloads.jsp" target="_top">hazelcast.com</a>
+                </p></li><li class="listitem"><p>
+                    Zip contains
+                    <code class="literal">mancenter.war</code>
+                    file. Deploy it to your web server (Tomcat, Jetty etc.)
+                    Let's say it is running at<code class="literal">http://localhost:8080/mancenter</code>.
+                </p></li><li class="listitem"><p>Start your web server and make sure
+                    <code class="literal">http://localhost:8080/mancenter</code>
+                    is up.
+                </p></li><li class="listitem"><p>Configure your Hazelcast nodes by adding the URL of your web app to your<code class="literal">
+                    hazelcast.xml</code>.
+                    Hazelcast nodes will send their states to this URL.
+                    </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;management-center</font> <font font-style="bold" color="#0A1777">enabled</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">&gt;</font>http://localhost:8080/mancenter<font font-style="bold" color="#0A1777">&lt;/management-center&gt;</font></pre><p>
+                </p></li><li class="listitem"><p>Start your hazelcast cluster.
+                </p></li><li class="listitem"><p>Browse to
+                    <code class="literal">http://localhost:8080/mancenter</code>
+                    and login.
+                    <span class="bold"><strong>
+                        Initial login username/passwords is
+                        <code class="literal">admin/admin</code>
+                    </strong></span>
+                </p></li></ul></div><p>
+        <span class="emphasis"><em>Management Center creates a directory with name "mancenter" under your "user/home" directory to save data files.
+                You can change the data directory setting "hazelcast.mancenter.home" system property.
+        </em></span>
+        </p></div><div class="sect2" title="17.1.2.&nbsp;User Administration"><div class="titlepage"><div><div><h3 class="title"><a name="MC_UserAdministration"></a>17.1.2.&nbsp;User Administration</h3></div></div></div><p>Default credentials are for the admin user. In the
+            <code class="literal">Administration</code>
+            tab,
+            Admin can add/remove/update users and control user read/write permissions.
+        </p><p>
+            <span class="inlinemediaobject"><img src="images/admin.jpg" width="70%"></span>
+        </p></div><div class="sect2" title="17.1.3.&nbsp;Tool Overview"><div class="titlepage"><div><div><h3 class="title"><a name="MC_ToolOverview"></a>17.1.3.&nbsp;Tool Overview</h3></div></div></div><p>The starter page of the tool is<code class="literal">Cluster Home</code>. Here you can see cluster's main properties
+            such as uptime,
+            memory. Also with pie chart, you can see the distribution of partitions over cluster members. You can come
+            back to this page, by clicking the
+            <code class="literal">Home</code>
+            icon on the top-right toolbar.
+            On the left panel you see the Map/Queue/Topic instances in the cluster. At the bottom-left corner, members
+            of the cluster are listed.
+            On top menu bar, you can change the current tab to<code class="literal">Scripting, Docs</code>,
+            user<code class="literal">Administration</code>. Note that Administration tab is viewable only for admin users.
+            Also
+            <code class="literal">Scripting</code>
+            page is disabled for users with read-only credential.
+        </p><p>
+            <span class="inlinemediaobject"><img src="images/clusterhome.jpg" width="70%"></span>
+        </p></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch16s03.html">Prev</a>&nbsp;</td><td width="20%" align="center">&nbsp;</td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch17s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">16.3.&nbsp;Internals 4: Distributed Map&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;17.2.&nbsp;Maps</td></tr></table></div></body></html>

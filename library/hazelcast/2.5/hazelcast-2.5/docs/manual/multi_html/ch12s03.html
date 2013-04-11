@@ -1,0 +1,50 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>12.3.&nbsp;Partition Group Configuration</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="ch12.html" title="Chapter&nbsp;12.&nbsp;Configuration"><link rel="prev" href="ch12s02.html" title="12.2.&nbsp;Network Configuration"><link rel="next" href="ch12s04.html" title="12.4.&nbsp;Listener Configurations"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">12.3.&nbsp;Partition Group Configuration</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch12s02.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;12.&nbsp;Configuration</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch12s04.html">Next</a></td></tr></table><hr></div><div class="sect1" title="12.3.&nbsp;Partition Group Configuration"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="PartitionGroupConfig"></a>12.3.&nbsp;Partition Group Configuration</h2></div></div></div><p>Hazelcast distributes key objects into partitions (blocks) using a consistent hashing algorithm and those partitions are assigned to nodes. That means an entry is stored in a node which is owner of partition to that entry's key is assigned. Number of total partitions is default 271 and can be changed with configuration property <code class="code">hazelcast.map.partition.count</code>. Along with those partitions, there are also copies of them as backups. Backup partitions can have multiple copies due to backup count defined in configuration, such as first backup partition, second backup partition etc. As a rule, a node can not hold more than one copy of a partition (ownership or backup). By default Hazelcast distributes partitions and their backup copies randomly and equally among cluster nodes assuming all nodes in the cluster are identical.
+    </p><p>
+        <span class="italic">What if some nodes share same JVM or physical machine or chassis and you want backups of these nodes to be assigned to nodes in another machine or chassis? What if processing or memory capacities of some nodes are different and you do not want equal number of partitions to be assigned to all nodes?
+        </span>
+    </p><p>
+        You can group nodes in the same JVM (or physical machine) or nodes located in the same chassis. Or you can group nodes to create identical capacity. 
+        We call these groups <code class="literal">partition groups</code>. This way partitions are assigned to those partition groups instead of single nodes. And backups of these partitions are located in another partition group.
+    </p><p>When you enable partition grouping, Hazelcast presents two choices to configure partition groups at the moments.
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+                First one is to group nodes automatically using IP addresses of nodes, so nodes sharing same network interface will be grouped together.
+                    </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;partition-group</font> <font font-style="bold" color="#0A1777">enabled</font>=<font font-style="bold" color="#008000">"true"</font> <font font-style="bold" color="#0A1777">group-type</font>=<font font-style="bold" color="#008000">"HOST_AWARE"</font><font font-style="bold" color="#0A1777"> /&gt;</font></pre><p>
+                    </p><pre class="programlisting">
+Config config = ...;
+PartitionGroupConfig partitionGroupConfig = config.getPartitionGroupConfig();
+partitionGroupConfig.setEnabled(true).setGroupType(MemberGroupType.HOST_AWARE);</pre><p>
+                </p></li><li class="listitem"><p>
+                Second one is custom grouping using Hazelcast's interface matching configuration. This way, you can add different and multiple interfaces to a group. You can also use wildcards in interface addresses.
+                    </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;partition-group</font> <font font-style="bold" color="#0A1777">enabled</font>=<font font-style="bold" color="#008000">"true"</font> <font font-style="bold" color="#0A1777">group-type</font>=<font font-style="bold" color="#008000">"CUSTOM"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;member-group&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;interface&gt;</font>10.10.0.*<font font-style="bold" color="#0A1777">&lt;/interface&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;interface&gt;</font>10.10.3.*<font font-style="bold" color="#0A1777">&lt;/interface&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;interface&gt;</font>10.10.5.*<font font-style="bold" color="#0A1777">&lt;/interface&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/member-group&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;member-group&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;interface&gt;</font>10.10.10.10-100<font font-style="bold" color="#0A1777">&lt;/interface&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;interface&gt;</font>10.10.1.*<font font-style="bold" color="#0A1777">&lt;/interface&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;interface&gt;</font>10.10.2.*<font font-style="bold" color="#0A1777">&lt;/interface&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/member-group
+&lt;/partition-group&gt;</font></pre><p>
+                    </p><pre class="programlisting">
+Config config = ...;
+PartitionGroupConfig partitionGroupConfig = config.getPartitionGroupConfig();
+partitionGroupConfig.setEnabled(true).setGroupType(MemberGroupType.CUSTOM);
+
+MemberGroupConfig memberGroupConfig = <strong class="hl-keyword">new</strong> MemberGroupConfig();
+memberGroupConfig.addInterface(<font font-style="normal" color="#008000">"10.10.0.*"</font>)
+    .addInterface(<font font-style="normal" color="#008000">"10.10.3.*"</font>).addInterface(<font font-style="normal" color="#008000">"10.10.5.*"</font>);
+
+MemberGroupConfig memberGroupConfig2 = <strong class="hl-keyword">new</strong> MemberGroupConfig();
+memberGroupConfig2.addInterface(<font font-style="normal" color="#008000">"10.10.10.10-100"</font>)
+    .addInterface(<font font-style="normal" color="#008000">"10.10.1.*"</font>).addInterface(<font font-style="normal" color="#008000">"10.10.2.*"</font>);
+
+partitionGroupConfig.addMemberGroupConfig(memberGroupConfig);
+partitionGroupConfig.addMemberGroupConfig(memberGroupConfig2);</pre><p>
+                </p></li></ul></div><p>
+    </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch12s02.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch12.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch12s04.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">12.2.&nbsp;Network Configuration&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;12.4.&nbsp;Listener Configurations</td></tr></table></div></body></html>

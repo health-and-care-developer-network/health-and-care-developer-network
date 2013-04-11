@@ -1,0 +1,197 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;14.&nbsp;Spring Integration</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="index.html" title="Hazelcast Documentation"><link rel="prev" href="ch13.html" title="Chapter&nbsp;13.&nbsp;Hibernate Second Level Cache"><link rel="next" href="ch14s02.html" title="14.2.&nbsp;Spring Managed Context"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;14.&nbsp;Spring Integration</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch13.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch14s02.html">Next</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;14.&nbsp;Spring Integration"><div class="titlepage"><div><div><h2 class="title"><a name="SpringIntegration"></a>Chapter&nbsp;14.&nbsp;Spring Integration</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="ch14.html#SpringConfiguration">14.1. Configuration</a></span></dt><dt><span class="sect1"><a href="ch14s02.html">14.2. Spring Managed Context</a></span></dt><dt><span class="sect1"><a href="ch14s03.html">14.3. Spring Cache</a></span></dt><dt><span class="sect1"><a href="ch14s04.html">14.4. Hibernate 2nd Level Cache Config</a></span></dt><dt><span class="sect1"><a href="ch14s05.html">14.5. Spring Data - JPA</a></span></dt><dt><span class="sect1"><a href="ch14s06.html">14.6. Spring Data - MongoDB</a></span></dt></dl></div><div class="sect1" title="14.1.&nbsp;Configuration"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="SpringConfiguration"></a>14.1.&nbsp;Configuration</h2></div></div></div><p>
+    You can declare Hazelcast beans for Spring context
+    using <span class="emphasis"><em>beans</em></span> namespace (default spring <span class="emphasis"><em>beans</em></span> namespace)
+    as well to declare hazelcast maps, queues and others.
+    <span class="bold"><strong>Hazelcast-Spring integration requires either hazelcast-spring jar or hazelcast-all jar in the
+        classpath.
+    </strong></span>
+    </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;bean</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"instance"</font> <font font-style="bold" color="#0A1777">class</font>=<font font-style="bold" color="#008000">"com.hazelcast.core.Hazelcast"</font> <font font-style="bold" color="#0A1777">factory-method</font>=<font font-style="bold" color="#008000">"newHazelcastInstance"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;constructor-arg&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;bean</font> <font font-style="bold" color="#0A1777">class</font>=<font font-style="bold" color="#008000">"com.hazelcast.config.Config"</font><font font-style="bold" color="#0A1777">&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"groupConfig"</font><font font-style="bold" color="#0A1777">&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;bean</font> <font font-style="bold" color="#0A1777">class</font>=<font font-style="bold" color="#008000">"com.hazelcast.config.GroupConfig"</font><font font-style="bold" color="#0A1777">&gt;</font>
+                    <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"name"</font> <font font-style="bold" color="#0A1777">value</font>=<font font-style="bold" color="#008000">"dev"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+                    <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"password"</font> <font font-style="bold" color="#0A1777">value</font>=<font font-style="bold" color="#008000">"pwd"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;/bean&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+            <em class="hl-comment" style="color: silver">&lt;!-- and so on ... --&gt;</em>
+        <font font-style="bold" color="#0A1777">&lt;/bean&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/constructor-arg&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/bean&gt;</font>
+
+<font font-style="bold" color="#0A1777">&lt;bean</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"map"</font> <font font-style="bold" color="#0A1777">factory-bean</font>=<font font-style="bold" color="#008000">"instance"</font> <font font-style="bold" color="#0A1777">factory-method</font>=<font font-style="bold" color="#008000">"getMap"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;constructor-arg</font> <font font-style="bold" color="#0A1777">value</font>=<font font-style="bold" color="#008000">"map"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/bean&gt;</font>
+</pre><p>
+    Hazelcast has Spring integration (requires version 2.5 or greater) since 1.9.1
+    using
+    <span class="emphasis"><em>hazelcast</em></span>
+    namespace.
+    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Add namespace
+                <span class="emphasis"><em>xmlns:hz="http://www.hazelcast.com/schema/spring"</em></span>
+                to beans
+                tag in context file:
+                </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;beans</font> <font font-style="bold" color="#0A1777">xmlns</font>=<font font-style="bold" color="#008000">"http://www.springframework.org/schema/beans"</font>
+       <font font-style="bold" color="#0A1777">xmlns:xsi</font>=<font font-style="bold" color="#008000">"http://www.w3.org/2001/XMLSchema-instance"</font>
+       <font font-style="bold" color="#0A1777">xmlns:hz</font>=<font font-style="bold" color="#008000">"http://www.hazelcast.com/schema/spring"</font>
+       <font font-style="bold" color="#0A1777">xsi:schemaLocation</font>=<font font-style="bold" color="#008000">"http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                http://www.hazelcast.com/schema/spring
+                http://www.hazelcast.com/schema/spring/hazelcast-spring-2.5.xsd"</font><font font-style="bold" color="#0A1777">&gt;</font>
+</pre><p>
+            </p></li><li class="listitem"><p>Use
+                <span class="emphasis"><em>hz</em></span>
+                namespace shortcuts to declare cluster, its items and
+                so on.
+            </p></li></ul></div><p>
+    After that you can configure Hazelcast instance (node):
+    </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;hz:hazelcast</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"instance"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;hz:config&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;hz:group</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"dev"</font> <font font-style="bold" color="#0A1777">password</font>=<font font-style="bold" color="#008000">"password"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;hz:network</font> <font font-style="bold" color="#0A1777">port</font>=<font font-style="bold" color="#008000">"5701"</font> <font font-style="bold" color="#0A1777">port-auto-increment</font>=<font font-style="bold" color="#008000">"false"</font><font font-style="bold" color="#0A1777">&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;hz:join&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;hz:multicast</font> <font font-style="bold" color="#0A1777">enabled</font>=<font font-style="bold" color="#008000">"false"</font>
+                              <font font-style="bold" color="#0A1777">multicast-group</font>=<font font-style="bold" color="#008000">"224.2.2.3"</font>
+                              <font font-style="bold" color="#0A1777">multicast-port</font>=<font font-style="bold" color="#008000">"54327"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;hz:tcp-ip</font> <font font-style="bold" color="#0A1777">enabled</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">&gt;</font>
+                    <font font-style="bold" color="#0A1777">&lt;hz:members&gt;</font>10.10.1.2, 10.10.1.3<font font-style="bold" color="#0A1777">&lt;/hz:members&gt;</font>
+                <font font-style="bold" color="#0A1777">&lt;/hz:tcp-ip&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;/hz:join&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;/hz:network&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;hz:map</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"map"</font>
+                <font font-style="bold" color="#0A1777">backup-count</font>=<font font-style="bold" color="#008000">"2"</font>
+                <font font-style="bold" color="#0A1777">max-size</font>=<font font-style="bold" color="#008000">"0"</font>
+                <font font-style="bold" color="#0A1777">eviction-percentage</font>=<font font-style="bold" color="#008000">"30"</font>
+                <font font-style="bold" color="#0A1777">read-backup-data</font>=<font font-style="bold" color="#008000">"true"</font>
+                <font font-style="bold" color="#0A1777">cache-value</font>=<font font-style="bold" color="#008000">"true"</font>
+                <font font-style="bold" color="#0A1777">eviction-policy</font>=<font font-style="bold" color="#008000">"NONE"</font>
+                <font font-style="bold" color="#0A1777">merge-policy</font>=<font font-style="bold" color="#008000">"hz.ADD_NEW_ENTRY"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/hz:config&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/hz:hazelcast&gt;</font>
+</pre><p>
+    You can easily configure map-store and near-cache too. (For map-store you should set either
+    <span class="emphasis"><em>class-name</em></span> or <span class="emphasis"><em>implementation</em></span> attribute.)
+    </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;hz:config&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;hz:map</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"map1"</font><font font-style="bold" color="#0A1777">&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;hz:near-cache</font> <font font-style="bold" color="#0A1777">time-to-live-seconds</font>=<font font-style="bold" color="#008000">"0"</font> <font font-style="bold" color="#0A1777">max-idle-seconds</font>=<font font-style="bold" color="#008000">"60"</font>
+               <font font-style="bold" color="#0A1777">eviction-policy</font>=<font font-style="bold" color="#008000">"LRU"</font> <font font-style="bold" color="#0A1777">max-size</font>=<font font-style="bold" color="#008000">"5000"</font>  <font font-style="bold" color="#0A1777">invalidate-on-change</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+
+            <font font-style="bold" color="#0A1777">&lt;hz:map-store</font> <font font-style="bold" color="#0A1777">enabled</font>=<font font-style="bold" color="#008000">"true"</font> <font font-style="bold" color="#0A1777">class-name</font>=<font font-style="bold" color="#008000">"com.foo.DummyStore"</font>
+                <font font-style="bold" color="#0A1777">write-delay-seconds</font>=<font font-style="bold" color="#008000">"0"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/hz:map&gt;</font>
+
+    <font font-style="bold" color="#0A1777">&lt;hz:map</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"map2"</font><font font-style="bold" color="#0A1777">&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;hz:map-store</font> <font font-style="bold" color="#0A1777">enabled</font>=<font font-style="bold" color="#008000">"true"</font> <font font-style="bold" color="#0A1777">implementation</font>=<font font-style="bold" color="#008000">"dummyMapStore"</font>
+                <font font-style="bold" color="#0A1777">write-delay-seconds</font>=<font font-style="bold" color="#008000">"0"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/hz:map&gt;</font>
+
+    <font font-style="bold" color="#0A1777">&lt;bean</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"dummyMapStore"</font> <font font-style="bold" color="#0A1777">class</font>=<font font-style="bold" color="#008000">"com.foo.DummyStore"</font><font font-style="bold" color="#0A1777"> /&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/hz:config&gt;</font>
+</pre><p>
+    It's possible to use placeholders instead of concrete values. For instance, use
+    property file
+    <span class="emphasis"><em>app-default.properties</em></span>
+    for group configuration:
+    </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;bean</font> <font font-style="bold" color="#0A1777">class</font>=<font font-style="bold" color="#008000">"org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"locations"</font><font font-style="bold" color="#0A1777">&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;list&gt;</font>
+            <font font-style="bold" color="#0A1777">&lt;value&gt;</font>classpath:/app-default.properties<font font-style="bold" color="#0A1777">&lt;/value&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;/list&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/bean&gt;</font>
+
+<font font-style="bold" color="#0A1777">&lt;hz:hazelcast</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"instance"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;hz:config&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;hz:group</font>
+            <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"${cluster.group.name}"</font>
+            <font font-style="bold" color="#0A1777">password</font>=<font font-style="bold" color="#008000">"${cluster.group.password}"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+        <em class="hl-comment" style="color: silver">&lt;!-- ... --&gt;</em>
+    <font font-style="bold" color="#0A1777">&lt;/hz:config&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/hz:hazelcast&gt;</font>
+</pre><p>
+    Similar for client
+    </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;hz:client</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"client"</font>
+    <font font-style="bold" color="#0A1777">group-name</font>=<font font-style="bold" color="#008000">"${cluster.group.name}"</font> <font font-style="bold" color="#0A1777">group-password</font>=<font font-style="bold" color="#008000">"${cluster.group.password}"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;hz:member&gt;</font>10.10.1.2:5701<font font-style="bold" color="#0A1777">&lt;/hz:member&gt;</font>
+	<font font-style="bold" color="#0A1777">&lt;hz:member&gt;</font>10.10.1.3:5701<font font-style="bold" color="#0A1777">&lt;/hz:member&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/hz:client&gt;</font>
+</pre><p>
+    Hazelcast also supports <code class="code">lazy-init</code>, <code class="code">scope</code> and <code class="code">depends-on</code> bean attributes.
+    </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;hz:hazelcast</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"instance"</font> <font font-style="bold" color="#0A1777">lazy-init</font>=<font font-style="bold" color="#008000">"true"</font> <font font-style="bold" color="#0A1777">scope</font>=<font font-style="bold" color="#008000">"singleton"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    ...
+<font font-style="bold" color="#0A1777">&lt;/hz:hazelcast&gt;</font>
+
+<font font-style="bold" color="#0A1777">&lt;hz:client</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"client"</font> <font font-style="bold" color="#0A1777">scope</font>=<font font-style="bold" color="#008000">"prototype"</font> <font font-style="bold" color="#0A1777">depends-on</font>=<font font-style="bold" color="#008000">"instance"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    ...
+<font font-style="bold" color="#0A1777">&lt;/hz:client&gt;</font>
+
+</pre><p>
+    You can declare beans for the following Hazelcast objects:
+    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>map</p></li><li class="listitem"><p>multiMap</p></li><li class="listitem"><p>queue</p></li><li class="listitem"><p>topic</p></li><li class="listitem"><p>set</p></li><li class="listitem"><p>list</p></li><li class="listitem"><p>executorService</p></li><li class="listitem"><p>idGenerator</p></li><li class="listitem"><p>atomicNumber</p></li><li class="listitem"><p>semaphore</p></li><li class="listitem"><p>countDownLatch</p></li><li class="listitem"><p>lock</p></li></ul></div><p>
+    Example:
+    </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;hz:map</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"map"</font> <font font-style="bold" color="#0A1777">instance-ref</font>=<font font-style="bold" color="#008000">"client"</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"map"</font> <font font-style="bold" color="#0A1777">lazy-init</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777"> /&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;hz:multiMap</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"multiMap"</font> <font font-style="bold" color="#0A1777">instance-ref</font>=<font font-style="bold" color="#008000">"instance"</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"multiMap"</font> <font font-style="bold" color="#0A1777">lazy-init</font>=<font font-style="bold" color="#008000">"false"</font><font font-style="bold" color="#0A1777"> /&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;hz:queue</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"queue"</font> <font font-style="bold" color="#0A1777">instance-ref</font>=<font font-style="bold" color="#008000">"client"</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"queue"</font> <font font-style="bold" color="#0A1777">lazy-init</font>=<font font-style="bold" color="#008000">"true"</font> <font font-style="bold" color="#0A1777">depends-on</font>=<font font-style="bold" color="#008000">"instance"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;hz:topic</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"topic"</font> <font font-style="bold" color="#0A1777">instance-ref</font>=<font font-style="bold" color="#008000">"instance"</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"topic"</font> <font font-style="bold" color="#0A1777">depends-on</font>=<font font-style="bold" color="#008000">"instance, client"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;hz:set</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"set"</font> <font font-style="bold" color="#0A1777">instance-ref</font>=<font font-style="bold" color="#008000">"instance"</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"set"</font><font font-style="bold" color="#0A1777"> /&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;hz:list</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"list"</font> <font font-style="bold" color="#0A1777">instance-ref</font>=<font font-style="bold" color="#008000">"instance"</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"list"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;hz:executorService</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"executorService"</font> <font font-style="bold" color="#0A1777">instance-ref</font>=<font font-style="bold" color="#008000">"client"</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"executorService"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;hz:idGenerator</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"idGenerator"</font> <font font-style="bold" color="#0A1777">instance-ref</font>=<font font-style="bold" color="#008000">"instance"</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"idGenerator"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;hz:atomicNumber</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"atomicNumber"</font> <font font-style="bold" color="#0A1777">instance-ref</font>=<font font-style="bold" color="#008000">"instance"</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"atomicNumber"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;hz:atomicNumber</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"semaphore"</font> <font font-style="bold" color="#0A1777">instance-ref</font>=<font font-style="bold" color="#008000">"client"</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"semaphore"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;hz:atomicNumber</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"countDownLatch"</font> <font font-style="bold" color="#0A1777">instance-ref</font>=<font font-style="bold" color="#008000">"instance"</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"countDownLatch"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;hz:atomicNumber</font> <font font-style="bold" color="#0A1777">id</font>=<font font-style="bold" color="#008000">"lock"</font> <font font-style="bold" color="#0A1777">instance-ref</font>=<font font-style="bold" color="#008000">"client"</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"lock"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+</pre><p>
+    </p><a name="SpringInjectingTypedBean"></a><p><a class="link" href="ch14.html#SpringInjectingTypedBean">
+        <span class="bold"><strong>Injecting Typed Collections/Maps</strong></span></a></p><p>
+        Spring tries to create a new <code class="code">Map</code>/<code class="code">Collection</code> instance and fill the new instance
+        by iterating and converting values of the original <code class="code">Map</code>/<code class="code">Collection</code>
+        (<code class="literal">IMap</code>, <code class="literal">IQueue</code> etc.) to required types when generic type parameters
+        of the original <code class="code">Map</code>/<code class="code">Collection</code> and the target property/attribute do not match.
+    </p><p>
+        Since Hazelcast <code class="code">Map</code>s/<code class="code">Collection</code>s are designed to hold very large data
+        which a single machine can not carry, iterating through whole values can cause out of memory errors.
+    </p><p>
+        To avoid this issue either target property/attribute can be declared as
+        un-typed <code class="code">Map</code>/<code class="code">Collection</code>
+        </p><pre class="programlisting">
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">class</strong> SomeBean {
+    <em><span class="hl-annotation" style="color: gray">@Autowired</span></em>
+    IMap map; <em class="hl-comment" style="color: silver">// instead of IMap&lt;K, V&gt; map</em>
+
+    <em><span class="hl-annotation" style="color: gray">@Autowired</span></em>
+    IQueue queue; <em class="hl-comment" style="color: silver">// instead of IQueue&lt;E&gt; queue</em>
+
+    ...
+}
+</pre><p>
+
+        or parameters of injection methods (constructor, setter) can be un-typed.
+
+        </p><pre class="programlisting">
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">class</strong> SomeBean {
+
+    IMap&lt;K, V&gt; map;
+
+    IQueue&lt;E&gt; queue;
+
+    <strong class="hl-keyword">public</strong> SomeBean(IMap map) { <em class="hl-comment" style="color: silver">// instead of IMap&lt;K, V&gt; map</em>
+        <strong class="hl-keyword">this</strong>.map = map;
+    }
+
+    ...
+
+    <strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> setQueue(IQueue queue) { <em class="hl-comment" style="color: silver">// instead of IQueue&lt;E&gt; queue</em>
+        <strong class="hl-keyword">this</strong>.queue = queue;
+    }
+    ...
+}
+</pre><p>
+        <span class="italic">For more info see
+            <a class="link" href="https://jira.springsource.org/browse/SPR-3407" target="_top">
+                Spring issue-3407
+            </a>.</span>
+    </p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch13.html">Prev</a>&nbsp;</td><td width="20%" align="center">&nbsp;</td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch14s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;13.&nbsp;Hibernate Second Level Cache&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;14.2.&nbsp;Spring Managed Context</td></tr></table></div></body></html>

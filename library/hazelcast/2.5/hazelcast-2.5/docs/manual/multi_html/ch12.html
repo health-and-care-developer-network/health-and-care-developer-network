@@ -1,0 +1,169 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;12.&nbsp;Configuration</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="index.html" title="Hazelcast Documentation"><link rel="prev" href="ch11.html" title="Chapter&nbsp;11.&nbsp;WAN Replication"><link rel="next" href="ch12s02.html" title="12.2.&nbsp;Network Configuration"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;12.&nbsp;Configuration</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch11.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch12s02.html">Next</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;12.&nbsp;Configuration"><div class="titlepage"><div><div><h2 class="title"><a name="Config"></a>Chapter&nbsp;12.&nbsp;Configuration</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="ch12.html#ConfigGroup">12.1. Creating Separate Clusters</a></span></dt><dt><span class="sect1"><a href="ch12s02.html">12.2. Network Configuration</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch12s02.html#ConfigTcpIp">12.2.1. Configuring TCP/IP Cluster</a></span></dt><dt><span class="sect2"><a href="ch12s02.html#ConfigSpecifyInterfaces">12.2.2. Specifying Network Interfaces</a></span></dt><dt><span class="sect2"><a href="ch12s02.html#EC2AutoDiscovery">12.2.3. EC2 Auto Discovery</a></span></dt><dt><span class="sect2"><a href="ch12s02.html#NetworkPartitioning">12.2.4. Network Partitioning (Split-Brain Syndrome)</a></span></dt><dt><span class="sect2"><a href="ch12s02.html#SSL">12.2.5. SSL</a></span></dt><dt><span class="sect2"><a href="ch12s02.html#Encryption">12.2.6. Encryption</a></span></dt><dt><span class="sect2"><a href="ch12s02.html#SocketInterceptor">12.2.7. Socket Interceptor</a></span></dt><dt><span class="sect2"><a href="ch12s02.html#IPv6">12.2.8. IPv6 Support</a></span></dt><dt><span class="sect2"><a href="ch12s02.html#OutboundPorts">12.2.9. Restricting Outbound Ports</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch12s03.html">12.3. Partition Group Configuration</a></span></dt><dt><span class="sect1"><a href="ch12s04.html">12.4. Listener Configurations</a></span></dt><dt><span class="sect1"><a href="ch12s05.html">12.5. Wildcard Configuration</a></span></dt><dt><span class="sect1"><a href="ch12s06.html">12.6. Advanced Configuration Properties</a></span></dt><dt><span class="sect1"><a href="ch12s07.html">12.7. Logging Configuration</a></span></dt><dt><span class="sect1"><a href="ch12s08.html">12.8. Setting License Key <sup>(Enterprise Edition Only)</sup></a></span></dt></dl></div><p>
+    Hazelcast can be configured through xml or using configuration api or even mix of both.
+    </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>
+                <span class="bold"><strong>Xml Configuration</strong></span>
+            </p><p>If you are using default Hazelcast instance
+                (<code class="literal">Hazelcast.getDefaultInstance()</code>) or creating new Hazelcast
+                instance with passing
+                <code class="literal">null</code>
+                parameter
+                (<code class="literal">Hazelcast.newHazelcastInstance(null)</code>), Hazelcast will look
+                into two places for the configuration file:
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+                            <span class="bold"><strong>System property:</strong></span>
+                            Hazelcast will first
+                            check if "<code class="literal">hazelcast.config</code>" system property is set to
+                            a file path. Example:
+                            <code class="literal">-Dhazelcast.config=C:/myhazelcast.xml</code>.
+                        </p></li><li class="listitem"><p>
+                            <span class="bold"><strong>Classpath:</strong></span>
+                            If config file is not set
+                            as a system property, Hazelcast will check classpath for
+                            <span class="bold"><strong>
+                                <code class="literal">hazelcast.xml</code>
+                            </strong></span>
+                            file.
+                        </p></li></ul></div><p>
+                If Hazelcast doesn't find any config file, it will happily start with
+                default configuration (<code class="literal">hazelcast-default.xml</code>) located in
+                <code class="literal">hazelcast.jar</code>. (Before configuring Hazelcast, please try to
+                work with default configuration to see if it works for you. Default should be just
+                fine for most of the users. If not, then consider custom configuration for your
+                environment.)
+            </p><p>
+                If you want to specify your own configuration file to create
+                <code class="literal">Config</code>, Hazelcast supports several ways including filesystem,
+                classpath, InputStream, URL etc.:
+                </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+                            <code class="code">Config cfg = new
+                                XmlConfigBuilder(xmlFileName).build();
+                            </code>
+                        </p></li><li class="listitem"><p>
+                            <code class="code">Config cfg = new
+                                XmlConfigBuilder(inputStream).build();
+                            </code>
+                        </p></li><li class="listitem"><p>
+                            <code class="code">Config cfg = new
+                                ClasspathXmlConfig(xmlFileName);
+                            </code>
+                        </p></li><li class="listitem"><p>
+                            <code class="code">Config cfg = new
+                                FileSystemXmlConfig(configFilename);
+                            </code>
+                        </p></li><li class="listitem"><p>
+                            <code class="code">Config cfg = new
+                                UrlXmlConfig(url);
+                            </code>
+                        </p></li><li class="listitem"><p>
+                            <code class="code">Config cfg = new
+                                InMemoryXmlConfig(xml);
+                            </code>
+                        </p></li></ul></div><p>
+            </p></li><li class="listitem"><p>
+                <span class="bold"><strong>Programmatic Configuration</strong></span>
+            </p><p>To configure Hazelcast programatically, just instantiate a
+                <code class="literal">Config</code> object and set/change its properties/attributes due to
+                your needs.
+                </p><pre class="programlisting">Config cfg = <strong class="hl-keyword">new</strong> Config();
+cfg.setPort(<span class="hl-number">5900</span>);
+cfg.setPortAutoIncrement(false);
+        
+NetworkConfig network = cfg.getNetworkConfig();
+Join join = network.getJoin();
+join.getMulticastConfig().setEnabled(false);
+join.getTcpIpConfig().addMember(<font font-style="normal" color="#008000">"10.45.67.32"</font>).addMember(<font font-style="normal" color="#008000">"10.45.67.100"</font>)
+            .setRequiredMember(<font font-style="normal" color="#008000">"192.168.10.100"</font>).setEnabled(true);
+network.getInterfaces().setEnabled(true).addInterface(<font font-style="normal" color="#008000">"10.45.67.*"</font>);
+        
+MapConfig mapCfg = <strong class="hl-keyword">new</strong> MapConfig();
+mapCfg.setName(<font font-style="normal" color="#008000">"testMap"</font>);
+mapCfg.setBackupCount(<span class="hl-number">2</span>);
+mapCfg.getMaxSizeConfig().setSize(<span class="hl-number">10000</span>);
+mapCfg.setTimeToLiveSeconds(<span class="hl-number">300</span>);
+        
+MapStoreConfig mapStoreCfg = <strong class="hl-keyword">new</strong> MapStoreConfig();
+mapStoreCfg.setClassName(<font font-style="normal" color="#008000">"com.hazelcast.examples.DummyStore"</font>).setEnabled(true);
+mapCfg.setMapStoreConfig(mapStoreCfg);
+
+NearCacheConfig nearCacheConfig = <strong class="hl-keyword">new</strong> NearCacheConfig();
+nearCacheConfig.setMaxSize(<span class="hl-number">1000</span>).setMaxIdleSeconds(<span class="hl-number">120</span>).setTimeToLiveSeconds(<span class="hl-number">300</span>);
+mapCfg.setNearCacheConfig(nearCacheConfig);
+
+cfg.addMapConfig(mapCfg);</pre><p>
+            </p></li></ol></div><p>
+    After creating
+    <code class="literal">Config</code>
+    object, you can use it to initialize
+    default Hazelcast instance or create a new Hazelcast instance.
+    </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+                <code class="code">Hazelcast.init(cfg);</code>
+            </p></li><li class="listitem"><p>
+                <code class="code">Hazelcast.newHazelcastInstance(cfg);</code>
+            </p></li></ul></div><p>
+    <a name="NamedHazelcastInstance"></a>
+    </p><div class="itemizedlist" title="HazelcastInstance with a name:"><p class="title"><b><a class="link" href="ch12.html#NamedHazelcastInstance">HazelcastInstance with a name</a>:</b></p><ul class="itemizedlist" type="disc"><li class="listitem"><p>To create a named
+                <code class="literal">HazelcastInstance</code>
+                you should set
+                <code class="code">instanceName</code>
+                of
+                <code class="literal">Config</code>
+                object.
+            </p><p>
+                </p><pre class="programlisting">Config cfg = <strong class="hl-keyword">new</strong> Config();
+config.setInstanceName(<font font-style="normal" color="#008000">'my-instance'</font>);
+Hazelcast.newHazelcastInstance(config);</pre><p>
+            </p></li><li class="listitem"><p>To retrieve an existing
+                <code class="literal">HazelcastInstance</code>
+                using its name, use;
+            </p><p>
+                <code class="code">Hazelcast.getHazelcastInstanceByName('my-instance');</code>
+            </p></li><li class="listitem"><p>To retrieve all existing<code class="literal">HazelcastInstance</code>s, use;
+            </p><p>
+                <code class="code">Hazelcast.getAllHazelcastInstances();</code>
+            </p></li></ul></div><p>
+
+</p><div class="sect1" title="12.1.&nbsp;Creating Separate Clusters"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="ConfigGroup"></a>12.1.&nbsp;Creating Separate Clusters</h2></div></div></div><p>
+        By specifying group-name and group-password, you can separate your clusters in a simple way; dev group,
+        production group, test group, app-a group etc...
+
+        </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;hazelcast&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;group&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;name&gt;</font>dev<font font-style="bold" color="#0A1777">&lt;/name&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;password&gt;</font>dev-pass<font font-style="bold" color="#0A1777">&lt;/password&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/group&gt;</font>
+    ...
+<font font-style="bold" color="#0A1777">&lt;/hazelcast&gt;</font>
+</pre><p>
+
+    </p><p>
+        You can also set the groupName with
+        <code class="literal">Config</code>
+        API.
+        JVM can host multiple Hazelcast instances (nodes).
+        Each node can only participate in one group and it only joins to
+        its own group, does not mess with others. Following code creates 3 separate
+        Hazelcast nodes,
+        <code class="literal">h1</code>
+        belongs to
+        <code class="literal">app1</code>
+        cluster, while
+        <code class="literal">h2</code>
+        and
+        <code class="literal">h3</code>
+        are belong to
+        <code class="literal">app2</code>
+        cluster.
+        </p><pre class="programlisting">
+Config configApp1 = <strong class="hl-keyword">new</strong> Config();
+configApp1.getGroupConfig().setName(<font font-style="normal" color="#008000">"app1"</font>);
+
+Config configApp2 = <strong class="hl-keyword">new</strong> Config();
+configApp2.getGroupConfig().setName(<font font-style="normal" color="#008000">"app2"</font>);
+
+HazelcastInstance h1 = Hazelcast.newHazelcastInstance(configApp1);
+HazelcastInstance h2 = Hazelcast.newHazelcastInstance(configApp2);
+HazelcastInstance h3 = Hazelcast.newHazelcastInstance(configApp2);
+</pre><p>
+    </p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch11.html">Prev</a>&nbsp;</td><td width="20%" align="center">&nbsp;</td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch12s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;11.&nbsp;WAN Replication&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;12.2.&nbsp;Network Configuration</td></tr></table></div></body></html>

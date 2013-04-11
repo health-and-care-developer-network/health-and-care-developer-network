@@ -1,0 +1,33 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>17.2.&nbsp;Maps</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="ch17.html" title="Chapter&nbsp;17.&nbsp;Management Center"><link rel="prev" href="ch17.html" title="Chapter&nbsp;17.&nbsp;Management Center"><link rel="next" href="ch17s03.html" title="17.3.&nbsp;Queues"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">17.2.&nbsp;Maps</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch17.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;17.&nbsp;Management Center</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch17s03.html">Next</a></td></tr></table><hr></div><div class="sect1" title="17.2.&nbsp;Maps"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="MC_Maps"></a>17.2.&nbsp;Maps</h2></div></div></div><p>
+        Map instances are listed on the left panel. When you click on a map, a new tab for monitoring this map instance
+        is opened on the right.
+        In this tab, you can monitor metrics also re-configure the map.
+    </p><p>
+        <span class="inlinemediaobject"><img src="images/maphome.jpg" width="70%"></span>
+    </p><div class="sect2" title="17.2.1.&nbsp;Monitoring Maps"><div class="titlepage"><div><div><h3 class="title"><a name="MC_MapMonitoring"></a>17.2.1.&nbsp;Monitoring Maps</h3></div></div></div><p>
+            In map page you can monitor instance metrics by 2 charts and 2 datatables. First data table "Memory Data
+            Table" gives the memory metrics distributed over members. "Throughput Data Table" gives information about
+            the operations performed on instance (get, put, remove)
+            Each chart monitors a type data of the instance on cluster. You can change the type by clicking on chart.
+            The possible ones are: Size, Throughput, Memory, Backup Size, Backup Memory, Hits, Locked Entries, Puts,
+            Gets, Removes...
+        </p><p>
+            <span class="inlinemediaobject"><img src="images/mapchart.jpg" width="70%"></span>
+        </p></div><div class="sect2" title="17.2.2.&nbsp;Map Browser"><div class="titlepage"><div><div><h3 class="title"><a name="MC_MapBrowser"></a>17.2.2.&nbsp;Map Browser</h3></div></div></div><p>
+            You can open "Map Browser" tool by clicking "Browse" button on map tab page. Using map browser, you can
+            reach map's entries by keys. Besides its value, extra informations such as entry's cost, expiration time is
+            provided.
+        </p><p>
+            <a class="link" href="images/mapbrowse.jpg" target="_top">
+                <span class="inlinemediaobject"><img src="images/mapbrowse.jpg" width="70%"></span>
+            </a>
+        </p></div><div class="sect2" title="17.2.3.&nbsp;Map Configuration"><div class="titlepage"><div><div><h3 class="title"><a name="MC_MapConfiguration"></a>17.2.3.&nbsp;Map Configuration</h3></div></div></div><p>
+            You can open "Map Configuration" tool by clicking "Config" button on map tab page. This button is disabled
+            for users with Read-Only permission. Using map config tool you can adjust map's setting. You can change
+            backup count, max size, max idle(seconds), eviction policy, cache value, read backup data, backup count of
+            the map.
+        </p><p>
+            <span class="inlinemediaobject"><img src="images/mapconfig.jpg" width="70%"></span>
+        </p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch17.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch17.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch17s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;17.&nbsp;Management Center&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;17.3.&nbsp;Queues</td></tr></table></div></body></html>

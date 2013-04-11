@@ -1,0 +1,599 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>12.6.&nbsp;Advanced Configuration Properties</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="ch12.html" title="Chapter&nbsp;12.&nbsp;Configuration"><link rel="prev" href="ch12s05.html" title="12.5.&nbsp;Wildcard Configuration"><link rel="next" href="ch12s07.html" title="12.7.&nbsp;Logging Configuration"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">12.6.&nbsp;Advanced Configuration Properties</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch12s05.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;12.&nbsp;Configuration</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch12s07.html">Next</a></td></tr></table><hr></div><div class="sect1" title="12.6.&nbsp;Advanced Configuration Properties"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="ConfigurationProperties"></a>12.6.&nbsp;Advanced Configuration Properties</h2></div></div></div><p>
+        There are some advanced configuration properties to tune some aspects
+        of Hazelcast. These can be set as property name and value pairs
+        through configuration xml, configuration API or JVM system property.
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+                    <span class="bold"><strong>Configuration xml</strong></span>
+                </p><p>
+                    </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;hazelcast</font> <font font-style="bold" color="#0A1777">xsi:schemaLocation</font>=<font font-style="bold" color="#008000">"http://www.hazelcast.com/schema/config 
+    http://www.hazelcast.com/schema/config/hazelcast-config-2.5.xsd"</font>
+    <font font-style="bold" color="#0A1777">xmlns</font>=<font font-style="bold" color="#008000">"http://www.hazelcast.com/schema/config"</font>
+    <font font-style="bold" color="#0A1777">xmlns:xsi</font>=<font font-style="bold" color="#008000">"http://www.w3.org/2001/XMLSchema-instance"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    ....
+    <font font-style="bold" color="#0A1777">&lt;properties&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;property</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"hazelcast.property.foo"</font><font font-style="bold" color="#0A1777">&gt;</font>value<font font-style="bold" color="#0A1777">&lt;/property&gt;</font>
+            ....
+    <font font-style="bold" color="#0A1777">&lt;/properties&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/hazelcast&gt;</font></pre><p>
+                </p></li><li class="listitem"><p>
+                    <span class="bold"><strong>Configuration API</strong></span>
+                </p><p>
+                    </p><pre class="programlisting">
+Config cfg = <strong class="hl-keyword">new</strong> Config() ;
+cfg.setProperty(<font font-style="normal" color="#008000">"hazelcast.property.foo"</font>, <font font-style="normal" color="#008000">"value"</font>);
+                    </pre><p>
+                </p></li><li class="listitem"><p>
+                    <span class="bold"><strong>System Property</strong></span>
+                </p><p>
+                    </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Using JVM parameter:
+                                <code class="literal">java -Dhazelcast.property.foo=value</code>
+                            </p></li><li class="listitem"><p>Using System class:
+                                <code class="literal">System.setProperty("hazelcast.property.foo", "value");
+                                </code>
+                            </p></li></ol></div><p>
+                </p></li></ul></div><p>
+    </p><table border="1" width="950" id="d0e3456"><caption>Table&nbsp;12.1.&nbsp;Properties Table</caption><col width="44%"><col width="36%"><col width="10%"><col width="6%"><col width="2%"><col width="2%"><col width="2%"><thead><tr>
+                <th>Property Name</th>
+                <th>Description</th>
+                <th>Value Type</th>
+                <th>Default</th>
+            </tr></thead><tbody><tr>
+                <td>
+                    <code class="literal"><a name="hazelcast.memcache.enabled"></a>hazelcast.memcache.enabled</code>
+                </td>
+                <td>Enable
+                    <a class="link" href="ch15s02.html" title="15.2.&nbsp;Memcache Client">Memcache</a>
+                    client request listener service
+                </td>
+                <td>boolean</td>
+                <td>true</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.rest.enabled</code>
+                </td>
+                <td>Enable
+                    <a class="link" href="ch15s03.html" title="15.3.&nbsp;Rest Client">REST</a>
+                    client request listener service
+                </td>
+                <td>boolean</td>
+                <td>true</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.logging.type</code>
+                </td>
+                <td>Name of
+                    <a class="link" href="ch12s07.html" title="12.7.&nbsp;Logging Configuration">logging</a>
+                    framework type to send logging events.
+                </td>
+                <td>enum</td>
+                <td>jdk</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.map.load.chunk.size</code>
+                </td>
+                <td>Chunk size for
+                    <a class="link" href="ch02s03.html#MapPersistence" title="2.3.3.&nbsp;Persistence">MapLoader</a>
+                    's map initialization
+                    process (MapLoder.loadAllKeys())
+                </td>
+                <td>integer</td>
+                <td>1000</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.in.thread.priority</code>
+                </td>
+                <td>Hazelcast
+                    Input Thread
+                    priority
+                </td>
+                <td>integer</td>
+                <td>7</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.out.thread.priority</code>
+                </td>
+                <td>Hazelcast
+                    Output Thread
+                    priority
+                </td>
+                <td>integer</td>
+                <td>7</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.service.thread.priority</code>
+                </td>
+                <td>Hazelcast
+                    Service Thread
+                    priority
+                </td>
+                <td>integer</td>
+                <td>8</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.merge.first.run.delay.seconds</code>
+                </td>
+                <td>Inital run delay of
+                    <a class="link" href="ch12s02.html#NetworkPartitioning" title="12.2.4.&nbsp;Network Partitioning (Split-Brain Syndrome)">split brain/merge process</a>
+                    in seconds
+                </td>
+                <td>integer</td>
+                <td>300</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.merge.next.run.delay.seconds</code>
+                </td>
+                <td>Run interval of
+                    <a class="link" href="ch12s02.html#NetworkPartitioning" title="12.2.4.&nbsp;Network Partitioning (Split-Brain Syndrome)">split brain/merge process</a>
+                    in
+                    seconds
+                </td>
+                <td>integer</td>
+                <td>120</td>
+            </tr><tr>
+                <td>
+                    <code class="literal"><a name="hazelcast.redo.wait.millis"></a>hazelcast.redo.wait.millis</code>
+                </td>
+                <td>Wait time before a redo operation in milliseconds</td>
+                <td>integer</td>
+                <td>500</td>
+            </tr><tr>
+                <td>
+                    <code class="literal"><a name="hazelcast.redo.log.threshold"></a>hazelcast.redo.log.threshold</code>
+                </td>
+                <td>Minimum number of redo(s) before logging.</td>
+                <td>integer</td>
+                <td>10</td>
+            </tr><tr>
+                <td>
+                    <code class="literal"><a name="hazelcast.redo.giveup.threshold"></a>hazelcast.redo.giveup.threshold</code>
+                </td>
+                <td>Number of maximum redo calls before giving up and throwing <code class="code">OperationTimeoutException</code>.</td>
+                <td>integer</td>
+                <td>60</td>
+            </tr><tr>
+                <td>
+                    <code class="literal"><a name="hazelcast.backup.redo.enabled"></a>hazelcast.backup.redo.enabled</code>
+                </td>
+                <td>Enable (strict) redo for backup operations. Backup operations may fail due to node failures,
+                    but generally during partition re-assignment process missing backups are restored.
+                    <span class="emphasis"><em>When 'hazelcast.backup.redo.enabled' is set to true,
+                        <a class="link" href="ch12s06.html#hazelcast.partition.migration.interval">#hazelcast.partition.migration.interval</a> should be 0.</em></span>
+                </td>
+                <td>boolean</td>
+                <td>false</td>
+            </tr><tr>
+                <td>
+                    <code class="literal"><a name="hazelcast.max.operation.timeout"></a>hazelcast.max.operation.timeout</code>
+                </td>
+                <td>Maximum operation timeout in milliseconds if no timeout is specified for an operation. (default 300 seconds)</td>
+                <td>integer</td>
+                <td>300000</td>
+            </tr><tr>
+                <td>
+                    <code class="literal"><a name="hazelcast.max.concurrent.operation.limit"></a>hazelcast.max.concurrent.operation.limit</code>
+                </td>
+                <td>Max number of concurrent operations can be submitted to Hazelcast without throwing
+                    <code class="code">OperationRejectedException</code> (negative means undefined).</td>
+                <td>integer</td>
+                <td>-1</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.socket.bind.any</code>
+                </td>
+                <td>Bind both server-socket and client-sockets to any local interface</td>
+                <td>boolean</td>
+                <td>true</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.socket.server.bind.any</code>
+                </td>
+                <td>Bind server-socket to any local interface.
+                    If not set, <code class="literal">hazelcast.socket.bind.any</code> will be used as default.</td>
+                <td>boolean</td>
+                <td>true</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.socket.client.bind.any</code>
+                </td>
+                <td>Bind client-sockets to any local interface.
+                    If not set, <code class="literal">hazelcast.socket.bind.any</code> will be used as default.</td>
+                <td>boolean</td>
+                <td>true</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.socket.receive.buffer.size</code>
+                </td>
+                <td>Socket receive buffer size in KB</td>
+                <td>integer</td>
+                <td>32</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.socket.send.buffer.size</code>
+                </td>
+                <td>Socket send buffer size in KB</td>
+                <td>integer</td>
+                <td>32</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.socket.keep.alive</code>
+                </td>
+                <td>Socket set keep alive</td>
+                <td>boolean</td>
+                <td>true</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.socket.no.delay</code>
+                </td>
+                <td>Socket set TCP no delay</td>
+                <td>boolean</td>
+                <td>true</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.prefer.ipv4.stack</code>
+                </td>
+                <td>Prefer Ipv4 network interface when picking a local address.</td>
+                <td>boolean</td>
+                <td>true</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.shutdownhook.enabled</code>
+                </td>
+                <td>Enable Hazelcast shutdownhook thread</td>
+                <td>boolean</td>
+                <td>true</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.wait.seconds.before.join</code>
+                </td>
+                <td>Wait time before join operation</td>
+                <td>integer</td>
+                <td>5</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.max.wait.seconds.before.join</code>
+                </td>
+                <td>Maximum wait time before join operation</td>
+                <td>integer</td>
+                <td>20</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.heartbeat.interval.seconds</code>
+                </td>
+                <td>Heartbeat send interval in seconds</td>
+                <td>integer</td>
+                <td>1</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.max.no.heartbeat.seconds</code>
+                </td>
+                <td>Max timeout of heartbeat in seconds for a node to assume it is dead</td>
+                <td>integer</td>
+                <td>300</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.icmp.enabled</code>
+                </td>
+                <td>Enable ICMP ping</td>
+                <td>boolean</td>
+                <td>false</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.icmp.timeout</code>
+                </td>
+                <td>ICMP timeout in ms</td>
+                <td>int</td>
+                <td>1000</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.icmp.ttl</code>
+                </td>
+                <td>ICMP TTL (maximum numbers of hops to try)</td>
+                <td>int</td>
+                <td>0</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.master.confirmation.interval.seconds</code>
+                </td>
+                <td>Interval at which nodes send master confirmation</td>
+                <td>integer</td>
+                <td>30</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.max.no.master.confirmation.seconds</code>
+                </td>
+                <td>Max timeout of master confirmation from other nodes</td>
+                <td>integer</td>
+                <td>450</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.member.list.publish.interval.seconds</code>
+                </td>
+                <td>Interval at which master node publishes a member list</td>
+                <td>integer</td>
+                <td>600</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.prefer.ipv4.stack</code>
+                </td>
+                <td>Prefer IPv4 Stack, don't use IPv6. See <a class="link" href="ch12s02.html#IPv6" title="12.2.8.&nbsp;IPv6 Support">IPv6 doc.</a></td>
+                <td>boolean</td>
+                <td>true</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.initial.min.cluster.size</code>
+                </td>
+                <td>Initial expected cluster size to wait before node to start completely</td>
+                <td>integer</td>
+                <td>0</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.initial.wait.seconds</code>
+                </td>
+                <td>Inital time in seconds to wait before node to start completely</td>
+                <td>integer</td>
+                <td>0</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.restart.on.max.idle</code>
+                </td>
+                <td>Restart node if service thread blocked for
+                    <code class="literal">hazelcast.max.no.heartbeat.seconds</code>
+                </td>
+                <td>boolean</td>
+                <td>false</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.map.partition.count</code>
+                </td>
+                <td>Distributed map partition count</td>
+                <td>integer</td>
+                <td>271</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.map.max.backup.count</code>
+                </td>
+                <td>Maximum map backup node count</td>
+                <td>integer</td>
+                <td>5</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.map.remove.delay.seconds</code>
+                </td>
+                <td>Remove delay time in seconds for dirty records</td>
+                <td>integer</td>
+                <td>5</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.map.cleanup.delay.seconds</code>
+                </td>
+                <td>Cleanup process delay time in seconds</td>
+                <td>integer</td>
+                <td>10</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.executor.query.thread.count</code>
+                </td>
+                <td>Query executor service max thread count</td>
+                <td>integer</td>
+                <td>8</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.executor.event.thread.count</code>
+                </td>
+                <td>Event executor service max thread count</td>
+                <td>integer</td>
+                <td>16</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.executor.client.thread.count</code>
+                </td>
+                <td>Client executor service max thread count</td>
+                <td>integer</td>
+                <td>40</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.executor.store.thread.count</code>
+                </td>
+                <td>Map store executor service max thread count</td>
+                <td>integer</td>
+                <td>16</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.log.state</code>
+                </td>
+                <td>Log cluster debug state periodically</td>
+                <td>boolean</td>
+                <td>false</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.jmx</code>
+                </td>
+                <td>Enable
+                    <a class="link" href="ch06.html" title="Chapter&nbsp;6.&nbsp;Monitoring with JMX">JMX</a>
+                    agent
+                </td>
+                <td>boolean</td>
+                <td>false</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.jmx.detailed</code>
+                </td>
+                <td>Enable detailed views on
+                    <a class="link" href="ch06.html" title="Chapter&nbsp;6.&nbsp;Monitoring with JMX">JMX</a>
+                </td>
+                <td>boolean</td>
+                <td>false</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.mc.map.excludes</code>
+                </td>
+                <td>Comma seperated map names to exclude from
+                    <a class="link" href="http://www.hazelcast.com/mancenter.jsp" target="_top">Hazelcast Management
+                        Center
+                    </a>
+                </td>
+                <td>CSV</td>
+                <td>null</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.mc.queue.excludes</code>
+                </td>
+                <td>Comma seperated queue names to exclude from
+                    <a class="link" href="http://www.hazelcast.com/mancenter.jsp" target="_top">Hazelcast Management
+                        Center
+                    </a>
+                </td>
+                <td>CSV</td>
+                <td>null</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.mc.topic.excludes</code>
+                </td>
+                <td>Comma seperated topic names to exclude from
+                    <a class="link" href="http://www.hazelcast.com/mancenter.jsp" target="_top">Hazelcast Management
+                        Center
+                    </a>
+                </td>
+                <td>CSV</td>
+                <td>null</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.version.check.enabled</code>
+                </td>
+                <td>Enable Hazelcast new version check on startup</td>
+                <td>boolean</td>
+                <td>true</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.topic.flow.control.enabled</code>
+                </td>
+                <td>Enable waiting for the topic publish until messages are written through the sockets</td>
+                <td>boolean</td>
+                <td>true</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.mc.max.visible.instance.count</code>
+                </td>
+                <td>Management Center maximum visible instance count</td>
+                <td>integer</td>
+                <td>100</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.connection.monitor.interval</code>
+                </td>
+                <td>Minimum interval to consider a connection error as critical in milliseconds.</td>
+                <td>integer</td>
+                <td>100</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.connection.monitor.max.faults</code>
+                </td>
+                <td>Maximum IO error count before disconnecting from a node.</td>
+                <td>integer</td>
+                <td>3</td>
+            </tr><tr>
+                <td>
+                    <code class="literal"><a name="hazelcast.partition.migration.interval"></a>hazelcast.partition.migration.interval</code>
+                </td>
+                <td>Interval to run partition migration tasks in seconds.</td>
+                <td>integer</td>
+                <td>0</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.partition.migration.timeout</code>
+                </td>
+                <td>Timeout for partition migration tasks in seconds.</td>
+                <td>integer</td>
+                <td>300</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.immediate.backup.interval</code>
+                </td>
+                <td>Interval to run immediate backup tasks in seconds.</td>
+                <td>integer</td>
+                <td>0</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.graceful.shutdown.max.wait</code>
+                </td>
+                <td>Maximum wait seconds during graceful shutdown.</td>
+                <td>integer</td>
+                <td>600</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.force.throw.interrupted.exception</code>
+                </td>
+                <td>Force throw of RuntimeInterruptedException when a thread is interrupted, otherwise a
+                    warning log will be printed.</td>
+                <td>boolean</td>
+                <td>false</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.mc.url.change.enabled</code>
+                </td>
+                <td>Management Center changing server url is enabled</td>
+                <td>boolean</td>
+                <td>true</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.elastic.memory.enabled</code>
+                </td>
+                <td>Enable
+                    <a class="link" href="ch03.html" title="Chapter&nbsp;3.&nbsp;Elastic Memory (Enterprise Edition Only)">Hazelcast Elastic Memory</a>
+                    off-heap storage
+                </td>
+                <td>boolean</td>
+                <td>false</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.elastic.memory.total.size</code>
+                </td>
+                <td>
+                    <a class="link" href="ch03.html" title="Chapter&nbsp;3.&nbsp;Elastic Memory (Enterprise Edition Only)">Hazelcast Elastic Memory</a>
+                    storage total size in MB
+                </td>
+                <td>integer</td>
+                <td>128</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.elastic.memory.chunk.size</code>
+                </td>
+                <td>
+                    <a class="link" href="ch03.html" title="Chapter&nbsp;3.&nbsp;Elastic Memory (Enterprise Edition Only)">Hazelcast Elastic Memory</a>
+                    storage chunk size in KB
+                </td>
+                <td>integer</td>
+                <td>1</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.elastic.memory.shared.storage</code>
+                </td>
+                <td>
+                    <a class="link" href="ch03.html" title="Chapter&nbsp;3.&nbsp;Elastic Memory (Enterprise Edition Only)">Enable Hazelcast Elastic Memory</a>
+                    shared storage
+                </td>
+                <td>boolean</td>
+                <td>false</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.enterprise.license.key</code>
+                </td>
+                <td>
+                    <a class="link" href="http://www.hazelcast.com/products.jsp" target="_top">Hazelcast Enterprise</a>
+                    license key
+                </td>
+                <td>string</td>
+                <td>null</td>
+            </tr><tr>
+                <td>
+                    <code class="literal">hazelcast.system.log.enabled</code>
+                </td>
+                <td>
+                    Enable system logs
+                </td>
+                <td>boolean</td>
+                <td>true</td>
+            </tr></tbody></table></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch12s05.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch12.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch12s07.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">12.5.&nbsp;Wildcard Configuration&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;12.7.&nbsp;Logging Configuration</td></tr></table></div></body></html>

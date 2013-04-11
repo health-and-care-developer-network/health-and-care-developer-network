@@ -1,0 +1,34 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>2.4.&nbsp;Distributed MultiMap</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="ch02.html" title="Chapter&nbsp;2.&nbsp;Distributed Data Structures"><link rel="prev" href="ch02s03.html" title="2.3.&nbsp;Distributed Map"><link rel="next" href="ch02s05.html" title="2.5.&nbsp;Distributed Set"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">2.4.&nbsp;Distributed MultiMap</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch02s03.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;2.&nbsp;Distributed Data Structures</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch02s05.html">Next</a></td></tr></table><hr></div><div class="sect1" title="2.4.&nbsp;Distributed MultiMap"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="MultiMap"></a>2.4.&nbsp;Distributed MultiMap</h2></div></div></div><p>
+        <code class="literal">MultiMap</code>
+        is a specialized map where you can associate a key with multiple values.
+        Just like any other distributed data structure implementation in Hazelcast,
+        <code class="literal">MultiMap</code>
+        is distributed/partitioned and thread-safe.
+
+        </p><pre class="programlisting"><strong class="hl-keyword">import</strong> com.hazelcast.core.MultiMap;
+<strong class="hl-keyword">import</strong> com.hazelcast.core.Hazelcast;
+<strong class="hl-keyword">import</strong> java.util.Collection;
+<strong class="hl-keyword">import</strong> com.hazelcast.config.Config;
+
+Config cfg = <strong class="hl-keyword">new</strong> Config();
+HazelcastInstance hz = Hazelcast.newHazelcastInstance(cfg);
+
+<em class="hl-comment" style="color: silver">// a multimap to hold &lt;customerId, Order&gt; pairs</em>
+MultiMap&lt;String, Order&gt; mmCustomerOrders = hz.getMultiMap(<font font-style="normal" color="#008000">"customerOrders"</font>);
+mmCustomerOrders.put(<font font-style="normal" color="#008000">"1"</font>, <strong class="hl-keyword">new</strong> Order (<font font-style="normal" color="#008000">"iPhone"</font>, <span class="hl-number">340</span>));
+mmCustomerOrders.put(<font font-style="normal" color="#008000">"1"</font>, <strong class="hl-keyword">new</strong> Order (<font font-style="normal" color="#008000">"MacBook"</font>, <span class="hl-number">1200</span>));
+mmCustomerOrders.put(<font font-style="normal" color="#008000">"1"</font>, <strong class="hl-keyword">new</strong> Order (<font font-style="normal" color="#008000">"iPod"</font>, <span class="hl-number">79</span>));
+
+<em class="hl-comment" style="color: silver">// get orders of the customer with customerId 1.</em>
+Collection&lt;Order&gt; colOrders = mmCustomerOrders.get (<font font-style="normal" color="#008000">"1"</font>);
+<strong class="hl-keyword">for</strong> (Order order : colOrders) {
+    <em class="hl-comment" style="color: silver">// process order</em>
+}
+
+<em class="hl-comment" style="color: silver">// remove specific key/value pair</em>
+<strong class="hl-keyword">boolean</strong> removed = mmCustomerOrders.remove(<font font-style="normal" color="#008000">"1"</font>, <strong class="hl-keyword">new</strong> Order (<font font-style="normal" color="#008000">"iPhone"</font>, <span class="hl-number">340</span>));
+</pre><p>
+
+    </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch02s03.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch02.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch02s05.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">2.3.&nbsp;Distributed Map&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;2.5.&nbsp;Distributed Set</td></tr></table></div></body></html>

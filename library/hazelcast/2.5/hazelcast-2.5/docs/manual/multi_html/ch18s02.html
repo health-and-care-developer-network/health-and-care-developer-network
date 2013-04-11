@@ -1,0 +1,111 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>18.2.&nbsp;Testing Cluster</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="ch18.html" title="Chapter&nbsp;18.&nbsp;Miscellaneous"><link rel="prev" href="ch18.html" title="Chapter&nbsp;18.&nbsp;Miscellaneous"><link rel="next" href="ch18s03.html" title="18.3.&nbsp;Planned Features"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">18.2.&nbsp;Testing Cluster</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch18.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;18.&nbsp;Miscellaneous</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch18s03.html">Next</a></td></tr></table><hr></div><div class="sect1" title="18.2.&nbsp;Testing Cluster"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="ClusterTestHowTo"></a>18.2.&nbsp;Testing Cluster</h2></div></div></div><p>Hazelcast allows you to create more than one member on the same JVM. Each member is called
+        <code class="literal">HazelcastInstance</code>
+        and each will have its own configuration, socket
+        and threads, so you can treat them as totally separate members. This enables us to write and
+        run cluster unit tests on single JVM. As you can use this feature for creating separate
+        members different applications running on the same JVM (imagine running multiple webapps on
+        the same JVM), you can also use this feature for testing Hazelcast cluster.
+    </p><p>Let's say you want to test if two members have the same size of a map.
+        </p><pre class="programlisting">
+<em><span class="hl-annotation" style="color: gray">@Test</span></em>
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> testTwoMemberMapSizes() {
+    <em class="hl-comment" style="color: silver">// start the first member</em>
+    HazelcastInstance h1 = Hazelcast.newHazelcastInstance(null);
+    <em class="hl-comment" style="color: silver">// get the map and put 1000 entries</em>
+    Map map1 = h1.getMap(<font font-style="normal" color="#008000">"testmap"</font>);
+    <strong class="hl-keyword">for</strong> (<strong class="hl-keyword">int</strong> i = <span class="hl-number">0</span>; i &lt; <span class="hl-number">1000</span>; i++) {
+        map1.put(i, <font font-style="normal" color="#008000">"value"</font> + i);
+    }
+    <em class="hl-comment" style="color: silver">// check the map size</em>
+    assertEquals(<span class="hl-number">1000</span>, map1.size());
+    <em class="hl-comment" style="color: silver">// start the second member</em>
+    HazelcastInstance h2 = Hazelcast.newHazelcastInstance(null);
+    <em class="hl-comment" style="color: silver">// get the same map from the second member</em>
+    Map map2 = h2.getMap(<font font-style="normal" color="#008000">"testmap"</font>);
+    <em class="hl-comment" style="color: silver">// check the size of map2</em>
+    assertEquals(<span class="hl-number">1000</span>, map2.size());
+    <em class="hl-comment" style="color: silver">// check the size of map1 again</em>
+    assertEquals(<span class="hl-number">1000</span>, map1.size());
+}
+</pre><p>In the test above, everything happened in the same thread. When developing
+        multi-threaded test, coordination of the thread executions has to be carefully handled.
+        Usage of
+        <code class="literal">CountDownLatch</code>
+        for thread coordination is highly recommended.
+        You can certainly use other things. Here is an example where we need to listen for messages
+        and make sure that we got these messages:</p><pre class="programlisting"><em><span class="hl-annotation" style="color: gray">@Test</span></em>
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> testTopic() {
+    <em class="hl-comment" style="color: silver">// start two member cluster</em>
+    HazelcastInstance h1 = Hazelcast.newHazelcastInstance(null);
+    HazelcastInstance h2 = Hazelcast.newHazelcastInstance(null);
+    String topicName = <font font-style="normal" color="#008000">"TestMessages"</font>;
+    <em class="hl-comment" style="color: silver">// get a topic from the first member and add a messageListener</em>
+    ITopic&lt;String&gt; topic1 = h1.getTopic(topicName);
+    <strong class="hl-keyword">final</strong> CountDownLatch latch1 = <strong class="hl-keyword">new</strong> CountDownLatch(<span class="hl-number">1</span>);
+    topic1.addMessageListener(<strong class="hl-keyword">new</strong> MessageListener() {
+        <strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> onMessage(Object msg) {
+            assertEquals(<font font-style="normal" color="#008000">"Test1"</font>, msg);
+            latch1.countDown();
+        }
+    });
+    <em class="hl-comment" style="color: silver">// get a topic from the second member and add a messageListener</em>
+    ITopic&lt;String&gt; topic2 = h2.getTopic(topicName);
+    <strong class="hl-keyword">final</strong> CountDownLatch latch2 = <strong class="hl-keyword">new</strong> CountDownLatch(<span class="hl-number">2</span>);
+    topic2.addMessageListener(<strong class="hl-keyword">new</strong> MessageListener() {
+        <strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> onMessage(Object msg) {
+            assertEquals(<font font-style="normal" color="#008000">"Test1"</font>, msg);
+            latch2.countDown();
+        }
+    });
+    <em class="hl-comment" style="color: silver">// publish the first message, both should receive this</em>
+    topic1.publish(<font font-style="normal" color="#008000">"Test1"</font>);
+    <em class="hl-comment" style="color: silver">// shutdown the first member</em>
+    h1.shutdown();
+    <em class="hl-comment" style="color: silver">// publish the second message, second member's topic should receive this</em>
+    topic2.publish(<font font-style="normal" color="#008000">"Test1"</font>);
+    <strong class="hl-keyword">try</strong> {
+        <em class="hl-comment" style="color: silver">// assert that the first member's topic got the message</em>
+        assertTrue(latch1.await(<span class="hl-number">5</span>, TimeUnit.SECONDS));
+        <em class="hl-comment" style="color: silver">// assert that the second members' topic got two messages</em>
+        assertTrue(latch2.await(<span class="hl-number">5</span>, TimeUnit.SECONDS));
+    } <strong class="hl-keyword">catch</strong> (InterruptedException ignored) {
+    }
+}
+</pre><p>You can surely start Hazelcast members with different configuration. Let's say
+        we want to test if Hazelcast
+        <code class="literal">LiteMember</code>
+        can shutdown fine.</p><pre class="programlisting"><em><span class="hl-annotation" style="color: gray">@Test(timeout = 60000)</span></em>
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> shutdownLiteMember() {
+    <em class="hl-comment" style="color: silver">// first config for normal cluster member</em>
+    Config c1 = <strong class="hl-keyword">new</strong> XmlConfigBuilder().build();
+    c1.setPortAutoIncrement(false);
+    c1.setPort(<span class="hl-number">5709</span>);
+    <em class="hl-comment" style="color: silver">// second config for LiteMember</em>
+    Config c2 = <strong class="hl-keyword">new</strong> XmlConfigBuilder().build();
+    c2.setPortAutoIncrement(false);
+    c2.setPort(<span class="hl-number">5710</span>);
+    <em class="hl-comment" style="color: silver">// make sure to set LiteMember=true</em>
+    c2.setLiteMember(true);
+    <em class="hl-comment" style="color: silver">// start the normal member with c1</em>
+    HazelcastInstance hNormal = Hazelcast.newHazelcastInstance(c1);
+    <em class="hl-comment" style="color: silver">// start the LiteMember with different configuration c2</em>
+    HazelcastInstance hLite = Hazelcast.newHazelcastInstance(c2);
+    hNormal.getMap(<font font-style="normal" color="#008000">"default"</font>).put(<font font-style="normal" color="#008000">"1"</font>, <font font-style="normal" color="#008000">"first"</font>);
+    assert hLite.getMap(<font font-style="normal" color="#008000">"default"</font>).get(<font font-style="normal" color="#008000">"1"</font>).equals(<font font-style="normal" color="#008000">"first"</font>);
+    hNormal.shutdown();
+    hLite.shutdown();
+}
+</pre><p>Also remember to call
+        <code class="literal">Hazelcast.shutdownAll()</code>
+        after each test
+        case to make sure that there is no other running member left from the previous tests.</p><pre class="programlisting"><em><span class="hl-annotation" style="color: gray">@After</span></em>
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> cleanup() <strong class="hl-keyword">throws</strong> Exception {
+    Hazelcast.shutdownAll();
+}
+</pre><p>Need more info?
+        <a class="link" href="https://github.com/hazelcast/hazelcast/blob/master/hazelcast/src/test/java/com/hazelcast/impl/ClusterTest.java" target="_top">
+            Check out existing tests.
+        </a>
+    </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch18.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch18.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch18s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;18.&nbsp;Miscellaneous&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;18.3.&nbsp;Planned Features</td></tr></table></div></body></html>

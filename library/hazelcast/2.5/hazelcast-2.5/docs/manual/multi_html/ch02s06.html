@@ -1,0 +1,26 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>2.6.&nbsp;Distributed List</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="ch02.html" title="Chapter&nbsp;2.&nbsp;Distributed Data Structures"><link rel="prev" href="ch02s05.html" title="2.5.&nbsp;Distributed Set"><link rel="next" href="ch02s07.html" title="2.7.&nbsp;Distributed Lock"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">2.6.&nbsp;Distributed List</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch02s05.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;2.&nbsp;Distributed Data Structures</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch02s07.html">Next</a></td></tr></table><hr></div><div class="sect1" title="2.6.&nbsp;Distributed List"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="List"></a>2.6.&nbsp;Distributed List</h2></div></div></div><p>Distributed List is very similar to distributed set, but it allows duplicate elements.
+        </p><pre class="programlisting"><strong class="hl-keyword">import</strong> com.hazelcast.core.Hazelcast;
+<strong class="hl-keyword">import</strong> java.util.List;
+<strong class="hl-keyword">import</strong> java.util.Iterator;
+<strong class="hl-keyword">import</strong> com.hazelcast.config.Config;
+
+Config cfg = <strong class="hl-keyword">new</strong> Config();
+HazelcastInstance hz = Hazelcast.newHazelcastInstance(cfg);
+
+java.util.List list = hz.getList(<font font-style="normal" color="#008000">"IBM-Quote-Frequency"</font>);
+list.add(<strong class="hl-keyword">new</strong> Price(<span class="hl-number">10</span>));
+list.add(<strong class="hl-keyword">new</strong> Price(<span class="hl-number">11</span>));
+list.add(<strong class="hl-keyword">new</strong> Price(<span class="hl-number">12</span>));
+list.add(<strong class="hl-keyword">new</strong> Price(<span class="hl-number">11</span>));
+list.add(<strong class="hl-keyword">new</strong> Price(<span class="hl-number">12</span>));
+        
+<em class="hl-comment" style="color: silver">//....</em>
+Iterator it = list.iterator();
+<strong class="hl-keyword">while</strong> (it.hasNext()) { 
+    Price price = (Price) it.next(); 
+    <em class="hl-comment" style="color: silver">//analyze</em>
+}
+</pre><p>
+    </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch02s05.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch02.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch02s07.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">2.5.&nbsp;Distributed Set&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;2.7.&nbsp;Distributed Lock</td></tr></table></div></body></html>

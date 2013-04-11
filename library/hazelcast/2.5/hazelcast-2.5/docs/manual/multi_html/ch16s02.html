@@ -1,0 +1,51 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>16.2.&nbsp;Internals 3: Cluster Membership</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="ch16.html" title="Chapter&nbsp;16.&nbsp;Internals"><link rel="prev" href="ch16.html" title="Chapter&nbsp;16.&nbsp;Internals"><link rel="next" href="ch16s03.html" title="16.3.&nbsp;Internals 4: Distributed Map"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">16.2.&nbsp;Internals 3: Cluster Membership</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch16.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;16.&nbsp;Internals</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch16s03.html">Next</a></td></tr></table><hr></div><div class="sect1" title="16.2.&nbsp;Internals 3: Cluster Membership"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="InternalsClusterMembership"></a>16.2.&nbsp;Internals 3: Cluster Membership</h2></div></div></div><p>It is important to note that Hazelcast is a peer to peer clustering so there is no
+        'master' kind of server in Hazelcast. Every member in the cluster is equal and has the same
+        rights and responsibilities.
+    </p><p>When a node starts up, it will check to see if there is already a cluster in the network.
+        There are two ways to find this out:
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Multicast discovery: If multicast discovery is enabled (that is the defualt)
+                    then the node will send a join request in the form of a multicast datagram
+                    packet.
+                </p></li><li class="listitem"><p>Unicast discovery: if multicast discovery is disabled and
+                    <code class="literal">TCP/IP</code>
+                    join is enabled then the node will try to connect
+                    to he IPs defined in the
+                    <code class="literal">hazelcast.xml</code>
+                    configuration file. If
+                    it can successfully connect to at least one node, then it will send a join
+                    request through the
+                    <code class="literal">TCP/IP</code>
+                    connection.
+                </p></li></ul></div><p>
+        If there is no existing node, then the node will be the first member of the
+        cluster. If multicast is enabled then it will start a multicast listener so that it can
+        respond to incoming join requests. Otherwise it will listen for join request coming
+        via<code class="literal">TCP/IP</code>.
+    </p><p>If there is an existing cluster already, then the oldest member in the cluster will
+        receive the join request and check if the request is for the right group. If so, the oldest
+        member in the cluster will start the join process.
+    </p><p>In the join process, the oldest member will:
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>send the new member list to all members</p></li><li class="listitem"><p>tell members to sync data in order to balance the data load</p></li></ul></div><p>
+        Every member in the cluster has the same member list in the same order.
+        First member is the oldest member so if the oldest member dies, second member in the list
+        becomes the first member in the list and the new oldest member.
+    </p><p>See
+        <code class="literal">com.hazelcast.impl.Node</code>
+        and
+        <code class="literal">com.hazelcast.impl.ClusterManager</code>
+        for details.
+    </p><p>
+        <span class="italic">
+            <span class="bold"><strong>Q. If, let say 50+, nodes are trying to join
+                the cluster at the same time, are they going to join the cluster one by
+                one?
+            </strong></span>
+        </span>
+    </p><p>No. As soon as the oldest member receives the first valid join request, it will wait 5
+        seconds for others to join so that it can join multiple members in one shot. If there is no
+        new node willing to join for the next 5 seconds, then oldest member will start the join
+        process. If a member leaves the cluster though, because of a JVM crash for example, cluster
+        will immediately take action and oldest member will start the data recovery process.
+    </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch16.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch16.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch16s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;16.&nbsp;Internals&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;16.3.&nbsp;Internals 4: Distributed Map</td></tr></table></div></body></html>

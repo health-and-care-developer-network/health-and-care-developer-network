@@ -1,0 +1,26 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>12.8.&nbsp;Setting License Key (Enterprise Edition Only)</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="ch12.html" title="Chapter&nbsp;12.&nbsp;Configuration"><link rel="prev" href="ch12s07.html" title="12.7.&nbsp;Logging Configuration"><link rel="next" href="ch13.html" title="Chapter&nbsp;13.&nbsp;Hibernate Second Level Cache"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">12.8.&nbsp;Setting License Key <sup>(Enterprise Edition Only)</sup></th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch12s07.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;12.&nbsp;Configuration</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch13.html">Next</a></td></tr></table><hr></div><div class="sect1" title="12.8.&nbsp;Setting License Key (Enterprise Edition Only)"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="EnterpriseConfig"></a>12.8.&nbsp;Setting License Key <sup>(Enterprise Edition Only)</sup></h2></div></div></div><p>To be able to use Hazelcast Enterprise Edition, you need to set license key in configuration.</p><p>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p><span class="bold"><strong>Hazelcast XML Configuration</strong></span> </p><p>
+                    </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;hazelcast&gt;</font>
+    ...
+    <font font-style="bold" color="#0A1777">&lt;license-key&gt;</font>HAZELCAST_ENTERPRISE_LICENSE_KEY<font font-style="bold" color="#0A1777">&lt;/license-key&gt;</font>
+    ...
+<font font-style="bold" color="#0A1777">&lt;/hazelcast&gt;</font></pre><p>
+                </p></li><li class="listitem"><p><span class="bold"><strong>Hazelcast Config API</strong></span> </p><p>
+                    </p><pre class="programlisting">
+Config config = <strong class="hl-keyword">new</strong> Config();
+config.setLicenseKey(<font font-style="normal" color="#008000">"HAZELCAST_ENTERPRISE_LICENSE_KEY"</font>);
+</pre><p>
+                </p></li><li class="listitem"><p><span class="bold"><strong>Spring XML Configuration</strong></span> </p><p>
+                    </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;hz:config&gt;</font>
+    ...
+    <font font-style="bold" color="#0A1777">&lt;hz:license-key&gt;</font>HAZELCAST_ENTERPRISE_LICENSE_KEY<font font-style="bold" color="#0A1777">&lt;/hz:license-key&gt;</font>
+    ...
+<font font-style="bold" color="#0A1777">&lt;/hazelcast&gt;</font></pre><p>
+                </p></li><li class="listitem"><p><span class="bold"><strong>JVM System Property</strong></span> </p><p>
+                    </p><pre class="programlisting">-Dhazelcast.enterprise.license.key=HAZELCAST_ENTERPRISE_LICENSE_KEY</pre><p>
+                </p></li></ul></div><p>
+    </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch12s07.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch12.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch13.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">12.7.&nbsp;Logging Configuration&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;13.&nbsp;Hibernate Second Level Cache</td></tr></table></div></body></html>

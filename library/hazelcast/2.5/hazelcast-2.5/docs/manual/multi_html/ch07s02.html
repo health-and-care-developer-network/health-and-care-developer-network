@@ -1,0 +1,22 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>7.2.&nbsp;Cluster-wide Id Generator</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="ch07.html" title="Chapter&nbsp;7.&nbsp;Cluster Utilities"><link rel="prev" href="ch07.html" title="Chapter&nbsp;7.&nbsp;Cluster Utilities"><link rel="next" href="ch07s03.html" title="7.3.&nbsp;LiteMember"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">7.2.&nbsp;Cluster-wide Id Generator</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;7.&nbsp;Cluster Utilities</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch07s03.html">Next</a></td></tr></table><hr></div><div class="sect1" title="7.2.&nbsp;Cluster-wide Id Generator"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="IdGenerator"></a>7.2.&nbsp;Cluster-wide Id Generator</h2></div></div></div><p>
+        Hazelcast IdGenerator creates cluster-wide unique IDs. Generated IDs are long type primitive values between 0
+        and
+        <code class="literal">Long.MAX_VALUE</code>
+        . Id generation occurs almost at the speed of
+        <code class="literal">AtomicLong.incrementAndGet()</code>
+        . Generated IDs are unique during the life cycle of the cluster. If the entire cluster is restarted, IDs start
+        from 0 again.
+
+        </p><pre class="programlisting"><strong class="hl-keyword">import</strong> com.hazelcast.core.IdGenerator;
+<strong class="hl-keyword">import</strong> com.hazelcast.core.Hazelcast;
+
+Config cfg = <strong class="hl-keyword">new</strong> Config();
+HazelcastInstance hz = Hazelcast.newHazelcastInstance(cfg);
+IdGenerator idGenerator = hz.getIdGenerator(<font font-style="normal" color="#008000">"customer-ids"</font>);
+<strong class="hl-keyword">long</strong> id = idGenerator.newId();
+</pre><p>
+
+
+    </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch07.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch07s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;7.&nbsp;Cluster Utilities&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;7.3.&nbsp;LiteMember</td></tr></table></div></body></html>

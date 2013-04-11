@@ -1,0 +1,53 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>2.2.&nbsp;Distributed Topic</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="ch02.html" title="Chapter&nbsp;2.&nbsp;Distributed Data Structures"><link rel="prev" href="ch02.html" title="Chapter&nbsp;2.&nbsp;Distributed Data Structures"><link rel="next" href="ch02s03.html" title="2.3.&nbsp;Distributed Map"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">2.2.&nbsp;Distributed Topic</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch02.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;2.&nbsp;Distributed Data Structures</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch02s03.html">Next</a></td></tr></table><hr></div><div class="sect1" title="2.2.&nbsp;Distributed Topic"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Topic"></a>2.2.&nbsp;Distributed Topic</h2></div></div></div><p>Hazelcast provides distribution mechanism for publishing messages that are delivered to
+        multiple subscribers which is also known as publish/subscribe (pub/sub) messaging model.
+        Publish and subscriptions are cluster-wide. When a member subscribes for a topic, it is
+        actually registering for messages published by any member in the cluster, including the new
+        members joined after you added the listener. Messages are ordered, meaning,
+        listeners(subscribers) will process the messages in the order they are actually published.
+        If cluster member M publishes messages m1, m2, m3...mn to a topic T, then Hazelcast makes
+        sure that all of the subscribers of topic T will receive and process m1, m2, m3...mn in
+        order. Therefore there is only single thread invoking onMessage. The user shouldn't keep the
+        thread busy and preferably dispatch it via an Executor. This will increase the performance
+        of the topic
+        </p><pre class="programlisting"><strong class="hl-keyword">import</strong> com.hazelcast.core.Topic;
+<strong class="hl-keyword">import</strong> com.hazelcast.core.Hazelcast;
+<strong class="hl-keyword">import</strong> com.hazelcast.core.MessageListener;
+<strong class="hl-keyword">import</strong> com.hazelcast.config.Config;
+
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">class</strong> Sample <strong class="hl-keyword">implements</strong> MessageListener&lt;MyEvent&gt; {
+
+    <strong class="hl-keyword">public</strong> <strong class="hl-keyword">static</strong> <strong class="hl-keyword">void</strong> main(String[] args) {
+        Sample sample = <strong class="hl-keyword">new</strong> Sample();
+        Config cfg = <strong class="hl-keyword">new</strong> Config();
+        HazelcastInstance hz = Hazelcast.newHazelcastInstance(cfg);
+        ITopic topic = hz.getTopic (<font font-style="normal" color="#008000">"default"</font>);
+        topic.addMessageListener(sample);
+        topic.publish (<strong class="hl-keyword">new</strong> MyEvent());
+    }
+
+    <strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> onMessage(MyEvent myEvent) {
+        System.out.println(<font font-style="normal" color="#008000">"Message received = "</font> + myEvent.toString());
+        <strong class="hl-keyword">if</strong> (myEvent.isHeavyweight()) {
+            messageExecutor.execute(<strong class="hl-keyword">new</strong> Runnable() {
+                <strong class="hl-keyword">public</strong> <strong class="hl-keyword">void</strong> run() {
+                    doHeavyweightStuff(myEvent);
+                }
+            });
+        }
+    }
+
+    <em class="hl-comment" style="color: silver">// ...</em>
+
+    <strong class="hl-keyword">private</strong> <strong class="hl-keyword">static</strong> <strong class="hl-keyword">final</strong> Executor messageExecutor = Executors.newSingleThreadExecutor();
+}
+
+</pre><p>
+    </p><p>
+    <span class="bold"><strong>To learn about wildcard configuration feature, see
+        <a class="link" href="ch12s05.html" title="12.5.&nbsp;Wildcard Configuration">Wildcard Configuration
+        </a>
+        page.
+    </strong></span>
+</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch02.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch02.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch02s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;2.&nbsp;Distributed Data Structures&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;2.3.&nbsp;Distributed Map</td></tr></table></div></body></html>

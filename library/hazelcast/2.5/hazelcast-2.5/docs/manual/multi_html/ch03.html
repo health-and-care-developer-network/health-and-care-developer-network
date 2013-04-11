@@ -1,0 +1,69 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;3.&nbsp;Elastic Memory (Enterprise Edition Only)</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="index.html" title="Hazelcast Documentation"><link rel="prev" href="ch02s08.html" title="2.8.&nbsp;Distributed Events"><link rel="next" href="ch04.html" title="Chapter&nbsp;4.&nbsp;Security (Enterprise Edition Only)"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;3.&nbsp;Elastic Memory
+            <sup>(Enterprise Edition Only)</sup>
+        </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch02s08.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch04.html">Next</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;3.&nbsp;Elastic Memory (Enterprise Edition Only)"><div class="titlepage"><div><div><h2 class="title"><a name="ElasticMemory"></a>Chapter&nbsp;3.&nbsp;Elastic Memory
+            <sup>(Enterprise Edition Only)</sup>
+        </h2></div></div></div><div class="simplesect"><div class="titlepage"></div><p>
+        By default, Hazelcast stores your distributed data (map entries, queue items) into Java heap
+        which is subject to garbage collection. As your heap gets bigger, garbage collection might
+        cause your application to pause tens of seconds, badly effecting your application performance
+        and response times. Elastic Memory is Hazelcast with off-heap (direct) memory storage to avoid GC pauses.
+        Even if you have terabytes of cache in-memory with lots of updates, GC will have almost no effect;
+        resulting in more predictable latency and throughput.
+    </p><p>
+        Here are the steps to enable Elastic Memory:
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+                    Set the maximum direct memory JVM can allocate.
+                    Example
+                    <code class="literal">java -XX:MaxDirectMemorySize=60G ...</code>
+                </p></li><li class="listitem"><p>
+                    Enable Elastic Memory by setting
+                    <code class="literal">hazelcast.elastic.memory.enabled</code>
+                    <a class="link" href="ch12s06.html" title="12.6.&nbsp;Advanced Configuration Properties">Hazelcast Config Property</a>
+                    to
+                    <code class="literal">true</code>.
+                </p></li><li class="listitem"><p>
+                    Set the total direct memory size for HazelcastInstance by setting
+                    <code class="literal">hazelcast.elastic.memory.total.size</code>
+                    <a class="link" href="ch12s06.html" title="12.6.&nbsp;Advanced Configuration Properties">Hazelcast Config Property</a>. Size can be
+                    in MB or GB and abbreviation can be used, such as
+                    <code class="literal">60G</code>
+                    and
+                    <code class="literal">500M</code>.
+                </p></li><li class="listitem"><p>
+                    Set the chunk size in KB by setting
+                    <code class="literal">hazelcast.elastic.memory.chunk.size</code>
+                    <a class="link" href="ch12s06.html" title="12.6.&nbsp;Advanced Configuration Properties">Hazelcast Config Property</a>.
+                    Hazelcast will partition the entire offheap memory into chunks.
+                    Default chunk size is 1. Chunk size has to be power of 2 such as 1, 2, 4 and 8.
+                </p></li><li class="listitem"><p>
+                    Configure maps you want them to use Elastic Memory by setting
+                    <code class="literal">StorageType</code>
+                    to<code class="code">OFFHEAP</code>.
+                    Default value is<code class="code">HEAP</code>.
+                </p><p>
+                    Using XML configuration:
+                    </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;hazelcast&gt;</font>
+    ...
+    <font font-style="bold" color="#0A1777">&lt;map</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"default"</font><font font-style="bold" color="#0A1777">&gt;</font>
+        ...
+        <font font-style="bold" color="#0A1777">&lt;storage-type&gt;</font>OFFHEAP<font font-style="bold" color="#0A1777">&lt;/storage-type&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/map&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/hazelcast&gt;</font></pre><p>
+                </p><p>
+                    Using Config API:
+                    </p><pre class="programlisting">MapConfig mapConfig = <strong class="hl-keyword">new</strong> MapConfig();
+mapConfig.setStorageType(StorageType.OFFHEAP);</pre><p>
+                </p></li></ul></div><p>
+    </p><p>
+        If
+        <code class="literal">NearCache</code>
+        is defined for a map, all near cached items are also going to be
+        stored on the same off-heap. So off-heap storage is used for both near cache and distributed object
+        storage.
+    </p><p>
+        <span class="italic">Also see how to <a class="link" href="ch12s08.html" title="12.8.&nbsp;Setting License Key (Enterprise Edition Only)">configure license key</a>.</span>
+    </p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch02s08.html">Prev</a>&nbsp;</td><td width="20%" align="center">&nbsp;</td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch04.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">2.8.&nbsp;Distributed Events&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;4.&nbsp;Security
+            <sup>(Enterprise Edition Only)</sup>
+        </td></tr></table></div></body></html>

@@ -1,0 +1,119 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>4.2.&nbsp;ClusterLoginModule</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="ch04.html" title="Chapter&nbsp;4.&nbsp;Security (Enterprise Edition Only)"><link rel="prev" href="ch04.html" title="Chapter&nbsp;4.&nbsp;Security (Enterprise Edition Only)"><link rel="next" href="ch04s03.html" title="4.3.&nbsp;Cluster Member Security"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">4.2.&nbsp;ClusterLoginModule</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch04.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;4.&nbsp;Security
+            <sup>(Enterprise Edition Only)</sup>
+        </th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch04s03.html">Next</a></td></tr></table><hr></div><div class="sect1" title="4.2.&nbsp;ClusterLoginModule"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="ClusterLoginModule"></a>4.2.&nbsp;ClusterLoginModule</h2></div></div></div><p>All security attributes are carried in
+        <code class="literal">Credentials</code>
+        object and
+        <code class="literal">Credentials</code>
+        is used by
+        <a class="link" href="http://download.oracle.com/javase/1.5.0/docs/api/javax/security/auth/spi/LoginModule.html" target="_top">
+            <code class="literal">LoginModule</code>
+        </a>
+        s during authentication process. Accessing
+        user supplied attributes from
+        <a class="link" href="http://download.oracle.com/javase/1.5.0/docs/api/javax/security/auth/spi/LoginModule.html" target="_top">
+            <code class="literal">LoginModule</code>
+        </a>
+        s is done by
+        <a class="link" href="http://download.oracle.com/javase/1.5.0/docs/api/javax/security/auth/callback/CallbackHandler.html" target="_top">
+            <code class="literal">CallbackHandler</code>
+        </a>
+        s. To provide access to
+        <code class="literal">Credentials</code>
+        object, Hazelcast uses its own specialized
+        <code class="literal">CallbackHandler</code>. During initialization of
+        <code class="literal">LoginModule</code>s Hazelcast will pass this special
+        <code class="literal">CallbackHandler</code>into
+        <code class="code">LoginModule.initialize()</code>
+        method.
+    </p><p>
+        <code class="literal">LoginModule</code>
+        implementations should create an instance of
+        <code class="literal">com.hazelcast.security.CredentialsCallback</code>
+        and call
+        <code class="code">handle(Callback[] callbacks)</code>
+        method of
+        <code class="literal">CallbackHandler</code>
+        during login process.
+        <code class="code">CredentialsCallback.getCredentials()</code>
+        will return supplied
+        <code class="literal">Credentials</code>
+        object.
+        </p><pre class="programlisting">
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">class</strong> CustomLoginModule <strong class="hl-keyword">implements</strong> LoginModule {
+    CallbackHandler callbackHandler;
+    Subject subject;
+
+    <strong class="hl-keyword">public</strong> <strong class="hl-keyword">final</strong> <strong class="hl-keyword">void</strong> initialize(Subject subject, CallbackHandler callbackHandler,
+        Map&lt;String, ?&gt; sharedState, Map&lt;String, ?&gt; options) {
+        <strong class="hl-keyword">this</strong>.subject = subject;
+        <strong class="hl-keyword">this</strong>.callbackHandler = callbackHandler;
+    }
+
+    <strong class="hl-keyword">public</strong> <strong class="hl-keyword">final</strong> <strong class="hl-keyword">boolean</strong> login() <strong class="hl-keyword">throws</strong> LoginException {
+        CredentialsCallback callback = <strong class="hl-keyword">new</strong> CredentialsCallback();
+        <strong class="hl-keyword">try</strong> {
+            callbackHandler.handle(<strong class="hl-keyword">new</strong> Callback[]{callback});
+            credentials = cb.getCredentials();
+        } <strong class="hl-keyword">catch</strong> (Exception e) {
+            <strong class="hl-keyword">throw</strong> <strong class="hl-keyword">new</strong> LoginException(e.getMessage());
+        }
+        ...
+    }
+...
+}
+</pre><p>
+    </p><p>* To use default Hazelcast permission policy, an instance of
+        <code class="code">com.hazelcast.security.ClusterPrincipal</code>
+        that holding
+        <code class="literal">Credentials</code>
+        object must be created and added to
+        <code class="code">Subject.principals</code>
+        on<code class="code">LoginModule.commit()</code>.
+        </p><pre class="programlisting">
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">class</strong> MyCustomLoginModule <strong class="hl-keyword">implements</strong> LoginModule {
+...
+    <strong class="hl-keyword">public</strong> <strong class="hl-keyword">boolean</strong> commit() <strong class="hl-keyword">throws</strong> LoginException {
+        ...
+        <strong class="hl-keyword">final</strong> Principal principal = <strong class="hl-keyword">new</strong> ClusterPrincipal(credentials);
+        subject.getPrincipals().add(principal);
+        
+        <strong class="hl-keyword">return</strong> true;
+    }
+    ...
+}
+</pre><p>
+    </p><p>Hazelcast also has an abstract implementation of
+        <code class="literal">LoginModule</code>
+        that does
+        callback and cleanup operations and holds resulting
+        <code class="literal">Credentials</code>
+        instance.
+        <code class="literal">LoginModule</code>s extending
+        <code class="literal">ClusterLoginModule</code>
+        can access<code class="literal">Credentials</code>,
+        <code class="literal">Subject</code>,
+        <code class="literal">LoginModule</code>
+        instances and
+        <code class="code">options</code>
+        and
+        <code class="code">sharedState</code>
+        maps. Extending
+        <code class="literal">ClusterLoginModule</code>
+        is recommended instead of implementing all required stuff.
+        </p><pre class="programlisting">
+<strong class="hl-keyword">package</strong> com.hazelcast.security;
+...
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">abstract</strong> <strong class="hl-keyword">class</strong> ClusterLoginModule <strong class="hl-keyword">implements</strong> LoginModule {
+
+    <strong class="hl-keyword">protected</strong> <strong class="hl-keyword">abstract</strong> <strong class="hl-keyword">boolean</strong> onLogin() <strong class="hl-keyword">throws</strong> LoginException;
+    <strong class="hl-keyword">protected</strong> <strong class="hl-keyword">abstract</strong> <strong class="hl-keyword">boolean</strong> onCommit() <strong class="hl-keyword">throws</strong> LoginException;
+    <strong class="hl-keyword">protected</strong> <strong class="hl-keyword">abstract</strong> <strong class="hl-keyword">boolean</strong> onAbort() <strong class="hl-keyword">throws</strong> LoginException;
+    <strong class="hl-keyword">protected</strong> <strong class="hl-keyword">abstract</strong> <strong class="hl-keyword">boolean</strong> onLogout() <strong class="hl-keyword">throws</strong> LoginException;
+
+}
+</pre><p>
+    </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch04.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch04.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch04s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;4.&nbsp;Security
+            <sup>(Enterprise Edition Only)</sup>
+        &nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;4.3.&nbsp;Cluster Member Security</td></tr></table></div></body></html>

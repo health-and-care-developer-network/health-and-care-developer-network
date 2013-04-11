@@ -1,0 +1,54 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>15.3.&nbsp;Rest Client</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="ch15.html" title="Chapter&nbsp;15.&nbsp;Clients"><link rel="prev" href="ch15s02.html" title="15.2.&nbsp;Memcache Client"><link rel="next" href="ch16.html" title="Chapter&nbsp;16.&nbsp;Internals"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">15.3.&nbsp;Rest Client</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch15s02.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;15.&nbsp;Clients</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch16.html">Next</a></td></tr></table><hr></div><div class="sect1" title="15.3.&nbsp;Rest Client"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="RestClient"></a>15.3.&nbsp;Rest Client</h2></div></div></div><p>Let's say your cluster's members are:</p><pre class="programlisting">Members [<span class="hl-number">5</span>] {
+    Member [<span class="hl-number">10.20</span>.<span class="hl-number">17.1</span>:<span class="hl-number">5701</span>]
+    Member [<span class="hl-number">10.20</span>.<span class="hl-number">17.2</span>:<span class="hl-number">5701</span>]
+    Member [<span class="hl-number">10.20</span>.<span class="hl-number">17.4</span>:<span class="hl-number">5701</span>]
+    Member [<span class="hl-number">10.20</span>.<span class="hl-number">17.3</span>:<span class="hl-number">5701</span>]
+    Member [<span class="hl-number">10.20</span>.<span class="hl-number">17.5</span>:<span class="hl-number">5701</span>]
+ }
+</pre><p>And you have a distributed map named 'stocks'. You can put a new
+        <code class="literal">key1/value1</code>
+        entry into this map by issuing
+        <code class="literal">HTTP
+            POST
+        </code>
+        call to
+        <code class="literal">http://10.20.17.1:5701/hazelcast/rest/maps/stocks/key1</code>
+        URL. Your http post call's content body should contain the value (value1). You can
+        retrieve this entry via
+        <code class="literal">HTTP GET</code>
+        call to
+        <code class="literal">http://10.20.17.1:5701/hazelcast/rest/maps/stocks/key1</code>. You can also retrieve this
+        entry from another member such
+        as<code class="literal">http://10.20.17.3:5701/hazelcast/rest/maps/stocks/key1</code>.
+    </p><p>RESTful access is provided through any member of your cluster. So you can even put an
+        HTTP load-balancer in-front of your cluster members for load-balancing and
+        fault-tolerance.
+    </p><p>Now go ahead and install a REST plugin for your browser and explore further.</p><p>Hazelcast also stores the mime-type of your
+        <code class="literal">POST</code>
+        request if it
+        contains any. So if, for example, you post binary of an image file and set the
+        mime-type of the
+        <code class="literal">HTTP POST</code>
+        request to
+        <code class="literal">image/jpeg</code>
+        then this mime-type will be part of the
+        response of your
+        <code class="literal">HTTP GET</code>
+        request for that entry.
+    </p><p>Let's say you also have a task queue named 'tasks'. You can offer a new item into the
+        queue via HTTP POST and take and item from the queue via HTTP DELETE.
+    </p><p>
+        <code class="code">HTTP POST http://10.20.17.1:5701/hazelcast/rest/queues/tasks &lt;CONTENT&gt;</code>
+        means
+        </p><pre class="programlisting">Hazelcast.getQueue(<font font-style="normal" color="#008000">"tasks"</font>).offer(&lt;CONTENT&gt;);
+</pre><p>
+        and
+        <code class="code">HTTP DELETE http://10.20.17.1:5701/hazelcast/rest/queues/tasks/3</code>
+        means
+        </p><pre class="programlisting">Hazelcast.getQueue(<font font-style="normal" color="#008000">"tasks"</font>).poll(<span class="hl-number">3</span>, SECONDS);
+</pre><p>
+        Note that you will have to handle the failures on REST polls as there is no
+        transactional guarantee.
+    </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch15s02.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch15.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch16.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">15.2.&nbsp;Memcache Client&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;16.&nbsp;Internals</td></tr></table></div></body></html>

@@ -1,0 +1,199 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;15.&nbsp;Clients</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="index.html" title="Hazelcast Documentation"><link rel="prev" href="ch14s06.html" title="14.6.&nbsp;Spring Data - MongoDB"><link rel="next" href="ch15s02.html" title="15.2.&nbsp;Memcache Client"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;15.&nbsp;Clients</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch14s06.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch15s02.html">Next</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;15.&nbsp;Clients"><div class="titlepage"><div><div><h2 class="title"><a name="Clients"></a>Chapter&nbsp;15.&nbsp;Clients</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="ch15.html#NativeClient">15.1. Native Client</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch15.html#JavaClient">15.1.1. Java Client</a></span></dt><dt><span class="sect2"><a href="ch15.html#CSharpClient">15.1.2. CSharp Client
+            <sup>(Enterprise Edition Only)</sup>
+        </a></span></dt></dl></dd><dt><span class="sect1"><a href="ch15s02.html">15.2. Memcache Client</a></span></dt><dt><span class="sect1"><a href="ch15s03.html">15.3. Rest Client</a></span></dt></dl></div><p>
+
+    There are currently three ways to connect to a running Hazelcast cluster:
+    </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>
+                <a class="link" href="ch15.html#NativeClient" title="15.1.&nbsp;Native Client">Native Clients</a>
+            </p></li><li class="listitem"><p>
+                <a class="link" href="ch15s02.html" title="15.2.&nbsp;Memcache Client">Memcache Clients</a>
+            </p></li><li class="listitem"><p>
+                <a class="link" href="ch15s03.html" title="15.3.&nbsp;Rest Client">REST Client</a>
+            </p></li></ol></div><p>
+</p><div class="sect1" title="15.1.&nbsp;Native Client"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="NativeClient"></a>15.1.&nbsp;Native Client</h2></div></div></div><p>Native Client enables you to do all Hazelcast operations without being a member of the
+        cluster. It connects to one of the cluster members and delegates all cluster wide operations
+        to it. When the relied cluster member dies, client will transparently switch to another live
+        member.
+    </p><p>There can be hundreds, even thousands of clients connected to the cluster. But by default there is 40 threads
+        on server side that will handle all the requests. You may want to increase
+        hazelcast.executor.client.thread.count
+        property for better performance.
+    </p><p>Imagine a trading application where all the trading data stored and managed in a 10 node
+        Hazelcast cluster. Swing/Web applications at traders' desktops can use Native Java Client to
+        access and modify the data in the Hazelcast cluster.
+    </p><p>Currently Hazelcast has Native Java and C# Client available.
+    </p><p>
+        <span class="bold"><strong>
+            <span class="italic">
+                LiteMember vs. Native Client
+            </span>
+        </strong></span>
+    </p><p>LiteMember is a member of the cluster, it has socket connection to every member in the
+        cluster and it knows where the data is so it will get to the data much faster. But LiteMember
+        has the clustering overhead and it must be on the same data center even on the same
+        RAC. However Native client is not member and relies on one of the cluster members. Native
+        Clients can be anywhere in the LAN or WAN. It scales much better and overhead is quite less.
+        So if your clients are less than Hazelcast nodes then LiteMember can be an option;
+        otherwise definitely try Native Client. As a rule of thumb: Try Native client first, if it
+        doesn't perform well enough for you, then consider LiteMember.
+    </p><p>The following picture describes the clients connecting to Hazelcast Cluster. Note the
+        difference between LiteMember and Java Client
+        <span class="inlinemediaobject"><img src="http://www.hazelcast.com/resources/hazelcast-cluster-labels.png"></span>
+    </p><div class="sect2" title="15.1.1.&nbsp;Java Client"><div class="titlepage"><div><div><h3 class="title"><a name="JavaClient"></a>15.1.1.&nbsp;Java Client</h3></div></div></div><p>You can do almost all hazelcast operations with Java Client. It already implements the
+            same interface. You must include hazelcast-client.jar into your classpath.
+            </p><pre class="programlisting"><strong class="hl-keyword">import</strong> com.hazelcast.core.HazelcastInstance;
+<strong class="hl-keyword">import</strong> com.hazelcast.client.HazelcastClient;
+
+<strong class="hl-keyword">import</strong> java.util.Map;
+<strong class="hl-keyword">import</strong> java.util.Collection;
+
+
+ClientConfig clientConfig = <strong class="hl-keyword">new</strong> ClientConfig();
+clientConfig.getGroupConfig().setName(<font font-style="normal" color="#008000">"dev"</font>).setPassword(<font font-style="normal" color="#008000">"dev-pass"</font>);
+clientConfig.addAddress(<font font-style="normal" color="#008000">"10.90.0.1"</font>, <font font-style="normal" color="#008000">"10.90.0.2:5702"</font>);
+
+HazelcastInstance client = HazelcastClient.newHazelcastClient(clientConfig);
+<em class="hl-comment" style="color: silver">//All cluster operations that you can do with ordinary HazelcastInstance</em>
+Map&lt;String, Customer&gt; mapCustomers = client.getMap(<font font-style="normal" color="#008000">"customers"</font>);
+mapCustomers.put(<font font-style="normal" color="#008000">"1"</font>, <strong class="hl-keyword">new</strong> Customer(<font font-style="normal" color="#008000">"Joe"</font>, <font font-style="normal" color="#008000">"Smith"</font>));
+mapCustomers.put(<font font-style="normal" color="#008000">"2"</font>, <strong class="hl-keyword">new</strong> Customer(<font font-style="normal" color="#008000">"Ali"</font>, <font font-style="normal" color="#008000">"Selam"</font>));
+mapCustomers.put(<font font-style="normal" color="#008000">"3"</font>, <strong class="hl-keyword">new</strong> Customer(<font font-style="normal" color="#008000">"Avi"</font>, <font font-style="normal" color="#008000">"Noyan"</font>));
+
+Collection&lt;Customer&gt; colCustomers = mapCustomers.values();
+<strong class="hl-keyword">for</strong> (Customer customer : colCustomers) {
+     <em class="hl-comment" style="color: silver">// process customer</em>
+}
+</pre><p>
+        </p><p><a name="NativeClientNearCache"></a>
+            <span class="bold"><strong>
+                <span class="italic">
+                    Near Cache on Java Client
+                </span>
+            </strong></span>
+        </p><p>
+            By default, near Cache on Java Client is not enabled. Near Cache implementation on client side is based
+            on the Google
+            <a class="link" href="http://code.google.com/p/guava-libraries/wiki/CachesExplained" target="_top">Guava</a>
+            cache. To enable it the following System property should be set
+            to "true": "hazelcast.client.near.cache.enabled" and the related Guava jar's should be added to classpath.
+            The current implementation uses 13.0.1 version of it.
+
+            You can add the maven dependency as follows:
+
+            </p><pre class="programlisting">
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.google.guava&lt;/groupId&gt;
+        &lt;artifactId&gt;guava&lt;/artifactId&gt;
+        &lt;version&gt;<span class="hl-number">13.0</span>.<span class="hl-number">1</span>&lt;/version&gt;
+    &lt;/dependency&gt;
+
+            </pre><p>
+
+            Client will use the near cache configuration on server for the maps. Only the maps having
+            proper near cache configuration will be cached on client. If max size is set, entries will be evicted
+            based on LRU eviction policy, as this is the only policy that Guava supports.
+
+        </p></div><div class="sect2" title="15.1.2.&nbsp;CSharp Client (Enterprise Edition Only)"><div class="titlepage"><div><div><h3 class="title"><a name="CSharpClient"></a>15.1.2.&nbsp;CSharp Client
+            <sup>(Enterprise Edition Only)</sup>
+        </h3></div></div></div><p>You can use native C# client to connect to the running Hazelcast instances. All you need is to include
+            Hazelcast.Client.dll into your C# project. The API is very similar to Java native client. Note that C#
+            client
+            doesn't have automatic reconnection feature. If the node that it connected dies, it will not switch to
+            another member.
+            User must connect to another member itself.
+            </p><pre class="programlisting">
+
+using System;
+using System.Collections.Generic;
+
+using Hazelcast.Client;
+using Hazelcast.Core;
+
+ClientConfig clientConfig = new ClientConfig();
+clientConfig.GroupConfig.Name = "dev";
+clientConfig.GroupConfig.Password = "dev-pass";
+clientConfig.addAddress("10.90.0.1");
+
+HazelcastClient client = HazelcastClient.newHazelcastClient(clientConfig);
+//Allmost all cluster operations that you can do with ordinary HazelcastInstance
+//Note that the Customer class must have Serializable attribute or implement Hazelcast.IO.DataSerializable
+IMap&lt;String, Customer&gt; mapCustomers = client.getMap("customers");
+mapCustomers.put("1", new Customer("Joe", "Smith"));
+mapCustomers.put("2", new Customer("Ali", "Selam"));
+mapCustomers.put("3", new Customer("Avi", "Noyan"));
+
+ICollection&lt;Customer&gt; colCustomers = mapCustomers.values();
+foreach (Customer customer in colCustomers) {
+     // process customer
+}
+</pre><p>
+
+
+        </p><p>
+            You can serialize back and forth Java and C# Objects between C# client and Hazelcast server.
+            All you need is to have your classes that you want to share to implement DataSerializable both on Java and
+            C#
+            in the exact same way. And on C# ClientConfig you must set a TypeConverter implementation that will convert
+            Java Class name into C# Type and vice versa.
+
+            A basic TypeConverter might look like this.
+            </p><pre class="programlisting">
+
+public class MyTypeConverter: Hazelcast.IO.ITypeConverter
+{
+    public string getJavaName(Type type)
+    {
+        if(type.Equals(typeof(Hazelcast.Client.Examples.MyCSharpClass)))
+            return "com.hazelcast.examples.MyClass";
+
+        return null;
+    }
+
+    public Type getType(String javaName)
+    {
+        if("com.hazelcast.examples.MyClass".Equals(javaName))
+            return typeof(Hazelcast.Client.Examples.MyCSharpClass);
+
+        return null;
+    }
+}
+
+            </pre><p>
+
+            A basic MyCSharpClass implementing DataSerializable
+
+            </p><pre class="programlisting">
+
+using System;
+using Hazelcast.IO;
+
+public class MyCSharpClass: Hazelcast.IO.DataSerializable
+{
+    String field1 = "";
+    int field2;
+
+    public MyCSharpClass ()
+    {
+    }
+
+    public MyCSharpClass (String f1, int f2)
+    {
+        this.field1 = f1;
+        this.field2 = f2;
+    }
+
+    public void writeData(IDataOutput dout){
+        dout.writeUTF(field1);
+        dout.writeInt(field2);
+    }
+
+    public void readData(IDataInput din){
+        field1 = din.readUTF();
+        field2 = din.readInt();
+    }
+}
+
+            </pre><p>
+        </p></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch14s06.html">Prev</a>&nbsp;</td><td width="20%" align="center">&nbsp;</td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch15s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">14.6.&nbsp;Spring Data - MongoDB&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;15.2.&nbsp;Memcache Client</td></tr></table></div></body></html>

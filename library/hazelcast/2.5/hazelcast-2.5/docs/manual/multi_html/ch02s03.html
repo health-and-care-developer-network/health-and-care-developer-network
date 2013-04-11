@@ -1,0 +1,668 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>2.3.&nbsp;Distributed Map</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="ch02.html" title="Chapter&nbsp;2.&nbsp;Distributed Data Structures"><link rel="prev" href="ch02s02.html" title="2.2.&nbsp;Distributed Topic"><link rel="next" href="ch02s04.html" title="2.4.&nbsp;Distributed MultiMap"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">2.3.&nbsp;Distributed Map</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch02s02.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;2.&nbsp;Distributed Data Structures</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch02s04.html">Next</a></td></tr></table><hr></div><div class="sect1" title="2.3.&nbsp;Distributed Map"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Map"></a>2.3.&nbsp;Distributed Map</h2></div></div></div><p>Just like queue and set, Hazelcast will partition your map entries; and almost evenly
+        distribute onto all Hazelcast members. Distributed maps have 1 backup (replica-count) by
+        default so that if a member goes down, we don't lose data. Backup operations are synchronous
+        so when a
+        <code class="literal">map.put(key, value)</code>
+        returns, it is guaranteed that the entry is
+        replicated to one other node. For the reads, it is also guaranteed that
+        <code class="literal">map.get(key)</code>
+        returns the latest value of the entry. Consistency is
+        strictly enforced.
+        </p><pre class="programlisting"><strong class="hl-keyword">import</strong> com.hazelcast.core.Hazelcast;
+<strong class="hl-keyword">import</strong> java.util.Map;
+<strong class="hl-keyword">import</strong> java.util.Collection;
+<strong class="hl-keyword">import</strong> com.hazelcast.config.Config;
+
+Config cfg = <strong class="hl-keyword">new</strong> Config();
+HazelcastInstance hz = Hazelcast.newHazelcastInstance(cfg);
+Map&lt;String, Customer&gt; mapCustomers = hz.getMap(<font font-style="normal" color="#008000">"customers"</font>);
+mapCustomers.put(<font font-style="normal" color="#008000">"1"</font>, <strong class="hl-keyword">new</strong> Customer(<font font-style="normal" color="#008000">"Joe"</font>, <font font-style="normal" color="#008000">"Smith"</font>));
+mapCustomers.put(<font font-style="normal" color="#008000">"2"</font>, <strong class="hl-keyword">new</strong> Customer(<font font-style="normal" color="#008000">"Ali"</font>, <font font-style="normal" color="#008000">"Selam"</font>));
+mapCustomers.put(<font font-style="normal" color="#008000">"3"</font>, <strong class="hl-keyword">new</strong> Customer(<font font-style="normal" color="#008000">"Avi"</font>, <font font-style="normal" color="#008000">"Noyan"</font>));
+
+Collection&lt;Customer&gt; colCustomers = mapCustomers.values();
+<strong class="hl-keyword">for</strong> (Customer customer : colCustomers) {
+    <em class="hl-comment" style="color: silver">// process customer</em>
+}
+</pre><p>
+        <code class="literal">Hazelcast.getMap()</code>
+        actually returns
+        <code class="literal">com.hazelcast.core.IMap</code>
+        which extends
+        <code class="literal">java.util.concurrent.ConcurrentMap</code>
+        interface. So methods like
+        <code class="literal">ConcurrentMap.putIfAbsent(key,value)</code>
+        and
+        <code class="literal">ConcurrentMap.replace(key,value)</code>
+        can be used on distributed map as
+        shown in the example below.
+        </p><pre class="programlisting"><strong class="hl-keyword">import</strong> com.hazelcast.core.Hazelcast;
+<strong class="hl-keyword">import</strong> java.util.concurrent.ConcurrentMap;
+
+Customer getCustomer (String id) {
+    ConcurrentMap&lt;String, Customer&gt; map = Hazelcast.getMap(<font font-style="normal" color="#008000">"customers"</font>);
+    Customer customer = map.get(id);
+    <strong class="hl-keyword">if</strong> (customer == null) {
+        customer = <strong class="hl-keyword">new</strong> Customer (id);
+        customer = map.putIfAbsent(id, customer);
+    }
+    <strong class="hl-keyword">return</strong> customer;
+}               
+
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">boolean</strong> updateCustomer (Customer customer) {
+    ConcurrentMap&lt;String, Customer&gt; map = Hazelcast.getMap(<font font-style="normal" color="#008000">"customers"</font>);
+    <strong class="hl-keyword">return</strong> (map.replace(customer.getId(), customer) != null);            
+}
+                
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">boolean</strong> removeCustomer (Customer customer) {
+    ConcurrentMap&lt;String, Customer&gt; map = Hazelcast.getMap(<font font-style="normal" color="#008000">"customers"</font>);
+    <strong class="hl-keyword">return</strong> map.remove(customer.getId(), customer) );           
+}                                  
+        
+</pre><p>
+        All
+        <code class="literal">ConcurrentMap</code>
+        operations such as
+        <code class="literal">put</code>
+        and
+        <code class="literal">remove</code>
+        might wait if the key is locked by another thread in the local
+        or remote JVM, but they will eventually return with success.
+        <code class="literal">ConcurrentMap</code>
+        operations never
+        throw<code class="literal">java.util.ConcurrentModificationException</code>.
+    </p><p>Also see:
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p><a class="link" href="ch16s03.html" title="16.3.&nbsp;Internals 4: Distributed Map">Distributed Map internals</a>.</p></li><li class="listitem"><p><a class="link" href="ch05.html" title="Chapter&nbsp;5.&nbsp;Data Affinity">Data Affinity</a>.</p></li><li class="listitem"><p><a class="link" href="ch12s05.html" title="12.5.&nbsp;Wildcard Configuration">Map Configuration with wildcards.</a>.</p></li></ul></div><p>
+    </p><div class="sect2" title="2.3.1.&nbsp;Backups"><div class="titlepage"><div><div><h3 class="title"><a name="MapBackup"></a>2.3.1.&nbsp;Backups</h3></div></div></div><p>Hazelcast will distribute map entries onto multiple JVMs (cluster members). Each JVM
+        holds some portion of the data but we don't want to lose data when a member JVM crashes.
+        To provide data-safety, Hazelcast allows you to specify the number of backup copies you
+        want to have. That way data on a JVM will be copied onto other JVM(s). Hazelcast supports both
+        <code class="literal">sync</code> and <code class="literal">async</code> backups.
+        <code class="literal">Sync</code> backups block operations until backups are successfully copied to
+        backups nodes (or deleted from backup nodes in case of remove)
+        and acknowledgements are received. In contrast, <code class="literal">async</code> backups do not block
+        operations, they are fire &amp; forget and do not require acknowledgements.
+        By default, Hazelcast will have one sync backup copy.
+        If backup count &gt;= 1, then each member will carry both owned entries and backup copies of other
+        member(s). So for the <code class="literal">map.get(key)</code> call, it is possible that calling member has backup
+        copy of that key but by default, <code class="literal">map.get(key)</code> will always read the
+        value from the actual owner of the key for consistency. It is possible to enable backup
+        reads by changing the configuration. Enabling backup reads will give you greater performance.
+        </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;hazelcast&gt;</font>
+    ...
+    <font font-style="bold" color="#0A1777">&lt;map</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"default"</font><font font-style="bold" color="#0A1777">&gt;</font>
+        <em class="hl-comment" style="color: silver">&lt;!--
+            Number of sync-backups. If 1 is set as the backup-count for example,
+            then all entries of the map will be copied to another JVM for
+            fail-safety. Valid numbers are 0 (no backup), 1, 2, 3.
+        --&gt;</em>
+        <font font-style="bold" color="#0A1777">&lt;backup-count&gt;</font>1<font font-style="bold" color="#0A1777">&lt;/backup-count&gt;</font>
+
+        <em class="hl-comment" style="color: silver">&lt;!--
+            Number of async-backups. If 1 is set as the backup-count for example,
+            then all entries of the map will be copied to another JVM for
+            fail-safety. Valid numbers are 0 (no backup), 1, 2, 3.
+        --&gt;</em>
+        <font font-style="bold" color="#0A1777">&lt;async-backup-count&gt;</font>1<font font-style="bold" color="#0A1777">&lt;/async-backup-count&gt;</font>
+
+        <em class="hl-comment" style="color: silver">&lt;!--
+            Can we read the local backup entries? Default value is false for
+            strong consistency. Being able to read backup data will give you
+            greater performance.
+        --&gt;</em>
+        <font font-style="bold" color="#0A1777">&lt;read-backup-data&gt;</font>false<font font-style="bold" color="#0A1777">&lt;/read-backup-data&gt;</font>
+
+        ...
+    <font font-style="bold" color="#0A1777">&lt;/map&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/hazelcast&gt;</font>
+</pre><p>
+    </p></div><div class="sect2" title="2.3.2.&nbsp;Eviction"><div class="titlepage"><div><div><h3 class="title"><a name="MapEviction"></a>2.3.2.&nbsp;Eviction</h3></div></div></div><p>Hazelcast also supports policy based eviction for distributed map. Currently supported
+        eviction policies are LRU (Least Recently Used) and LFU (Least Frequently Used). This
+        feature enables Hazelcast to be used as a distributed cache. If
+        <code class="literal">time-to-live-seconds</code>
+        is not 0 then entries older than
+        <code class="literal">time-to-live-seconds</code>
+        value will get evicted, regardless of the
+        eviction policy set. Here is a sample configuration for eviction:
+        </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;hazelcast&gt;</font>
+    ...
+    <font font-style="bold" color="#0A1777">&lt;map</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"default"</font><font font-style="bold" color="#0A1777">&gt;</font>
+        <em class="hl-comment" style="color: silver">&lt;!--
+            Number of backups. If 1 is set as the backup-count for example,
+            then all entries of the map will be copied to another JVM for
+            fail-safety. Valid numbers are 0 (no backup), 1, 2, 3.
+        --&gt;</em>
+        <font font-style="bold" color="#0A1777">&lt;backup-count&gt;</font>1<font font-style="bold" color="#0A1777">&lt;/backup-count&gt;</font>
+
+        <em class="hl-comment" style="color: silver">&lt;!--
+            Maximum number of seconds for each entry to stay in the map. Entries that are
+            older than &lt;time-to-live-seconds&gt; and not updated for &lt;time-to-live-seconds&gt;
+            will get automatically evicted from the map.
+            Any integer between 0 and Integer.MAX_VALUE. 0 means infinite. Default is 0.
+        --&gt;</em>
+        <font font-style="bold" color="#0A1777">&lt;time-to-live-seconds&gt;</font>0<font font-style="bold" color="#0A1777">&lt;/time-to-live-seconds&gt;</font>
+
+        <em class="hl-comment" style="color: silver">&lt;!--
+            Maximum number of seconds for each entry to stay idle in the map. Entries that are
+            idle(not touched) for more than &lt;max-idle-seconds&gt; will get
+            automatically evicted from the map.
+            Entry is touched if get, put or containsKey is called.
+            Any integer between 0 and Integer.MAX_VALUE.
+            0 means infinite. Default is 0.
+        --&gt;</em>
+        <font font-style="bold" color="#0A1777">&lt;max-idle-seconds&gt;</font>0<font font-style="bold" color="#0A1777">&lt;/max-idle-seconds&gt;</font>
+
+        <em class="hl-comment" style="color: silver">&lt;!--
+            Valid values are:
+            NONE (no extra eviction, &lt;time-to-live-seconds&gt; may still apply),
+            LRU  (Least Recently Used),
+            LFU  (Least Frequently Used).
+            NONE is the default.
+            Regardless of the eviction policy used, &lt;time-to-live-seconds&gt; will still apply. 
+        --&gt;</em>
+        <font font-style="bold" color="#0A1777">&lt;eviction-policy&gt;</font>LRU<font font-style="bold" color="#0A1777">&lt;/eviction-policy&gt;</font>
+
+        <em class="hl-comment" style="color: silver">&lt;!--
+            Maximum size of the map. When max size is reached,
+            map is evicted based on the policy defined.
+            Any integer between 0 and Integer.MAX_VALUE. 0 means
+            Integer.MAX_VALUE. Default is 0.
+        --&gt;</em>
+        <font font-style="bold" color="#0A1777">&lt;max-size</font> <font font-style="bold" color="#0A1777">policy</font>=<font font-style="bold" color="#008000">"cluster_wide_map_size"</font><font font-style="bold" color="#0A1777">&gt;</font>5000<font font-style="bold" color="#0A1777">&lt;/max-size&gt;</font>
+
+        <em class="hl-comment" style="color: silver">&lt;!--
+            When max. size is reached, specified percentage of
+            the map will be evicted. Any integer between 0 and 100.
+            If 25 is set for example, 25% of the entries will
+            get evicted.
+        --&gt;</em>
+        <font font-style="bold" color="#0A1777">&lt;eviction-percentage&gt;</font>25<font font-style="bold" color="#0A1777">&lt;/eviction-percentage&gt;</font>
+       <em class="hl-comment" style="color: silver">&lt;!--
+            Specifies when eviction will be started. Default value is 3. 
+           So every 3 (+up to 5 for performance reasons) seconds 
+           eviction will be kicked of. Eviction is costly operation, setting 
+           this number too low, can decrease the performance. 
+       --&gt;</em>
+      <font font-style="bold" color="#0A1777">&lt;eviction-delay-seconds&gt;</font>3<font font-style="bold" color="#0A1777">&lt;/eviction-delay-seconds&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/map&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/hazelcast&gt;</font>
+</pre><p>
+    </p><p>
+        <span class="bold"><strong>Max-Size Policies</strong></span>
+    </p><p>
+        There are 5 defined policies can be used in max-size configuration.
+        </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>
+                    <span class="bold"><strong>cluster_wide_map_size:</strong></span> Cluster-wide total max map size (default policy).
+                    </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;max-size</font> <font font-style="bold" color="#0A1777">policy</font>=<font font-style="bold" color="#008000">"cluster_wide_map_size"</font><font font-style="bold" color="#0A1777">&gt;</font>50000<font font-style="bold" color="#0A1777">&lt;/max-size&gt;</font></pre><p>
+                </p></li><li class="listitem"><p>
+                    <span class="bold"><strong>map_size_per_jvm:</strong></span>  Max map size per JVM.
+                    </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;max-size</font> <font font-style="bold" color="#0A1777">policy</font>=<font font-style="bold" color="#008000">"map_size_per_jvm"</font><font font-style="bold" color="#0A1777">&gt;</font>5000<font font-style="bold" color="#0A1777">&lt;/max-size&gt;</font></pre><p>
+                </p></li><li class="listitem"><p>
+                    <span class="bold"><strong>partitions_wide_map_size:</strong></span> Partitions (default 271) wide max map size.
+                    </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;max-size</font> <font font-style="bold" color="#0A1777">policy</font>=<font font-style="bold" color="#008000">"partitions_wide_map_size"</font><font font-style="bold" color="#0A1777">&gt;</font>27100<font font-style="bold" color="#0A1777">&lt;/max-size&gt;</font></pre><p>
+                </p></li><li class="listitem"><p>
+                    <span class="bold"><strong>used_heap_size:</strong></span> Max used heap size in MB (mega-bytes) per JVM.
+                    </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;max-size</font> <font font-style="bold" color="#0A1777">policy</font>=<font font-style="bold" color="#008000">"used_heap_size"</font><font font-style="bold" color="#0A1777">&gt;</font>4096<font font-style="bold" color="#0A1777">&lt;/max-size&gt;</font></pre><p>
+                </p></li><li class="listitem"><p>
+                    <span class="bold"><strong>used_heap_percentage:</strong></span> Max used heap size percentage per JVM.
+                    </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;max-size</font> <font font-style="bold" color="#0A1777">policy</font>=<font font-style="bold" color="#008000">"used_heap_percentage"</font><font font-style="bold" color="#0A1777">&gt;</font>75<font font-style="bold" color="#0A1777">&lt;/max-size&gt;</font></pre><p>
+                </p></li></ol></div><p>
+    </p></div><div class="sect2" title="2.3.3.&nbsp;Persistence"><div class="titlepage"><div><div><h3 class="title"><a name="MapPersistence"></a>2.3.3.&nbsp;Persistence</h3></div></div></div><p>Hazelcast allows you to load and store the distributed map entries from/to a
+        persistent datastore such as relational database. If a loader implementation is
+        provided, when
+        <code class="literal">get(key)</code>
+        is called, if the map entry doesn't exist
+        in-memory then Hazelcast will call your loader implementation to load the entry from a
+        datastore. If a store implementation is provided, when
+        <code class="literal">put(key,value)</code>
+        is called, Hazelcast will call your store implementation to store the entry into a
+        datastore. Hazelcast can call your implementation to store the entries synchronously
+        (write-through) with no-delay or asynchronously (write-behind) with delay and it is
+        defined by the
+        <code class="literal">write-delay-seconds</code>
+        value in the configuration.
+    </p><p>If it is write-through, when the
+        <code class="literal">map.put(key,value)</code>
+        call returns,
+        you can be sure that
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+                    <code class="literal">MapStore.store(key,value)</code>
+                    is successfully called so the
+                    entry is persisted.
+                </p></li><li class="listitem"><p>In-Memory entry is updated</p></li><li class="listitem"><p>In-Memory backup copies are successfully created on other JVMs (if
+                    backup-count is greater than 0)
+                </p></li></ul></div><p>
+        If it is write-behind, when the
+        <code class="literal">map.put(key,value)</code>
+        call returns, you can be sure that
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>In-Memory entry is updated</p></li><li class="listitem"><p>In-Memory backup copies are successfully created on other JVMs (if
+                    backup-count is greater than 0)
+                </p></li><li class="listitem"><p>The entry is marked as
+                    <code class="literal">dirty</code>
+                    so that after
+                    <code class="literal">write-delay-seconds</code>, it can be persisted.
+                </p></li></ul></div><p>
+        Same behavior goes for the
+        <code class="literal">remove(key</code>
+        and
+        <code class="literal">MapStore.delete(key)</code>. If
+        <code class="literal">MapStore</code>
+        throws an
+        exception then the exception will be propagated back to the original
+        <code class="literal">put</code>
+        or
+        <code class="literal">remove</code>
+        call in the form of
+        <code class="literal">RuntimeException</code>. When write-through is used, Hazelcast will call
+        <code class="literal">MapStore.store(key,value)</code>
+        and
+        <code class="literal">MapStore.delete(key)</code>
+        for each entry update. When write-behind is
+        used, Hazelcast will call<code class="literal">MapStore.store(map)</code>, and
+        <code class="literal">MapStore.delete(collection)</code>
+        to do all writes in a single call.
+        Also note that your MapStore or MapLoader implementation should not use Hazelcast
+        Map/Queue/MultiMap/List/Set operations. Your implementation should only work with your
+        data store. Otherwise you may get into deadlock situations.
+    </p><p>Here is a sample configuration:
+        </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;hazelcast&gt;</font>
+    ...
+    <font font-style="bold" color="#0A1777">&lt;map</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"default"</font><font font-style="bold" color="#0A1777">&gt;</font>
+        ...
+        <font font-style="bold" color="#0A1777">&lt;map-store</font> <font font-style="bold" color="#0A1777">enabled</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">&gt;</font>
+            <em class="hl-comment" style="color: silver">&lt;!--
+               Name of the class implementing MapLoader and/or MapStore.
+               The class should implement at least of these interfaces and
+               contain no-argument constructor. Note that the inner classes are not supported.
+            --&gt;</em>
+            <font font-style="bold" color="#0A1777">&lt;class-name&gt;</font>com.hazelcast.examples.DummyStore<font font-style="bold" color="#0A1777">&lt;/class-name&gt;</font>
+            <em class="hl-comment" style="color: silver">&lt;!--
+               Number of seconds to delay to call the MapStore.store(key, value).
+               If the value is zero then it is write-through so MapStore.store(key, value)
+               will be called as soon as the entry is updated.
+               Otherwise it is write-behind so updates will be stored after write-delay-seconds
+               value by calling Hazelcast.storeAll(map). Default value is 0.
+            --&gt;</em>
+            <font font-style="bold" color="#0A1777">&lt;write-delay-seconds&gt;</font>0<font font-style="bold" color="#0A1777">&lt;/write-delay-seconds&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;/map-store&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/map&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/hazelcast&gt;</font>
+</pre><p>
+    </p><p>
+        <span class="italic">
+            <span class="bold"><strong>Initialization on
+                startup:
+            </strong></span>
+        </span>
+    </p><p>As of 1.9.3
+        <code class="literal">MapLoader</code>
+        has the new
+        <code class="literal">MapLoader.loadAllKeys</code>
+        API. It is used for pre-populating the
+        in-memory map when the map is first touched/used. If
+        <code class="literal">MapLoader.loadAllKeys</code>
+        returns NULL then nothing will be loaded.
+        Your
+        <code class="literal">MapLoader.loadAllKeys</code>
+        implementation can return all or some of the keys. You may
+        select and return only the
+        <code class="literal">hot</code>
+        keys, for instance. Also note that
+        this is the fastest way of pre-populating the map as Hazelcast will optimize the loading
+        process by having each node loading owned portion of the entries.
+    </p><p>Here is MapLoader initialization flow;
+        </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>When
+                    <code class="code">getMap()</code>
+                    first called from any node, initialization starts
+                </p></li><li class="listitem"><p>Hazelcast will call
+                    <code class="code">MapLoader.loadAllKeys()</code>
+                    to get all your keys on each
+                    node
+                </p></li><li class="listitem"><p>Each node will figure out the list of keys it owns</p></li><li class="listitem"><p>Each node will load all its owned keys by calling
+                    <code class="code">MapLoader.loadAll(keys)</code>
+                </p></li><li class="listitem"><p>Each node puts its owned entries into the map by
+                    calling
+                    <code class="code">IMap.putTransient(key,value)</code>
+                </p></li></ol></div><p>
+    </p></div><div class="sect2" title="2.3.4.&nbsp;Query"><div class="titlepage"><div><div><h3 class="title"><a name="MapQuery"></a>2.3.4.&nbsp;Query</h3></div></div></div><p>Hazelcast partitions your data and spreads across cluster of servers. You can surely
+        iterate over the map entries and look for certain entries you are interested in but this
+        is not very efficient as you will have to bring entire entry set and iterate locally.
+        Instead, Hazelcast allows you to run distributed queries on your distributed map.
+    </p><p>Let's say you have a "employee" map containing values of
+        <code class="literal">Employee</code>
+        objects:</p><pre class="programlisting"><strong class="hl-keyword">import</strong> java.io.Serializable;
+
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">class</strong> Employee <strong class="hl-keyword">implements</strong> Serializable {
+<strong class="hl-keyword">private</strong> String name;
+<strong class="hl-keyword">private</strong> <strong class="hl-keyword">int</strong> age;
+<strong class="hl-keyword">private</strong> <strong class="hl-keyword">boolean</strong> active;
+<strong class="hl-keyword">private</strong> <strong class="hl-keyword">double</strong> salary;
+
+<strong class="hl-keyword">public</strong> Employee(String name, <strong class="hl-keyword">int</strong> age, <strong class="hl-keyword">boolean</strong> live, <strong class="hl-keyword">double</strong> price) {
+    <strong class="hl-keyword">this</strong>.name = name;
+    <strong class="hl-keyword">this</strong>.age = age;
+    <strong class="hl-keyword">this</strong>.active = live;
+    <strong class="hl-keyword">this</strong>.salary = price;
+}
+
+<strong class="hl-keyword">public</strong> Employee() {
+}
+
+<strong class="hl-keyword">public</strong> String getName() {
+    <strong class="hl-keyword">return</strong> name;
+}
+
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">int</strong> getAge() {
+    <strong class="hl-keyword">return</strong> age;
+}
+
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">double</strong> getSalary() {
+    <strong class="hl-keyword">return</strong> salary;
+}
+
+<strong class="hl-keyword">public</strong> <strong class="hl-keyword">boolean</strong> isActive() {
+    <strong class="hl-keyword">return</strong> active;
+}
+}
+</pre><p>Now you are looking for the employees who are active and with age less than 30.
+        Hazelcast allows you to find these entries in two different ways:
+    </p><p>
+        <span class="bold"><strong>Distributed SQL Query</strong></span>
+    </p><p>
+        <code class="literal">SqlPredicate</code>
+        takes regular SQL where clause. Here is an example:
+        </p><pre class="programlisting"><strong class="hl-keyword">import</strong> com.hazelcast.core.IMap;
+<strong class="hl-keyword">import</strong> com.hazelcast.query.SqlPredicate;
+
+Config cfg = <strong class="hl-keyword">new</strong> Config();
+HazelcastInstance hz = Hazelcast.newHazelcastInstance(cfg);
+IMap map = hz.getMap(<font font-style="normal" color="#008000">"employee"</font>);
+
+Set&lt;Employee&gt; employees = (Set&lt;Employee&gt;) map.values(<strong class="hl-keyword">new</strong> SqlPredicate(<font font-style="normal" color="#008000">"active AND age &lt; 30"</font>));
+</pre><p>
+        Supported SQL syntax:
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>AND/OR
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem"><p>
+                                <code class="literal">&lt;expression&gt; AND &lt;expression&gt; AND
+                                    &lt;expression&gt;...
+                                </code>
+                                </p><div class="itemizedlist"><ul class="itemizedlist" type="square"><li class="listitem"><p>
+                                            <code class="literal">active AND age&gt;30</code>
+                                        </p></li><li class="listitem"><p>
+                                            <code class="literal">active=false OR age = 45 OR name =
+                                                'Joe'
+                                            </code>
+                                        </p></li><li class="listitem"><p>
+                                            <code class="literal">active AND (age &gt;20 OR salary &lt;
+                                                60000)
+                                            </code>
+                                        </p></li></ul></div><p>
+                            </p></li></ul></div><p>
+                </p></li><li class="listitem"><p>
+                    <code class="literal">=, !=, &lt;, &lt;=, &gt;, &gt;=</code>
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem"><p>
+                                <code class="literal">&lt;expression&gt; = value</code>
+                                </p><div class="itemizedlist"><ul class="itemizedlist" type="square"><li class="listitem"><p>
+                                            <code class="literal">age &lt;= 30</code>
+                                        </p></li><li class="listitem"><p>
+                                            <code class="literal">name ="Joe"</code>
+                                        </p></li><li class="listitem"><p>
+                                            <code class="literal">salary != 50000</code>
+                                        </p></li></ul></div><p>
+                            </p></li></ul></div><p>
+                </p></li><li class="listitem"><p>BETWEEN
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem"><p>
+                                <code class="literal">&lt;attribute&gt; [NOT] BETWEEN &lt;value1&gt; AND
+                                    &lt;value2&gt;</code>
+                                </p><div class="itemizedlist"><ul class="itemizedlist" type="square"><li class="listitem"><p>
+                                            <code class="literal">age BETWEEN 20 AND 33 (same as age &gt;=20
+                                                AND age&lt;=33)
+                                            </code>
+                                        </p></li><li class="listitem"><p>
+                                            <code class="literal">age NOT BETWEEN 30 AND 40 (same as age
+                                                &lt;30 OR age&gt;40)
+                                            </code>
+                                        </p></li></ul></div><p>
+                            </p></li></ul></div><p>
+                </p></li><li class="listitem"><p>LIKE
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem"><p>
+                                <code class="literal">&lt;attribute&gt; [NOT] LIKE 'expression'</code>
+                            </p><p>
+                                <code class="literal">%</code>
+                                (percentage sign) is placeholder for many
+                                characters,
+                                <code class="literal">_</code>
+                                (underscore) is placeholder for
+                                only one character.
+                                </p><div class="itemizedlist"><ul class="itemizedlist" type="square"><li class="listitem"><p>
+                                            <code class="literal">name LIKE 'Jo%'</code>
+                                            (true for 'Joe',
+                                            'Josh', 'Joseph' etc.)
+                                        </p></li><li class="listitem"><p>
+                                            <code class="literal">name LIKE 'Jo_'</code>
+                                            (true for 'Joe';
+                                            false for 'Josh')
+                                        </p></li><li class="listitem"><p>
+                                            <code class="literal">name NOT LIKE 'Jo_'</code>
+                                            (true for
+                                            'Josh'; false for 'Joe')
+                                        </p></li><li class="listitem"><p>
+                                            <code class="literal">name LIKE 'J_s%'</code>
+                                            (true for
+                                            'Josh', 'Joseph'; false 'John', 'Joe')
+                                        </p></li></ul></div><p>
+                            </p></li></ul></div><p>
+                </p></li><li class="listitem"><p>IN
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem"><p>
+                                <code class="literal">&lt;attribute&gt; [NOT] IN (val1, val2,
+                                    ...)
+                                </code>
+                                </p><div class="itemizedlist"><ul class="itemizedlist" type="square"><li class="listitem"><p>
+                                            <code class="literal">age IN (20, 30, 40)</code>
+                                        </p></li><li class="listitem"><p>
+                                            <code class="literal">age NOT IN (60, 70)</code>
+                                        </p></li></ul></div><p>
+                            </p></li></ul></div><p>
+                </p></li></ul></div><p>
+        Examples:
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+                    <code class="literal">active AND (salary &gt;= 50000 OR (age NOT BETWEEN 20 AND
+                        30))
+                    </code>
+                </p></li><li class="listitem"><p>
+                    <code class="literal">age IN (20, 30, 40) AND salary BETWEEN (50000, 80000)</code>
+                </p></li></ul></div><p>
+    </p><p>
+        <span class="bold"><strong>Criteria API</strong></span>
+    </p><p>If SQL is not enough or programmable queries are preferred then JPA criteria like API
+        can be used. Here is an example:
+        </p><pre class="programlisting"><strong class="hl-keyword">import</strong> com.hazelcast.core.IMap;
+<strong class="hl-keyword">import</strong> com.hazelcast.query.Predicate;
+<strong class="hl-keyword">import</strong> com.hazelcast.query.PredicateBuilder;
+<strong class="hl-keyword">import</strong> com.hazelcast.query.EntryObject;
+<strong class="hl-keyword">import</strong> com.hazelcast.config.Config;
+
+
+Config cfg = <strong class="hl-keyword">new</strong> Config();
+HazelcastInstance hz = Hazelcast.newHazelcastInstance(cfg);
+IMap map = hz.getMap(<font font-style="normal" color="#008000">"employee"</font>);
+
+EntryObject e = <strong class="hl-keyword">new</strong> PredicateBuilder().getEntryObject();
+Predicate predicate = e.is(<font font-style="normal" color="#008000">"active"</font>).and(e.get(<font font-style="normal" color="#008000">"age"</font>).lessThan(<span class="hl-number">30</span>));
+
+Set&lt;Employee&gt; employees = (Set&lt;Employee&gt;) map.values(predicate);
+
+</pre><p>
+    </p><p>
+        <span class="bold"><strong>Indexing</strong></span>
+    </p><p>Hazelcast distributed queries will run on each member in parallel and only results
+        will return the caller. When a query runs on a member, Hazelcast will iterate through
+        the entire owned entries and find the matching ones. Can we make this even faster? Yes
+        by indexing the mostly queried fields. Just like you would do for your database. Of
+        course, indexing will add overhead for each
+        <code class="literal">write</code>
+        operation but
+        queries will be a lot faster. If you are querying your map a lot then make sure to add
+        indexes for most frequently queried fields. So if your
+        <code class="literal">active and age &lt;
+            30
+        </code>
+        query, for example, is used a lot then make sure you add index for
+        <code class="literal">active</code>
+        and
+        <code class="literal">age</code>
+        fields. Here is how:
+        </p><pre class="programlisting">IMap imap = Hazelcast.getMap(<font font-style="normal" color="#008000">"employees"</font>);
+imap.addIndex(<font font-style="normal" color="#008000">"age"</font>, true);        <em class="hl-comment" style="color: silver">// ordered, since we have ranged queries for this field</em>
+imap.addIndex(<font font-style="normal" color="#008000">"active"</font>, false);    <em class="hl-comment" style="color: silver">// not ordered, because boolean field cannot have range</em>
+</pre><p>
+        API
+        <code class="literal">IMap.addIndex(fieldName, ordered)</code>
+        is used for adding
+        index. For a each indexed field, if you have -ranged- queries such
+        as<code class="literal">age&gt;30</code>,
+        <code class="literal">age BETWEEN 40 AND 60</code>
+        then
+        <code class="literal">ordered</code>
+        parameter should be<code class="literal">true</code>, otherwise set
+        it to<code class="literal">false</code>.
+    </p></div><div class="sect2" title="2.3.5.&nbsp;Near Cache"><div class="titlepage"><div><div><h3 class="title"><a name="MapNearCache"></a>2.3.5.&nbsp;Near Cache</h3></div></div></div><p>Map entries in Hazelcast are partitioned across the cluster. Imagine that you are
+        reading key
+        <code class="literal">k</code>
+        so many times and
+        <code class="literal">k</code>
+        is owned by another member in your cluster. Each
+        <code class="literal">map.get(k)</code>
+        will
+        be a remote operation; lots of network trips.
+        If you have a map that is read-mostly then you should consider creating a
+        <code class="literal">Near Cache</code>
+        for the map so that reads can be much faster and consume less network traffic.
+        All these benefits don't come free. When using near cache, you should consider the following issues:
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>JVM will have to hold extra cached data so it will increase the memory consumption.
+                </p></li><li class="listitem"><p>If invalidation is turned on and entries are updated frequently, then invalidations will be
+                    costly.
+                </p></li><li class="listitem"><p>Near cache breaks the strong consistency guarantees; you might be reading stale data.
+                </p></li></ul></div><p>
+        Near cache is highly recommended for the maps that are read-mostly.
+        Here is a near-cache configuration for a map :
+        </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;hazelcast&gt;</font>
+    ...
+    <font font-style="bold" color="#0A1777">&lt;map</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"my-read-mostly-map"</font><font font-style="bold" color="#0A1777">&gt;</font>
+        ...
+        <font font-style="bold" color="#0A1777">&lt;near-cache&gt;</font>
+            <em class="hl-comment" style="color: silver">&lt;!--
+                Maximum size of the near cache. When max size is reached,
+                cache is evicted based on the policy defined.
+                Any integer between 0 and Integer.MAX_VALUE. 0 means
+                Integer.MAX_VALUE. Default is 0.
+            --&gt;</em>
+            <font font-style="bold" color="#0A1777">&lt;max-size&gt;</font>5000<font font-style="bold" color="#0A1777">&lt;/max-size&gt;</font>
+            <em class="hl-comment" style="color: silver">&lt;!--
+                Maximum number of seconds for each entry to stay in the near cache. Entries that are
+                older than &lt;time-to-live-seconds&gt; will get automatically evicted from the near cache.
+                Any integer between 0 and Integer.MAX_VALUE. 0 means infinite. Default is 0.
+            --&gt;</em>
+            <font font-style="bold" color="#0A1777">&lt;time-to-live-seconds&gt;</font>0<font font-style="bold" color="#0A1777">&lt;/time-to-live-seconds&gt;</font>
+
+            <em class="hl-comment" style="color: silver">&lt;!--
+                Maximum number of seconds each entry can stay in the near cache as untouched (not-read).
+                Entries that are not read (touched) more than &lt;max-idle-seconds&gt; value will get removed
+                from the near cache.
+                Any integer between 0 and Integer.MAX_VALUE. 0 means
+                Integer.MAX_VALUE. Default is 0.
+            --&gt;</em>
+            <font font-style="bold" color="#0A1777">&lt;max-idle-seconds&gt;</font>60<font font-style="bold" color="#0A1777">&lt;/max-idle-seconds&gt;</font>
+
+            <em class="hl-comment" style="color: silver">&lt;!--
+                Valid values are:
+                NONE (no extra eviction, &lt;time-to-live-seconds&gt; may still apply),
+                LRU  (Least Recently Used),
+                LFU  (Least Frequently Used).
+                NONE is the default.
+                Regardless of the eviction policy used, &lt;time-to-live-seconds&gt; will still apply.
+            --&gt;</em>
+            <font font-style="bold" color="#0A1777">&lt;eviction-policy&gt;</font>LRU<font font-style="bold" color="#0A1777">&lt;/eviction-policy&gt;</font>
+
+            <em class="hl-comment" style="color: silver">&lt;!--
+                Should the cached entries get evicted if the entries are changed (updated or removed).
+                true of false. Default is true.
+            --&gt;</em>
+            <font font-style="bold" color="#0A1777">&lt;invalidate-on-change&gt;</font>true<font font-style="bold" color="#0A1777">&lt;/invalidate-on-change&gt;</font>
+
+        <font font-style="bold" color="#0A1777">&lt;/near-cache&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/map&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/hazelcast&gt;</font>
+</pre><p>
+
+    </p></div><div class="sect2" title="2.3.6.&nbsp;Entry Statistics"><div class="titlepage"><div><div><h3 class="title"><a name="MapEntry"></a>2.3.6.&nbsp;Entry Statistics</h3></div></div></div><p>
+        Hazelcast keeps extra information about each map entry such as creationTime, lastUpdateTime, lastAccessTime,
+        number of hits, version, and this information is exposed to the developer via
+        <code class="literal">IMap.getMapEntry(key)</code>
+        call. Here is
+        an example:
+        </p><pre class="programlisting"><strong class="hl-keyword">import</strong> com.hazelcast.core.Hazelcast;
+<strong class="hl-keyword">import</strong> com.hazelcast.core.MapEntry;
+
+Config cfg = <strong class="hl-keyword">new</strong> Config();
+HazelcastInstance hz = Hazelcast.newHazelcastInstance(cfg);
+MapEntry entry = hz.getMap(<font font-style="normal" color="#008000">"quotes"</font>).getMapEntry(<font font-style="normal" color="#008000">"1"</font>);
+System.out.println (<font font-style="normal" color="#008000">"size in memory  : "</font> + entry.getCost();
+System.out.println (<font font-style="normal" color="#008000">"creationTime    : "</font> + entry.getCreationTime();
+System.out.println (<font font-style="normal" color="#008000">"expirationTime  : "</font> + entry.getExpirationTime();
+System.out.println (<font font-style="normal" color="#008000">"number of hits  : "</font> + entry.getHits();
+System.out.println (<font font-style="normal" color="#008000">"lastAccessedTime: "</font> + entry.getLastAccessTime();
+System.out.println (<font font-style="normal" color="#008000">"lastUpdateTime  : "</font> + entry.getLastUpdateTime();
+System.out.println (<font font-style="normal" color="#008000">"version         : "</font> + entry.getVersion();
+System.out.println (<font font-style="normal" color="#008000">"isValid         : "</font> + entry.isValid();
+System.out.println (<font font-style="normal" color="#008000">"key             : "</font> + entry.getKey();
+System.out.println (<font font-style="normal" color="#008000">"value           : "</font> + entry.getValue();
+System.out.println (<font font-style="normal" color="#008000">"oldValue        : "</font> + entry.setValue(newValue);
+</pre><p>
+    </p></div><div class="sect2" title="2.3.7.&nbsp;Indexing"><div class="titlepage"><div><div><h3 class="title"><a name="MapIndex"></a>2.3.7.&nbsp;Indexing</h3></div></div></div><p>
+        Map entries can be indexed to be able to query faster. These indexes can be created using IMap API.
+        But this usage has a limitation; all indexes must be created before any value is put into map.
+        Sometimes by design adding an index to map may be impossible before any value is added.
+        For example if a map has
+        <code class="code">MapLoader</code>
+        that loads entries during map creation,
+        then adding indexes to map becomes meaningless.
+        To solve this problem, Hazelcast introduces defining
+        <code class="code">IMap</code>
+        indexes in configuration.
+    </p><p>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+                    <span class="italic">Hazelcast XML configuration</span>
+                    </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;map</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"default"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    ...
+    <font font-style="bold" color="#0A1777">&lt;indexes&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;index</font> <font font-style="bold" color="#0A1777">ordered</font>=<font font-style="bold" color="#008000">"false"</font><font font-style="bold" color="#0A1777">&gt;</font>name<font font-style="bold" color="#0A1777">&lt;/index&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;index</font> <font font-style="bold" color="#0A1777">ordered</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">&gt;</font>age<font font-style="bold" color="#0A1777">&lt;/index&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/indexes&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/map&gt;</font></pre><p>
+                </p></li><li class="listitem"><p>
+                    <span class="italic">Config API</span>
+                    </p><pre class="programlisting">
+                        mapConfig.addMapIndexConfig(<strong class="hl-keyword">new</strong> MapIndexConfig(<font font-style="normal" color="#008000">"name"</font>, false));
+                        mapConfig.addMapIndexConfig(<strong class="hl-keyword">new</strong> MapIndexConfig(<font font-style="normal" color="#008000">"age"</font>, true));
+                    </pre><p>
+                </p></li><li class="listitem"><p>
+                    <span class="italic">Spring XML configuration</span>
+                    </p><pre class="programlisting">
+<font font-style="bold" color="#0A1777">&lt;hz:map</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"default"</font><font font-style="bold" color="#0A1777">&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;hz:indexes&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;hz:index</font> <font font-style="bold" color="#0A1777">attribute</font>=<font font-style="bold" color="#008000">"name"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+        <font font-style="bold" color="#0A1777">&lt;hz:index</font> <font font-style="bold" color="#0A1777">attribute</font>=<font font-style="bold" color="#008000">"age"</font> <font font-style="bold" color="#0A1777">ordered</font>=<font font-style="bold" color="#008000">"true"</font><font font-style="bold" color="#0A1777">/&gt;</font>
+    <font font-style="bold" color="#0A1777">&lt;/hz:indexes&gt;</font>
+<font font-style="bold" color="#0A1777">&lt;/hz:map&gt;</font></pre><p>
+                </p></li></ul></div><p>
+    </p></div><p>
+    <span class="bold"><strong>To learn about wildcard configuration feature, see
+        <a class="link" href="ch12s05.html" title="12.5.&nbsp;Wildcard Configuration">Wildcard Configuration
+        </a>
+        page.
+    </strong></span>
+</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch02s02.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch02.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch02s04.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">2.2.&nbsp;Distributed Topic&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;2.4.&nbsp;Distributed MultiMap</td></tr></table></div></body></html>

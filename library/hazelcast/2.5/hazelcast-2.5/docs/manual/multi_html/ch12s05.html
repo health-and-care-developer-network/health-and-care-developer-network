@@ -1,0 +1,31 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>12.5.&nbsp;Wildcard Configuration</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="ch12.html" title="Chapter&nbsp;12.&nbsp;Configuration"><link rel="prev" href="ch12s04.html" title="12.4.&nbsp;Listener Configurations"><link rel="next" href="ch12s06.html" title="12.6.&nbsp;Advanced Configuration Properties"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">12.5.&nbsp;Wildcard Configuration</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch12s04.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;12.&nbsp;Configuration</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch12s06.html">Next</a></td></tr></table><hr></div><div class="sect1" title="12.5.&nbsp;Wildcard Configuration"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="WildcardConfiguration"></a>12.5.&nbsp;Wildcard Configuration</h2></div></div></div><p>Hazelcast supports wildcard configuration of Maps, Queues and Topics. Using an asterisk
+        (*) character in the name, different instances of Maps, Queues and Topics can be configured
+        by a single configuration.
+    </p><p>Note that, with a limitation of a single usage, asterisk (*) can be placed anywhere
+        inside the configuration name.
+    </p><p>For instance a map named '<code class="code">com.hazelcast.test.mymap</code>' can be configured using one of
+        these configurations;
+    </p><p>
+        </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;map</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"com.hazelcast.test.*"</font><font font-style="bold" color="#0A1777">&gt;</font>
+...
+<font font-style="bold" color="#0A1777">&lt;/map&gt;</font></pre><p>
+        </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;map</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"com.hazel*"</font><font font-style="bold" color="#0A1777">&gt;</font>
+...
+<font font-style="bold" color="#0A1777">&lt;/map&gt;</font></pre><p>
+        </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;map</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"*.test.mymap"</font><font font-style="bold" color="#0A1777">&gt;</font>
+...
+<font font-style="bold" color="#0A1777">&lt;/map&gt;</font></pre><p>
+        </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;map</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"com.*test.mymap"</font><font font-style="bold" color="#0A1777">&gt;</font>
+...
+<font font-style="bold" color="#0A1777">&lt;/map&gt;</font></pre><p>
+
+        Or a queue '<code class="code">com.hazelcast.test.myqueue</code>'
+        </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;queue</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"*hazelcast.test.myqueue"</font><font font-style="bold" color="#0A1777">&gt;</font>
+...
+<font font-style="bold" color="#0A1777">&lt;/queue&gt;</font></pre><p>
+        </p><pre class="programlisting"><font font-style="bold" color="#0A1777">&lt;queue</font> <font font-style="bold" color="#0A1777">name</font>=<font font-style="bold" color="#008000">"com.hazelcast.*.myqueue"</font><font font-style="bold" color="#0A1777">&gt;</font>
+...
+<font font-style="bold" color="#0A1777">&lt;/queue&gt;</font></pre><p>
+    </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch12s04.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch12.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch12s06.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">12.4.&nbsp;Listener Configurations&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;12.6.&nbsp;Advanced Configuration Properties</td></tr></table></div></body></html>

@@ -1,0 +1,336 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>18.4.&nbsp;Release Notes</title><link rel="stylesheet" type="text/css" href="./docbook.css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><meta name="keywords" content="hazelcast, distributed, cache, distributed cache, cluster, data grid, in-memory data grid"><link rel="home" href="index.html" title="Hazelcast Documentation"><link rel="up" href="ch18.html" title="Chapter&nbsp;18.&nbsp;Miscellaneous"><link rel="prev" href="ch18s03.html" title="18.3.&nbsp;Planned Features"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">18.4.&nbsp;Release Notes</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch18s03.html">Prev</a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;18.&nbsp;Miscellaneous</th><td width="20%" align="right">&nbsp;</td></tr></table><hr></div><div class="sect1" title="18.4.&nbsp;Release Notes"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="ReleaseNotes"></a>18.4.&nbsp;Release Notes</h2></div></div></div><p>Please see,
+        <a class="link" href="ch18s03.html" title="18.3.&nbsp;Planned Features">Todo</a>
+        page for planned features.
+    </p><p>
+        <span class="bold"><strong>2.5</strong></span>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p><span class="italic">New Feature:</span>
+                    Java Client has now 'near-cache' support. See <a class="link" href="ch15.html#NativeClientNearCache">Near Cache on Java Client</a>
+                for additional details.</p></li><li class="listitem"><p><span class="italic">New Feature:</span>
+                    Management Center alert system, receive alerts based on custom filters. See
+                    <a class="link" href="ch17s06.html" title="17.6.&nbsp;Alerting System">Management Center Alerting System</a>
+                    for additional details.</p></li><li class="listitem"><p>Management Center has now better support for Hazelcast cluster running in OSGI environment.</p></li><li class="listitem"><p>Nodes can be easily shutdown or restarted using Management Center interface.</p></li><li class="listitem"><p><a class="link" href="https://github.com/hazelcast/hazelcast/issues?milestone=17&amp;state=closed" target="_top">
+                    Fixed issues:</a></p><p>377, 386, 389, 392, 394</p></li></ul></div><p>
+    </p><p>
+        <span class="bold"><strong>2.4.1</strong></span>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Added Hibernate 2nd level cache local/invalidation mode.
+                    See <code class="code">com.hazelcast.hibernate.HazelcastLocalCacheRegionFactory</code>.
+                </p></li><li class="listitem"><p>Added quick clear feature for maps.
+                </p></li><li class="listitem"><p><a class="link" href="https://github.com/hazelcast/hazelcast/issues?milestone=15&amp;state=closed" target="_top">
+                    Fixed issues:</a></p><p>304, 308, 312, 315, 321, 322, 323, 328, 331, 333, 334, 337, 338, 339, 347, 349, 351,
+                353, 354, 356, 359, 368</p></li></ul></div><p>
+    </p><p>
+        <span class="bold"><strong>2.4</strong></span>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Client threads is no longer fixed size,
+                    now on it is going to use internal Hazelcast cached thread pool.
+                </p></li><li class="listitem"><p>Added ability to restrict outbound ports that Hazelcast uses to connect other nodes.
+                    See <a class="link" href="ch12s02.html#OutboundPorts" title="12.2.9.&nbsp;Restricting Outbound Ports">OutboundPorts</a> documentation.
+                </p></li><li class="listitem"><p><a class="link" href="https://github.com/hazelcast/hazelcast/issues?milestone=15&amp;state=closed" target="_top">
+                    Fixed issues:</a></p><p>168, 251, 260, 262, 267, 268, 269, 270, 274, 275, 276, 277, 279, 282, 284, 288, 290, 292, 301</p></li></ul></div><p>
+    </p><p>
+        <span class="bold"><strong>2.3.1</strong></span>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p><a class="link" href="https://github.com/hazelcast/hazelcast/issues?milestone=13&amp;state=closed" target="_top">
+                    Fixed issues:</a></p><p>256, 258</p></li><li class="listitem"><p>Changed
+                    <a class="link" href="ch12s06.html#hazelcast.partition.migration.interval">
+                        <code class="code">hazelcast.partition.migration.interval</code>
+                    </a>
+                    value from 1 to 0.
+                </p></li><li class="listitem"><p>
+                    <code class="code">ILock.newCondition()</code> now throws <code class="code">UnsupportedOperationException</code>.
+                </p></li></ul></div><p>
+    </p><p>
+        <span class="bold"><strong>2.3</strong></span>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Changed <a class="link" href="ch12s06.html#hazelcast.max.operation.timeout">
+                    <code class="code">hazelcast.max.operation.timeout</code></a> unit from <span class="emphasis"><em>seconds</em></span>
+                     to <span class="emphasis"><em>milliseconds</em></span>.</p></li><li class="listitem"><p>Added <a class="link" href="ch12s06.html#hazelcast.max.concurrent.operation.limit">
+                    <code class="code">hazelcast.max.concurrent.operation.limit</code></a> parameter to be able to limit
+                    number of concurrent operations can be submitted to Hazelcast.</p></li><li class="listitem"><p>
+                    Added <a class="link" href="ch12s06.html#hazelcast.backup.redo.enabled">
+                        <code class="code">hazelcast.backup.redo.enabled</code></a> parameter to enable/disable redo for
+                    backup operations.
+                </p></li><li class="listitem"><p>Added <span class="emphasis"><em>MultiMap and Distributed ExecutorService statistics</em></span> to
+                    <a class="link" href="http://hazelcast.com/mancenter.jsp" target="_top">Management Center</a> application.</p></li><li class="listitem"><p>
+                    <code class="code">MigrationListener</code> has now an additional method to receive failed migration events;
+                    <code class="code">void migrationFailed(MigrationEvent migrationEvent)</code>.
+                </p></li><li class="listitem"><p>
+                    <code class="code">ItemEvent</code> has now an additional method returning <code class="literal">Member</code> firing
+                    that event; <code class="code">public Member getMember()</code>.
+                </p></li><li class="listitem"><p>
+                    Improved out of memory (OOM) error detection and handling. Now it is possible to register custom hook
+                    when <code class="code">OutOfMemoryError</code> is thrown.
+                    See <code class="code">Hazelcast.setOutOfMemoryHandler(OutOfMemoryHandler)</code> and <code class="code">OutOfMemoryHandler</code>
+                    javadocs for additional details.
+                </p></li><li class="listitem"><p>
+                    Fixed some issues related to domain name handling and networking/join.
+                </p></li><li class="listitem"><p>
+                    During cluster merge after a network split-brain, merging side will now fire <code class="code">MERGING</code>
+                    and <code class="code">MERGED</code> before and after <code class="code">RESTARTING</code> and <code class="code">RESTARTED</code>
+                    <code class="code">LifecycleEvent</code>s.
+                </p></li><li class="listitem"><p><a class="link" href="https://github.com/hazelcast/hazelcast/issues?milestone=12&amp;state=closed" target="_top">
+                    Fixed issues:</a></p><p>167, 182, 188, 209, 217, 218, 220, 222, 223, 225, 226, 227, 228, 229,
+                    230, 233, 234, 235, 237, 241, 243, 244, 247, 250</p></li></ul></div><p>
+    </p><p>
+        <span class="bold"><strong>2.2</strong></span>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Improved redo logs and added max call/operation timeout. See configuration properties
+                    <a class="link" href="ch12s06.html#hazelcast.max.operation.timeout"><code class="code">hazelcast.max.operation.timeout</code></a>
+                    and <a class="link" href="ch12s06.html#hazelcast.redo.giveup.threshold"><code class="code">hazelcast.redo.giveup.threshold</code></a>
+                    </p></li><li class="listitem"><p>Improved domain name handling; Hazelcast will use defined addresses/domain-names in
+                TCP-IP Config as they are, without resolving an IP address.</p></li><li class="listitem"><p>Added <span class="emphasis"><em>Cluster Health Check</em></span> to
+                    <a class="link" href="http://hazelcast.com/mancenter.jsp" target="_top">Management Center</a> application.</p></li><li class="listitem"><p><a class="link" href="https://github.com/hazelcast/hazelcast/issues?milestone=5&amp;state=closed" target="_top">
+                    Fixed issues:</a></p><p>39, 93, 152, 153, 163, 164, 169</p></li></ul></div><p>
+    </p><p>
+        <span class="bold"><strong>2.1.3</strong></span>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Fixed join and split brain issues. Improved domain name handling.</p></li><li class="listitem"><p>Fixed host aware partition group when all members are lite but one.</p></li><li class="listitem"><p>Fixed jmx management service dead-lock issue.</p></li><li class="listitem"><p>Fixed IMap replace-if-same and and remove-if-same concurrency issues.</p></li><li class="listitem"><p><a class="link" href="https://github.com/hazelcast/hazelcast/issues?milestone=7&amp;state=closed" target="_top">Fixed issues:</a></p><p>176, 177, 179, 181, 183, 185, 186, 189, 195, 196, 198</p></li></ul></div><p>
+    </p><p>
+        <span class="bold"><strong>2.1.2</strong></span>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Fixed interruption handling to avoid dead-locks and inconsistency.
+                    See configuration property <code class="code">hazelcast.force.throw.interrupted.exception</code>
+                    in <a class="link" href="ch12s06.html" title="12.6.&nbsp;Advanced Configuration Properties">ConfigurationProperties</a> page.</p></li><li class="listitem"><p>Replaced ExecutorService used by migration process with a custom one.</p></li><li class="listitem"><p>Fixed ExecutorService a memory leak during executor thread termination.</p></li><li class="listitem"><p><a class="link" href="https://github.com/hazelcast/hazelcast/issues?milestone=6&amp;state=closed" target="_top">Fixed issues:</a></p><p>161, 174</p></li></ul></div><p>
+    </p><p>
+        <span class="bold"><strong>2.1.1</strong></span>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p><a class="link" href="https://github.com/hazelcast/hazelcast/issues?milestone=4&amp;state=closed" target="_top">Fixed issues:</a></p><p>73, 142, 146, 148, 149, 153, 158, 162, 163, 164</p></li><li class="listitem"><p><a class="link" href="https://github.com/hazelcast/hazelcast/issues?milestone=3&amp;state=closed" target="_top">
+                    Fixed issues from 2.0.4 branch:</a></p><p>96, 98, 131, 132, 135, 140, 166</p></li></ul></div><p>
+    </p><p>
+        <span class="bold"><strong>2.1</strong></span>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p><a class="link" href="ch12s02.html#IPv6" title="12.2.8.&nbsp;IPv6 Support">IPv6 Support</a>: Hazelcast now supports IPv6 addresses seamlessly.
+                </p></li><li class="listitem"><p><a class="link" href="ch02s03.html#MapBackup" title="2.3.1.&nbsp;Backups">Async backup support.</a>
+                </p></li><li class="listitem"><p><a class="link" href="ch14s03.html" title="14.3.&nbsp;Spring Cache">Spring Cache</a> support: Hazelcast can be used as
+                    <a class="link" href="http://static.springsource.org/spring/docs/3.1.x/spring-framework-reference/html/cache.html" target="_top">
+                        Spring Cache
+                    </a> provider.
+                </p></li><li class="listitem"><p><a class="link" href="ch14s02.html" title="14.2.&nbsp;Spring Managed Context">Spring Dependency Injection</a> support: Hazelcast can apply bean properties
+                    or to apply factory callbacks such as <code class="code">ApplicationContextAware</code>, <code class="code">BeanNameAware</code>
+                    or to apply bean post-processing such as <code class="code">InitializingBean</code>, <code class="code">@PostConstruct</code> like annotations
+                    while using Hazelcast distributed <code class="code">ExecutorService</code> or <code class="code">DistributedTask</code>s or more
+                    generally any Hazelcast managed object.
+                </p></li><li class="listitem"><p>Persistence support with Spring-Data <a class="link" href="ch14s06.html" title="14.6.&nbsp;Spring Data - MongoDB">MongoDB</a>
+                    and <a class="link" href="ch14s05.html" title="14.5.&nbsp;Spring Data - JPA">JPA</a> integration.
+                </p></li><li class="listitem"><p>
+                    <code class="literal">Member.getUuid()</code> will return UUID for node.
+                </p></li><li class="listitem"><p><a class="link" href="ch10.html" title="Chapter&nbsp;10.&nbsp;Http Session Clustering with HazelcastWM">Improved session clustering configuration.</a>
+                </p></li><li class="listitem"><p>Fixed issues:
+
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem"><p> <a class="link" href="http://code.google.com/p/hazelcast/issues/list" target="_top">Google Code</a></p><p>809, 811, 816, 818</p></li><li class="listitem"><p> <a class="link" href="https://github.com/hazelcast/hazelcast/issues" target="_top">Github</a></p><p>6, 7, 92, 98, 99, 101, 102, 103, 104, 108, 109, 110, 114, 116, 117, 118, 119, 120, 126, 127, 128,
+                                130, 131, 132, 134, 135</p></li></ul></div><p>
+                </p></li></ul></div><p>
+    </p><p>
+        <span class="bold"><strong>2.0</strong></span>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>New Elastic Memory<sup>(Enterprise Edition Only)</sup>: By default, Hazelcast
+                    stores your distributed data (map entries, queue items) into Java heap which is subject to garbage
+                    collection. As your heap gets bigger, garbage collection might cause your application to pause tens
+                    of seconds, badly effecting your application performance and response times. Elastic Memory is
+                    Hazelcast with off-heap memory storage to avoid GC pauses. Even if you have terabytes of cache
+                    in-memory with lots of updates, GC will have almost no effect; resulting in more predictable latency
+                    and throughput.
+                </p></li><li class="listitem"><p>Security Framework<sup>(Enterprise Edition Only)</sup>: Hazelcast Security is JAAS
+                    based pluggable security framework which can be used to authenticate both cluster members and
+                    clients and do access control checks on client operations. With the security framework, take control
+                    of who can be part of the cluster or connect as client and which operations are allowed or not.
+                </p></li><li class="listitem"><p>Native C# Client<sup>(Enterprise Edition Only)</sup>: Just like our Native Java
+                    Client, it supports all map, multimap, queue, topic operations including listeners and queries.
+                </p></li><li class="listitem"><p>Distributed Backups: Data owned by a member will be evenly backed up by all the other members. In
+                    other word, every member takes equal responsibility to backup every other node. This leads to better
+                    memory usage and less influence in the cluster when you add/remove nodes. The new backup system
+                    makes it possible to form backup-groups so that you can have backups and owners fall into different
+                    groups.
+                </p></li><li class="listitem"><p>Parallel IO: Number of socket selector threads can be configured. You can have more IO threads, if
+                    you have good number of CPU/cores and high-throughput network.
+                </p></li><li class="listitem"><p>Connection Management: Hazelcast 2.0 is more tolerant to connection failures. On connection
+                    failure it tries to repair it
+                    before declaring the member as dead. So now it is ok to have short socket disconnections&#8230; No problem
+                    if your virtual server migrates to a new host.
+                </p></li><li class="listitem"><p>Listeners such as migration, membership and map indexes can be added with configuration.</p></li><li class="listitem"><p>New Event Objects: Event Listeners for Queue/List/Set/Topic were delivering the item itself on
+                    event methods. That&#8217;s
+                    why the items had to be deserialized by Hazelcast Threads before invoking the listeners. Sometimes
+                    this was causing class loader problems too. With 2.0, we have introduced new event containers for
+                    Queue/List/Set and Topic just like Map has EntryEvent. The new listeners now receive ItemEvent and
+                    Message objects respectively. The actual items are deserialized only if you call the appropriate get
+                    method on the event objects. This is where we brake the compatibility with the older versions of
+                    Hazelcast.
+                </p></li><li class="listitem"><p>ClientConfig API: We had too many of factory methods to instantiate a HazelcastClient. Now all we
+                    need is<code class="literal">HazelcastClient.newHazelcastClient(ClientConfig)</code>.
+                </p></li><li class="listitem"><p>SSL communication support among cluster nodes.
+                </p></li><li class="listitem"><p>Distributed MultiMap value collection can be either List or Set.
+                </p></li><li class="listitem"><p>SuperClient is renamed to LiteMember to avoid confusion. Be careful! It is a member, not a
+                    client.
+                </p></li><li class="listitem"><p>New
+                    <code class="literal">IMap.set (key, value, ttl, TimeUnit)</code>
+                    implementation, which is optimized
+                    <code class="literal">put(key, value)</code>
+                    operation as set doesn&#8217;t return the old value.
+                </p></li><li class="listitem"><p>
+                    <code class="literal">HazelcastInstance.getLifecycleService().kill()</code>
+                    will forcefully kill the node. Useful for testing.
+                </p></li><li class="listitem"><p><code class="literal">forceUnlock</code>, to unlock the locked entry from any node and any thread regardless
+                    of the owner.
+                </p></li><li class="listitem"><p>Enum type query support..
+                    <code class="literal">new SqlPredicate (&#8220;level = Level.WARNING&#8221;)</code>
+                    for example
+                </p></li><li class="listitem"><p>Fixed issues: 430, 459, 471, 567, 574, 582, 629, 632, 646, 666, 686, 669, 690, 692, 693, 695, 698,
+                    705, 708,
+                    710, 711, 712, 713, 714, 715, 719 , 721, 722, 724, 727, 728, 729, 730, 731, 732, 733, 735, 738, 739,
+                    740, 741, 742, 747,
+                    751, 752, 754, 756, 758, 759, 760, 761, 765, 767, 770, 773, 779, 781, 782, 783, 787, 790, 795, 796
+                </p></li></ul></div><p>
+    </p><p>
+        <span class="bold"><strong>1.9.4</strong></span>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>New
+                    <a class="link" href="ch11.html" title="Chapter&nbsp;11.&nbsp;WAN Replication">WAN Replication</a>
+                    (synchronization of separate active clusters)
+                </p></li><li class="listitem"><p>New
+                    <a class="link" href="ch05.html" title="Chapter&nbsp;5.&nbsp;Data Affinity">Data Affinity</a>
+                    (co-location of related entries) feature.
+                </p></li><li class="listitem"><p>New
+                    <a class="link" href="ch12s02.html#EC2AutoDiscovery" title="12.2.3.&nbsp;EC2 Auto Discovery">EC2 Auto Discovery</a>
+                    for your Hazelcast cluster
+                    running on Amazon EC2 platform.
+                </p></li><li class="listitem"><p>New
+                    <a class="link" href="http://www.hazelcast.com/docs/1.9.4/javadoc/com/hazelcast/core/ICountDownLatch.html" target="_top">
+                        Distributed CountDownLatch implementation.
+                    </a>
+                </p></li><li class="listitem"><p>New
+                    <a class="link" href="http://www.hazelcast.com/docs/1.9.4/javadoc/com/hazelcast/core/ISemaphore.html" target="_top">
+                        Distributed Semaphore implementation.
+                    </a>
+                </p></li><li class="listitem"><p>Improvement: Distribution contains HTML and PDF documentation besides Javadoc.</p></li><li class="listitem"><p>Improvement: Better TCP/IP and multicast join support. Handling more edge cases like
+                    multiple nodes starting at the same time.
+                </p></li><li class="listitem"><p>Improvement: Memcache protocol: Better integration between Java and Memcache clients.
+                    Put from memcache, get from Java client.
+                </p></li><li class="listitem"><p>Monitoring Tool is removed from the project.</p></li><li class="listitem"><p>200+ commits 25+ bug fixes and several other enhancements.</p></li></ul></div><p>
+        <span class="bold"><strong>1.9.3</strong></span>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Re-implementation of distributed queue.
+                    </p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem"><p>Configurable backup-count and synchronous backup.</p></li><li class="listitem"><p>Persistence support based on backing MapStore</p></li><li class="listitem"><p>Auto-recovery from backing MapStore on startup.</p></li></ul></div><p>
+                </p></li><li class="listitem"><p>Re-implementation of distributed list supporting index based operations.
+                </p></li><li class="listitem"><p>New distributed semaphore implementation.</p></li><li class="listitem"><p>Optimized
+                    <code class="literal">IMap.putAll</code>
+                    for much faster bulk writes.
+                </p></li><li class="listitem"><p>New
+                    <code class="literal">IMap.getAll</code>
+                    for bulk reads which is calling
+                    <code class="literal">MapLoader.loadAll</code>
+                    if necessary.
+                </p></li><li class="listitem"><p>New
+                    <code class="literal">IMap.tryLockAndGet</code>
+                    and
+                    <code class="literal">IMap.putAndUnlock</code>
+                    API
+                </p></li><li class="listitem"><p>New
+                    <code class="literal">IMap.putTransient</code>
+                    API for storing only in-memory.
+                </p></li><li class="listitem"><p>New
+                    <code class="literal">IMap.addLocalEntryListener()</code>
+                    for listening locally
+                    owned entry events.
+                </p></li><li class="listitem"><p>New
+                    <code class="literal">IMap.flush()</code>
+                    for flushing the dirty entries into
+                    MapStore.
+                </p></li><li class="listitem"><p>New
+                    <code class="literal">MapLoader.getAllKeys</code>
+                    API for auto-pre-populating the
+                    map when cluster starts.
+                </p></li><li class="listitem"><p>Support for min. initial cluster size to enable equally partitioned start.
+                </p></li><li class="listitem"><p>Graceful shutdown.</p></li><li class="listitem"><p>Faster dead-member detection.</p></li></ul></div><p>
+        <span class="bold"><strong>1.9</strong></span>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Memcache interface support. Memcache clients written in any language can
+                    access Hazelcast cluster.
+                </p></li><li class="listitem"><p>RESTful access support.
+                    <code class="code">http://&lt;ip&gt;:5701/hazelcast/rest/maps/mymap/key1</code>
+                </p></li><li class="listitem"><p>Split-brain (network partitioning) handling</p></li><li class="listitem"><p>New LifecycleService API to restart, pause Hazelcast instances and listen for
+                    the lifecycle events.
+                </p></li><li class="listitem"><p>New asynchronous put and get support for IMap via IMap.asyncPut() and
+                    IMap.asyncGet()
+                </p></li><li class="listitem"><p>New AtomicNumber API; distributed implementation of
+                    java.util.concurrent.atomic.AtomicLong
+                </p></li><li class="listitem"><p>So many bug fixes.</p></li></ul></div><p>
+        <span class="bold"><strong>1.8.4</strong></span>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Significant performance gain for multi-core servers. Higher CPU utilization
+                    and lower latency.
+                </p></li><li class="listitem"><p>Reduced the cost of map entries by 50%.</p></li><li class="listitem"><p>Better thread management. No more idle threads.</p></li><li class="listitem"><p>Queue Statistics API and the queue statistics panel on the Monitoring Tool.
+                </p></li><li class="listitem"><p>Monitoring Tool enhancements. More responsive and robust.</p></li><li class="listitem"><p>Distribution contains hazelcast-all-&lt;version&gt;.jar to simplify jar
+                    dependency.
+                </p></li><li class="listitem"><p>So many bug fixes.</p></li></ul></div><p>
+        <span class="bold"><strong>1.8.3</strong></span>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Bug fixes</p></li><li class="listitem"><p>Sorted index optimization for map queries.</p></li></ul></div><p>
+        <span class="bold"><strong>1.8.2</strong></span>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>A major bug fix</p></li><li class="listitem"><p>Minor optimizations</p></li></ul></div><p>
+        <span class="bold"><strong>1.8.1</strong></span>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Hazelcast Cluster Monitoring Tool (see the hazelcast-monitor-1.8.1.war in the
+                    distro)
+                </p></li><li class="listitem"><p>New Partition API. Partition and key owner, migration listeners.</p></li><li class="listitem"><p>New IMap.lockMap() API.</p></li><li class="listitem"><p>New Multicast+TCP/IP join feature. Try multicast first, if not found, try
+                    tcp/ip.
+                </p></li><li class="listitem"><p>New Hazelcast.getExecutorService(name) API. Have separate named
+                    ExecutorServices. Do not let your big tasks blocking your small ones.
+                </p></li><li class="listitem"><p>New Logging API. Build your own logging. or simply use Log4j or get logs as
+                    LogEvents.
+                </p></li><li class="listitem"><p>New MapStatistics API. Get statistics for your Map operations and entries.
+                </p></li><li class="listitem"><p>HazelcastClient automatically updates the member list. no need to pass all
+                    members.
+                </p></li><li class="listitem"><p>Ability to start the cluster members evenly partitioned. so no migration.
+                </p></li><li class="listitem"><p>So many bug fixes and enhancements.</p></li><li class="listitem"><p>There are some minor Config API change. Just make sure to re-compile.</p></li></ul></div><p>
+        <span class="bold"><strong>1.8</strong></span>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Java clients for accessing the cluster remotely. (C# is next)</p></li><li class="listitem"><p>Distributed Query for maps. Both Criteria API and SQL support.</p></li><li class="listitem"><p>Near cache for distributed maps.</p></li><li class="listitem"><p>TTL (time-to-live) for each individual map entry.</p></li><li class="listitem"><p>IMap.put(key,value, ttl, timeunit)</p></li><li class="listitem"><p>IMap.putIfAbsent(key,value, ttl, timeunit)</p></li><li class="listitem"><p>Many bug fixes.</p></li></ul></div><p>
+        <span class="bold"><strong>1.7.1</strong></span>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Multiple Hazelcast members on the same JVM. New
+                    <code class="literal">HazelcastInstance</code>
+                    API.
+                </p></li><li class="listitem"><p>Better API based configuration support.</p></li><li class="listitem"><p>Many performance optimizations. Fastest Hazelcast ever!</p></li><li class="listitem"><p>Smoother data migration enables better response times during joins.</p></li><li class="listitem"><p>Many bug fixes.</p></li></ul></div><p>
+        <span class="bold"><strong>1.7</strong></span>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Persistence via Loader/Store interface for distributed map.</p></li><li class="listitem"><p>Socket level encryption. Both symmetric and asymmetric encryption supported.
+                </p></li><li class="listitem"><p>New JMX support. (many thanks to Marco)</p></li><li class="listitem"><p>New Hibernate second level cache provider (many thanks to Leo)</p></li><li class="listitem"><p>Instance events for getting notified when a data structure instance (map,
+                    queue, topic etc.) is created or destroyed.
+                </p></li><li class="listitem"><p>Eviction listener.
+                    <code class="literal">EntryListener.entryEvicted(EntryEvent)</code>
+                </p></li><li class="listitem"><p>Fully 'maven'ized.</p></li><li class="listitem"><p>Modularized...</p></li><li class="listitem"><p>hazelcast (core library)</p></li><li class="listitem"><p>hazelcast-wm (http session clustering tool)</p></li><li class="listitem"><p>hazelcast-ra (JCA adaptor)</p></li><li class="listitem"><p>hazelcast-hibernate (hibernate cache provider)</p></li></ul></div><p>
+        <span class="bold"><strong>1.6</strong></span>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Support for synchronous backups and configurable backup-count for maps.
+                </p></li><li class="listitem"><p>Eviction support. Timed eviction for queues. LRU, LFU and time based eviction
+                    for maps.
+                </p></li><li class="listitem"><p>Statistics/history for entries. create/update time, number of hits, cost. see
+                    <code class="literal">IMap.getMapEntry(key)</code>
+                </p></li><li class="listitem"><p>
+                    <code class="literal">MultiMap</code>
+                    implementation. similar to google-collections and
+                    apache-common-collections
+                    <code class="literal">MultiMap</code>
+                    but distributed and
+                    thread-safe.
+                </p></li><li class="listitem"><p>Being able to
+                    <code class="literal">destroy()</code>
+                    the data structures when not needed
+                    anymore.
+                </p></li><li class="listitem"><p>Being able to Hazelcast.shutdown() the local member.</p></li><li class="listitem"><p>Get the list of all data structure instances
+                    via<code class="literal">Hazelcast.getInstances()</code>.
+                </p></li></ul></div><p>
+        <span class="bold"><strong>1.5</strong></span>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Major internal refactoring</p></li><li class="listitem"><p>Full implementation of<code class="literal">java.util.concurrent.BlockingQueue</code>.
+                    Now queues can have configurable capacity limits.
+                </p></li><li class="listitem"><p>Super Clients (a.k.a LiteMember): Members with no storage. If
+                    <code class="literal">-Dhazelcast.super.client=true</code>
+                    JVM parameter is set, that
+                    JVM will join the cluster as a 'super client' which will not be a 'data
+                    partition' (no data on that node) but will have super fast access to the cluster
+                    just like any regular member does.
+                </p></li><li class="listitem"><p>Http Session sharing support for Hazelcast Web Manager. Different webapps can
+                    share the same sessions.
+                </p></li><li class="listitem"><p>Ability to separate clusters by creating groups.
+                    <a class="link" href="ch12.html#ConfigGroup" title="12.1.&nbsp;Creating Separate Clusters">ConfigGroup</a>
+                </p></li><li class="listitem"><p>
+                    <code class="literal">java.util.logging</code>
+                    support.
+                </p></li></ul></div><p>
+        <span class="bold"><strong>1.4</strong></span>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Add, remove and update events for queue, map, set and list</p></li><li class="listitem"><p>Distributed Topic for pub/sub messaging</p></li><li class="listitem"><p>Integration with J2EE transactions via JCA complaint resource adapter</p></li><li class="listitem"><p>
+                    <a class="link" href="ch09s03.html" title="9.3.&nbsp;Execution Callback">ExecutionCallback</a>
+                    interface for distributed tasks
+                </p></li><li class="listitem"><p>Cluster-wide unique id generator</p></li></ul></div><p>
+        <span class="bold"><strong>1.3</strong></span>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Transactional Distributed Queue, Map, Set and List</p></li></ul></div><p>
+        <span class="bold"><strong>1.2</strong></span>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Distributed Executor Service</p></li><li class="listitem"><p>Multi member executions</p></li><li class="listitem"><p>Key based execution routing</p></li><li class="listitem"><p>Task cancellation support</p></li></ul></div><p>
+        <span class="bold"><strong>1.1</strong></span>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Session Clustering with Hazelcast Webapp Manager</p></li><li class="listitem"><p>Full TCP/IP clustering support</p></li></ul></div><p>
+        <span class="bold"><strong>1.0</strong></span>
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Distributed implementation of java.util.{Queue,Map,Set,List}</p></li><li class="listitem"><p>Distributed implementation of java.util.concurrency.Lock</p></li><li class="listitem"><p>Cluster Membership Events</p></li></ul></div><p>
+    </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch18s03.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch18.html">Up</a></td><td width="40%" align="right">&nbsp;</td></tr><tr><td width="40%" align="left" valign="top">18.3.&nbsp;Planned Features&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;</td></tr></table></div></body></html>
