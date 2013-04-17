@@ -18,6 +18,7 @@ package uk.nhs.hdn.barcodes.gs1.server;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hdn.common.MillisecondsSince1970;
 import uk.nhs.hdn.common.digits.Digits;
 import uk.nhs.hdn.common.digits.IncorrectCheckDigitIllegalStateException;
 import uk.nhs.hdn.common.digits.IncorrectNumberOfDigitsIllegalStateException;
@@ -51,12 +52,13 @@ public final class Gs1CompanyPrefixResourceStateSnapshot extends AbstractWithSub
 	public Gs1CompanyPrefixResourceStateSnapshot(@NotNull final GregorianCalendar lastModified, @NotNull final Tuple... tuples)
 	{
 		super(lastModified);
-		allTuplesSubResource = new AllTuplesSubResource(tuples);
+		@MillisecondsSince1970 final long timeInMillis = lastModified.getTimeInMillis();
+		allTuplesSubResource = new AllTuplesSubResource(timeInMillis, tuples);
 		gs1CompanyPrefixIndex = new Index(tuples);
 		barcodeSubResourceIndex = new HashMap<>(tuples.length);
 		for (final Tuple tuple : tuples)
 		{
-			barcodeSubResourceIndex.put(tuple, new BarcodeSubResource(tuple));
+			barcodeSubResourceIndex.put(tuple, new BarcodeSubResource(timeInMillis, tuple));
 		}
 	}
 

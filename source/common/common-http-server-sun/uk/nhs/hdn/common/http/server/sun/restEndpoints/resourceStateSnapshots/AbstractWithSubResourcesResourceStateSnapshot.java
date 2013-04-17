@@ -17,25 +17,14 @@
 package uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import uk.nhs.hdn.common.http.server.sun.restEndpoints.clientError4xxs.NotFoundException;
-import uk.nhs.hdn.common.http.server.sun.restEndpoints.clientError4xxs.BadRequestException;
-import uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.resourceContents.ResourceContent;
-import uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.subResources.SubResourceFinder;
 
 import java.util.GregorianCalendar;
 
-public abstract class AbstractWithSubResourcesResourceStateSnapshot extends AbstractResourceStateSnapshot implements SubResourceFinder
+public abstract class AbstractWithSubResourcesResourceStateSnapshot extends AbstractResourceStateSnapshot
 {
 	protected AbstractWithSubResourcesResourceStateSnapshot(@NotNull final GregorianCalendar lastModified)
 	{
-		super(lastModified);
+		super();
 	}
 
-	@NotNull
-	@Override
-	public final ResourceContent content(@NotNull final String rawRelativeUriPath, @Nullable final String rawQueryString) throws NotFoundException, BadRequestException
-	{
-		return find(rawRelativeUriPath).content(rawQueryString);
-	}
 }

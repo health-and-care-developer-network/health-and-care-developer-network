@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.barcodes.gs1.server.subResources;
+package uk.nhs.hdn.crds.store.rest;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hdn.barcodes.gs1.organisation.Tuple;
-import uk.nhs.hdn.barcodes.gs1.server.Gs1CompanyPrefxQueryStringEventHandler;
 import uk.nhs.hdn.common.MillisecondsSince1970;
 import uk.nhs.hdn.common.http.server.sun.restEndpoints.clientError4xxs.BadRequestException;
 import uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.resourceContents.ByteArrayResourceContent;
@@ -27,50 +26,37 @@ import uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.re
 import uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.subResources.AbstractSubResource;
 import uk.nhs.hdn.common.serialisers.json.JsonSerialiser;
 import uk.nhs.hdn.common.serialisers.xml.XmlSerialiser;
+import uk.nhs.hdn.crds.store.domain.SimplePatientRecord;
 
-import static uk.nhs.hdn.barcodes.gs1.organisation.Tuple.csvSerialiserForTuples;
-import static uk.nhs.hdn.barcodes.gs1.organisation.Tuple.tsvSerialiserForTuples;
-import static uk.nhs.hdn.barcodes.gs1.server.Gs1CompanyPrefxQueryStringEventHandler.parseGs1QueryString;
-import static uk.nhs.hdn.common.http.ContentTypeWithCharacterSet.*;
+import static uk.nhs.hdn.common.http.ContentTypeWithCharacterSet.JsonContentTypeUtf8;
+import static uk.nhs.hdn.common.http.ContentTypeWithCharacterSet.XmlContentTypeUtf8;
 import static uk.nhs.hdn.common.http.server.sun.helpers.ByteArrayResourceContentHelper.resourceContent;
 import static uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.resourceContents.ByteArraysResourceContent.jsonpByteArraysResourceContent;
+import static uk.nhs.hdn.crds.store.rest.CrdsStoreQueryStringEventHandler.parseCrdsStoreQueryString;
 
-public abstract class AbstractTuplesSubResource extends AbstractSubResource
+public final class PatientRecordSubResource extends AbstractSubResource
 {
 	private final ByteArrayResourceContent jsonUtf8Content;
 	private final ByteArrayResourceContent xmlUtf8Content;
-	private final ByteArrayResourceContent tsvUtf8Content;
-	private final ByteArrayResourceContent csvUtf8Content;
 
 	@SuppressWarnings("FeatureEnvy")
-	protected AbstractTuplesSubResource(@MillisecondsSince1970 final long lastModifiedTime, final int guess, @NotNull final Tuple... tuples)
+	public PatientRecordSubResource(@MillisecondsSince1970 final long lastModified, final int guess, @NonNls @NotNull final String xmlRootElementName, @NotNull final SimplePatientRecord patientRecord)
 	{
-		super(lastModifiedTime);
-		jsonUtf8Content = resourceContent(JsonContentTypeUtf8, new JsonSerialiser(), guess, tuples);
-		xmlUtf8Content = resourceContent(XmlContentTypeUtf8, new XmlSerialiser(true, "gs1"), guess * 4, tuples);
-		tsvUtf8Content = resourceContent(TsvContentTypeUtf8, tsvSerialiserForTuples(), guess * 4, tuples);
-		// Note: does not check for IANA mime type attribute to include or exclude the heading
-		csvUtf8Content = resourceContent(CsvContentTypeUtf8, csvSerialiserForTuples(true), guess * 4, tuples);
+		super(lastModified);
+		jsonUtf8Content = resourceContent(JsonContentTypeUtf8, new JsonSerialiser(), guess, patientRecord);
+		xmlUtf8Content = resourceContent(XmlContentTypeUtf8, new XmlSerialiser(true, xmlRootElementName), guess * 4, patientRecord);
 	}
 
 	@SuppressWarnings("FeatureEnvy")
 	@NotNull
 	@Override
-	public final ResourceContent content(@Nullable final String rawQueryString) throws BadRequestException
+	public ResourceContent content(@Nullable final String rawQueryString) throws BadRequestException
 	{
-		final Gs1CompanyPrefxQueryStringEventHandler queryStringEventHandler = parseGs1QueryString(rawQueryString);
+		final CrdsStoreQueryStringEventHandler queryStringEventHandler = parseCrdsStoreQueryString(rawQueryString);
 
 		if (queryStringEventHandler.isXml())
 		{
 			return xmlUtf8Content;
-		}
-		if (queryStringEventHandler.isTsv())
-		{
-			return tsvUtf8Content;
-		}
-		if (queryStringEventHandler.isCsv())
-		{
-			return csvUtf8Content;
 		}
 		if (queryStringEventHandler.isJsonP())
 		{

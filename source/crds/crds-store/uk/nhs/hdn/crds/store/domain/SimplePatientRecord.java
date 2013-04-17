@@ -18,6 +18,7 @@ package uk.nhs.hdn.crds.store.domain;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hdn.common.MillisecondsSince1970;
 import uk.nhs.hdn.common.hazelcast.collections.HazelcastAwareLinkedHashMap;
 import uk.nhs.hdn.common.hazelcast.hazelcastDataWriters.DigitsHazelcastDataObjectWriter;
 import uk.nhs.hdn.common.hazelcast.hazelcastDataWriters.HazelcastDataWriter;
@@ -33,6 +34,7 @@ import uk.nhs.hdn.number.NhsNumber;
 import java.io.DataOutput;
 import java.io.IOException;
 
+import static java.lang.System.currentTimeMillis;
 import static uk.nhs.hdn.crds.store.domain.ProviderRecord.initialProviderRecords;
 import static uk.nhs.hdn.crds.store.domain.ProviderRecord.providerRecord;
 
@@ -41,16 +43,18 @@ public final class SimplePatientRecord extends AbstractToString implements Patie
 	@NotNull
 	public static SimplePatientRecord initialPatientRecord(@NotNull final NhsNumber patientIdentifier, @NotNull final ProviderIdentifier providerIdentifier, @NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final RepositoryEvent repositoryEvent)
 	{
-		return new SimplePatientRecord(patientIdentifier, initialProviderRecords(providerIdentifier, repositoryIdentifier, repositoryEvent));
+		return new SimplePatientRecord(patientIdentifier, currentTimeMillis(), initialProviderRecords(providerIdentifier, repositoryIdentifier, repositoryEvent));
 	}
 
 	@NotNull private final NhsNumber patientIdentifier;
+	@MillisecondsSince1970 private final long lastModified;
 	@NotNull private final HazelcastAwareLinkedHashMap<ProviderIdentifier, ProviderRecord> knownProviders;
 
 	@SuppressWarnings("AssignmentToCollectionOrArrayFieldFromParameter")
-	public SimplePatientRecord(@NotNull final NhsNumber patientIdentifier, @NotNull final HazelcastAwareLinkedHashMap<ProviderIdentifier, ProviderRecord> knownProviders)
+	public SimplePatientRecord(@NotNull final NhsNumber patientIdentifier, @MillisecondsSince1970 final long lastModified, @NotNull final HazelcastAwareLinkedHashMap<ProviderIdentifier, ProviderRecord> knownProviders)
 	{
 		this.patientIdentifier = patientIdentifier;
+		this.lastModified = lastModified;
 		this.knownProviders = knownProviders;
 	}
 
@@ -70,22 +74,31 @@ public final class SimplePatientRecord extends AbstractToString implements Patie
 			providerRecord = existingProviderRecord.addRepositoryEvent(repositoryIdentifier, repositoryEvent);
 		}
 		final HazelcastAwareLinkedHashMap<ProviderIdentifier, ProviderRecord> replacementKnownProviders = new HazelcastAwareLinkedHashMap<>(knownProviders, providerIdentifier, providerRecord);
-		return new SimplePatientRecord(patientIdentifier, replacementKnownProviders);
+		return new SimplePatientRecord(patientIdentifier, currentTimeMillis(), replacementKnownProviders);
+	}
+
+	@MillisecondsSince1970
+	public long lastModified()
+	{
+		return lastModified;
 	}
 
 	@Override
 	public void writeData(@NotNull final DataOutput out) throws IOException
 	{
 		DigitsHazelcastDataObjectWriter.writeData(out, patientIdentifier);
+		out.writeLong(lastModified);
 		knownProviders.writeData(out);
 	}
 
+	@SuppressWarnings("FeatureEnvy")
 	@Override
 	public void serialiseMap(@NotNull final MapSerialiser mapSerialiser) throws CouldNotSerialiseMapException
 	{
 		try
 		{
 			mapSerialiser.writeProperty("patientIdentifier", patientIdentifier);
+			mapSerialiser.writeProperty("lastModified", lastModified);
 			mapSerialiser.writeProperty("knownProviders", knownProviders);
 		}
 		catch (CouldNotWritePropertyException e)

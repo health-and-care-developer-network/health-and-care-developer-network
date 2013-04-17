@@ -18,20 +18,16 @@ package uk.nhs.hdn.common.http.server.sun.restEndpoints;
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.http.server.sun.restEndpoints.methodEndpoints.MethodEndpoint;
-import uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.NotFoundResourceStateSnapshot;
 import uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.ResourceStateSnapshot;
 
 import static uk.nhs.hdn.common.http.server.sun.restEndpoints.methodEndpoints.NotFoundMethodEndpoint.NotFoundMethodEndpointInstance;
+import static uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.NotFoundResourceStateSnapshot.NotFoundResourceStateSnapshotInstance;
 
 public final class RootDenialRestEndpoint extends AbstractMethodRoutingRestEndpoint<ResourceStateSnapshot>
 {
-	@NotNull
-	private final NotFoundResourceStateSnapshot notFoundResourceStateSnapshot;
-
 	public RootDenialRestEndpoint()
 	{
 		super("/", NoAuthentication);
-		notFoundResourceStateSnapshot = new NotFoundResourceStateSnapshot();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -46,6 +42,6 @@ public final class RootDenialRestEndpoint extends AbstractMethodRoutingRestEndpo
 	@Override
 	protected ResourceStateSnapshot snapshotOfStateThatIsInvariantForRequest()
 	{
-		return notFoundResourceStateSnapshot;
+		return NotFoundResourceStateSnapshotInstance;
 	}
 }

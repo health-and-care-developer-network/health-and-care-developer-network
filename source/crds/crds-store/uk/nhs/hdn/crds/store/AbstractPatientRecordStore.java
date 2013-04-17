@@ -37,6 +37,16 @@ public abstract class AbstractPatientRecordStore<K, V extends PatientRecord<V>> 
 		this.root = root;
 	}
 
+	@Nullable
+	@Override
+	public SimplePatientRecord get(@NotNull final NhsNumber patientIdentifier)
+	{
+		return simplePatientRecordFor(root.get(patientIdentifier));
+	}
+
+	@Nullable
+	protected abstract SimplePatientRecord simplePatientRecordFor(@NotNull final V patientIdentifier);
+
 	@Override
 	public final void addEvent(@NotNull final NhsNumber patientIdentifier, @NotNull final ProviderIdentifier providerIdentifier, @NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final RepositoryEvent repositoryEvent)
 	{

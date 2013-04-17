@@ -16,13 +16,22 @@
 
 package uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.subResources;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.http.server.sun.restEndpoints.clientError4xxs.BadRequestException;
 import uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.resourceContents.ResourceContent;
 
+import java.util.Date;
+
 public interface SubResource
 {
+	@NotNull @NonNls String lastModifiedInRfc2822Form();
+
+	boolean ifModifiedSinceNotModified(@NotNull final Date lastModified);
+
+	boolean ifUnmodifiedSincePreconditionFailed(@NotNull final Date lastModified);
+
 	@NotNull
 	ResourceContent content(@Nullable final String rawQueryString) throws BadRequestException;
 }

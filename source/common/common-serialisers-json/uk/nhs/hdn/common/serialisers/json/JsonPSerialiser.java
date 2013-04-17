@@ -25,8 +25,8 @@ import java.nio.charset.Charset;
 
 public final class JsonPSerialiser extends JsonSerialiser
 {
-	private static final int OpenBrace = (int) '(';
-	private static final char[] Ending = ");\n".toCharArray();
+	public static final int OpenBrace = (int) '(';
+	@SuppressWarnings("PublicStaticArrayField") @NotNull public static final char[] Ending = ");\n".toCharArray();
 
 	@NotNull
 	private final String jsonPPrefix;

@@ -18,13 +18,14 @@ package uk.nhs.hdn.barcodes.gs1.server.subResources;
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.barcodes.gs1.organisation.Tuple;
+import uk.nhs.hdn.common.MillisecondsSince1970;
 
 public final class BarcodeSubResource extends AbstractTuplesSubResource
 {
 	private static final int QuarterOfAKilobyte = 256;
 
-	public BarcodeSubResource(@NotNull final Tuple tuple)
+	public BarcodeSubResource(@MillisecondsSince1970 final long lastModifiedTime, @NotNull final Tuple tuple)
 	{
-		super(QuarterOfAKilobyte, tuple);
+		super(lastModifiedTime, QuarterOfAKilobyte, tuple);
 	}
 }

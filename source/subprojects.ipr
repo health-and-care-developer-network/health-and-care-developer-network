@@ -1289,6 +1289,7 @@
       <module fileurl="file://$PROJECT_DIR$/crds/crds-repository/crds-repository.iml" filepath="$PROJECT_DIR$/crds/crds-repository/crds-repository.iml" group="crds" />
       <module fileurl="file://$PROJECT_DIR$/crds/crds-store/crds-store.iml" filepath="$PROJECT_DIR$/crds/crds-store/crds-store.iml" group="crds" />
       <module fileurl="file://$PROJECT_DIR$/crds/crds-store-hazelcast/crds-store-hazelcast.iml" filepath="$PROJECT_DIR$/crds/crds-store-hazelcast/crds-store-hazelcast.iml" group="crds" />
+      <module fileurl="file://$PROJECT_DIR$/crds/crds-store-rest/crds-store-rest.iml" filepath="$PROJECT_DIR$/crds/crds-store-rest/crds-store-rest.iml" group="crds" />
       <module fileurl="file://$PROJECT_DIR$/crds/crds-store-standalone/crds-store-standalone.iml" filepath="$PROJECT_DIR$/crds/crds-store-standalone/crds-store-standalone.iml" group="crds" />
       <module fileurl="file://$PROJECT_DIR$/dbs/dbs/dbs.iml" filepath="$PROJECT_DIR$/dbs/dbs/dbs.iml" group="dbs" />
       <module fileurl="file://$PROJECT_DIR$/dbs/dbs-parsing/dbs-parsing.iml" filepath="$PROJECT_DIR$/dbs/dbs-parsing/dbs-parsing.iml" group="dbs" />

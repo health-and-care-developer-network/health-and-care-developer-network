@@ -27,6 +27,8 @@ import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 
 import java.io.IOException;
 
+import static uk.nhs.hdn.common.GregorianCalendarHelper.toRfc2822Form;
+import static uk.nhs.hdn.common.GregorianCalendarHelper.utcNow;
 import static uk.nhs.hdn.common.http.server.sun.helpers.ResponseHeadersHelper.emptyInvariantResponseHeaders;
 
 public abstract class AbstractBodylessMethodEndpoint<R extends ResourceStateSnapshot> extends AbstractToString implements MethodEndpoint<R>
@@ -39,7 +41,7 @@ public abstract class AbstractBodylessMethodEndpoint<R extends ResourceStateSnap
 	public final void handle(@NotNull final String rawRelativeUriPath, @Nullable final String rawQueryString, @NotNull final HttpExchange httpExchange, @NotNull final R resourceStateSnapshot) throws IOException, BadRequestException
 	{
 		validateRequestHeaders(httpExchange.getRequestHeaders());
-		final Headers headers = emptyInvariantResponseHeaders(httpExchange, resourceStateSnapshot.lastModifiedInRfc2822Form());
+		final Headers headers = emptyInvariantResponseHeaders(httpExchange, toRfc2822Form(utcNow()));
 		@ResponseCode final int responseCode = addResponseHeaders(headers);
 		httpExchange.sendResponseHeaders(responseCode, NoContentBodyMagicValue);
 		httpExchange.close();

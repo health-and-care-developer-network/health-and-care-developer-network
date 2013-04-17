@@ -16,14 +16,12 @@
 
 package uk.nhs.hdn.crds.store.standalone;
 
-import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.crds.store.AbstractPatientRecordStore;
 import uk.nhs.hdn.crds.store.domain.SimplePatientRecord;
 import uk.nhs.hdn.number.NhsNumber;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-public final class StrippedLockingStandalonePatientRecordStore extends AbstractPatientRecordStore<NhsNumber, SimplePatientRecord>
+public final class StrippedLockingStandalonePatientRecordStore extends AbstractStandalonePatientRecordStore
 {
 	private static final float OptimumLoadFactor = 0.7f;
 	private static final int SixtyFourThreads = 64;
@@ -32,19 +30,5 @@ public final class StrippedLockingStandalonePatientRecordStore extends AbstractP
 	{
 		// Java's ConcurrentHashMap uses stripped locking
 		super(new ConcurrentHashMap<NhsNumber, SimplePatientRecord>(100, OptimumLoadFactor, SixtyFourThreads));
-	}
-
-	@NotNull
-	@Override
-	protected NhsNumber key(@NotNull final NhsNumber patientIdentifier)
-	{
-		return patientIdentifier;
-	}
-
-	@NotNull
-	@Override
-	protected SimplePatientRecord value(@NotNull final SimplePatientRecord simplePatientRecord)
-	{
-		return simplePatientRecord;
 	}
 }

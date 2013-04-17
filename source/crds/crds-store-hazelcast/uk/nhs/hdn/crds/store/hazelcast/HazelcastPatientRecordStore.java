@@ -17,6 +17,7 @@
 package uk.nhs.hdn.crds.store.hazelcast;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.crds.store.AbstractPatientRecordStore;
 import uk.nhs.hdn.crds.store.domain.SimplePatientRecord;
 import uk.nhs.hdn.crds.store.hazelcast.hazelcastSerialisationHolders.NhsNumberHazelcastSerialisationHolder;
@@ -31,6 +32,13 @@ public final class HazelcastPatientRecordStore extends AbstractPatientRecordStor
 	public HazelcastPatientRecordStore(@NotNull final ConcurrentMap<NhsNumberHazelcastSerialisationHolder, PatientRecordHazelcastSerialisationHolder> root)
 	{
 		super(root);
+	}
+
+	@Nullable
+	@Override
+	protected SimplePatientRecord simplePatientRecordFor(@NotNull final PatientRecordHazelcastSerialisationHolder patientIdentifier)
+	{
+		return patientIdentifier.patientRecord();
 	}
 
 	@Override

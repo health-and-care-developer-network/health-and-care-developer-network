@@ -18,18 +18,16 @@ package uk.nhs.hdn.crds.store.domain.identifiers;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hdn.common.hazelcast.hazelcastDataWriters.HazelcastDataWriter;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hdn.common.serialisers.CouldNotSerialiseValueException;
 import uk.nhs.hdn.common.serialisers.CouldNotWriteValueException;
-import uk.nhs.hdn.common.serialisers.ValueSerialisable;
 import uk.nhs.hdn.common.serialisers.ValueSerialiser;
 
 import java.io.DataOutput;
 import java.io.IOException;
 import java.util.UUID;
 
-public abstract class AbstractIdentifier extends AbstractToString implements HazelcastDataWriter, ValueSerialisable
+public abstract class AbstractIdentifier extends AbstractToString implements Identifier
 {
 	@NotNull private final UUID identifier;
 

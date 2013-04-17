@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.subResources;
+package uk.nhs.hdn.crds.store.rest;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.common.http.server.sun.restEndpoints.clientError4xxs.NotFoundException;
 
-public interface SubResourceFinder
+public interface RepositoryEventObserver<K>
 {
-	@NotNull
-	SubResource find(@NotNull final String rawPath) throws NotFoundException;
+	void repositoryEventReceived(@NotNull final K key);
 }

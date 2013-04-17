@@ -14,20 +14,13 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.store;
+package uk.nhs.hdn.crds.store.rest;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hdn.crds.store.domain.SimplePatientRecord;
-import uk.nhs.hdn.crds.store.domain.identifiers.ProviderIdentifier;
-import uk.nhs.hdn.crds.store.domain.RepositoryEvent;
-import uk.nhs.hdn.crds.store.domain.identifiers.RepositoryIdentifier;
-import uk.nhs.hdn.number.NhsNumber;
 
-public interface PatientRecordStore
+public interface SourceOfValuesToCache<K, V>
 {
-	void addEvent(@NotNull NhsNumber patientIdentifier, @NotNull ProviderIdentifier providerIdentifier, @NotNull RepositoryIdentifier repositoryIdentifier, @NotNull RepositoryEvent repositoryEvent);
-
 	@Nullable
-	SimplePatientRecord get(@NotNull final NhsNumber patientIdentifier);
+	V get(@NotNull final K key);
 }

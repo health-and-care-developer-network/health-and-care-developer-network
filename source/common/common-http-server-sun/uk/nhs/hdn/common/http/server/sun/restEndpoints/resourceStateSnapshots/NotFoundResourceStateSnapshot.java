@@ -17,22 +17,22 @@
 package uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.resourceContents.ResourceContent;
-
-import static uk.nhs.hdn.common.GregorianCalendarHelper.utcNow;
+import uk.nhs.hdn.common.http.server.sun.restEndpoints.clientError4xxs.NotFoundException;
+import uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.subResources.SubResource;
 
 public final class NotFoundResourceStateSnapshot extends AbstractResourceStateSnapshot
 {
-	public NotFoundResourceStateSnapshot()
+	@NotNull
+	public static final ResourceStateSnapshot NotFoundResourceStateSnapshotInstance = new NotFoundResourceStateSnapshot();
+
+	private NotFoundResourceStateSnapshot()
 	{
-		super(utcNow());
 	}
 
 	@NotNull
 	@Override
-	public ResourceContent content(@NotNull final String rawRelativeUriPath, @Nullable final String rawQueryString)
+	public SubResource find(@NotNull final String rawPath) throws NotFoundException
 	{
-		throw new UnsupportedOperationException("Should never be called");
+		throw new NotFoundException("Unknown resource");
 	}
 }

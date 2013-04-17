@@ -14,20 +14,11 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.store.standalone;
+package uk.nhs.hdn.crds.store.domain.identifiers;
 
-import uk.nhs.hdn.crds.store.domain.SimplePatientRecord;
-import uk.nhs.hdn.number.NhsNumber;
+import uk.nhs.hdn.common.hazelcast.hazelcastDataWriters.HazelcastDataWriter;
+import uk.nhs.hdn.common.serialisers.ValueSerialisable;
 
-import java.util.concurrent.ConcurrentHashMap;
-
-public final class NonBlockingStandalonePatientRecordStore extends AbstractStandalonePatientRecordStore
+public interface Identifier extends HazelcastDataWriter, ValueSerialisable
 {
-	private static final float OptimumLoadFactor = 0.7f;
-	private static final int SixtyFourThreads = 64;
-
-	public NonBlockingStandalonePatientRecordStore()
-	{
-		super(new ConcurrentHashMap<NhsNumber, SimplePatientRecord>(100, OptimumLoadFactor, SixtyFourThreads));
-	}
 }

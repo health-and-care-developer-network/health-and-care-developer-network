@@ -16,24 +16,12 @@
 
 package uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots;
 
-import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import uk.nhs.hdn.common.http.server.sun.restEndpoints.clientError4xxs.BadRequestException;
-import uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.resourceContents.ResourceContent;
 import uk.nhs.hdn.common.http.server.sun.restEndpoints.clientError4xxs.NotFoundException;
-
-import java.util.Date;
+import uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.subResources.SubResource;
 
 public interface ResourceStateSnapshot
 {
-	@NotNull @NonNls
-	String lastModifiedInRfc2822Form();
-
-	boolean ifModifiedSinceNotModified(@NotNull final Date lastModified);
-
-	boolean ifUnmodifiedSincePreconditionFailed(@NotNull final Date lastModified);
-
 	@NotNull
-	ResourceContent content(@NotNull final String rawRelativeUriPath, @Nullable final String rawQueryString) throws NotFoundException, BadRequestException;
+	SubResource find(@NotNull final String rawPath) throws NotFoundException;
 }

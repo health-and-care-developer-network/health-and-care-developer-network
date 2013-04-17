@@ -18,13 +18,14 @@ package uk.nhs.hdn.barcodes.gs1.server.subResources;
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.barcodes.gs1.organisation.Tuple;
+import uk.nhs.hdn.common.MillisecondsSince1970;
 
 public final class AllTuplesSubResource extends AbstractTuplesSubResource
 {
 	private static final int Kilobytes64 = 64 * 1024;
 
-	public AllTuplesSubResource(@NotNull final Tuple... tuples)
+	public AllTuplesSubResource(@MillisecondsSince1970 final long lastModifiedTime, @NotNull final Tuple... tuples)
 	{
-		super(Kilobytes64, tuples);
+		super(lastModifiedTime, Kilobytes64, tuples);
 	}
 }

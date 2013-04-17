@@ -14,20 +14,28 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.store.standalone;
+package uk.nhs.hdn.crds.store.rest.caching;
 
-import uk.nhs.hdn.crds.store.domain.SimplePatientRecord;
-import uk.nhs.hdn.number.NhsNumber;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-import java.util.concurrent.ConcurrentHashMap;
-
-public final class NonBlockingStandalonePatientRecordStore extends AbstractStandalonePatientRecordStore
+@SuppressWarnings({"SerializableHasSerializationMethods", "serial"})
+public final class ThreadUnsafeLeastRecentlyAccessedLinkedHashMap<K, V> extends LinkedHashMap<K, V>
 {
 	private static final float OptimumLoadFactor = 0.7f;
-	private static final int SixtyFourThreads = 64;
 
-	public NonBlockingStandalonePatientRecordStore()
+	private final int sizeCheck;
+
+	public ThreadUnsafeLeastRecentlyAccessedLinkedHashMap(final int maximumSize)
 	{
-		super(new ConcurrentHashMap<NhsNumber, SimplePatientRecord>(100, OptimumLoadFactor, SixtyFourThreads));
+		super(maximumSize + 1, OptimumLoadFactor, true);
+		sizeCheck = maximumSize + 1;
+	}
+
+	@SuppressWarnings("RefusedBequest")
+	@Override
+	protected boolean removeEldestEntry(final Map.Entry<K, V> eldest)
+	{
+		return size() == sizeCheck;
 	}
 }

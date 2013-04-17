@@ -26,6 +26,7 @@ import uk.nhs.hdn.common.http.server.sun.restEndpoints.clientError4xxs.BadReques
 import uk.nhs.hdn.common.http.server.sun.restEndpoints.clientError4xxs.NotFoundException;
 import uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.ResourceStateSnapshot;
 import uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.resourceContents.ResourceContent;
+import uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.subResources.SubResource;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -58,6 +59,17 @@ public abstract class AbstractHeadOrGetRegisterableMethodEndpoint<R extends Reso
 		validateNoRequestBody(requestHeaders, httpExchange);
 		validateHeadersOmitted(requestHeaders, DateHeaderName);
 
+		final SubResource subResource;
+		try
+		{
+			subResource = resourceStateSnapshot.find(rawRelativeUriPath);
+		}
+		catch (NotFoundException e)
+		{
+			e.write4xxResponse(httpExchange);
+			return;
+		}
+
 		@Nullable final String expect = validateZeroOrOneInstanceOfRequestHeader(requestHeaders, ExpectHeaderName);
 		if (expect != null)
 		{
@@ -69,7 +81,7 @@ public abstract class AbstractHeadOrGetRegisterableMethodEndpoint<R extends Reso
 		// now if-match when etags supported
 
 		@Nullable final Date ifUnmodifiedSince = validateZeroOrOneInstanceOfRfc2822Header(requestHeaders, IfUnmodifiedSinceHeaderName);
-		if (ifUnmodifiedSince != null && resourceStateSnapshot.ifUnmodifiedSincePreconditionFailed(ifUnmodifiedSince))
+		if (ifUnmodifiedSince != null && subResource.ifUnmodifiedSincePreconditionFailed(ifUnmodifiedSince))
 		{
 			withoutEntityHeaders(httpExchange, CacheControlHeaderValueMaximum);
 			httpExchange.sendResponseHeaders(PreconditionFailedResponseCode, NoContentBodyMagicValue);
@@ -80,7 +92,7 @@ public abstract class AbstractHeadOrGetRegisterableMethodEndpoint<R extends Reso
 		// now if-none-match when etags supported
 
 		@Nullable final Date ifModifiedSince = validateZeroOrOneInstanceOfRfc2822Header(requestHeaders, IfModifiedSinceHeaderName);
-		if (ifModifiedSince != null && !resourceStateSnapshot.ifModifiedSinceNotModified(ifModifiedSince))
+		if (ifModifiedSince != null && !subResource.ifModifiedSinceNotModified(ifModifiedSince))
 		{
 			withoutEntityHeaders(httpExchange, CacheControlHeaderValueMaximum);
 			httpExchange.sendResponseHeaders(NotModifiedResponseCode, NoContentBodyMagicValue);
@@ -88,18 +100,9 @@ public abstract class AbstractHeadOrGetRegisterableMethodEndpoint<R extends Reso
 			return;
 		}
 
-		final ResourceContent content;
-		try
-		{
-			content = resourceStateSnapshot.content(rawRelativeUriPath, rawQueryString);
-		}
-		catch (NotFoundException e)
-		{
-			e.write4xxResponse(httpExchange);
-			return;
-		}
+		final ResourceContent content = subResource.content(rawQueryString);
 
-		content.setHeaders(httpExchange, resourceStateSnapshot.lastModifiedInRfc2822Form());
+		content.setHeaders(httpExchange, subResource.lastModifiedInRfc2822Form());
 		send(httpExchange, content);
 		httpExchange.close();
 	}
