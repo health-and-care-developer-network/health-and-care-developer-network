@@ -17,17 +17,35 @@
 package uk.nhs.hdn.crds.store.domain;
 
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.common.serialisers.CouldNotSerialiseValueException;
+import uk.nhs.hdn.common.serialisers.CouldNotWriteValueException;
+import uk.nhs.hdn.common.serialisers.ValueSerialisable;
+import uk.nhs.hdn.common.serialisers.ValueSerialiser;
 
-public enum RepositoryEventKind
+public enum RepositoryEventKind implements ValueSerialisable
 {
 	Created,
 	Updated,
 	Removed,
 	;
 
+
 	@NotNull
 	public static RepositoryEventKind repositoryEventKind(final int ordinal)
 	{
 		return RepositoryEventKind.values()[ordinal];
+	}
+
+	@Override
+	public void serialiseValue(@NotNull final ValueSerialiser valueSerialiser) throws CouldNotSerialiseValueException
+	{
+		try
+		{
+			valueSerialiser.writeValue(ordinal());
+		}
+		catch (CouldNotWriteValueException e)
+		{
+			throw new CouldNotSerialiseValueException(this, e);
+		}
 	}
 }

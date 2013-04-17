@@ -17,107 +17,11 @@
 package uk.nhs.hdn.crds.store.domain;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import uk.nhs.hdn.common.hazelcast.hazelcastDataWriters.HazelcastDataWriter;
-import uk.nhs.hdn.common.reflection.toString.AbstractToString;
-import uk.nhs.hdn.common.hazelcast.collections.HazelcastAwareLinkedHashMap;
-import uk.nhs.hdn.crds.store.hazelcast.hazelcastSerialisationHolders.NhsNumberHazelcastSerialisationHolder;
-import uk.nhs.hdn.number.NhsNumber;
+import uk.nhs.hdn.crds.store.domain.identifiers.ProviderIdentifier;
+import uk.nhs.hdn.crds.store.domain.identifiers.RepositoryIdentifier;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-
-import static uk.nhs.hdn.crds.store.domain.ProviderRecord.initialProviderRecords;
-import static uk.nhs.hdn.crds.store.domain.ProviderRecord.providerRecord;
-import static uk.nhs.hdn.crds.store.hazelcast.hazelcastDataReaders.ProviderRecordHazelcastDataReader.ProviderRecordHazelcastDataReaderInstance;
-import static uk.nhs.hdn.crds.store.hazelcast.hazelcastDataReaders.identifierDataReaders.ProviderIdentifierHazelcastDataReader.ProviderIdentifierDataReaderInstance;
-
-public final class PatientRecord extends AbstractToString implements HazelcastDataWriter
+public interface PatientRecord<P extends PatientRecord<P>>
 {
 	@NotNull
-	public static PatientRecord initialPatientRecord(@NotNull final NhsNumber patientIdentifier, @NotNull final ProviderIdentifier providerIdentifier, @NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final RepositoryEvent repositoryEvent)
-	{
-		return new PatientRecord(patientIdentifier, initialProviderRecords(providerIdentifier, repositoryIdentifier, repositoryEvent));
-	}
-
-	@NotNull private final NhsNumber patientIdentifier;
-	@NotNull private final HazelcastAwareLinkedHashMap<ProviderIdentifier, ProviderRecord> knownProviders;
-
-	@SuppressWarnings("AssignmentToCollectionOrArrayFieldFromParameter")
-	public PatientRecord(@NotNull final NhsNumber patientIdentifier, @NotNull final HazelcastAwareLinkedHashMap<ProviderIdentifier, ProviderRecord> knownProviders)
-	{
-		this.patientIdentifier = patientIdentifier;
-		this.knownProviders = knownProviders;
-	}
-
-	@SuppressWarnings("FeatureEnvy")
-	@NotNull
-	public PatientRecord addRepositoryEvent(@NotNull final ProviderIdentifier providerIdentifier, @NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final RepositoryEvent repositoryEvent)
-	{
-		@Nullable final ProviderRecord existingProviderRecord = knownProviders.get(providerIdentifier);
-		final ProviderRecord providerRecord;
-		if (existingProviderRecord == null)
-		{
-			providerRecord = providerRecord(providerIdentifier, repositoryIdentifier, repositoryEvent);
-		}
-		else
-		{
-			providerRecord = existingProviderRecord.addRepositoryEvent(repositoryIdentifier, repositoryEvent);
-		}
-		final HazelcastAwareLinkedHashMap<ProviderIdentifier, ProviderRecord> replacementKnownProviders = new HazelcastAwareLinkedHashMap<>(knownProviders, providerIdentifier, providerRecord);
-		return new PatientRecord(patientIdentifier, replacementKnownProviders);
-	}
-
-	@Override
-	public void writeData(@NotNull final DataOutput out) throws IOException
-	{
-		new NhsNumberHazelcastSerialisationHolder(patientIdentifier).writeData(out);
-		knownProviders.writeData(out);
-	}
-
-	@NotNull
-	public static PatientRecord readData(@NotNull final DataInput in) throws IOException
-	{
-		final NhsNumberHazelcastSerialisationHolder nhsNumberHazelcastSerialisationHolder = new NhsNumberHazelcastSerialisationHolder();
-		nhsNumberHazelcastSerialisationHolder.readData(in);
-		final NhsNumber nhsNumber = nhsNumberHazelcastSerialisationHolder.nhsNumber();
-
-		return new PatientRecord(nhsNumber, HazelcastAwareLinkedHashMap.readData(in, ProviderIdentifierDataReaderInstance, ProviderRecordHazelcastDataReaderInstance));
-	}
-
-	@Override
-	public boolean equals(@Nullable final Object obj)
-	{
-		if (this == obj)
-		{
-			return true;
-		}
-		if (obj == null || getClass() != obj.getClass())
-		{
-			return false;
-		}
-
-		final PatientRecord that = (PatientRecord) obj;
-
-		if (!knownProviders.equals(that.knownProviders))
-		{
-			return false;
-		}
-		if (!patientIdentifier.equals(that.patientIdentifier))
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	@Override
-	public int hashCode()
-	{
-		int result = patientIdentifier.hashCode();
-		result = 31 * result + knownProviders.hashCode();
-		return result;
-	}
-
+	P addRepositoryEvent(@NotNull final ProviderIdentifier providerIdentifier, @NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final RepositoryEvent repositoryEvent);
 }

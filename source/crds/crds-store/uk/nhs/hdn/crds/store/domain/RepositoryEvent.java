@@ -22,11 +22,16 @@ import uk.nhs.hdn.common.MillisecondsSince1970;
 import uk.nhs.hdn.common.hazelcast.hazelcastDataWriters.HazelcastDataWriter;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hdn.common.hazelcast.collections.HazelcastAwareLinkedHashSet;
+import uk.nhs.hdn.common.serialisers.CouldNotSerialiseMapException;
+import uk.nhs.hdn.common.serialisers.CouldNotWritePropertyException;
+import uk.nhs.hdn.common.serialisers.MapSerialisable;
+import uk.nhs.hdn.common.serialisers.MapSerialiser;
+import uk.nhs.hdn.crds.store.domain.identifiers.RepositoryEventIdentifier;
 
 import java.io.DataOutput;
 import java.io.IOException;
 
-public final class RepositoryEvent extends AbstractToString implements HazelcastDataWriter
+public final class RepositoryEvent extends AbstractToString implements HazelcastDataWriter, MapSerialisable
 {
 	@NotNull
 	public static HazelcastAwareLinkedHashSet<RepositoryEvent> initialRepositoryEvents(@NotNull final RepositoryEvent repositoryEvent)
@@ -51,6 +56,22 @@ public final class RepositoryEvent extends AbstractToString implements Hazelcast
 		repositoryEventIdentifier.writeData(out);
 		out.writeLong(timestamp);
 		out.writeByte(repositoryEventKind.ordinal());
+	}
+
+	@SuppressWarnings("FeatureEnvy")
+	@Override
+	public void serialiseMap(@NotNull final MapSerialiser mapSerialiser) throws CouldNotSerialiseMapException
+	{
+		try
+		{
+			mapSerialiser.writeProperty("repositoryEventIdentifier", repositoryEventIdentifier);
+			mapSerialiser.writeProperty("timestamp", timestamp);
+			mapSerialiser.writeProperty("repositoryEventKind", repositoryEventKind);
+		}
+		catch (CouldNotWritePropertyException e)
+		{
+			throw new CouldNotSerialiseMapException(this, e);
+		}
 	}
 
 	@Override

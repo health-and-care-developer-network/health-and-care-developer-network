@@ -22,7 +22,7 @@ import java.io.DataInput;
 import java.io.IOException;
 import java.util.UUID;
 
-public final class UuidHazelcastDataReader implements HazelcastDataReader<UUID>
+public final class UuidHazelcastDataReader extends AbstractHazelcastDataReader<UUID>
 {
 	@NotNull public static final HazelcastDataReader<UUID> UuidHazelcastDataReaderInstance = new UuidHazelcastDataReader();
 

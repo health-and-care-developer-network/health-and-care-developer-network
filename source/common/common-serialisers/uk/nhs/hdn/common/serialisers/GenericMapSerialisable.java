@@ -17,12 +17,14 @@
 package uk.nhs.hdn.common.serialisers;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 
 import java.util.Map;
 
-public final class GenericMapSerialisable implements MapSerialisable
+public final class GenericMapSerialisable extends AbstractToString implements MapSerialisable
 {
-	private final Map<?, ?> value;
+	@NotNull private final Map<?, ?> value;
 
 	@SuppressWarnings("AssignmentToCollectionOrArrayFieldFromParameter")
 	public GenericMapSerialisable(@NotNull final Map<?, ?> value)
@@ -31,7 +33,40 @@ public final class GenericMapSerialisable implements MapSerialisable
 	}
 
 	@Override
+	public boolean equals(@Nullable final Object obj)
+	{
+		if (this == obj)
+		{
+			return true;
+		}
+		if (obj == null || getClass() != obj.getClass())
+		{
+			return false;
+		}
+
+		final GenericMapSerialisable that = (GenericMapSerialisable) obj;
+
+		if (!value.equals(that.value))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return value.hashCode();
+	}
+
+	@Override
 	public void serialiseMap(@NotNull final MapSerialiser mapSerialiser) throws CouldNotSerialiseMapException
+	{
+		serialiseMapGenerically(mapSerialiser, value);
+	}
+
+	public static void serialiseMapGenerically(@NotNull final MapSerialiser mapSerialiser, @NotNull final Map<?, ?> value) throws CouldNotSerialiseMapException
 	{
 		for (final Map.Entry<?, ?> entry : value.entrySet())
 		{
@@ -41,7 +76,7 @@ public final class GenericMapSerialisable implements MapSerialisable
 			}
 			catch (CouldNotWritePropertyException e)
 			{
-				throw new CouldNotSerialiseMapException(this, e);
+				throw new CouldNotSerialiseMapException(new GenericMapSerialisable(value), e);
 			}
 		}
 	}

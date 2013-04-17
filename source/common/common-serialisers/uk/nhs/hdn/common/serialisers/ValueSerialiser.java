@@ -21,6 +21,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 public interface ValueSerialiser
 {
@@ -31,6 +33,8 @@ public interface ValueSerialiser
 	<S extends ValueSerialisable> void writeValue(@NotNull final S[] values) throws CouldNotWriteValueException;
 
 	void writeValue(@NotNull final List<?> values) throws CouldNotWriteValueException;
+
+	void writeValue(@NotNull final Set<?> values) throws CouldNotWriteValueException;
 
 	void writeValue(final int value) throws CouldNotWriteValueException;
 
@@ -47,6 +51,8 @@ public interface ValueSerialiser
 	void writeValue(@NotNull final ValueSerialisable value) throws CouldNotWriteValueException;
 
 	void writeValue(@Nullable final Object value) throws CouldNotWriteValueException;
+
+	void writeValue(@NotNull final UUID value) throws CouldNotWriteValueException;
 
 	void writeValueNull() throws CouldNotWriteValueException;
 }

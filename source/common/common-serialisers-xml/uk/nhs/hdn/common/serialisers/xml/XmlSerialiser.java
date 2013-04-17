@@ -27,9 +27,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
@@ -293,6 +291,21 @@ public final class XmlSerialiser extends AbstractSerialiser
 	}
 
 	@Override
+	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final Set<?> values) throws CouldNotWritePropertyException
+	{
+		try
+		{
+			writeOpen(name);
+			writeValue(values);
+			writeClose(name);
+		}
+		catch (CouldNotWriteDataException | CouldNotEncodeDataException | CouldNotWriteValueException e)
+		{
+			throw new CouldNotWritePropertyException(name, values, e);
+		}
+	}
+
+	@Override
 	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final int value) throws CouldNotWritePropertyException
 	{
 		try
@@ -407,6 +420,29 @@ public final class XmlSerialiser extends AbstractSerialiser
 	}
 
 	@Override
+	public void writeValue(@NotNull final Set<?> values) throws CouldNotWriteValueException
+	{
+		try
+		{
+			for (final Object value : values)
+			{
+				if (value == null)
+				{
+					writeEmptyProperty(ListElementNodeName);
+				}
+				else
+				{
+					writeProperty(ListElementNodeName, value);
+				}
+			}
+		}
+		catch (CouldNotWritePropertyException e)
+		{
+			throw new CouldNotWriteValueException(values, e);
+		}
+	}
+
+	@Override
 	public void writeValue(final int value) throws CouldNotWriteValueException
 	{
 		writeValue(Integer.toString(value));
@@ -461,6 +497,12 @@ public final class XmlSerialiser extends AbstractSerialiser
 		{
 			throw new CouldNotWriteValueException(value, e);
 		}
+	}
+
+	@Override
+	public void writeValue(@NotNull final UUID value) throws CouldNotWriteValueException
+	{
+		writeValue(value.toString());
 	}
 
 	@Override

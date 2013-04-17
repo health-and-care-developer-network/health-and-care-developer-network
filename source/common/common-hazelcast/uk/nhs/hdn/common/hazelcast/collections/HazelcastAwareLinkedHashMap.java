@@ -19,6 +19,9 @@ package uk.nhs.hdn.common.hazelcast.collections;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.hazelcast.hazelcastDataReaders.HazelcastDataReader;
 import uk.nhs.hdn.common.hazelcast.hazelcastDataWriters.HazelcastDataWriter;
+import uk.nhs.hdn.common.serialisers.CouldNotSerialiseMapException;
+import uk.nhs.hdn.common.serialisers.MapSerialisable;
+import uk.nhs.hdn.common.serialisers.MapSerialiser;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -26,8 +29,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static uk.nhs.hdn.common.serialisers.GenericMapSerialisable.serialiseMapGenerically;
+
 @SuppressWarnings({"SerializableHasSerializationMethods", "serial"})
-public final class HazelcastAwareLinkedHashMap<K extends HazelcastDataWriter, V extends HazelcastDataWriter> extends HashMap<K, V> implements HazelcastDataWriter
+public final class HazelcastAwareLinkedHashMap<K extends HazelcastDataWriter, V extends HazelcastDataWriter> extends HashMap<K, V> implements HazelcastDataWriter, MapSerialisable
 {
 	public static final float OptimumHashLoadFactor = 0.7f;
 
@@ -58,6 +63,12 @@ public final class HazelcastAwareLinkedHashMap<K extends HazelcastDataWriter, V 
 			entry.getKey().writeData(out);
 			entry.getValue().writeData(out);
 		}
+	}
+
+	@Override
+	public void serialiseMap(@NotNull final MapSerialiser mapSerialiser) throws CouldNotSerialiseMapException
+	{
+		serialiseMapGenerically(mapSerialiser, this);
 	}
 
 	@NotNull

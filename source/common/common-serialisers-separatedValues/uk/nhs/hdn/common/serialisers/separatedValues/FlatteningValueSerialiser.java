@@ -24,6 +24,8 @@ import java.io.Writer;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 import static java.util.Arrays.copyOf;
 
@@ -121,6 +123,31 @@ public final class FlatteningValueSerialiser extends AbstractValueSerialiser
 	}
 
 	@Override
+	public void writeValue(@NotNull final Set<?> values) throws CouldNotWriteValueException
+	{
+		boolean afterFirst = false;
+		for (final Object value : values)
+		{
+			if (afterFirst)
+			{
+				try
+				{
+					writer.write(separator);
+				}
+				catch (IOException e)
+				{
+					throw new CouldNotWriteValueException(values, new CouldNotWriteDataException(e));
+				}
+			}
+			else
+			{
+				afterFirst = true;
+			}
+			writeValue(value);
+		}
+	}
+
+	@Override
 	public void writeValue(final int value) throws CouldNotWriteValueException
 	{
 		writeValue(Integer.toString(value));
@@ -168,6 +195,12 @@ public final class FlatteningValueSerialiser extends AbstractValueSerialiser
 		{
 			throw new CouldNotWriteValueException(value, e);
 		}
+	}
+
+	@Override
+	public void writeValue(@NotNull final UUID value) throws CouldNotWriteValueException
+	{
+		writeValue(value.toString());
 	}
 
 	@Override

@@ -10,6 +10,8 @@
     <orderEntry type="library" name="IntelliJ Annotations" level="project" />
     <orderEntry type="library" name="Hazelcast" level="project" />
     <orderEntry type="module" module-name="common-reflection" />
+    <orderEntry type="module" module-name="common-digits" />
+    <orderEntry type="module" module-name="number" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

@@ -26,7 +26,9 @@ import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Set;
 import java.util.Stack;
+import java.util.UUID;
 
 public class JsonSerialiser extends AbstractSerialiser
 {
@@ -213,6 +215,30 @@ public class JsonSerialiser extends AbstractSerialiser
 	}
 
 	@Override
+	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final Set<?> values) throws CouldNotWritePropertyException
+	{
+		try
+		{
+			if (current.hasSubsequentProperty())
+			{
+				write(CommaDoubleQuote);
+			}
+			else
+			{
+				write(DoubleQuote);
+				current.setHasSubsequentProperty();
+			}
+			jsonStringWriter.writeString(name);
+			write(DoubleQuoteColon);
+			writeValue(values);
+		}
+		catch (CouldNotWriteDataException | CouldNotWriteValueException e)
+		{
+			throw new CouldNotWritePropertyException(name, values, e);
+		}
+	}
+
+	@Override
 	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final int value) throws CouldNotWritePropertyException
 	{
 		try
@@ -368,6 +394,36 @@ public class JsonSerialiser extends AbstractSerialiser
 	}
 
 	@Override
+	public void writeValue(@NotNull final Set<?> values) throws CouldNotWriteValueException
+	{
+		depth.push(current);
+		try
+		{
+			current = new JsonNodeState();
+			write(OpenArray);
+			boolean afterFirst = false;
+			for (final Object value : values)
+			{
+				if (afterFirst)
+				{
+					write(Comma);
+				}
+				else
+				{
+					afterFirst = true;
+				}
+				writeValue(value);
+			}
+			write(CloseArray);
+		}
+		catch (CouldNotWriteDataException e)
+		{
+			throw new CouldNotWriteValueException(values, e);
+		}
+		current = depth.pop();
+	}
+
+	@Override
 	public void writeValue(final int value) throws CouldNotWriteValueException
 	{
 		writeValue(Integer.toString(value));
@@ -427,6 +483,12 @@ public class JsonSerialiser extends AbstractSerialiser
 		{
 			throw new CouldNotWriteValueException(value, e);
 		}
+	}
+
+	@Override
+	public void writeValue(@NotNull final UUID value) throws CouldNotWriteValueException
+	{
+		writeValue(value.toString());
 	}
 
 	@Override

@@ -23,6 +23,8 @@ import uk.nhs.hdn.common.unknown.IsUnknown;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 import static uk.nhs.hdn.common.serialisers.ValueSerialisable.NullNumber;
 
@@ -112,15 +114,15 @@ public abstract class AbstractSerialiser extends AbstractValueSerialiser impleme
 			return;
 		}
 
-		if (value instanceof MapSerialisable[])
-		{
-			writeProperty(name, (MapSerialisable[]) value);
-			return;
-		}
-
 		if (value instanceof ValueSerialisable)
 		{
 			writeProperty(name, (ValueSerialisable) value);
+			return;
+		}
+
+		if (value instanceof MapSerialisable[])
+		{
+			writeProperty(name, (MapSerialisable[]) value);
 			return;
 		}
 
@@ -154,6 +156,12 @@ public abstract class AbstractSerialiser extends AbstractValueSerialiser impleme
 			return;
 		}
 
+		if (value instanceof UUID)
+		{
+			writeProperty(name, (UUID) value);
+			return;
+		}
+
 		if (value instanceof Map)
 		{
 			writeProperty(name, new GenericMapSerialisable((Map<?, ?>) value));
@@ -163,6 +171,12 @@ public abstract class AbstractSerialiser extends AbstractValueSerialiser impleme
 		if (value instanceof List)
 		{
 			writeProperty(name, (List<?>) value);
+			return;
+		}
+
+		if (value instanceof Set)
+		{
+			writeProperty(name, (Set<?>) value);
 			return;
 		}
 
@@ -193,5 +207,4 @@ public abstract class AbstractSerialiser extends AbstractValueSerialiser impleme
 
 		super.writeValue(value);
 	}
-
 }

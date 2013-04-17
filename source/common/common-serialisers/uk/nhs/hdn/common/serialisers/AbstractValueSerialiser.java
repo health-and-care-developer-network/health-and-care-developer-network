@@ -28,6 +28,8 @@ import java.io.Writer;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
@@ -100,15 +102,15 @@ public abstract class AbstractValueSerialiser extends AbstractToString implement
 			return;
 		}
 
-		if (value instanceof MapSerialisable[])
-		{
-			writeValue((MapSerialisable[]) value);
-			return;
-		}
-
 		if (value instanceof ValueSerialisable)
 		{
 			writeValue((ValueSerialisable) value);
+			return;
+		}
+
+		if (value instanceof MapSerialisable[])
+		{
+			writeValue((MapSerialisable[]) value);
 			return;
 		}
 
@@ -157,6 +159,16 @@ public abstract class AbstractValueSerialiser extends AbstractToString implement
 		if (value instanceof List)
 		{
 			writeValue((List<?>) value);
+		}
+
+		if (value instanceof Set)
+		{
+			writeValue((Set<?>) value);
+		}
+
+		if (value instanceof Map)
+		{
+			writeValue(new GenericMapSerialisable((Map<?, ?>) value));
 		}
 
 		throw new CouldNotWriteValueException(value, format(ENGLISH, "do not know how to write values for this class %1$s", value.getClass().getSimpleName()));

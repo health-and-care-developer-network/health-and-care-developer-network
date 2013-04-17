@@ -21,6 +21,12 @@ import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.hazelcast.hazelcastDataWriters.HazelcastDataWriter;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hdn.common.hazelcast.collections.HazelcastAwareLinkedHashMap;
+import uk.nhs.hdn.common.serialisers.CouldNotSerialiseMapException;
+import uk.nhs.hdn.common.serialisers.CouldNotWritePropertyException;
+import uk.nhs.hdn.common.serialisers.MapSerialisable;
+import uk.nhs.hdn.common.serialisers.MapSerialiser;
+import uk.nhs.hdn.crds.store.domain.identifiers.ProviderIdentifier;
+import uk.nhs.hdn.crds.store.domain.identifiers.RepositoryIdentifier;
 
 import java.io.DataOutput;
 import java.io.IOException;
@@ -28,7 +34,7 @@ import java.io.IOException;
 import static uk.nhs.hdn.crds.store.domain.RepositoryRecord.initialRepositoryRecords;
 import static uk.nhs.hdn.crds.store.domain.RepositoryRecord.repositoryRecord;
 
-public final class ProviderRecord extends AbstractToString implements HazelcastDataWriter
+public final class ProviderRecord extends AbstractToString implements HazelcastDataWriter, MapSerialisable
 {
 	@NotNull
 	public static HazelcastAwareLinkedHashMap<ProviderIdentifier, ProviderRecord> initialProviderRecords(@NotNull final ProviderIdentifier providerIdentifier, @NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final RepositoryEvent repositoryEvent)
@@ -58,6 +64,20 @@ public final class ProviderRecord extends AbstractToString implements HazelcastD
 	{
 		providerIdentifier.writeData(out);
 		knownRepositories.writeData(out);
+	}
+
+	@Override
+	public void serialiseMap(@NotNull final MapSerialiser mapSerialiser) throws CouldNotSerialiseMapException
+	{
+		try
+		{
+			mapSerialiser.writeProperty("providerIdentifier", providerIdentifier);
+			mapSerialiser.writeProperty("knownRepositories", knownRepositories);
+		}
+		catch (CouldNotWritePropertyException e)
+		{
+			throw new CouldNotSerialiseMapException(this, e);
+		}
 	}
 
 	@SuppressWarnings("FeatureEnvy")

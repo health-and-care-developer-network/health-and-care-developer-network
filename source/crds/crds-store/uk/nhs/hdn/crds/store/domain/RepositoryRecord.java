@@ -22,13 +22,18 @@ import uk.nhs.hdn.common.hazelcast.collections.HazelcastAwareLinkedHashMap;
 import uk.nhs.hdn.common.hazelcast.collections.HazelcastAwareLinkedHashSet;
 import uk.nhs.hdn.common.hazelcast.hazelcastDataWriters.HazelcastDataWriter;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
+import uk.nhs.hdn.common.serialisers.CouldNotSerialiseMapException;
+import uk.nhs.hdn.common.serialisers.CouldNotWritePropertyException;
+import uk.nhs.hdn.common.serialisers.MapSerialisable;
+import uk.nhs.hdn.common.serialisers.MapSerialiser;
+import uk.nhs.hdn.crds.store.domain.identifiers.RepositoryIdentifier;
 
 import java.io.DataOutput;
 import java.io.IOException;
 
 import static uk.nhs.hdn.crds.store.domain.RepositoryEvent.initialRepositoryEvents;
 
-public final class RepositoryRecord extends AbstractToString implements HazelcastDataWriter
+public final class RepositoryRecord extends AbstractToString implements HazelcastDataWriter, MapSerialisable
 {
 	@NotNull
 	public static HazelcastAwareLinkedHashMap<RepositoryIdentifier, RepositoryRecord> initialRepositoryRecords(@NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final RepositoryEvent repositoryEvent)
@@ -58,6 +63,20 @@ public final class RepositoryRecord extends AbstractToString implements Hazelcas
 	{
 		repositoryIdentifier.writeData(out);
 		repositoryEvents.writeData(out);
+	}
+
+	@Override
+	public void serialiseMap(@NotNull final MapSerialiser mapSerialiser) throws CouldNotSerialiseMapException
+	{
+		try
+		{
+			mapSerialiser.writeProperty("repositoryIdentifier", repositoryIdentifier);
+			mapSerialiser.writeProperty("repositoryEvents", repositoryEvents);
+		}
+		catch (CouldNotWritePropertyException e)
+		{
+			throw new CouldNotSerialiseMapException(this, e);
+		}
 	}
 
 	@NotNull

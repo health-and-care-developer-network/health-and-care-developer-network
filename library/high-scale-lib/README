@@ -1,0 +1,4 @@
+Binary downloaded from http://maven.boundary.com/artifactory/webapp/search/artifact?q=high-scale-lib
+Which is believed to be the build output of https://github.com/boundary/high-scale-lib, a maintained version of Cliff Click's high scale lib.
+
+Please note there is also an 'official' Maven version (1.1.4) completely unrelated to this binary. Please also note that there is Cliff Click's original on sourceforge. All use similar version numbering.
