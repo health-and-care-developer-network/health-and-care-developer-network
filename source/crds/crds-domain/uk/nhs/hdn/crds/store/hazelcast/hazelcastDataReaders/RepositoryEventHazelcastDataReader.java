@@ -14,23 +14,23 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.hazelcast.dataReaders;
+package uk.nhs.hdn.crds.store.hazelcast.hazelcastDataReaders;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.crds.domain.RepositoryEvent;
-import uk.nhs.hdn.common.hazelcast.DataReader;
+import uk.nhs.hdn.crds.store.domain.RepositoryEvent;
+import uk.nhs.hdn.common.hazelcast.hazelcastDataReaders.HazelcastDataReader;
 
 import java.io.DataInput;
 import java.io.IOException;
 
-import static uk.nhs.hdn.crds.domain.RepositoryEventKind.repositoryEventKind;
-import static uk.nhs.hdn.hazelcast.dataReaders.identifierDataReaders.RepositoryEventIdentifierDataReader.RepositoryEventIdentifierDataReaderInstance;
+import static uk.nhs.hdn.crds.store.domain.RepositoryEventKind.repositoryEventKind;
+import static uk.nhs.hdn.crds.store.hazelcast.hazelcastDataReaders.identifierDataReaders.RepositoryEventIdentifierHazelcastDataReader.RepositoryEventIdentifierDataReaderInstance;
 
-public final class RepositoryEventDataReader implements DataReader<RepositoryEvent>
+public final class RepositoryEventHazelcastDataReader implements HazelcastDataReader<RepositoryEvent>
 {
-	@NotNull public static final DataReader<RepositoryEvent> RepositoryEventDataReaderInstance = new RepositoryEventDataReader();
+	@NotNull public static final HazelcastDataReader<RepositoryEvent> RepositoryEventHazelcastDataReaderInstance = new RepositoryEventHazelcastDataReader();
 
-	private RepositoryEventDataReader()
+	private RepositoryEventHazelcastDataReader()
 	{
 	}
 

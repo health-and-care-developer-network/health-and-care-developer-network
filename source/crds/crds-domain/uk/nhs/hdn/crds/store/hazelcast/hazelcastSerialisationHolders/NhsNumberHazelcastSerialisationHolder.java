@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.domain;
+package uk.nhs.hdn.crds.store.hazelcast.hazelcastSerialisationHolders;
 
 import com.hazelcast.nio.DataSerializable;
 import org.jetbrains.annotations.NotNull;
@@ -29,6 +29,7 @@ import java.io.IOException;
 
 import static uk.nhs.hdn.common.digits.Digit.digit;
 
+@SuppressWarnings({"SerializableHasSerializationMethods", "serial"})
 public final class NhsNumberHazelcastSerialisationHolder implements DataSerializable
 {
 	@Nullable private NhsNumber nhsNumber;

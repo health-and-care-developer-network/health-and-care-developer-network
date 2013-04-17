@@ -14,17 +14,20 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.domain;
+package uk.nhs.hdn.crds.store.hazelcast;
 
 import com.hazelcast.config.*;
 import com.hazelcast.core.HazelcastInstance;
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.crds.store.domain.*;
+import uk.nhs.hdn.crds.store.hazelcast.hazelcastSerialisationHolders.NhsNumberHazelcastSerialisationHolder;
+import uk.nhs.hdn.crds.store.hazelcast.hazelcastSerialisationHolders.PatientRecordHazelcastSerialisationHolder;
 import uk.nhs.hdn.number.NhsNumber;
 
 import static com.hazelcast.core.Hazelcast.newHazelcastInstance;
 import static java.lang.System.currentTimeMillis;
 import static java.util.UUID.randomUUID;
-import static uk.nhs.hdn.crds.domain.RepositoryEventKind.Created;
+import static uk.nhs.hdn.crds.store.domain.RepositoryEventKind.Created;
 
 public final class CrdsHazelcastRoot
 {

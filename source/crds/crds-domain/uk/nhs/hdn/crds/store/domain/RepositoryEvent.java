@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.domain;
+package uk.nhs.hdn.crds.store.domain;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.MillisecondsSince1970;
+import uk.nhs.hdn.common.hazelcast.hazelcastDataWriters.HazelcastDataWriter;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
-import uk.nhs.hdn.common.hazelcast.HazelcastAwareLinkedHashSet;
-import uk.nhs.hdn.common.hazelcast.DataWriter;
+import uk.nhs.hdn.common.hazelcast.collections.HazelcastAwareLinkedHashSet;
 
 import java.io.DataOutput;
 import java.io.IOException;
 
-public final class RepositoryEvent extends AbstractToString implements DataWriter
+public final class RepositoryEvent extends AbstractToString implements HazelcastDataWriter
 {
 	@NotNull
 	public static HazelcastAwareLinkedHashSet<RepositoryEvent> initialRepositoryEvents(@NotNull final RepositoryEvent repositoryEvent)

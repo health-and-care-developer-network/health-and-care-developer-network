@@ -14,20 +14,14 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.domain;
+package uk.nhs.hdn.common.hazelcast.hazelcastDataWriters;
 
 import org.jetbrains.annotations.NotNull;
 
-public enum RepositoryEventKind
-{
-	Created,
-	Updated,
-	Removed,
-	;
+import java.io.DataOutput;
+import java.io.IOException;
 
-	@NotNull
-	public static RepositoryEventKind repositoryEventKind(final int ordinal)
-	{
-		return RepositoryEventKind.values()[ordinal];
-	}
+public interface HazelcastDataWriter
+{
+	void writeData(@NotNull final DataOutput out) throws IOException;
 }

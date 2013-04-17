@@ -14,16 +14,19 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.domain;
+package uk.nhs.hdn.crds.store.hazelcast;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hdn.crds.store.domain.*;
+import uk.nhs.hdn.crds.store.hazelcast.hazelcastSerialisationHolders.NhsNumberHazelcastSerialisationHolder;
+import uk.nhs.hdn.crds.store.hazelcast.hazelcastSerialisationHolders.PatientRecordHazelcastSerialisationHolder;
 import uk.nhs.hdn.number.NhsNumber;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import static uk.nhs.hdn.crds.domain.PatientRecord.initialPatientRecord;
+import static uk.nhs.hdn.crds.store.domain.PatientRecord.initialPatientRecord;
 
 public final class RootMap
 {

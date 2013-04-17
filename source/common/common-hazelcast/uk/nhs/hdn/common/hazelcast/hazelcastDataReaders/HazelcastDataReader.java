@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.domain;
+package uk.nhs.hdn.common.hazelcast.hazelcastDataReaders;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.UUID;
+import java.io.DataInput;
+import java.io.IOException;
 
-public final class RepositoryEventIdentifier extends AbstractIdentifier
+public interface HazelcastDataReader<T>
 {
-	public RepositoryEventIdentifier(@NotNull final UUID identifier)
-	{
-		super(identifier);
-	}
+	@NotNull
+	T readData(@NotNull final DataInput in) throws IOException;
 }

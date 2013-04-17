@@ -14,25 +14,26 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.domain;
+package uk.nhs.hdn.crds.store.domain;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hdn.common.hazelcast.hazelcastDataWriters.HazelcastDataWriter;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
-import uk.nhs.hdn.common.hazelcast.HazelcastAwareLinkedHashMap;
-import uk.nhs.hdn.common.hazelcast.DataWriter;
+import uk.nhs.hdn.common.hazelcast.collections.HazelcastAwareLinkedHashMap;
+import uk.nhs.hdn.crds.store.hazelcast.hazelcastSerialisationHolders.NhsNumberHazelcastSerialisationHolder;
 import uk.nhs.hdn.number.NhsNumber;
 
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-import static uk.nhs.hdn.crds.domain.ProviderRecord.initialProviderRecords;
-import static uk.nhs.hdn.crds.domain.ProviderRecord.providerRecord;
-import static uk.nhs.hdn.hazelcast.dataReaders.ProviderRecordDataReader.ProviderRecordDataReaderInstance;
-import static uk.nhs.hdn.hazelcast.dataReaders.identifierDataReaders.ProviderIdentifierDataReader.ProviderIdentifierDataReaderInstance;
+import static uk.nhs.hdn.crds.store.domain.ProviderRecord.initialProviderRecords;
+import static uk.nhs.hdn.crds.store.domain.ProviderRecord.providerRecord;
+import static uk.nhs.hdn.crds.store.hazelcast.hazelcastDataReaders.ProviderRecordHazelcastDataReader.ProviderRecordHazelcastDataReaderInstance;
+import static uk.nhs.hdn.crds.store.hazelcast.hazelcastDataReaders.identifierDataReaders.ProviderIdentifierHazelcastDataReader.ProviderIdentifierDataReaderInstance;
 
-public final class PatientRecord extends AbstractToString implements DataWriter
+public final class PatientRecord extends AbstractToString implements HazelcastDataWriter
 {
 	@NotNull
 	public static PatientRecord initialPatientRecord(@NotNull final NhsNumber patientIdentifier, @NotNull final ProviderIdentifier providerIdentifier, @NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final RepositoryEvent repositoryEvent)
@@ -82,7 +83,7 @@ public final class PatientRecord extends AbstractToString implements DataWriter
 		nhsNumberHazelcastSerialisationHolder.readData(in);
 		final NhsNumber nhsNumber = nhsNumberHazelcastSerialisationHolder.nhsNumber();
 
-		return new PatientRecord(nhsNumber, HazelcastAwareLinkedHashMap.readData(in, ProviderIdentifierDataReaderInstance, ProviderRecordDataReaderInstance));
+		return new PatientRecord(nhsNumber, HazelcastAwareLinkedHashMap.readData(in, ProviderIdentifierDataReaderInstance, ProviderRecordHazelcastDataReaderInstance));
 	}
 
 	@Override

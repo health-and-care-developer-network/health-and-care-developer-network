@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.common.hazelcast;
+package uk.nhs.hdn.common.hazelcast.collections;
 
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.common.hazelcast.hazelcastDataReaders.HazelcastDataReader;
+import uk.nhs.hdn.common.hazelcast.hazelcastDataWriters.HazelcastDataWriter;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -24,10 +26,10 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 
-import static uk.nhs.hdn.common.hazelcast.HazelcastAwareLinkedHashMap.OptimumHashLoadFactor;
+import static uk.nhs.hdn.common.hazelcast.collections.HazelcastAwareLinkedHashMap.OptimumHashLoadFactor;
 
 @SuppressWarnings({"SerializableHasSerializationMethods", "serial"})
-public final class HazelcastAwareLinkedHashSet<E extends DataWriter> extends HashSet<E> implements DataWriter
+public final class HazelcastAwareLinkedHashSet<E extends HazelcastDataWriter> extends HashSet<E> implements HazelcastDataWriter
 {
 	private HazelcastAwareLinkedHashSet(final int size)
 	{
@@ -58,7 +60,7 @@ public final class HazelcastAwareLinkedHashSet<E extends DataWriter> extends Has
 	}
 
 	@NotNull
-	public static <E extends DataWriter> HazelcastAwareLinkedHashSet<E> readData(@NotNull final DataInput in, @NotNull final DataReader<E> elementReader) throws IOException
+	public static <E extends HazelcastDataWriter> HazelcastAwareLinkedHashSet<E> readData(@NotNull final DataInput in, @NotNull final HazelcastDataReader<E> elementReader) throws IOException
 	{
 		final int size = in.readInt();
 		final HazelcastAwareLinkedHashSet<E> set = new HazelcastAwareLinkedHashSet<>(size);

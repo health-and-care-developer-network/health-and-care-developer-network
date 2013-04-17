@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.domain;
+package uk.nhs.hdn.crds.store.domain;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hdn.common.hazelcast.HazelcastAwareLinkedHashMap;
-import uk.nhs.hdn.common.hazelcast.HazelcastAwareLinkedHashSet;
+import uk.nhs.hdn.common.hazelcast.collections.HazelcastAwareLinkedHashMap;
+import uk.nhs.hdn.common.hazelcast.collections.HazelcastAwareLinkedHashSet;
+import uk.nhs.hdn.common.hazelcast.hazelcastDataWriters.HazelcastDataWriter;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
-import uk.nhs.hdn.common.hazelcast.DataWriter;
 
 import java.io.DataOutput;
 import java.io.IOException;
 
-import static uk.nhs.hdn.crds.domain.RepositoryEvent.initialRepositoryEvents;
+import static uk.nhs.hdn.crds.store.domain.RepositoryEvent.initialRepositoryEvents;
 
-public final class RepositoryRecord extends AbstractToString implements DataWriter
+public final class RepositoryRecord extends AbstractToString implements HazelcastDataWriter
 {
 	@NotNull
 	public static HazelcastAwareLinkedHashMap<RepositoryIdentifier, RepositoryRecord> initialRepositoryRecords(@NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final RepositoryEvent repositoryEvent)

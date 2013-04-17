@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.common.hazelcast;
+package uk.nhs.hdn.common.hazelcast.collections;
 
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.common.hazelcast.hazelcastDataReaders.HazelcastDataReader;
+import uk.nhs.hdn.common.hazelcast.hazelcastDataWriters.HazelcastDataWriter;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -25,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @SuppressWarnings({"SerializableHasSerializationMethods", "serial"})
-public final class HazelcastAwareLinkedHashMap<K extends DataWriter, V extends DataWriter> extends HashMap<K, V> implements DataWriter
+public final class HazelcastAwareLinkedHashMap<K extends HazelcastDataWriter, V extends HazelcastDataWriter> extends HashMap<K, V> implements HazelcastDataWriter
 {
 	public static final float OptimumHashLoadFactor = 0.7f;
 
@@ -59,7 +61,7 @@ public final class HazelcastAwareLinkedHashMap<K extends DataWriter, V extends D
 	}
 
 	@NotNull
-	public static <K extends DataWriter, V extends DataWriter> HazelcastAwareLinkedHashMap<K, V> readData(@NotNull final DataInput in, @NotNull final DataReader<K> keyReader, @NotNull final DataReader<V> valueReader) throws IOException
+	public static <K extends HazelcastDataWriter, V extends HazelcastDataWriter> HazelcastAwareLinkedHashMap<K, V> readData(@NotNull final DataInput in, @NotNull final HazelcastDataReader<K> keyReader, @NotNull final HazelcastDataReader<V> valueReader) throws IOException
 	{
 		final int size = in.readInt();
 		final HazelcastAwareLinkedHashMap<K, V> map = new HazelcastAwareLinkedHashMap<>(size);

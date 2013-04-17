@@ -14,26 +14,27 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.common.hazelcast;
+package uk.nhs.hdn.crds.store.hazelcast.hazelcastDataReaders.identifierDataReaders;
 
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.common.hazelcast.hazelcastDataReaders.HazelcastDataReader;
+import uk.nhs.hdn.crds.store.domain.AbstractIdentifier;
 
 import java.io.DataInput;
 import java.io.IOException;
 import java.util.UUID;
 
-public final class UuidDataReader implements DataReader<UUID>
-{
-	@NotNull public static final DataReader<UUID> UuidDataReaderInstance = new UuidDataReader();
+import static uk.nhs.hdn.common.hazelcast.hazelcastDataReaders.UuidHazelcastDataReader.UuidHazelcastDataReaderInstance;
 
-	private UuidDataReader()
+public abstract class AbstractIdentifierHazelcastDataReader<T extends AbstractIdentifier> implements HazelcastDataReader<T>
+{
+	@NotNull
+	@Override
+	public final T readData(@NotNull final DataInput in) throws IOException
 	{
+		return newIdentifier(UuidHazelcastDataReaderInstance.readData(in));
 	}
 
 	@NotNull
-	@Override
-	public UUID readData(@NotNull final DataInput in) throws IOException
-	{
-		return new UUID(in.readLong(), in.readLong());
-	}
+	protected abstract T newIdentifier(@NotNull final UUID uuid);
 }

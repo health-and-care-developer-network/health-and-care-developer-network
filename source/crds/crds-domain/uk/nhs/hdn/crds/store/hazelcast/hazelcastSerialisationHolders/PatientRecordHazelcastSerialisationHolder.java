@@ -14,16 +14,21 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.domain;
+package uk.nhs.hdn.crds.store.hazelcast.hazelcastSerialisationHolders;
 
 import com.hazelcast.nio.DataSerializable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hdn.crds.store.domain.PatientRecord;
+import uk.nhs.hdn.crds.store.domain.ProviderIdentifier;
+import uk.nhs.hdn.crds.store.domain.RepositoryEvent;
+import uk.nhs.hdn.crds.store.domain.RepositoryIdentifier;
 
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
+@SuppressWarnings({"SerializableHasSerializationMethods", "serial"})
 public final class PatientRecordHazelcastSerialisationHolder implements DataSerializable
 {
 	@Nullable private PatientRecord patientRecord;

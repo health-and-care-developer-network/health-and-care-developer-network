@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.domain;
+package uk.nhs.hdn.crds.store.domain;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hdn.common.hazelcast.hazelcastDataWriters.HazelcastDataWriter;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
-import uk.nhs.hdn.common.hazelcast.DataWriter;
 
 import java.io.DataOutput;
 import java.io.IOException;
 import java.util.UUID;
 
-public abstract class AbstractIdentifier extends AbstractToString implements DataWriter
+public abstract class AbstractIdentifier extends AbstractToString implements HazelcastDataWriter
 {
 	@NotNull private final UUID identifier;
 
