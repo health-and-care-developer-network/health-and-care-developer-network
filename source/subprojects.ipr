@@ -1286,8 +1286,8 @@
       <module fileurl="file://$PROJECT_DIR$/common/common-tuples/common-tuples.iml" filepath="$PROJECT_DIR$/common/common-tuples/common-tuples.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-unknown/common-unknown.iml" filepath="$PROJECT_DIR$/common/common-unknown/common-unknown.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-xml/common-xml.iml" filepath="$PROJECT_DIR$/common/common-xml/common-xml.iml" group="common" />
-      <module fileurl="file://$PROJECT_DIR$/crds/crds-domain/crds-domain.iml" filepath="$PROJECT_DIR$/crds/crds-domain/crds-domain.iml" group="crds" />
       <module fileurl="file://$PROJECT_DIR$/crds-repository/crds-repository.iml" filepath="$PROJECT_DIR$/crds-repository/crds-repository.iml" group="crds" />
+      <module fileurl="file://$PROJECT_DIR$/crds/crds-store/crds-store.iml" filepath="$PROJECT_DIR$/crds/crds-store/crds-store.iml" group="crds" />
       <module fileurl="file://$PROJECT_DIR$/dbs/dbs/dbs.iml" filepath="$PROJECT_DIR$/dbs/dbs/dbs.iml" group="dbs" />
       <module fileurl="file://$PROJECT_DIR$/dbs/dbs-parsing/dbs-parsing.iml" filepath="$PROJECT_DIR$/dbs/dbs-parsing/dbs-parsing.iml" group="dbs" />
       <module fileurl="file://$PROJECT_DIR$/dbs/dbs-request/dbs-request.iml" filepath="$PROJECT_DIR$/dbs/dbs-request/dbs-request.iml" group="dbs" />
