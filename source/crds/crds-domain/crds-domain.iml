@@ -12,7 +12,7 @@
     <orderEntry type="module" module-name="number" exported="" />
     <orderEntry type="module" module-name="common" exported="" />
     <orderEntry type="library" exported="" name="Hazelcast" level="project" />
-    <orderEntry type="module" module-name="hazelcast" />
+    <orderEntry type="module" module-name="common-hazelcast" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">
