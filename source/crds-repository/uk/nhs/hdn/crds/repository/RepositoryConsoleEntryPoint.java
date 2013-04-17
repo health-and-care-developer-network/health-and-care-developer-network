@@ -31,10 +31,6 @@ public final class RepositoryConsoleEntryPoint extends AbstractConsoleEntryPoint
 {
 	@NonNls @NotNull private static final String AsDatasetIdsOption = "as-dataset-ids";
 
-	public RepositoryConsoleEntryPoint()
-	{
-	}
-
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static void main(@NotNull final String... commandLineArguments)
 	{
@@ -59,10 +55,9 @@ public final class RepositoryConsoleEntryPoint extends AbstractConsoleEntryPoint
 	{
 		try
 		{
-			if (false)
-			{
-				createOrReplaceSchema(postgresqlConnectionHelper);
-			}
+			createOrReplaceSchema(postgresqlConnectionHelper);
+
+			new Thread(new DemonstrateRecordChangesRunnable(postgresqlConnectionHelper), "Demonstrate Record Changes so we have some live data to be notified about").start();
 
 			try (PostgresqlListenerRunnable patients = new PostgresqlListenerRunnable(postgresqlConnectionHelper, "patients", new ProcessNotificationUser()
 			{

@@ -1300,6 +1300,7 @@
       <module fileurl="file://$PROJECT_DIR$/dts/dts-domain/dts-domain.iml" filepath="$PROJECT_DIR$/dts/dts-domain/dts-domain.iml" group="dts" />
       <module fileurl="file://$PROJECT_DIR$/dts/dts-domain-schema/dts-domain-schema.iml" filepath="$PROJECT_DIR$/dts/dts-domain-schema/dts-domain-schema.iml" group="dts" />
       <module fileurl="file://$PROJECT_DIR$/dts/dts-rats/dts-rats.iml" filepath="$PROJECT_DIR$/dts/dts-rats/dts-rats.iml" group="dts" />
+      <module fileurl="file://$PROJECT_DIR$/common/hazelcast/hazelcast.iml" filepath="$PROJECT_DIR$/common/hazelcast/hazelcast.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/ihe/ihe-xds-client/ihe-xds-client.iml" filepath="$PROJECT_DIR$/ihe/ihe-xds-client/ihe-xds-client.iml" group="ihe" />
       <module fileurl="file://$PROJECT_DIR$/itk/itk-testbench/itk-testbench.iml" filepath="$PROJECT_DIR$/itk/itk-testbench/itk-testbench.iml" group="itk" />
       <module fileurl="file://$PROJECT_DIR$/number/number/number.iml" filepath="$PROJECT_DIR$/number/number/number.iml" group="number" />

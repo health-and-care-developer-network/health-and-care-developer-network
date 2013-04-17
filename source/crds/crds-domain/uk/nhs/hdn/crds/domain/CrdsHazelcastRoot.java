@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.domain.hazelcast;
+package uk.nhs.hdn.crds.domain;
 
 import com.hazelcast.config.*;
 import com.hazelcast.core.HazelcastInstance;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.crds.domain.*;
 import uk.nhs.hdn.number.NhsNumber;
 
 import static com.hazelcast.core.Hazelcast.newHazelcastInstance;

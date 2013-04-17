@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.domain.hazelcast;
+package uk.nhs.hdn.common.hazelcast;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -24,22 +24,23 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static uk.nhs.hdn.crds.domain.RootMap.OptimumHashLoadFactor;
-
-public final class ConvenientLinkedHashMap<K extends DataWriter, V extends DataWriter> extends HashMap<K, V> implements DataWriter
+@SuppressWarnings({"SerializableHasSerializationMethods", "serial"})
+public final class HazelcastAwareLinkedHashMap<K extends DataWriter, V extends DataWriter> extends HashMap<K, V> implements DataWriter
 {
-	private ConvenientLinkedHashMap(final int size)
+	public static final float OptimumHashLoadFactor = 0.7f;
+
+	private HazelcastAwareLinkedHashMap(final int size)
 	{
 		super(size, OptimumHashLoadFactor);
 	}
 
-	public ConvenientLinkedHashMap(@NotNull final K key0, @NotNull final V value0)
+	public HazelcastAwareLinkedHashMap(@NotNull final K key0, @NotNull final V value0)
 	{
 		super(1, OptimumHashLoadFactor);
 		put(key0, value0);
 	}
 
-	public ConvenientLinkedHashMap(@NotNull final Map<K, V> map, @NotNull final K key0, @NotNull final V value0)
+	public HazelcastAwareLinkedHashMap(@NotNull final Map<K, V> map, @NotNull final K key0, @NotNull final V value0)
 	{
 		super(map.size(), OptimumHashLoadFactor);
 		putAll(map);
@@ -58,10 +59,10 @@ public final class ConvenientLinkedHashMap<K extends DataWriter, V extends DataW
 	}
 
 	@NotNull
-	public static <K extends DataWriter, V extends DataWriter> ConvenientLinkedHashMap<K, V> readData(@NotNull final DataInput in, @NotNull final DataReader<K> keyReader, @NotNull final DataReader<V> valueReader) throws IOException
+	public static <K extends DataWriter, V extends DataWriter> HazelcastAwareLinkedHashMap<K, V> readData(@NotNull final DataInput in, @NotNull final DataReader<K> keyReader, @NotNull final DataReader<V> valueReader) throws IOException
 	{
 		final int size = in.readInt();
-		final ConvenientLinkedHashMap<K, V> map = new ConvenientLinkedHashMap<>(size);
+		final HazelcastAwareLinkedHashMap<K, V> map = new HazelcastAwareLinkedHashMap<>(size);
 		for(int index = 0; index < size; index++)
 		{
 			final K key = keyReader.readData(in);

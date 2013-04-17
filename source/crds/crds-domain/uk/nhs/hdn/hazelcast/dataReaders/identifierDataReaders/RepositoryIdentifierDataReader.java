@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.domain.hazelcast;
+package uk.nhs.hdn.hazelcast.dataReaders.identifierDataReaders;
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.crds.domain.RepositoryIdentifier;

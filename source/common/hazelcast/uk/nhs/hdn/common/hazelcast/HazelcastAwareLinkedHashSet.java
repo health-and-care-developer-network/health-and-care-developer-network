@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.domain.hazelcast;
+package uk.nhs.hdn.common.hazelcast;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -24,22 +24,23 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 
-import static uk.nhs.hdn.crds.domain.RootMap.OptimumHashLoadFactor;
+import static uk.nhs.hdn.common.hazelcast.HazelcastAwareLinkedHashMap.OptimumHashLoadFactor;
 
-public final class ConvenientLinkedHashSet<E extends DataWriter> extends HashSet<E> implements DataWriter
+@SuppressWarnings({"SerializableHasSerializationMethods", "serial"})
+public final class HazelcastAwareLinkedHashSet<E extends DataWriter> extends HashSet<E> implements DataWriter
 {
-	private ConvenientLinkedHashSet(final int size)
+	private HazelcastAwareLinkedHashSet(final int size)
 	{
 		super(size, OptimumHashLoadFactor);
 	}
 
-	public ConvenientLinkedHashSet(@NotNull final E element0)
+	public HazelcastAwareLinkedHashSet(@NotNull final E element0)
 	{
 		super(1, OptimumHashLoadFactor);
 		add(element0);
 	}
 
-	public ConvenientLinkedHashSet(@NotNull final Collection<E> set, @NotNull final E appendElement)
+	public HazelcastAwareLinkedHashSet(@NotNull final Collection<E> set, @NotNull final E appendElement)
 	{
 		super(set.size() + 1, OptimumHashLoadFactor);
 		addAll(set);
@@ -57,10 +58,10 @@ public final class ConvenientLinkedHashSet<E extends DataWriter> extends HashSet
 	}
 
 	@NotNull
-	public static <E extends DataWriter> ConvenientLinkedHashSet<E> readData(@NotNull final DataInput in, @NotNull final DataReader<E> elementReader) throws IOException
+	public static <E extends DataWriter> HazelcastAwareLinkedHashSet<E> readData(@NotNull final DataInput in, @NotNull final DataReader<E> elementReader) throws IOException
 	{
 		final int size = in.readInt();
-		final ConvenientLinkedHashSet<E> set = new ConvenientLinkedHashSet<>(size);
+		final HazelcastAwareLinkedHashSet<E> set = new HazelcastAwareLinkedHashSet<>(size);
 		for (int index = 0; index < size; index++)
 		{
 			set.add(elementReader.readData(in));

@@ -14,17 +14,19 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.domain;
+package uk.nhs.hdn.hazelcast.dataReaders;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.crds.domain.hazelcast.ConvenientLinkedHashSet;
-import uk.nhs.hdn.crds.domain.hazelcast.DataReader;
+import uk.nhs.hdn.crds.domain.RepositoryEvent;
+import uk.nhs.hdn.crds.domain.RepositoryRecord;
+import uk.nhs.hdn.common.hazelcast.HazelcastAwareLinkedHashSet;
+import uk.nhs.hdn.common.hazelcast.DataReader;
 
 import java.io.DataInput;
 import java.io.IOException;
 
-import static uk.nhs.hdn.crds.domain.RepositoryEventDataReader.RepositoryEventDataReaderInstance;
-import static uk.nhs.hdn.crds.domain.hazelcast.RepositoryIdentifierDataReader.RepositoryIdentifierDataReaderInstance;
+import static uk.nhs.hdn.hazelcast.dataReaders.RepositoryEventDataReader.RepositoryEventDataReaderInstance;
+import static uk.nhs.hdn.hazelcast.dataReaders.identifierDataReaders.RepositoryIdentifierDataReader.RepositoryIdentifierDataReaderInstance;
 
 public final class RepositoryRecordDataReader implements DataReader<RepositoryRecord>
 {
@@ -38,7 +40,7 @@ public final class RepositoryRecordDataReader implements DataReader<RepositoryRe
 	@Override
 	public RepositoryRecord readData(@NotNull final DataInput in) throws IOException
 	{
-		return new RepositoryRecord(RepositoryIdentifierDataReaderInstance.readData(in), ConvenientLinkedHashSet.<RepositoryEvent>readData(in, RepositoryEventDataReaderInstance));
+		return new RepositoryRecord(RepositoryIdentifierDataReaderInstance.readData(in), HazelcastAwareLinkedHashSet.<RepositoryEvent>readData(in, RepositoryEventDataReaderInstance));
 	}
 
 }

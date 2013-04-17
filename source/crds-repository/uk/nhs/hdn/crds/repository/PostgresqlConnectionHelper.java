@@ -37,7 +37,7 @@ public final class PostgresqlConnectionHelper implements AutoCloseable
 	{
 		dataSource = new PGPoolingDataSource();
 		dataSource.setDataSourceName(randomUUID().toString());
-		dataSource.setInitialConnections(1);
+		dataSource.setInitialConnections(2);
 		dataSource.setMaxConnections(10);
 
 		dataSource.setServerName(serverDnsHostName);

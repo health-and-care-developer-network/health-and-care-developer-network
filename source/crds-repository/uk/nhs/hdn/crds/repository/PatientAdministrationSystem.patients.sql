@@ -1,10 +1,15 @@
 
 DROP TABLE IF EXISTS patients CASCADE;
 
+-- SPLIT
+
 CREATE TABLE IF NOT EXISTS patients(patient_identifier_nhs_number CHAR(10) NOT NULL, firstname VARCHAR(32), lastname VARCHAR(32), address VARCHAR(64));
+
+-- SPLIT
 
 ALTER TABLE patients OWNER TO postgres;
 
+-- SPLIT
 
 CREATE OR REPLACE FUNCTION patients_create_notify() RETURNS trigger AS
 $$
@@ -14,7 +19,9 @@ DECLARE
 
     repository_identifier CONSTANT UUID NOT NULL := provider_identifier();
 
-    patient_identifier_nhs_number CONSTANT CHAR(10) NOT NULL := NEW.patient_identifier_nhs_number;
+    patient_identifier_nhs_number CONSTANT CHAR(10) NOT NULL := CASE TG_OP WHEN 'DELETE' THEN OLD.patient_identifier_nhs_number ELSE NEW.patient_identifier_nhs_number END;
+
+    -- There is also the possibility that a patient's id is changed. That should generate 2 messages - Create and Delete
 
     our_uuid CONSTANT UUID NOT NULL := uuid_generate_v4();
 
@@ -30,8 +37,6 @@ DECLARE
 
 BEGIN
 
-    --NOTIFY patients, message;
-
     PERFORM pg_notify('patients', message);
 
     RETURN NULL;
@@ -39,10 +44,15 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql VOLATILE COST 100;
 
+-- SPLIT
+
 ALTER FUNCTION patients_create_notify() OWNER TO postgres;
 
+-- SPLIT
 
 DROP TRIGGER IF EXISTS patients_create_notify ON patients;
+
+-- SPLIT
 
 CREATE TRIGGER patients_create_notify AFTER INSERT OR UPDATE OR DELETE ON patients FOR EACH ROW EXECUTE PROCEDURE patients_create_notify();
 

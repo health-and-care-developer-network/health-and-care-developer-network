@@ -14,26 +14,26 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.domain.hazelcast;
+package uk.nhs.hdn.hazelcast.dataReaders.identifierDataReaders;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.crds.domain.RepositoryEventIdentifier;
+import uk.nhs.hdn.crds.domain.ProviderIdentifier;
 
 import java.util.UUID;
 
-public final class RepositoryEventIdentifierDataReader extends AbstractIdentifierDataReader<RepositoryEventIdentifier>
+public final class ProviderIdentifierDataReader extends AbstractIdentifierDataReader<ProviderIdentifier>
 {
 	@NotNull
-	public static final AbstractIdentifierDataReader<RepositoryEventIdentifier> RepositoryEventIdentifierDataReaderInstance = new RepositoryEventIdentifierDataReader();
+	public static final AbstractIdentifierDataReader<ProviderIdentifier> ProviderIdentifierDataReaderInstance = new ProviderIdentifierDataReader();
 
-	private RepositoryEventIdentifierDataReader()
+	private ProviderIdentifierDataReader()
 	{
 	}
 
 	@NotNull
 	@Override
-	protected RepositoryEventIdentifier newIdentifier(@NotNull final UUID uuid)
+	protected ProviderIdentifier newIdentifier(@NotNull final UUID uuid)
 	{
-		return new RepositoryEventIdentifier(uuid);
+		return new ProviderIdentifier(uuid);
 	}
 }

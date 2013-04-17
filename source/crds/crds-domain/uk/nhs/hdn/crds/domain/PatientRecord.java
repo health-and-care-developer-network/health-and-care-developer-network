@@ -19,8 +19,8 @@ package uk.nhs.hdn.crds.domain;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
-import uk.nhs.hdn.crds.domain.hazelcast.ConvenientLinkedHashMap;
-import uk.nhs.hdn.crds.domain.hazelcast.DataWriter;
+import uk.nhs.hdn.common.hazelcast.HazelcastAwareLinkedHashMap;
+import uk.nhs.hdn.common.hazelcast.DataWriter;
 import uk.nhs.hdn.number.NhsNumber;
 
 import java.io.DataInput;
@@ -29,8 +29,8 @@ import java.io.IOException;
 
 import static uk.nhs.hdn.crds.domain.ProviderRecord.initialProviderRecords;
 import static uk.nhs.hdn.crds.domain.ProviderRecord.providerRecord;
-import static uk.nhs.hdn.crds.domain.ProviderRecordDataReader.ProviderRecordDataReaderInstance;
-import static uk.nhs.hdn.crds.domain.hazelcast.ProviderIdentifierDataReader.ProviderIdentifierDataReaderInstance;
+import static uk.nhs.hdn.hazelcast.dataReaders.ProviderRecordDataReader.ProviderRecordDataReaderInstance;
+import static uk.nhs.hdn.hazelcast.dataReaders.identifierDataReaders.ProviderIdentifierDataReader.ProviderIdentifierDataReaderInstance;
 
 public final class PatientRecord extends AbstractToString implements DataWriter
 {
@@ -41,10 +41,10 @@ public final class PatientRecord extends AbstractToString implements DataWriter
 	}
 
 	@NotNull private final NhsNumber patientIdentifier;
-	@NotNull private final ConvenientLinkedHashMap<ProviderIdentifier, ProviderRecord> knownProviders;
+	@NotNull private final HazelcastAwareLinkedHashMap<ProviderIdentifier, ProviderRecord> knownProviders;
 
 	@SuppressWarnings("AssignmentToCollectionOrArrayFieldFromParameter")
-	public PatientRecord(@NotNull final NhsNumber patientIdentifier, @NotNull final ConvenientLinkedHashMap<ProviderIdentifier, ProviderRecord> knownProviders)
+	public PatientRecord(@NotNull final NhsNumber patientIdentifier, @NotNull final HazelcastAwareLinkedHashMap<ProviderIdentifier, ProviderRecord> knownProviders)
 	{
 		this.patientIdentifier = patientIdentifier;
 		this.knownProviders = knownProviders;
@@ -64,7 +64,7 @@ public final class PatientRecord extends AbstractToString implements DataWriter
 		{
 			providerRecord = existingProviderRecord.addRepositoryEvent(repositoryIdentifier, repositoryEvent);
 		}
-		final ConvenientLinkedHashMap<ProviderIdentifier, ProviderRecord> replacementKnownProviders = new ConvenientLinkedHashMap<>(knownProviders, providerIdentifier, providerRecord);
+		final HazelcastAwareLinkedHashMap<ProviderIdentifier, ProviderRecord> replacementKnownProviders = new HazelcastAwareLinkedHashMap<>(knownProviders, providerIdentifier, providerRecord);
 		return new PatientRecord(patientIdentifier, replacementKnownProviders);
 	}
 
@@ -82,7 +82,7 @@ public final class PatientRecord extends AbstractToString implements DataWriter
 		nhsNumberHazelcastSerialisationHolder.readData(in);
 		final NhsNumber nhsNumber = nhsNumberHazelcastSerialisationHolder.nhsNumber();
 
-		return new PatientRecord(nhsNumber, ConvenientLinkedHashMap.readData(in, ProviderIdentifierDataReaderInstance, ProviderRecordDataReaderInstance));
+		return new PatientRecord(nhsNumber, HazelcastAwareLinkedHashMap.readData(in, ProviderIdentifierDataReaderInstance, ProviderRecordDataReaderInstance));
 	}
 
 	@Override

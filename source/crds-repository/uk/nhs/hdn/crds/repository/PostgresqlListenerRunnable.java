@@ -124,6 +124,7 @@ public final class PostgresqlListenerRunnable implements Runnable, AutoCloseable
 
 	private static void pause() throws InterruptedException
 	{
+		// a yield might be a better choice if heavily loaded.
 		sleep(TenthOfASecond);
 	}
 }

@@ -19,8 +19,8 @@ package uk.nhs.hdn.crds.domain;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
-import uk.nhs.hdn.crds.domain.hazelcast.ConvenientLinkedHashMap;
-import uk.nhs.hdn.crds.domain.hazelcast.DataWriter;
+import uk.nhs.hdn.common.hazelcast.HazelcastAwareLinkedHashMap;
+import uk.nhs.hdn.common.hazelcast.DataWriter;
 
 import java.io.DataOutput;
 import java.io.IOException;
@@ -31,9 +31,9 @@ import static uk.nhs.hdn.crds.domain.RepositoryRecord.repositoryRecord;
 public final class ProviderRecord extends AbstractToString implements DataWriter
 {
 	@NotNull
-	public static ConvenientLinkedHashMap<ProviderIdentifier, ProviderRecord> initialProviderRecords(@NotNull final ProviderIdentifier providerIdentifier, @NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final RepositoryEvent repositoryEvent)
+	public static HazelcastAwareLinkedHashMap<ProviderIdentifier, ProviderRecord> initialProviderRecords(@NotNull final ProviderIdentifier providerIdentifier, @NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final RepositoryEvent repositoryEvent)
 	{
-		return new ConvenientLinkedHashMap<>(providerIdentifier, providerRecord(providerIdentifier, repositoryIdentifier, repositoryEvent));
+		return new HazelcastAwareLinkedHashMap<>(providerIdentifier, providerRecord(providerIdentifier, repositoryIdentifier, repositoryEvent));
 	}
 
 	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
@@ -44,10 +44,10 @@ public final class ProviderRecord extends AbstractToString implements DataWriter
 	}
 
 	@NotNull private final ProviderIdentifier providerIdentifier;
-	@NotNull private final ConvenientLinkedHashMap<RepositoryIdentifier, RepositoryRecord> knownRepositories;
+	@NotNull private final HazelcastAwareLinkedHashMap<RepositoryIdentifier, RepositoryRecord> knownRepositories;
 
 	@SuppressWarnings("AssignmentToCollectionOrArrayFieldFromParameter")
-	public ProviderRecord(@NotNull final ProviderIdentifier providerIdentifier, @NotNull final ConvenientLinkedHashMap<RepositoryIdentifier, RepositoryRecord> knownRepositories)
+	public ProviderRecord(@NotNull final ProviderIdentifier providerIdentifier, @NotNull final HazelcastAwareLinkedHashMap<RepositoryIdentifier, RepositoryRecord> knownRepositories)
 	{
 		this.providerIdentifier = providerIdentifier;
 		this.knownRepositories = knownRepositories;
@@ -74,7 +74,7 @@ public final class ProviderRecord extends AbstractToString implements DataWriter
 		{
 			repositoryRecord = existingRepositoryRecord.addRepositoryEvent(repositoryEvent);
 		}
-		final ConvenientLinkedHashMap<RepositoryIdentifier, RepositoryRecord> replacementKnownRepositories = new ConvenientLinkedHashMap<>(knownRepositories, repositoryIdentifier, repositoryRecord);
+		final HazelcastAwareLinkedHashMap<RepositoryIdentifier, RepositoryRecord> replacementKnownRepositories = new HazelcastAwareLinkedHashMap<>(knownRepositories, repositoryIdentifier, repositoryRecord);
 		return new ProviderRecord(providerIdentifier, replacementKnownRepositories);
 	}
 

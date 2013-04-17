@@ -14,14 +14,26 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.domain.hazelcast;
+package uk.nhs.hdn.common.hazelcast;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.DataOutput;
+import java.io.DataInput;
 import java.io.IOException;
+import java.util.UUID;
 
-public interface DataWriter
+public final class UuidDataReader implements DataReader<UUID>
 {
-	void writeData(@NotNull final DataOutput out) throws IOException;
+	@NotNull public static final DataReader<UUID> UuidDataReaderInstance = new UuidDataReader();
+
+	private UuidDataReader()
+	{
+	}
+
+	@NotNull
+	@Override
+	public UUID readData(@NotNull final DataInput in) throws IOException
+	{
+		return new UUID(in.readLong(), in.readLong());
+	}
 }

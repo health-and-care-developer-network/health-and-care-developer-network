@@ -18,10 +18,10 @@ package uk.nhs.hdn.crds.domain;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hdn.crds.domain.hazelcast.ConvenientLinkedHashMap;
-import uk.nhs.hdn.crds.domain.hazelcast.ConvenientLinkedHashSet;
+import uk.nhs.hdn.common.hazelcast.HazelcastAwareLinkedHashMap;
+import uk.nhs.hdn.common.hazelcast.HazelcastAwareLinkedHashSet;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
-import uk.nhs.hdn.crds.domain.hazelcast.DataWriter;
+import uk.nhs.hdn.common.hazelcast.DataWriter;
 
 import java.io.DataOutput;
 import java.io.IOException;
@@ -31,9 +31,9 @@ import static uk.nhs.hdn.crds.domain.RepositoryEvent.initialRepositoryEvents;
 public final class RepositoryRecord extends AbstractToString implements DataWriter
 {
 	@NotNull
-	public static ConvenientLinkedHashMap<RepositoryIdentifier, RepositoryRecord> initialRepositoryRecords(@NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final RepositoryEvent repositoryEvent)
+	public static HazelcastAwareLinkedHashMap<RepositoryIdentifier, RepositoryRecord> initialRepositoryRecords(@NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final RepositoryEvent repositoryEvent)
 	{
-		return new ConvenientLinkedHashMap<>(repositoryIdentifier, repositoryRecord(repositoryIdentifier, repositoryEvent));
+		return new HazelcastAwareLinkedHashMap<>(repositoryIdentifier, repositoryRecord(repositoryIdentifier, repositoryEvent));
 	}
 
 	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
@@ -44,10 +44,10 @@ public final class RepositoryRecord extends AbstractToString implements DataWrit
 	}
 
 	@NotNull private final RepositoryIdentifier repositoryIdentifier;
-	@NotNull private final ConvenientLinkedHashSet<RepositoryEvent> repositoryEvents;
+	@NotNull private final HazelcastAwareLinkedHashSet<RepositoryEvent> repositoryEvents;
 
 	@SuppressWarnings("AssignmentToCollectionOrArrayFieldFromParameter")
-	public RepositoryRecord(@NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final ConvenientLinkedHashSet<RepositoryEvent> repositoryEvents)
+	public RepositoryRecord(@NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final HazelcastAwareLinkedHashSet<RepositoryEvent> repositoryEvents)
 	{
 		this.repositoryIdentifier = repositoryIdentifier;
 		this.repositoryEvents = repositoryEvents;
@@ -63,7 +63,7 @@ public final class RepositoryRecord extends AbstractToString implements DataWrit
 	@NotNull
 	public RepositoryRecord addRepositoryEvent(@NotNull final RepositoryEvent repositoryEvent)
 	{
-		return new RepositoryRecord(repositoryIdentifier, new ConvenientLinkedHashSet<>(repositoryEvents, repositoryEvent));
+		return new RepositoryRecord(repositoryIdentifier, new HazelcastAwareLinkedHashSet<>(repositoryEvents, repositoryEvent));
 	}
 
 	@Override

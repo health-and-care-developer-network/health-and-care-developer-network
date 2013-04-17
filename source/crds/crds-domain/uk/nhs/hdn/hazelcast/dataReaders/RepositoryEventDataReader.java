@@ -14,16 +14,17 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.domain;
+package uk.nhs.hdn.hazelcast.dataReaders;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.crds.domain.hazelcast.DataReader;
+import uk.nhs.hdn.crds.domain.RepositoryEvent;
+import uk.nhs.hdn.common.hazelcast.DataReader;
 
 import java.io.DataInput;
 import java.io.IOException;
 
 import static uk.nhs.hdn.crds.domain.RepositoryEventKind.repositoryEventKind;
-import static uk.nhs.hdn.crds.domain.hazelcast.RepositoryEventIdentifierDataReader.RepositoryEventIdentifierDataReaderInstance;
+import static uk.nhs.hdn.hazelcast.dataReaders.identifierDataReaders.RepositoryEventIdentifierDataReader.RepositoryEventIdentifierDataReaderInstance;
 
 public final class RepositoryEventDataReader implements DataReader<RepositoryEvent>
 {

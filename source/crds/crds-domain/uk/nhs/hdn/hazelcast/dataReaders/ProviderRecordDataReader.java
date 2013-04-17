@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.domain;
+package uk.nhs.hdn.hazelcast.dataReaders;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.crds.domain.hazelcast.ConvenientLinkedHashMap;
-import uk.nhs.hdn.crds.domain.hazelcast.DataReader;
+import uk.nhs.hdn.crds.domain.ProviderRecord;
+import uk.nhs.hdn.common.hazelcast.HazelcastAwareLinkedHashMap;
+import uk.nhs.hdn.common.hazelcast.DataReader;
 
 import java.io.DataInput;
 import java.io.IOException;
 
-import static uk.nhs.hdn.crds.domain.RepositoryRecordDataReader.RepositoryRecordDataReaderInstance;
-import static uk.nhs.hdn.crds.domain.hazelcast.ProviderIdentifierDataReader.ProviderIdentifierDataReaderInstance;
-import static uk.nhs.hdn.crds.domain.hazelcast.RepositoryIdentifierDataReader.RepositoryIdentifierDataReaderInstance;
+import static uk.nhs.hdn.hazelcast.dataReaders.identifierDataReaders.ProviderIdentifierDataReader.ProviderIdentifierDataReaderInstance;
+import static uk.nhs.hdn.hazelcast.dataReaders.identifierDataReaders.RepositoryIdentifierDataReader.RepositoryIdentifierDataReaderInstance;
 
 public final class ProviderRecordDataReader implements DataReader<ProviderRecord>
 {
@@ -39,7 +39,7 @@ public final class ProviderRecordDataReader implements DataReader<ProviderRecord
 	@Override
 	public ProviderRecord readData(@NotNull final DataInput in) throws IOException
 	{
-		return new ProviderRecord(ProviderIdentifierDataReaderInstance.readData(in), ConvenientLinkedHashMap.readData(in, RepositoryIdentifierDataReaderInstance, RepositoryRecordDataReaderInstance));
+		return new ProviderRecord(ProviderIdentifierDataReaderInstance.readData(in), HazelcastAwareLinkedHashMap.readData(in, RepositoryIdentifierDataReaderInstance, RepositoryRecordDataReader.RepositoryRecordDataReaderInstance));
 	}
 
 }

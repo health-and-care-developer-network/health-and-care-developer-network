@@ -14,25 +14,15 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.domain.hazelcast;
+package uk.nhs.hdn.common.hazelcast;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.crds.domain.AbstractIdentifier;
 
 import java.io.DataInput;
 import java.io.IOException;
-import java.util.UUID;
 
-public abstract class AbstractIdentifierDataReader<T extends AbstractIdentifier> implements DataReader<T>
+public interface DataReader<T>
 {
 	@NotNull
-	@Override
-	public final T readData(@NotNull final DataInput in) throws IOException
-	{
-		final UUID uuid = new UUID(in.readLong(), in.readLong());
-		return newIdentifier(uuid);
-	}
-
-	@NotNull
-	protected abstract T newIdentifier(@NotNull final UUID uuid);
+	T readData(@NotNull final DataInput in) throws IOException;
 }

@@ -19,7 +19,7 @@ package uk.nhs.hdn.crds.domain;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
-import uk.nhs.hdn.crds.domain.hazelcast.DataWriter;
+import uk.nhs.hdn.common.hazelcast.DataWriter;
 
 import java.io.DataOutput;
 import java.io.IOException;

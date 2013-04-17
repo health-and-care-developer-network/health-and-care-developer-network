@@ -8,11 +8,14 @@
 -- Check if available
 -- SELECT * FROM pg_available_extensions;
 
--- We need to do apt-get install postgresql-contrib
+-- We may need to do apt-get install postgresql-contrib
 DROP EXTENSION IF EXISTS "uuid-ossp" CASCADE;
+
+-- SPLIT
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
+-- SPLIT
 
 CREATE OR REPLACE FUNCTION provider_identifier() RETURNS UUID AS
 $$
@@ -27,6 +30,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql IMMUTABLE;
 
+-- SPLIT
 
 CREATE OR REPLACE FUNCTION repository_identifier() RETURNS UUID AS
 $$
@@ -41,6 +45,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql IMMUTABLE;
 
+-- SPLIT
 
 CREATE OR REPLACE FUNCTION parse_trigger_operation(trigger_operation VARCHAR) RETURNS VARCHAR AS
 $$

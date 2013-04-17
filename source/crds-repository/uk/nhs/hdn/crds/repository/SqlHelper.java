@@ -5,11 +5,15 @@ import org.jetbrains.annotations.NotNull;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.regex.Pattern;
 
+import static java.util.regex.Pattern.compile;
 import static uk.nhs.hdn.crds.repository.ResourceLoader.utf8TextResourceContents;
 
 public final class SqlHelper
 {
+	private static final Pattern SplitPattern = compile("-- SPLIT");
+
 	public static void createOrReplaceSchema(@NotNull final PostgresqlConnectionHelper postgresqlConnectionHelper)
 	{
 		new SqlHelper(postgresqlConnectionHelper).createSchema
@@ -27,7 +31,7 @@ public final class SqlHelper
 	}
 
 	@SuppressWarnings("JDBCExecuteWithNonConstantString")
-	public void createSchema(@NotNull final String... sqlStatementsOrGroupsOfStatements)
+	public void createSchema(@NotNull final String... groupsOfSplittableSqlStatements)
 	{
 		final Connection connection = postgresqlConnectionHelper.connection();
 		try
@@ -36,9 +40,13 @@ public final class SqlHelper
 
 			try (Statement statement = connection.createStatement())
 			{
-				for (final String sqlStatements : sqlStatementsOrGroupsOfStatements)
+				for (final String groupOfSplittableSqlStatements : groupsOfSplittableSqlStatements)
 				{
-					statement.addBatch(sqlStatements);
+					final String[] sqlStatements = SplitPattern.split(groupOfSplittableSqlStatements);
+					for (final String sqlStatement : sqlStatements)
+					{
+						statement.addBatch(sqlStatement);
+					}
 				}
 				statement.executeBatch();
 			}

@@ -8,11 +8,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="IntelliJ Annotations" level="project" />
-    <orderEntry type="module" module-name="common-reflection" exported="" />
-    <orderEntry type="module" module-name="number" exported="" />
-    <orderEntry type="module" module-name="common" exported="" />
-    <orderEntry type="library" exported="" name="Hazelcast" level="project" />
-    <orderEntry type="module" module-name="hazelcast" />
+    <orderEntry type="library" name="Hazelcast" level="project" />
+    <orderEntry type="module" module-name="common-reflection" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

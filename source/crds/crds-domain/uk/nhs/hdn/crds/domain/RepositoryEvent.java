@@ -20,8 +20,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.MillisecondsSince1970;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
-import uk.nhs.hdn.crds.domain.hazelcast.ConvenientLinkedHashSet;
-import uk.nhs.hdn.crds.domain.hazelcast.DataWriter;
+import uk.nhs.hdn.common.hazelcast.HazelcastAwareLinkedHashSet;
+import uk.nhs.hdn.common.hazelcast.DataWriter;
 
 import java.io.DataOutput;
 import java.io.IOException;
@@ -29,9 +29,9 @@ import java.io.IOException;
 public final class RepositoryEvent extends AbstractToString implements DataWriter
 {
 	@NotNull
-	public static ConvenientLinkedHashSet<RepositoryEvent> initialRepositoryEvents(@NotNull final RepositoryEvent repositoryEvent)
+	public static HazelcastAwareLinkedHashSet<RepositoryEvent> initialRepositoryEvents(@NotNull final RepositoryEvent repositoryEvent)
 	{
-		return new ConvenientLinkedHashSet<>(repositoryEvent);
+		return new HazelcastAwareLinkedHashSet<>(repositoryEvent);
 	}
 
 	@NotNull private final RepositoryEventIdentifier repositoryEventIdentifier;
