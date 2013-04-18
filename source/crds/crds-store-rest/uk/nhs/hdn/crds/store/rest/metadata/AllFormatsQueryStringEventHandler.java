@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.store.rest;
+package uk.nhs.hdn.crds.store.rest.metadata;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
@@ -29,12 +29,12 @@ import uk.nhs.hdn.common.serialisers.json.JsonFunctionNameInvalidException;
 import static uk.nhs.hdn.common.http.queryString.QueryStringParser.parseQueryString;
 import static uk.nhs.hdn.common.serialisers.json.JsonPFunctionNameValidator.validateJsonPFunctionName;
 
-public final class PatientRecordStoreQueryStringEventHandler extends AbstractToString implements QueryStringEventHandler
+public final class AllFormatsQueryStringEventHandler extends AbstractToString implements QueryStringEventHandler
 {
 	@NotNull
-	public static PatientRecordStoreQueryStringEventHandler parsePatientRecordStoreQueryString(@Nullable final String rawQueryString) throws BadRequestException
+	public static AllFormatsQueryStringEventHandler parseAllFormatsQueryStringEventHandler(@Nullable final String rawQueryString) throws BadRequestException
 	{
-		final PatientRecordStoreQueryStringEventHandler queryStringEventHandler = new PatientRecordStoreQueryStringEventHandler();
+		final AllFormatsQueryStringEventHandler queryStringEventHandler = new AllFormatsQueryStringEventHandler();
 		try
 		{
 			parseQueryString(rawQueryString, queryStringEventHandler);
@@ -48,15 +48,21 @@ public final class PatientRecordStoreQueryStringEventHandler extends AbstractToS
 
 	@NotNull
 	private static final String CallbackAndXmlAreIncompatible = "callback and xml are incompatible";
+	private static final String CallbackAndTsvAreIncompatible = "callback and tsv are incompatible";
+	private static final String CallbackAndCsvAreIncompatible = "callback and csv are incompatible";
 	private boolean formatSeen;
 	private boolean isXml;
+	private boolean isTsv;
+	private boolean isCsv;
 	@Nullable
 	private String callback;
 
-	public PatientRecordStoreQueryStringEventHandler()
+	public AllFormatsQueryStringEventHandler()
 	{
 		formatSeen = false;
 		isXml = false;
+		isTsv = false;
+		isCsv = false;
 		callback = null;
 	}
 
@@ -96,6 +102,14 @@ public final class PatientRecordStoreQueryStringEventHandler extends AbstractToS
 				isXml = true;
 				break;
 
+			case "tsv":
+				isTsv = true;
+				break;
+
+			case "csv":
+				isCsv = true;
+				break;
+
 			default:
 				break;
 		}
@@ -108,6 +122,14 @@ public final class PatientRecordStoreQueryStringEventHandler extends AbstractToS
 			if (isXml)
 			{
 				throw new InvalidQueryStringKeyValuePairException(key, value, CallbackAndXmlAreIncompatible);
+			}
+			if (isTsv)
+			{
+				throw new InvalidQueryStringKeyValuePairException(key, value, CallbackAndTsvAreIncompatible);
+			}
+			if (isCsv)
+			{
+				throw new InvalidQueryStringKeyValuePairException(key, value, CallbackAndCsvAreIncompatible);
 			}
 		}
 		try
@@ -132,11 +154,29 @@ public final class PatientRecordStoreQueryStringEventHandler extends AbstractToS
 		{
 			throw new InvalidQueryStringException(CallbackAndXmlAreIncompatible);
 		}
+		if (isTsv && isJsonP())
+		{
+			throw new InvalidQueryStringException(CallbackAndTsvAreIncompatible);
+		}
+		if (isCsv && isJsonP())
+		{
+			throw new InvalidQueryStringException(CallbackAndCsvAreIncompatible);
+		}
 	}
 
 	public boolean isXml()
 	{
 		return isXml;
+	}
+
+	public boolean isTsv()
+	{
+		return isTsv;
+	}
+
+	public boolean isCsv()
+	{
+		return isCsv;
 	}
 
 	@NotNull

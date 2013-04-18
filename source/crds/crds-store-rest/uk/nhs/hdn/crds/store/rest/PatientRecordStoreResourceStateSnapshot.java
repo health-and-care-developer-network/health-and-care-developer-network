@@ -18,14 +18,15 @@ package uk.nhs.hdn.crds.store.rest;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hdn.common.caching.caching.Cache;
+import uk.nhs.hdn.common.caching.caching.ThreadUnsafeLeastRecentlyAccessedCache;
 import uk.nhs.hdn.common.http.server.sun.restEndpoints.clientError4xxs.NotFoundException;
 import uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.AbstractWithSubResourcesResourceStateSnapshot;
 import uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.subResources.SubResource;
-import uk.nhs.hdn.crds.store.patientRecordStore.PatientRecordStore;
+import uk.nhs.hdn.crds.store.domain.SimplePatientRecord;
 import uk.nhs.hdn.crds.store.eventObservers.ConcurrentAggregatedEventObserver;
-import uk.nhs.hdn.common.caching.caching.Cache;
-import uk.nhs.hdn.common.caching.caching.ThreadUnsafeLeastRecentlyAccessedCache;
 import uk.nhs.hdn.crds.store.eventObservers.InvalidateCacheEventObserver;
+import uk.nhs.hdn.crds.store.recordStore.RecordStore;
 import uk.nhs.hdn.number.NhsNumber;
 
 public final class PatientRecordStoreResourceStateSnapshot extends AbstractWithSubResourcesResourceStateSnapshot
@@ -33,7 +34,7 @@ public final class PatientRecordStoreResourceStateSnapshot extends AbstractWithS
 	@NotNull private final ThreadLocal<Cache<NhsNumber,PatientRecordSubResource>> cacheThreadLocal;
 
 	@NotNull
-	public static ThreadLocal<Cache<NhsNumber, PatientRecordSubResource>> patientRecordCache(final int cacheMaximumNumberOfEntries, @NotNull final PatientRecordStore patienntRecordStore, @NotNull final ConcurrentAggregatedEventObserver<NhsNumber> concurrentAggregatedRepositoryEventObserver)
+	public static ThreadLocal<Cache<NhsNumber, PatientRecordSubResource>> patientRecordCache(final int cacheMaximumNumberOfEntries, @NotNull final RecordStore<NhsNumber, SimplePatientRecord> patientRecordStore, @NotNull final ConcurrentAggregatedEventObserver<NhsNumber> concurrentAggregatedRepositoryEventObserver)
 	{
 		return new ThreadLocal<Cache<NhsNumber, PatientRecordSubResource>>()
 		{
@@ -41,14 +42,14 @@ public final class PatientRecordStoreResourceStateSnapshot extends AbstractWithS
 			@Override
 			protected Cache<NhsNumber, PatientRecordSubResource> initialValue()
 			{
-				final ThreadUnsafeLeastRecentlyAccessedCache<NhsNumber, PatientRecordSubResource> cache = new ThreadUnsafeLeastRecentlyAccessedCache<>(cacheMaximumNumberOfEntries, new PatientRecordSubResourceSourceOfValuesToCache(patienntRecordStore));
+				final ThreadUnsafeLeastRecentlyAccessedCache<NhsNumber, PatientRecordSubResource> cache = new ThreadUnsafeLeastRecentlyAccessedCache<>(cacheMaximumNumberOfEntries, new PatientRecordSubResourceSourceOfValuesToCache(patientRecordStore));
 				concurrentAggregatedRepositoryEventObserver.add(new InvalidateCacheEventObserver<>(cache));
 				return cache;
 			}
 		};
 	}
 
-	public PatientRecordStoreResourceStateSnapshot(final int cacheMaximumNumberOfEntries, @NotNull final PatientRecordStore patientRecordStore, @NotNull final ConcurrentAggregatedEventObserver<NhsNumber> concurrentAggregatedRepositoryEventObserver)
+	public PatientRecordStoreResourceStateSnapshot(final int cacheMaximumNumberOfEntries, @NotNull final RecordStore<NhsNumber, SimplePatientRecord> patientRecordStore, @NotNull final ConcurrentAggregatedEventObserver<NhsNumber> concurrentAggregatedRepositoryEventObserver)
 	{
 		cacheThreadLocal = patientRecordCache(cacheMaximumNumberOfEntries, patientRecordStore, concurrentAggregatedRepositoryEventObserver);
 	}

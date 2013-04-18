@@ -21,9 +21,14 @@ import joptsimple.OptionSet;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.commandLine.AbstractConsoleEntryPoint;
 import uk.nhs.hdn.common.http.server.sun.Server;
+import uk.nhs.hdn.crds.store.domain.identifiers.Identifier;
+import uk.nhs.hdn.crds.store.domain.metadata.AbstractMetadataRecord;
+import uk.nhs.hdn.crds.store.domain.metadata.IdentifierConstructor;
 import uk.nhs.hdn.crds.store.eventObservers.ConcurrentAggregatedEventObserver;
 import uk.nhs.hdn.crds.store.patientRecordStore.PatientRecordStore;
+import uk.nhs.hdn.crds.store.recordStore.RecordStore;
 import uk.nhs.hdn.crds.store.rest.PatientRecordStoreRestEndpoint;
+import uk.nhs.hdn.crds.store.rest.metadata.MetadataRecordRestEndpoint;
 import uk.nhs.hdn.number.NhsNumber;
 
 import java.io.IOException;
@@ -31,6 +36,8 @@ import java.net.InetSocketAddress;
 
 import static uk.nhs.hdn.common.VariableArgumentsHelper.of;
 import static uk.nhs.hdn.common.http.server.sun.restEndpoints.RootDenialRestEndpoint.RootDenialRestEndpointInstance;
+import static uk.nhs.hdn.crds.store.domain.metadata.IdentifierConstructor.Provider;
+import static uk.nhs.hdn.crds.store.domain.metadata.IdentifierConstructor.Repository;
 import static uk.nhs.hdn.crds.store.server.application.PatientRecordStoreKind.Hazelcast;
 
 public final class StoreServerConsoleEntryPoint extends AbstractConsoleEntryPoint
@@ -82,13 +89,21 @@ public final class StoreServerConsoleEntryPoint extends AbstractConsoleEntryPoin
 
 		final char hazelcastPort = portNumber(optionSet, HazelcasePortOption);
 
-		final ConcurrentAggregatedEventObserver<NhsNumber> concurrentAggregatedEventObserver = new ConcurrentAggregatedEventObserver<>();
-		final PatientRecordStore patientRecordStore = patientRecordStoreKind.create(new HazelcastConfiguration(hazelcastPort), concurrentAggregatedEventObserver);
+		final ConcurrentAggregatedEventObserver<NhsNumber> patientRecordConcurrentAggregatedEventObserver = new ConcurrentAggregatedEventObserver<>();
+		final PatientRecordStore patientRecordStore = patientRecordStoreKind.create(new HazelcastConfiguration(hazelcastPort), patientRecordConcurrentAggregatedEventObserver);
+
+		final ConcurrentAggregatedEventObserver<Identifier> providerMetadataConcurrentAggregatedEventObserver = new ConcurrentAggregatedEventObserver<>();
+		final RecordStore<Identifier, AbstractMetadataRecord<?>> providerMetadataRecordStore = ;
+
+		final ConcurrentAggregatedEventObserver<Identifier> repositoryMetadataConcurrentAggregatedEventObserver = new ConcurrentAggregatedEventObserver<>();
+		final RecordStore<Identifier, AbstractMetadataRecord<?>> repositoryMetadataRecordStore = ;
 
 		final Server server = new Server(new InetSocketAddress(domainName, (int) httpPort), backlog, of
 		(
 			RootDenialRestEndpointInstance,
-			new PatientRecordStoreRestEndpoint(cacheMaximumNumberOfEntries, patientRecordStore, concurrentAggregatedEventObserver)
+			new PatientRecordStoreRestEndpoint(cacheMaximumNumberOfEntries, patientRecordStore, patientRecordConcurrentAggregatedEventObserver),
+			new MetadataRecordRestEndpoint(Provider, cacheMaximumNumberOfEntries, providerMetadataRecordStore, providerMetadataConcurrentAggregatedEventObserver),
+			new MetadataRecordRestEndpoint(Repository, cacheMaximumNumberOfEntries, repositoryMetadataRecordStore, repositoryMetadataConcurrentAggregatedEventObserver)
 		));
 		server.start();
 	}

@@ -17,17 +17,14 @@
 package uk.nhs.hdn.crds.store.patientRecordStore;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import uk.nhs.hdn.crds.store.domain.RepositoryEvent;
 import uk.nhs.hdn.crds.store.domain.SimplePatientRecord;
 import uk.nhs.hdn.crds.store.domain.identifiers.ProviderIdentifier;
-import uk.nhs.hdn.crds.store.domain.RepositoryEvent;
 import uk.nhs.hdn.crds.store.domain.identifiers.RepositoryIdentifier;
+import uk.nhs.hdn.crds.store.recordStore.RecordStore;
 import uk.nhs.hdn.number.NhsNumber;
 
-public interface PatientRecordStore
+public interface PatientRecordStore extends RecordStore<NhsNumber, SimplePatientRecord>
 {
 	void addEvent(@NotNull NhsNumber patientIdentifier, @NotNull ProviderIdentifier providerIdentifier, @NotNull RepositoryIdentifier repositoryIdentifier, @NotNull RepositoryEvent repositoryEvent);
-
-	@Nullable
-	SimplePatientRecord get(@NotNull final NhsNumber patientIdentifier);
 }

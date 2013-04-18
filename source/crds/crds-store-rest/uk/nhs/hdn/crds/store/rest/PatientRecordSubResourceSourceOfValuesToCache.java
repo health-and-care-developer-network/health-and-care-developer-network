@@ -19,24 +19,24 @@ package uk.nhs.hdn.crds.store.rest;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.caching.caching.SourceOfValuesToCache;
-import uk.nhs.hdn.crds.store.patientRecordStore.PatientRecordStore;
 import uk.nhs.hdn.crds.store.domain.SimplePatientRecord;
+import uk.nhs.hdn.crds.store.recordStore.RecordStore;
 import uk.nhs.hdn.number.NhsNumber;
 
 public final class PatientRecordSubResourceSourceOfValuesToCache implements SourceOfValuesToCache<NhsNumber, PatientRecordSubResource>
 {
-	private final PatientRecordStore patienntRecordStore;
+	private final RecordStore<NhsNumber, SimplePatientRecord> patientRecordStore;
 
-	public PatientRecordSubResourceSourceOfValuesToCache(@NotNull final PatientRecordStore patienntRecordStore)
+	public PatientRecordSubResourceSourceOfValuesToCache(@NotNull final RecordStore<NhsNumber, SimplePatientRecord> patientRecordStore)
 	{
-		this.patienntRecordStore = patienntRecordStore;
+		this.patientRecordStore = patientRecordStore;
 	}
 
 	@Nullable
 	@Override
 	public PatientRecordSubResource get(@NotNull final NhsNumber key)
 	{
-		@Nullable final SimplePatientRecord simplePatientRecord = patienntRecordStore.get(key);
+		@Nullable final SimplePatientRecord simplePatientRecord = patientRecordStore.get(key);
 		if (simplePatientRecord == null)
 		{
 			return null;

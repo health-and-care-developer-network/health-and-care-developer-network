@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.store.rest;
+package uk.nhs.hdn.crds.store.rest.metadata;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
@@ -25,26 +25,32 @@ import uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.re
 import uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.resourceContents.ResourceContent;
 import uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.subResources.AbstractSubResource;
 import uk.nhs.hdn.common.serialisers.json.JsonSerialiser;
+import uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser;
 import uk.nhs.hdn.common.serialisers.xml.XmlSerialiser;
-import uk.nhs.hdn.crds.store.domain.SimplePatientRecord;
+import uk.nhs.hdn.crds.store.domain.metadata.AbstractMetadataRecord;
 
-import static uk.nhs.hdn.common.http.ContentTypeWithCharacterSet.JsonContentTypeUtf8;
-import static uk.nhs.hdn.common.http.ContentTypeWithCharacterSet.XmlContentTypeUtf8;
+import static uk.nhs.hdn.common.http.ContentTypeWithCharacterSet.*;
 import static uk.nhs.hdn.common.http.server.sun.helpers.ByteArrayResourceContentHelper.resourceContent;
 import static uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.resourceContents.ByteArraysResourceContent.jsonpByteArraysResourceContent;
-import static uk.nhs.hdn.crds.store.rest.PatientRecordStoreQueryStringEventHandler.parsePatientRecordStoreQueryString;
+import static uk.nhs.hdn.crds.store.rest.metadata.AllFormatsQueryStringEventHandler.parseAllFormatsQueryStringEventHandler;
 
-public final class PatientRecordSubResource extends AbstractSubResource
+public final class MetadataRecordSubResource extends AbstractSubResource
 {
+	public static final int FourKilobytes = 4096;
 	private final ByteArrayResourceContent jsonUtf8Content;
 	private final ByteArrayResourceContent xmlUtf8Content;
+	private final ByteArrayResourceContent tsvUtf8Content;
+	private final ByteArrayResourceContent csvUtf8Content;
 
 	@SuppressWarnings("FeatureEnvy")
-	public PatientRecordSubResource(@MillisecondsSince1970 final long lastModified, final int guess, @NonNls @NotNull final String xmlRootElementName, @NotNull final SimplePatientRecord patientRecord)
+	public MetadataRecordSubResource(@MillisecondsSince1970 final long lastModified, @NonNls @NotNull final String xmlRootElementName, @SuppressWarnings("TypeMayBeWeakened") @NotNull final SeparatedValueSerialiser tsvSerialiser, @SuppressWarnings("TypeMayBeWeakened") @NotNull final SeparatedValueSerialiser csvSerialiser, @NotNull final AbstractMetadataRecord<?>... metadataRecordOrRecords)
 	{
 		super(lastModified);
-		jsonUtf8Content = resourceContent(JsonContentTypeUtf8, new JsonSerialiser(), guess, patientRecord);
-		xmlUtf8Content = resourceContent(XmlContentTypeUtf8, new XmlSerialiser(true, xmlRootElementName), guess * 4, patientRecord);
+		final int sizeGuess = FourKilobytes * metadataRecordOrRecords.length;
+		jsonUtf8Content = resourceContent(JsonContentTypeUtf8, new JsonSerialiser(), sizeGuess, metadataRecordOrRecords);
+		xmlUtf8Content = resourceContent(XmlContentTypeUtf8, new XmlSerialiser(true, xmlRootElementName), sizeGuess * 4, metadataRecordOrRecords);
+		tsvUtf8Content = resourceContent(TsvContentTypeUtf8, tsvSerialiser, sizeGuess, metadataRecordOrRecords);
+		csvUtf8Content = resourceContent(CsvContentTypeUtf8, csvSerialiser, sizeGuess, metadataRecordOrRecords);
 	}
 
 	@SuppressWarnings("FeatureEnvy")
@@ -52,11 +58,19 @@ public final class PatientRecordSubResource extends AbstractSubResource
 	@Override
 	public ResourceContent content(@Nullable final String rawQueryString) throws BadRequestException
 	{
-		final PatientRecordStoreQueryStringEventHandler queryStringEventHandler = parsePatientRecordStoreQueryString(rawQueryString);
+		final AllFormatsQueryStringEventHandler queryStringEventHandler = parseAllFormatsQueryStringEventHandler(rawQueryString);
 
 		if (queryStringEventHandler.isXml())
 		{
 			return xmlUtf8Content;
+		}
+		if (queryStringEventHandler.isTsv())
+		{
+			return tsvUtf8Content;
+		}
+		if (queryStringEventHandler.isCsv())
+		{
+			return csvUtf8Content;
 		}
 		if (queryStringEventHandler.isJsonP())
 		{
@@ -64,5 +78,4 @@ public final class PatientRecordSubResource extends AbstractSubResource
 		}
 		return jsonUtf8Content;
 	}
-
 }
