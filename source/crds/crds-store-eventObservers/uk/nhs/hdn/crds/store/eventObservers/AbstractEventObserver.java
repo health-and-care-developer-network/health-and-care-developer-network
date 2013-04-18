@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.store.rest;
+package uk.nhs.hdn.crds.store.eventObservers;
 
-import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 
-public interface RepositoryEventObserver<K>
+public abstract class AbstractEventObserver<K> extends AbstractToString implements EventObserver<K>
 {
-	void repositoryEventReceived(@NotNull final K key);
+	protected AbstractEventObserver()
+	{
+	}
 }

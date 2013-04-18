@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots;
+package uk.nhs.hdn.crds.store.eventObservers;
 
-public abstract class AbstractWithSubResourcesResourceStateSnapshot extends AbstractResourceStateSnapshot
+import org.jetbrains.annotations.NotNull;
+
+public interface EventObserver<K>
 {
-	protected AbstractWithSubResourcesResourceStateSnapshot()
-	{
-	}
+	void storeChanged(@NotNull final K key);
 }

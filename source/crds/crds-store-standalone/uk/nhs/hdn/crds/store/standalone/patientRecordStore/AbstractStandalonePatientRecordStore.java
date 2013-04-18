@@ -14,28 +14,29 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.store.standalone;
+package uk.nhs.hdn.crds.store.standalone.patientRecordStore;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hdn.crds.store.AbstractPatientRecordStore;
+import uk.nhs.hdn.crds.store.patientRecordStore.AbstractPatientRecordStore;
 import uk.nhs.hdn.crds.store.domain.SimplePatientRecord;
+import uk.nhs.hdn.crds.store.eventObservers.EventObserver;
 import uk.nhs.hdn.number.NhsNumber;
 
 import java.util.concurrent.ConcurrentMap;
 
 public abstract class AbstractStandalonePatientRecordStore extends AbstractPatientRecordStore<NhsNumber, SimplePatientRecord>
 {
-	protected AbstractStandalonePatientRecordStore(@NotNull final ConcurrentMap<NhsNumber, SimplePatientRecord> map)
+	protected AbstractStandalonePatientRecordStore(@NotNull final ConcurrentMap<NhsNumber, SimplePatientRecord> map, @NotNull final EventObserver<NhsNumber> eventObserver)
 	{
-		super(map);
+		super(map, eventObserver);
 	}
 
 	@Nullable
 	@Override
-	protected final SimplePatientRecord simplePatientRecordFor(@NotNull final SimplePatientRecord patientIdentifier)
+	protected final SimplePatientRecord simplePatientRecordFor(@Nullable final SimplePatientRecord patientRecord)
 	{
-		return patientIdentifier;
+		return patientRecord;
 	}
 
 	@NotNull

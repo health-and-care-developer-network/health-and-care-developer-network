@@ -14,38 +14,37 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.store.rest.caching;
+package uk.nhs.hdn.common.caching.caching;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hdn.crds.store.rest.RepositoryEventObserver;
-import uk.nhs.hdn.crds.store.rest.SourceOfValuesToCache;
 
 import java.lang.ref.SoftReference;
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public final class ThreadUnsafeLeastRecentlyAccessedCache<K, V> implements RepositoryEventObserver<K>
+public final class ThreadUnsafeLeastRecentlyAccessedCache<K, V> implements Cache<K, V>
 {
 	@NotNull private final ConcurrentLinkedQueue<K> events;
 	@NotNull private final Map<K, SoftReference<V>> cache;
 	@NotNull private final SourceOfValuesToCache<K, V> sourceOfValuesToCache;
 
-	public ThreadUnsafeLeastRecentlyAccessedCache(final int maximumSize, @NotNull final SourceOfValuesToCache<K, V> sourceOfValuesToCache)
+	public ThreadUnsafeLeastRecentlyAccessedCache(final int cacheMaximumNumberOfEntries, @NotNull final SourceOfValuesToCache<K, V> sourceOfValuesToCache)
 	{
 		this.sourceOfValuesToCache = sourceOfValuesToCache;
 		events = new ConcurrentLinkedQueue<>();
-		cache = new ThreadUnsafeLeastRecentlyAccessedLinkedHashMap<>(maximumSize);
+		cache = new ThreadUnsafeLeastRecentlyAccessedLinkedHashMap<>(cacheMaximumNumberOfEntries);
 	}
 
 	// Thread 1
 	@Override
-	public void repositoryEventReceived(@NotNull final K key)
+	public void invalidate(@NotNull final K key)
 	{
 		events.add(key);
 	}
 
 	// Thread 2
+	@Override
 	@Nullable
 	public V get(@NotNull final K key)
 	{

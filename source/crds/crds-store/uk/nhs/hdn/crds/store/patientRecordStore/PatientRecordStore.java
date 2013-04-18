@@ -14,21 +14,20 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.store.standalone;
+package uk.nhs.hdn.crds.store.patientRecordStore;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.crds.store.domain.SimplePatientRecord;
+import uk.nhs.hdn.crds.store.domain.identifiers.ProviderIdentifier;
+import uk.nhs.hdn.crds.store.domain.RepositoryEvent;
+import uk.nhs.hdn.crds.store.domain.identifiers.RepositoryIdentifier;
 import uk.nhs.hdn.number.NhsNumber;
 
-import java.util.concurrent.ConcurrentHashMap;
-
-public final class StrippedLockingStandalonePatientRecordStore extends AbstractStandalonePatientRecordStore
+public interface PatientRecordStore
 {
-	private static final float OptimumLoadFactor = 0.7f;
-	private static final int SixtyFourThreads = 64;
+	void addEvent(@NotNull NhsNumber patientIdentifier, @NotNull ProviderIdentifier providerIdentifier, @NotNull RepositoryIdentifier repositoryIdentifier, @NotNull RepositoryEvent repositoryEvent);
 
-	public StrippedLockingStandalonePatientRecordStore()
-	{
-		// Java's ConcurrentHashMap uses stripped locking
-		super(new ConcurrentHashMap<NhsNumber, SimplePatientRecord>(100, OptimumLoadFactor, SixtyFourThreads));
-	}
+	@Nullable
+	SimplePatientRecord get(@NotNull final NhsNumber patientIdentifier);
 }

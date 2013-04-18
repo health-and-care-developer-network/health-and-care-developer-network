@@ -51,7 +51,7 @@ public final class Gs1CompanyPrefixResourceStateSnapshot extends AbstractWithSub
 
 	public Gs1CompanyPrefixResourceStateSnapshot(@NotNull final GregorianCalendar lastModified, @NotNull final Tuple... tuples)
 	{
-		super(lastModified);
+		super();
 		@MillisecondsSince1970 final long timeInMillis = lastModified.getTimeInMillis();
 		allTuplesSubResource = new AllTuplesSubResource(timeInMillis, tuples);
 		gs1CompanyPrefixIndex = new Index(tuples);

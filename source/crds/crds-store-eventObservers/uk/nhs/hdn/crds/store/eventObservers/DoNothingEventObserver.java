@@ -14,20 +14,27 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.store.standalone;
+package uk.nhs.hdn.crds.store.eventObservers;
 
-import uk.nhs.hdn.crds.store.domain.SimplePatientRecord;
-import uk.nhs.hdn.number.NhsNumber;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.concurrent.ConcurrentHashMap;
-
-public final class NonBlockingStandalonePatientRecordStore extends AbstractStandalonePatientRecordStore
+public final class DoNothingEventObserver<K> extends AbstractEventObserver<K>
 {
-	private static final float OptimumLoadFactor = 0.7f;
-	private static final int SixtyFourThreads = 64;
+	@NotNull private static final EventObserver<?> DoNothing = new DoNothingEventObserver();
 
-	public NonBlockingStandalonePatientRecordStore()
+	@SuppressWarnings({"unchecked", "MethodNamesDifferingOnlyByCase"})
+	@NotNull
+	public static <K> EventObserver<K> doNothingRepositoryEventObserver()
 	{
-		super(new ConcurrentHashMap<NhsNumber, SimplePatientRecord>(100, OptimumLoadFactor, SixtyFourThreads));
+		return (EventObserver<K>) DoNothing;
+	}
+
+	private DoNothingEventObserver()
+	{
+	}
+
+	@Override
+	public void storeChanged(@NotNull final K key)
+	{
 	}
 }

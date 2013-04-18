@@ -32,7 +32,7 @@ import static uk.nhs.hdn.common.http.ContentTypeWithCharacterSet.JsonContentType
 import static uk.nhs.hdn.common.http.ContentTypeWithCharacterSet.XmlContentTypeUtf8;
 import static uk.nhs.hdn.common.http.server.sun.helpers.ByteArrayResourceContentHelper.resourceContent;
 import static uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots.resourceContents.ByteArraysResourceContent.jsonpByteArraysResourceContent;
-import static uk.nhs.hdn.crds.store.rest.CrdsStoreQueryStringEventHandler.parseCrdsStoreQueryString;
+import static uk.nhs.hdn.crds.store.rest.PatientRecordStoreQueryStringEventHandler.parseCrdsStoreQueryString;
 
 public final class PatientRecordSubResource extends AbstractSubResource
 {
@@ -52,7 +52,7 @@ public final class PatientRecordSubResource extends AbstractSubResource
 	@Override
 	public ResourceContent content(@Nullable final String rawQueryString) throws BadRequestException
 	{
-		final CrdsStoreQueryStringEventHandler queryStringEventHandler = parseCrdsStoreQueryString(rawQueryString);
+		final PatientRecordStoreQueryStringEventHandler queryStringEventHandler = parseCrdsStoreQueryString(rawQueryString);
 
 		if (queryStringEventHandler.isXml())
 		{

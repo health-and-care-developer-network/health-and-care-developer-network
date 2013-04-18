@@ -14,31 +14,37 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.store.hazelcast;
+package uk.nhs.hdn.crds.store.hazelcast.patientRecordStore;
 
+import com.hazelcast.core.IMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hdn.crds.store.AbstractPatientRecordStore;
+import uk.nhs.hdn.crds.store.patientRecordStore.AbstractPatientRecordStore;
 import uk.nhs.hdn.crds.store.domain.SimplePatientRecord;
 import uk.nhs.hdn.crds.store.hazelcast.hazelcastSerialisationHolders.NhsNumberHazelcastSerialisationHolder;
 import uk.nhs.hdn.crds.store.hazelcast.hazelcastSerialisationHolders.PatientRecordHazelcastSerialisationHolder;
+import uk.nhs.hdn.crds.store.eventObservers.DoNothingEventObserver;
+import uk.nhs.hdn.crds.store.eventObservers.EventObserver;
 import uk.nhs.hdn.number.NhsNumber;
-
-import java.util.concurrent.ConcurrentMap;
 
 public final class HazelcastPatientRecordStore extends AbstractPatientRecordStore<NhsNumberHazelcastSerialisationHolder, PatientRecordHazelcastSerialisationHolder>
 {
-	@SuppressWarnings("AssignmentToCollectionOrArrayFieldFromParameter")
-	public HazelcastPatientRecordStore(@NotNull final ConcurrentMap<NhsNumberHazelcastSerialisationHolder, PatientRecordHazelcastSerialisationHolder> root)
+	@SuppressWarnings({"AssignmentToCollectionOrArrayFieldFromParameter", "FeatureEnvy"})
+	public HazelcastPatientRecordStore(@NotNull final IMap<NhsNumberHazelcastSerialisationHolder, PatientRecordHazelcastSerialisationHolder> root, @NotNull final EventObserver<NhsNumber> eventObserver)
 	{
-		super(root);
+		super(root, DoNothingEventObserver.<NhsNumber>doNothingRepositoryEventObserver());
+		root.addEntryListener(new AdaptToEventObserverEntryListener(eventObserver), false);
 	}
 
 	@Nullable
 	@Override
-	protected SimplePatientRecord simplePatientRecordFor(@NotNull final PatientRecordHazelcastSerialisationHolder patientIdentifier)
+	protected SimplePatientRecord simplePatientRecordFor(@Nullable final PatientRecordHazelcastSerialisationHolder patientRecord)
 	{
-		return patientIdentifier.patientRecord();
+		if (patientRecord == null)
+		{
+			return null;
+		}
+		return patientRecord.patientRecord();
 	}
 
 	@Override
@@ -54,4 +60,5 @@ public final class HazelcastPatientRecordStore extends AbstractPatientRecordStor
 	{
 		return new PatientRecordHazelcastSerialisationHolder(simplePatientRecord);
 	}
+
 }

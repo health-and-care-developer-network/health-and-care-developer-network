@@ -14,11 +14,23 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots;
+package uk.nhs.hdn.crds.store.eventObservers;
 
-public abstract class AbstractWithSubResourcesResourceStateSnapshot extends AbstractResourceStateSnapshot
+import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.common.caching.caching.Cache;
+
+public final class InvalidateCacheEventObserver<K> extends AbstractEventObserver<K>
 {
-	protected AbstractWithSubResourcesResourceStateSnapshot()
+	private final Cache<K, ?> cache;
+
+	public InvalidateCacheEventObserver(@NotNull final Cache<K, ?> cache)
 	{
+		this.cache = cache;
+	}
+
+	@Override
+	public void storeChanged(@NotNull final K key)
+	{
+		cache.invalidate(key);
 	}
 }

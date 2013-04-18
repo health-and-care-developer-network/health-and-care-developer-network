@@ -8,15 +8,11 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="IntelliJ Annotations" level="project" />
-    <orderEntry type="module" module-name="common-reflection" exported="" />
-    <orderEntry type="module" module-name="number" exported="" />
-    <orderEntry type="module" module-name="common" exported="" />
-    <orderEntry type="library" exported="" name="Hazelcast" level="project" />
-    <orderEntry type="module" module-name="common-hazelcast" exported="" />
-    <orderEntry type="module" module-name="common-naming" />
-    <orderEntry type="library" name="Cliff Click's high-scale-lib, &quot;boundary&quot; forked version" level="project" />
-    <orderEntry type="module" module-name="common-caching" />
+    <orderEntry type="module" module-name="crds-store" />
     <orderEntry type="module" module-name="crds-store-eventObservers" />
+    <orderEntry type="module" module-name="crds-store-hazelcast" />
+    <orderEntry type="module" module-name="crds-store-rest" />
+    <orderEntry type="module" module-name="crds-store-standalone" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

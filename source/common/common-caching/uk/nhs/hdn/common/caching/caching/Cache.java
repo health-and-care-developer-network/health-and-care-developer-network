@@ -14,11 +14,15 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnapshots;
+package uk.nhs.hdn.common.caching.caching;
 
-public abstract class AbstractWithSubResourcesResourceStateSnapshot extends AbstractResourceStateSnapshot
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+public interface Cache<K, V>
 {
-	protected AbstractWithSubResourcesResourceStateSnapshot()
-	{
-	}
+	void invalidate(@NotNull final K key);
+
+	@Nullable
+	V get(@NotNull final K key);
 }

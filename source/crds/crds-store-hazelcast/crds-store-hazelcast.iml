@@ -11,6 +11,7 @@
     <orderEntry type="library" name="IntelliJ Annotations" level="project" />
     <orderEntry type="module" module-name="crds-store" />
     <orderEntry type="module" module-name="common-hazelcast" />
+    <orderEntry type="module" module-name="crds-store-eventObservers" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

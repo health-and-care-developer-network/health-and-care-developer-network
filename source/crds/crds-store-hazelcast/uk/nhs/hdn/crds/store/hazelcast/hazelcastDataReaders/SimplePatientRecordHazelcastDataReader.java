@@ -43,7 +43,7 @@ public final class SimplePatientRecordHazelcastDataReader implements HazelcastDa
 	{
 		final NhsNumber nhsNumber = NhsNumberHazelcastDataReaderInstance.readData(in);
 
-		return new SimplePatientRecord(nhsNumber, HazelcastAwareLinkedHashMap.readData(in, ProviderIdentifierDataReaderInstance, ProviderRecordHazelcastDataReaderInstance));
+		return new SimplePatientRecord(nhsNumber, in.readLong(), HazelcastAwareLinkedHashMap.readData(in, ProviderIdentifierDataReaderInstance, ProviderRecordHazelcastDataReaderInstance));
 
 	}
 }

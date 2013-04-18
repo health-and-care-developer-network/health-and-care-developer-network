@@ -14,18 +14,20 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.store.hazelcast;
+package uk.nhs.hdn.crds.store.server.application;
 
 import com.hazelcast.config.*;
 import com.hazelcast.core.HazelcastInstance;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.crds.store.PatientRecordStore;
+import uk.nhs.hdn.crds.store.hazelcast.patientRecordStore.HazelcastPatientRecordStore;
+import uk.nhs.hdn.crds.store.patientRecordStore.PatientRecordStore;
 import uk.nhs.hdn.crds.store.domain.*;
 import uk.nhs.hdn.crds.store.domain.identifiers.ProviderIdentifier;
 import uk.nhs.hdn.crds.store.domain.identifiers.RepositoryEventIdentifier;
 import uk.nhs.hdn.crds.store.domain.identifiers.RepositoryIdentifier;
 import uk.nhs.hdn.crds.store.hazelcast.hazelcastSerialisationHolders.NhsNumberHazelcastSerialisationHolder;
 import uk.nhs.hdn.crds.store.hazelcast.hazelcastSerialisationHolders.PatientRecordHazelcastSerialisationHolder;
+import uk.nhs.hdn.crds.store.eventObservers.ConcurrentAggregatedEventObserver;
 import uk.nhs.hdn.number.NhsNumber;
 
 import static com.hazelcast.core.Hazelcast.newHazelcastInstance;
@@ -83,14 +85,14 @@ public final class CrdsHazelcastRoot
 	}
 
 	@NotNull
-	public PatientRecordStore rootMap()
+	public PatientRecordStore rootMap(@NotNull final ConcurrentAggregatedEventObserver<NhsNumber> concurrentAggregatedRepositoryEventObserver)
 	{
-		return new HazelcastPatientRecordStore(hazelcastInstance.<NhsNumberHazelcastSerialisationHolder, PatientRecordHazelcastSerialisationHolder>getMap(RootMap));
+		return new HazelcastPatientRecordStore(hazelcastInstance.<NhsNumberHazelcastSerialisationHolder, PatientRecordHazelcastSerialisationHolder>getMap(RootMap), concurrentAggregatedRepositoryEventObserver);
 	}
 
 	public static void main(@NotNull final String... args)
 	{
-		final PatientRecordStore patientRecordStore = CrdsHazelcastRootInstance.rootMap();
+		final PatientRecordStore patientRecordStore = CrdsHazelcastRootInstance.rootMap(new ConcurrentAggregatedEventObserver<NhsNumber>());
 
 		patientRecordStore.addEvent(NhsNumber.valueOf("1234567881"), new ProviderIdentifier(randomUUID()), new RepositoryIdentifier(randomUUID()), new RepositoryEvent(new RepositoryEventIdentifier(randomUUID()), currentTimeMillis(), Created));
 	}

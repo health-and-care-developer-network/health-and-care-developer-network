@@ -14,13 +14,32 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.store.rest;
+package uk.nhs.hdn.crds.store.eventObservers;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-public interface SourceOfValuesToCache<K, V>
+import java.util.concurrent.CopyOnWriteArraySet;
+
+public final class ConcurrentAggregatedEventObserver<K> extends AbstractEventObserver<K>
 {
-	@Nullable
-	V get(@NotNull final K key);
+	@NotNull private final CopyOnWriteArraySet<EventObserver<K>> set;
+
+	public ConcurrentAggregatedEventObserver()
+	{
+		set = new CopyOnWriteArraySet<>();
+	}
+
+	public void add(@NotNull final EventObserver<K> eventObserver)
+	{
+		set.add(eventObserver);
+	}
+
+	@Override
+	public void storeChanged(@NotNull final K key)
+	{
+		for (final EventObserver<K> eventObserver : set)
+		{
+			eventObserver.storeChanged(key);
+		}
+	}
 }

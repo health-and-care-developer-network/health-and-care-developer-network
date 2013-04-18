@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.store;
+package uk.nhs.hdn.crds.store.patientRecordStore;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.crds.store.domain.*;
 import uk.nhs.hdn.crds.store.domain.identifiers.ProviderIdentifier;
 import uk.nhs.hdn.crds.store.domain.identifiers.RepositoryIdentifier;
+import uk.nhs.hdn.crds.store.eventObservers.EventObserver;
 import uk.nhs.hdn.number.NhsNumber;
 
 import java.util.concurrent.ConcurrentMap;
@@ -30,11 +31,13 @@ import static uk.nhs.hdn.crds.store.domain.SimplePatientRecord.initialPatientRec
 public abstract class AbstractPatientRecordStore<K, V extends PatientRecord<V>> implements PatientRecordStore
 {
 	@NotNull private final ConcurrentMap<K, V> root;
+	@NotNull private final EventObserver<NhsNumber> eventObserver;
 
 	@SuppressWarnings("AssignmentToCollectionOrArrayFieldFromParameter")
-	protected AbstractPatientRecordStore(@NotNull final ConcurrentMap<K, V> root)
+	protected AbstractPatientRecordStore(@NotNull final ConcurrentMap<K, V> root, @NotNull final EventObserver<NhsNumber> eventObserver)
 	{
 		this.root = root;
+		this.eventObserver = eventObserver;
 	}
 
 	@Nullable
@@ -44,42 +47,49 @@ public abstract class AbstractPatientRecordStore<K, V extends PatientRecord<V>> 
 		return simplePatientRecordFor(root.get(patientIdentifier));
 	}
 
-	@Nullable
-	protected abstract SimplePatientRecord simplePatientRecordFor(@NotNull final V patientIdentifier);
-
 	@Override
 	public final void addEvent(@NotNull final NhsNumber patientIdentifier, @NotNull final ProviderIdentifier providerIdentifier, @NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final RepositoryEvent repositoryEvent)
 	{
-		final K key = key(patientIdentifier);
-		@Nullable V oldPatientRecord = root.get(key);
-		do
+		try
 		{
-			if (oldPatientRecord == null)
+			final K key = key(patientIdentifier);
+			@Nullable V oldPatientRecord = root.get(key);
+			do
 			{
-				// No entry, try to add one
-
-				final SimplePatientRecord simplePatientRecord = initialPatientRecord(patientIdentifier, providerIdentifier, repositoryIdentifier, repositoryEvent);
-				oldPatientRecord = root.putIfAbsent(key, value(simplePatientRecord));
-
-				if (wasNewPatientSuccessfullyAdded(oldPatientRecord))
+				if (oldPatientRecord == null)
 				{
-					return;
+					// No entry, try to add one
+
+					final SimplePatientRecord simplePatientRecord = initialPatientRecord(patientIdentifier, providerIdentifier, repositoryIdentifier, repositoryEvent);
+					oldPatientRecord = root.putIfAbsent(key, value(simplePatientRecord));
+
+					if (wasNewPatientSuccessfullyAdded(oldPatientRecord))
+					{
+						return;
+					}
+				}
+				else
+				{
+					// Existing entry. Try to atomically replace it
+
+					final V newPatientRecord = oldPatientRecord.addRepositoryEvent(providerIdentifier, repositoryIdentifier, repositoryEvent);
+					if (root.replace(key, oldPatientRecord, newPatientRecord))
+					{
+						return;
+					}
+					oldPatientRecord = root.get(key);
 				}
 			}
-			else
-			{
-				// Existing entry. Try to atomically replace it
-
-				final V newPatientRecord = oldPatientRecord.addRepositoryEvent(providerIdentifier, repositoryIdentifier, repositoryEvent);
-				if (root.replace(key, oldPatientRecord, newPatientRecord))
-				{
-					return;
-				}
-				oldPatientRecord = root.get(key);
-			}
+			while (true);
 		}
-		while (true);
+		finally
+		{
+			eventObserver.storeChanged(patientIdentifier);
+		}
 	}
+
+	@Nullable
+	protected abstract SimplePatientRecord simplePatientRecordFor(@Nullable final V patientRecord);
 
 	@NotNull
 	protected abstract K key(@NotNull final NhsNumber patientIdentifier);

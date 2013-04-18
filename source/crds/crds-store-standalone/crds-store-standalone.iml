@@ -10,6 +10,7 @@
     <orderEntry type="library" name="IntelliJ Annotations" level="project" />
     <orderEntry type="library" name="Cliff Click's high-scale-lib, &quot;boundary&quot; forked version" level="project" />
     <orderEntry type="module" module-name="crds-store" />
+    <orderEntry type="module" module-name="crds-store-eventObservers" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

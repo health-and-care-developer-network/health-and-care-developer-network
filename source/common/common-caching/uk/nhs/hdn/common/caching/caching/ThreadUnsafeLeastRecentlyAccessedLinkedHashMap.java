@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.store.rest.caching;
+package uk.nhs.hdn.common.caching.caching;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -26,10 +26,10 @@ public final class ThreadUnsafeLeastRecentlyAccessedLinkedHashMap<K, V> extends 
 
 	private final int sizeCheck;
 
-	public ThreadUnsafeLeastRecentlyAccessedLinkedHashMap(final int maximumSize)
+	public ThreadUnsafeLeastRecentlyAccessedLinkedHashMap(final int cacheMaximumNumberOfEntries)
 	{
-		super(maximumSize + 1, OptimumLoadFactor, true);
-		sizeCheck = maximumSize + 1;
+		super(cacheMaximumNumberOfEntries + 1, OptimumLoadFactor, true);
+		sizeCheck = cacheMaximumNumberOfEntries + 1;
 	}
 
 	@SuppressWarnings("RefusedBequest")

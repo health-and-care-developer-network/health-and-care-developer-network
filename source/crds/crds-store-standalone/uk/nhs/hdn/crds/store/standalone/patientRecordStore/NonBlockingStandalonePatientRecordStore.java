@@ -14,20 +14,18 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.store;
+package uk.nhs.hdn.crds.store.standalone.patientRecordStore;
 
+import org.cliffc.high_scale_lib.NonBlockingHashMap;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.crds.store.domain.SimplePatientRecord;
-import uk.nhs.hdn.crds.store.domain.identifiers.ProviderIdentifier;
-import uk.nhs.hdn.crds.store.domain.RepositoryEvent;
-import uk.nhs.hdn.crds.store.domain.identifiers.RepositoryIdentifier;
+import uk.nhs.hdn.crds.store.eventObservers.EventObserver;
 import uk.nhs.hdn.number.NhsNumber;
 
-public interface PatientRecordStore
+public final class NonBlockingStandalonePatientRecordStore extends AbstractStandalonePatientRecordStore
 {
-	void addEvent(@NotNull NhsNumber patientIdentifier, @NotNull ProviderIdentifier providerIdentifier, @NotNull RepositoryIdentifier repositoryIdentifier, @NotNull RepositoryEvent repositoryEvent);
-
-	@Nullable
-	SimplePatientRecord get(@NotNull final NhsNumber patientIdentifier);
+	public NonBlockingStandalonePatientRecordStore(@NotNull final EventObserver<NhsNumber> eventObserver)
+	{
+		super(new NonBlockingHashMap<NhsNumber, SimplePatientRecord>(100), eventObserver);
+	}
 }

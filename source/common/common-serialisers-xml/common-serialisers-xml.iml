@@ -11,7 +11,7 @@
     <orderEntry type="module" module-name="common-serialisers" />
     <orderEntry type="module" module-name="common-reflection" />
     <orderEntry type="module" module-name="common" />
-    <orderEntry type="module" module-name="common-tuples" />
+    <orderEntry type="module" module-name="common-tuples" exported="" />
     <orderEntry type="module" module-name="common-xml" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">

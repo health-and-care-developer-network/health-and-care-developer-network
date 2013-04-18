@@ -29,12 +29,12 @@ import uk.nhs.hdn.common.serialisers.json.JsonFunctionNameInvalidException;
 import static uk.nhs.hdn.common.http.queryString.QueryStringParser.parseQueryString;
 import static uk.nhs.hdn.common.serialisers.json.JsonPFunctionNameValidator.validateJsonPFunctionName;
 
-public final class CrdsStoreQueryStringEventHandler extends AbstractToString implements QueryStringEventHandler
+public final class PatientRecordStoreQueryStringEventHandler extends AbstractToString implements QueryStringEventHandler
 {
 	@NotNull
-	public static CrdsStoreQueryStringEventHandler parseCrdsStoreQueryString(@Nullable final String rawQueryString) throws BadRequestException
+	public static PatientRecordStoreQueryStringEventHandler parseCrdsStoreQueryString(@Nullable final String rawQueryString) throws BadRequestException
 	{
-		final CrdsStoreQueryStringEventHandler queryStringEventHandler = new CrdsStoreQueryStringEventHandler();
+		final PatientRecordStoreQueryStringEventHandler queryStringEventHandler = new PatientRecordStoreQueryStringEventHandler();
 		try
 		{
 			parseQueryString(rawQueryString, queryStringEventHandler);
@@ -53,7 +53,7 @@ public final class CrdsStoreQueryStringEventHandler extends AbstractToString imp
 	@Nullable
 	private String callback;
 
-	public CrdsStoreQueryStringEventHandler()
+	public PatientRecordStoreQueryStringEventHandler()
 	{
 		formatSeen = false;
 		isXml = false;
