@@ -13,6 +13,9 @@
     <orderEntry type="module" module-name="crds-store-hazelcast" />
     <orderEntry type="module" module-name="crds-store-rest" />
     <orderEntry type="module" module-name="crds-store-standalone" />
+    <orderEntry type="library" name="JOpt Simple" level="project" />
+    <orderEntry type="module" module-name="common-commandLine" />
+    <orderEntry type="module" module-name="common-http-server-sun" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

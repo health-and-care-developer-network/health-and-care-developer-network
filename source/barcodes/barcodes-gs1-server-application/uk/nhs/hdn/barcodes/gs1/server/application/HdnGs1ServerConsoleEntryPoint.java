@@ -20,13 +20,13 @@ import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.barcodes.gs1.server.Gs1CompanyPrefixRestEndpoint;
 import uk.nhs.hdn.common.http.server.sun.application.RestServerConsoleEntryPoint;
 import uk.nhs.hdn.common.http.server.sun.restEndpoints.RestEndpoint;
-import uk.nhs.hdn.common.http.server.sun.restEndpoints.RootDenialRestEndpoint;
 import uk.nhs.hdn.common.http.server.sun.restEndpointsFactories.RestEndpointsFactory;
 
 import java.io.File;
 
 import static uk.nhs.hdn.common.VariableArgumentsHelper.of;
 import static uk.nhs.hdn.common.commandLine.AbstractConsoleEntryPoint.execute;
+import static uk.nhs.hdn.common.http.server.sun.restEndpoints.RootDenialRestEndpoint.RootDenialRestEndpointInstance;
 
 public final class HdnGs1ServerConsoleEntryPoint
 {
@@ -40,7 +40,7 @@ public final class HdnGs1ServerConsoleEntryPoint
 			{
 				return of
 				(
-					new RootDenialRestEndpoint(),
+					RootDenialRestEndpointInstance,
 					new Gs1CompanyPrefixRestEndpoint(dataPath, "gs1-company-prefixes.tsv")
 				);
 			}

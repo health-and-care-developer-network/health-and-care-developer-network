@@ -25,7 +25,9 @@ import static uk.nhs.hdn.common.http.server.sun.restEndpoints.resourceStateSnaps
 
 public final class RootDenialRestEndpoint extends AbstractMethodRoutingRestEndpoint<ResourceStateSnapshot>
 {
-	public RootDenialRestEndpoint()
+	@NotNull public static final RootDenialRestEndpoint RootDenialRestEndpointInstance = new RootDenialRestEndpoint();
+
+	private RootDenialRestEndpoint()
 	{
 		super("/", NoAuthentication);
 	}

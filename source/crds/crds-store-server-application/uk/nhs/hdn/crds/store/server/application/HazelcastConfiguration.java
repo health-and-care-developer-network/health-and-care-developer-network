@@ -16,37 +16,38 @@
 
 package uk.nhs.hdn.crds.store.server.application;
 
-import com.hazelcast.config.*;
+import com.hazelcast.config.Config;
+import com.hazelcast.config.MapConfig;
+import com.hazelcast.config.MapIndexConfig;
+import com.hazelcast.config.NetworkConfig;
 import com.hazelcast.core.HazelcastInstance;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.crds.store.hazelcast.patientRecordStore.HazelcastPatientRecordStore;
-import uk.nhs.hdn.crds.store.patientRecordStore.PatientRecordStore;
-import uk.nhs.hdn.crds.store.domain.*;
-import uk.nhs.hdn.crds.store.domain.identifiers.ProviderIdentifier;
-import uk.nhs.hdn.crds.store.domain.identifiers.RepositoryEventIdentifier;
-import uk.nhs.hdn.crds.store.domain.identifiers.RepositoryIdentifier;
+import uk.nhs.hdn.crds.store.eventObservers.EventObserver;
 import uk.nhs.hdn.crds.store.hazelcast.hazelcastSerialisationHolders.NhsNumberHazelcastSerialisationHolder;
 import uk.nhs.hdn.crds.store.hazelcast.hazelcastSerialisationHolders.PatientRecordHazelcastSerialisationHolder;
-import uk.nhs.hdn.crds.store.eventObservers.ConcurrentAggregatedEventObserver;
+import uk.nhs.hdn.crds.store.hazelcast.patientRecordStore.HazelcastPatientRecordStore;
+import uk.nhs.hdn.crds.store.patientRecordStore.PatientRecordStore;
 import uk.nhs.hdn.number.NhsNumber;
 
 import static com.hazelcast.core.Hazelcast.newHazelcastInstance;
-import static java.lang.System.currentTimeMillis;
-import static java.util.UUID.randomUUID;
-import static uk.nhs.hdn.crds.store.domain.RepositoryEventKind.Created;
 
-public final class CrdsHazelcastRoot
+public final class HazelcastConfiguration
 {
-	@NotNull private static final String RootMap = "root-map3";
-
-	@NotNull public static final CrdsHazelcastRoot CrdsHazelcastRootInstance = new CrdsHazelcastRoot();
+	@NotNull private static final String PatientRecordStoreMap = "patient-record-store";
 
 	@NotNull private final HazelcastInstance hazelcastInstance;
 
-	private CrdsHazelcastRoot()
+	public HazelcastConfiguration(final char hazelcastPort)
 	{
 		final Config config = new Config();
-		final MapConfig rootMapConfig = new MapConfig(RootMap);
+
+		final NetworkConfig networkConfig = new NetworkConfig();
+		networkConfig.setPort((int) hazelcastPort);
+		networkConfig.setPortAutoIncrement(true);
+		networkConfig.setReuseAddress(true);
+		config.setNetworkConfig(networkConfig);
+
+		final MapConfig rootMapConfig = new MapConfig(PatientRecordStoreMap);
 		rootMapConfig.addMapIndexConfig(new MapIndexConfig());
 
 //		rootMapConfig.setBackupCounts(1, 1);
@@ -85,15 +86,8 @@ public final class CrdsHazelcastRoot
 	}
 
 	@NotNull
-	public PatientRecordStore rootMap(@NotNull final ConcurrentAggregatedEventObserver<NhsNumber> concurrentAggregatedRepositoryEventObserver)
+	public PatientRecordStore rootMap(@NotNull final EventObserver<NhsNumber> eventObserver)
 	{
-		return new HazelcastPatientRecordStore(hazelcastInstance.<NhsNumberHazelcastSerialisationHolder, PatientRecordHazelcastSerialisationHolder>getMap(RootMap), concurrentAggregatedRepositoryEventObserver);
-	}
-
-	public static void main(@NotNull final String... args)
-	{
-		final PatientRecordStore patientRecordStore = CrdsHazelcastRootInstance.rootMap(new ConcurrentAggregatedEventObserver<NhsNumber>());
-
-		patientRecordStore.addEvent(NhsNumber.valueOf("1234567881"), new ProviderIdentifier(randomUUID()), new RepositoryIdentifier(randomUUID()), new RepositoryEvent(new RepositoryEventIdentifier(randomUUID()), currentTimeMillis(), Created));
+		return new HazelcastPatientRecordStore(hazelcastInstance.<NhsNumberHazelcastSerialisationHolder, PatientRecordHazelcastSerialisationHolder>getMap(PatientRecordStoreMap), eventObserver);
 	}
 }
