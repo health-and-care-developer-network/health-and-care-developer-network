@@ -16,7 +16,9 @@
 
 package uk.nhs.hdn.crds.store.domain.metadata;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.common.naming.Description;
 import uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser;
 import uk.nhs.hdn.crds.store.domain.identifiers.Identifier;
 import uk.nhs.hdn.crds.store.domain.identifiers.ProviderIdentifier;
@@ -31,9 +33,9 @@ import static uk.nhs.hdn.crds.store.domain.metadata.ProviderMetadataRecord.tsvSe
 import static uk.nhs.hdn.crds.store.domain.metadata.RepositoryMetadataRecord.csvSerialiserForRepositoryMetadataRecords;
 import static uk.nhs.hdn.crds.store.domain.metadata.RepositoryMetadataRecord.tsvSerialiserForRepositoryMetadataRecords;
 
-public enum IdentifierConstructor
+public enum IdentifierConstructor implements Description
 {
-	Provider
+	Provider("Provider Identifier UUID")
 	{
 		@NotNull
 		@Override
@@ -56,7 +58,7 @@ public enum IdentifierConstructor
 			return csvSerialiserForProviderMetadataRecords(writeHeaderLine);
 		}
 	},
-	Repository
+	Repository("Repository Identifier UUID")
 	{
 		@NotNull
 		@Override
@@ -79,7 +81,7 @@ public enum IdentifierConstructor
 			return csvSerialiserForRepositoryMetadataRecords(writeHeaderLine);
 		}
 	},
-	RepositoryEvent
+	RepositoryEvent("Repository Event Identifier UUID")
 	{
 		@NotNull
 		@Override
@@ -104,6 +106,13 @@ public enum IdentifierConstructor
 	}
 	;
 
+	@NotNull private final String description;
+
+	IdentifierConstructor(@NotNull @NonNls final String description)
+	{
+		this.description = description;
+	}
+
 	@NotNull
 	public Identifier construct(@NotNull final String uuid)
 	{
@@ -124,4 +133,11 @@ public enum IdentifierConstructor
 
 	@NotNull
 	public abstract SeparatedValueSerialiser csvSerialiser(final boolean writeHeaderLine);
+
+	@NotNull
+	@Override
+	public String description()
+	{
+		return description;
+	}
 }

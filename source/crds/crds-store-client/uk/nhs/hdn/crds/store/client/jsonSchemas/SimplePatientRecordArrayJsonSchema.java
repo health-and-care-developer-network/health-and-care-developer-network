@@ -108,13 +108,6 @@ public final class SimplePatientRecordArrayJsonSchema extends ArrayJsonSchema<Si
 		)
 	);
 
-
-	public void x()
-	{
-
-
-	}
-
 	@NotNull
 	public static final ArrayJsonSchema<SimplePatientRecord> SimplePatientRecordsSchemaUsingParserInstance = new SimplePatientRecordArrayJsonSchema();
 
