@@ -18,6 +18,7 @@
     <orderEntry type="module" module-name="common-http-server-sun" />
     <orderEntry type="module" module-name="common-fileWatching" />
     <orderEntry type="module" module-name="common-parsers" />
+    <orderEntry type="module" module-name="common-tuples" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

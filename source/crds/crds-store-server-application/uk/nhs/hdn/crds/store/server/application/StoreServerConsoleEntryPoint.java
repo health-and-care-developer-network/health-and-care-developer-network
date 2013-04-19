@@ -24,12 +24,16 @@ import uk.nhs.hdn.common.commandLine.AbstractConsoleEntryPoint;
 import uk.nhs.hdn.common.fileWatching.FailedToReloadException;
 import uk.nhs.hdn.common.fileWatching.FileReloader;
 import uk.nhs.hdn.common.http.server.sun.Server;
+import uk.nhs.hdn.common.tuples.Quadruple;
+import uk.nhs.hdn.crds.store.domain.RepositoryEvent;
 import uk.nhs.hdn.crds.store.domain.identifiers.Identifier;
+import uk.nhs.hdn.crds.store.domain.identifiers.ProviderIdentifier;
+import uk.nhs.hdn.crds.store.domain.identifiers.RepositoryIdentifier;
 import uk.nhs.hdn.crds.store.domain.metadata.AbstractMetadataRecord;
 import uk.nhs.hdn.crds.store.domain.metadata.parsing.ProviderAndRepositoryMetadataParserFactory;
-import uk.nhs.hdn.crds.store.server.eventObservers.ConcurrentAggregatedEventObserver;
 import uk.nhs.hdn.crds.store.patientRecordStore.PatientRecordStore;
 import uk.nhs.hdn.crds.store.recordStore.SubstitutableRecordStore;
+import uk.nhs.hdn.crds.store.server.eventObservers.ConcurrentAggregatedEventObserver;
 import uk.nhs.hdn.crds.store.server.rest.PatientRecordStoreRestEndpoint;
 import uk.nhs.hdn.crds.store.server.rest.metadata.MetadataRecordRestEndpoint;
 import uk.nhs.hdn.number.NhsNumber;
@@ -37,6 +41,7 @@ import uk.nhs.hdn.number.NhsNumber;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.concurrent.LinkedBlockingDeque;
 
 import static uk.nhs.hdn.common.VariableArgumentsHelper.of;
 import static uk.nhs.hdn.common.fileWatching.FileWatcher.startFileWatcherOnNewThread;
@@ -102,8 +107,15 @@ public final class StoreServerConsoleEntryPoint extends AbstractConsoleEntryPoin
 
 		final File dataPath = readableDirectory(optionSet, DataPathOption);
 
+		execute(domainName, httpPort, backlog, cacheMaximumNumberOfEntries, patientRecordStoreKind, hazelcastPort, dataPath);
+	}
+
+	private static void execute(final String domainName, final char httpPort, final int backlog, final int cacheMaximumNumberOfEntries, final PatientRecordStoreKind patientRecordStoreKind, final char hazelcastPort, final File dataPath) throws IOException
+	{
 		final ConcurrentAggregatedEventObserver<NhsNumber> patientRecordConcurrentAggregatedEventObserver = new ConcurrentAggregatedEventObserver<>();
 		final PatientRecordStore patientRecordStore = patientRecordStoreKind.create(new HazelcastConfiguration(hazelcastPort), patientRecordConcurrentAggregatedEventObserver);
+
+		new Thread(new EventListenerRunnable(new LinkedBlockingDeque<Quadruple<NhsNumber, ProviderIdentifier, RepositoryIdentifier, RepositoryEvent>>(), patientRecordStore), "Incoming Events Listener").start();
 
 		final ConcurrentAggregatedEventObserver<Identifier> providerMetadataConcurrentAggregatedEventObserver = new ConcurrentAggregatedEventObserver<>();
 		final SubstitutableRecordStore<Identifier, AbstractMetadataRecord<?>> providerMetadataRecordStore = new SubstitutableRecordStore<>(providerMetadataConcurrentAggregatedEventObserver);
@@ -131,4 +143,5 @@ public final class StoreServerConsoleEntryPoint extends AbstractConsoleEntryPoin
 		));
 		server.start();
 	}
+
 }
