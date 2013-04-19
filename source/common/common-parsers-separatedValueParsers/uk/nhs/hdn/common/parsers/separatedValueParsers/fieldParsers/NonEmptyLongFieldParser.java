@@ -18,19 +18,26 @@ package uk.nhs.hdn.common.parsers.separatedValueParsers.fieldParsers;
 
 import org.jetbrains.annotations.NotNull;
 
-public final class NonEmptyStringFieldParser extends AbstractMandatoryPrefixFieldParser<String>
+public final class NonEmptyLongFieldParser extends AbstractMandatoryPrefixFieldParser<Long>
 {
-	@NotNull public static final FieldParser<String> NonEmptyStringFieldParserInstance = new NonEmptyStringFieldParser();
+	@NotNull public static final FieldParser<Long> NonEmptyLongFieldParserInstance = new NonEmptyLongFieldParser();
 
-	private NonEmptyStringFieldParser()
+	private NonEmptyLongFieldParser()
 	{
 	}
 
 	@NotNull
 	@Override
-	public String parse(final int fieldIndex, @NotNull final String fieldValue) throws CouldNotParseFieldException
+	public Long parse(final int fieldIndex, @NotNull final String fieldValue) throws CouldNotParseFieldException
 	{
 		validateIsNotEmpty(fieldIndex, fieldValue);
-		return fieldValue;
+		try
+		{
+			return Long.parseLong(fieldValue);
+		}
+		catch (NumberFormatException e)
+		{
+			throw new CouldNotParseFieldException(fieldIndex, fieldValue, e);
+		}
 	}
 }

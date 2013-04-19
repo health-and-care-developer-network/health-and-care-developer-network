@@ -19,22 +19,19 @@ package uk.nhs.hdn.barcodes.gs1.server;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.barcodes.gs1.server.parsing.Gs1CompanyPrefixResourceStateSnapshotUser;
-import uk.nhs.hdn.barcodes.gs1.server.parsing.ParsingFileReloader;
 import uk.nhs.hdn.barcodes.gs1.server.parsing.TuplesParserFactory;
 import uk.nhs.hdn.common.fileWatching.FailedToReloadException;
-import uk.nhs.hdn.common.fileWatching.FileWatcher;
+import uk.nhs.hdn.common.fileWatching.FileReloader;
 import uk.nhs.hdn.common.http.server.sun.restEndpoints.AbstractRegisterableMethodRoutingRestEndpoint;
 import uk.nhs.hdn.common.http.server.sun.restEndpoints.methodEndpoints.GetMethodEndpoint;
 import uk.nhs.hdn.common.http.server.sun.restEndpoints.methodEndpoints.HeadMethodEndpoint;
 import uk.nhs.hdn.common.http.server.sun.restEndpoints.methodEndpoints.MethodEndpoint;
-import uk.nhs.hdn.common.parsers.ParserFactory;
-import uk.nhs.hdn.common.parsers.sources.FileSource;
 
 import java.io.File;
 import java.util.Map;
 
-import static java.lang.Thread.MIN_PRIORITY;
-import static uk.nhs.hdn.common.CharsetHelper.Utf8;
+import static uk.nhs.hdn.common.fileWatching.FileWatcher.startFileWatcherOnNewThread;
+import static uk.nhs.hdn.common.parsers.ParsingFileReloader.utf8ParsingFileReloaderWithInitialLoad;
 
 public final class Gs1CompanyPrefixRestEndpoint extends AbstractRegisterableMethodRoutingRestEndpoint<Gs1CompanyPrefixResourceStateSnapshot> implements Gs1CompanyPrefixResourceStateSnapshotUser
 {
@@ -43,26 +40,21 @@ public final class Gs1CompanyPrefixRestEndpoint extends AbstractRegisterableMeth
 	@NotNull
 	private volatile Gs1CompanyPrefixResourceStateSnapshot gs1CompanyPrefixResourceStateSnapshot;
 
+	@SuppressWarnings("ThisEscapedInObjectConstruction")
 	public Gs1CompanyPrefixRestEndpoint(@NotNull final File containingFolder, @NonNls @NotNull final String fileName)
 	{
 		super("/gs1/organisation/", NoAuthentication);
 
-		final FileSource fileSource = new FileSource(Utf8, new File(containingFolder, fileName).toPath().toAbsolutePath());
-		@SuppressWarnings("ThisEscapedInObjectConstruction") final ParserFactory parserFactory = new TuplesParserFactory(this);
-		final ParsingFileReloader fileReloader = new ParsingFileReloader(parserFactory, fileSource);
+		final FileReloader fileReloader;
 		try
 		{
-			fileReloader.reload();
+			fileReloader = utf8ParsingFileReloaderWithInitialLoad(new TuplesParserFactory(this), containingFolder, fileName);
 		}
 		catch (FailedToReloadException e)
 		{
 			throw new IllegalStateException("Could not load tuples", e);
 		}
-		final FileWatcher fileWatcher = new FileWatcher(containingFolder, fileName, fileReloader);
-		final Thread thread = new Thread(fileWatcher, getClass().getSimpleName() + "FileWatcher");
-		thread.setDaemon(true);
-		thread.setPriority(MIN_PRIORITY);
-		thread.start();
+		startFileWatcherOnNewThread(containingFolder, fileName, fileReloader);
 	}
 
 	@Override

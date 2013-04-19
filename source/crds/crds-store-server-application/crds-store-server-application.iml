@@ -16,6 +16,8 @@
     <orderEntry type="library" name="JOpt Simple" level="project" />
     <orderEntry type="module" module-name="common-commandLine" />
     <orderEntry type="module" module-name="common-http-server-sun" />
+    <orderEntry type="module" module-name="common-fileWatching" />
+    <orderEntry type="module" module-name="common-parsers" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

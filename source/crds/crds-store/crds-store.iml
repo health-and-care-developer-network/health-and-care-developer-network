@@ -18,6 +18,9 @@
     <orderEntry type="module" module-name="common-caching" />
     <orderEntry type="module" module-name="crds-store-eventObservers" />
     <orderEntry type="module" module-name="common-serialisers-separatedValues" />
+    <orderEntry type="module" module-name="common-parsers-separatedValueParsers" />
+    <orderEntry type="module" module-name="common-parsers" />
+    <orderEntry type="module" module-name="common-tuples" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

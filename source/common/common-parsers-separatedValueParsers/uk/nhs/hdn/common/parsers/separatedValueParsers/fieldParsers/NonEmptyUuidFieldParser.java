@@ -18,19 +18,28 @@ package uk.nhs.hdn.common.parsers.separatedValueParsers.fieldParsers;
 
 import org.jetbrains.annotations.NotNull;
 
-public final class NonEmptyStringFieldParser extends AbstractMandatoryPrefixFieldParser<String>
-{
-	@NotNull public static final FieldParser<String> NonEmptyStringFieldParserInstance = new NonEmptyStringFieldParser();
+import java.util.UUID;
 
-	private NonEmptyStringFieldParser()
+public final class NonEmptyUUIDFieldParser extends AbstractMandatoryPrefixFieldParser<UUID>
+{
+	@NotNull public static final FieldParser<UUID> NonEmptyUUIDFieldParserInstance = new NonEmptyUUIDFieldParser();
+
+	private NonEmptyUUIDFieldParser()
 	{
 	}
 
 	@NotNull
 	@Override
-	public String parse(final int fieldIndex, @NotNull final String fieldValue) throws CouldNotParseFieldException
+	public UUID parse(final int fieldIndex, @NotNull final String fieldValue) throws CouldNotParseFieldException
 	{
 		validateIsNotEmpty(fieldIndex, fieldValue);
-		return fieldValue;
+		try
+		{
+			return UUID.fromString(fieldValue);
+		}
+		catch (IllegalArgumentException e)
+		{
+			throw new CouldNotParseFieldException(fieldIndex, fieldValue, e);
+		}
 	}
 }

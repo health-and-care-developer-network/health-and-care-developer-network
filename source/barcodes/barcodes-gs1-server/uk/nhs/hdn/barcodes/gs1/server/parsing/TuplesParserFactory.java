@@ -20,9 +20,12 @@ import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.parsers.Parser;
 import uk.nhs.hdn.common.parsers.ParserFactory;
 import uk.nhs.hdn.common.parsers.separatedValueParsers.TabSeparatedValueParser;
-import uk.nhs.hdn.common.parsers.separatedValueParsers.fieldParsers.NonEmptyStringFieldParser;
 import uk.nhs.hdn.common.parsers.separatedValueParsers.fieldParsers.StringNonMandatoryPrefixFieldParser;
 import uk.nhs.hdn.common.parsers.separatedValueParsers.separatedValuesParseEventHandlers.ToDomainSeparatedValueParseEventHandler;
+
+import static uk.nhs.hdn.barcodes.gs1.server.parsing.Gs1CompanyPrefixFieldParser.Gs1CompanyPrefixFieldParserInstance;
+import static uk.nhs.hdn.barcodes.gs1.server.parsing.TupleLineParser.TupleLineParserInstance;
+import static uk.nhs.hdn.common.parsers.separatedValueParsers.fieldParsers.NonEmptyStringFieldParser.NonEmptyStringFieldParserInstance;
 
 public final class TuplesParserFactory implements ParserFactory
 {
@@ -41,16 +44,13 @@ public final class TuplesParserFactory implements ParserFactory
 		(
 			new ToDomainSeparatedValueParseEventHandler<>
 			(
-				new Gs1CompanyPrefixResourceStateSnapshotLinesParser
-				(
-					gs1CompanyPrefixResourceStateSnapshotUser
-				),
+				new Gs1CompanyPrefixResourceStateSnapshotLinesParser(gs1CompanyPrefixResourceStateSnapshotUser),
 
-				new TupleLineParser(),
+				TupleLineParserInstance,
 
-				new Gs1CompanyPrefixFieldParser(),
-				new NonEmptyStringFieldParser(),
-				new NonEmptyStringFieldParser(),
+				Gs1CompanyPrefixFieldParserInstance,
+				NonEmptyStringFieldParserInstance,
+				NonEmptyStringFieldParserInstance,
 
 				// PostCode
 				new StringNonMandatoryPrefixFieldParser(true)

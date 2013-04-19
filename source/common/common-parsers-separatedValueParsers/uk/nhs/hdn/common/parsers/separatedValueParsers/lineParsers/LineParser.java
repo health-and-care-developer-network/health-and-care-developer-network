@@ -18,8 +18,7 @@ package uk.nhs.hdn.common.parsers.separatedValueParsers.lineParsers;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface LineParser<V>
+public interface LineParser<V, L>
 {
-	@NotNull
-	V parse(final int lineIndex, @NotNull final Object[] parsedFields) throws CouldNotParseLineException;
+	void parse(final int lineIndex, @NotNull final Object[] parsedFields, @NotNull final L parsedLines) throws CouldNotParseLineException;
 }

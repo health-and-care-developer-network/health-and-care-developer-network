@@ -79,6 +79,27 @@ public final class RepositoryMetadataRecord extends AbstractMetadataRecord<Repos
 		this.systemLocation = systemLocation;
 	}
 
+	@NotNull
+	public RepositoryMetadataRecord update(@MillisecondsSince1970 final long updateLastModified, @NotNull final String updateSystemDescription, @NotNull final URI updateSystemLocation)
+	{
+		@MillisecondsSince1970 final long latestLastModified;
+		@NotNull final String latestSystemDescription;
+		@NotNull final URI latestSystemLocation;
+		if (updateLastModified >= lastModified)
+		{
+			latestLastModified = updateLastModified;
+			latestSystemDescription = updateSystemDescription;
+			latestSystemLocation = updateSystemLocation;
+		}
+		else
+		{
+			latestLastModified = lastModified;
+			latestSystemDescription = systemDescription;
+			latestSystemLocation = systemLocation;
+		}
+		return new RepositoryMetadataRecord(identifier, latestLastModified, latestSystemDescription, latestSystemLocation);
+	}
+
 	@Override
 	public void writeData(@NotNull final DataOutput out) throws IOException
 	{

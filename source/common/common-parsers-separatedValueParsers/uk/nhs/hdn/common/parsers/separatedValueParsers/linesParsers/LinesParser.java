@@ -19,9 +19,10 @@ package uk.nhs.hdn.common.parsers.separatedValueParsers.linesParsers;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.MillisecondsSince1970;
 
-import java.util.List;
-
-public interface LinesParser<V>
+public interface LinesParser<V, L>
 {
-	void parse(@MillisecondsSince1970 final long lastModified, @NotNull final List<V> lines);
+	@NotNull
+	L newParsedLines();
+
+	void parse(@MillisecondsSince1970 final long lastModified, @NotNull final L parsedLines);
 }

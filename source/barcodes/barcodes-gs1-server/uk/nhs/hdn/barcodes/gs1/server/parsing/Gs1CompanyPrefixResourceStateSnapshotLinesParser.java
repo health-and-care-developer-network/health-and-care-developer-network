@@ -23,11 +23,12 @@ import uk.nhs.hdn.common.MillisecondsSince1970;
 import uk.nhs.hdn.common.parsers.separatedValueParsers.linesParsers.LinesParser;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static uk.nhs.hdn.common.GregorianCalendarHelper.utc;
 
-public final class Gs1CompanyPrefixResourceStateSnapshotLinesParser extends AbstractToString implements LinesParser<Tuple>
+public final class Gs1CompanyPrefixResourceStateSnapshotLinesParser extends AbstractToString implements LinesParser<Tuple, List<Tuple>>
 {
 	@NotNull
 	private final Gs1CompanyPrefixResourceStateSnapshotUser gs1CompanyPrefixResourceStateSnapshotUser;
@@ -37,10 +38,17 @@ public final class Gs1CompanyPrefixResourceStateSnapshotLinesParser extends Abst
 		this.gs1CompanyPrefixResourceStateSnapshotUser = gs1CompanyPrefixResourceStateSnapshotUser;
 	}
 
+	@NotNull
 	@Override
-	public void parse(@MillisecondsSince1970 final long lastModified, @NotNull final List<Tuple> lines)
+	public List<Tuple> newParsedLines()
 	{
-		final Tuple[] tuples = lines.toArray(new Tuple[lines.size()]);
+		return new ArrayList<>(10);
+	}
+
+	@Override
+	public void parse(@MillisecondsSince1970 final long lastModified, @NotNull final List<Tuple> parsedLines)
+	{
+		final Tuple[] tuples = parsedLines.toArray(new Tuple[parsedLines.size()]);
 
 		final Gs1CompanyPrefixResourceStateSnapshot gs1CompanyPrefixResourceStateSnapshot = new Gs1CompanyPrefixResourceStateSnapshot(utc(lastModified), tuples);
 

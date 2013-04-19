@@ -26,6 +26,12 @@ import static uk.nhs.hdn.barcodes.gs1.companyPrefixes.Gs1CompanyPrefix.gs1Compan
 
 public final class Gs1CompanyPrefixFieldParser extends AbstractMandatoryPrefixFieldParser<Gs1CompanyPrefix>
 {
+	@NotNull public static final Gs1CompanyPrefixFieldParser Gs1CompanyPrefixFieldParserInstance = new Gs1CompanyPrefixFieldParser();
+
+	private Gs1CompanyPrefixFieldParser()
+	{
+	}
+
 	@NotNull
 	@Override
 	public Gs1CompanyPrefix parse(final int fieldIndex, @NotNull final String fieldValue) throws CouldNotParseFieldException

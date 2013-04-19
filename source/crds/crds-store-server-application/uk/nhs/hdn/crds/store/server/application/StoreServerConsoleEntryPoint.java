@@ -18,24 +18,30 @@ package uk.nhs.hdn.crds.store.server.application;
 
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.commandLine.AbstractConsoleEntryPoint;
+import uk.nhs.hdn.common.fileWatching.FailedToReloadException;
+import uk.nhs.hdn.common.fileWatching.FileReloader;
 import uk.nhs.hdn.common.http.server.sun.Server;
 import uk.nhs.hdn.crds.store.domain.identifiers.Identifier;
 import uk.nhs.hdn.crds.store.domain.metadata.AbstractMetadataRecord;
-import uk.nhs.hdn.crds.store.domain.metadata.IdentifierConstructor;
+import uk.nhs.hdn.crds.store.domain.metadata.parsing.ProviderAndRepositoryMetadataParserFactory;
 import uk.nhs.hdn.crds.store.eventObservers.ConcurrentAggregatedEventObserver;
 import uk.nhs.hdn.crds.store.patientRecordStore.PatientRecordStore;
-import uk.nhs.hdn.crds.store.recordStore.RecordStore;
+import uk.nhs.hdn.crds.store.recordStore.SubstitutableRecordStore;
 import uk.nhs.hdn.crds.store.rest.PatientRecordStoreRestEndpoint;
 import uk.nhs.hdn.crds.store.rest.metadata.MetadataRecordRestEndpoint;
 import uk.nhs.hdn.number.NhsNumber;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
 import static uk.nhs.hdn.common.VariableArgumentsHelper.of;
+import static uk.nhs.hdn.common.fileWatching.FileWatcher.startFileWatcherOnNewThread;
 import static uk.nhs.hdn.common.http.server.sun.restEndpoints.RootDenialRestEndpoint.RootDenialRestEndpointInstance;
+import static uk.nhs.hdn.common.parsers.ParsingFileReloader.utf8ParsingFileReloaderWithInitialLoad;
 import static uk.nhs.hdn.crds.store.domain.metadata.IdentifierConstructor.Provider;
 import static uk.nhs.hdn.crds.store.domain.metadata.IdentifierConstructor.Repository;
 import static uk.nhs.hdn.crds.store.server.application.PatientRecordStoreKind.Hazelcast;
@@ -48,6 +54,7 @@ public final class StoreServerConsoleEntryPoint extends AbstractConsoleEntryPoin
 	private static final String CacheSizeOption = "cache-size";
 	private static final String PatientRecordStoreKindOption = "patient-record-store-kind";
 	private static final String HazelcasePortOption = "hazelcast-port";
+	private static final String DataPathOption = "data-path";
 
 	private static final String DefaultHostName = "localhost";
 	private static final int DefaultHttpPort = 7000;
@@ -55,6 +62,9 @@ public final class StoreServerConsoleEntryPoint extends AbstractConsoleEntryPoin
 	private static final int DefaultCacheSize = 10000;
 	private static final PatientRecordStoreKind DefaultPatientRecordStoreKind = Hazelcast;
 	private static final int DefaultHazlecastPort = 10000;
+	private static final String DefaultDataPath = "/srv/hdn-crds-store";
+
+	@NonNls private static final String StoreMetadataFileName = "crds-store-server-metadata.tsv";
 
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static void main(@NotNull final String... commandLineArguments)
@@ -71,6 +81,7 @@ public final class StoreServerConsoleEntryPoint extends AbstractConsoleEntryPoin
 		options.accepts(CacheSizeOption).withRequiredArg().ofType(Integer.class).defaultsTo(DefaultCacheSize).describedAs("maximum number of entries to cache per I/O thread");
 		options.accepts(PatientRecordStoreKindOption).withRequiredArg().ofType(PatientRecordStoreKind.class).defaultsTo(DefaultPatientRecordStoreKind).describedAs("backing store kind for data");
 		options.accepts(HazelcasePortOption).withRequiredArg().ofType(Integer.class).defaultsTo(DefaultHazlecastPort).describedAs("first port for Hazelcast to listen on");
+		options.accepts(DataPathOption).withRequiredArg().ofType(File.class).defaultsTo(new File(DefaultDataPath)).describedAs("Folder path containing store metadata");
 		return true;
 	}
 
@@ -89,14 +100,27 @@ public final class StoreServerConsoleEntryPoint extends AbstractConsoleEntryPoin
 
 		final char hazelcastPort = portNumber(optionSet, HazelcasePortOption);
 
+		final File dataPath = readableDirectory(optionSet, DataPathOption);
+
 		final ConcurrentAggregatedEventObserver<NhsNumber> patientRecordConcurrentAggregatedEventObserver = new ConcurrentAggregatedEventObserver<>();
 		final PatientRecordStore patientRecordStore = patientRecordStoreKind.create(new HazelcastConfiguration(hazelcastPort), patientRecordConcurrentAggregatedEventObserver);
 
 		final ConcurrentAggregatedEventObserver<Identifier> providerMetadataConcurrentAggregatedEventObserver = new ConcurrentAggregatedEventObserver<>();
-		final RecordStore<Identifier, AbstractMetadataRecord<?>> providerMetadataRecordStore = ;
+		final SubstitutableRecordStore<Identifier, AbstractMetadataRecord<?>> providerMetadataRecordStore = new SubstitutableRecordStore<>(providerMetadataConcurrentAggregatedEventObserver);
 
 		final ConcurrentAggregatedEventObserver<Identifier> repositoryMetadataConcurrentAggregatedEventObserver = new ConcurrentAggregatedEventObserver<>();
-		final RecordStore<Identifier, AbstractMetadataRecord<?>> repositoryMetadataRecordStore = ;
+		final SubstitutableRecordStore<Identifier, AbstractMetadataRecord<?>> repositoryMetadataRecordStore = new SubstitutableRecordStore<>(repositoryMetadataConcurrentAggregatedEventObserver);
+
+		final FileReloader fileReloader;
+		try
+		{
+			fileReloader = utf8ParsingFileReloaderWithInitialLoad(new ProviderAndRepositoryMetadataParserFactory(providerMetadataRecordStore, repositoryMetadataRecordStore), dataPath, StoreMetadataFileName);
+		}
+		catch (FailedToReloadException e)
+		{
+			throw new IllegalStateException("Could not load store metadata", e);
+		}
+		startFileWatcherOnNewThread(dataPath, StoreMetadataFileName, fileReloader);
 
 		final Server server = new Server(new InetSocketAddress(domainName, (int) httpPort), backlog, of
 		(

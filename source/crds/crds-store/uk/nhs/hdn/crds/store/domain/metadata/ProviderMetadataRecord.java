@@ -81,6 +81,25 @@ public final class ProviderMetadataRecord extends AbstractMetadataRecord<Provide
 		this.repositoryIdentifiers = repositoryIdentifiers;
 	}
 
+	@NotNull
+	public ProviderMetadataRecord update(@MillisecondsSince1970 final long updateLastModified, @NotNull final String updateOrganisationalDataServiceCode, @NotNull final RepositoryIdentifier repositoryIdentifier)
+	{
+		final HazelcastAwareLinkedHashSet<RepositoryIdentifier> newRepositoryIdentifiers = new HazelcastAwareLinkedHashSet<>(repositoryIdentifiers, repositoryIdentifier);
+		@MillisecondsSince1970 final long latestLastModified;
+		@NotNull final String latestOrganisationalDataServiceCode;
+		if (updateLastModified >= lastModified)
+		{
+			latestLastModified = updateLastModified;
+			latestOrganisationalDataServiceCode = updateOrganisationalDataServiceCode;
+		}
+		else
+		{
+			latestLastModified = lastModified;
+			latestOrganisationalDataServiceCode = organisationalDataServiceCode;
+		}
+		return new ProviderMetadataRecord(identifier, latestLastModified, latestOrganisationalDataServiceCode, newRepositoryIdentifiers);
+	}
+
 	@Override
 	public void writeData(@NotNull final DataOutput out) throws IOException
 	{

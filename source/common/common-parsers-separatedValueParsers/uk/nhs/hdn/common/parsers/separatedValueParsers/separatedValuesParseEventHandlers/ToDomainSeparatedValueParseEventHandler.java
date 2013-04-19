@@ -27,22 +27,19 @@ import uk.nhs.hdn.common.parsers.separatedValueParsers.linesParsers.LinesParser;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hdn.common.reflection.toString.ExcludeFromToString;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static uk.nhs.hdn.common.MillisecondsSince1970.NullMillisecondsSince1970;
 import static uk.nhs.hdn.common.VariableArgumentsHelper.copyOf;
 
-public final class ToDomainSeparatedValueParseEventHandler<V> extends AbstractToString implements SeparatedValueParseEventHandler
+public final class ToDomainSeparatedValueParseEventHandler<V, L> extends AbstractToString implements SeparatedValueParseEventHandler
 {
 	private final FieldParser<?>[] fieldParsers;
 	private final Object[] parsedFields;
 	@ExcludeFromToString
 	private final int maximumNumberOfFields;
 	@NotNull
-	private final LinesParser<V> linesParser;
+	private final LinesParser<V, L> linesParser;
 	@NotNull
-	private final LineParser<V> lineParser;
+	private final LineParser<V, L> lineParser;
 
 	private boolean beforeHeaderLine;
 	private int currentLineIndex;
@@ -50,9 +47,10 @@ public final class ToDomainSeparatedValueParseEventHandler<V> extends AbstractTo
 	@MillisecondsSince1970
 	private long lastModified;
 	private int numberOfFieldsPerLineDeducedFromHeaderLine;
-	private List<V> lines;
+	private L lines;
 
-	public ToDomainSeparatedValueParseEventHandler(@NotNull final LinesParser<V> linesParser, @NotNull final LineParser<V> lineParser, @NotNull final FieldParser<?>... fieldParsers)
+	@SuppressWarnings("AssignmentToNull")
+	public ToDomainSeparatedValueParseEventHandler(@NotNull final LinesParser<V, L> linesParser, @NotNull final LineParser<V, L> lineParser, @NotNull final FieldParser<?>... fieldParsers)
 	{
 		this.linesParser = linesParser;
 		this.lineParser = lineParser;
@@ -65,6 +63,7 @@ public final class ToDomainSeparatedValueParseEventHandler<V> extends AbstractTo
 
 		maximumNumberOfFields = fieldParsers.length;
 		parsedFields = new Object[maximumNumberOfFields];
+		lines = null;
 	}
 
 	@Override
@@ -72,7 +71,7 @@ public final class ToDomainSeparatedValueParseEventHandler<V> extends AbstractTo
 	{
 		this.lastModified = lastModified;
 		currentLineIndex = 0;
-		lines = new ArrayList<>(10);
+		lines = linesParser.newParsedLines();
 	}
 
 	@Override
@@ -119,8 +118,7 @@ public final class ToDomainSeparatedValueParseEventHandler<V> extends AbstractTo
 			{
 				throw new CouldNotParseLineException(currentLineIndex, "the number of fields differed to that in the header line");
 			}
-			lines.add(lineParser.parse(currentLineIndex, parsedFields));
-
+			lineParser.parse(currentLineIndex, parsedFields, lines);
 		}
 
 		currentLineIndex++;

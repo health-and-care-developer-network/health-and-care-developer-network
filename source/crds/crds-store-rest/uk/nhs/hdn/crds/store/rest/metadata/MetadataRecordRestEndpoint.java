@@ -38,6 +38,7 @@ public final class MetadataRecordRestEndpoint extends AbstractRegisterableMethod
 	public MetadataRecordRestEndpoint(@NotNull final IdentifierConstructor identifierConstructor, final int cacheMaximumNumberOfEntries, @NotNull final RecordStore<Identifier, AbstractMetadataRecord<?>> metadataRecordStore, @NotNull final ConcurrentAggregatedEventObserver<Identifier> concurrentAggregatedRepositoryEventObserver)
 	{
 		super("/crds/metadata/" + identifierConstructor.name().toLowerCase(UK), NoAuthentication);
+
 		// patientRecordStore, concurrentAggregatedRepositoryEventObserver are linked
 		metadataRecordResourceStateSnapshot = new MetadataRecordResourceStateSnapshot(identifierConstructor, cacheMaximumNumberOfEntries, metadataRecordStore, concurrentAggregatedRepositoryEventObserver);
 	}
@@ -55,5 +56,4 @@ public final class MetadataRecordRestEndpoint extends AbstractRegisterableMethod
 	{
 		return metadataRecordResourceStateSnapshot;
 	}
-
 }

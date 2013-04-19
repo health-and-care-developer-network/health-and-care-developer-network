@@ -16,6 +16,7 @@
 
 package uk.nhs.hdn.common.fileWatching;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
@@ -27,6 +28,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static java.lang.String.format;
+import static java.lang.Thread.MIN_PRIORITY;
 import static java.nio.file.FileSystems.getDefault;
 import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
 import static java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY;
@@ -79,6 +81,15 @@ public final class FileWatcher extends AbstractToString implements Runnable
 		{
 			throw new IllegalStateException(format(ENGLISH, "Could not watch path %1$s", folderPath), e);
 		}
+	}
+
+	public static void startFileWatcherOnNewThread(@NotNull final File containingFolder, @NonNls @NotNull final String fileName, @NotNull final FileReloader fileReloader)
+	{
+		final FileWatcher fileWatcher = new FileWatcher(containingFolder, fileName, fileReloader);
+		final Thread thread = new Thread(fileWatcher, "FileWatcher " + fileName);
+		thread.setDaemon(true);
+		thread.setPriority(MIN_PRIORITY);
+		thread.start();
 	}
 
 	@Override

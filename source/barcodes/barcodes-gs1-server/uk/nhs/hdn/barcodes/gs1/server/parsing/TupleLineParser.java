@@ -25,9 +25,10 @@ import uk.nhs.hdn.barcodes.gs1.organisation.Tuple;
 import uk.nhs.hdn.common.parsers.separatedValueParsers.lineParsers.CouldNotParseLineException;
 import uk.nhs.hdn.common.parsers.separatedValueParsers.lineParsers.LineParser;
 
-import java.util.HashMap;
+import java.util.EnumMap;
+import java.util.List;
 
-public final class TupleLineParser implements LineParser<Tuple>
+public final class TupleLineParser implements LineParser<Tuple, List<Tuple>>
 {
 	private static final int NumberOfInvariantConstructorFields = 3;
 	@NotNull
@@ -35,10 +36,15 @@ public final class TupleLineParser implements LineParser<Tuple>
 	private static final int MaximumAdditionalInformationKeys = AdditionalInformationKeys.length;
 	private static final int MaximumLength = NumberOfInvariantConstructorFields + MaximumAdditionalInformationKeys;
 
+	@NotNull public static final LineParser<Tuple, List<Tuple>> TupleLineParserInstance = new TupleLineParser();
+
+	private TupleLineParser()
+	{
+	}
+
 	@SuppressWarnings({"ClassExtendsConcreteCollection", "MethodCanBeVariableArityMethod"})
-	@NotNull
 	@Override
-	public Tuple parse(final int lineIndex, @NotNull final Object[] parsedFields) throws CouldNotParseLineException
+	public void parse(final int lineIndex, @NotNull final Object[] parsedFields, @NotNull final List<Tuple> parsedLines) throws CouldNotParseLineException
 	{
 		final int length = parsedFields.length;
 		if (length < NumberOfInvariantConstructorFields)
@@ -52,12 +58,13 @@ public final class TupleLineParser implements LineParser<Tuple>
 		}
 
 		final int additionalFieldsLength = length - NumberOfInvariantConstructorFields;
-		return new Tuple
+		//noinspection serial
+		parsedLines.add(new Tuple
 		(
 			(Gs1CompanyPrefix) parsedFields[0],
 			(String) parsedFields[1],
 			(String) parsedFields[2],
-			new AdditionalInformation(new HashMap<AdditionalInformationKey, Object>(additionalFieldsLength)
+			new AdditionalInformation(new EnumMap<AdditionalInformationKey, Object>(AdditionalInformationKey.class)
 			{{
 				for(int index = 0; index < additionalFieldsLength; index++)
 				{
@@ -70,6 +77,6 @@ public final class TupleLineParser implements LineParser<Tuple>
 					put(key, parsedField);
 				}
 			}})
-		);
+		));
 	}
 }
