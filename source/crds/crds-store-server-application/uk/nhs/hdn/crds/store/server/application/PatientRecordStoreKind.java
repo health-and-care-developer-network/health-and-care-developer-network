@@ -17,10 +17,10 @@
 package uk.nhs.hdn.crds.store.server.application;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.crds.store.eventObservers.EventObserver;
+import uk.nhs.hdn.crds.store.server.eventObservers.EventObserver;
 import uk.nhs.hdn.crds.store.patientRecordStore.PatientRecordStore;
-import uk.nhs.hdn.crds.store.standalone.patientRecordStore.NonBlockingStandalonePatientRecordStore;
-import uk.nhs.hdn.crds.store.standalone.patientRecordStore.StrippedLockingStandalonePatientRecordStore;
+import uk.nhs.hdn.crds.store.server.standalone.patientRecordStore.NonBlockingStandalonePatientRecordStore;
+import uk.nhs.hdn.crds.store.server.standalone.patientRecordStore.StrippedLockingStandalonePatientRecordStore;
 import uk.nhs.hdn.number.NhsNumber;
 
 public enum PatientRecordStoreKind

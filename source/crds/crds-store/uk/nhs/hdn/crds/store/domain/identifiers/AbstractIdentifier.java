@@ -36,6 +36,12 @@ public abstract class AbstractIdentifier extends AbstractToString implements Ide
 		this.identifier = identifier;
 	}
 
+	@NotNull
+	public final String toUuidString()
+	{
+		return identifier.toString();
+	}
+
 	@Override
 	public final void writeData(@NotNull final DataOutput out) throws IOException
 	{

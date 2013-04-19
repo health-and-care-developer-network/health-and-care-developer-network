@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.crds.store.domain.*;
 import uk.nhs.hdn.crds.store.domain.identifiers.ProviderIdentifier;
 import uk.nhs.hdn.crds.store.domain.identifiers.RepositoryIdentifier;
-import uk.nhs.hdn.crds.store.eventObservers.EventObserver;
+import uk.nhs.hdn.crds.store.server.eventObservers.EventObserver;
 import uk.nhs.hdn.number.NhsNumber;
 
 import java.util.concurrent.ConcurrentMap;

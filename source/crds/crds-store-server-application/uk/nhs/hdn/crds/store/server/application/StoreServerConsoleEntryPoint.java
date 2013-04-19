@@ -27,11 +27,11 @@ import uk.nhs.hdn.common.http.server.sun.Server;
 import uk.nhs.hdn.crds.store.domain.identifiers.Identifier;
 import uk.nhs.hdn.crds.store.domain.metadata.AbstractMetadataRecord;
 import uk.nhs.hdn.crds.store.domain.metadata.parsing.ProviderAndRepositoryMetadataParserFactory;
-import uk.nhs.hdn.crds.store.eventObservers.ConcurrentAggregatedEventObserver;
+import uk.nhs.hdn.crds.store.server.eventObservers.ConcurrentAggregatedEventObserver;
 import uk.nhs.hdn.crds.store.patientRecordStore.PatientRecordStore;
 import uk.nhs.hdn.crds.store.recordStore.SubstitutableRecordStore;
-import uk.nhs.hdn.crds.store.rest.PatientRecordStoreRestEndpoint;
-import uk.nhs.hdn.crds.store.rest.metadata.MetadataRecordRestEndpoint;
+import uk.nhs.hdn.crds.store.server.rest.PatientRecordStoreRestEndpoint;
+import uk.nhs.hdn.crds.store.server.rest.metadata.MetadataRecordRestEndpoint;
 import uk.nhs.hdn.number.NhsNumber;
 
 import java.io.File;

@@ -9,10 +9,10 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="IntelliJ Annotations" level="project" />
     <orderEntry type="module" module-name="crds-store" />
-    <orderEntry type="module" module-name="crds-store-eventObservers" />
-    <orderEntry type="module" module-name="crds-store-hazelcast" />
-    <orderEntry type="module" module-name="crds-store-rest" />
-    <orderEntry type="module" module-name="crds-store-standalone" />
+    <orderEntry type="module" module-name="crds-store-server-eventObservers" />
+    <orderEntry type="module" module-name="crds-store-server-hazelcast" />
+    <orderEntry type="module" module-name="crds-store-server-rest" />
+    <orderEntry type="module" module-name="crds-store-server-standalone" />
     <orderEntry type="library" name="JOpt Simple" level="project" />
     <orderEntry type="module" module-name="common-commandLine" />
     <orderEntry type="module" module-name="common-http-server-sun" />

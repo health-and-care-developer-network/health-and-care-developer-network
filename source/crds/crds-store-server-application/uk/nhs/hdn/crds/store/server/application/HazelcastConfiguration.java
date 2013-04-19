@@ -22,10 +22,10 @@ import com.hazelcast.config.MapIndexConfig;
 import com.hazelcast.config.NetworkConfig;
 import com.hazelcast.core.HazelcastInstance;
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.crds.store.eventObservers.EventObserver;
-import uk.nhs.hdn.crds.store.hazelcast.hazelcastSerialisationHolders.NhsNumberHazelcastSerialisationHolder;
-import uk.nhs.hdn.crds.store.hazelcast.hazelcastSerialisationHolders.PatientRecordHazelcastSerialisationHolder;
-import uk.nhs.hdn.crds.store.hazelcast.patientRecordStore.HazelcastPatientRecordStore;
+import uk.nhs.hdn.crds.store.server.eventObservers.EventObserver;
+import uk.nhs.hdn.crds.store.server.hazelcast.hazelcastSerialisationHolders.NhsNumberHazelcastSerialisationHolder;
+import uk.nhs.hdn.crds.store.server.hazelcast.hazelcastSerialisationHolders.PatientRecordHazelcastSerialisationHolder;
+import uk.nhs.hdn.crds.store.server.hazelcast.patientRecordStore.HazelcastPatientRecordStore;
 import uk.nhs.hdn.crds.store.patientRecordStore.PatientRecordStore;
 import uk.nhs.hdn.number.NhsNumber;
 

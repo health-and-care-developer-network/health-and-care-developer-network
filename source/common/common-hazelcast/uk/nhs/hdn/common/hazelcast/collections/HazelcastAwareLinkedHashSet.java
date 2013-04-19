@@ -31,7 +31,7 @@ import static uk.nhs.hdn.common.hazelcast.collections.HazelcastAwareLinkedHashMa
 @SuppressWarnings({"SerializableHasSerializationMethods", "serial"})
 public final class HazelcastAwareLinkedHashSet<E extends HazelcastDataWriter> extends HashSet<E> implements HazelcastDataWriter
 {
-	private HazelcastAwareLinkedHashSet(final int size)
+	public HazelcastAwareLinkedHashSet(final int size)
 	{
 		super(size, OptimumHashLoadFactor);
 	}
@@ -40,6 +40,12 @@ public final class HazelcastAwareLinkedHashSet<E extends HazelcastDataWriter> ex
 	{
 		super(1, OptimumHashLoadFactor);
 		add(element0);
+	}
+
+	public HazelcastAwareLinkedHashSet(@NotNull final Collection<E> set)
+	{
+		super(set.size(), OptimumHashLoadFactor);
+		addAll(set);
 	}
 
 	public HazelcastAwareLinkedHashSet(@NotNull final Collection<E> set, @NotNull final E appendElement)

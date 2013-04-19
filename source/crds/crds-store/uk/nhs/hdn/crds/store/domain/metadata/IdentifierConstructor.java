@@ -20,10 +20,12 @@ import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser;
 import uk.nhs.hdn.crds.store.domain.identifiers.Identifier;
 import uk.nhs.hdn.crds.store.domain.identifiers.ProviderIdentifier;
+import uk.nhs.hdn.crds.store.domain.identifiers.RepositoryEventIdentifier;
 import uk.nhs.hdn.crds.store.domain.identifiers.RepositoryIdentifier;
 
 import java.util.UUID;
 
+import static java.util.Locale.UK;
 import static uk.nhs.hdn.crds.store.domain.metadata.ProviderMetadataRecord.csvSerialiserForProviderMetadataRecords;
 import static uk.nhs.hdn.crds.store.domain.metadata.ProviderMetadataRecord.tsvSerialiserForProviderMetadataRecords;
 import static uk.nhs.hdn.crds.store.domain.metadata.RepositoryMetadataRecord.csvSerialiserForRepositoryMetadataRecords;
@@ -77,7 +79,42 @@ public enum IdentifierConstructor
 			return csvSerialiserForRepositoryMetadataRecords(writeHeaderLine);
 		}
 	},
+	RepositoryEvent
+	{
+		@NotNull
+		@Override
+		public Identifier construct(@NotNull final UUID uuid)
+		{
+			return new RepositoryEventIdentifier(uuid);
+		}
+
+		@NotNull
+		@Override
+		public SeparatedValueSerialiser tsvSerialiser()
+		{
+			throw new UnsupportedOperationException();
+		}
+
+		@NotNull
+		@Override
+		public SeparatedValueSerialiser csvSerialiser(final boolean writeHeaderLine)
+		{
+			throw new UnsupportedOperationException();
+		}
+	}
 	;
+
+	@NotNull
+	public Identifier construct(@NotNull final String uuid)
+	{
+		return construct(UUID.fromString(uuid));
+	}
+
+	@NotNull
+	public String restName()
+	{
+		return name().toLowerCase(UK);
+	}
 
 	@NotNull
 	public abstract Identifier construct(@NotNull final UUID uuid);

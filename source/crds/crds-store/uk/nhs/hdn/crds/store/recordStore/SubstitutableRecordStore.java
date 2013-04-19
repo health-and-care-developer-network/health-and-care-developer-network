@@ -19,7 +19,7 @@ package uk.nhs.hdn.crds.store.recordStore;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
-import uk.nhs.hdn.crds.store.eventObservers.ConcurrentAggregatedEventObserver;
+import uk.nhs.hdn.crds.store.server.eventObservers.ConcurrentAggregatedEventObserver;
 
 import java.util.Map;
 import java.util.Set;

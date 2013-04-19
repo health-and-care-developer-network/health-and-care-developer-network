@@ -1289,11 +1289,12 @@
       <module fileurl="file://$PROJECT_DIR$/common/common-xml/common-xml.iml" filepath="$PROJECT_DIR$/common/common-xml/common-xml.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/crds/crds-repository/crds-repository.iml" filepath="$PROJECT_DIR$/crds/crds-repository/crds-repository.iml" group="crds" />
       <module fileurl="file://$PROJECT_DIR$/crds/crds-store/crds-store.iml" filepath="$PROJECT_DIR$/crds/crds-store/crds-store.iml" group="crds" />
-      <module fileurl="file://$PROJECT_DIR$/crds/crds-store-eventObservers/crds-store-eventObservers.iml" filepath="$PROJECT_DIR$/crds/crds-store-eventObservers/crds-store-eventObservers.iml" group="crds" />
-      <module fileurl="file://$PROJECT_DIR$/crds/crds-store-hazelcast/crds-store-hazelcast.iml" filepath="$PROJECT_DIR$/crds/crds-store-hazelcast/crds-store-hazelcast.iml" group="crds" />
-      <module fileurl="file://$PROJECT_DIR$/crds/crds-store-rest/crds-store-rest.iml" filepath="$PROJECT_DIR$/crds/crds-store-rest/crds-store-rest.iml" group="crds" />
+      <module fileurl="file://$PROJECT_DIR$/crds/crds-store-client/crds-store-client.iml" filepath="$PROJECT_DIR$/crds/crds-store-client/crds-store-client.iml" group="crds" />
       <module fileurl="file://$PROJECT_DIR$/crds/crds-store-server-application/crds-store-server-application.iml" filepath="$PROJECT_DIR$/crds/crds-store-server-application/crds-store-server-application.iml" group="crds" />
-      <module fileurl="file://$PROJECT_DIR$/crds/crds-store-standalone/crds-store-standalone.iml" filepath="$PROJECT_DIR$/crds/crds-store-standalone/crds-store-standalone.iml" group="crds" />
+      <module fileurl="file://$PROJECT_DIR$/crds/crds-store-server-eventObservers/crds-store-server-eventObservers.iml" filepath="$PROJECT_DIR$/crds/crds-store-server-eventObservers/crds-store-server-eventObservers.iml" group="crds" />
+      <module fileurl="file://$PROJECT_DIR$/crds/crds-store-server-hazelcast/crds-store-server-hazelcast.iml" filepath="$PROJECT_DIR$/crds/crds-store-server-hazelcast/crds-store-server-hazelcast.iml" group="crds" />
+      <module fileurl="file://$PROJECT_DIR$/crds/crds-store-server-rest/crds-store-server-rest.iml" filepath="$PROJECT_DIR$/crds/crds-store-server-rest/crds-store-server-rest.iml" group="crds" />
+      <module fileurl="file://$PROJECT_DIR$/crds/crds-store-server-standalone/crds-store-server-standalone.iml" filepath="$PROJECT_DIR$/crds/crds-store-server-standalone/crds-store-server-standalone.iml" group="crds" />
       <module fileurl="file://$PROJECT_DIR$/dbs/dbs/dbs.iml" filepath="$PROJECT_DIR$/dbs/dbs/dbs.iml" group="dbs" />
       <module fileurl="file://$PROJECT_DIR$/dbs/dbs-parsing/dbs-parsing.iml" filepath="$PROJECT_DIR$/dbs/dbs-parsing/dbs-parsing.iml" group="dbs" />
       <module fileurl="file://$PROJECT_DIR$/dbs/dbs-request/dbs-request.iml" filepath="$PROJECT_DIR$/dbs/dbs-request/dbs-request.iml" group="dbs" />

@@ -36,7 +36,7 @@ public final class HazelcastAwareLinkedHashMap<K extends HazelcastDataWriter, V 
 {
 	public static final float OptimumHashLoadFactor = 0.7f;
 
-	private HazelcastAwareLinkedHashMap(final int size)
+	public HazelcastAwareLinkedHashMap(final int size)
 	{
 		super(size, OptimumHashLoadFactor);
 	}
