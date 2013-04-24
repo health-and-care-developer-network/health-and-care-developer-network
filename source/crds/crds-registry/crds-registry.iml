@@ -16,11 +16,11 @@
     <orderEntry type="module" module-name="common-naming" exported="" />
     <orderEntry type="library" name="Cliff Click's high-scale-lib, &quot;boundary&quot; forked version" level="project" />
     <orderEntry type="module" module-name="common-caching" />
-    <orderEntry type="module" module-name="crds-store-server-eventObservers" />
     <orderEntry type="module" module-name="common-serialisers-separatedValues" />
     <orderEntry type="module" module-name="common-parsers-separatedValueParsers" />
     <orderEntry type="module" module-name="common-parsers" />
     <orderEntry type="module" module-name="common-tuples" />
+    <orderEntry type="module" module-name="crds-registry-server-eventObservers" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

@@ -8,17 +8,10 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="IntelliJ Annotations" level="project" />
-    <orderEntry type="module" module-name="crds-registry" />
-    <orderEntry type="module" module-name="crds-registry-server-eventObservers" />
-    <orderEntry type="module" module-name="crds-registry-server-hazelcast" />
-    <orderEntry type="module" module-name="crds-registry-server-rest" />
-    <orderEntry type="module" module-name="crds-registry-server-standalone" />
     <orderEntry type="library" name="JOpt Simple" level="project" />
     <orderEntry type="module" module-name="common-commandLine" />
-    <orderEntry type="module" module-name="common-http-server-sun" />
-    <orderEntry type="module" module-name="common-fileWatching" />
-    <orderEntry type="module" module-name="common-parsers" />
-    <orderEntry type="module" module-name="common-tuples" />
+    <orderEntry type="module" module-name="common-http-client" />
+    <orderEntry type="module" module-name="crds-registry-client" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">
