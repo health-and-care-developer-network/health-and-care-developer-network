@@ -79,7 +79,7 @@ public final class IheXdsClientConsoleEntryPoint
 Copy the JDBC driver JAR file, «HIEOS_ROOT»\lib\postgresql-8.3-604.jdbc4.jar, to «GLASSFISH_HOME»\domains\domain1\lib\ext
 Restart GlassFish and log on to the admin console (e.g. http://localhost:4848)
 Set up connection pools by going to Resources->JDBC->Connection Pool
-For the "adt" data store
+For the "adt" data registry
 Select “New”
 Enter Name: hieos-adt-pool
 Enter Resource Type: javax.sql.ConnectionPoolDataSource
@@ -90,7 +90,7 @@ Set User: adt, Password: xdsadt
 Set DatabaseName: adt, ServerName: localhost, PortNumber: 5432
 Click “Finish”
 Select the newly created connection pool and click “Ping”
-For the "log" data store
+For the "log" data registry
 Select “New”
 Enter Name: hieos-log-pool
 Enter Resource Type: javax.sql.ConnectionPoolDataSource
@@ -101,7 +101,7 @@ Set User: log, Password: xdslog
 Set DatabaseName: log, ServerName: localhost, PortNumber: 5432
 Click “Finish”
 Select the newly created connection pool and click “Ping”
-For the "omar" data store
+For the "omar" data registry
 Select “New”
 Enter Name: hieos-registry-pool
 Enter Resource Type: javax.sql.ConnectionPoolDataSource
@@ -112,7 +112,7 @@ Set User: omar, Password: omar
 Set DatabaseName: omar, ServerName: localhost, PortNumber: 5432
 Click “Finish”
 Select the newly created connection pool and click “Ping”
-For the "repo" data store
+For the "repo" data registry
 Select “New”
 Enter Name: hieos-repo-pool
 Enter Resource Type: javax.sql.ConnectionPoolDataSource

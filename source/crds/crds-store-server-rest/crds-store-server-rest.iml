@@ -16,7 +16,7 @@
     <orderEntry type="module" module-name="common-serialisers-xml" />
     <orderEntry type="module" module-name="common-http" />
     <orderEntry type="module" module-name="common-serialisers" />
-    <orderEntry type="module" module-name="crds-store" />
+    <orderEntry type="module" module-name="crds-registry" />
     <orderEntry type="module" module-name="common-caching" />
     <orderEntry type="module" module-name="crds-store-server-eventObservers" />
     <orderEntry type="module" module-name="common-serialisers-separatedValues" />

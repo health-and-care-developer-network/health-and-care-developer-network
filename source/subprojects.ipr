@@ -1287,8 +1287,8 @@
       <module fileurl="file://$PROJECT_DIR$/common/common-tuples/common-tuples.iml" filepath="$PROJECT_DIR$/common/common-tuples/common-tuples.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-unknown/common-unknown.iml" filepath="$PROJECT_DIR$/common/common-unknown/common-unknown.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-xml/common-xml.iml" filepath="$PROJECT_DIR$/common/common-xml/common-xml.iml" group="common" />
+      <module fileurl="file://$PROJECT_DIR$/crds/crds-registry/crds-store.iml" filepath="$PROJECT_DIR$/crds/crds-registry/crds-store.iml" group="crds/store" />
       <module fileurl="file://$PROJECT_DIR$/crds/crds-repository/crds-repository.iml" filepath="$PROJECT_DIR$/crds/crds-repository/crds-repository.iml" group="crds/repository" />
-      <module fileurl="file://$PROJECT_DIR$/crds/crds-store/crds-store.iml" filepath="$PROJECT_DIR$/crds/crds-store/crds-store.iml" group="crds/store" />
       <module fileurl="file://$PROJECT_DIR$/crds/crds-store-client/crds-store-client.iml" filepath="$PROJECT_DIR$/crds/crds-store-client/crds-store-client.iml" group="crds/store/client" />
       <module fileurl="file://$PROJECT_DIR$/crds/crds-store-client-metadata/crds-store-client-metadata.iml" filepath="$PROJECT_DIR$/crds/crds-store-client-metadata/crds-store-client-metadata.iml" group="crds/store/client" />
       <module fileurl="file://$PROJECT_DIR$/crds/crds-store-client-patient/crds-store-client-patient.iml" filepath="$PROJECT_DIR$/crds/crds-store-client-patient/crds-store-client-patient.iml" group="crds/store/client" />

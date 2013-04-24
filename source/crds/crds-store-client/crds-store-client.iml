@@ -11,7 +11,7 @@
     <orderEntry type="module" module-name="common-http-client" exported="" />
     <orderEntry type="module" module-name="common-http-client-json" exported="" />
     <orderEntry type="module" module-name="common-parsers-json" exported="" />
-    <orderEntry type="module" module-name="crds-store" exported="" />
+    <orderEntry type="module" module-name="crds-registry" exported="" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">
