@@ -22,7 +22,7 @@ source "/usr/lib/hdn-apt/functions"
 function createUserAndGroup()
 {
 	# Command does not fail if user already exists with same UID
-	adduser --system --uid 498 --group --shell /bin/false --home /var/lib/hdn-crds-registry-server --no-create-home hdn-crds-registry-server
+	adduser --system --uid 499 --group --shell /bin/false --home /var/lib/hdn-crds-registry-server --no-create-home hdn-crds-registry-server
 }
 
 function stopServer()
