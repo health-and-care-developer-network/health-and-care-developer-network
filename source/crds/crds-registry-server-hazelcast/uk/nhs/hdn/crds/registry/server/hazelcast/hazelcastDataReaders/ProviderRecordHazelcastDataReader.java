@@ -25,6 +25,7 @@ import uk.nhs.hdn.crds.registry.domain.ProviderRecord;
 import java.io.DataInput;
 import java.io.IOException;
 
+import static uk.nhs.hdn.crds.registry.server.hazelcast.hazelcastDataReaders.RepositoryRecordHazelcastDataReader.RepositoryRecordHazelcastDataReaderInstance;
 import static uk.nhs.hdn.crds.registry.server.hazelcast.hazelcastDataReaders.identifierDataReaders.ProviderIdentifierHazelcastDataReader.ProviderIdentifierDataReaderInstance;
 import static uk.nhs.hdn.crds.registry.server.hazelcast.hazelcastDataReaders.identifierDataReaders.RepositoryIdentifierHazelcastDataReader.RepositoryIdentifierDataReaderInstance;
 
@@ -40,7 +41,7 @@ public final class ProviderRecordHazelcastDataReader extends AbstractHazelcastDa
 	@Override
 	public ProviderRecord readData(@NotNull final DataInput in) throws IOException
 	{
-		return new ProviderRecord(ProviderIdentifierDataReaderInstance.readData(in), HazelcastAwareLinkedHashMap.readData(in, RepositoryIdentifierDataReaderInstance, RepositoryRecordHazelcastDataReader.RepositoryRecordHazelcastDataReaderInstance));
+		return new ProviderRecord(ProviderIdentifierDataReaderInstance.readData(in), HazelcastAwareLinkedHashMap.readData(in, RepositoryIdentifierDataReaderInstance, RepositoryRecordHazelcastDataReaderInstance));
 	}
 
 }

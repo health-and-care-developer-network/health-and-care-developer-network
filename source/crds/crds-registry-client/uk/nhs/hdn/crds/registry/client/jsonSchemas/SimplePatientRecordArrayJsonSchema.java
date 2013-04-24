@@ -28,8 +28,9 @@ import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.schemaViolationInva
 import uk.nhs.hdn.common.reflection.toString.delegates.EnumMethodDelegate;
 import uk.nhs.hdn.crds.registry.domain.*;
 import uk.nhs.hdn.crds.registry.domain.identifiers.ProviderIdentifier;
-import uk.nhs.hdn.crds.registry.domain.identifiers.RepositoryEventIdentifier;
 import uk.nhs.hdn.crds.registry.domain.identifiers.RepositoryIdentifier;
+import uk.nhs.hdn.crds.registry.domain.identifiers.StuffEventIdentifier;
+import uk.nhs.hdn.crds.registry.domain.identifiers.StuffIdentifier;
 import uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor;
 import uk.nhs.hdn.number.NhsNumber;
 
@@ -43,9 +44,7 @@ import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.NonNullFieldExpectation.nonNulllongField;
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.StringToSomethingElseFieldExpectation.nonNullStringToSomethingElseField;
 import static uk.nhs.hdn.crds.registry.client.jsonSchemas.arrayCreators.SimplePatientRecordArrayCreator.SimplePatientRecordArray;
-import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.Provider;
-import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.Repository;
-import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.RepositoryEvent;
+import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.*;
 
 public final class SimplePatientRecordArrayJsonSchema extends ArrayJsonSchema<SimplePatientRecord>
 {
@@ -85,16 +84,30 @@ public final class SimplePatientRecordArrayJsonSchema extends ArrayJsonSchema<Si
 										nonNullStringToSomethingElseField("repositoryIdentifier", RepositoryIdentifier.class, EnumMethodDelegate.<IdentifierConstructor, RepositoryIdentifier>enumMethodDelegate(Repository, "construct", String.class), false),
 										nonNullField
 										(
-											"repositoryEvents",
-											HazelcastAwareLinkedHashSet.class,
-											new RepositoryEventAbstractObjectsOnlyForElementsArrayConstructor
+											"stuffEvents",
+											HazelcastAwareLinkedHashMap.class,
+											new HazelcastAwareLinkedHashMapObjectConstructor<StuffIdentifier, StuffRecord>
 											(
+												Stuff,
 												object
 												(
-													RepositoryEvent.class,
-													nonNullStringToSomethingElseField("repositoryEventIdentifier", RepositoryEventIdentifier.class, EnumMethodDelegate.<IdentifierConstructor, RepositoryEventIdentifier>enumMethodDelegate(RepositoryEvent, "construct", String.class), false),
-													nonNulllongField("timestamp"),
-													nonNullEnumField("repositoryEventKind", RepositoryEventKind.class)
+													StuffRecord.class,
+													nonNullStringToSomethingElseField("stuffIdentifier", StuffIdentifier.class, EnumMethodDelegate.<IdentifierConstructor, StuffIdentifier>enumMethodDelegate(Stuff, "construct", String.class), false),
+													nonNullField
+													(
+														"stuffEvents",
+														HazelcastAwareLinkedHashSet.class,
+														new RepositoryEventAbstractObjectsOnlyForElementsArrayConstructor
+														(
+															object
+															(
+																StuffEvent.class,
+																nonNullStringToSomethingElseField("repositoryEventIdentifier", StuffEventIdentifier.class, EnumMethodDelegate.<IdentifierConstructor, StuffEventIdentifier>enumMethodDelegate(StuffEvent, "construct", String.class), false),
+																nonNulllongField("timestamp"),
+																nonNullEnumField("repositoryEventKind", StuffEventKind.class)
+															)
+														)
+													)
 												)
 											)
 										)
@@ -117,13 +130,13 @@ public final class SimplePatientRecordArrayJsonSchema extends ArrayJsonSchema<Si
 	}
 
 	// Could be more efficient by not creating the List first
-	private static class RepositoryEventAbstractObjectsOnlyForElementsArrayConstructor extends AbstractObjectsOnlyForElementsArrayConstructor<RepositoryEvent>
+	private static class RepositoryEventAbstractObjectsOnlyForElementsArrayConstructor extends AbstractObjectsOnlyForElementsArrayConstructor<StuffEvent>
 	{
 		@NotNull private final ObjectConstructor<?> objectConstructor;
 
 		private RepositoryEventAbstractObjectsOnlyForElementsArrayConstructor(@NotNull final ObjectConstructor<?> objectConstructor)
 		{
-			super(RepositoryEvent.class, false);
+			super(StuffEvent.class, false);
 			this.objectConstructor = objectConstructor;
 		}
 
@@ -136,7 +149,7 @@ public final class SimplePatientRecordArrayJsonSchema extends ArrayJsonSchema<Si
 
 		@Nullable
 		@Override
-		public Object collect(@NotNull final List<RepositoryEvent> collector) throws SchemaViolationInvalidJsonException
+		public Object collect(@NotNull final List<StuffEvent> collector) throws SchemaViolationInvalidJsonException
 		{
 			return new HazelcastAwareLinkedHashSet<>(collector);
 		}

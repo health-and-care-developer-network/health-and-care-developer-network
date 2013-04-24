@@ -21,6 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.crds.registry.domain.*;
 import uk.nhs.hdn.crds.registry.domain.identifiers.ProviderIdentifier;
 import uk.nhs.hdn.crds.registry.domain.identifiers.RepositoryIdentifier;
+import uk.nhs.hdn.crds.registry.domain.identifiers.StuffIdentifier;
 import uk.nhs.hdn.crds.registry.server.eventObservers.EventObserver;
 import uk.nhs.hdn.number.NhsNumber;
 
@@ -42,13 +43,13 @@ public abstract class AbstractPatientRecordStore<K, V extends PatientRecord<V>> 
 
 	@Nullable
 	@Override
-	public SimplePatientRecord get(@NotNull final NhsNumber patientIdentifier)
+	public SimplePatientRecord get(@NotNull final NhsNumber identifier)
 	{
-		return simplePatientRecordFor(root.get(patientIdentifier));
+		return simplePatientRecordFor(root.get(identifier));
 	}
 
 	@Override
-	public final void addEvent(@NotNull final NhsNumber patientIdentifier, @NotNull final ProviderIdentifier providerIdentifier, @NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final RepositoryEvent repositoryEvent)
+	public final void addEvent(@NotNull final NhsNumber patientIdentifier, @NotNull final ProviderIdentifier providerIdentifier, @NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final StuffIdentifier stuffIdentifier, @NotNull final StuffEvent stuffEvent)
 	{
 		try
 		{
@@ -60,7 +61,7 @@ public abstract class AbstractPatientRecordStore<K, V extends PatientRecord<V>> 
 				{
 					// No entry, try to add one
 
-					final SimplePatientRecord simplePatientRecord = initialPatientRecord(patientIdentifier, providerIdentifier, repositoryIdentifier, repositoryEvent);
+					final SimplePatientRecord simplePatientRecord = initialPatientRecord(patientIdentifier, providerIdentifier, repositoryIdentifier, stuffIdentifier, stuffEvent);
 					oldPatientRecord = root.putIfAbsent(key, value(simplePatientRecord));
 
 					if (wasNewPatientSuccessfullyAdded(oldPatientRecord))
@@ -72,7 +73,7 @@ public abstract class AbstractPatientRecordStore<K, V extends PatientRecord<V>> 
 				{
 					// Existing entry. Try to atomically replace it
 
-					final V newPatientRecord = oldPatientRecord.addRepositoryEvent(providerIdentifier, repositoryIdentifier, repositoryEvent);
+					final V newPatientRecord = oldPatientRecord.addRepositoryEvent(providerIdentifier, repositoryIdentifier, stuffIdentifier, stuffEvent);
 					if (root.replace(key, oldPatientRecord, newPatientRecord))
 					{
 						return;

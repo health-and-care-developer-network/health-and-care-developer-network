@@ -24,11 +24,12 @@ import uk.nhs.hdn.common.commandLine.AbstractConsoleEntryPoint;
 import uk.nhs.hdn.common.fileWatching.FailedToReloadException;
 import uk.nhs.hdn.common.fileWatching.FileReloader;
 import uk.nhs.hdn.common.http.server.sun.Server;
-import uk.nhs.hdn.common.tuples.Quadruple;
-import uk.nhs.hdn.crds.registry.domain.RepositoryEvent;
+import uk.nhs.hdn.common.tuples.Quintuple;
+import uk.nhs.hdn.crds.registry.domain.StuffEvent;
 import uk.nhs.hdn.crds.registry.domain.identifiers.Identifier;
 import uk.nhs.hdn.crds.registry.domain.identifiers.ProviderIdentifier;
 import uk.nhs.hdn.crds.registry.domain.identifiers.RepositoryIdentifier;
+import uk.nhs.hdn.crds.registry.domain.identifiers.StuffIdentifier;
 import uk.nhs.hdn.crds.registry.domain.metadata.AbstractMetadataRecord;
 import uk.nhs.hdn.crds.registry.domain.metadata.parsing.ProviderAndRepositoryMetadataParserFactory;
 import uk.nhs.hdn.crds.registry.patientRecordStore.PatientRecordStore;
@@ -115,7 +116,7 @@ public final class StoreServerConsoleEntryPoint extends AbstractConsoleEntryPoin
 		final ConcurrentAggregatedEventObserver<NhsNumber> patientRecordConcurrentAggregatedEventObserver = new ConcurrentAggregatedEventObserver<>();
 		final PatientRecordStore patientRecordStore = patientRecordStoreKind.create(new HazelcastConfiguration(hazelcastPort), patientRecordConcurrentAggregatedEventObserver);
 
-		new Thread(new EventListenerRunnable(new LinkedBlockingDeque<Quadruple<NhsNumber, ProviderIdentifier, RepositoryIdentifier, RepositoryEvent>>(), patientRecordStore), "Incoming Events Listener").start();
+		new Thread(new EventListenerRunnable(new LinkedBlockingDeque<Quintuple<NhsNumber, ProviderIdentifier, RepositoryIdentifier, StuffIdentifier, StuffEvent>>(), patientRecordStore), "Incoming Events Listener").start();
 
 		final ConcurrentAggregatedEventObserver<Identifier> providerMetadataConcurrentAggregatedEventObserver = new ConcurrentAggregatedEventObserver<>();
 		final SubstitutableRecordStore<Identifier, AbstractMetadataRecord<?>> providerMetadataRecordStore = new SubstitutableRecordStore<>(providerMetadataConcurrentAggregatedEventObserver);

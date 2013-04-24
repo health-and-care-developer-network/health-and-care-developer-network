@@ -17,31 +17,31 @@
 package uk.nhs.hdn.crds.registry.server.hazelcast.hazelcastDataReaders;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.common.hazelcast.collections.HazelcastAwareLinkedHashMap;
+import uk.nhs.hdn.common.hazelcast.collections.HazelcastAwareLinkedHashSet;
 import uk.nhs.hdn.common.hazelcast.hazelcastDataReaders.AbstractHazelcastDataReader;
 import uk.nhs.hdn.common.hazelcast.hazelcastDataReaders.HazelcastDataReader;
-import uk.nhs.hdn.crds.registry.domain.RepositoryRecord;
+import uk.nhs.hdn.crds.registry.domain.StuffEvent;
+import uk.nhs.hdn.crds.registry.domain.StuffRecord;
 
 import java.io.DataInput;
 import java.io.IOException;
 
-import static uk.nhs.hdn.crds.registry.server.hazelcast.hazelcastDataReaders.StuffRecordHazelcastDataReader.StuffRecordHazelcastDataReaderInstance;
-import static uk.nhs.hdn.crds.registry.server.hazelcast.hazelcastDataReaders.identifierDataReaders.RepositoryIdentifierHazelcastDataReader.RepositoryIdentifierDataReaderInstance;
+import static uk.nhs.hdn.crds.registry.server.hazelcast.hazelcastDataReaders.StuffEventHazelcastDataReader.StuffEventHazelcastDataReaderInstance;
 import static uk.nhs.hdn.crds.registry.server.hazelcast.hazelcastDataReaders.identifierDataReaders.StuffIdentifierHazelcastDataReader.StuffIdentifierDataReaderInstance;
 
-public final class RepositoryRecordHazelcastDataReader extends AbstractHazelcastDataReader<RepositoryRecord>
+public final class StuffRecordHazelcastDataReader extends AbstractHazelcastDataReader<StuffRecord>
 {
-	@NotNull public static final HazelcastDataReader<RepositoryRecord> RepositoryRecordHazelcastDataReaderInstance = new RepositoryRecordHazelcastDataReader();
+	@NotNull public static final HazelcastDataReader<StuffRecord> StuffRecordHazelcastDataReaderInstance = new StuffRecordHazelcastDataReader();
 
-	private RepositoryRecordHazelcastDataReader()
+	private StuffRecordHazelcastDataReader()
 	{
 	}
 
 	@NotNull
 	@Override
-	public RepositoryRecord readData(@NotNull final DataInput in) throws IOException
+	public StuffRecord readData(@NotNull final DataInput in) throws IOException
 	{
-		return new RepositoryRecord(RepositoryIdentifierDataReaderInstance.readData(in), HazelcastAwareLinkedHashMap.readData(in, StuffIdentifierDataReaderInstance, StuffRecordHazelcastDataReaderInstance));
+		return new StuffRecord(StuffIdentifierDataReaderInstance.readData(in), HazelcastAwareLinkedHashSet.<StuffEvent>readData(in, StuffEventHazelcastDataReaderInstance));
 	}
 
 }

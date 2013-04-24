@@ -18,15 +18,16 @@ package uk.nhs.hdn.crds.registry.domain;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hdn.common.hazelcast.collections.HazelcastAwareLinkedHashMap;
 import uk.nhs.hdn.common.hazelcast.hazelcastDataWriters.HazelcastDataWriter;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
-import uk.nhs.hdn.common.hazelcast.collections.HazelcastAwareLinkedHashMap;
 import uk.nhs.hdn.common.serialisers.CouldNotSerialiseMapException;
 import uk.nhs.hdn.common.serialisers.CouldNotWritePropertyException;
 import uk.nhs.hdn.common.serialisers.MapSerialisable;
 import uk.nhs.hdn.common.serialisers.MapSerialiser;
 import uk.nhs.hdn.crds.registry.domain.identifiers.ProviderIdentifier;
 import uk.nhs.hdn.crds.registry.domain.identifiers.RepositoryIdentifier;
+import uk.nhs.hdn.crds.registry.domain.identifiers.StuffIdentifier;
 
 import java.io.DataOutput;
 import java.io.IOException;
@@ -37,16 +38,16 @@ import static uk.nhs.hdn.crds.registry.domain.RepositoryRecord.repositoryRecord;
 public final class ProviderRecord extends AbstractToString implements HazelcastDataWriter, MapSerialisable
 {
 	@NotNull
-	public static HazelcastAwareLinkedHashMap<ProviderIdentifier, ProviderRecord> initialProviderRecords(@NotNull final ProviderIdentifier providerIdentifier, @NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final RepositoryEvent repositoryEvent)
+	public static HazelcastAwareLinkedHashMap<ProviderIdentifier, ProviderRecord> initialProviderRecords(@NotNull final ProviderIdentifier providerIdentifier, @NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final StuffIdentifier stuffIdentifier, @NotNull final StuffEvent stuffEvent)
 	{
-		return new HazelcastAwareLinkedHashMap<>(providerIdentifier, providerRecord(providerIdentifier, repositoryIdentifier, repositoryEvent));
+		return new HazelcastAwareLinkedHashMap<>(providerIdentifier, providerRecord(providerIdentifier, repositoryIdentifier, stuffIdentifier, stuffEvent));
 	}
 
 	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
 	@NotNull
-	public static ProviderRecord providerRecord(@NotNull final ProviderIdentifier providerIdentifier, @NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final RepositoryEvent repositoryEvent)
+	public static ProviderRecord providerRecord(@NotNull final ProviderIdentifier providerIdentifier, @NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final StuffIdentifier stuffIdentifier, @NotNull final StuffEvent stuffEvent)
 	{
-		return new ProviderRecord(providerIdentifier, initialRepositoryRecords(repositoryIdentifier, repositoryEvent));
+		return new ProviderRecord(providerIdentifier, initialRepositoryRecords(repositoryIdentifier, stuffIdentifier, stuffEvent));
 	}
 
 	@NotNull private final ProviderIdentifier providerIdentifier;
@@ -82,17 +83,17 @@ public final class ProviderRecord extends AbstractToString implements HazelcastD
 
 	@SuppressWarnings("FeatureEnvy")
 	@NotNull
-	public ProviderRecord addRepositoryEvent(@NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final RepositoryEvent repositoryEvent)
+	public ProviderRecord addRepositoryEvent(@NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final StuffIdentifier stuffIdentifier, @NotNull final StuffEvent stuffEvent)
 	{
 		@Nullable final RepositoryRecord existingRepositoryRecord = knownRepositories.get(repositoryIdentifier);
 		final RepositoryRecord repositoryRecord;
 		if (existingRepositoryRecord == null)
 		{
-			repositoryRecord = repositoryRecord(repositoryIdentifier, repositoryEvent);
+			repositoryRecord = repositoryRecord(repositoryIdentifier, stuffIdentifier, stuffEvent);
 		}
 		else
 		{
-			repositoryRecord = existingRepositoryRecord.addRepositoryEvent(repositoryEvent);
+			repositoryRecord = existingRepositoryRecord.addRepositoryEvent(stuffIdentifier, stuffEvent);
 		}
 		final HazelcastAwareLinkedHashMap<RepositoryIdentifier, RepositoryRecord> replacementKnownRepositories = new HazelcastAwareLinkedHashMap<>(knownRepositories, repositoryIdentifier, repositoryRecord);
 		return new ProviderRecord(providerIdentifier, replacementKnownRepositories);

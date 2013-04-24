@@ -47,6 +47,21 @@ $$ LANGUAGE plpgsql IMMUTABLE;
 
 -- SPLIT
 
+CREATE OR REPLACE FUNCTION stuff_identifier() RETURNS UUID AS
+$$
+DECLARE
+
+    stuff_identifier CONSTANT UUID NOT NULL := '599dbd25-3c3e-4b7a-868b-37b653f394dd';
+
+BEGIN
+
+    RETURN stuff_identifier;
+
+END;
+$$ LANGUAGE plpgsql IMMUTABLE;
+
+-- SPLIT
+
 CREATE OR REPLACE FUNCTION parse_trigger_operation(trigger_operation VARCHAR) RETURNS VARCHAR AS
 $$
 BEGIN

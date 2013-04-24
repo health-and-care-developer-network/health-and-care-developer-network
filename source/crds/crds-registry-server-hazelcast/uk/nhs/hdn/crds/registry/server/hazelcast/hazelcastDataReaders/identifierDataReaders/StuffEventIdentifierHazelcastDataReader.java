@@ -17,23 +17,23 @@
 package uk.nhs.hdn.crds.registry.server.hazelcast.hazelcastDataReaders.identifierDataReaders;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.crds.registry.domain.identifiers.RepositoryEventIdentifier;
+import uk.nhs.hdn.crds.registry.domain.identifiers.StuffEventIdentifier;
 
 import java.util.UUID;
 
-public final class RepositoryEventIdentifierHazelcastDataReader extends AbstractIdentifierHazelcastDataReader<RepositoryEventIdentifier>
+public final class StuffEventIdentifierHazelcastDataReader extends AbstractIdentifierHazelcastDataReader<StuffEventIdentifier>
 {
 	@NotNull
-	public static final AbstractIdentifierHazelcastDataReader<RepositoryEventIdentifier> RepositoryEventIdentifierDataReaderInstance = new RepositoryEventIdentifierHazelcastDataReader();
+	public static final AbstractIdentifierHazelcastDataReader<StuffEventIdentifier> StuffEventIdentifierDataReaderInstance = new StuffEventIdentifierHazelcastDataReader();
 
-	private RepositoryEventIdentifierHazelcastDataReader()
+	private StuffEventIdentifierHazelcastDataReader()
 	{
 	}
 
 	@NotNull
 	@Override
-	protected RepositoryEventIdentifier newIdentifier(@NotNull final UUID uuid)
+	protected StuffEventIdentifier newIdentifier(@NotNull final UUID uuid)
 	{
-		return new RepositoryEventIdentifier(uuid);
+		return new StuffEventIdentifier(uuid);
 	}
 }

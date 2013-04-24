@@ -16,10 +16,12 @@
 
 package uk.nhs.hdn.crds.registry.server.application;
 
-import uk.nhs.hdn.common.tuples.Quadruple;
-import uk.nhs.hdn.crds.registry.domain.RepositoryEvent;
+import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.common.tuples.Quintuple;
+import uk.nhs.hdn.crds.registry.domain.StuffEvent;
 import uk.nhs.hdn.crds.registry.domain.identifiers.ProviderIdentifier;
 import uk.nhs.hdn.crds.registry.domain.identifiers.RepositoryIdentifier;
+import uk.nhs.hdn.crds.registry.domain.identifiers.StuffIdentifier;
 import uk.nhs.hdn.crds.registry.patientRecordStore.PatientRecordStore;
 import uk.nhs.hdn.number.NhsNumber;
 
@@ -31,11 +33,11 @@ public final class EventListenerRunnable implements Runnable
 {
 	private static final int SinkSize = 10000;
 
-	private final BlockingQueue<Quadruple<NhsNumber, ProviderIdentifier, RepositoryIdentifier, RepositoryEvent>> incomingEvents;
+	private final BlockingQueue<Quintuple<NhsNumber, ProviderIdentifier, RepositoryIdentifier, StuffIdentifier, StuffEvent>> incomingEvents;
 	private final PatientRecordStore patientRecordStore;
 
 	@SuppressWarnings("AssignmentToCollectionOrArrayFieldFromParameter")
-	public EventListenerRunnable(final BlockingQueue<Quadruple<NhsNumber, ProviderIdentifier, RepositoryIdentifier, RepositoryEvent>> incomingEvents, final PatientRecordStore patientRecordStore)
+	public EventListenerRunnable(@NotNull final BlockingQueue<Quintuple<NhsNumber, ProviderIdentifier, RepositoryIdentifier, StuffIdentifier, StuffEvent>> incomingEvents, @NotNull final PatientRecordStore patientRecordStore)
 	{
 		this.incomingEvents = incomingEvents;
 		this.patientRecordStore = patientRecordStore;
@@ -45,14 +47,14 @@ public final class EventListenerRunnable implements Runnable
 	@Override
 	public void run()
 	{
-		final Collection<Quadruple<NhsNumber, ProviderIdentifier, RepositoryIdentifier, RepositoryEvent>> sink = new ArrayList<>(SinkSize);
+		final Collection<Quintuple<NhsNumber, ProviderIdentifier, RepositoryIdentifier, StuffIdentifier, StuffEvent>> sink = new ArrayList<>(SinkSize);
 		do
 		{
 			// drain is more efficient than take() as it requires coarser locking
 			incomingEvents.drainTo(sink, SinkSize);
-			for (final Quadruple<NhsNumber, ProviderIdentifier, RepositoryIdentifier, RepositoryEvent> event : sink)
+			for (final Quintuple<NhsNumber, ProviderIdentifier, RepositoryIdentifier, StuffIdentifier, StuffEvent> event : sink)
 			{
-				patientRecordStore.addEvent(event.a, event.b, event.c, event.d);
+				patientRecordStore.addEvent(event.a, event.b, event.c, event.d, event.e);
 			}
 		} while(true);
 

@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.registry.domain;
+package uk.nhs.hdn.crds.registry.domain.identifiers;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.crds.registry.domain.identifiers.ProviderIdentifier;
-import uk.nhs.hdn.crds.registry.domain.identifiers.RepositoryIdentifier;
-import uk.nhs.hdn.crds.registry.domain.identifiers.StuffIdentifier;
 
-public interface PatientRecord<P extends PatientRecord<P>>
+import java.util.UUID;
+
+public final class StuffEventIdentifier extends AbstractIdentifier
 {
-	@NotNull
-	P addRepositoryEvent(@NotNull final ProviderIdentifier providerIdentifier, @NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final StuffIdentifier stuffIdentifier, @NotNull final StuffEvent stuffEvent);
+	public StuffEventIdentifier(@NotNull final UUID identifier)
+	{
+		super(identifier);
+	}
 }

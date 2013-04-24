@@ -19,7 +19,6 @@ package uk.nhs.hdn.crds.registry.domain;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.hazelcast.collections.HazelcastAwareLinkedHashMap;
-import uk.nhs.hdn.common.hazelcast.collections.HazelcastAwareLinkedHashSet;
 import uk.nhs.hdn.common.hazelcast.hazelcastDataWriters.HazelcastDataWriter;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hdn.common.serialisers.CouldNotSerialiseMapException;
@@ -27,42 +26,44 @@ import uk.nhs.hdn.common.serialisers.CouldNotWritePropertyException;
 import uk.nhs.hdn.common.serialisers.MapSerialisable;
 import uk.nhs.hdn.common.serialisers.MapSerialiser;
 import uk.nhs.hdn.crds.registry.domain.identifiers.RepositoryIdentifier;
+import uk.nhs.hdn.crds.registry.domain.identifiers.StuffIdentifier;
 
 import java.io.DataOutput;
 import java.io.IOException;
 
-import static uk.nhs.hdn.crds.registry.domain.RepositoryEvent.initialRepositoryEvents;
+import static uk.nhs.hdn.crds.registry.domain.StuffRecord.initialStuffRecords;
+import static uk.nhs.hdn.crds.registry.domain.StuffRecord.stuffRecord;
 
 public final class RepositoryRecord extends AbstractToString implements HazelcastDataWriter, MapSerialisable
 {
 	@NotNull
-	public static HazelcastAwareLinkedHashMap<RepositoryIdentifier, RepositoryRecord> initialRepositoryRecords(@NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final RepositoryEvent repositoryEvent)
+	public static HazelcastAwareLinkedHashMap<RepositoryIdentifier, RepositoryRecord> initialRepositoryRecords(@NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final StuffIdentifier stuffIdentifier, @NotNull final StuffEvent stuffEvent)
 	{
-		return new HazelcastAwareLinkedHashMap<>(repositoryIdentifier, repositoryRecord(repositoryIdentifier, repositoryEvent));
+		return new HazelcastAwareLinkedHashMap<>(repositoryIdentifier, repositoryRecord(repositoryIdentifier, stuffIdentifier, stuffEvent));
 	}
 
 	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
 	@NotNull
-	public static RepositoryRecord repositoryRecord(@NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final RepositoryEvent repositoryEvent)
+	public static RepositoryRecord repositoryRecord(@NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final StuffIdentifier stuffIdentifier, @NotNull final StuffEvent stuffEvent)
 	{
-		return new RepositoryRecord(repositoryIdentifier, initialRepositoryEvents(repositoryEvent));
+		return new RepositoryRecord(repositoryIdentifier, initialStuffRecords(stuffIdentifier, stuffEvent));
 	}
 
 	@NotNull private final RepositoryIdentifier repositoryIdentifier;
-	@NotNull private final HazelcastAwareLinkedHashSet<RepositoryEvent> repositoryEvents;
+	@NotNull private final HazelcastAwareLinkedHashMap<StuffIdentifier, StuffRecord> stuffRecords;
 
 	@SuppressWarnings("AssignmentToCollectionOrArrayFieldFromParameter")
-	public RepositoryRecord(@NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final HazelcastAwareLinkedHashSet<RepositoryEvent> repositoryEvents)
+	public RepositoryRecord(@NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final HazelcastAwareLinkedHashMap<StuffIdentifier, StuffRecord> stuffRecords)
 	{
 		this.repositoryIdentifier = repositoryIdentifier;
-		this.repositoryEvents = repositoryEvents;
+		this.stuffRecords = stuffRecords;
 	}
 
 	@Override
 	public void writeData(@NotNull final DataOutput out) throws IOException
 	{
 		repositoryIdentifier.writeData(out);
-		repositoryEvents.writeData(out);
+		stuffRecords.writeData(out);
 	}
 
 	@Override
@@ -71,7 +72,7 @@ public final class RepositoryRecord extends AbstractToString implements Hazelcas
 		try
 		{
 			mapSerialiser.writeProperty("repositoryIdentifier", repositoryIdentifier);
-			mapSerialiser.writeProperty("repositoryEvents", repositoryEvents);
+			mapSerialiser.writeProperty("stuffRecords", stuffRecords);
 		}
 		catch (CouldNotWritePropertyException e)
 		{
@@ -80,9 +81,20 @@ public final class RepositoryRecord extends AbstractToString implements Hazelcas
 	}
 
 	@NotNull
-	public RepositoryRecord addRepositoryEvent(@NotNull final RepositoryEvent repositoryEvent)
+	public RepositoryRecord addRepositoryEvent(@NotNull final StuffIdentifier stuffIdentifier, @NotNull final StuffEvent stuffEvent)
 	{
-		return new RepositoryRecord(repositoryIdentifier, new HazelcastAwareLinkedHashSet<>(repositoryEvents, repositoryEvent));
+		@Nullable final StuffRecord existingStuffRecord = stuffRecords.get(stuffIdentifier);
+		final StuffRecord stuffRecord;
+		if (existingStuffRecord == null)
+		{
+			stuffRecord = stuffRecord(stuffIdentifier, stuffEvent);
+		}
+		else
+		{
+			stuffRecord = existingStuffRecord.addRepositoryEvent(stuffEvent);
+		}
+		final HazelcastAwareLinkedHashMap<StuffIdentifier, StuffRecord> replacementStuffRecords = new HazelcastAwareLinkedHashMap<>(stuffRecords, stuffIdentifier, stuffRecord);
+		return new RepositoryRecord(repositoryIdentifier, replacementStuffRecords);
 	}
 
 	@Override
@@ -99,7 +111,7 @@ public final class RepositoryRecord extends AbstractToString implements Hazelcas
 
 		final RepositoryRecord that = (RepositoryRecord) obj;
 
-		if (!repositoryEvents.equals(that.repositoryEvents))
+		if (!stuffRecords.equals(that.stuffRecords))
 		{
 			return false;
 		}
@@ -115,7 +127,7 @@ public final class RepositoryRecord extends AbstractToString implements Hazelcas
 	public int hashCode()
 	{
 		int result = repositoryIdentifier.hashCode();
-		result = 31 * result + repositoryEvents.hashCode();
+		result = 31 * result + stuffRecords.hashCode();
 		return result;
 	}
 }

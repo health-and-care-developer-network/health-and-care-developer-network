@@ -20,10 +20,7 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.naming.Description;
 import uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser;
-import uk.nhs.hdn.crds.registry.domain.identifiers.Identifier;
-import uk.nhs.hdn.crds.registry.domain.identifiers.ProviderIdentifier;
-import uk.nhs.hdn.crds.registry.domain.identifiers.RepositoryEventIdentifier;
-import uk.nhs.hdn.crds.registry.domain.identifiers.RepositoryIdentifier;
+import uk.nhs.hdn.crds.registry.domain.identifiers.*;
 
 import java.util.UUID;
 
@@ -81,13 +78,36 @@ public enum IdentifierConstructor implements Description
 			return csvSerialiserForRepositoryMetadataRecords(writeHeaderLine);
 		}
 	},
-	RepositoryEvent("Repository Event Identifier UUID")
+	Stuff("Stuff Identifier UUID")
 	{
 		@NotNull
 		@Override
 		public Identifier construct(@NotNull final UUID uuid)
 		{
-			return new RepositoryEventIdentifier(uuid);
+			return new StuffIdentifier(uuid);
+		}
+
+		@NotNull
+		@Override
+		public SeparatedValueSerialiser tsvSerialiser()
+		{
+			throw new UnsupportedOperationException();
+		}
+
+		@NotNull
+		@Override
+		public SeparatedValueSerialiser csvSerialiser(final boolean writeHeaderLine)
+		{
+			throw new UnsupportedOperationException();
+		}
+	},
+	StuffEvent("Stuff Event Identifier UUID")
+	{
+		@NotNull
+		@Override
+		public Identifier construct(@NotNull final UUID uuid)
+		{
+			return new StuffEventIdentifier(uuid);
 		}
 
 		@NotNull

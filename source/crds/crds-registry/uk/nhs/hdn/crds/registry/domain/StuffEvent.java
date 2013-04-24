@@ -26,36 +26,36 @@ import uk.nhs.hdn.common.serialisers.CouldNotSerialiseMapException;
 import uk.nhs.hdn.common.serialisers.CouldNotWritePropertyException;
 import uk.nhs.hdn.common.serialisers.MapSerialisable;
 import uk.nhs.hdn.common.serialisers.MapSerialiser;
-import uk.nhs.hdn.crds.registry.domain.identifiers.RepositoryEventIdentifier;
+import uk.nhs.hdn.crds.registry.domain.identifiers.StuffEventIdentifier;
 
 import java.io.DataOutput;
 import java.io.IOException;
 
-public final class RepositoryEvent extends AbstractToString implements HazelcastDataWriter, MapSerialisable
+public final class StuffEvent extends AbstractToString implements HazelcastDataWriter, MapSerialisable
 {
 	@NotNull
-	public static HazelcastAwareLinkedHashSet<RepositoryEvent> initialRepositoryEvents(@NotNull final RepositoryEvent repositoryEvent)
+	public static HazelcastAwareLinkedHashSet<StuffEvent> initialStuffEvents(@NotNull final StuffEvent stuffEvent)
 	{
-		return new HazelcastAwareLinkedHashSet<>(repositoryEvent);
+		return new HazelcastAwareLinkedHashSet<>(stuffEvent);
 	}
 
-	@NotNull private final RepositoryEventIdentifier repositoryEventIdentifier;
+	@NotNull private final StuffEventIdentifier stuffEventIdentifier;
 	@MillisecondsSince1970 private final long timestamp;
-	@NotNull private final RepositoryEventKind repositoryEventKind;
+	@NotNull private final StuffEventKind stuffEventKind;
 
-	public RepositoryEvent(@NotNull final RepositoryEventIdentifier repositoryEventIdentifier, @MillisecondsSince1970 final long timestamp, @NotNull final RepositoryEventKind repositoryEventKind)
+	public StuffEvent(@NotNull final StuffEventIdentifier stuffEventIdentifier, @MillisecondsSince1970 final long timestamp, @NotNull final StuffEventKind stuffEventKind)
 	{
-		this.repositoryEventIdentifier = repositoryEventIdentifier;
+		this.stuffEventIdentifier = stuffEventIdentifier;
 		this.timestamp = timestamp;
-		this.repositoryEventKind = repositoryEventKind;
+		this.stuffEventKind = stuffEventKind;
 	}
 
 	@Override
 	public void writeData(@NotNull final DataOutput out) throws IOException
 	{
-		repositoryEventIdentifier.writeData(out);
+		stuffEventIdentifier.writeData(out);
 		out.writeLong(timestamp);
-		out.writeByte(repositoryEventKind.ordinal());
+		out.writeByte(stuffEventKind.ordinal());
 	}
 
 	@SuppressWarnings("FeatureEnvy")
@@ -64,9 +64,9 @@ public final class RepositoryEvent extends AbstractToString implements Hazelcast
 	{
 		try
 		{
-			mapSerialiser.writeProperty("repositoryEventIdentifier", repositoryEventIdentifier);
+			mapSerialiser.writeProperty("repositoryEventIdentifier", stuffEventIdentifier);
 			mapSerialiser.writeProperty("timestamp", timestamp);
-			mapSerialiser.writeProperty("repositoryEventKind", repositoryEventKind);
+			mapSerialiser.writeProperty("repositoryEventKind", stuffEventKind);
 		}
 		catch (CouldNotWritePropertyException e)
 		{
@@ -86,17 +86,17 @@ public final class RepositoryEvent extends AbstractToString implements Hazelcast
 			return false;
 		}
 
-		final RepositoryEvent that = (RepositoryEvent) obj;
+		final StuffEvent that = (StuffEvent) obj;
 
 		if (timestamp != that.timestamp)
 		{
 			return false;
 		}
-		if (!repositoryEventIdentifier.equals(that.repositoryEventIdentifier))
+		if (!stuffEventIdentifier.equals(that.stuffEventIdentifier))
 		{
 			return false;
 		}
-		if (repositoryEventKind != that.repositoryEventKind)
+		if (stuffEventKind != that.stuffEventKind)
 		{
 			return false;
 		}
@@ -107,9 +107,9 @@ public final class RepositoryEvent extends AbstractToString implements Hazelcast
 	@Override
 	public int hashCode()
 	{
-		int result = repositoryEventIdentifier.hashCode();
+		int result = stuffEventIdentifier.hashCode();
 		result = 31 * result + (int) (timestamp ^ (timestamp >>> 32));
-		result = 31 * result + repositoryEventKind.hashCode();
+		result = 31 * result + stuffEventKind.hashCode();
 		return result;
 	}
 }

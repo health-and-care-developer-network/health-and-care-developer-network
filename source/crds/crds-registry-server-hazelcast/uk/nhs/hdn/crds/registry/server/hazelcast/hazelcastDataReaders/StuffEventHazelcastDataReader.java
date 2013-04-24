@@ -19,26 +19,26 @@ package uk.nhs.hdn.crds.registry.server.hazelcast.hazelcastDataReaders;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.hazelcast.hazelcastDataReaders.AbstractHazelcastDataReader;
 import uk.nhs.hdn.common.hazelcast.hazelcastDataReaders.HazelcastDataReader;
-import uk.nhs.hdn.crds.registry.domain.RepositoryEvent;
+import uk.nhs.hdn.crds.registry.domain.StuffEvent;
 
 import java.io.DataInput;
 import java.io.IOException;
 
-import static uk.nhs.hdn.crds.registry.domain.RepositoryEventKind.repositoryEventKind;
-import static uk.nhs.hdn.crds.registry.server.hazelcast.hazelcastDataReaders.identifierDataReaders.RepositoryEventIdentifierHazelcastDataReader.RepositoryEventIdentifierDataReaderInstance;
+import static uk.nhs.hdn.crds.registry.domain.StuffEventKind.repositoryEventKind;
+import static uk.nhs.hdn.crds.registry.server.hazelcast.hazelcastDataReaders.identifierDataReaders.StuffEventIdentifierHazelcastDataReader.StuffEventIdentifierDataReaderInstance;
 
-public final class RepositoryEventHazelcastDataReader extends AbstractHazelcastDataReader<RepositoryEvent>
+public final class StuffEventHazelcastDataReader extends AbstractHazelcastDataReader<StuffEvent>
 {
-	@NotNull public static final HazelcastDataReader<RepositoryEvent> RepositoryEventHazelcastDataReaderInstance = new RepositoryEventHazelcastDataReader();
+	@NotNull public static final HazelcastDataReader<StuffEvent> StuffEventHazelcastDataReaderInstance = new StuffEventHazelcastDataReader();
 
-	private RepositoryEventHazelcastDataReader()
+	private StuffEventHazelcastDataReader()
 	{
 	}
 
 	@NotNull
 	@Override
-	public RepositoryEvent readData(@NotNull final DataInput in) throws IOException
+	public StuffEvent readData(@NotNull final DataInput in) throws IOException
 	{
-		return new RepositoryEvent(RepositoryEventIdentifierDataReaderInstance.readData(in), in.readLong(), repositoryEventKind((int) in.readByte()));
+		return new StuffEvent(StuffEventIdentifierDataReaderInstance.readData(in), in.readLong(), repositoryEventKind((int) in.readByte()));
 	}
 }

@@ -19,6 +19,8 @@ DECLARE
 
     repository_identifier CONSTANT UUID NOT NULL := provider_identifier();
 
+    stuff_identifier CONSTANT UUID NOT NULL := provider_identifier();
+
     patient_identifier_nhs_number CONSTANT CHAR(10) NOT NULL := CASE TG_OP WHEN 'DELETE' THEN OLD.patient_identifier_nhs_number ELSE NEW.patient_identifier_nhs_number END;
 
     -- There is also the possibility that a patient's id is changed. That should generate 2 messages - Create and Delete
@@ -33,7 +35,7 @@ DECLARE
 
     repository_event CONSTANT VARCHAR NOT NULL := parse_trigger_operation(TG_OP);
 
-    message CONSTANT VARCHAR NOT NULL := '"' || CAST(provider_identifier AS VARCHAR) || '","' || CAST(repository_identifier AS VARCHAR) || '","' || patient_identifier_nhs_number || '","' || CAST(our_uuid AS VARCHAR) || '","' || CAST(epoch_in_milliseconds AS VARCHAR) || '","' || repository_event || '"';
+    message CONSTANT VARCHAR NOT NULL := '"' || CAST(provider_identifier AS VARCHAR) || '","' || CAST(repository_identifier AS VARCHAR) || CAST(stuff_identifier AS VARCHAR) || '","' || patient_identifier_nhs_number || '","' || CAST(our_uuid AS VARCHAR) || '","' || CAST(epoch_in_milliseconds AS VARCHAR) || '","' || repository_event || '"';
 
 BEGIN
 

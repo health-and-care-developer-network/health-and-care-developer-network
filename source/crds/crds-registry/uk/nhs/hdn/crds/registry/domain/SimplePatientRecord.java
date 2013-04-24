@@ -29,6 +29,7 @@ import uk.nhs.hdn.common.serialisers.MapSerialisable;
 import uk.nhs.hdn.common.serialisers.MapSerialiser;
 import uk.nhs.hdn.crds.registry.domain.identifiers.ProviderIdentifier;
 import uk.nhs.hdn.crds.registry.domain.identifiers.RepositoryIdentifier;
+import uk.nhs.hdn.crds.registry.domain.identifiers.StuffIdentifier;
 import uk.nhs.hdn.number.NhsNumber;
 
 import java.io.DataOutput;
@@ -41,9 +42,9 @@ import static uk.nhs.hdn.crds.registry.domain.ProviderRecord.providerRecord;
 public final class SimplePatientRecord extends AbstractToString implements PatientRecord<SimplePatientRecord>, HazelcastDataWriter, MapSerialisable
 {
 	@NotNull
-	public static SimplePatientRecord initialPatientRecord(@NotNull final NhsNumber patientIdentifier, @NotNull final ProviderIdentifier providerIdentifier, @NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final RepositoryEvent repositoryEvent)
+	public static SimplePatientRecord initialPatientRecord(@NotNull final NhsNumber patientIdentifier, @NotNull final ProviderIdentifier providerIdentifier, @NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final StuffIdentifier stuffIdentifier, @NotNull final StuffEvent stuffEvent)
 	{
-		return new SimplePatientRecord(patientIdentifier, currentTimeMillis(), initialProviderRecords(providerIdentifier, repositoryIdentifier, repositoryEvent));
+		return new SimplePatientRecord(patientIdentifier, currentTimeMillis(), initialProviderRecords(providerIdentifier, repositoryIdentifier, stuffIdentifier, stuffEvent));
 	}
 
 	@NotNull private final NhsNumber patientIdentifier;
@@ -61,17 +62,17 @@ public final class SimplePatientRecord extends AbstractToString implements Patie
 	@Override
 	@SuppressWarnings("FeatureEnvy")
 	@NotNull
-	public SimplePatientRecord addRepositoryEvent(@NotNull final ProviderIdentifier providerIdentifier, @NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final RepositoryEvent repositoryEvent)
+	public SimplePatientRecord addRepositoryEvent(@NotNull final ProviderIdentifier providerIdentifier, @NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final StuffIdentifier stuffIdentifier, @NotNull final StuffEvent stuffEvent)
 	{
 		@Nullable final ProviderRecord existingProviderRecord = knownProviders.get(providerIdentifier);
 		final ProviderRecord providerRecord;
 		if (existingProviderRecord == null)
 		{
-			providerRecord = providerRecord(providerIdentifier, repositoryIdentifier, repositoryEvent);
+			providerRecord = providerRecord(providerIdentifier, repositoryIdentifier, stuffIdentifier, stuffEvent);
 		}
 		else
 		{
-			providerRecord = existingProviderRecord.addRepositoryEvent(repositoryIdentifier, repositoryEvent);
+			providerRecord = existingProviderRecord.addRepositoryEvent(repositoryIdentifier, stuffIdentifier, stuffEvent);
 		}
 		final HazelcastAwareLinkedHashMap<ProviderIdentifier, ProviderRecord> replacementKnownProviders = new HazelcastAwareLinkedHashMap<>(knownProviders, providerIdentifier, providerRecord);
 		return new SimplePatientRecord(patientIdentifier, currentTimeMillis(), replacementKnownProviders);

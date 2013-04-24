@@ -22,7 +22,7 @@ import uk.nhs.hdn.common.serialisers.CouldNotWriteValueException;
 import uk.nhs.hdn.common.serialisers.ValueSerialisable;
 import uk.nhs.hdn.common.serialisers.ValueSerialiser;
 
-public enum RepositoryEventKind implements ValueSerialisable
+public enum StuffEventKind implements ValueSerialisable
 {
 	Created,
 	Updated,
@@ -31,9 +31,9 @@ public enum RepositoryEventKind implements ValueSerialisable
 
 
 	@NotNull
-	public static RepositoryEventKind repositoryEventKind(final int ordinal)
+	public static StuffEventKind repositoryEventKind(final int ordinal)
 	{
-		return RepositoryEventKind.values()[ordinal];
+		return StuffEventKind.values()[ordinal];
 	}
 
 	@Override

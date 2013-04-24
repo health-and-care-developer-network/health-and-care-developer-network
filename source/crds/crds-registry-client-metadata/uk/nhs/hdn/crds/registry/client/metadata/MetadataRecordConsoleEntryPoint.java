@@ -130,7 +130,7 @@ public final class MetadataRecordConsoleEntryPoint extends AbstractConsoleEntryP
 				apiMethod = crdsRestApi.repositoryMetadataRecord((RepositoryIdentifier) identifier);
 				break;
 
-			case RepositoryEvent:
+			case StuffEvent:
 				throw new IllegalStateException("Should not be possible");
 
 			default:
