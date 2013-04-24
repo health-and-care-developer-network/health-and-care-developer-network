@@ -69,7 +69,7 @@ public final class StoreServerConsoleEntryPoint extends AbstractConsoleEntryPoin
 	private static final int DefaultHazlecastPort = 10000;
 	private static final String DefaultDataPath = "/srv/hdn-crds-registry";
 
-	@NonNls private static final String StoreMetadataFileName = "crds-store-server-metadata.tsv";
+	@NonNls private static final String StoreMetadataFileName = "crds-registry-server-metadata.tsv";
 
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static void main(@NotNull final String... commandLineArguments)
