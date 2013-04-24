@@ -1,20 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <item name='com.softwarecraftsmen.orogeny.ConvenientBuildScript void librarySubfolders(java.lang.String...) 0'>
-        <annotation name='org.jetbrains.annotations.NonNls'/>
-    </item>
-    <item name='com.softwarecraftsmen.orogeny.ConvenientBuildScript void sourceSubfolders(java.lang.String...) 0'>
-        <annotation name='org.jetbrains.annotations.NonNls'/>
-    </item>
-    <item name='com.softwarecraftsmen.orogeny.ConvenientBuildScript void outputSubfolders(java.lang.String...) 0'>
-        <annotation name='org.jetbrains.annotations.NonNls'/>
-    </item>
-    <item name='com.softwarecraftsmen.orogeny.ConvenientBuildScript void packageTemplateSubFolders(java.lang.String...) 0'>
-        <annotation name='org.jetbrains.annotations.NonNls'/>
-    </item>
-    <item name='com.softwarecraftsmen.orogeny.AbstractIntelliJConvenientBuildScript void intellijLibrary(java.lang.String, com.softwarecraftsmen.orogeny.filing.AbsolutePath) 0'>
-        <annotation name='org.jetbrains.annotations.NonNls'/>
-    </item>
-    <item name='com.softwarecraftsmen.orogeny.ConvenientBuildScript com.softwarecraftsmen.orogeny.filing.AbsoluteDirectory library(java.lang.String...) 0'>
-        <annotation name='org.jetbrains.annotations.NonNls'/>
-    </item>
+  <item name="com.softwarecraftsmen.orogeny.AbstractIntelliJConvenientBuildScript void intellijLibrary(java.lang.String, com.softwarecraftsmen.orogeny.filing.AbsolutePath) 0">
+    <annotation name="org.jetbrains.annotations.NonNls" />
+  </item>
+  <item name="com.softwarecraftsmen.orogeny.ConvenientBuildScript com.softwarecraftsmen.orogeny.filing.AbsoluteDirectory library(java.lang.String...) 0">
+    <annotation name="org.jetbrains.annotations.NonNls" />
+  </item>
+  <item name="com.softwarecraftsmen.orogeny.ConvenientBuildScript void librarySubfolders(java.lang.String...) 0">
+    <annotation name="org.jetbrains.annotations.NonNls" />
+  </item>
+  <item name="com.softwarecraftsmen.orogeny.ConvenientBuildScript void outputSubfolders(java.lang.String...) 0">
+    <annotation name="org.jetbrains.annotations.NonNls" />
+  </item>
+  <item name="com.softwarecraftsmen.orogeny.ConvenientBuildScript void packageTemplateSubFolders(java.lang.String...) 0">
+    <annotation name="org.jetbrains.annotations.NonNls" />
+  </item>
+  <item name="com.softwarecraftsmen.orogeny.ConvenientBuildScript void sourceSubfolders(java.lang.String...) 0">
+    <annotation name="org.jetbrains.annotations.NonNls" />
+  </item>
 </root>
+

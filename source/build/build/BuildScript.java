@@ -93,6 +93,10 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		executable("hdn-pseudonymisation-client", "pseudonymisation-client", "HdnPseudonymisationClientConsoleEntryPoint");
 
+		executable("hdn-crds-registry-patient", "crds-registry-client-patient", "PatientRecordStoreConsoleEntryPoint");
+
+		executable("hdn-crds-registry-metadata", "crds-registry-client-metadata", "MetadataRecordConsoleEntryPoint");
+
 		task("clean").does
 		(
 			deleteDirectory(output())
@@ -136,8 +140,10 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 		debianPackagesPackageTask("hdn-dbs-request", "generate changelog template", "hdn-dbs-request");
 
 		debianPackagesPackageTask("hdn-ckan-client", "generate changelog template", "hdn-ckan-dataset-search", "hdn-ckan-resource-search", "hdn-ckan-details", "hdn-ckan-list", "hdn-ckan-query", "hdn-ckan-relationships");
-		
+
 		debianPackagesPackageTask("hdn-pseudonymisation-client", "generate changelog template", "hdn-pseudonymisation-client");
+
+		debianPackagesPackageTask("hdn-crds-registry-client", "generate changelog template", "hdn-crds-registry-patient", "hdn-crds-registry-metadata");
 
 		debianPackagesPackageTask("hdn-reverse-proxy", "generate changelog template");
 
