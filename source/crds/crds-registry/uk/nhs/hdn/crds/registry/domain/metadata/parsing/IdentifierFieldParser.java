@@ -26,7 +26,7 @@ import uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor;
 
 import java.util.UUID;
 
-import static uk.nhs.hdn.common.parsers.separatedValueParsers.fieldParsers.NonEmptyUUIDFieldParser.NonEmptyUUIDFieldParserInstance;
+import static uk.nhs.hdn.common.parsers.separatedValueParsers.fieldParsers.NonEmptyUUIDFieldParser2.NonEmptyUUIDFieldParserInstance;
 import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.Provider;
 import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.Repository;
 import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.Stuff;
