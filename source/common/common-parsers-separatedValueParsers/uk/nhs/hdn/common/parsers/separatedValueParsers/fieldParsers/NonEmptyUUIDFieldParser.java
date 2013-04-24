@@ -20,11 +20,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-public final class NonEmptyUUIDFieldParser2 extends AbstractMandatoryPrefixFieldParser<UUID>
+public final class NonEmptyUUIDFieldParser extends AbstractMandatoryPrefixFieldParser<UUID>
 {
-	@NotNull public static final FieldParser<UUID> NonEmptyUUIDFieldParserInstance = new NonEmptyUUIDFieldParser2();
+	@NotNull public static final FieldParser<UUID> NonEmptyUUIDFieldParserInstance = new NonEmptyUUIDFieldParser();
 
-	private NonEmptyUUIDFieldParser2()
+	private NonEmptyUUIDFieldParser()
 	{
 	}
 
