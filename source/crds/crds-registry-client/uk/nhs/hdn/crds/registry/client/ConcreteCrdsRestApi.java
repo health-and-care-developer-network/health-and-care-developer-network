@@ -27,21 +27,23 @@ import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hdn.crds.registry.domain.SimplePatientRecord;
 import uk.nhs.hdn.crds.registry.domain.identifiers.ProviderIdentifier;
 import uk.nhs.hdn.crds.registry.domain.identifiers.RepositoryIdentifier;
+import uk.nhs.hdn.crds.registry.domain.identifiers.StuffIdentifier;
 import uk.nhs.hdn.crds.registry.domain.metadata.ProviderMetadataRecord;
 import uk.nhs.hdn.crds.registry.domain.metadata.RepositoryMetadataRecord;
+import uk.nhs.hdn.crds.registry.domain.metadata.StuffMetadataRecord;
 import uk.nhs.hdn.number.NhsNumber;
 
 import static uk.nhs.hdn.crds.registry.client.jsonSchemas.ProviderMetadataRecordArrayJsonSchema.ProviderMetadataRecordsSchemaUsingParserInstance;
 import static uk.nhs.hdn.crds.registry.client.jsonSchemas.RepositoryMetadataRecordArrayJsonSchema.RepositoryMetadataRecordsSchemaUsingParserInstance;
 import static uk.nhs.hdn.crds.registry.client.jsonSchemas.SimplePatientRecordArrayJsonSchema.SimplePatientRecordsSchemaUsingParserInstance;
-import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.Provider;
-import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.Repository;
+import static uk.nhs.hdn.crds.registry.client.jsonSchemas.StuffMetadataRecordArrayJsonSchema.StuffMetadataRecordsSchemaUsingParserInstance;
+import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.*;
 
 public final class ConcreteCrdsRestApi extends AbstractToString implements CrdsRestApi
 {
 	@SuppressWarnings("ConstantNamingConvention") @NonNls @NotNull private static final String crds = "crds";
-	@SuppressWarnings("ConstantNamingConvention") @NonNls @NotNull private static final String store = "registry";
-	@SuppressWarnings("ConstantNamingConvention") @NonNls @NotNull private static final String patientRecordStore = "patient-record-registry";
+	@SuppressWarnings("ConstantNamingConvention") @NonNls @NotNull private static final String registry = "registry";
+	@SuppressWarnings("ConstantNamingConvention") @NonNls @NotNull private static final String patient = "patient";
 	@SuppressWarnings("ConstantNamingConvention") @NonNls @NotNull private static final String metadata = "metadata";
 
 	@NotNull
@@ -63,7 +65,7 @@ public final class ConcreteCrdsRestApi extends AbstractToString implements CrdsR
 	{
 		return new ApiMethod<SimplePatientRecord>()
 		{
-			private final ApiMethod<SimplePatientRecord[]> internal = jsonGenericGetApi.newApiMethod(SimplePatientRecordsSchemaUsingParserInstance, crds, store, patientRecordStore, nhsNumber.normalised());
+			private final ApiMethod<SimplePatientRecord[]> internal = jsonGenericGetApi.newApiMethod(SimplePatientRecordsSchemaUsingParserInstance, crds, registry, patient, nhsNumber.normalised());
 
 			@NotNull
 			@Override
@@ -80,7 +82,7 @@ public final class ConcreteCrdsRestApi extends AbstractToString implements CrdsR
 	{
 		return new ApiMethod<ProviderMetadataRecord>()
 		{
-			private final ApiMethod<ProviderMetadataRecord[]> internal = jsonGenericGetApi.newApiMethod(ProviderMetadataRecordsSchemaUsingParserInstance, crds, store, metadata, Provider.restName(), providerIdentifier.toUuidString());
+			private final ApiMethod<ProviderMetadataRecord[]> internal = jsonGenericGetApi.newApiMethod(ProviderMetadataRecordsSchemaUsingParserInstance, crds, registry, metadata, Provider.restName(), providerIdentifier.toUuidString());
 
 			@NotNull
 			@Override
@@ -97,11 +99,29 @@ public final class ConcreteCrdsRestApi extends AbstractToString implements CrdsR
 	{
 		return new ApiMethod<RepositoryMetadataRecord>()
 		{
-			private final ApiMethod<RepositoryMetadataRecord[]> internal = jsonGenericGetApi.newApiMethod(RepositoryMetadataRecordsSchemaUsingParserInstance, crds, store, metadata, Repository.restName(), repositoryIdentifier.toUuidString());
+			private final ApiMethod<RepositoryMetadataRecord[]> internal = jsonGenericGetApi.newApiMethod(RepositoryMetadataRecordsSchemaUsingParserInstance, crds, registry, metadata, Repository.restName(), repositoryIdentifier.toUuidString());
 
 			@NotNull
 			@Override
 			public RepositoryMetadataRecord execute() throws UnacceptableResponseException, CorruptResponseException, CouldNotConnectHttpException
+			{
+				return internal.execute()[0];
+			}
+		};
+	}
+
+	@NotNull
+	@Override
+	public ApiMethod<StuffMetadataRecord> stuffMetadataRecord(@NotNull final StuffIdentifier stuffIdentifier)
+	{
+
+		return new ApiMethod<StuffMetadataRecord>()
+		{
+			private final ApiMethod<StuffMetadataRecord[]> internal = jsonGenericGetApi.newApiMethod(StuffMetadataRecordsSchemaUsingParserInstance, crds, registry, metadata, Stuff.restName(), stuffIdentifier.toUuidString());
+
+			@NotNull
+			@Override
+			public StuffMetadataRecord execute() throws UnacceptableResponseException, CorruptResponseException, CouldNotConnectHttpException
 			{
 				return internal.execute()[0];
 			}

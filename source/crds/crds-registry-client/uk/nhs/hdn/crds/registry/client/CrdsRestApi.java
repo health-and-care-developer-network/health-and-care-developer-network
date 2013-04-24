@@ -21,8 +21,10 @@ import uk.nhs.hdn.common.http.client.ApiMethod;
 import uk.nhs.hdn.crds.registry.domain.SimplePatientRecord;
 import uk.nhs.hdn.crds.registry.domain.identifiers.ProviderIdentifier;
 import uk.nhs.hdn.crds.registry.domain.identifiers.RepositoryIdentifier;
+import uk.nhs.hdn.crds.registry.domain.identifiers.StuffIdentifier;
 import uk.nhs.hdn.crds.registry.domain.metadata.ProviderMetadataRecord;
 import uk.nhs.hdn.crds.registry.domain.metadata.RepositoryMetadataRecord;
+import uk.nhs.hdn.crds.registry.domain.metadata.StuffMetadataRecord;
 import uk.nhs.hdn.number.NhsNumber;
 
 public interface CrdsRestApi
@@ -35,4 +37,7 @@ public interface CrdsRestApi
 
 	@NotNull
 	ApiMethod<RepositoryMetadataRecord> repositoryMetadataRecord(@NotNull final RepositoryIdentifier repositoryIdentifier);
+
+	@NotNull
+	ApiMethod<StuffMetadataRecord> stuffMetadataRecord(@NotNull final StuffIdentifier stuffIdentifier);
 }

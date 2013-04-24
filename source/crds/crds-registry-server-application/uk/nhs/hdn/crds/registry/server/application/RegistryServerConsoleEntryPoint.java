@@ -31,7 +31,7 @@ import uk.nhs.hdn.crds.registry.domain.identifiers.ProviderIdentifier;
 import uk.nhs.hdn.crds.registry.domain.identifiers.RepositoryIdentifier;
 import uk.nhs.hdn.crds.registry.domain.identifiers.StuffIdentifier;
 import uk.nhs.hdn.crds.registry.domain.metadata.AbstractMetadataRecord;
-import uk.nhs.hdn.crds.registry.domain.metadata.parsing.ProviderAndRepositoryMetadataParserFactory;
+import uk.nhs.hdn.crds.registry.domain.metadata.parsing.MetadataRecordsParserFactory;
 import uk.nhs.hdn.crds.registry.patientRecordStore.PatientRecordStore;
 import uk.nhs.hdn.crds.registry.recordStore.SubstitutableRecordStore;
 import uk.nhs.hdn.crds.registry.server.eventObservers.ConcurrentAggregatedEventObserver;
@@ -50,9 +50,10 @@ import static uk.nhs.hdn.common.http.server.sun.restEndpoints.RootDenialRestEndp
 import static uk.nhs.hdn.common.parsers.ParsingFileReloader.utf8ParsingFileReloaderWithInitialLoad;
 import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.Provider;
 import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.Repository;
+import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.Stuff;
 import static uk.nhs.hdn.crds.registry.server.application.PatientRecordStoreKind.Hazelcast;
 
-public final class StoreServerConsoleEntryPoint extends AbstractConsoleEntryPoint
+public final class RegistryServerConsoleEntryPoint extends AbstractConsoleEntryPoint
 {
 	private static final String DomainNameOption = "domain-name";
 	private static final String HttpPortOption = "http-port";
@@ -70,12 +71,12 @@ public final class StoreServerConsoleEntryPoint extends AbstractConsoleEntryPoin
 	private static final int DefaultHazlecastPort = 10000;
 	private static final String DefaultDataPath = "/srv/hdn-crds-registry";
 
-	@NonNls private static final String StoreMetadataFileName = "crds-registry-server-metadata.tsv";
+	@NonNls private static final String RegistryMetadataFileName = "crds-registry-server-metadata.tsv";
 
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static void main(@NotNull final String... commandLineArguments)
 	{
-		execute(StoreServerConsoleEntryPoint.class, commandLineArguments);
+		execute(RegistryServerConsoleEntryPoint.class, commandLineArguments);
 	}
 
 	@Override
@@ -124,23 +125,27 @@ public final class StoreServerConsoleEntryPoint extends AbstractConsoleEntryPoin
 		final ConcurrentAggregatedEventObserver<Identifier> repositoryMetadataConcurrentAggregatedEventObserver = new ConcurrentAggregatedEventObserver<>();
 		final SubstitutableRecordStore<Identifier, AbstractMetadataRecord<?>> repositoryMetadataRecordStore = new SubstitutableRecordStore<>(repositoryMetadataConcurrentAggregatedEventObserver);
 
+		final ConcurrentAggregatedEventObserver<Identifier> stuffMetadataConcurrentAggregatedEventObserver = new ConcurrentAggregatedEventObserver<>();
+		final SubstitutableRecordStore<Identifier, AbstractMetadataRecord<?>> stuffMetadataRecordStore = new SubstitutableRecordStore<>(repositoryMetadataConcurrentAggregatedEventObserver);
+
 		final FileReloader fileReloader;
 		try
 		{
-			fileReloader = utf8ParsingFileReloaderWithInitialLoad(new ProviderAndRepositoryMetadataParserFactory(providerMetadataRecordStore, repositoryMetadataRecordStore), dataPath, StoreMetadataFileName);
+			fileReloader = utf8ParsingFileReloaderWithInitialLoad(new MetadataRecordsParserFactory(providerMetadataRecordStore, repositoryMetadataRecordStore, stuffMetadataRecordStore), dataPath, RegistryMetadataFileName);
 		}
 		catch (FailedToReloadException e)
 		{
 			throw new IllegalStateException("Could not load registry metadata", e);
 		}
-		startFileWatcherOnNewThread(dataPath, StoreMetadataFileName, fileReloader);
+		startFileWatcherOnNewThread(dataPath, RegistryMetadataFileName, fileReloader);
 
 		final Server server = new Server(new InetSocketAddress(domainName, (int) httpPort), backlog, of
 		(
 			RootDenialRestEndpointInstance,
 			new PatientRecordStoreRestEndpoint(cacheMaximumNumberOfEntries, patientRecordStore, patientRecordConcurrentAggregatedEventObserver),
 			new MetadataRecordRestEndpoint(Provider, cacheMaximumNumberOfEntries, providerMetadataRecordStore, providerMetadataConcurrentAggregatedEventObserver),
-			new MetadataRecordRestEndpoint(Repository, cacheMaximumNumberOfEntries, repositoryMetadataRecordStore, repositoryMetadataConcurrentAggregatedEventObserver)
+			new MetadataRecordRestEndpoint(Repository, cacheMaximumNumberOfEntries, repositoryMetadataRecordStore, repositoryMetadataConcurrentAggregatedEventObserver),
+			new MetadataRecordRestEndpoint(Stuff, cacheMaximumNumberOfEntries, stuffMetadataRecordStore, stuffMetadataConcurrentAggregatedEventObserver)
 		));
 		server.start();
 	}

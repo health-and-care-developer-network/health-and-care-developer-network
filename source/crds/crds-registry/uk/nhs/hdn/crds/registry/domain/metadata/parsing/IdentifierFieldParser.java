@@ -29,11 +29,13 @@ import java.util.UUID;
 import static uk.nhs.hdn.common.parsers.separatedValueParsers.fieldParsers.NonEmptyUUIDFieldParser.NonEmptyUUIDFieldParserInstance;
 import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.Provider;
 import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.Repository;
+import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.Stuff;
 
 public final class IdentifierFieldParser<I extends Identifier> implements FieldParser<I>
 {
 	@NotNull public static final IdentifierFieldParser<ProviderIdentifier> ProviderIdentifierFieldParserInstance = new IdentifierFieldParser<>(Provider);
 	@NotNull public static final IdentifierFieldParser<RepositoryIdentifier> RepositoryIdentifierFieldParserInstance = new IdentifierFieldParser<>(Repository);
+	@NotNull public static final IdentifierFieldParser<RepositoryIdentifier> StuffIdentifierFieldParserInstance = new IdentifierFieldParser<>(Stuff);
 
 	private final IdentifierConstructor identifierConstructor;
 

@@ -31,29 +31,32 @@ import static uk.nhs.hdn.common.parsers.separatedValueParsers.fieldParsers.NonEm
 import static uk.nhs.hdn.common.parsers.separatedValueParsers.fieldParsers.NonEmptyURIFieldParser.NonEmptyURIFieldParserInstance;
 import static uk.nhs.hdn.crds.registry.domain.metadata.parsing.IdentifierFieldParser.ProviderIdentifierFieldParserInstance;
 import static uk.nhs.hdn.crds.registry.domain.metadata.parsing.IdentifierFieldParser.RepositoryIdentifierFieldParserInstance;
+import static uk.nhs.hdn.crds.registry.domain.metadata.parsing.IdentifierFieldParser.StuffIdentifierFieldParserInstance;
 
-public final class ProviderAndRepositoryMetadataParserFactory extends AbstractToString implements ParserFactory
+public final class MetadataRecordsParserFactory extends AbstractToString implements ParserFactory
 {
 	@NotNull private final SubstitutableRecordStore<Identifier, AbstractMetadataRecord<?>> providerMetadataRecordStore;
 	@NotNull private final SubstitutableRecordStore<Identifier, AbstractMetadataRecord<?>> repositoryMetadataRecordStore;
+	@NotNull private final SubstitutableRecordStore<Identifier, AbstractMetadataRecord<?>> stuffMetadataRecordStore;
 
-	public ProviderAndRepositoryMetadataParserFactory(@NotNull final SubstitutableRecordStore<Identifier, AbstractMetadataRecord<?>> providerMetadataRecordStore, @NotNull final SubstitutableRecordStore<Identifier, AbstractMetadataRecord<?>> repositoryMetadataRecordStore)
+	public MetadataRecordsParserFactory(@NotNull final SubstitutableRecordStore<Identifier, AbstractMetadataRecord<?>> providerMetadataRecordStore, @NotNull final SubstitutableRecordStore<Identifier, AbstractMetadataRecord<?>> repositoryMetadataRecordStore, @NotNull final SubstitutableRecordStore<Identifier, AbstractMetadataRecord<?>> stuffMetadataRecordStore)
 	{
 		this.providerMetadataRecordStore = providerMetadataRecordStore;
 		this.repositoryMetadataRecordStore = repositoryMetadataRecordStore;
+		this.stuffMetadataRecordStore = stuffMetadataRecordStore;
 	}
 
 	@NotNull
 	@Override
 	public Parser parser()
 	{
-		final ProviderAndRepositoryMetadataRecordLinesParser providerAndRepositoryMetadataRecordLinesParser = new ProviderAndRepositoryMetadataRecordLinesParser(providerMetadataRecordStore, repositoryMetadataRecordStore);
+		final MetadataRecordsLinesParser metadataRecordsLinesParser = new MetadataRecordsLinesParser(providerMetadataRecordStore, repositoryMetadataRecordStore, stuffMetadataRecordStore);
 		return new TabSeparatedValueParser
 		(
 			new ToDomainSeparatedValueParseEventHandler<>
 			(
-				providerAndRepositoryMetadataRecordLinesParser,
-				providerAndRepositoryMetadataRecordLinesParser,
+					metadataRecordsLinesParser,
+					metadataRecordsLinesParser,
 
 				ProviderIdentifierFieldParserInstance, // providerIdentifier
 				NonEmptyLongFieldParserInstance, // providerLastModified
@@ -61,7 +64,10 @@ public final class ProviderAndRepositoryMetadataParserFactory extends AbstractTo
 				RepositoryIdentifierFieldParserInstance, // repositoryIdentifier
 				NonEmptyLongFieldParserInstance, // repositoryLastModified
 				NonEmptyStringFieldParserInstance, // systemDescription
-				NonEmptyURIFieldParserInstance // systemLocation
+				NonEmptyURIFieldParserInstance, // systemLocation
+				StuffIdentifierFieldParserInstance, // stuffIdentifier
+				NonEmptyLongFieldParserInstance, // stuffLastModified
+				NonEmptyStringFieldParserInstance // stuffDescription
 			)
 		);
 	}

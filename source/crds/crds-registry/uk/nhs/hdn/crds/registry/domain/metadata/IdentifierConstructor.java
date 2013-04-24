@@ -29,6 +29,8 @@ import static uk.nhs.hdn.crds.registry.domain.metadata.ProviderMetadataRecord.cs
 import static uk.nhs.hdn.crds.registry.domain.metadata.ProviderMetadataRecord.tsvSerialiserForProviderMetadataRecords;
 import static uk.nhs.hdn.crds.registry.domain.metadata.RepositoryMetadataRecord.csvSerialiserForRepositoryMetadataRecords;
 import static uk.nhs.hdn.crds.registry.domain.metadata.RepositoryMetadataRecord.tsvSerialiserForRepositoryMetadataRecords;
+import static uk.nhs.hdn.crds.registry.domain.metadata.StuffMetadataRecord.csvSerialiserForStuffMetadataRecords;
+import static uk.nhs.hdn.crds.registry.domain.metadata.StuffMetadataRecord.tsvSerialiserForStuffMetadataRecords;
 
 public enum IdentifierConstructor implements Description
 {
@@ -91,14 +93,14 @@ public enum IdentifierConstructor implements Description
 		@Override
 		public SeparatedValueSerialiser tsvSerialiser()
 		{
-			throw new UnsupportedOperationException();
+			return tsvSerialiserForStuffMetadataRecords();
 		}
 
 		@NotNull
 		@Override
 		public SeparatedValueSerialiser csvSerialiser(final boolean writeHeaderLine)
 		{
-			throw new UnsupportedOperationException();
+			return csvSerialiserForStuffMetadataRecords(writeHeaderLine);
 		}
 	},
 	StuffEvent("Stuff Event Identifier UUID")

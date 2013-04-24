@@ -32,14 +32,14 @@ import uk.nhs.hdn.crds.registry.client.CrdsRestApi;
 import uk.nhs.hdn.crds.registry.domain.identifiers.Identifier;
 import uk.nhs.hdn.crds.registry.domain.identifiers.ProviderIdentifier;
 import uk.nhs.hdn.crds.registry.domain.identifiers.RepositoryIdentifier;
+import uk.nhs.hdn.crds.registry.domain.identifiers.StuffIdentifier;
 import uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor;
 
 import java.util.UUID;
 
 import static java.lang.Boolean.TRUE;
 import static java.lang.System.out;
-import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.Provider;
-import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.Repository;
+import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.*;
 
 public final class MetadataRecordConsoleEntryPoint extends AbstractConsoleEntryPoint
 {
@@ -55,6 +55,7 @@ public final class MetadataRecordConsoleEntryPoint extends AbstractConsoleEntryP
 	{
 		Provider,
 		Repository,
+		Stuff
 	};
 
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
@@ -128,6 +129,10 @@ public final class MetadataRecordConsoleEntryPoint extends AbstractConsoleEntryP
 
 			case Repository:
 				apiMethod = crdsRestApi.repositoryMetadataRecord((RepositoryIdentifier) identifier);
+				break;
+
+			case Stuff:
+				apiMethod = crdsRestApi.stuffMetadataRecord((StuffIdentifier) identifier);
 				break;
 
 			case StuffEvent:
