@@ -35,7 +35,7 @@ binary-indep: build install
 
 	# Data (later - we'll need to deal with override handling)
 	pwd
-	rsync -v $(SOURCE)/barcodes/barcodes-gs1-server-application/crds-registry-server-metadata.tsv debian/$(PACKAGE)/srv/hdn-crds-registry-server/crds-registry-server-metadata.tsv
+	rsync -v $(SOURCE)/crds/crds-registry-server-application/crds-registry-server-metadata.tsv debian/$(PACKAGE)/srv/hdn-crds-registry-server/crds-registry-server-metadata.tsv
 	find debian/$(PACKAGE)/srv/$(PACKAGE) -type f -exec chmod 0644 {} \;
 	find debian/$(PACKAGE)/srv/$(PACKAGE) -type d -exec chmod 0755 {} \;
 
