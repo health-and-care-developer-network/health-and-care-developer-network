@@ -1,0 +1,19 @@
+# This is a bug in lintian
+hdn-crds-registry-server binary: lzma-deb-archive
+
+# We create a skeleton in /srv/hdn-crds-registry-server
+hdn-crds-registry-server binary: wrong-file-owner-uid-or-gid srv/hdn-crds-registry-server/ 498/498
+hdn-crds-registry-server binary: dir-or-file-in-srv srv/hdn-crds-registry-server/
+hdn-crds-registry-server binary: non-standard-dir-perm srv/hdn-crds-registry-server/ 2755 != 0755
+
+# We install into /var/*/hdn-crds-registry-server
+hdn-crds-registry-server binary: wrong-file-owner-uid-or-gid var/log/hdn-crds-registry-server/ 498/498
+hdn-crds-registry-server binary: non-standard-dir-perm var/log/hdn-crds-registry-server/ 2755 != 0755
+hdn-crds-registry-server binary: wrong-file-owner-uid-or-gid var/cache/hdn-crds-registry-server/ 498/498
+hdn-crds-registry-server binary: non-standard-dir-perm var/cache/hdn-crds-registry-server/ 2755 != 0755
+hdn-crds-registry-server binary: wrong-file-owner-uid-or-gid var/lib/hdn-crds-registry-server/ 498/498
+hdn-crds-registry-server binary: non-standard-dir-perm var/lib/hdn-crds-registry-server/ 2755 != 0755
+
+hdn-crds-registry-server binary: dir-or-file-in-srv srv/hdn-crds-registry-server/
+hdn-crds-registry-server binary: wrong-file-owner-uid-or-gid srv/hdn-crds-registry-server/crds-registry-company-prefixes.tsv 498/498
+hdn-crds-registry-server binary: dir-or-file-in-srv srv/hdn-crds-registry-server/crds-registry-company-prefixes.tsv

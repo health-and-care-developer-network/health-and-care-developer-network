@@ -1,0 +1,10 @@
+/var/log/hdn-crds-registry-server/*.log {
+	daily
+	missingok
+	rotate 32
+	compress
+	delaycompress
+	notifempty
+	copytruncate
+	sharedscripts
+}
