@@ -69,7 +69,7 @@ public final class RegistryServerConsoleEntryPoint extends AbstractConsoleEntryP
 	private static final int DefaultCacheSize = 10000;
 	private static final PatientRecordStoreKind DefaultPatientRecordStoreKind = Hazelcast;
 	private static final int DefaultHazlecastPort = 10000;
-	private static final String DefaultDataPath = "/srv/hdn-crds-registry";
+	private static final String DefaultDataPath = "/srv/hdn-crds-registry-server";
 
 	@NonNls private static final String RegistryMetadataFileName = "crds-registry-server-metadata.tsv";
 
