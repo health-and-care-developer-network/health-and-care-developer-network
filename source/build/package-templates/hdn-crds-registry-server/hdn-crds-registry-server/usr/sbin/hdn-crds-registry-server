@@ -88,7 +88,7 @@ function prepareEnvironmentVariables()
 function sourceProfile()
 {
 	HDN_CRDS_REGISTRY_SERVER_COMMAND_LINE_SWITCHES=""
-	HDN_CRDS_REGISTRY_SERVER_JMX_REMOTE_PORT=1200
+	HDN_CRDS_REGISTRY_SERVER_JMX_REMOTE_PORT=1201
 	
 	readonly profileFilePath="/etc/hdn-crds-registry-server/profiles/$profile"
 	if [ ! -r "$profileFilePath" ]; then
