@@ -18,16 +18,13 @@ package uk.nhs.hdn.crds.registry.server.application;
 
 import com.hazelcast.config.*;
 import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.nio.Address;
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.crds.registry.patientRecordStore.PatientRecordStore;
 import uk.nhs.hdn.crds.registry.server.eventObservers.EventObserver;
 import uk.nhs.hdn.crds.registry.server.hazelcast.hazelcastSerialisationHolders.NhsNumberHazelcastSerialisationHolder;
 import uk.nhs.hdn.crds.registry.server.hazelcast.hazelcastSerialisationHolders.PatientRecordHazelcastSerialisationHolder;
 import uk.nhs.hdn.crds.registry.server.hazelcast.patientRecordStore.HazelcastPatientRecordStore;
-import uk.nhs.hdn.crds.registry.patientRecordStore.PatientRecordStore;
 import uk.nhs.hdn.number.NhsNumber;
-
-import java.net.UnknownHostException;
 
 import static com.hazelcast.core.Hazelcast.newHazelcastInstance;
 
@@ -45,21 +42,14 @@ public final class HazelcastConfiguration
 		networkConfig.setPort((int) hazelcastPort);
 		networkConfig.setPortAutoIncrement(true);
 		networkConfig.setReuseAddress(true);
+		networkConfig.setPublicAddress("127.0.0.1");
+		networkConfig.setReuseAddress(true);
 		if (useTcp)
 		{
-
-			final Address address;
-			try
-			{
-				address = new Address("127.0.0.1", (int) hazelcastPort);
-			}
-			catch (UnknownHostException e)
-			{
-				throw new IllegalStateException(e);
-			}
 			final Join join = new Join();
 			join.getMulticastConfig().setEnabled(false);
 			networkConfig.setJoin(join.setTcpIpConfig(new TcpIpConfig().setEnabled(true).setConnectionTimeoutSeconds(60)));
+			networkConfig.setInterfaces(new Interfaces().addInterface("*").setEnabled(true));
 		}
 
 		config.setNetworkConfig(networkConfig);
