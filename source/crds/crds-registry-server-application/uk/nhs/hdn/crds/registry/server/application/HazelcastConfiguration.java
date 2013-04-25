@@ -59,7 +59,7 @@ public final class HazelcastConfiguration
 			}
 			final Join join = new Join();
 			join.getMulticastConfig().setEnabled(false);
-			networkConfig.setJoin(join.setTcpIpConfig(new TcpIpConfig().setEnabled(true).setConnectionTimeoutSeconds(60).addAddress(address)));
+			networkConfig.setJoin(join.setTcpIpConfig(new TcpIpConfig().setEnabled(true).setConnectionTimeoutSeconds(60)));
 		}
 
 		config.setNetworkConfig(networkConfig);
