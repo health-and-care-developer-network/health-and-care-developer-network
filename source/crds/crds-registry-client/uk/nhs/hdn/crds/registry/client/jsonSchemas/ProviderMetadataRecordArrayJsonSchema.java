@@ -22,7 +22,6 @@ import uk.nhs.hdn.common.hazelcast.collections.HazelcastAwareLinkedHashSet;
 import uk.nhs.hdn.common.parsers.json.ArrayJsonSchema;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.AbstractStringArrayConstructor;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.root.ArrayRootArrayConstructor;
-import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.NonNullFieldExpectation;
 import uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.schemaViolationInvalidJsonExceptions.SchemaViolationInvalidJsonException;
 import uk.nhs.hdn.common.reflection.toString.delegates.EnumMethodDelegate;
 import uk.nhs.hdn.crds.registry.domain.identifiers.ProviderIdentifier;
@@ -30,12 +29,13 @@ import uk.nhs.hdn.crds.registry.domain.identifiers.RepositoryIdentifier;
 import uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor;
 import uk.nhs.hdn.crds.registry.domain.metadata.ProviderMetadataRecord;
 
-import java.util.Collection;
+import java.util.UUID;
 
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.NonNullCollectToArrayObjectsOnlyForElementsArrayConstructor.nonNullArrayOfObjects;
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.arrayConstructors.root.NonNullArrayRootArrayConstructor.rootIsArrayOf;
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.JavaObjectConstructor.object;
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.NonEmptyStringFieldExpectation.nonEmptyStringField;
+import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.NonNullFieldExpectation.nonNullField;
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.NonNullFieldExpectation.nonNulllongField;
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.StringToSomethingElseFieldExpectation.nonNullStringToSomethingElseField;
 import static uk.nhs.hdn.crds.registry.client.jsonSchemas.arrayCreators.ProviderMetadataRecordArrayCreator.ProviderMetadataRecordArray;
@@ -57,42 +57,41 @@ public final class ProviderMetadataRecordArrayJsonSchema extends ArrayJsonSchema
 				nonNullStringToSomethingElseField("identifier", ProviderIdentifier.class, EnumMethodDelegate.<IdentifierConstructor, ProviderIdentifier>enumMethodDelegate(Provider, "construct", String.class), false),
 				nonNulllongField("lastModified"),
 				nonEmptyStringField("organisationalDataServiceCode"),
-				NonNullFieldExpectation.nonNullField
+				nonNullField
 				(
-						"repositoryIdentifiers",
-						RepositoryIdentifier.class,
-						new AbstractStringArrayConstructor<Object>()
+					"repositoryIdentifiers",
+					HazelcastAwareLinkedHashSet.class,
+					new AbstractStringArrayConstructor<HazelcastAwareLinkedHashSet<RepositoryIdentifier>>()
+					{
+						@Override
+						public void addConstantStringValue(@NotNull final HazelcastAwareLinkedHashSet<RepositoryIdentifier> arrayCollector, final int index, @NotNull final String value) throws SchemaViolationInvalidJsonException
 						{
-							@Override
-							public void addConstantStringValue(@NotNull final Object arrayCollector, final int index, @NotNull final String value) throws SchemaViolationInvalidJsonException
+							final UUID uuid;
+							try
 							{
-								final RepositoryIdentifier identifier;
-								try
-								{
-									identifier = (RepositoryIdentifier) Repository.construct(value);
-								}
-								catch (RuntimeException e)
-								{
-									throw new SchemaViolationInvalidJsonException("Not a valid repositoryIdentifier", e);
-								}
-								@SuppressWarnings("unchecked") final Collection<RepositoryIdentifier> repositoryIdentifiers = (Collection<RepositoryIdentifier>) arrayCollector;
-								repositoryIdentifiers.add(identifier);
+								uuid = UUID.fromString(value);
 							}
-
-							@NotNull
-							@Override
-							public Object newCollector()
+							catch (RuntimeException e)
 							{
-								return new HazelcastAwareLinkedHashSet<RepositoryIdentifier>(100);
+								throw new SchemaViolationInvalidJsonException("not an UUID", e);
 							}
-
-							@Nullable
-							@Override
-							public Object collect(@NotNull final Object collector)
-							{
-								return collector;
-							}
+							arrayCollector.add((RepositoryIdentifier) Repository.construct(uuid));
 						}
+
+						@NotNull
+						@Override
+						public HazelcastAwareLinkedHashSet<RepositoryIdentifier> newCollector()
+						{
+							return new HazelcastAwareLinkedHashSet<>(100);
+						}
+
+						@Nullable
+						@Override
+						public Object collect(@NotNull final HazelcastAwareLinkedHashSet<RepositoryIdentifier> collector) throws SchemaViolationInvalidJsonException
+						{
+							return collector;
+						}
+					}
 				)
 			)
 		)
