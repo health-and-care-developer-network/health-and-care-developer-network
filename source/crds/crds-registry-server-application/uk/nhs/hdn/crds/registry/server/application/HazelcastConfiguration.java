@@ -16,11 +16,9 @@
 
 package uk.nhs.hdn.crds.registry.server.application;
 
-import com.hazelcast.config.Config;
-import com.hazelcast.config.MapConfig;
-import com.hazelcast.config.MapIndexConfig;
-import com.hazelcast.config.NetworkConfig;
+import com.hazelcast.config.*;
 import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.nio.Address;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.crds.registry.server.eventObservers.EventObserver;
 import uk.nhs.hdn.crds.registry.server.hazelcast.hazelcastSerialisationHolders.NhsNumberHazelcastSerialisationHolder;
@@ -28,6 +26,8 @@ import uk.nhs.hdn.crds.registry.server.hazelcast.hazelcastSerialisationHolders.P
 import uk.nhs.hdn.crds.registry.server.hazelcast.patientRecordStore.HazelcastPatientRecordStore;
 import uk.nhs.hdn.crds.registry.patientRecordStore.PatientRecordStore;
 import uk.nhs.hdn.number.NhsNumber;
+
+import java.net.UnknownHostException;
 
 import static com.hazelcast.core.Hazelcast.newHazelcastInstance;
 
@@ -37,7 +37,7 @@ public final class HazelcastConfiguration
 
 	@NotNull private final HazelcastInstance hazelcastInstance;
 
-	public HazelcastConfiguration(final char hazelcastPort)
+	public HazelcastConfiguration(final char hazelcastPort, final boolean useTcp)
 	{
 		final Config config = new Config();
 
@@ -45,6 +45,23 @@ public final class HazelcastConfiguration
 		networkConfig.setPort((int) hazelcastPort);
 		networkConfig.setPortAutoIncrement(true);
 		networkConfig.setReuseAddress(true);
+		if (useTcp)
+		{
+
+			final Address address;
+			try
+			{
+				address = new Address("127.0.0.1", (int) hazelcastPort);
+			}
+			catch (UnknownHostException e)
+			{
+				throw new IllegalStateException(e);
+			}
+			final Join join = new Join();
+			join.getMulticastConfig().setEnabled(false);
+			networkConfig.setJoin(join.setTcpIpConfig(new TcpIpConfig().setEnabled(true).setConnectionTimeoutSeconds(60).addAddress(address)));
+		}
+
 		config.setNetworkConfig(networkConfig);
 
 		final MapConfig rootMapConfig = new MapConfig(PatientRecordStoreMap);

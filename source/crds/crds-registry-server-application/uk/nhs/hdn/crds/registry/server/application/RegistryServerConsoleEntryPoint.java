@@ -61,14 +61,16 @@ public final class RegistryServerConsoleEntryPoint extends AbstractConsoleEntryP
 	private static final String CacheSizeOption = "cache-size";
 	private static final String PatientRecordStoreKindOption = "patient-record-registry-kind";
 	private static final String HazelcasePortOption = "hazelcast-port";
+	private static final String HazelcaseTcpOption = "hazelcast-tcp";
 	private static final String DataPathOption = "data-path";
 
 	private static final String DefaultHostName = "localhost";
-	private static final int DefaultHttpPort = 7000;
+	private static final int DefaultHttpPort = 4000;
 	private static final int DefaultBacklog = 20;
 	private static final int DefaultCacheSize = 10000;
 	private static final PatientRecordStoreKind DefaultPatientRecordStoreKind = Hazelcast;
-	private static final int DefaultHazlecastPort = 10000;
+	private static final int DefaultHazlecastPort = 5701;
+	private static final boolean DefaultHazlecastTcp = false;
 	private static final String DefaultDataPath = "/srv/hdn-crds-registry-server";
 
 	@NonNls private static final String RegistryMetadataFileName = "crds-registry-server-metadata.tsv";
@@ -88,6 +90,7 @@ public final class RegistryServerConsoleEntryPoint extends AbstractConsoleEntryP
 		options.accepts(CacheSizeOption).withRequiredArg().ofType(Integer.class).defaultsTo(DefaultCacheSize).describedAs("maximum number of entries to cache per I/O thread");
 		options.accepts(PatientRecordStoreKindOption).withRequiredArg().ofType(PatientRecordStoreKind.class).defaultsTo(DefaultPatientRecordStoreKind).describedAs("backing registry kind for data");
 		options.accepts(HazelcasePortOption).withRequiredArg().ofType(Integer.class).defaultsTo(DefaultHazlecastPort).describedAs("first port for Hazelcast to listen on");
+		options.accepts(HazelcaseTcpOption, "Use multicast (false) or tcp (true)").withOptionalArg().ofType(Boolean.class).defaultsTo(DefaultHazlecastTcp).describedAs("defaults to using TCP instead of multicast");
 		options.accepts(DataPathOption).withRequiredArg().ofType(File.class).defaultsTo(new File(DefaultDataPath)).describedAs("Folder path containing registry metadata");
 		return true;
 	}
@@ -107,15 +110,32 @@ public final class RegistryServerConsoleEntryPoint extends AbstractConsoleEntryP
 
 		final char hazelcastPort = portNumber(optionSet, HazelcasePortOption);
 
+		final boolean useTcp;
+		if (optionSet.has(HazelcaseTcpOption))
+		{
+			if (optionSet.hasArgument(HazelcaseTcpOption))
+			{
+				useTcp = defaulted(optionSet, HazelcaseTcpOption);
+			}
+			else
+			{
+				useTcp = true;
+			}
+		}
+		else
+		{
+			useTcp = DefaultHazlecastTcp;
+		}
+
 		final File dataPath = readableDirectory(optionSet, DataPathOption);
 
-		execute(domainName, httpPort, backlog, cacheMaximumNumberOfEntries, patientRecordStoreKind, hazelcastPort, dataPath);
+		execute(domainName, httpPort, backlog, cacheMaximumNumberOfEntries, patientRecordStoreKind, hazelcastPort, useTcp, dataPath);
 	}
 
-	private static void execute(final String domainName, final char httpPort, final int backlog, final int cacheMaximumNumberOfEntries, final PatientRecordStoreKind patientRecordStoreKind, final char hazelcastPort, final File dataPath) throws IOException
+	private static void execute(final String domainName, final char httpPort, final int backlog, final int cacheMaximumNumberOfEntries, final PatientRecordStoreKind patientRecordStoreKind, final char hazelcastPort, final boolean useTcp, final File dataPath) throws IOException
 	{
 		final ConcurrentAggregatedEventObserver<NhsNumber> patientRecordConcurrentAggregatedEventObserver = new ConcurrentAggregatedEventObserver<>();
-		final PatientRecordStore patientRecordStore = patientRecordStoreKind.create(new HazelcastConfiguration(hazelcastPort), patientRecordConcurrentAggregatedEventObserver);
+		final PatientRecordStore patientRecordStore = patientRecordStoreKind.create(new HazelcastConfiguration(hazelcastPort, useTcp), patientRecordConcurrentAggregatedEventObserver);
 
 		new Thread(new EventListenerRunnable(new LinkedBlockingDeque<Quintuple<NhsNumber, ProviderIdentifier, RepositoryIdentifier, StuffIdentifier, StuffEvent>>(), patientRecordStore), "Incoming Events Listener").start();
 

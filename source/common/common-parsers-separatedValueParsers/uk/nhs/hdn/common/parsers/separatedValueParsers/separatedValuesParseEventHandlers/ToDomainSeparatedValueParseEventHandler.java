@@ -84,7 +84,7 @@ public final class ToDomainSeparatedValueParseEventHandler<V, L> extends Abstrac
 		}
 		if (currentFieldIndex == numberOfFieldsPerLineDeducedFromHeaderLine)
 		{
-			throw new CouldNotParseFieldException(currentFieldIndex, value, "there are too more fields in the line than in the header line");
+			throw new CouldNotParseFieldException(currentFieldIndex, value, "there are more fields in the line than in the header line");
 		}
 		final FieldParser<?> fieldParser = fieldParsers[currentFieldIndex];
 
