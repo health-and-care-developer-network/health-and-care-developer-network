@@ -41,8 +41,7 @@ binary-indep: build install
 	dh_compress
 	dh_fixperms
 
-	# /srv, /var/log, /var/cache & /var/lib subfolders are accessible to hdn-gs1-server
-	chown -R $(HDN_CRDS_REPOSITORY_EXAMPLE_UID):$(HDN_CRDS_REPOSITORY_EXAMPLE_UID) debian/$(PACKAGE)/srv/$(PACKAGE)
+	# /srv, /var/log, /var/cache & /var/lib subfolders are accessible
 	chown -R $(HDN_CRDS_REPOSITORY_EXAMPLE_UID):$(HDN_CRDS_REPOSITORY_EXAMPLE_UID) debian/$(PACKAGE)/var/cache/$(PACKAGE)
 	chown -R $(HDN_CRDS_REPOSITORY_EXAMPLE_UID):$(HDN_CRDS_REPOSITORY_EXAMPLE_UID) debian/$(PACKAGE)/var/log/$(PACKAGE)
 	chown -R $(HDN_CRDS_REPOSITORY_EXAMPLE_UID):$(HDN_CRDS_REPOSITORY_EXAMPLE_UID) debian/$(PACKAGE)/var/lib/$(PACKAGE)
