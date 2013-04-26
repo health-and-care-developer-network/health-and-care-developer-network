@@ -1,0 +1,10 @@
+/var/log/hdn-crds-repository-example/*.log {
+	daily
+	missingok
+	rotate 32
+	compress
+	delaycompress
+	notifempty
+	copytruncate
+	sharedscripts
+}

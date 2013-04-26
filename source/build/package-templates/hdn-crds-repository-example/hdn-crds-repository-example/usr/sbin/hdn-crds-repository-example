@@ -1,0 +1,203 @@
+#!/bin/bash -
+set -e
+
+readonly ourName="$(basename "$0")"
+
+cd "$(dirname "$0")" 1>/dev/null
+readonly crudeOurPath="$(pwd)"
+cd - 1>/dev/null
+
+function exitHelp()
+{
+	cat 1>&2 <<-EOF
+		Usage: $ourName -h
+		Usage: $ourName --help
+		Usage: $ourName [<profile>]
+		
+		profile
+		  Defaults to 'ordinary'
+	EOF
+	exit $1
+}
+
+function exitError()
+{
+	local -r error="$1"
+	echo "$ourName: $error" 1>&2
+	exitHelp 1
+}
+
+function syslogScriptStarted()
+{
+	logger -p "daemon.info" -t "hdn-crds-repository-example" "$0 script started with $# arguments ($@)"
+}
+
+function parseCommandLine()
+{
+	if [ $# -eq 0 ]; then
+		readonly profile="ordinary"
+	elif [ $# -eq 1 ]; then
+		if [ "$1" = "-h" ]; then
+			exitHelp 2
+		elif [ "$1" = "--help" ]; then
+			exitHelp 2
+		else
+			readonly profile="$1"
+		fi
+	else
+		exitError "Invalid options"
+	fi
+}
+
+function ensureRunningAsRoot()
+{
+	if [ $EUID -ne 0 ]; then
+		exitError "Can only be run by a user with EUID 0"
+	fi
+}
+
+function prepareEnvironmentVariables()
+{
+	unset JAVA_HOME
+	export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
+	
+	unset CLASSPATH
+	export CLASSPATH
+	
+	unset LANG
+	unset LC_CTYPE
+	unset LC_ALL
+	unset LC_NUMERIC
+	unset LC_TIME
+	unset LC_COLLATE
+	unset LC_MONETARY
+	unset LC_MESSAGES
+	unset LC_PAPER
+	unset LC_NAME
+	unset LC_ADDRESS
+	unset LC_MEASUREMENT
+	unset LC_MEASUREMENT
+	unset LC_IDENTIFICATION
+	
+	# Java has bugs that incorrectly use these POSIX variables, hence the specification of more than LANG
+	export LANG=en_GB.UTF-8
+	export LC_CTYPE=en_GB.UTF-8
+	export LC_ALL=en_GB.UTF-8
+}
+
+function sourceProfile()
+{
+	HDN_CRDS_REPOSITORY_EXAMPLE_COMMAND_LINE_SWITCHES=""
+	HDN_CRDS_REPOSITORY_EXAMPLE_JMX_REMOTE_PORT=1202
+	
+	readonly profileFilePath="/etc/hdn-crds-repository-example/profiles/$profile"
+	if [ ! -r "$profileFilePath" ]; then
+		logger -p "daemon.warning" -t "hdn-crds-repository-example" "Using defaults as no readable profile $profile at path $profilePath"
+	else
+		source "$profileFilePath"
+	fi
+}
+
+function computeHeapSize()
+{
+	if [ -f /etc/hdn-crds-repository-example/heap-size ]; then
+		readonly heapSize="$(head -q -n1 "/etc/hdn-crds-repository-example/heap-size")"
+	else
+		readonly heapSize=1024m
+	fi
+}
+
+function ensureUmaskCorrectForLogging()
+{
+	umask -S u=rwx,g=rx,o=rx >/dev/null
+}
+
+function computeDatePointForLogs()
+{
+	local -r nanosecondDate="$(date --utc +'%Y-%m-%dT%H:%M:%S.%N')"
+	# Does not round up
+	readonly millisecondDate=${nanosecondDate:0:23}
+}
+
+function touchLogFilesToEnsureCorrectPermissionsBeforeUserSwitchInsideBroker()
+{
+	readonly logFolderPath=/var/log/hdn-crds-repository-example
+
+	readonly stdoutLog="$logFolderPath"/hdn-crds-repository-example.stdout.log
+	touch "$stdoutLog"
+	chown hdn-crds-repository-example:hdn-crds-repository-example "$stdoutLog"
+	printf "${millisecondDate}\tvaluable\tmain\thdn-crds-repository-example\tbash\tString\t\"hdn-crds-repository-example logging started\"\n" >>"$stdoutLog"
+	logger -p "daemon.info" -t "hdn-gs1-server" "hdn-crds-repository-example logging started"
+
+	readonly stderrLog="$logFolderPath"/hdn-crds-repository-example.stderr.log
+	touch "$stderrLog"
+	chown hdn-crds-repository-example:hdn-crds-repository-example "$stderrLog"
+	printf "${millisecondDate}\tvaluable\tmain\thdn-crds-repository-example\tbash\tString\t\"hdn-crds-repository-example logging started\"\n" >>"$stderrLog"
+}
+
+function executeHdnServer()
+{
+	exec -a hdn-crds-repository-example "$JAVA_HOME"/bin/java \
+	-server \
+	-d64 \
+	-Xmn256m \
+	-Xms"$heapSize" \
+	-Xmx"$heapSize" \
+	-XX:MaxPermSize=256m \
+	-XX:+HeapDumpOnOutOfMemoryError \
+	-XX:OnError="hdn-jvm-crash-report OnError hdn-crds-repository-example hdn-crds-repository-example" \
+	-XX:OnOutOfMemoryError="hdn-jvm-crash-report OnOutOfMemoryError hdn-crds-repository-example hdn-crds-repository-example" \
+	-XX:+TieredCompilation \
+	-XX:+UseFastAccessorMethods \
+	-XX:+AggressiveOpts \
+	-XX:+UseCompressedOops \
+	-XX:+UseBiasedLocking \
+	-XX:+UseStringCache \
+	-XX:+OptimizeStringConcat \
+	-XX:+DoEscapeAnalysis \
+	-XX:+UseNUMA \
+	-XX:+TieredCompilation \
+	-XX:+UseParallelGC \
+	-XX:+UseParallelOldGC \
+	-XX:ParallelGCThreads=4 \
+	-XX:+ScavengeBeforeFullGC \
+	-XX:CompileThreshold=10000 \
+	-XX:+UseTLAB \
+	-XX:AllocatePrefetchLines=1 \
+	-XX:AllocatePrefetchStyle=1 \
+	-XX:ErrorFile="$logFolderPath"/hdn-crds-repository-example.jvm.error \
+	-XX:HeapDumpPath="$logFolderPath"/hdn-crds-repository-example.jvm.heapdump \
+	-XX:+UseThreadPriorities \
+	-XX:ThreadPriorityPolicy=1 \
+	-XX:+UseLargePages \
+	$HDN_CRDS_REPOSITORY_EXAMPLE_JAVA_DEBUG_SWITCHES \
+	-Dfile.encoding=UTF-8 \
+	-Dsun.jnu.encoding=UTF-8 \
+	-Djava.rmi.server.randomIDs=true \
+	-Dnetworkaddress.cache.ttl=0 \
+	-Dnetworkaddress.cache.negative.ttl=0 \
+	-Dcom.sun.management.jmxremote=true \
+	-Dcom.sun.management.jmxremote.ssl=false \
+	-Dcom.sun.management.jmxremote.authenticate=false \
+	-Dcom.sun.management.jmxremote.port=$HDN_CRDS_REPOSITORY_EXAMPLE_JMX_REMOTE_PORT \
+	-Duser.home=/var/lib/hdn-gs1-server \
+	$HDN_CRDS_REPOSITORY_EXAMPLE_JAVA_ADDITIONAL_SWITCHES \
+	-jar /usr/share/hdn-crds-repository-example/hdn-crds-repository-example.jar \
+	$HDN_CRDS_REPOSITORY_EXAMPLE_COMMAND_LINE_SWITCHES 1>>"$stdoutLog" 2>>"$stderrLog"
+}
+
+function main()
+{
+	syslogScriptStarted "$@"
+	parseCommandLine "$@"
+	ensureRunningAsRoot
+	prepareEnvironmentVariables
+	sourceProfile
+	computeHeapSize
+	ensureUmaskCorrectForLogging
+	computeDatePointForLogs
+	touchLogFilesToEnsureCorrectPermissionsBeforeUserSwitchInsideBroker
+	executeHdnServer
+}
+
+main "$@"

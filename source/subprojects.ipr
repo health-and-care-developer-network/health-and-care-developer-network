@@ -1284,6 +1284,8 @@
       <module fileurl="file://$PROJECT_DIR$/common/common-serialisers-json/common-serialisers-json.iml" filepath="$PROJECT_DIR$/common/common-serialisers-json/common-serialisers-json.iml" group="common/serialisers" />
       <module fileurl="file://$PROJECT_DIR$/common/common-serialisers-separatedValues/common-serialisers-separatedValues.iml" filepath="$PROJECT_DIR$/common/common-serialisers-separatedValues/common-serialisers-separatedValues.iml" group="common/serialisers" />
       <module fileurl="file://$PROJECT_DIR$/common/common-serialisers-xml/common-serialisers-xml.iml" filepath="$PROJECT_DIR$/common/common-serialisers-xml/common-serialisers-xml.iml" group="common/serialisers" />
+      <module fileurl="file://$PROJECT_DIR$/common/common-sql/common-sql.iml" filepath="$PROJECT_DIR$/common/common-sql/common-sql.iml" group="common/sql" />
+      <module fileurl="file://$PROJECT_DIR$/common/common-sql-postgresql/common-sql-postgresql.iml" filepath="$PROJECT_DIR$/common/common-sql-postgresql/common-sql-postgresql.iml" group="common/sql" />
       <module fileurl="file://$PROJECT_DIR$/common/common-tuples/common-tuples.iml" filepath="$PROJECT_DIR$/common/common-tuples/common-tuples.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-unknown/common-unknown.iml" filepath="$PROJECT_DIR$/common/common-unknown/common-unknown.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/common/common-xml/common-xml.iml" filepath="$PROJECT_DIR$/common/common-xml/common-xml.iml" group="common" />
@@ -1296,7 +1298,8 @@
       <module fileurl="file://$PROJECT_DIR$/crds/crds-registry-server-hazelcast/crds-registry-server-hazelcast.iml" filepath="$PROJECT_DIR$/crds/crds-registry-server-hazelcast/crds-registry-server-hazelcast.iml" group="crds/registry/server" />
       <module fileurl="file://$PROJECT_DIR$/crds/crds-registry-server-rest/crds-registry-server-rest.iml" filepath="$PROJECT_DIR$/crds/crds-registry-server-rest/crds-registry-server-rest.iml" group="crds/registry/server" />
       <module fileurl="file://$PROJECT_DIR$/crds/crds-registry-server-standalone/crds-registry-server-standalone.iml" filepath="$PROJECT_DIR$/crds/crds-registry-server-standalone/crds-registry-server-standalone.iml" group="crds/registry/server" />
-      <module fileurl="file://$PROJECT_DIR$/crds/crds-repository/crds-repository.iml" filepath="$PROJECT_DIR$/crds/crds-repository/crds-repository.iml" group="crds/repository" />
+      <module fileurl="file://$PROJECT_DIR$/crds/crds-repository-example/crds-repository-example.iml" filepath="$PROJECT_DIR$/crds/crds-repository-example/crds-repository-example.iml" group="crds/repository" />
+      <module fileurl="file://$PROJECT_DIR$/crds/crds-repository-example-application/crds-repository-example-application.iml" filepath="$PROJECT_DIR$/crds/crds-repository-example-application/crds-repository-example-application.iml" group="crds/repository" />
       <module fileurl="file://$PROJECT_DIR$/dbs/dbs/dbs.iml" filepath="$PROJECT_DIR$/dbs/dbs/dbs.iml" group="dbs" />
       <module fileurl="file://$PROJECT_DIR$/dbs/dbs-parsing/dbs-parsing.iml" filepath="$PROJECT_DIR$/dbs/dbs-parsing/dbs-parsing.iml" group="dbs" />
       <module fileurl="file://$PROJECT_DIR$/dbs/dbs-request/dbs-request.iml" filepath="$PROJECT_DIR$/dbs/dbs-request/dbs-request.iml" group="dbs" />

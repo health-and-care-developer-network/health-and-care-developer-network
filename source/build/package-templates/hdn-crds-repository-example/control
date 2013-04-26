@@ -1,0 +1,22 @@
+Source: hdn-crds-repository-example
+Section: net
+Priority: optional
+Maintainer: Raphael Cohn <raphael.cohn@stormmq.com>
+Uploaders: Mike Kelly <mike.kelly1@nhs.net>
+Homepage: http://hdn.nhs.uk/
+Build-Depends: debhelper (>= 7), fakeroot, openjdk-7-jdk, git-core, apt-utils, gnupg, devscripts
+Standards-Version: 3.8.4.0
+
+Package: hdn-crds-repository-example
+Architecture: all
+Depends: hdn-java-common, hdn-jstatd, postgresql, ${misc:Depends}, ${shlibs:Depends}
+Pre-Depends: adduser, hdn-apt, dpkg (>= 1.15.6~)
+Homepage: http://hdn.nhs.uk/
+Description: CRDS Repository Example 
+ This package provides HDN's CRDS Repository Example
+ It pre-depends on packages needed to run post-install
+ scripts.
+ It installs local libraries.
+ .
+ It Pre-Depends on adduser, and hdn-apt because it uses these
+ in its install scripts.
