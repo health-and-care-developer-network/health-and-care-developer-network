@@ -36,9 +36,9 @@ public final class ResourceLoader
 	}
 
 	@NotNull
-	public static String utf8TextResourceContents(@NonNls @NotNull final String resourceName)
+	public static String utf8TextResourceContents(@NonNls @NotNull final String resourceName, @NotNull final Class<?> parallelToClass)
 	{
-		@Nullable final InputStream resourceAsStream = ResourceLoader.class.getResourceAsStream(resourceName);
+		@Nullable final InputStream resourceAsStream = parallelToClass.getResourceAsStream(resourceName);
 		if (resourceAsStream == null)
 		{
 			throw new IllegalArgumentException(format(UK, "resourceName %1$s not found", resourceName));

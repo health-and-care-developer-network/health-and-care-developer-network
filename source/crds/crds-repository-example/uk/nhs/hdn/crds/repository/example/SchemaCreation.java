@@ -16,8 +16,8 @@ public final class SchemaCreation
 	{
 		new SchemaCreator(connectionProvider).createSchema
 		(
-			utf8TextResourceContents("RepositoryExample.database.sql"),
-			utf8TextResourceContents("RepositoryExample.patients.sql")
+			utf8TextResourceContents("RepositoryExample.database.sql", SchemaCreation.class),
+			utf8TextResourceContents("RepositoryExample.patients.sql", SchemaCreation.class)
 		);
 	}
 }
