@@ -9,7 +9,7 @@ Standards-Version: 3.8.4.0
 
 Package: hdn-crds-repository-example
 Architecture: all
-Depends: hdn-java-common, hdn-jstatd, postgresql, ${misc:Depends}, ${shlibs:Depends}
+Depends: hdn-java-common, hdn-jstatd, postgresql-9.1, ${misc:Depends}, ${shlibs:Depends}
 Pre-Depends: adduser, hdn-apt, dpkg (>= 1.15.6~)
 Homepage: http://hdn.nhs.uk/
 Description: CRDS Repository Example 

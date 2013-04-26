@@ -1,2 +1,5 @@
 # This is a bug in lintian
 hdn-crds-repository-example binary: lzma-deb-archive
+
+# We create a skeleton in /srv/hdn-crds-repository-example
+hdn-crds-repository-example binary: dir-or-file-in-srv srv/hdn-crds-repository-example/

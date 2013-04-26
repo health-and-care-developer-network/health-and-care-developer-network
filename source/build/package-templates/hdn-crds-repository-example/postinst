@@ -21,6 +21,13 @@ source "/usr/lib/hdn-apt/functions"
 
 function startOrRestartUpstartJobHdnServer()
 {
+	chown postgres:postgres /srv/hdn-crds-repository-example
+	set +e
+	if [ ! -f /srv/hdn-crds-repository-example/postgresql.conf ]; then
+		sudo -u postgres /usr/lib/postgresql/9.1/bin/initdb --auth=trust --xlogdir /srv/hdn-crds-repository-example --locale en_GB.UTF-8 --username=postgres --pwfile=/etc/hdn-crds-repository-example/naive-password-for-superuser --pgdata /srv/hdn-crds-repository-example
+	fi
+	sudo -u postgres nohup /usr/lib/postgresql/9.1/bin/postgres -D /srv/hdn-crds-repository-example -p 5433 1>/dev/nulll 2>/dev/null &
+	set -e
 	startOrRestartUpstartJob "hdn-crds-repository-example"
 }
 
