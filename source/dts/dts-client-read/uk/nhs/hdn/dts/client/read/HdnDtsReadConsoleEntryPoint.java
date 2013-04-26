@@ -22,18 +22,13 @@ import org.jetbrains.annotations.NotNull;
 import org.xml.sax.SAXException;
 import uk.nhs.hdn.common.commandLine.AbstractConsoleEntryPoint;
 import uk.nhs.hdn.common.commandLine.ShouldHaveExitedException;
-import uk.nhs.hdn.common.serialisers.CouldNotWriteDataException;
-import uk.nhs.hdn.common.serialisers.CouldNotWriteValueException;
-import uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser;
 import uk.nhs.hdn.dts.domain.ControlFile;
 import uk.nhs.hdn.dts.domain.fileNames.FileName;
 
 import java.io.*;
 
 import static java.lang.String.format;
-import static java.lang.System.out;
 import static java.util.Locale.ENGLISH;
-import static uk.nhs.hdn.common.CharsetHelper.Utf8;
 import static uk.nhs.hdn.dts.domain.ControlFile.tsvSerialiserForControlFiles;
 import static uk.nhs.hdn.dts.domain.fileNames.FileExtension.ctl;
 import static uk.nhs.hdn.dts.domain.fileNames.FileName.parseFileName;
@@ -70,7 +65,7 @@ public final class HdnDtsReadConsoleEntryPoint extends AbstractConsoleEntryPoint
 			validateControlFileName(controlFile);
 		}
 
-		parseControlFile(controlFile, out);
+		parseControlFile(controlFile);
 	}
 
 	private void validateControlFileName(final File controlFile)
@@ -93,7 +88,7 @@ public final class HdnDtsReadConsoleEntryPoint extends AbstractConsoleEntryPoint
 		}
 	}
 
-	private static void parseControlFile(final File controlFileFile, final PrintStream printStream) throws IOException, SAXException
+	private static void parseControlFile(final File controlFileFile) throws IOException, SAXException
 	{
 		final ControlFile controlFile;
 		final InputStream inputStream = new FileInputStream(controlFileFile);
@@ -112,17 +107,7 @@ public final class HdnDtsReadConsoleEntryPoint extends AbstractConsoleEntryPoint
 			}
 		}
 
-		final SeparatedValueSerialiser separatedValueSerialiser = tsvSerialiserForControlFiles();
-		try
-		{
-			separatedValueSerialiser.start(printStream, Utf8);
-			separatedValueSerialiser.writeValue(new ControlFile[]{controlFile});
-			separatedValueSerialiser.finish();
-		}
-		catch (CouldNotWriteDataException | CouldNotWriteValueException e)
-		{
-			throw new IOException(e);
-		}
+		tsvSerialiserForControlFiles().printValuesOnStandardOut(controlFile);
 	}
 
 	public static void main(@NotNull final String... commandLineArguments)

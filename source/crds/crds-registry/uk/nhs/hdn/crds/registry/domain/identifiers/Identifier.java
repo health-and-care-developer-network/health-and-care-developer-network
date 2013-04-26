@@ -16,9 +16,9 @@
 
 package uk.nhs.hdn.crds.registry.domain.identifiers;
 
+import uk.nhs.hdn.common.serialisers.PropertyNameSerialisable;
 import uk.nhs.hdn.common.hazelcast.hazelcastDataWriters.HazelcastDataWriter;
-import uk.nhs.hdn.common.serialisers.ValueSerialisable;
 
-public interface Identifier extends HazelcastDataWriter, ValueSerialisable
+public interface Identifier extends HazelcastDataWriter, PropertyNameSerialisable
 {
 }

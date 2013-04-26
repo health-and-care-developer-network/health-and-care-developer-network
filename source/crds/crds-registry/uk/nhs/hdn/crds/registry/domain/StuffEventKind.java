@@ -41,7 +41,7 @@ public enum StuffEventKind implements ValueSerialisable
 	{
 		try
 		{
-			valueSerialiser.writeValue(ordinal());
+			valueSerialiser.writeValue(name());
 		}
 		catch (CouldNotWriteValueException e)
 		{

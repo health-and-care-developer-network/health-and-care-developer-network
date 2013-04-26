@@ -19,9 +19,7 @@ package uk.nhs.hdn.common.hazelcast.collections;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.hazelcast.hazelcastDataReaders.HazelcastDataReader;
 import uk.nhs.hdn.common.hazelcast.hazelcastDataWriters.HazelcastDataWriter;
-import uk.nhs.hdn.common.serialisers.CouldNotSerialiseMapException;
-import uk.nhs.hdn.common.serialisers.MapSerialisable;
-import uk.nhs.hdn.common.serialisers.MapSerialiser;
+import uk.nhs.hdn.common.serialisers.*;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -29,10 +27,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static uk.nhs.hdn.common.serialisers.GenericMapSerialisable.serialiseMapGenerically;
-
 @SuppressWarnings({"SerializableHasSerializationMethods", "serial"})
-public final class HazelcastAwareLinkedHashMap<K extends HazelcastDataWriter, V extends HazelcastDataWriter> extends HashMap<K, V> implements HazelcastDataWriter, MapSerialisable
+public final class HazelcastAwareLinkedHashMap<K extends HazelcastDataWriter & PropertyNameSerialisable, V extends HazelcastDataWriter> extends HashMap<K, V> implements HazelcastDataWriter, MapSerialisable
 {
 	public static final float OptimumHashLoadFactor = 0.7f;
 
@@ -68,11 +64,21 @@ public final class HazelcastAwareLinkedHashMap<K extends HazelcastDataWriter, V 
 	@Override
 	public void serialiseMap(@NotNull final MapSerialiser mapSerialiser) throws CouldNotSerialiseMapException
 	{
-		serialiseMapGenerically(mapSerialiser, this);
+		for (final Map.Entry<K, V> entry : entrySet())
+		{
+			try
+			{
+				mapSerialiser.writeProperty(entry.getKey().serialiseToPropertyName(), entry.getValue());
+			}
+			catch (CouldNotWritePropertyException e)
+			{
+				throw new CouldNotSerialiseMapException(new GenericMapSerialisable(this), e);
+			}
+		}
 	}
 
 	@NotNull
-	public static <K extends HazelcastDataWriter, V extends HazelcastDataWriter> HazelcastAwareLinkedHashMap<K, V> readData(@NotNull final DataInput in, @NotNull final HazelcastDataReader<K> keyReader, @NotNull final HazelcastDataReader<V> valueReader) throws IOException
+	public static <K extends HazelcastDataWriter & PropertyNameSerialisable, V extends HazelcastDataWriter> HazelcastAwareLinkedHashMap<K, V> readData(@NotNull final DataInput in, @NotNull final HazelcastDataReader<K> keyReader, @NotNull final HazelcastDataReader<V> valueReader) throws IOException
 	{
 		final int size = in.readInt();
 		final HazelcastAwareLinkedHashMap<K, V> map = new HazelcastAwareLinkedHashMap<>(size);

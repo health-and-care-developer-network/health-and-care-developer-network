@@ -62,6 +62,13 @@ public abstract class AbstractIdentifier extends AbstractToString implements Ide
 		}
 	}
 
+	@NotNull
+	@Override
+	public String serialiseToPropertyName()
+	{
+		return identifier.toString();
+	}
+
 	@Override
 	public final boolean equals(@Nullable final Object obj)
 	{

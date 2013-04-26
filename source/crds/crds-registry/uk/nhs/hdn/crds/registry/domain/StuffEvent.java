@@ -64,9 +64,9 @@ public final class StuffEvent extends AbstractToString implements HazelcastDataW
 	{
 		try
 		{
-			mapSerialiser.writeProperty("repositoryEventIdentifier", stuffEventIdentifier);
+			mapSerialiser.writeProperty("stuffEventIdentifier", stuffEventIdentifier);
 			mapSerialiser.writeProperty("timestamp", timestamp);
-			mapSerialiser.writeProperty("repositoryEventKind", stuffEventKind);
+			mapSerialiser.writeProperty("stuffEventKind", stuffEventKind);
 		}
 		catch (CouldNotWritePropertyException e)
 		{

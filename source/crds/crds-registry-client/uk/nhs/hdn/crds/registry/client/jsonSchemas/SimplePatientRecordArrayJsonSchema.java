@@ -66,7 +66,7 @@ public final class SimplePatientRecordArrayJsonSchema extends ArrayJsonSchema<Si
 					HazelcastAwareLinkedHashMap.class,
 					new HazelcastAwareLinkedHashMapObjectConstructor<ProviderIdentifier, ProviderRecord>
 					(
-							provider,
+						provider,
 						object
 						(
 							ProviderRecord.class,
@@ -77,18 +77,18 @@ public final class SimplePatientRecordArrayJsonSchema extends ArrayJsonSchema<Si
 								HazelcastAwareLinkedHashMap.class,
 								new HazelcastAwareLinkedHashMapObjectConstructor<RepositoryIdentifier, RepositoryRecord>
 								(
-										repository,
+									repository,
 									object
 									(
 										RepositoryRecord.class,
 										nonNullStringToSomethingElseField("repositoryIdentifier", RepositoryIdentifier.class, EnumMethodDelegate.<IdentifierConstructor, RepositoryIdentifier>enumMethodDelegate(repository, "construct", String.class), false),
 										nonNullField
 										(
-											"stuffEvents",
+											"stuffRecords",
 											HazelcastAwareLinkedHashMap.class,
 											new HazelcastAwareLinkedHashMapObjectConstructor<StuffIdentifier, StuffRecord>
 											(
-													stuff,
+												stuff,
 												object
 												(
 													StuffRecord.class,
@@ -102,9 +102,9 @@ public final class SimplePatientRecordArrayJsonSchema extends ArrayJsonSchema<Si
 															object
 															(
 																StuffEvent.class,
-																nonNullStringToSomethingElseField("repositoryEventIdentifier", StuffEventIdentifier.class, EnumMethodDelegate.<IdentifierConstructor, StuffEventIdentifier>enumMethodDelegate(stuff_event, "construct", String.class), false),
+																nonNullStringToSomethingElseField("stuffEventIdentifier", StuffEventIdentifier.class, EnumMethodDelegate.<IdentifierConstructor, StuffEventIdentifier>enumMethodDelegate(stuff_event, "construct", String.class), false),
 																nonNulllongField("timestamp"),
-																nonNullEnumField("repositoryEventKind", StuffEventKind.class)
+																nonNullEnumField("stuffEventKind", StuffEventKind.class)
 															)
 														)
 													)
