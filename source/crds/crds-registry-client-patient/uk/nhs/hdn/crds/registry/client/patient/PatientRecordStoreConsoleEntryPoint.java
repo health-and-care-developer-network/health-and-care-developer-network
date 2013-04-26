@@ -95,7 +95,8 @@ public final class PatientRecordStoreConsoleEntryPoint extends AbstractConsoleEn
 	{
 		final CrdsRestApi crdsRestApi = new ConcreteCrdsRestApi(new JsonGenericGetApi(useHttps, domainName, httpPort, ""));
 		final ApiMethod<SimplePatientRecord> simplePatientRecordApiMethod = crdsRestApi.simplePatientRecord(patient);
-		final SimplePatientRecord execute = simplePatientRecordApiMethod.execute();
-		out.println(execute.toString());
+		final SimplePatientRecord simplePatientRecord = simplePatientRecordApiMethod.execute();
+		out.println(simplePatientRecord.toString());
 	}
+
 }

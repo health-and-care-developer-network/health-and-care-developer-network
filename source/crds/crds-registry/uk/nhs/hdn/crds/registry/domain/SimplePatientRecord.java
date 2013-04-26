@@ -39,6 +39,7 @@ import static java.lang.System.currentTimeMillis;
 import static uk.nhs.hdn.crds.registry.domain.ProviderRecord.initialProviderRecords;
 import static uk.nhs.hdn.crds.registry.domain.ProviderRecord.providerRecord;
 
+@SuppressWarnings("PublicField")
 public final class SimplePatientRecord extends AbstractToString implements PatientRecord<SimplePatientRecord>, HazelcastDataWriter, MapSerialisable
 {
 	@NotNull
@@ -47,9 +48,9 @@ public final class SimplePatientRecord extends AbstractToString implements Patie
 		return new SimplePatientRecord(patientIdentifier, currentTimeMillis(), initialProviderRecords(providerIdentifier, repositoryIdentifier, stuffIdentifier, stuffEvent));
 	}
 
-	@NotNull private final NhsNumber patientIdentifier;
-	@MillisecondsSince1970 private final long lastModified;
-	@NotNull private final HazelcastAwareLinkedHashMap<ProviderIdentifier, ProviderRecord> knownProviders;
+	@NotNull public final NhsNumber patientIdentifier;
+	@MillisecondsSince1970 public final long lastModified;
+	@NotNull public final HazelcastAwareLinkedHashMap<ProviderIdentifier, ProviderRecord> knownProviders;
 
 	@SuppressWarnings("AssignmentToCollectionOrArrayFieldFromParameter")
 	public SimplePatientRecord(@NotNull final NhsNumber patientIdentifier, @MillisecondsSince1970 final long lastModified, @NotNull final HazelcastAwareLinkedHashMap<ProviderIdentifier, ProviderRecord> knownProviders)
