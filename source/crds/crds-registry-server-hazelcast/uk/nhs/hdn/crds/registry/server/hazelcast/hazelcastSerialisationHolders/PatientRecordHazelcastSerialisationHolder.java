@@ -17,9 +17,10 @@
 package uk.nhs.hdn.crds.registry.server.hazelcast.hazelcastSerialisationHolders;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.hazelcast.hazelcastSerialisationHolders.AbstractHazelcastSerialisationHolder;
-import uk.nhs.hdn.crds.registry.domain.*;
+import uk.nhs.hdn.crds.registry.domain.PatientRecord;
+import uk.nhs.hdn.crds.registry.domain.SimplePatientRecord;
+import uk.nhs.hdn.crds.registry.domain.StuffEvent;
 import uk.nhs.hdn.crds.registry.domain.identifiers.ProviderIdentifier;
 import uk.nhs.hdn.crds.registry.domain.identifiers.RepositoryIdentifier;
 import uk.nhs.hdn.crds.registry.domain.identifiers.StuffIdentifier;
@@ -31,48 +32,38 @@ import java.io.IOException;
 import static uk.nhs.hdn.crds.registry.server.hazelcast.hazelcastDataReaders.SimplePatientRecordHazelcastDataReader.SimplePatientRecordHazelcastDataReaderInstance;
 
 @SuppressWarnings({"SerializableHasSerializationMethods", "serial"})
-public final class PatientRecordHazelcastSerialisationHolder extends AbstractHazelcastSerialisationHolder implements PatientRecord<PatientRecordHazelcastSerialisationHolder>
+public final class PatientRecordHazelcastSerialisationHolder extends AbstractHazelcastSerialisationHolder<SimplePatientRecord> implements PatientRecord<PatientRecordHazelcastSerialisationHolder>
 {
-	@Nullable private SimplePatientRecord patientRecord;
-
 	public PatientRecordHazelcastSerialisationHolder()
 	{
-		patientRecord = null;
 	}
 
 	@SuppressWarnings("NullableProblems")
-	public PatientRecordHazelcastSerialisationHolder(@NotNull final SimplePatientRecord patientRecord)
+	public PatientRecordHazelcastSerialisationHolder(@NotNull final SimplePatientRecord simplePatientRecord)
 	{
-		this.patientRecord = patientRecord;
-	}
-
-	@NotNull
-	public SimplePatientRecord patientRecord()
-	{
-		assert patientRecord != null;
-		return patientRecord;
+		super(simplePatientRecord);
 	}
 
 	@Override
 	public void writeData(@NotNull final DataOutput out) throws IOException
 	{
-		assert patientRecord != null;
-		patientRecord.writeData(out);
+		assert heldValue != null;
+		heldValue.writeData(out);
 	}
 
 	@Override
 	public void readData(@NotNull final DataInput in) throws IOException
 	{
-		assert patientRecord == null;
-		patientRecord = SimplePatientRecordHazelcastDataReaderInstance.readData(in);
+		assert heldValue == null;
+		heldValue = SimplePatientRecordHazelcastDataReaderInstance.readData(in);
 	}
 
 	@Override
 	@NotNull
 	public PatientRecordHazelcastSerialisationHolder addRepositoryEvent(@NotNull final ProviderIdentifier providerIdentifier, @NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final StuffIdentifier stuffIdentifier, @NotNull final StuffEvent stuffEvent)
 	{
-		assert patientRecord != null;
-		patientRecord.addRepositoryEvent(providerIdentifier, repositoryIdentifier, stuffIdentifier, stuffEvent);
+		assert heldValue != null;
+		heldValue.addRepositoryEvent(providerIdentifier, repositoryIdentifier, stuffIdentifier, stuffEvent);
 		return this;
 	}
 }

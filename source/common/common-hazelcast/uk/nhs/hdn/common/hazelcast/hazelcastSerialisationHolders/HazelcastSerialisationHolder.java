@@ -17,8 +17,11 @@
 package uk.nhs.hdn.common.hazelcast.hazelcastSerialisationHolders;
 
 import com.hazelcast.nio.DataSerializable;
+import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.hazelcast.hazelcastDataWriters.HazelcastDataWriter;
 
-public interface HazelcastSerialisationHolder extends DataSerializable, HazelcastDataWriter
+public interface HazelcastSerialisationHolder<V> extends DataSerializable, HazelcastDataWriter
 {
+	@NotNull
+	V heldValue();
 }

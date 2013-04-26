@@ -16,8 +16,69 @@
 
 package uk.nhs.hdn.common.hazelcast.hazelcastSerialisationHolders;
 
-import uk.nhs.hdn.common.reflection.toString.AbstractToString;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public abstract class AbstractHazelcastSerialisationHolder extends AbstractToString implements HazelcastSerialisationHolder
+import static java.lang.String.format;
+import static java.util.Locale.ENGLISH;
+
+@SuppressWarnings("serial")
+public abstract class AbstractHazelcastSerialisationHolder<V> implements HazelcastSerialisationHolder<V>
 {
+	@SuppressWarnings("NonSerializableFieldInSerializableClass") @Nullable protected V heldValue;
+
+	protected AbstractHazelcastSerialisationHolder()
+	{
+		heldValue = null;
+	}
+
+	@SuppressWarnings("NullableProblems")
+	protected AbstractHazelcastSerialisationHolder(@NotNull final V heldValue)
+	{
+		this.heldValue = heldValue;
+	}
+
+	@Override
+	@NotNull
+	public final V heldValue()
+	{
+		assert heldValue != null;
+		return heldValue;
+	}
+
+	@SuppressWarnings("NonFinalFieldReferenceInEquals")
+	@Override
+	public final boolean equals(@Nullable final Object obj)
+	{
+		if (this == obj)
+		{
+			return true;
+		}
+		if (obj == null || getClass() != obj.getClass())
+		{
+			return false;
+		}
+
+		final AbstractHazelcastSerialisationHolder<?> that = (AbstractHazelcastSerialisationHolder<?>) obj;
+
+		if (heldValue != null ? !heldValue.equals(that.heldValue) : that.heldValue != null)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	@SuppressWarnings("NonFinalFieldReferencedInHashCode")
+	@Override
+	public final int hashCode()
+	{
+		return heldValue != null ? heldValue.hashCode() : 0;
+	}
+
+	@Override
+	public final String toString()
+	{
+		return format(ENGLISH, "%1$s(%2$s)", getClass().getSimpleName(), heldValue == null ? "null" : heldValue);
+	}
 }

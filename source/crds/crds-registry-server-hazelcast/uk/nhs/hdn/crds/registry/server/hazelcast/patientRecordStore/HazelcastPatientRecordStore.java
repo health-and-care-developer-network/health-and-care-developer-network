@@ -44,7 +44,7 @@ public final class HazelcastPatientRecordStore extends AbstractPatientRecordStor
 		{
 			return null;
 		}
-		return patientRecord.patientRecord();
+		return patientRecord.heldValue();
 	}
 
 	@Override

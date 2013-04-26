@@ -26,10 +26,7 @@ import uk.nhs.hdn.common.fileWatching.FileReloader;
 import uk.nhs.hdn.common.http.server.sun.Server;
 import uk.nhs.hdn.common.tuples.Quintuple;
 import uk.nhs.hdn.crds.registry.domain.StuffEvent;
-import uk.nhs.hdn.crds.registry.domain.identifiers.Identifier;
-import uk.nhs.hdn.crds.registry.domain.identifiers.ProviderIdentifier;
-import uk.nhs.hdn.crds.registry.domain.identifiers.RepositoryIdentifier;
-import uk.nhs.hdn.crds.registry.domain.identifiers.StuffIdentifier;
+import uk.nhs.hdn.crds.registry.domain.identifiers.*;
 import uk.nhs.hdn.crds.registry.domain.metadata.AbstractMetadataRecord;
 import uk.nhs.hdn.crds.registry.domain.metadata.parsing.MetadataRecordsParserFactory;
 import uk.nhs.hdn.crds.registry.patientRecordStore.PatientRecordStore;
@@ -42,16 +39,20 @@ import uk.nhs.hdn.number.NhsNumber;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.Collection;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 
+import static java.lang.System.currentTimeMillis;
 import static uk.nhs.hdn.common.VariableArgumentsHelper.of;
 import static uk.nhs.hdn.common.fileWatching.FileWatcher.startFileWatcherOnNewThread;
 import static uk.nhs.hdn.common.http.server.sun.restEndpoints.RootDenialRestEndpoint.RootDenialRestEndpointInstance;
 import static uk.nhs.hdn.common.parsers.ParsingFileReloader.utf8ParsingFileReloaderWithInitialLoad;
-import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.provider;
-import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.repository;
-import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.stuff;
+import static uk.nhs.hdn.common.tuples.Quintuple.quintuple;
+import static uk.nhs.hdn.crds.registry.domain.StuffEventKind.Created;
+import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.*;
 import static uk.nhs.hdn.crds.registry.server.application.PatientRecordStoreKind.Hazelcast;
+import static uk.nhs.hdn.number.NhsNumber.valueOf;
 
 public final class RegistryServerConsoleEntryPoint extends AbstractConsoleEntryPoint
 {
@@ -137,7 +138,9 @@ public final class RegistryServerConsoleEntryPoint extends AbstractConsoleEntryP
 		final ConcurrentAggregatedEventObserver<NhsNumber> patientRecordConcurrentAggregatedEventObserver = new ConcurrentAggregatedEventObserver<>();
 		final PatientRecordStore patientRecordStore = patientRecordStoreKind.create(new HazelcastConfiguration(hazelcastPort, useTcp), patientRecordConcurrentAggregatedEventObserver);
 
-		new Thread(new EventListenerRunnable(new LinkedBlockingDeque<Quintuple<NhsNumber, ProviderIdentifier, RepositoryIdentifier, StuffIdentifier, StuffEvent>>(), patientRecordStore), "Incoming Events Listener").start();
+		final BlockingQueue<Quintuple<NhsNumber, ProviderIdentifier, RepositoryIdentifier, StuffIdentifier, StuffEvent>> incomingEvents = new LinkedBlockingDeque<>();
+		addTestData(incomingEvents);
+		new Thread(new EventListenerRunnable(incomingEvents, patientRecordStore), "Incoming Events Listener").start();
 
 		final ConcurrentAggregatedEventObserver<Identifier> providerMetadataConcurrentAggregatedEventObserver = new ConcurrentAggregatedEventObserver<>();
 		final SubstitutableRecordStore<Identifier, AbstractMetadataRecord<?>> providerMetadataRecordStore = new SubstitutableRecordStore<>(providerMetadataConcurrentAggregatedEventObserver);
@@ -170,4 +173,21 @@ public final class RegistryServerConsoleEntryPoint extends AbstractConsoleEntryP
 		server.start();
 	}
 
+	@SuppressWarnings("FeatureEnvy")
+	private static void addTestData(@NotNull final Collection<Quintuple<NhsNumber, ProviderIdentifier, RepositoryIdentifier, StuffIdentifier, StuffEvent>> incomingEvents)
+	{
+		incomingEvents.add(quintuple
+		(
+			valueOf("123-456-7881"),
+			(ProviderIdentifier) provider.construct("2dbf298f-eed9-474d-bf8b-d70f68b83417"),
+			(RepositoryIdentifier) repository.construct("66dad8b0-72c7-4164-a8b2-27ae6b7467cf"),
+			(StuffIdentifier) stuff.construct("599dbd25-3c3e-4b7a-868b-37b653f394dd"),
+			new StuffEvent
+			(
+				(StuffEventIdentifier) stuff_event.construct("83a0cdb4-849b-44db-bc8f-6998fb60dc1d"),
+				currentTimeMillis(),
+				Created
+			)
+		));
+	}
 }

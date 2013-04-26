@@ -52,10 +52,15 @@ public final class EventListenerRunnable implements Runnable
 		{
 			// drain is more efficient than take() as it requires coarser locking
 			incomingEvents.drainTo(sink, SinkSize);
+			if (sink.isEmpty())
+			{
+				continue;
+			}
 			for (final Quintuple<NhsNumber, ProviderIdentifier, RepositoryIdentifier, StuffIdentifier, StuffEvent> event : sink)
 			{
 				patientRecordStore.addEvent(event.a, event.b, event.c, event.d, event.e);
 			}
+			sink.clear();
 		} while(true);
 
 		// TODO: Obviously, some cleaner shutdown logic is needed to avoid event loss

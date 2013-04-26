@@ -33,7 +33,7 @@ public final class PatientRecordStoreRestEndpoint extends AbstractRegisterableMe
 
 	public PatientRecordStoreRestEndpoint(final int cacheMaximumNumberOfEntries, @NotNull final PatientRecordStore patientRecordStore, @NotNull final ConcurrentAggregatedEventObserver<NhsNumber> concurrentAggregatedRepositoryEventObserver)
 	{
-		super("/crds/registry/patient-record-registry/", NoAuthentication);
+		super("/crds/registry/patient/", NoAuthentication);
 		// patientRecordStore, concurrentAggregatedRepositoryEventObserver are linked
 		patientRecordStoreResourceStateSnapshot = new PatientRecordStoreResourceStateSnapshot(cacheMaximumNumberOfEntries, patientRecordStore, concurrentAggregatedRepositoryEventObserver);
 	}

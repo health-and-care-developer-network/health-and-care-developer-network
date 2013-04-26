@@ -34,6 +34,6 @@ public final class AdaptToEventObserverEntryListener extends AbstractAdaptToEven
 	@Override
 	protected NhsNumber toActualKey(@NotNull final NhsNumberHazelcastSerialisationHolder key)
 	{
-		return key.nhsNumber();
+		return key.heldValue();
 	}
 }

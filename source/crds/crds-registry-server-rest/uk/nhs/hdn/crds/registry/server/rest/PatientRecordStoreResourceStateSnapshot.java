@@ -75,7 +75,8 @@ public final class PatientRecordStoreResourceStateSnapshot extends AbstractWithS
 		{
 			throw new NotFoundException("Invalid NHS Number", e);
 		}
-		@Nullable final PatientRecordSubResource patientRecordSubResource = cacheThreadLocal.get().get(nhsNumber);
+		final Cache<NhsNumber, PatientRecordSubResource> cache = cacheThreadLocal.get();
+		@Nullable final PatientRecordSubResource patientRecordSubResource = cache.get(nhsNumber);
 		if (patientRecordSubResource == null)
 		{
 			throw new NotFoundException("Unknown NHS Number");

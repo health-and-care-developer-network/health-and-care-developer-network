@@ -45,7 +45,7 @@ public abstract class AbstractPatientRecordStore<K, V extends PatientRecord<V>> 
 	@Override
 	public SimplePatientRecord get(@NotNull final NhsNumber identifier)
 	{
-		return simplePatientRecordFor(root.get(identifier));
+		return simplePatientRecordFor(root.get(key(identifier)));
 	}
 
 	@Override

@@ -38,7 +38,7 @@ public enum IdentifierConstructor implements Description
 	{
 		@NotNull
 		@Override
-		public Identifier construct(@NotNull final UUID uuid)
+		public Identifier construct(@NonNls @NotNull final UUID uuid)
 		{
 			return new ProviderIdentifier(uuid);
 		}
@@ -61,7 +61,7 @@ public enum IdentifierConstructor implements Description
 	{
 		@NotNull
 		@Override
-		public Identifier construct(@NotNull final UUID uuid)
+		public Identifier construct(@NonNls @NotNull final UUID uuid)
 		{
 			return new RepositoryIdentifier(uuid);
 		}
@@ -84,7 +84,7 @@ public enum IdentifierConstructor implements Description
 	{
 		@NotNull
 		@Override
-		public Identifier construct(@NotNull final UUID uuid)
+		public Identifier construct(@NonNls @NotNull final UUID uuid)
 		{
 			return new StuffIdentifier(uuid);
 		}
@@ -107,7 +107,7 @@ public enum IdentifierConstructor implements Description
 	{
 		@NotNull
 		@Override
-		public Identifier construct(@NotNull final UUID uuid)
+		public Identifier construct(@NonNls @NotNull final UUID uuid)
 		{
 			return new StuffEventIdentifier(uuid);
 		}
@@ -136,7 +136,7 @@ public enum IdentifierConstructor implements Description
 	}
 
 	@NotNull
-	public Identifier construct(@NotNull final String uuid)
+	public Identifier construct(@NonNls @NotNull final String uuid)
 	{
 		return construct(UUID.fromString(uuid));
 	}

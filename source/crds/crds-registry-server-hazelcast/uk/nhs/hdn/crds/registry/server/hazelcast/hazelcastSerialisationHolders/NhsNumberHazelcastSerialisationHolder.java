@@ -17,7 +17,6 @@
 package uk.nhs.hdn.crds.registry.server.hazelcast.hazelcastSerialisationHolders;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.hazelcast.hazelcastDataWriters.DigitsHazelcastDataObjectWriter;
 import uk.nhs.hdn.common.hazelcast.hazelcastSerialisationHolders.AbstractHazelcastSerialisationHolder;
 import uk.nhs.hdn.number.NhsNumber;
@@ -29,69 +28,29 @@ import java.io.IOException;
 import static uk.nhs.hdn.common.hazelcast.hazelcastDataReaders.NhsNumberHazelcastDataReader.NhsNumberHazelcastDataReaderInstance;
 
 @SuppressWarnings({"SerializableHasSerializationMethods", "serial"})
-public final class NhsNumberHazelcastSerialisationHolder extends AbstractHazelcastSerialisationHolder
+public final class NhsNumberHazelcastSerialisationHolder extends AbstractHazelcastSerialisationHolder<NhsNumber>
 {
-	@Nullable private NhsNumber nhsNumber;
-
 	public NhsNumberHazelcastSerialisationHolder()
 	{
-		nhsNumber = null;
 	}
 
 	@SuppressWarnings("NullableProblems")
 	public NhsNumberHazelcastSerialisationHolder(@NotNull final NhsNumber nhsNumber)
 	{
-		this.nhsNumber = nhsNumber;
-	}
-
-	@NotNull
-	public NhsNumber nhsNumber()
-	{
-		assert nhsNumber != null;
-		return nhsNumber;
+		super(nhsNumber);
 	}
 
 	@Override
 	public void writeData(@NotNull final DataOutput out) throws IOException
 	{
-		assert nhsNumber != null;
-		DigitsHazelcastDataObjectWriter.writeData(out, nhsNumber);
+		assert heldValue != null;
+		DigitsHazelcastDataObjectWriter.writeData(out, heldValue);
 	}
 
 	@Override
 	public void readData(@NotNull final DataInput in) throws IOException
 	{
-		assert nhsNumber == null;
-		nhsNumber = NhsNumberHazelcastDataReaderInstance.readData(in);
-	}
-
-	@SuppressWarnings("NonFinalFieldReferenceInEquals")
-	@Override
-	public boolean equals(@Nullable final Object obj)
-	{
-		if (this == obj)
-		{
-			return true;
-		}
-		if (obj == null || getClass() != obj.getClass())
-		{
-			return false;
-		}
-
-		final NhsNumberHazelcastSerialisationHolder that = (NhsNumberHazelcastSerialisationHolder) obj;
-
-		if (nhsNumber != null ? !nhsNumber.equals(that.nhsNumber) : that.nhsNumber != null)
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	@SuppressWarnings("NonFinalFieldReferencedInHashCode")
-	@Override
-	public int hashCode()
-	{
-		return nhsNumber != null ? nhsNumber.hashCode() : 0;
+		assert heldValue == null;
+		heldValue = NhsNumberHazelcastDataReaderInstance.readData(in);
 	}
 }
