@@ -12,6 +12,7 @@
     <orderEntry type="module" module-name="common-commandLine" />
     <orderEntry type="module" module-name="common-http-client" />
     <orderEntry type="module" module-name="crds-registry-client" />
+    <orderEntry type="module" module-name="common-serialisers-separatedValues" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

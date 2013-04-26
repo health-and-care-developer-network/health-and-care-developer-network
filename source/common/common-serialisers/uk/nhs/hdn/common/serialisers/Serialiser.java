@@ -16,6 +16,12 @@
 
 package uk.nhs.hdn.common.serialisers;
 
+import org.jetbrains.annotations.NotNull;
+
 public interface Serialiser extends ValueSerialiser, MapSerialiser, StartFinish
 {
+	<S extends Serialisable> void writeValue(@NotNull final S value) throws CouldNotWriteValueException;
+
+	@SuppressWarnings("unchecked")
+	<S extends Serialisable> void writeValue(@NotNull final S... values) throws CouldNotWriteValueException;
 }

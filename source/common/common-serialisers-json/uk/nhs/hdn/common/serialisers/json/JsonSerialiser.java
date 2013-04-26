@@ -423,6 +423,37 @@ public class JsonSerialiser extends AbstractSerialiser
 		current = depth.pop();
 	}
 
+	@SafeVarargs
+	@Override
+	public final <S extends Serialisable> void writeValue(@NotNull final S... values) throws CouldNotWriteValueException
+	{
+		depth.push(current);
+		try
+		{
+			current = new JsonNodeState();
+			write(OpenArray);
+			boolean afterFirst = false;
+			for (final Object value : values)
+			{
+				if (afterFirst)
+				{
+					write(Comma);
+				}
+				else
+				{
+					afterFirst = true;
+				}
+				writeValue(value);
+			}
+			write(CloseArray);
+		}
+		catch (CouldNotWriteDataException e)
+		{
+			throw new CouldNotWriteValueException(values, e);
+		}
+		current = depth.pop();
+	}
+
 	@Override
 	public void writeValue(final int value) throws CouldNotWriteValueException
 	{

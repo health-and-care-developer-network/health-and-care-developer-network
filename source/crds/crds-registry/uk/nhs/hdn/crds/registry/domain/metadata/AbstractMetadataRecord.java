@@ -27,7 +27,7 @@ import uk.nhs.hdn.crds.registry.domain.identifiers.Identifier;
 import java.io.DataOutput;
 import java.io.IOException;
 
-public abstract class AbstractMetadataRecord<I extends Identifier> extends AbstractToString implements HazelcastDataWriter, MapSerialisable
+public abstract class AbstractMetadataRecord<I extends Identifier> extends AbstractToString implements HazelcastDataWriter, Serialisable, MapSerialisable
 {
 	@SuppressWarnings({"PublicField", "ClassEscapesDefinedScope"}) @NotNull public final I identifier;
 	@MillisecondsSince1970 public final long lastModified;
@@ -43,6 +43,19 @@ public abstract class AbstractMetadataRecord<I extends Identifier> extends Abstr
 	{
 		identifier.writeData(out);
 		out.writeLong(lastModified);
+	}
+
+	@Override
+	public void serialise(@NotNull final Serialiser serialiser) throws CouldNotSerialiseException
+	{
+		try
+		{
+			serialiseMap(serialiser);
+		}
+		catch (CouldNotSerialiseMapException e)
+		{
+			throw new CouldNotSerialiseException(this, e);
+		}
 	}
 
 	@Override

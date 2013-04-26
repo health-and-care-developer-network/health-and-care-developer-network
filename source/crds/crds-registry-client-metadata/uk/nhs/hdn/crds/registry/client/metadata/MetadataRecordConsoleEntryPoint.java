@@ -27,6 +27,8 @@ import uk.nhs.hdn.common.http.client.exceptions.CorruptResponseException;
 import uk.nhs.hdn.common.http.client.exceptions.CouldNotConnectHttpException;
 import uk.nhs.hdn.common.http.client.exceptions.UnacceptableResponseException;
 import uk.nhs.hdn.common.http.client.json.JsonGenericGetApi;
+import uk.nhs.hdn.common.serialisers.Serialisable;
+import uk.nhs.hdn.common.serialisers.separatedValues.SeparatedValueSerialiser;
 import uk.nhs.hdn.crds.registry.client.ConcreteCrdsRestApi;
 import uk.nhs.hdn.crds.registry.client.CrdsRestApi;
 import uk.nhs.hdn.crds.registry.domain.identifiers.Identifier;
@@ -38,7 +40,6 @@ import uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor;
 import java.util.UUID;
 
 import static java.lang.Boolean.TRUE;
-import static java.lang.System.out;
 import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.*;
 
 public final class MetadataRecordConsoleEntryPoint extends AbstractConsoleEntryPoint
@@ -121,6 +122,7 @@ public final class MetadataRecordConsoleEntryPoint extends AbstractConsoleEntryP
 	{
 		final CrdsRestApi crdsRestApi = new ConcreteCrdsRestApi(new JsonGenericGetApi(useHttps, domainName, httpPort, ""));
 		final ApiMethod<?> apiMethod;
+		final SeparatedValueSerialiser tsvSerialiser = identifierConstructor.tsvSerialiser();
 		switch(identifierConstructor)
 		{
 			case provider:
@@ -142,6 +144,6 @@ public final class MetadataRecordConsoleEntryPoint extends AbstractConsoleEntryP
 				throw new IllegalStateException("Illogical");
 		}
 
-		out.println(apiMethod.execute().toString());
+		tsvSerialiser.printValuesOnStandardOut((Serialisable) apiMethod.execute());
 	}
 }

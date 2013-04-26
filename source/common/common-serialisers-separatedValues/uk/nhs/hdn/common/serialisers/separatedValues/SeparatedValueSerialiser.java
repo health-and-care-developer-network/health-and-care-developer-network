@@ -226,6 +226,34 @@ public final class SeparatedValueSerialiser extends AbstractSerialiser
 		}
 	}
 
+	@SuppressWarnings("FinalMethodInFinalClass")
+	@SafeVarargs
+	@Override
+	public final <S extends Serialisable> void writeValue(@NotNull final S... values) throws CouldNotWriteValueException
+	{
+		if (separatedValuesLine != null)
+		{
+			writeNestedValueObjectValues(values);
+			return;
+		}
+		for (final Object value : values)
+		{
+			separatedValuesLine = new FixedArraySeparatedValuesLine(numberOfFields);
+
+			writeValue(value);
+
+			try
+			{
+				separatedValuesLine.writeLine(writer, fieldEscaper);
+			}
+			catch (CouldNotEncodeDataException | CouldNotWriteDataException e)
+			{
+				throw new CouldNotWriteValueException(value, e);
+			}
+			separatedValuesLine = null;
+		}
+	}
+
 	@SuppressWarnings("MethodCanBeVariableArityMethod")
 	private <S extends MapSerialisable> void writeNestedMapSerialisableValues(final S[] values, final char... separator) throws CouldNotWriteValueException
 	{
@@ -261,6 +289,17 @@ public final class SeparatedValueSerialiser extends AbstractSerialiser
 
 	@SuppressWarnings("MethodCanBeVariableArityMethod")
 	private <S extends ValueSerialisable> void writeNestedValueObjectValues(final Set<?> values, final char... separator) throws CouldNotWriteValueException
+	{
+		final FlatteningValueSerialiser flatteningValueSerialiser = new FlatteningValueSerialiser(separator);
+		final StringWriter writer1 = new StringWriter(100);
+		flatteningValueSerialiser.start(writer1, Utf8);
+		flatteningValueSerialiser.writeValue(values);
+		final String flattenedValue = writer1.toString();
+		writeValue(flattenedValue);
+	}
+
+	@SuppressWarnings("MethodCanBeVariableArityMethod")
+	private <S extends Serialisable> void writeNestedValueObjectValues(final S[] values, final char... separator) throws CouldNotWriteValueException
 	{
 		final FlatteningValueSerialiser flatteningValueSerialiser = new FlatteningValueSerialiser(separator);
 		final StringWriter writer1 = new StringWriter(100);
@@ -460,5 +499,4 @@ public final class SeparatedValueSerialiser extends AbstractSerialiser
 	{
 		writeValue(value.toString());
 	}
-
 }

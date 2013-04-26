@@ -442,6 +442,31 @@ public final class XmlSerialiser extends AbstractSerialiser
 		}
 	}
 
+	@SuppressWarnings("FinalMethodInFinalClass")
+	@SafeVarargs
+	@Override
+	public final <S extends Serialisable> void writeValue(@NotNull final S... values) throws CouldNotWriteValueException
+	{
+		try
+		{
+			for (final Object value : values)
+			{
+				if (value == null)
+				{
+					writeEmptyProperty(ListElementNodeName);
+				}
+				else
+				{
+					writeProperty(ListElementNodeName, value);
+				}
+			}
+		}
+		catch (CouldNotWritePropertyException e)
+		{
+			throw new CouldNotWriteValueException(values, e);
+		}
+	}
+
 	@Override
 	public void writeValue(final int value) throws CouldNotWriteValueException
 	{

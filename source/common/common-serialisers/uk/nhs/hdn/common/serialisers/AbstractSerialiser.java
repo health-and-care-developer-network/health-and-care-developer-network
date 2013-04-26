@@ -184,7 +184,7 @@ public abstract class AbstractSerialiser extends AbstractValueSerialiser impleme
 	}
 
 	@Override
-	public void writeValue(@Nullable final Object value) throws CouldNotWriteValueException
+	public final void writeValue(@Nullable final Object value) throws CouldNotWriteValueException
 	{
 		if (value == null)
 		{
@@ -194,17 +194,29 @@ public abstract class AbstractSerialiser extends AbstractValueSerialiser impleme
 
 		if (value instanceof Serialisable)
 		{
-			try
-			{
-				((Serialisable) value).serialise(this);
-			}
-			catch (CouldNotSerialiseException e)
-			{
-				throw new CouldNotWriteValueException(value, e);
-			}
+			writeValue((Serialisable) value);
+			return;
+		}
+
+		if (value instanceof Serialisable[])
+		{
+			writeValue((Serialisable[]) value);
 			return;
 		}
 
 		super.writeValue(value);
+	}
+
+	@Override
+	public final <S extends Serialisable> void writeValue(@NotNull final S value) throws CouldNotWriteValueException
+	{
+		try
+		{
+			value.serialise(this);
+		}
+		catch (CouldNotSerialiseException e)
+		{
+			throw new CouldNotWriteValueException(value, e);
+		}
 	}
 }
