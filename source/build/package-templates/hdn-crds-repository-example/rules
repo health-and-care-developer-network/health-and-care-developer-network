@@ -45,7 +45,6 @@ binary-indep: build install
 	chown -R $(HDN_CRDS_REPOSITORY_EXAMPLE_UID):$(HDN_CRDS_REPOSITORY_EXAMPLE_UID) debian/$(PACKAGE)/var/cache/$(PACKAGE)
 	chown -R $(HDN_CRDS_REPOSITORY_EXAMPLE_UID):$(HDN_CRDS_REPOSITORY_EXAMPLE_UID) debian/$(PACKAGE)/var/log/$(PACKAGE)
 	chown -R $(HDN_CRDS_REPOSITORY_EXAMPLE_UID):$(HDN_CRDS_REPOSITORY_EXAMPLE_UID) debian/$(PACKAGE)/var/lib/$(PACKAGE)
-	chmod g+s debian/$(PACKAGE)/srv/$(PACKAGE)
 	chmod g+s debian/$(PACKAGE)/var/cache/$(PACKAGE)
 	chmod g+s debian/$(PACKAGE)/var/log/$(PACKAGE)
 	chmod g+s debian/$(PACKAGE)/var/lib/$(PACKAGE)
