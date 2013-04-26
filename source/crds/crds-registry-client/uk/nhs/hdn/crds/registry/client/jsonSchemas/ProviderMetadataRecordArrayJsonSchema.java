@@ -39,8 +39,8 @@ import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.NonNullFieldExpectation.nonNulllongField;
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.StringToSomethingElseFieldExpectation.nonNullStringToSomethingElseField;
 import static uk.nhs.hdn.crds.registry.client.jsonSchemas.arrayCreators.ProviderMetadataRecordArrayCreator.ProviderMetadataRecordArray;
-import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.Provider;
-import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.Repository;
+import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.provider;
+import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.repository;
 
 public final class ProviderMetadataRecordArrayJsonSchema extends ArrayJsonSchema<ProviderMetadataRecord>
 {
@@ -54,7 +54,7 @@ public final class ProviderMetadataRecordArrayJsonSchema extends ArrayJsonSchema
 			object
 			(
 				ProviderMetadataRecord.class,
-				nonNullStringToSomethingElseField("identifier", ProviderIdentifier.class, EnumMethodDelegate.<IdentifierConstructor, ProviderIdentifier>enumMethodDelegate(Provider, "construct", String.class), false),
+				nonNullStringToSomethingElseField("identifier", ProviderIdentifier.class, EnumMethodDelegate.<IdentifierConstructor, ProviderIdentifier>enumMethodDelegate(provider, "construct", String.class), false),
 				nonNulllongField("lastModified"),
 				nonEmptyStringField("organisationalDataServiceCode"),
 				nonNullField
@@ -75,7 +75,7 @@ public final class ProviderMetadataRecordArrayJsonSchema extends ArrayJsonSchema
 							{
 								throw new SchemaViolationInvalidJsonException("not an UUID", e);
 							}
-							arrayCollector.add((RepositoryIdentifier) Repository.construct(uuid));
+							arrayCollector.add((RepositoryIdentifier) repository.construct(uuid));
 						}
 
 						@NotNull

@@ -48,9 +48,9 @@ import static uk.nhs.hdn.common.VariableArgumentsHelper.of;
 import static uk.nhs.hdn.common.fileWatching.FileWatcher.startFileWatcherOnNewThread;
 import static uk.nhs.hdn.common.http.server.sun.restEndpoints.RootDenialRestEndpoint.RootDenialRestEndpointInstance;
 import static uk.nhs.hdn.common.parsers.ParsingFileReloader.utf8ParsingFileReloaderWithInitialLoad;
-import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.Provider;
-import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.Repository;
-import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.Stuff;
+import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.provider;
+import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.repository;
+import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.stuff;
 import static uk.nhs.hdn.crds.registry.server.application.PatientRecordStoreKind.Hazelcast;
 
 public final class RegistryServerConsoleEntryPoint extends AbstractConsoleEntryPoint
@@ -163,9 +163,9 @@ public final class RegistryServerConsoleEntryPoint extends AbstractConsoleEntryP
 		(
 			RootDenialRestEndpointInstance,
 			new PatientRecordStoreRestEndpoint(cacheMaximumNumberOfEntries, patientRecordStore, patientRecordConcurrentAggregatedEventObserver),
-			new MetadataRecordRestEndpoint(Provider, cacheMaximumNumberOfEntries, providerMetadataRecordStore, providerMetadataConcurrentAggregatedEventObserver),
-			new MetadataRecordRestEndpoint(Repository, cacheMaximumNumberOfEntries, repositoryMetadataRecordStore, repositoryMetadataConcurrentAggregatedEventObserver),
-			new MetadataRecordRestEndpoint(Stuff, cacheMaximumNumberOfEntries, stuffMetadataRecordStore, stuffMetadataConcurrentAggregatedEventObserver)
+			new MetadataRecordRestEndpoint(provider, cacheMaximumNumberOfEntries, providerMetadataRecordStore, providerMetadataConcurrentAggregatedEventObserver),
+			new MetadataRecordRestEndpoint(repository, cacheMaximumNumberOfEntries, repositoryMetadataRecordStore, repositoryMetadataConcurrentAggregatedEventObserver),
+			new MetadataRecordRestEndpoint(stuff, cacheMaximumNumberOfEntries, stuffMetadataRecordStore, stuffMetadataConcurrentAggregatedEventObserver)
 		));
 		server.start();
 	}

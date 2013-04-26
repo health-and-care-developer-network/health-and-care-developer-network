@@ -31,7 +31,7 @@ import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.NonNullFieldExpectation.nonNulllongField;
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.StringToSomethingElseFieldExpectation.nonNullStringToSomethingElseField;
 import static uk.nhs.hdn.crds.registry.client.jsonSchemas.arrayCreators.StuffMetadataRecordArrayCreator.StuffMetadataRecordArray;
-import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.Stuff;
+import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.stuff;
 
 public final class StuffMetadataRecordArrayJsonSchema extends ArrayJsonSchema<StuffMetadataRecord>
 {
@@ -45,7 +45,7 @@ public final class StuffMetadataRecordArrayJsonSchema extends ArrayJsonSchema<St
 			object
 			(
 				StuffMetadataRecord.class,
-				nonNullStringToSomethingElseField("identifier", StuffIdentifier.class, EnumMethodDelegate.<IdentifierConstructor, StuffIdentifier>enumMethodDelegate(Stuff, "construct", String.class), false),
+				nonNullStringToSomethingElseField("identifier", StuffIdentifier.class, EnumMethodDelegate.<IdentifierConstructor, StuffIdentifier>enumMethodDelegate(stuff, "construct", String.class), false),
 				nonNulllongField("lastModified"),
 				nonEmptyStringField("stuffDescription")
 			)

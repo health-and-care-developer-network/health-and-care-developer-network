@@ -27,6 +27,7 @@ import static uk.nhs.hdn.common.reflection.MethodModifiers.methodModifiers;
 
 public final class EnumMethodDelegate<E extends Enum<E>, V> implements Delegate<V>
 {
+
 	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
 	@NotNull
 	public static <E extends Enum<E>, V> Delegate<V> enumMethodDelegate(@NotNull final E enumValue, @NotNull final String methodName, @NotNull final Class<?>... parameterTypes)
@@ -34,7 +35,7 @@ public final class EnumMethodDelegate<E extends Enum<E>, V> implements Delegate<
 		final Method method;
 		try
 		{
-			method = enumValue.getDeclaringClass().getDeclaredMethod(methodName, parameterTypes);
+			method = enumValue.getClass().getMethod(methodName, parameterTypes);
 		}
 		catch (NoSuchMethodException e)
 		{
@@ -43,11 +44,12 @@ public final class EnumMethodDelegate<E extends Enum<E>, V> implements Delegate<
 		return new EnumMethodDelegate<>(enumValue, method);
 	}
 
-	@NotNull
-	private final Method constructor;
+	@NotNull private final E enumValue;
+	@NotNull private final Method constructor;
 
 	public EnumMethodDelegate(@NotNull final E enumValue, @NotNull final Method constructor)
 	{
+		this.enumValue = enumValue;
 		if (!methodModifiers(constructor).isInstance())
 		{
 			throw new IllegalArgumentException("constructor is not instance");
@@ -62,7 +64,7 @@ public final class EnumMethodDelegate<E extends Enum<E>, V> implements Delegate<
 	{
 		try
 		{
-			return (V) constructor.invoke(null, arguments);
+			return (V) constructor.invoke(enumValue, arguments);
 		}
 		catch (IllegalAccessException e)
 		{

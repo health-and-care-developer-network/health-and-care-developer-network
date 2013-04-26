@@ -53,9 +53,9 @@ public final class MetadataRecordConsoleEntryPoint extends AbstractConsoleEntryP
 
 	@NotNull private static final IdentifierConstructor[] HaveMetadataIdentifierConstructors =
 	{
-		Provider,
-		Repository,
-		Stuff
+			provider,
+			repository,
+			stuff
 	};
 
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
@@ -123,19 +123,19 @@ public final class MetadataRecordConsoleEntryPoint extends AbstractConsoleEntryP
 		final ApiMethod<?> apiMethod;
 		switch(identifierConstructor)
 		{
-			case Provider:
+			case provider:
 				apiMethod = crdsRestApi.providerMetadataRecord((ProviderIdentifier) identifier);
 				break;
 
-			case Repository:
+			case repository:
 				apiMethod = crdsRestApi.repositoryMetadataRecord((RepositoryIdentifier) identifier);
 				break;
 
-			case Stuff:
+			case stuff:
 				apiMethod = crdsRestApi.stuffMetadataRecord((StuffIdentifier) identifier);
 				break;
 
-			case StuffEvent:
+			case stuff_event:
 				throw new IllegalStateException("Should not be possible");
 
 			default:

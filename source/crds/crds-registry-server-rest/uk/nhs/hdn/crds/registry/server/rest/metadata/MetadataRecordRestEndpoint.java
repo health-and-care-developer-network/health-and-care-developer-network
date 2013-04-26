@@ -29,13 +29,16 @@ import uk.nhs.hdn.crds.registry.server.eventObservers.ConcurrentAggregatedEventO
 
 import java.util.Map;
 
+import static java.lang.String.format;
+import static java.util.Locale.ENGLISH;
+
 public final class MetadataRecordRestEndpoint extends AbstractRegisterableMethodRoutingRestEndpoint<MetadataRecordResourceStateSnapshot>
 {
 	@NotNull private final MetadataRecordResourceStateSnapshot metadataRecordResourceStateSnapshot;
 
 	public MetadataRecordRestEndpoint(@NotNull final IdentifierConstructor identifierConstructor, final int cacheMaximumNumberOfEntries, @NotNull final RecordStore<Identifier, AbstractMetadataRecord<?>> metadataRecordStore, @NotNull final ConcurrentAggregatedEventObserver<Identifier> concurrentAggregatedRepositoryEventObserver)
 	{
-		super("/crds/registry/metadata/" + identifierConstructor.restName(), NoAuthentication);
+		super(format(ENGLISH, "/crds/registry/metadata/%1$s/", identifierConstructor.restName()), NoAuthentication);
 
 		// patientRecordStore, concurrentAggregatedRepositoryEventObserver are linked
 		metadataRecordResourceStateSnapshot = new MetadataRecordResourceStateSnapshot(identifierConstructor, cacheMaximumNumberOfEntries, metadataRecordStore, concurrentAggregatedRepositoryEventObserver);

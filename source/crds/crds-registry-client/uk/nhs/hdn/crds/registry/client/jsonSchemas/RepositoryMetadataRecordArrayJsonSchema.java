@@ -34,7 +34,7 @@ import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors
 import static uk.nhs.hdn.common.parsers.json.jsonParseEventHandlers.constructors.objectConstructors.fieldExpectations.StringToSomethingElseFieldExpectation.nonNullStringToSomethingElseField;
 import static uk.nhs.hdn.common.reflection.toString.delegates.ConstructorDelegate.constructorDelegate;
 import static uk.nhs.hdn.crds.registry.client.jsonSchemas.arrayCreators.RepositoryMetadataRecordArrayCreator.RepositoryMetadataRecordArray;
-import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.Repository;
+import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.repository;
 
 public final class RepositoryMetadataRecordArrayJsonSchema extends ArrayJsonSchema<RepositoryMetadataRecord>
 {
@@ -48,7 +48,7 @@ public final class RepositoryMetadataRecordArrayJsonSchema extends ArrayJsonSche
 			object
 			(
 				RepositoryMetadataRecord.class,
-				nonNullStringToSomethingElseField("identifier", RepositoryIdentifier.class, EnumMethodDelegate.<IdentifierConstructor, RepositoryIdentifier>enumMethodDelegate(Repository, "construct", String.class), false),
+				nonNullStringToSomethingElseField("identifier", RepositoryIdentifier.class, EnumMethodDelegate.<IdentifierConstructor, RepositoryIdentifier>enumMethodDelegate(repository, "construct", String.class), false),
 				nonNulllongField("lastModified"),
 				nonEmptyStringField("systemDescription"),
 				nonNullStringToSomethingElseField("systemLocation", URI.class, constructorDelegate(URI.class, String.class), false)

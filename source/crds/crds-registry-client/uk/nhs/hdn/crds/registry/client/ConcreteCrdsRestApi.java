@@ -82,7 +82,7 @@ public final class ConcreteCrdsRestApi extends AbstractToString implements CrdsR
 	{
 		return new ApiMethod<ProviderMetadataRecord>()
 		{
-			private final ApiMethod<ProviderMetadataRecord[]> internal = jsonGenericGetApi.newApiMethod(ProviderMetadataRecordsSchemaUsingParserInstance, crds, registry, metadata, Provider.restName(), providerIdentifier.toUuidString());
+			private final ApiMethod<ProviderMetadataRecord[]> internal = jsonGenericGetApi.newApiMethod(ProviderMetadataRecordsSchemaUsingParserInstance, crds, registry, metadata, provider.restName(), providerIdentifier.toUuidString());
 
 			@NotNull
 			@Override
@@ -99,7 +99,7 @@ public final class ConcreteCrdsRestApi extends AbstractToString implements CrdsR
 	{
 		return new ApiMethod<RepositoryMetadataRecord>()
 		{
-			private final ApiMethod<RepositoryMetadataRecord[]> internal = jsonGenericGetApi.newApiMethod(RepositoryMetadataRecordsSchemaUsingParserInstance, crds, registry, metadata, Repository.restName(), repositoryIdentifier.toUuidString());
+			private final ApiMethod<RepositoryMetadataRecord[]> internal = jsonGenericGetApi.newApiMethod(RepositoryMetadataRecordsSchemaUsingParserInstance, crds, registry, metadata, repository.restName(), repositoryIdentifier.toUuidString());
 
 			@NotNull
 			@Override
@@ -117,7 +117,7 @@ public final class ConcreteCrdsRestApi extends AbstractToString implements CrdsR
 
 		return new ApiMethod<StuffMetadataRecord>()
 		{
-			private final ApiMethod<StuffMetadataRecord[]> internal = jsonGenericGetApi.newApiMethod(StuffMetadataRecordsSchemaUsingParserInstance, crds, registry, metadata, Stuff.restName(), stuffIdentifier.toUuidString());
+			private final ApiMethod<StuffMetadataRecord[]> internal = jsonGenericGetApi.newApiMethod(StuffMetadataRecordsSchemaUsingParserInstance, crds, registry, metadata, stuff.restName(), stuffIdentifier.toUuidString());
 
 			@NotNull
 			@Override

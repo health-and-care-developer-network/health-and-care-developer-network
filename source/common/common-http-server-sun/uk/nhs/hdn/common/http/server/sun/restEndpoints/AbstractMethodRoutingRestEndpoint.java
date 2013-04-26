@@ -97,7 +97,7 @@ public abstract class AbstractMethodRoutingRestEndpoint<R extends ResourceStateS
 		}
 		catch (BadRequestException e)
 		{
-			new BadRequestMethodEndpoint<ResourceStateSnapshot>(e).handle(rawRelativePath, rawQueryString, httpExchange, resourceStateSnapshot);
+			new BadRequestMethodEndpoint<>(e).handle(rawRelativePath, rawQueryString, httpExchange, resourceStateSnapshot);
 		}
 	}
 

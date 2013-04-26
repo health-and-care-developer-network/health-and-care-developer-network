@@ -91,7 +91,8 @@ public final class MetadataRecordResourceStateSnapshot extends AbstractWithSubRe
 			throw new NotFoundException("Invalid UUID", e);
 		}
 		final Identifier identifier = identifierConstructor.construct(uuid);
-		@Nullable final SubResource subResource = cacheThreadLocal.get().get(identifier);
+		final Cache<Identifier, MetadataRecordSubResource> cache = cacheThreadLocal.get();
+		@Nullable final SubResource subResource = cache.get(identifier);
 		if (subResource == null)
 		{
 			throw new NotFoundException(unknownIdentifier);

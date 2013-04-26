@@ -34,7 +34,7 @@ import static uk.nhs.hdn.crds.registry.domain.metadata.StuffMetadataRecord.tsvSe
 
 public enum IdentifierConstructor implements Description
 {
-	Provider("Provider Identifier UUID")
+	provider("Provider Identifier UUID")
 	{
 		@NotNull
 		@Override
@@ -57,7 +57,7 @@ public enum IdentifierConstructor implements Description
 			return csvSerialiserForProviderMetadataRecords(writeHeaderLine);
 		}
 	},
-	Repository("Repository Identifier UUID")
+	repository("Repository Identifier UUID")
 	{
 		@NotNull
 		@Override
@@ -80,7 +80,7 @@ public enum IdentifierConstructor implements Description
 			return csvSerialiserForRepositoryMetadataRecords(writeHeaderLine);
 		}
 	},
-	Stuff("Stuff Identifier UUID")
+	stuff("Stuff Identifier UUID")
 	{
 		@NotNull
 		@Override
@@ -103,7 +103,7 @@ public enum IdentifierConstructor implements Description
 			return csvSerialiserForStuffMetadataRecords(writeHeaderLine);
 		}
 	},
-	StuffEvent("Stuff Event Identifier UUID")
+	stuff_event("Stuff Event Identifier UUID")
 	{
 		@NotNull
 		@Override

@@ -115,7 +115,7 @@ public final class RepositoryMetadataRecord extends AbstractMetadataRecord<Repos
 		try
 		{
 			mapSerialiser.writeProperty("systemDescription", systemDescription);
-			mapSerialiser.writeProperty("systemLocation", systemLocation);
+			mapSerialiser.writeProperty("systemLocation", systemLocation.toString());
 		}
 		catch (CouldNotWritePropertyException e)
 		{

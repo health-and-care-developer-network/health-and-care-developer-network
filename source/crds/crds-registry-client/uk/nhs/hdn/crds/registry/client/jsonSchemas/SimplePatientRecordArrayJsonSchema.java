@@ -66,33 +66,33 @@ public final class SimplePatientRecordArrayJsonSchema extends ArrayJsonSchema<Si
 					HazelcastAwareLinkedHashMap.class,
 					new HazelcastAwareLinkedHashMapObjectConstructor<ProviderIdentifier, ProviderRecord>
 					(
-						Provider,
+							provider,
 						object
 						(
 							ProviderRecord.class,
-							nonNullStringToSomethingElseField("providerIdentifier", ProviderIdentifier.class, EnumMethodDelegate.<IdentifierConstructor, ProviderIdentifier>enumMethodDelegate(Provider, "construct", String.class), false),
+							nonNullStringToSomethingElseField("providerIdentifier", ProviderIdentifier.class, EnumMethodDelegate.<IdentifierConstructor, ProviderIdentifier>enumMethodDelegate(provider, "construct", String.class), false),
 							nonNullField
 							(
 								"knownRepositories",
 								HazelcastAwareLinkedHashMap.class,
 								new HazelcastAwareLinkedHashMapObjectConstructor<RepositoryIdentifier, RepositoryRecord>
 								(
-									Repository,
+										repository,
 									object
 									(
 										RepositoryRecord.class,
-										nonNullStringToSomethingElseField("repositoryIdentifier", RepositoryIdentifier.class, EnumMethodDelegate.<IdentifierConstructor, RepositoryIdentifier>enumMethodDelegate(Repository, "construct", String.class), false),
+										nonNullStringToSomethingElseField("repositoryIdentifier", RepositoryIdentifier.class, EnumMethodDelegate.<IdentifierConstructor, RepositoryIdentifier>enumMethodDelegate(repository, "construct", String.class), false),
 										nonNullField
 										(
 											"stuffEvents",
 											HazelcastAwareLinkedHashMap.class,
 											new HazelcastAwareLinkedHashMapObjectConstructor<StuffIdentifier, StuffRecord>
 											(
-												Stuff,
+													stuff,
 												object
 												(
 													StuffRecord.class,
-													nonNullStringToSomethingElseField("stuffIdentifier", StuffIdentifier.class, EnumMethodDelegate.<IdentifierConstructor, StuffIdentifier>enumMethodDelegate(Stuff, "construct", String.class), false),
+													nonNullStringToSomethingElseField("stuffIdentifier", StuffIdentifier.class, EnumMethodDelegate.<IdentifierConstructor, StuffIdentifier>enumMethodDelegate(stuff, "construct", String.class), false),
 													nonNullField
 													(
 														"stuffEvents",
@@ -102,7 +102,7 @@ public final class SimplePatientRecordArrayJsonSchema extends ArrayJsonSchema<Si
 															object
 															(
 																StuffEvent.class,
-																nonNullStringToSomethingElseField("repositoryEventIdentifier", StuffEventIdentifier.class, EnumMethodDelegate.<IdentifierConstructor, StuffEventIdentifier>enumMethodDelegate(StuffEvent, "construct", String.class), false),
+																nonNullStringToSomethingElseField("repositoryEventIdentifier", StuffEventIdentifier.class, EnumMethodDelegate.<IdentifierConstructor, StuffEventIdentifier>enumMethodDelegate(stuff_event, "construct", String.class), false),
 																nonNulllongField("timestamp"),
 																nonNullEnumField("repositoryEventKind", StuffEventKind.class)
 															)

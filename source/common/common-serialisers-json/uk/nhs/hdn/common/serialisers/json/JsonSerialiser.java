@@ -426,19 +426,40 @@ public class JsonSerialiser extends AbstractSerialiser
 	@Override
 	public void writeValue(final int value) throws CouldNotWriteValueException
 	{
-		writeValue(Integer.toString(value));
+		try
+		{
+			write(Integer.toString(value));
+		}
+		catch (CouldNotWriteDataException e)
+		{
+			throw new CouldNotWriteValueException(value, e);
+		}
 	}
 
 	@Override
 	public void writeValue(final long value) throws CouldNotWriteValueException
 	{
-		writeValue(Long.toString(value));
+		try
+		{
+			write(Long.toString(value));
+		}
+		catch (CouldNotWriteDataException e)
+		{
+			throw new CouldNotWriteValueException(value, e);
+		}
 	}
 
 	@Override
 	public void writeValue(@NotNull final BigDecimal value) throws CouldNotWriteValueException
 	{
-		writeValue(value.toString());
+		try
+		{
+			write(value.toString());
+		}
+		catch (CouldNotWriteDataException e)
+		{
+			throw new CouldNotWriteValueException(value, e);
+		}
 	}
 
 	@Override
@@ -446,7 +467,9 @@ public class JsonSerialiser extends AbstractSerialiser
 	{
 		try
 		{
-			write(value);
+			write(DoubleQuote);
+			jsonStringWriter.writeString(value);
+			write(DoubleQuote);
 		}
 		catch (CouldNotWriteDataException e)
 		{

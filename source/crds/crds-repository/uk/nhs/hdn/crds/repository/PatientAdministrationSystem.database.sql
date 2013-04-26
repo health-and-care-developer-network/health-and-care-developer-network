@@ -21,7 +21,7 @@ CREATE OR REPLACE FUNCTION provider_identifier() RETURNS UUID AS
 $$
 DECLARE
 
-    provider_identifier CONSTANT UUID NOT NULL := '2DBF298F-EED9-474D-BF8B-D70F68B83417';
+    provider_identifier CONSTANT UUID NOT NULL := '2dbf298f-eed9-474d-bf8b-d70f68b83417';
 
 BEGIN
 
