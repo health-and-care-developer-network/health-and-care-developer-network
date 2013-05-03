@@ -10,8 +10,8 @@ import uk.nhs.hdn.common.parsers.parseResultUsers.ParseResultUser;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hdn.common.reflection.toString.ExcludeFromToString;
 
-import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Reader;
 
 import static uk.nhs.hdn.common.VariableArgumentsHelper.copyOf;
 
@@ -35,7 +35,7 @@ public class SingleLineFixedWidthParser<V> extends AbstractToString implements P
 	}
 
 	@Override
-	public final void parse(@NotNull final BufferedReader bufferedReader, @MillisecondsSince1970 final long lastModified) throws IOException, CouldNotParseException
+	public final void parse(@NotNull final Reader bufferedReader, @MillisecondsSince1970 final long lastModified) throws IOException, CouldNotParseException
 	{
 		final Object[] collectedFields = new Object[length];
 		for (int index = 0; index < length; index++)
@@ -47,7 +47,7 @@ public class SingleLineFixedWidthParser<V> extends AbstractToString implements P
 			}
 			catch (CouldNotConvertFieldValueException e)
 			{
-				throw new CouldNotParseException(0, e);
+				throw new CouldNotParseException(0L, e);
 			}
 		}
 

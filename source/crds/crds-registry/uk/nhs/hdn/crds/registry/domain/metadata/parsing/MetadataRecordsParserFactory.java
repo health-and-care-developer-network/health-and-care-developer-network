@@ -18,10 +18,8 @@ package uk.nhs.hdn.crds.registry.domain.metadata.parsing;
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.parsers.Parser;
-import uk.nhs.hdn.common.parsers.ParserFactory;
 import uk.nhs.hdn.common.parsers.separatedValueParsers.TabSeparatedValueParser;
 import uk.nhs.hdn.common.parsers.separatedValueParsers.separatedValuesParseEventHandlers.ToDomainSeparatedValueParseEventHandler;
-import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hdn.crds.registry.domain.identifiers.Identifier;
 import uk.nhs.hdn.crds.registry.domain.metadata.AbstractMetadataRecord;
 import uk.nhs.hdn.crds.registry.recordStore.SubstitutableRecordStore;
@@ -29,34 +27,24 @@ import uk.nhs.hdn.crds.registry.recordStore.SubstitutableRecordStore;
 import static uk.nhs.hdn.common.parsers.separatedValueParsers.fieldParsers.NonEmptyLongFieldParser.NonEmptyLongFieldParserInstance;
 import static uk.nhs.hdn.common.parsers.separatedValueParsers.fieldParsers.NonEmptyStringFieldParser.NonEmptyStringFieldParserInstance;
 import static uk.nhs.hdn.common.parsers.separatedValueParsers.fieldParsers.NonEmptyURIFieldParser.NonEmptyURIFieldParserInstance;
-import static uk.nhs.hdn.crds.registry.domain.metadata.parsing.IdentifierFieldParser.ProviderIdentifierFieldParserInstance;
-import static uk.nhs.hdn.crds.registry.domain.metadata.parsing.IdentifierFieldParser.RepositoryIdentifierFieldParserInstance;
-import static uk.nhs.hdn.crds.registry.domain.metadata.parsing.IdentifierFieldParser.StuffIdentifierFieldParserInstance;
+import static uk.nhs.hdn.crds.registry.domain.metadata.parsing.IdentifierFieldParser.*;
 
-public final class MetadataRecordsParserFactory extends AbstractToString implements ParserFactory
+public final class MetadataRecordsParserFactory
 {
-	@NotNull private final SubstitutableRecordStore<Identifier, AbstractMetadataRecord<?>> providerMetadataRecordStore;
-	@NotNull private final SubstitutableRecordStore<Identifier, AbstractMetadataRecord<?>> repositoryMetadataRecordStore;
-	@NotNull private final SubstitutableRecordStore<Identifier, AbstractMetadataRecord<?>> stuffMetadataRecordStore;
-
-	public MetadataRecordsParserFactory(@NotNull final SubstitutableRecordStore<Identifier, AbstractMetadataRecord<?>> providerMetadataRecordStore, @NotNull final SubstitutableRecordStore<Identifier, AbstractMetadataRecord<?>> repositoryMetadataRecordStore, @NotNull final SubstitutableRecordStore<Identifier, AbstractMetadataRecord<?>> stuffMetadataRecordStore)
+	private MetadataRecordsParserFactory()
 	{
-		this.providerMetadataRecordStore = providerMetadataRecordStore;
-		this.repositoryMetadataRecordStore = repositoryMetadataRecordStore;
-		this.stuffMetadataRecordStore = stuffMetadataRecordStore;
 	}
 
 	@NotNull
-	@Override
-	public Parser parser()
+	public static Parser metadataRecordsParser(@NotNull final SubstitutableRecordStore<Identifier, AbstractMetadataRecord<?>> providerMetadataRecordStore, @NotNull final SubstitutableRecordStore<Identifier, AbstractMetadataRecord<?>> repositoryMetadataRecordStore, @NotNull final SubstitutableRecordStore<Identifier, AbstractMetadataRecord<?>> stuffMetadataRecordStore)
 	{
 		final MetadataRecordsLinesParser metadataRecordsLinesParser = new MetadataRecordsLinesParser(providerMetadataRecordStore, repositoryMetadataRecordStore, stuffMetadataRecordStore);
-		return new TabSeparatedValueParser
+		return new TabSeparatedValueParser<>
 		(
 			new ToDomainSeparatedValueParseEventHandler<>
 			(
-					metadataRecordsLinesParser,
-					metadataRecordsLinesParser,
+				metadataRecordsLinesParser,
+				metadataRecordsLinesParser,
 
 				ProviderIdentifierFieldParserInstance, // providerIdentifier
 				NonEmptyLongFieldParserInstance, // providerLastModified

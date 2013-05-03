@@ -103,7 +103,7 @@ public final class ResponseParser implements Parser
 	}
 
 	@Override
-	public void parse(@NotNull final BufferedReader bufferedReader, @MillisecondsSince1970 final long lastModified) throws IOException, CouldNotParseException
+	public void parse(@NotNull final Reader bufferedReader, @MillisecondsSince1970 final long lastModified) throws IOException, CouldNotParseException
 	{
 		final ResponseHeader responseHeader = parseResponseHeader(bufferedReader, lastModified);
 
@@ -119,14 +119,14 @@ public final class ResponseParser implements Parser
 		responseParseResultUser.use(new Response(responseHeader, responseBodies));
 	}
 
-	private static ResponseHeader parseResponseHeader(final BufferedReader bufferedReader, final long lastModified) throws IOException, CouldNotParseException
+	private static ResponseHeader parseResponseHeader(final Reader bufferedReader, final long lastModified) throws IOException, CouldNotParseException
 	{
 		final NonNullValueReturningParseResultUser<ResponseHeader> responseHeaderParseResultUser = new NonNullValueReturningParseResultUser<>();
 		new ResponseHeaderSingleLineFixedWidthParser(responseHeaderParseResultUser).parse(bufferedReader, lastModified);
 		return responseHeaderParseResultUser.value();
 	}
 
-	private static ResponseBody[] parseResponseBodies(final BufferedReader bufferedReader, final long lastModified, final ResponseHeader responseHeader) throws IOException, CouldNotParseException
+	private static ResponseBody[] parseResponseBodies(final Reader bufferedReader, final long lastModified, final ResponseHeader responseHeader) throws IOException, CouldNotParseException
 	{
 		// NOTE: This is a very anaemic domain - good practice would be to encapsulate beahviour in ResponseHeader, perhaps
 		final int numberOfResponseRecords = responseHeader.numberOfResponseRecords;
@@ -141,7 +141,7 @@ public final class ResponseParser implements Parser
 	}
 
 
-	private static ResponseTrailer parseResponseTrailer(final BufferedReader bufferedReader, final long lastModified) throws IOException, CouldNotParseException
+	private static ResponseTrailer parseResponseTrailer(final Reader bufferedReader, final long lastModified) throws IOException, CouldNotParseException
 	{
 		final NonNullValueReturningParseResultUser<ResponseTrailer> responseTrailerParseResult = new NonNullValueReturningParseResultUser<>();
 		new ResponseTrailerSingleLineFixedWidthParser(responseTrailerParseResult).parse(bufferedReader, lastModified);

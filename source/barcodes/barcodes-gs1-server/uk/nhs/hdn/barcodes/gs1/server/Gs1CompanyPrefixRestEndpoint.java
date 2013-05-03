@@ -19,7 +19,6 @@ package uk.nhs.hdn.barcodes.gs1.server;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.barcodes.gs1.server.parsing.Gs1CompanyPrefixResourceStateSnapshotUser;
-import uk.nhs.hdn.barcodes.gs1.server.parsing.TuplesParserFactory;
 import uk.nhs.hdn.common.fileWatching.FailedToReloadException;
 import uk.nhs.hdn.common.fileWatching.FileReloader;
 import uk.nhs.hdn.common.http.server.sun.restEndpoints.AbstractRegisterableMethodRoutingRestEndpoint;
@@ -30,6 +29,7 @@ import uk.nhs.hdn.common.http.server.sun.restEndpoints.methodEndpoints.MethodEnd
 import java.io.File;
 import java.util.Map;
 
+import static uk.nhs.hdn.barcodes.gs1.server.parsing.TuplesParserFactory.tuplesParser;
 import static uk.nhs.hdn.common.fileWatching.FileWatcher.startFileWatcherOnNewThread;
 import static uk.nhs.hdn.common.parsers.ParsingFileReloader.utf8ParsingFileReloaderWithInitialLoad;
 
@@ -48,7 +48,7 @@ public final class Gs1CompanyPrefixRestEndpoint extends AbstractRegisterableMeth
 		final FileReloader fileReloader;
 		try
 		{
-			fileReloader = utf8ParsingFileReloaderWithInitialLoad(new TuplesParserFactory(this), containingFolder, fileName);
+			fileReloader = utf8ParsingFileReloaderWithInitialLoad(tuplesParser(this), containingFolder, fileName);
 		}
 		catch (FailedToReloadException e)
 		{

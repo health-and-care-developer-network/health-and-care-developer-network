@@ -25,10 +25,10 @@ import uk.nhs.hdn.common.parsers.separatedValueParsers.lineParsers.CouldNotParse
 import uk.nhs.hdn.common.parsers.separatedValueParsers.separatedValuesParseEventHandlers.SeparatedValueParseEventHandler;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 
-import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Reader;
 
-public final class TabSeparatedValueParser extends AbstractToString implements Parser
+public final class TabSeparatedValueParser<S> extends AbstractToString implements Parser
 {
 	private static final int EndOfStream = -1;
 	private static final char HorizontalTab = '\t';
@@ -37,19 +37,25 @@ public final class TabSeparatedValueParser extends AbstractToString implements P
 	private static final int GuessOfBufferSize = 4096;
 
 	@NotNull
-	private final SeparatedValueParseEventHandler separatedValueParseEventHandler;
+	private final SeparatedValueParseEventHandler<S> separatedValueParseEventHandler;
 
-	public TabSeparatedValueParser(@NotNull final SeparatedValueParseEventHandler separatedValueParseEventHandler)
+	public TabSeparatedValueParser(@NotNull final SeparatedValueParseEventHandler<S> separatedValueParseEventHandler)
 	{
 		this.separatedValueParseEventHandler = separatedValueParseEventHandler;
 	}
 
 	@Override
-	@SuppressWarnings("NestedAssignment")
-	public void parse(@NotNull final BufferedReader bufferedReader, @MillisecondsSince1970 final long lastModified) throws IOException, CouldNotParseException
+	public void parse(@NotNull final Reader bufferedReader, @MillisecondsSince1970 final long lastModified) throws IOException, CouldNotParseException
 	{
-		separatedValueParseEventHandler.start(lastModified);
-		int offset = 0;
+		final S state = separatedValueParseEventHandler.start(lastModified);
+		parseRows(bufferedReader, state);
+		separatedValueParseEventHandler.end(state);
+	}
+
+	@SuppressWarnings("NestedAssignment")
+	private void parseRows(final Reader bufferedReader, final S state) throws IOException, CouldNotParseException
+	{
+		long offset = 0L;
 		int characterAsInt;
 		StringBuilder fieldStringBuilder = newStringBuilder();
 		boolean expectingLineFeed = false;
@@ -61,13 +67,13 @@ public final class TabSeparatedValueParser extends AbstractToString implements P
 			{
 				case CarriageReturn:
 					expectingLineFeed = true;
-					fieldStringBuilder = endOfLine(offset, fieldStringBuilder);
+					fieldStringBuilder = endOfLine(offset, fieldStringBuilder, state);
 					afterStartOfNewLine = false;
 					break;
 
 				case HorizontalTab:
 					guardExpectingLineFeed(offset, expectingLineFeed);
-					fieldStringBuilder = raiseField(offset, fieldStringBuilder);
+					fieldStringBuilder = raiseField(offset, fieldStringBuilder, state);
 					afterStartOfNewLine = true;
 					break;
 
@@ -78,7 +84,7 @@ public final class TabSeparatedValueParser extends AbstractToString implements P
 					}
 					else
 					{
-						fieldStringBuilder = endOfLine(offset, fieldStringBuilder);
+						fieldStringBuilder = endOfLine(offset, fieldStringBuilder, state);
 					}
 					afterStartOfNewLine = false;
 					break;
@@ -94,12 +100,11 @@ public final class TabSeparatedValueParser extends AbstractToString implements P
 		guardExpectingLineFeed(offset, expectingLineFeed);
 		if (afterStartOfNewLine)
 		{
-			endOfLine(offset, fieldStringBuilder);
+			endOfLine(offset, fieldStringBuilder, state);
 		}
-		separatedValueParseEventHandler.end();
 	}
 
-	private static void guardExpectingLineFeed(final int offset, final boolean expectingLineFeed) throws CouldNotParseException
+	private static void guardExpectingLineFeed(final long offset, final boolean expectingLineFeed) throws CouldNotParseException
 	{
 		if (expectingLineFeed)
 		{
@@ -107,11 +112,11 @@ public final class TabSeparatedValueParser extends AbstractToString implements P
 		}
 	}
 
-	private StringBuilder raiseField(final int offset, final StringBuilder fieldStringBuilder) throws CouldNotParseException
+	private StringBuilder raiseField(final long offset, final StringBuilder fieldStringBuilder, final S state) throws CouldNotParseException
 	{
 		try
 		{
-			separatedValueParseEventHandler.field(fieldStringBuilder.toString());
+			separatedValueParseEventHandler.field(state, fieldStringBuilder.toString());
 		}
 		catch (CouldNotParseFieldException e)
 		{
@@ -120,12 +125,12 @@ public final class TabSeparatedValueParser extends AbstractToString implements P
 		return newStringBuilder();
 	}
 
-	private StringBuilder endOfLine(final int offset, final StringBuilder fieldStringBuilder) throws CouldNotParseException
+	private StringBuilder endOfLine(final long offset, final StringBuilder fieldStringBuilder, final S state) throws CouldNotParseException
 	{
 		final StringBuilder newStringBuilder;
 		try
 		{
-			newStringBuilder = raiseField(offset, fieldStringBuilder);
+			newStringBuilder = raiseField(offset, fieldStringBuilder, state);
 		}
 		catch (CouldNotParseException e)
 		{
@@ -133,7 +138,7 @@ public final class TabSeparatedValueParser extends AbstractToString implements P
 		}
 		try
 		{
-			separatedValueParseEventHandler.endOfLine();
+			separatedValueParseEventHandler.endOfLine(state);
 		}
 		catch (CouldNotParseLineException e)
 		{

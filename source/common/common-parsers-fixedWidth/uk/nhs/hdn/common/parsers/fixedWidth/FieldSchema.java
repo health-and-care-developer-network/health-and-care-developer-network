@@ -26,8 +26,8 @@ import uk.nhs.hdn.common.parsers.fixedWidth.fieldConverters.MultipleValuesFieldC
 import uk.nhs.hdn.common.parsers.fixedWidth.fixedWidthFields.*;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 
-import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -114,7 +114,7 @@ public final class FieldSchema extends AbstractToString
 	}
 
 	@Nullable
-	public Object parseAndConvert(@NotNull final BufferedReader bufferedReader) throws IOException, CouldNotParseException, CouldNotConvertFieldValueException
+	public Object parseAndConvert(@NotNull final Reader bufferedReader) throws IOException, CouldNotParseException, CouldNotConvertFieldValueException
 	{
 		return convert(fixedWidthField.parse(bufferedReader));
 	}

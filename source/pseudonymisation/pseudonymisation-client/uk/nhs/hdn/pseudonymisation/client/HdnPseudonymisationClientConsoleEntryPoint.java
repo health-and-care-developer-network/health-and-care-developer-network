@@ -95,7 +95,7 @@ public final class HdnPseudonymisationClientConsoleEntryPoint extends AbstractCo
 
 		final IndexTable<Normalisable> indexTable = new MapIndexTable<>(1000, size);
 
-		@SuppressWarnings("unchecked") final TabSeparatedValueParser tabSeparatedValueParser = new TabSeparatedValueParser(new PseudonymisingSingleLineSeparatedValueParseEventHandler<>(dataKind, indexTable, pseudonymisers));
+		@SuppressWarnings("unchecked") final TabSeparatedValueParser<PseudonymisingSingleLineSeparatedValueParseEventHandler.PseudonymisingSingleLineSeparatedValueParseEventHandlerState> tabSeparatedValueParser = new TabSeparatedValueParser<>(new PseudonymisingSingleLineSeparatedValueParseEventHandler<>(dataKind, indexTable, pseudonymisers));
 		final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, Utf8));
 		try
 		{

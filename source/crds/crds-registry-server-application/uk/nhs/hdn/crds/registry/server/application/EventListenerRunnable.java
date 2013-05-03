@@ -17,13 +17,8 @@
 package uk.nhs.hdn.crds.registry.server.application;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.common.tuples.Quintuple;
-import uk.nhs.hdn.crds.registry.domain.StuffEvent;
-import uk.nhs.hdn.crds.registry.domain.identifiers.ProviderIdentifier;
-import uk.nhs.hdn.crds.registry.domain.identifiers.RepositoryIdentifier;
-import uk.nhs.hdn.crds.registry.domain.identifiers.StuffIdentifier;
+import uk.nhs.hdn.crds.registry.domain.StuffEventMessage;
 import uk.nhs.hdn.crds.registry.patientRecordStore.PatientRecordStore;
-import uk.nhs.hdn.number.NhsNumber;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,11 +28,11 @@ public final class EventListenerRunnable implements Runnable
 {
 	private static final int SinkSize = 10000;
 
-	private final BlockingQueue<Quintuple<NhsNumber, ProviderIdentifier, RepositoryIdentifier, StuffIdentifier, StuffEvent>> incomingEvents;
+	private final BlockingQueue<StuffEventMessage> incomingEvents;
 	private final PatientRecordStore patientRecordStore;
 
 	@SuppressWarnings("AssignmentToCollectionOrArrayFieldFromParameter")
-	public EventListenerRunnable(@NotNull final BlockingQueue<Quintuple<NhsNumber, ProviderIdentifier, RepositoryIdentifier, StuffIdentifier, StuffEvent>> incomingEvents, @NotNull final PatientRecordStore patientRecordStore)
+	public EventListenerRunnable(@NotNull final BlockingQueue<StuffEventMessage> incomingEvents, @NotNull final PatientRecordStore patientRecordStore)
 	{
 		this.incomingEvents = incomingEvents;
 		this.patientRecordStore = patientRecordStore;
@@ -47,7 +42,7 @@ public final class EventListenerRunnable implements Runnable
 	@Override
 	public void run()
 	{
-		final Collection<Quintuple<NhsNumber, ProviderIdentifier, RepositoryIdentifier, StuffIdentifier, StuffEvent>> sink = new ArrayList<>(SinkSize);
+		final Collection<StuffEventMessage> sink = new ArrayList<>(SinkSize);
 		do
 		{
 			// drain is more efficient than take() as it requires coarser locking
@@ -56,9 +51,9 @@ public final class EventListenerRunnable implements Runnable
 			{
 				continue;
 			}
-			for (final Quintuple<NhsNumber, ProviderIdentifier, RepositoryIdentifier, StuffIdentifier, StuffEvent> event : sink)
+			for (final StuffEventMessage stuffEventMessage : sink)
 			{
-				patientRecordStore.addEvent(event.a, event.b, event.c, event.d, event.e);
+				patientRecordStore.addEvent(stuffEventMessage);
 			}
 			sink.clear();
 		} while(true);

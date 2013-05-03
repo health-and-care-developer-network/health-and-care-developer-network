@@ -16,9 +16,9 @@
 
 package uk.nhs.hdn.common.parsers.separatedValueParsers.separatedValuesParseEventHandlers;
 
-import uk.nhs.hdn.common.MillisecondsSince1970;
+import org.jetbrains.annotations.NotNull;
 
-public abstract class AbstractSingleLineSeparatedValueParseEventHandler implements SeparatedValueParseEventHandler
+public abstract class AbstractSingleLineSeparatedValueParseEventHandler<S> implements SeparatedValueParseEventHandler<S>
 {
 	protected AbstractSingleLineSeparatedValueParseEventHandler()
 	{
@@ -26,12 +26,7 @@ public abstract class AbstractSingleLineSeparatedValueParseEventHandler implemen
 
 	@SuppressWarnings("NoopMethodInAbstractClass")
 	@Override
-	public final void start(@MillisecondsSince1970 final long lastModified)
-	{
-	}
-	@SuppressWarnings("NoopMethodInAbstractClass")
-	@Override
-	public final void end()
+	public final void end(@NotNull final S state)
 	{
 	}
 }

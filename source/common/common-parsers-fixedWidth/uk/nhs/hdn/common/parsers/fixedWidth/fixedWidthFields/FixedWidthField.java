@@ -19,11 +19,11 @@ package uk.nhs.hdn.common.parsers.fixedWidth.fixedWidthFields;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.parsers.CouldNotParseException;
 
-import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Reader;
 
 public interface FixedWidthField
 {
 	@NotNull
-	String parse(@NotNull final BufferedReader bufferedReader) throws IOException, CouldNotParseException;
+	String parse(@NotNull final Reader bufferedReader) throws IOException, CouldNotParseException;
 }

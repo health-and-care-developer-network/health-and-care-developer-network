@@ -36,9 +36,9 @@ public final class PostgresqlListenerRunnable implements Runnable, AutoCloseable
 	@NotNull private final ProcessNotificationUser processNotificationUser;
 
 	@SuppressWarnings("JDBCExecuteWithNonConstantString")
-	public PostgresqlListenerRunnable(@NotNull final PostgresqlConnectionHelper postgresqlConnectionHelper, @NotNull @NonNls final String channel, @NotNull final ProcessNotificationUser processNotificationUser) throws SQLException
+	public PostgresqlListenerRunnable(@NotNull final PostgresqlConnectionProvider postgresqlConnectionProvider, @NotNull @NonNls final String channel, @NotNull final ProcessNotificationUser processNotificationUser) throws SQLException
 	{
-		connection = postgresqlConnectionHelper.connection();
+		connection = postgresqlConnectionProvider.connection();
 		connection.setAutoCommit(true);
 		connection.setReadOnly(true);
 		this.processNotificationUser = processNotificationUser;

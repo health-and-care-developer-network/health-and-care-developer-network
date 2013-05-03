@@ -18,6 +18,7 @@ package uk.nhs.hdn.pseudonymisation.client;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.nhs.hdn.common.MillisecondsSince1970;
 import uk.nhs.hdn.common.naming.Normalisable;
 import uk.nhs.hdn.common.parsers.separatedValueParsers.fieldParsers.CouldNotParseFieldException;
 import uk.nhs.hdn.common.parsers.separatedValueParsers.separatedValuesParseEventHandlers.AbstractSingleLineSeparatedValueParseEventHandler;
@@ -26,12 +27,11 @@ import uk.nhs.hdn.pseudonymisation.pseudonymisers.Pseudonymiser;
 
 import static uk.nhs.hdn.common.VariableArgumentsHelper.copyOf;
 
-public final class PseudonymisingSingleLineSeparatedValueParseEventHandler<N extends Normalisable> extends AbstractSingleLineSeparatedValueParseEventHandler
+public final class PseudonymisingSingleLineSeparatedValueParseEventHandler<N extends Normalisable> extends AbstractSingleLineSeparatedValueParseEventHandler<PseudonymisingSingleLineSeparatedValueParseEventHandler.PseudonymisingSingleLineSeparatedValueParseEventHandlerState>
 {
 	@NotNull private final DataKind dataKind;
 	@NotNull private final Pseudonymiser<N>[] pseudonymisers;
 	@NotNull private final IndexTable<N> indexTable;
-	private boolean expectingEndOfLine;
 
 	@SuppressWarnings("unchecked")
 	public PseudonymisingSingleLineSeparatedValueParseEventHandler(@NotNull final DataKind dataKind, @NotNull final IndexTable<N> indexTable, @NotNull final Pseudonymiser<N>... pseudonymisers)
@@ -40,19 +40,25 @@ public final class PseudonymisingSingleLineSeparatedValueParseEventHandler<N ext
 		this.indexTable = indexTable;
 
 		this.pseudonymisers = copyOf(pseudonymisers);
+	}
 
-		expectingEndOfLine = false;
+	@NotNull
+	@SuppressWarnings("NoopMethodInAbstractClass")
+	@Override
+	public PseudonymisingSingleLineSeparatedValueParseEventHandlerState start(@MillisecondsSince1970 final long lastModified)
+	{
+		return new PseudonymisingSingleLineSeparatedValueParseEventHandlerState();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void field(@NotNull final String value) throws CouldNotParseFieldException
+	public void field(@NotNull final PseudonymisingSingleLineSeparatedValueParseEventHandlerState state, @NotNull final String value) throws CouldNotParseFieldException
 	{
-		if (expectingEndOfLine)
+		if (state.isExpectingEndOfLine())
 		{
 			throw new CouldNotParseFieldException(1, value, "too many fields");
 		}
-		expectingEndOfLine = true;
+		state.setExpectingEndOfLine(true);
 
 		@Nullable final N valueToPseudonymise;
 		try
@@ -71,8 +77,23 @@ public final class PseudonymisingSingleLineSeparatedValueParseEventHandler<N ext
 	}
 
 	@Override
-	public void endOfLine()
+	public void endOfLine(@NotNull final PseudonymisingSingleLineSeparatedValueParseEventHandlerState state)
 	{
-		expectingEndOfLine = false;
+		state.setExpectingEndOfLine(false);
+	}
+
+	public static final class PseudonymisingSingleLineSeparatedValueParseEventHandlerState
+	{
+		private boolean expectingEndOfLine = false;
+
+		public boolean isExpectingEndOfLine()
+		{
+			return expectingEndOfLine;
+		}
+
+		public void setExpectingEndOfLine(final boolean expectingEndOfLine)
+		{
+			this.expectingEndOfLine = expectingEndOfLine;
+		}
 	}
 }

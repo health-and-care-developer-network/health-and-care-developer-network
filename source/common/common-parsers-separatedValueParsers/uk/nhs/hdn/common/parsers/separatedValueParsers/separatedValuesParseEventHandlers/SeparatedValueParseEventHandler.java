@@ -21,13 +21,14 @@ import uk.nhs.hdn.common.MillisecondsSince1970;
 import uk.nhs.hdn.common.parsers.separatedValueParsers.fieldParsers.CouldNotParseFieldException;
 import uk.nhs.hdn.common.parsers.separatedValueParsers.lineParsers.CouldNotParseLineException;
 
-public interface SeparatedValueParseEventHandler
+public interface SeparatedValueParseEventHandler<S>
 {
-	void start(@MillisecondsSince1970 final long lastModified);
+	@NotNull
+	S start(@MillisecondsSince1970 final long lastModified);
 
-	void field(@NotNull final String value) throws CouldNotParseFieldException;
+	void field(@NotNull final S state, @NotNull final String value) throws CouldNotParseFieldException;
 
-	void endOfLine() throws CouldNotParseLineException;
+	void endOfLine(@NotNull final S state) throws CouldNotParseLineException;
 
-	void end();
+	void end(@NotNull final S state);
 }

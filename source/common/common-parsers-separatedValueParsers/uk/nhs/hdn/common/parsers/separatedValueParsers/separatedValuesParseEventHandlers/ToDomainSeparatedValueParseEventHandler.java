@@ -27,13 +27,11 @@ import uk.nhs.hdn.common.parsers.separatedValueParsers.linesParsers.LinesParser;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 import uk.nhs.hdn.common.reflection.toString.ExcludeFromToString;
 
-import static uk.nhs.hdn.common.MillisecondsSince1970.NullMillisecondsSince1970;
 import static uk.nhs.hdn.common.VariableArgumentsHelper.copyOf;
 
-public final class ToDomainSeparatedValueParseEventHandler<V, L> extends AbstractToString implements SeparatedValueParseEventHandler
+public final class ToDomainSeparatedValueParseEventHandler<V, L> extends AbstractToString implements SeparatedValueParseEventHandler<ToDomainSeparatedValueParseEventHandler<V, L>.ToDomainSeparatedValueParseEventHandlerState>
 {
 	private final FieldParser<?>[] fieldParsers;
-	private final Object[] parsedFields;
 	@ExcludeFromToString
 	private final int maximumNumberOfFields;
 	@NotNull
@@ -41,94 +39,114 @@ public final class ToDomainSeparatedValueParseEventHandler<V, L> extends Abstrac
 	@NotNull
 	private final LineParser<V, L> lineParser;
 
-	private boolean beforeHeaderLine;
-	private int currentLineIndex;
-	private int currentFieldIndex;
-	@MillisecondsSince1970
-	private long lastModified;
-	private int numberOfFieldsPerLineDeducedFromHeaderLine;
-	private L lines;
-
 	@SuppressWarnings("AssignmentToNull")
 	public ToDomainSeparatedValueParseEventHandler(@NotNull final LinesParser<V, L> linesParser, @NotNull final LineParser<V, L> lineParser, @NotNull final FieldParser<?>... fieldParsers)
 	{
 		this.linesParser = linesParser;
 		this.lineParser = lineParser;
 		this.fieldParsers = copyOf(fieldParsers);
-		beforeHeaderLine = true;
-		currentLineIndex = -1;
-		currentFieldIndex = -1;
-		lastModified = NullMillisecondsSince1970;
-		numberOfFieldsPerLineDeducedFromHeaderLine = -1;
-
 		maximumNumberOfFields = fieldParsers.length;
-		parsedFields = new Object[maximumNumberOfFields];
-		lines = null;
+	}
+
+	@NotNull
+	@Override
+	public ToDomainSeparatedValueParseEventHandlerState start(@MillisecondsSince1970 final long lastModified)
+	{
+		return new ToDomainSeparatedValueParseEventHandlerState(lastModified);
 	}
 
 	@Override
-	public void start(@MillisecondsSince1970 final long lastModified)
+	public void field(@NotNull final ToDomainSeparatedValueParseEventHandlerState state, @NotNull final String value) throws CouldNotParseFieldException
 	{
-		this.lastModified = lastModified;
-		currentLineIndex = 0;
-		lines = linesParser.newParsedLines();
+		state.field(value);
 	}
 
 	@Override
-	public void field(@NotNull final String value) throws CouldNotParseFieldException
+	public void endOfLine(@NotNull final ToDomainSeparatedValueParseEventHandlerState state) throws CouldNotParseLineException
 	{
-		currentFieldIndex++;
-		if (beforeHeaderLine)
-		{
-			return;
-		}
-		if (currentFieldIndex == numberOfFieldsPerLineDeducedFromHeaderLine)
-		{
-			throw new CouldNotParseFieldException(currentFieldIndex, value, "there are more fields in the line than in the header line");
-		}
-		final FieldParser<?> fieldParser = fieldParsers[currentFieldIndex];
-
-		@Nullable final Object result;
-		if (value.isEmpty() && fieldParser.skipIfEmpty())
-		{
-			result = null;
-		}
-		else
-		{
-			result = fieldParser.parse(currentFieldIndex, value);
-		}
-		parsedFields[currentFieldIndex] = result;
+		state.endOfLine();
 	}
 
 	@Override
-	public void endOfLine() throws CouldNotParseLineException
+	public void end(@NotNull final ToDomainSeparatedValueParseEventHandlerState state)
 	{
-		if (beforeHeaderLine)
+		state.end();
+	}
+
+	public final class ToDomainSeparatedValueParseEventHandlerState
+	{
+		@NotNull private final Object[] parsedFields;
+		private boolean beforeHeaderLine;
+		private int currentLineIndex;
+		private int currentFieldIndex;
+		@MillisecondsSince1970 private final long lastModified;
+		private int numberOfFieldsPerLineDeducedFromHeaderLine;
+		@NotNull private final L lines;
+
+		private ToDomainSeparatedValueParseEventHandlerState(@MillisecondsSince1970 final long lastModified)
 		{
-			beforeHeaderLine = false;
-			numberOfFieldsPerLineDeducedFromHeaderLine = currentFieldIndex + 1;
-			if (numberOfFieldsPerLineDeducedFromHeaderLine > maximumNumberOfFields)
+			beforeHeaderLine = true;
+			currentLineIndex = 0;
+			currentFieldIndex = -1;
+			this.lastModified = lastModified;
+			numberOfFieldsPerLineDeducedFromHeaderLine = -1;
+
+			parsedFields = new Object[maximumNumberOfFields];
+			lines = linesParser.newParsedLines();
+		}
+
+		public void field(@NotNull final String value) throws CouldNotParseFieldException
+		{
+			currentFieldIndex++;
+			if (beforeHeaderLine)
 			{
-				throw new CouldNotParseLineException(currentLineIndex, "there are too many fields in the line");
+				return;
 			}
-		}
-		else
-		{
-			if (currentFieldIndex + 1 != numberOfFieldsPerLineDeducedFromHeaderLine)
+			if (currentFieldIndex == numberOfFieldsPerLineDeducedFromHeaderLine)
 			{
-				throw new CouldNotParseLineException(currentLineIndex, "the number of fields differed to that in the header line");
+				throw new CouldNotParseFieldException(currentFieldIndex, value, "there are more fields in the line than in the header line");
 			}
-			lineParser.parse(currentLineIndex, parsedFields, lines);
+			final FieldParser<?> fieldParser = fieldParsers[currentFieldIndex];
+
+			@Nullable final Object result;
+			if (value.isEmpty() && fieldParser.skipIfEmpty())
+			{
+				result = null;
+			}
+			else
+			{
+				result = fieldParser.parse(currentFieldIndex, value);
+			}
+			parsedFields[currentFieldIndex] = result;
 		}
 
-		currentLineIndex++;
-		currentFieldIndex = -1;
-	}
+		public void endOfLine() throws CouldNotParseLineException
+		{
+			if (beforeHeaderLine)
+			{
+				beforeHeaderLine = false;
+				numberOfFieldsPerLineDeducedFromHeaderLine = currentFieldIndex + 1;
+				if (numberOfFieldsPerLineDeducedFromHeaderLine > maximumNumberOfFields)
+				{
+					throw new CouldNotParseLineException(currentLineIndex, "there are too many fields in the line");
+				}
+			}
+			else
+			{
+				if (currentFieldIndex + 1 != numberOfFieldsPerLineDeducedFromHeaderLine)
+				{
+					throw new CouldNotParseLineException(currentLineIndex, "the number of fields differed to that in the header line");
+				}
+				lineParser.parse(currentLineIndex, parsedFields, lines);
+			}
 
-	@Override
-	public void end()
-	{
-		//new Gs1CompanyPrefixResourceStateSnapshot(lastModified, tuples);
-		linesParser.parse(lastModified, lines);
+			currentLineIndex++;
+			currentFieldIndex = -1;
+		}
+
+		public void end()
+		{
+			linesParser.parse(lastModified, lines);
+		}
 	}
 }

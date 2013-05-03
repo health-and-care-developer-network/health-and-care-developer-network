@@ -24,11 +24,10 @@ import uk.nhs.hdn.dbs.response.parsing.fixedWidthLineUsers.ResponseBodyFixedWidt
 import uk.nhs.hdn.dbs.response.parsing.fixedWidthLineUsers.ResponseBodySingleLineSeparatedValueParseEventHandler;
 import uk.nhs.hdn.dbs.response.ResponseBody;
 
-public final class ResponseBodySingleLineCommaSeparatedValueParser extends SingleLineCommaSeparatedValueParser{
-
+public final class ResponseBodySingleLineCommaSeparatedValueParser extends SingleLineCommaSeparatedValueParser<ResponseBodySingleLineSeparatedValueParseEventHandler.ResponseBodySingleLineSeparatedValueParseEventHandlerState>
+{
 	public ResponseBodySingleLineCommaSeparatedValueParser(@NotNull final FileVersion fileVersion, final int zeroBasedLineIndex, @NotNull final ParseResultUser<ResponseBody> parseResultUser)
 	{
 		super(new ResponseBodySingleLineSeparatedValueParseEventHandler(new ResponseBodyFixedWidthLineUser(fileVersion), zeroBasedLineIndex, parseResultUser));
 	}
-
 }

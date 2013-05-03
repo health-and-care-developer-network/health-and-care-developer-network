@@ -1,0 +1,130 @@
+Release Information
+Microsoft JDBC Driver 4.0 for SQL Server
+March 2012
+
+
+INTRODUCTION
+------------
+This file contains late-breaking or other important information
+that supplements the Microsoft JDBC Driver 4.0 for SQL Server
+documentation. You should read this file completely before 
+installing the JDBC driver.
+
+Your feedback is very important to us and we will strive
+to respond to your feedback in a timely manner. For information
+about providing feedback by using the JDBC driver blogs and online
+forums, see the Microsoft JDBC Driver 4.0 for SQL Server page at
+http://msdn.microsoft.com/data/jdbc.
+
+
+INSTALLATION
+------------
+Instructions for installing the JDBC driver are located in install.txt.
+Refer to that file for information about installing the JDBC
+driver on Windows and Unix operating systems.
+
+SUPPORTED OPERATING SYSTEMS
+---------------------------
+The Microsoft JDBC Driver 4.0 for SQL Server supports the following operating systems: 
+Linux, Unix, Windows Server 2008,
+Windows Vista Service Pack 1, Windows Server 2008 R2 and Windows 7.
+
+The list above is an example of some of the supported operating systems.
+The JDBC driver is designed to work on any operating system that supports
+the use of a Java Virtual Machine (JVM).  However, only Sun Solaris, SUSE
+Linux, and Windows Vista Service Pack 1 or later operating systems have been tested.
+
+RELEASE CONTENTS
+----------------
+The Microsoft JDBC Driver 4.0 for SQL Server executable zip or tar file
+unpacks the following files in the specified locations, relative
+to the selected installation directory:
+
+<installation directory>\sqljdbc_<version>\<language>\install.txt
+<installation directory>\sqljdbc_<version>\<language>\release.txt
+<installation directory>\sqljdbc_<version>\<language>\license.txt
+<installation directory>\sqljdbc_<version>\<language>\sqljdbc.jar
+<installation directory>\sqljdbc_<version>\<language>\sqljdbc4.jar
+<installation directory>\sqljdbc_<version>\<language>\auth\x86\sqljdbc_auth.dll
+<installation directory>\sqljdbc_<version>\<language>\auth\x64\sqljdbc_auth.dll
+<installation directory>\sqljdbc_<version>\<language>\help\default.htm
+<installation directory>\sqljdbc_<version>\<language>\help\index.htm
+<installation directory>\sqljdbc_<version>\<language>\help\toc.htm
+<installation directory>\sqljdbc_<version>\<language>\help\html\<doc pages...>
+<installation directory>\sqljdbc_<version>\<language>\help\local\<doc files...>
+<installation directory>\sqljdbc_<version>\<language>\help\samples\<sample files...>
+<installation directory>\sqljdbc_<version>\<language>\xa\xa_install.sql
+<installation directory>\sqljdbc_<version>\<language>\xa\x86\sqljdbc_xa.dll
+<installation directory>\sqljdbc_<version>\<language>\xa\x64\sqljdbc_xa.dll
+
+
+CHANGE LIST
+-----------
+Changes from 3.0 to 4.0:
+
+1765616 DatabaseMetadata.getTypeInfo now returns new java.sql.Type values for date, time, datetime2, datetimeoffset for katmai and higher versions
+
+1764334 Added support for tracing of JDBC XA Timeout and XIDs
+
+1750318 SQLServerDatabaseMetaData functions would now work correctly when a pooled connection is re-used.
+
+1768845 The behaviour of setTimestamp and updateTimestamp are made consistent with respect to rounding. The data will be rounded 
+        to 7 decimals first by the driver before it is sent to the server.
+
+1770134 updateTime on a time backend type with the max value (23:59:59.999) now results in correct rounding behavior
+
+1761042 DataSource Boolean properties now log exit calls
+
+1750330 Updated XA SQL Script to avoid misleading errors on first run
+
+1761393 Improved tracing for unwrap methods
+
+1945579 DatabaseMetaData.getSchemas now works correctly with SQL Azure and SQL Server for all collations.
+
+1963089 The hostNameInCertificate connection property is no longer mandatory to validate an SSL certificate against SQL Azure.
+
+1958531 If a connection to a server that is not setup for database mirroring fails during login (e.g. database does not exist), the driver does not retry automatically.
+
+1954701 The exception thrown on inserting a duplicate row now contains SQLState 23000.
+
+2055259 Enhanced the error message when integrated authentication fails after loading sqljdbc_auth.dll.
+
+2083373 Large parameterized queries, with invalid arguments, against SQL Azure now throw an exception without closing the connection.
+
+2084385 getDate, getTimestamp, getDateTimeOffset now return correct values with JRE 1.7 for all dates.
+
+2105115 getObject on a ResultSet obtained from DatabaseMetaData.getColumns now works correctly.
+
+
+KNOWN ISSUES
+------------
+The following are known issues with the Microsoft JDBC Driver 4.0 for SQL Server:
+
+1) PARAMETER METADATA LIMITATIONS WITH THE SQL MERGE STATEMENT
+
+PreparedStatement.getParameterMetadata() throws an SQLException when used
+with a parameterized MERGE query.
+
+
+2) JavaKerberos and IBM VMs
+
+If you are running under Windows environments you may have to specify the principalname in the configuration file to get the Java Kerberos working. For example: 
+SQLJDBCDriver {
+com.ibm.security.auth.module.Krb5LoginModule required  useDefaultCcache=true credsType=initiator principal=principalname@principaldomain;
+};
+
+
+3) CONNECTION DROPPING WITH SQL AZURE
+
+When connecting to SQL Azure, idle connections may be terminated by a network component (such as a firewall) after a 
+period of inactivity. To avoid dropping idle connections by a network component, the following 
+registry settings (or their non-Windows equivalents) should be set on the operating system where the driver is loaded:
+           
+           Registry Setting                                                                     Recommended value
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\KeepAliveTime                 30000      
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\KeepAliveInterval             1000
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\TcpMaxDataRetransmission      10
+  
+
+
+

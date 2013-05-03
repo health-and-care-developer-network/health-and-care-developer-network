@@ -19,8 +19,8 @@ package uk.nhs.hdn.common.parsers.fixedWidth.fixedWidthFields;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.parsers.CouldNotParseException;
 
-import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Reader;
 
 public final class LeftPaddedFixedWidthField implements FixedWidthField
 {
@@ -35,7 +35,7 @@ public final class LeftPaddedFixedWidthField implements FixedWidthField
 
 	@NotNull
 	@Override
-	public String parse(@NotNull final BufferedReader bufferedReader) throws IOException, CouldNotParseException
+	public String parse(@NotNull final Reader bufferedReader) throws IOException, CouldNotParseException
 	{
 		for(int characterIndex = 0; characterIndex < width; characterIndex++)
 		{
@@ -54,7 +54,7 @@ public final class LeftPaddedFixedWidthField implements FixedWidthField
 	}
 
 	@SuppressWarnings("NumericCastThatLosesPrecision")
-	private String readUnpaddedValue(final BufferedReader bufferedReader, final int characterIndex, final int character) throws IOException
+	private String readUnpaddedValue(final Reader bufferedReader, final int characterIndex, final int character) throws IOException
 	{
 		final char[] unpaddedCharacters = new char[width - characterIndex];
 		unpaddedCharacters[0] = (char) character;

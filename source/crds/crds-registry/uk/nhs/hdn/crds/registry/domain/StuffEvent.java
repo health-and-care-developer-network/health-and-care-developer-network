@@ -31,6 +31,9 @@ import uk.nhs.hdn.crds.registry.domain.identifiers.StuffEventIdentifier;
 import java.io.DataOutput;
 import java.io.IOException;
 
+import static java.lang.String.format;
+import static java.util.Locale.ENGLISH;
+
 public final class StuffEvent extends AbstractToString implements HazelcastDataWriter, MapSerialisable
 {
 	@NotNull
@@ -48,6 +51,12 @@ public final class StuffEvent extends AbstractToString implements HazelcastDataW
 		this.stuffEventIdentifier = stuffEventIdentifier;
 		this.timestamp = timestamp;
 		this.stuffEventKind = stuffEventKind;
+	}
+
+	@NotNull
+	public String toWriteFormat()
+	{
+		return format(ENGLISH, "\"%1$s\",\"%2$s\",\"%3$s\"", stuffEventIdentifier.toUuidString(), timestamp, stuffEventKind.name());
 	}
 
 	@Override

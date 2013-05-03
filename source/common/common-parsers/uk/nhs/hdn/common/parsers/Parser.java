@@ -19,10 +19,10 @@ package uk.nhs.hdn.common.parsers;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.MillisecondsSince1970;
 
-import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Reader;
 
 public interface Parser
 {
-	void parse(@NotNull final BufferedReader bufferedReader, @MillisecondsSince1970 final long lastModified) throws IOException, CouldNotParseException;
+	void parse(@NotNull final Reader bufferedReader, @MillisecondsSince1970 final long lastModified) throws IOException, CouldNotParseException;
 }

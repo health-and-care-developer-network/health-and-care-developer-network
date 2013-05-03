@@ -18,7 +18,6 @@ package uk.nhs.hdn.barcodes.gs1.server.parsing;
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.parsers.Parser;
-import uk.nhs.hdn.common.parsers.ParserFactory;
 import uk.nhs.hdn.common.parsers.separatedValueParsers.TabSeparatedValueParser;
 import uk.nhs.hdn.common.parsers.separatedValueParsers.fieldParsers.StringNonMandatoryPrefixFieldParser;
 import uk.nhs.hdn.common.parsers.separatedValueParsers.separatedValuesParseEventHandlers.ToDomainSeparatedValueParseEventHandler;
@@ -27,20 +26,16 @@ import static uk.nhs.hdn.barcodes.gs1.server.parsing.Gs1CompanyPrefixFieldParser
 import static uk.nhs.hdn.barcodes.gs1.server.parsing.TupleLineParser.TupleLineParserInstance;
 import static uk.nhs.hdn.common.parsers.separatedValueParsers.fieldParsers.NonEmptyStringFieldParser.NonEmptyStringFieldParserInstance;
 
-public final class TuplesParserFactory implements ParserFactory
+public final class TuplesParserFactory
 {
-	private final Gs1CompanyPrefixResourceStateSnapshotUser gs1CompanyPrefixResourceStateSnapshotUser;
-
-	public TuplesParserFactory(@NotNull final Gs1CompanyPrefixResourceStateSnapshotUser gs1CompanyPrefixResourceStateSnapshotUser)
+	private TuplesParserFactory()
 	{
-		this.gs1CompanyPrefixResourceStateSnapshotUser = gs1CompanyPrefixResourceStateSnapshotUser;
 	}
 
 	@NotNull
-	@Override
-	public Parser parser()
+	public static Parser tuplesParser(@NotNull final Gs1CompanyPrefixResourceStateSnapshotUser gs1CompanyPrefixResourceStateSnapshotUser)
 	{
-		return new TabSeparatedValueParser
+		return new TabSeparatedValueParser<>
 		(
 			new ToDomainSeparatedValueParseEventHandler<>
 			(

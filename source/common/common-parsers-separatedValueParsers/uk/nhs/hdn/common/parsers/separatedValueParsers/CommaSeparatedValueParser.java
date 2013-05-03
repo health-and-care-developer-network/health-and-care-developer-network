@@ -28,9 +28,9 @@ import uk.nhs.hdn.common.parsers.separatedValueParsers.lineParsers.CouldNotParse
 import uk.nhs.hdn.common.parsers.separatedValueParsers.separatedValuesParseEventHandlers.SeparatedValueParseEventHandler;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 
-import java.io.BufferedReader;
+import java.io.Reader;
 
-public class CommaSeparatedValueParser extends AbstractToString implements Parser
+public class CommaSeparatedValueParser<S> extends AbstractToString implements Parser
 {
 	private static final char Comma = ',';
 	private static final char DoubleQuote = '"';
@@ -39,10 +39,10 @@ public class CommaSeparatedValueParser extends AbstractToString implements Parse
 	private static final int GuessOfBufferSize = 4096;
 
 	@NotNull
-	private final SeparatedValueParseEventHandler separatedValueParseEventHandler;
+	private final SeparatedValueParseEventHandler<S> separatedValueParseEventHandler;
 	private final boolean readAllRows;
 
-	public CommaSeparatedValueParser(@NotNull final SeparatedValueParseEventHandler separatedValueParseEventHandler, final boolean readOnlyFirstRow)
+	public CommaSeparatedValueParser(@NotNull final SeparatedValueParseEventHandler<S> separatedValueParseEventHandler, final boolean readOnlyFirstRow)
 	{
 		this.separatedValueParseEventHandler = separatedValueParseEventHandler;
 		readAllRows = !readOnlyFirstRow;
@@ -50,19 +50,19 @@ public class CommaSeparatedValueParser extends AbstractToString implements Parse
 
 	@Override
 	@SuppressWarnings("NestedAssignment")
-	public void parse(@NotNull final BufferedReader bufferedReader, @MillisecondsSince1970 final long lastModified) throws CouldNotParseException
+	public final void parse(@NotNull final Reader bufferedReader, @MillisecondsSince1970 final long lastModified) throws CouldNotParseException
 	{
 		final ConvenientReader convenientReader = new BufferedConvenientReader(bufferedReader);
 
-		separatedValueParseEventHandler.start(lastModified);
+		final S state = separatedValueParseEventHandler.start(lastModified);
 
-		readRows(convenientReader);
+		readRows(convenientReader, state);
 
-		separatedValueParseEventHandler.end();
+		separatedValueParseEventHandler.end(state);
 	}
 
 	@SuppressWarnings("LoopConditionNotUpdatedInsideLoop")
-	private void readRows(final ConvenientReader convenientReader) throws CouldNotParseException
+	private void readRows(final ConvenientReader convenientReader, final S state) throws CouldNotParseException
 	{
 		boolean endOfLineNeedsToBeRaisedIfEndOfFileEncountered = true;
 		do
@@ -76,24 +76,24 @@ public class CommaSeparatedValueParser extends AbstractToString implements Parse
 			{
 				if (endOfLineNeedsToBeRaisedIfEndOfFileEncountered)
 				{
-					raiseEndOfLine(convenientReader);
+					raiseEndOfLine(convenientReader, state);
 				}
 				return;
 			}
 
 			if (is(character, DoubleQuote))
 			{
-				endOfLineNeedsToBeRaisedIfEndOfFileEncountered = parseQuotedField(convenientReader);
+				endOfLineNeedsToBeRaisedIfEndOfFileEncountered = parseQuotedField(convenientReader, state);
 			}
 			else
 			{
-				endOfLineNeedsToBeRaisedIfEndOfFileEncountered = parseUnquotedField(character, convenientReader);
+				endOfLineNeedsToBeRaisedIfEndOfFileEncountered = parseUnquotedField(character, convenientReader, state);
 			}
 		} while(readAllRows);
 	}
 
 	@SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
-	private boolean parseUnquotedField(final char firstCharacter, final ConvenientReader convenientReader) throws CouldNotParseException
+	private boolean parseUnquotedField(final char firstCharacter, final ConvenientReader convenientReader, final S state) throws CouldNotParseException
 	{
 		final StringBuilder fieldStringBuilder = newFieldStringBuilder();
 		char character = firstCharacter;
@@ -102,14 +102,14 @@ public class CommaSeparatedValueParser extends AbstractToString implements Parse
 			switch (character)
 			{
 				case Comma:
-					return raiseField(convenientReader, fieldStringBuilder);
+					return raiseField(convenientReader, fieldStringBuilder, state);
 
 				case CarriageReturn:
 					guardCrFollowedByLf(convenientReader);
 					//noinspection fallthrough
 
 				case LineFeed:
-					return raiseFieldThenEndOfLine(convenientReader, fieldStringBuilder);
+					return raiseFieldThenEndOfLine(convenientReader, fieldStringBuilder, state);
 
 				default:
 					fieldStringBuilder.append(character);
@@ -121,14 +121,14 @@ public class CommaSeparatedValueParser extends AbstractToString implements Parse
 			}
 			catch (EndOfFileException ignored)
 			{
-				return raiseFieldThenEndOfLine(convenientReader, fieldStringBuilder);
+				return raiseFieldThenEndOfLine(convenientReader, fieldStringBuilder, state);
 			}
 		}
 		while(true);
 	}
 
 	@SuppressWarnings({"FeatureEnvy", "BooleanMethodNameMustStartWithQuestion"})
-	private boolean parseQuotedField(final ConvenientReader convenientReader) throws CouldNotParseException
+	private boolean parseQuotedField(final ConvenientReader convenientReader, final S state) throws CouldNotParseException
 	{
 		final StringBuilder fieldStringBuilder = newFieldStringBuilder();
 		do
@@ -151,20 +151,20 @@ public class CommaSeparatedValueParser extends AbstractToString implements Parse
 				}
 				catch (EndOfFileException ignored)
 				{
-					return raiseFieldThenEndOfLine(convenientReader, fieldStringBuilder);
+					return raiseFieldThenEndOfLine(convenientReader, fieldStringBuilder, state);
 				}
 
 				switch(next)
 				{
 					case Comma:
-						return raiseField(convenientReader, fieldStringBuilder);
+						return raiseField(convenientReader, fieldStringBuilder, state);
 
 					case CarriageReturn:
 						guardCrFollowedByLf(convenientReader);
 						//noinspection fallthrough
 
 					case LineFeed:
-						return raiseFieldThenEndOfLine(convenientReader, fieldStringBuilder);
+						return raiseFieldThenEndOfLine(convenientReader, fieldStringBuilder, state);
 
 					case DoubleQuote:
 						break;
@@ -210,11 +210,11 @@ public class CommaSeparatedValueParser extends AbstractToString implements Parse
 	}
 
 	@SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
-	private boolean raiseField(final ConvenientReader convenientReader, final StringBuilder fieldStringBuilder) throws CouldNotParseException
+	private boolean raiseField(final ConvenientReader convenientReader, final StringBuilder fieldStringBuilder, final S state) throws CouldNotParseException
 	{
 		try
 		{
-			separatedValueParseEventHandler.field(fieldStringBuilder.toString());
+			separatedValueParseEventHandler.field(state, fieldStringBuilder.toString());
 		}
 		catch (CouldNotParseFieldException e)
 		{
@@ -225,20 +225,20 @@ public class CommaSeparatedValueParser extends AbstractToString implements Parse
 	}
 
 	@SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
-	private boolean raiseFieldThenEndOfLine(final ConvenientReader convenientReader, final StringBuilder fieldStringBuilder) throws CouldNotParseException
+	private boolean raiseFieldThenEndOfLine(final ConvenientReader convenientReader, final StringBuilder fieldStringBuilder, final S state) throws CouldNotParseException
 	{
-		raiseField(convenientReader, fieldStringBuilder);
+		raiseField(convenientReader, fieldStringBuilder, state);
 
-		raiseEndOfLine(convenientReader);
+		raiseEndOfLine(convenientReader, state);
 
 		return false;
 	}
 
-	private void raiseEndOfLine(final ConvenientReader convenientReader) throws CouldNotParseException
+	private void raiseEndOfLine(final ConvenientReader convenientReader, final S state) throws CouldNotParseException
 	{
 		try
 		{
-			separatedValueParseEventHandler.endOfLine();
+			separatedValueParseEventHandler.endOfLine(state);
 		}
 		catch (CouldNotParseLineException e)
 		{

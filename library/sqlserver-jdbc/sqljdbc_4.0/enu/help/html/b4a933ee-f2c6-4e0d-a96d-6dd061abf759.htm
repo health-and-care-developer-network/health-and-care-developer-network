@@ -1,0 +1,49 @@
+﻿<html xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:MSHelp="http://msdn.microsoft.com/mshelp" xmlns:mshelp="http://msdn.microsoft.com/mshelp" xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:msxsl="urn:schemas-microsoft-com:xslt"><head><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8" /><META NAME="save" CONTENT="history" /><title>Data Source Sample</title><meta name="Language" content="en-us" /><meta name="System.Keywords" content="data source sample" /><meta name="Microsoft.Help.Id" content="b4a933ee-f2c6-4e0d-a96d-6dd061abf759" /><meta name="Description" content="This Microsoft JDBC Driver for SQL Server sample application demonstrates how to connect to a SQL Server database by using a data source object. It also demonstrates how to retrieve data from a SQL Server database by using a stored procedure." /><meta name="Microsoft.Help.ContentType" content="Samples" /><link rel="stylesheet" type="text/css" href="../local/Classic.css" /><script type="text/javascript" src="../scripts/EventUtilities.js">&amp;nbsp;</script><script type="text/javascript" src="../scripts/SplitScreen.js">&amp;nbsp;</script><script type="text/javascript" src="../scripts/Dropdown.js">&amp;nbsp;</script><script type="text/javascript" src="../scripts/script_manifold.js">&amp;nbsp;</script><script type="text/javascript" src="../scripts/script_feedBack.js">&amp;nbsp;</script><script type="text/javascript" src="../scripts/CheckboxMenu.js">&amp;nbsp;</script><script type="text/javascript" src="../scripts/CommonUtilities.js">&amp;nbsp;</script><script type="text/javascript" src="../local/script_main.js">&amp;nbsp;</script></head><body><div id="header"><table id="bottomTable" cellpadding="0" cellspacing="0"><tr><td align="left"><span id="headerBold">Data Source Sample</span></td></tr></table><table id="gradientTable"><tr><td class="nsrBottom" background="../icons/gradient.gif" /></tr></table></div><div id="mainSection"><div id="mainBody"><div class="introduction"><p>This Microsoft JDBC Driver for SQL Server sample application demonstrates how to connect to a SQL Server database by using a data source object. It also demonstrates how to retrieve data from a SQL Server database by using a stored procedure.</p><p>The code file for this sample is named connectDS.java, and it can be found in the following location:</p><p>&lt;<i>installation directory</i>&gt;\sqljdbc_&lt;<i>version</i>&gt;\&lt;<i>language</i>&gt;\help\samples\connections</p></div><h1 class="heading">Requirements</h1><div id="requirementsTitleSection" class="section" name="collapseableSection" style=""><p>To run this sample application, you must set the classpath to include the sqljdbc.jar file or sqljdbc4.jar file. If the classpath is missing an entry for sqljdbc.jar or sqljdbc4.jar, the sample application will throw the common "Class not found" exception. You will also need access to the SQL Server 2005 AdventureWorks sample database. For more information about how to set the classpath, see <span sdata="link"><a href="6faaf05b-8b70-4ed2-9b44-eee5897f1cd0.htm">Using the JDBC Driver</a></span>.</p><div style="margin: .5em 1.5em .5em 1.5em"><b></b><p>The Microsoft JDBC Driver for SQL Server provides sqljdbc.jar and sqljdbc4.jar class library files to be used depending on your preferred Java Runtime Environment (JRE) settings. For more information about which JAR file to choose, see <span sdata="link"><a href="447792bb-f39b-49b4-9fd0-1ef4154c74ab.htm">System Requirements for the JDBC Driver</a></span>.</p></div></div><h1 class="heading">Example</h1><div id="exampleSection" class="section" name="collapseableSection" style=""><p>In the following example, the sample code sets various connection properties by using setter methods of the <a href="097434fd-2b74-411c-a5ed-eba04481dde5.htm">SQLServerDataSource</a> object, and then calls the <a href="a15ee185-f433-4915-9c75-5ebd90c758fd.htm">getConnection</a> method of the <b>SQLServerDataSource</b> object to return a <a href="937292a6-1525-423e-a2b2-a18fd34c2893.htm">SQLServerConnection</a> object.</p><p>Next, the sample code uses the <a href="265b024c-898a-4bd0-98b5-f06076717b9e.htm">prepareCall</a> method of the <b>SQLServerConnection</b> object to create a <a href="30710a63-c05d-47d9-9cf9-c087a1c76373.htm">SQLServerCallableStatement</a> object, and then the <a href="dfff3358-f391-4af6-84c1-b94c029f506d.htm">executeQuery</a> method is called to execute the stored procedure.</p><p>Finally, the sample uses the <a href="eaffcff1-286c-459f-83da-3150778480c9.htm">SQLServerResultSet</a> object returned from the <b>executeQuery</b> method to iterate through the results returned by the stored procedure.</p><div class="sampleCode"><span codeLanguage="other"><pre>import java.sql.*;
+import com.microsoft.sqlserver.jdbc.*;
+
+public class connectDS {
+
+   public static void main(String[] args) {
+
+      // Declare the JDBC objects.
+      Connection con = null;
+      CallableStatement cstmt = null;
+      ResultSet rs = null;
+
+      try {
+         // Establish the connection. 
+         SQLServerDataSource ds = new SQLServerDataSource();
+         ds.setUser("UserName");
+         ds.setPassword("*****");
+         ds.setServerName("localhost");
+         ds.setPortNumber(1433); 
+         ds.setDatabaseName("AdventureWorks");
+         con = ds.getConnection();
+
+         // Execute a stored procedure that returns some data.
+         cstmt = con.prepareCall("{call dbo.uspGetEmployeeManagers(?)}");
+         cstmt.setInt(1, 50);
+         rs = cstmt.executeQuery();
+
+         // Iterate through the data in the result set and display it.
+         while (rs.next()) {
+            System.out.println("EMPLOYEE: " + rs.getString("LastName") + 
+               ", " + rs.getString("FirstName"));
+            System.out.println("MANAGER: " + rs.getString("ManagerLastName") + 
+               ", " + rs.getString("ManagerFirstName"));
+            System.out.println();
+         }
+      }
+
+      // Handle any errors that may have occurred.
+      catch (Exception e) {
+         e.printStackTrace();
+      }
+      finally {
+         if (rs != null) try { rs.close(); } catch(Exception e) {}
+         if (cstmt != null) try { cstmt.close(); } catch(Exception e) {}
+         if (con != null) try { con.close(); } catch(Exception e) {}
+         System.exit(1);
+      }
+   }
+}</pre></span></div></div><span id="seeAlsoSpan"><h1 class="heading">See Also</h1></span><div id="seeAlsoSection" class="section" name="collapseableSection" style=""><div class="seeAlsoStyle"><span sdata="link"><a href="ce43cc20-46a3-42ff-a3fb-75ad1ed10e08.htm">Connecting and Retrieving Data</a></span></div></div></div><div id="footer" class="section"><span id="feedbackarea">Send <a href="javascript:SubmitFeedback('DevDocs@Microsoft.com','','','','01.00.12024.10000','%0\dThank%20you%20for%20your%20feedback.%20The%20developer%20writing%20teams%20use%20your%20feedback%20to%20improve%20documentation.%20While%20we%20are%20reviewing%20your%20feedback,%20we%20may%20send%20you%20e-mail%20to%20ask%20for%20clarification%20or%20feedback%20on%20a%20solution.%20We%20do%20not%20use%20your%20e-mail%20address%20for%20any%20other%20purpose%20and%20we%20delete%20it%20after%20we%20finish%20our%20review.%0\AFor%20further%20information%20about%20the%20privacy%20policies%20of%20Microsoft,%20please%20see%20http://privacy.microsoft.com/en-us/default.aspx.%0\A%0\d','Customer%20Feedback');">feedback</a> on this topic to Microsoft.</span><span id="copyrightarea"><p><a href="9bad553b-9e70-4696-8499-2e35f772a1e0.htm">© 2012 Microsoft.  All rights reserved.</a></p></span></div></div></body></html>

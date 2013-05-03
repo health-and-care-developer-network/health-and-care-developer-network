@@ -34,9 +34,9 @@ public final class BufferedConvenientReader implements ConvenientReader
 	private long position;
 
 	@SuppressWarnings("IOResourceOpenedButNotSafelyClosed")
-	public BufferedConvenientReader(@NotNull final BufferedReader reader)
+	public BufferedConvenientReader(@NotNull final Reader reader)
 	{
-		this.reader = reader;
+		this.reader = reader instanceof BufferedReader ? reader : new BufferedReader(reader);
 		position = 0L;
 	}
 

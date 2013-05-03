@@ -18,23 +18,23 @@ package uk.nhs.hdn.crds.repository.example.application;
 
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
-import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.commandLine.AbstractConsoleEntryPoint;
-import uk.nhs.hdn.crds.repository.example.DemonstrateRecordChangesRunnable;
-import uk.nhs.hdn.common.sql.postgresql.PostgresqlConnectionHelper;
+import uk.nhs.hdn.common.sql.PollingConnectionUserRunnable;
+import uk.nhs.hdn.common.sql.postgresql.PostgresqlConnectionProvider;
 import uk.nhs.hdn.common.sql.postgresql.PostgresqlListenerRunnable;
-import uk.nhs.hdn.common.sql.postgresql.ProcessNotificationUser;
+import uk.nhs.hdn.crds.registry.domain.StuffEventMessage;
+import uk.nhs.hdn.crds.repository.StuffEventMessageUser;
 
 import java.sql.SQLException;
 
 import static java.lang.System.out;
+import static uk.nhs.hdn.crds.repository.example.DemonstrateChangesConnectionUser.DemonstrateChangesConnectionUserInstance;
 import static uk.nhs.hdn.crds.repository.example.SchemaCreation.createOrReplaceSchema;
+import static uk.nhs.hdn.crds.repository.parsing.StuffEventMessageParser.singleLineStuffEventMessageParser;
 
 public final class RepositoryExampleConsoleEntryPoint extends AbstractConsoleEntryPoint
 {
-	@NonNls @NotNull private static final String AsDatasetIdsOption = "as-dataset-ids";
-
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static void main(@NotNull final String... commandLineArguments)
 	{
@@ -44,41 +44,59 @@ public final class RepositoryExampleConsoleEntryPoint extends AbstractConsoleEnt
 	@Override
 	protected boolean options(@NotNull final OptionParser options)
 	{
-		options.accepts(AsDatasetIdsOption, "returns results as Dataset Ids (UUIDs)").withOptionalArg().ofType(boolean.class).describedAs("true if as dataset ids; false or unspecified to produce dataset names");
 		return true;
 	}
 
 	@Override
 	protected void execute(@NotNull final OptionSet optionSet) throws SQLException
 	{
-		@SuppressWarnings("DuplicateStringLiteralInspection") final PostgresqlConnectionHelper postgresqlConnectionHelper = new PostgresqlConnectionHelper("localhost", "postgres", "repository", "postgres", "postgres");
-		run(postgresqlConnectionHelper);
+		@SuppressWarnings("DuplicateStringLiteralInspection") final PostgresqlConnectionProvider postgresqlConnectionProvider = new PostgresqlConnectionProvider("localhost", "postgres", "repository-example", "postgres", "postgres");
+		run(postgresqlConnectionProvider);
 	}
 
-	private static void run(final PostgresqlConnectionHelper postgresqlConnectionHelper) throws SQLException
+	private static void run(final PostgresqlConnectionProvider postgresqlConnectionProvider) throws SQLException
 	{
+		final StuffEventMessageUser stuffEventMessageUser = new StuffEventMessageUser()
+		{
+			@SuppressWarnings("UseOfSystemOutOrSystemErr")
+			@Override
+			public void use(@NotNull final StuffEventMessage stuffEventMessage)
+			{
+				out.println(stuffEventMessage.toWireFormat());
+			}
+		};
 		try
 		{
-			createOrReplaceSchema(postgresqlConnectionHelper);
+			createOrReplaceSchema(postgresqlConnectionProvider);
 
-			new Thread(new DemonstrateRecordChangesRunnable(postgresqlConnectionHelper), "Demonstrate Record Changes so we have some live data to be notified about").start();
+			new Thread
+			(
+				new PollingConnectionUserRunnable
+				(
+					postgresqlConnectionProvider, DemonstrateChangesConnectionUserInstance
+				),
+				"Demonstrate Record Changes in Postgresql so we have some live data to be notified about"
+			).start();
 
-			try (PostgresqlListenerRunnable patients = new PostgresqlListenerRunnable(postgresqlConnectionHelper, "patients", new ProcessNotificationUser()
-			{
-				@SuppressWarnings("UseOfSystemOutOrSystemErr")
-				@Override
-				public void processNotification(@NotNull final String channel, @NotNull final String message)
-				{
-					out.printf("%1$s %2$s%n", channel, message);
-				}
-			}))
+			try
+			(
+				PostgresqlListenerRunnable patients = new PostgresqlListenerRunnable
+				(
+					postgresqlConnectionProvider,
+					"patients",
+					new MessageSendingProcessNotificationUser
+					(
+						singleLineStuffEventMessageParser(stuffEventMessageUser)
+					)
+				)
+			)
 			{
 				patients.run();
 			}
 		}
 		finally
 		{
-			postgresqlConnectionHelper.close();
+			postgresqlConnectionProvider.close();
 		}
 	}
 

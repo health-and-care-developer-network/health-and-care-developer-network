@@ -19,23 +19,20 @@ package uk.nhs.hdn.crds.registry.domain.metadata.parsing;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.parsers.separatedValueParsers.fieldParsers.CouldNotParseFieldException;
 import uk.nhs.hdn.common.parsers.separatedValueParsers.fieldParsers.FieldParser;
-import uk.nhs.hdn.crds.registry.domain.identifiers.Identifier;
-import uk.nhs.hdn.crds.registry.domain.identifiers.ProviderIdentifier;
-import uk.nhs.hdn.crds.registry.domain.identifiers.RepositoryIdentifier;
+import uk.nhs.hdn.crds.registry.domain.identifiers.*;
 import uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor;
 
 import java.util.UUID;
 
 import static uk.nhs.hdn.common.parsers.separatedValueParsers.fieldParsers.NonEmptyUUIDFieldParser.NonEmptyUUIDFieldParserInstance;
-import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.provider;
-import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.repository;
-import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.stuff;
+import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.*;
 
 public final class IdentifierFieldParser<I extends Identifier> implements FieldParser<I>
 {
 	@NotNull public static final IdentifierFieldParser<ProviderIdentifier> ProviderIdentifierFieldParserInstance = new IdentifierFieldParser<>(provider);
 	@NotNull public static final IdentifierFieldParser<RepositoryIdentifier> RepositoryIdentifierFieldParserInstance = new IdentifierFieldParser<>(repository);
-	@NotNull public static final IdentifierFieldParser<RepositoryIdentifier> StuffIdentifierFieldParserInstance = new IdentifierFieldParser<>(stuff);
+	@NotNull public static final IdentifierFieldParser<StuffIdentifier> StuffIdentifierFieldParserInstance = new IdentifierFieldParser<>(stuff);
+	@NotNull public static final IdentifierFieldParser<StuffEventIdentifier> StuffEventIdentifierFieldParserInstance = new IdentifierFieldParser<>(stuff_event);
 
 	private final IdentifierConstructor identifierConstructor;
 

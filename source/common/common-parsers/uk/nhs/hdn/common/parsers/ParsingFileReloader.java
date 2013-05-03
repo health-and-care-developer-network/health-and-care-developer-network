@@ -31,23 +31,23 @@ import static uk.nhs.hdn.common.CharsetHelper.Utf8;
 public final class ParsingFileReloader extends AbstractToString implements FileReloader
 {
 	@NotNull
-	public static ParsingFileReloader utf8ParsingFileReloaderWithInitialLoad(@NotNull final ParserFactory parserFactory, @NotNull final File containingFolder, @NonNls @NotNull final String fileName) throws FailedToReloadException
+	public static ParsingFileReloader utf8ParsingFileReloaderWithInitialLoad(@NotNull final Parser parser, @NotNull final File containingFolder, @NonNls @NotNull final String fileName) throws FailedToReloadException
 	{
 		final FileSource fileSource = new FileSource(Utf8, new File(containingFolder, fileName).toPath().toAbsolutePath());
-		final ParsingFileReloader parsingFileReloader = new ParsingFileReloader(parserFactory, fileSource);
+		final ParsingFileReloader parsingFileReloader = new ParsingFileReloader(parser, fileSource);
 		parsingFileReloader.reload();
 		return parsingFileReloader;
 	}
 
 	@NotNull
-	private final ParserFactory parserFactory;
+	private final Parser parser;
 
 	@NotNull
 	private final FileSource fileSource;
 
-	public ParsingFileReloader(@NotNull final ParserFactory parserFactory, @NotNull final FileSource fileSource)
+	public ParsingFileReloader(@NotNull final Parser parser, @NotNull final FileSource fileSource)
 	{
-		this.parserFactory = parserFactory;
+		this.parser = parser;
 		this.fileSource = fileSource;
 	}
 
@@ -56,7 +56,7 @@ public final class ParsingFileReloader extends AbstractToString implements FileR
 	{
 		try
 		{
-			fileSource.load(parserFactory.parser());
+			fileSource.load(parser);
 		}
 		catch (IOException | CouldNotParseException e)
 		{

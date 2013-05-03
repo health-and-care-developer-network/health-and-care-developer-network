@@ -17,6 +17,7 @@
 package uk.nhs.hdn.dbs.response.parsing.fixedWidthLineUsers;
 
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.common.MillisecondsSince1970;
 import uk.nhs.hdn.common.parsers.fixedWidth.CouldNotConvertFieldsException;
 import uk.nhs.hdn.common.parsers.fixedWidth.FieldSchema;
 import uk.nhs.hdn.common.parsers.fixedWidth.fieldConverters.CouldNotConvertFieldValueException;
@@ -28,54 +29,76 @@ import uk.nhs.hdn.dbs.response.ResponseBody;
 
 import static uk.nhs.hdn.dbs.response.parsing.parsers.ResponseBodySingleLineFixedWidthParser.ResponseBodyFields;
 
-public final class ResponseBodySingleLineSeparatedValueParseEventHandler extends AbstractSingleLineSeparatedValueParseEventHandler
+public final class ResponseBodySingleLineSeparatedValueParseEventHandler extends AbstractSingleLineSeparatedValueParseEventHandler<ResponseBodySingleLineSeparatedValueParseEventHandler.ResponseBodySingleLineSeparatedValueParseEventHandlerState>
 {
-	@NotNull
-	private final Object[] collectedFields;
-	@NotNull
-	private final ResponseBodyFixedWidthLineUser responseBodyFixedWidthLineUser;
+	@NotNull private final ResponseBodyFixedWidthLineUser responseBodyFixedWidthLineUser;
 	private final int zeroBasedLineIndex;
-	@NotNull
-	private final ParseResultUser<ResponseBody> parseResultUser;
-	private int fieldIndex;
+	@NotNull private final ParseResultUser<ResponseBody> parseResultUser;
 
 	public ResponseBodySingleLineSeparatedValueParseEventHandler(@NotNull final ResponseBodyFixedWidthLineUser responseBodyFixedWidthLineUser, final int zeroBasedLineIndex, @NotNull final ParseResultUser<ResponseBody> parseResultUser)
 	{
 		this.responseBodyFixedWidthLineUser = responseBodyFixedWidthLineUser;
 		this.zeroBasedLineIndex = zeroBasedLineIndex;
 		this.parseResultUser = parseResultUser;
-		collectedFields = new Object[ResponseBodyFields.length];
-		fieldIndex = 0;
+	}
+
+	@NotNull
+	@Override
+	public ResponseBodySingleLineSeparatedValueParseEventHandlerState start(@MillisecondsSince1970 final long lastModified)
+	{
+		return new ResponseBodySingleLineSeparatedValueParseEventHandlerState();
 	}
 
 	@Override
-	public void field(@NotNull final String value) throws CouldNotParseFieldException
+	public void field(@NotNull final ResponseBodySingleLineSeparatedValueParseEventHandlerState state, @NotNull final String value) throws CouldNotParseFieldException
 	{
-		final FieldSchema responseBodyField = ResponseBodyFields[fieldIndex];
-		try
-		{
-			collectedFields[fieldIndex] = responseBodyField.convert(value);
-		}
-		catch (CouldNotConvertFieldValueException e)
-		{
-			throw new CouldNotParseFieldException(fieldIndex, value, e);
-		}
-
-		fieldIndex++;
+		state.field(value);
 	}
 
 	@Override
-	public void endOfLine() throws CouldNotParseLineException
+	public void endOfLine(@NotNull final ResponseBodySingleLineSeparatedValueParseEventHandlerState state) throws CouldNotParseLineException
 	{
-		final ResponseBody responseBody;
-		try
+		state.endOfLine();
+	}
+
+	public class ResponseBodySingleLineSeparatedValueParseEventHandlerState
+	{
+		@NotNull private final Object[] collectedFields;
+		private int fieldIndex;
+
+		public ResponseBodySingleLineSeparatedValueParseEventHandlerState()
 		{
-			responseBody = responseBodyFixedWidthLineUser.use(zeroBasedLineIndex, collectedFields);
+			collectedFields = new Object[ResponseBodyFields.length];
+			fieldIndex = 0;
 		}
-		catch (CouldNotConvertFieldsException e)
+
+		public void field(@NotNull final String value) throws CouldNotParseFieldException
 		{
-			throw new CouldNotParseLineException(zeroBasedLineIndex, e);
+			final FieldSchema responseBodyField = ResponseBodyFields[fieldIndex];
+			try
+			{
+				collectedFields[fieldIndex] = responseBodyField.convert(value);
+			}
+			catch (CouldNotConvertFieldValueException e)
+			{
+				throw new CouldNotParseFieldException(fieldIndex, value, e);
+			}
+
+			fieldIndex++;
 		}
-		parseResultUser.use(responseBody);
+
+		public void endOfLine() throws CouldNotParseLineException
+		{
+			final ResponseBody responseBody;
+			try
+			{
+				responseBody = responseBodyFixedWidthLineUser.use(zeroBasedLineIndex, collectedFields);
+			}
+			catch (CouldNotConvertFieldsException e)
+			{
+				throw new CouldNotParseLineException(zeroBasedLineIndex, e);
+			}
+			parseResultUser.use(responseBody);
+		}
 	}
 }

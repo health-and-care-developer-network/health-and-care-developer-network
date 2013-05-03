@@ -42,9 +42,16 @@ import static uk.nhs.hdn.crds.registry.domain.ProviderRecord.providerRecord;
 @SuppressWarnings("PublicField")
 public final class SimplePatientRecord extends AbstractToString implements PatientRecord<SimplePatientRecord>, HazelcastDataWriter, MapSerialisable
 {
+	@SuppressWarnings("FeatureEnvy")
 	@NotNull
-	public static SimplePatientRecord initialPatientRecord(@NotNull final NhsNumber patientIdentifier, @NotNull final ProviderIdentifier providerIdentifier, @NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final StuffIdentifier stuffIdentifier, @NotNull final StuffEvent stuffEvent)
+	public static SimplePatientRecord initialPatientRecord(@NotNull final StuffEventMessage stuffEventMessage)
 	{
+		@NotNull final NhsNumber patientIdentifier = stuffEventMessage.patientIdentifier();
+		@NotNull final ProviderIdentifier providerIdentifier = stuffEventMessage.providerIdentifier();
+		@NotNull final RepositoryIdentifier repositoryIdentifier = stuffEventMessage.repositoryIdentifier();
+		@NotNull final StuffIdentifier stuffIdentifier = stuffEventMessage.stuffIdentifier();
+		@NotNull final StuffEvent stuffEvent = stuffEventMessage.stuffEvent();
+
 		return new SimplePatientRecord(patientIdentifier, currentTimeMillis(), initialProviderRecords(providerIdentifier, repositoryIdentifier, stuffIdentifier, stuffEvent));
 	}
 
@@ -63,8 +70,13 @@ public final class SimplePatientRecord extends AbstractToString implements Patie
 	@Override
 	@SuppressWarnings("FeatureEnvy")
 	@NotNull
-	public SimplePatientRecord addRepositoryEvent(@NotNull final ProviderIdentifier providerIdentifier, @NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final StuffIdentifier stuffIdentifier, @NotNull final StuffEvent stuffEvent)
+	public SimplePatientRecord addRepositoryEvent(@NotNull final StuffEventMessage stuffEventMessage)
 	{
+		@NotNull final ProviderIdentifier providerIdentifier = stuffEventMessage.providerIdentifier();
+		@NotNull final RepositoryIdentifier repositoryIdentifier = stuffEventMessage.repositoryIdentifier();
+		@NotNull final StuffIdentifier stuffIdentifier = stuffEventMessage.stuffIdentifier();
+		@NotNull final StuffEvent stuffEvent = stuffEventMessage.stuffEvent();
+
 		@Nullable final ProviderRecord existingProviderRecord = knownProviders.get(providerIdentifier);
 		final ProviderRecord providerRecord;
 		if (existingProviderRecord == null)

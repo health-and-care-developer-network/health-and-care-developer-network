@@ -1,0 +1,103 @@
+﻿<html xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:MSHelp="http://msdn.microsoft.com/mshelp" xmlns:mshelp="http://msdn.microsoft.com/mshelp" xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:msxsl="urn:schemas-microsoft-com:xslt"><head><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8" /><META NAME="save" CONTENT="history" /><title>Reading Large Data with Stored Procedures Sample</title><meta name="Language" content="en-us" /><meta name="System.Keywords" content="adaptive buffering samples, using adaptive buffering" /><meta name="System.Keywords" content="adaptive buffering, OUT parameters in" /><meta name="System.Keywords" content="OUT parameters in adaptive buffering" /><meta name="Microsoft.Help.Id" content="58c76635-a117-4661-8781-d6cb231c5809" /><meta name="Description" content="This Microsoft JDBC Driver for SQL Server sample application demonstrates how to retrieve a large OUT parameter from a stored procedure." /><meta name="Microsoft.Help.ContentType" content="Samples" /><link rel="stylesheet" type="text/css" href="../local/Classic.css" /><script type="text/javascript" src="../scripts/EventUtilities.js">&amp;nbsp;</script><script type="text/javascript" src="../scripts/SplitScreen.js">&amp;nbsp;</script><script type="text/javascript" src="../scripts/Dropdown.js">&amp;nbsp;</script><script type="text/javascript" src="../scripts/script_manifold.js">&amp;nbsp;</script><script type="text/javascript" src="../scripts/script_feedBack.js">&amp;nbsp;</script><script type="text/javascript" src="../scripts/CheckboxMenu.js">&amp;nbsp;</script><script type="text/javascript" src="../scripts/CommonUtilities.js">&amp;nbsp;</script><script type="text/javascript" src="../local/script_main.js">&amp;nbsp;</script></head><body><div id="header"><table id="bottomTable" cellpadding="0" cellspacing="0"><tr><td align="left"><span id="headerBold">Reading Large Data with Stored Procedures Sample</span></td></tr></table><table id="gradientTable"><tr><td class="nsrBottom" background="../icons/gradient.gif" /></tr></table></div><div id="mainSection"><div id="mainBody"><div class="introduction"><p>This Microsoft JDBC Driver for SQL Server sample application demonstrates how to retrieve a large OUT parameter from a stored procedure.</p><p>The code file for this sample is named executeStoredProcedure.java, and can be found in the following location:</p><p>&lt;<i>installation directory</i>&gt;\sqljdbc_&lt;<i>version</i>&gt;\&lt;<i>language</i>&gt;\help\samples\adaptive</p></div><h1 class="heading">Requirements</h1><div id="requirementsTitleSection" class="section" name="collapseableSection" style=""><p>To run this sample application, you will need access to the SQL Server 2005 AdventureWorks sample database. You must also set the classpath to include the sqljdbc.jar file or sqljdbc4.jar file. If the classpath is missing an entry for sqljdbc.jar or sqljdbc4.jar, the sample application will throw the common "Class not found" exception. For more information about how to set the classpath, see <span sdata="link"><a href="6faaf05b-8b70-4ed2-9b44-eee5897f1cd0.htm">Using the JDBC Driver</a></span>.</p><div style="margin: .5em 1.5em .5em 1.5em"><b></b><p>The Microsoft JDBC Driver for SQL Server provides sqljdbc.jar and sqljdbc4.jar class library files to be used depending on your preferred Java Runtime Environment (JRE) settings. For more information about which JAR file to choose, see <span sdata="link"><a href="447792bb-f39b-49b4-9fd0-1ef4154c74ab.htm">System Requirements for the JDBC Driver</a></span>.</p></div><p>You must also create the following stored procedure in the SQL Server 2005 AdventureWorks sample database:</p><div class="sampleCode"><span codeLanguage="other"><pre>CREATE PROCEDURE GetLargeDataValue 
+  (@Document_ID int, 
+   @Document_ID_out int OUTPUT, 
+   @Document_Title varchar(50) OUTPUT,
+   @Document_Summary nvarchar(max) OUTPUT)
+
+AS 
+BEGIN  
+   SELECT @Document_ID_out = DocumentID, 
+          @Document_Title = Title,
+          @Document_Summary = DocumentSummary 
+    FROM  Production.Document
+    WHERE DocumentID = @Document_ID
+END</pre></span></div></div><h1 class="heading">Example</h1><div id="exampleSection" class="section" name="collapseableSection" style=""><p>In the following example, the sample code makes a connection to the SQL Server 2005 AdventureWorks database. Next, the sample code creates sample data and updates the Production.Document table by using a parameterized query. Then, the sample code gets the adaptive buffering mode by using the <a href="a9a9ffdd-7ce3-4e0a-907c-34d6a54e6865.htm">getResponseBuffering</a> method of the <a href="ec24963c-8b51-4838-91e9-1fbfa2347451.htm">SQLServerStatement</a> class and executes the GetLargeDataValue stored procedure. Note that starting with the JDBC driver version 2.0 release, the responseBuffering connection property is set to "adaptive" by default.</p><p>Finally, the sample code displays the data returned with the OUT parameters and also demonstrates how to use the <span class="code">mark</span> and <span class="code">reset</span> methods on the stream to re-read any portion of the data. </p><div name="snippetGroup"><div class="sampleCode"><span codeLanguage="Java"><pre>import java.sql.*;
+import java.io.*;
+import com.microsoft.sqlserver.jdbc.SQLServerCallableStatement;
+
+public class executeStoredProcedure {
+
+    public static void main(String[] args) {
+        // Create a variable for the connection string.
+        String connectionUrl = 
+           "jdbc:sqlserver://localhost:1433;" +
+           "databaseName=AdventureWorks;integratedSecurity=true;";
+
+        // Declare the JDBC objects.
+        Connection con = null;
+        Statement stmt = null;
+        ResultSet rs = null;  
+
+        try {
+          // Establish the connection.
+          Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+          con = DriverManager.getConnection(connectionUrl);
+
+          // Create test data as an example.
+          StringBuffer buffer = new StringBuffer(4000);
+          for (int i = 0; i &lt; 4000; i++) 
+             buffer.append( (char) ('A'));
+
+          PreparedStatement pstmt = con.prepareStatement(
+               "UPDATE Production.Document " +
+               "SET DocumentSummary = ? WHERE (DocumentID = 1)");
+
+          pstmt.setString(1, buffer.toString());
+          pstmt.executeUpdate();
+          pstmt.close();
+
+          // Query test data by using a stored procedure.
+          CallableStatement cstmt = 
+             con.prepareCall("{call dbo.GetLargeDataValue(?, ?, ?, ?)}");
+
+          cstmt.setInt(1, 1);
+          cstmt.registerOutParameter(2, java.sql.Types.INTEGER);
+          cstmt.registerOutParameter(3, java.sql.Types.CHAR);
+          cstmt.registerOutParameter(4, java.sql.Types.LONGVARCHAR);
+
+          // Display the response buffering mode.
+          SQLServerCallableStatement SQLcstmt = (SQLServerCallableStatement) cstmt;
+          System.out.println("Response buffering mode is: " +
+               SQLcstmt.getResponseBuffering());
+
+          SQLcstmt.execute();
+          System.out.println("DocumentID: " + cstmt.getInt(2));
+          System.out.println("Document_Title: " + cstmt.getString(3));
+
+          Reader reader = SQLcstmt.getCharacterStream(4);
+
+          // If your application needs to re-read any portion of the value, 
+          // it must call the mark method on the InputStream or Reader to 
+          // start buffering data that is to be re-read after a subsequent
+          // call to the reset method.	  	 	  
+          reader.mark(4000);
+
+          // Read the first half of data.
+          char output1[] = new char[2000];
+          reader.read(output1);
+          String stringOutput1 = new String(output1);
+
+          // Reset the stream.
+          reader.reset();
+
+          // Read all the data.
+          char output2[] = new char[4000];
+          reader.read(output2);
+          String stringOutput2 = new String(output2);
+
+          // Close the stream.
+          reader.close();
+      }
+      // Handle any errors that may have occurred.
+      catch (Exception e) {
+          e.printStackTrace();
+      }
+      finally {
+          if (rs != null) try { rs.close(); } catch(Exception e) {}
+          if (stmt != null) try { stmt.close(); } catch(Exception e) {}
+          if (con != null) try { con.close(); } catch(Exception e) {}
+      }
+   }
+}
+
+</pre></span></div></div></div><span id="seeAlsoSpan"><h1 class="heading">See Also</h1></span><div id="seeAlsoSection" class="section" name="collapseableSection" style=""><div class="seeAlsoStyle"><span sdata="link"><a href="5b93569f-eceb-4f05-b49c-067564cd3c85.htm">Working with Large Data</a></span></div></div></div><div id="footer" class="section"><span id="feedbackarea">Send <a href="javascript:SubmitFeedback('DevDocs@Microsoft.com','','','','01.00.12024.10000','%0\dThank%20you%20for%20your%20feedback.%20The%20developer%20writing%20teams%20use%20your%20feedback%20to%20improve%20documentation.%20While%20we%20are%20reviewing%20your%20feedback,%20we%20may%20send%20you%20e-mail%20to%20ask%20for%20clarification%20or%20feedback%20on%20a%20solution.%20We%20do%20not%20use%20your%20e-mail%20address%20for%20any%20other%20purpose%20and%20we%20delete%20it%20after%20we%20finish%20our%20review.%0\AFor%20further%20information%20about%20the%20privacy%20policies%20of%20Microsoft,%20please%20see%20http://privacy.microsoft.com/en-us/default.aspx.%0\A%0\d','Customer%20Feedback');">feedback</a> on this topic to Microsoft.</span><span id="copyrightarea"><p><a href="9bad553b-9e70-4696-8499-2e35f772a1e0.htm">© 2012 Microsoft.  All rights reserved.</a></p></span></div></div></body></html>

@@ -1,0 +1,64 @@
+﻿<html xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:MSHelp="http://msdn.microsoft.com/mshelp" xmlns:mshelp="http://msdn.microsoft.com/mshelp" xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:msxsl="urn:schemas-microsoft-com:xslt"><head><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8" /><META NAME="save" CONTENT="history" /><title>Using Database Mirroring (JDBC)</title><meta name="Language" content="en-us" /><meta name="System.Keywords" content="mirroring" /><meta name="Microsoft.Help.Id" content="4ff59218-0d3b-4274-b647-9839c4955865" /><meta name="Description" content="Database mirroring is primarily a software solution for increasing database availability and data redundancy." /><meta name="Microsoft.Help.ContentType" content="Concepts" /><link rel="stylesheet" type="text/css" href="../local/Classic.css" /><script type="text/javascript" src="../scripts/EventUtilities.js">&amp;nbsp;</script><script type="text/javascript" src="../scripts/SplitScreen.js">&amp;nbsp;</script><script type="text/javascript" src="../scripts/Dropdown.js">&amp;nbsp;</script><script type="text/javascript" src="../scripts/script_manifold.js">&amp;nbsp;</script><script type="text/javascript" src="../scripts/script_feedBack.js">&amp;nbsp;</script><script type="text/javascript" src="../scripts/CheckboxMenu.js">&amp;nbsp;</script><script type="text/javascript" src="../scripts/CommonUtilities.js">&amp;nbsp;</script><script type="text/javascript" src="../local/script_main.js">&amp;nbsp;</script></head><body><div id="header"><table id="bottomTable" cellpadding="0" cellspacing="0"><tr><td align="left"><span id="headerBold">Using Database Mirroring (JDBC)</span></td></tr></table><table id="gradientTable"><tr><td class="nsrBottom" background="../icons/gradient.gif" /></tr></table></div><div id="mainSection"><div id="mainBody"><div class="introduction"><p>Database mirroring is primarily a software solution for increasing database availability and data redundancy. The Microsoft JDBC Driver for SQL Server provides implicit support for database mirroring, so that the developer does not need to write any code or take any other action when it has been configured for the database.</p><p>Database mirroring, which is implemented on a per-database basis, keeps a copy of a SQL Server production database on a standby server. This server is either a hot or warm standby server, depending on the configuration and state of the database mirroring session. A hot standby server supports rapid failover without a loss of committed transactions, and a warm standby server supports forcing service (with possible data loss).</p><p>The production database is called the <span class="term">principal</span> database, and the standby copy is called the <span class="term">mirror</span> database. The principal database and mirror database must reside on separate instances of SQL Server (server instances), and they should reside on separate computers, if it is possible.</p><p>The production server instance, referred to as the principal server, communicates with the standby server instance, referred to as the mirror server. The principal and mirror servers act as partners within a database mirroring session. If the principal server fails, the mirror server can make its database into the principal database through a process called <span class="term">failover</span>. For example, Partner_A and Partner_B are two partner servers, with the principal database initially on Partner_A as principal server, and the mirror database residing on Partner_B as the mirror server. If Partner_A goes offline, the database on Partner_B can fail over to become the current principal database. When Partner_A rejoins the mirroring session, it becomes the mirror server and its database becomes the mirror database.</p><p>In the case where the Partner_A server is irreparably damaged, a Partner_C server can be brought online to act as the mirror server for Partner_B, which is now the principal server. However, in this scenario, the client application must include programming logic to ensure that the connection string properties are updated with the new server names used in the database mirroring configuration. Otherwise, the connection to the servers may fail.</p><p>Alternative database mirroring configurations offer different levels of performance and data safety, and support different forms of failover. For more information, see "Overview of Database Mirroring" in SQL Server Books Online.</p></div><h1 class="heading">Programming Considerations</h1><div id="sectionSection0" class="section" name="collapseableSection" style=""><p>When the principal database server fails, the client application receives errors in response to API calls, which indicate that the connection to the database has been lost. When this occurs, any uncommitted changes to the database are lost and the current transaction is rolled back. If this occurs, the application should close the connection (or release the data source object) and try to reopen it. On connection, the new connection is transparently re-directed to the mirror database, which now acts as the principal server, without the client having to modify the connection string or data source object.</p><p>When a connection is initially established, the principal server sends the identity of its failover partner to the client that will be used when failover occurs. When an application tries to establish an initial connection with a failed principal server, the client does not know the identity of the failover partner. To allow clients the opportunity to cope with this scenario, the failoverPartner connection string property, and optionally the <a href="5310b7c2-9d10-474f-ad3a-218fe5da694b.htm">setFailoverPartner</a> data source method, allows the client to specify the identity of the failover partner on its own. The client property is used only in this scenario; if the principal server is available, it is not used. </p><div style="margin: .5em 1.5em .5em 1.5em"><b></b><p>When a failoverPartner is specified in either the connection string or with a data source object, the databaseName property must also be set or else an exception will be thrown. If the failoverPartner and databaseName are not specified explicitly, the application will not attempt to failover when the principal database server fails. In other words, the transparent redirection only works for connections that explicitly specify the failoverPartner and databaseName. For more information about failoverPartner and other connection string properties, see <span sdata="link"><a href="f1b62700-f046-488d-bd6b-a5cd8fc345b7.htm">Setting the Connection Properties</a></span>.</p></div><p>If the failover partner server supplied by the client does not refer to a server acting as a failover partner for the specified database, and if the server/database referred to is in a mirroring arrangement, the connection is refused by the server. Although the <a href="097434fd-2b74-411c-a5ed-eba04481dde5.htm">SQLServerDataSource</a> class provides the <a href="885f927f-9c48-42e0-a7fb-fd936d2b8130.htm">getFailoverPartner</a> method, this method only returns the name of the failover partner specified in the connection string or the <b>setFailoverPartner</b> method. To retrieve the name of the actual failover partner that is currently being used, use the following Transact-SQL statement:</p><div class="sampleCode"><span codeLanguage="other"><pre>SELECT m.mirroring_role_DESC, m.mirroring_state_DESC,
+m.mirroring_partner_instance FROM sys.databases as db,
+sys.database_mirroring AS m WHERE db.name = 'MirroringDBName'
+AND db.database_id = m.database_id</pre></span></div><div style="margin: .5em 1.5em .5em 1.5em"><b></b><p>You will need to change this statement to use the name of your mirroring database.</p></div><p>You should consider caching the partner information to update the connection string or devise a retry strategy in case the first attempt at making a connection fails.</p></div><h1 class="heading">Example</h1><div id="sectionSection1" class="section" name="collapseableSection" style=""><p>In the following example, an attempt is first made to connect to the principle server. If that fails and an exception is thrown, an attempt is made to connect to the mirror server, which may have been promoted to the new principle server. Note the use of the failoverPartner property in the connection string.</p><div class="sampleCode"><span codeLanguage="other"><pre>import java.sql.*;
+
+public class clientFailover {
+
+   public static void main(String[] args) {
+
+      // Create a variable for the connection string.
+      String connectionUrl = "jdbc:sqlserver://serverA:1433;" +
+         "databaseName=AdventureWorks;integratedSecurity=true;" +
+         "failoverPartner=serverB";
+
+      // Declare the JDBC objects.
+      Connection con = null;
+      Statement stmt = null;
+
+      try {
+         // Establish the connection to the principal server.
+         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+         con = DriverManager.getConnection(connectionUrl);
+         System.out.println("Connected to the principal server.");
+
+         // Note that if a failover of serverA occurs here, then an
+         // exception will be thrown and the failover partner will
+         // be used in the first catch block below.
+
+         // Create and execute an SQL statement that inserts some data.
+         stmt = con.createStatement();
+
+         // Note that the following statement assumes that the 
+         // TestTable table has been created in the AdventureWorks
+         // sample database.
+         stmt.executeUpdate("INSERT INTO TestTable (Col2, Col3) VALUES ('a', 10)");
+      }
+
+      // Handle any errors that may have occurred.
+      catch (SQLException se) {
+         try {
+            // The connection to the principal server failed,
+            // try the mirror server which may now be the new
+            // principal server.
+            System.out.println("Connection to principal server failed, " +
+            "trying the mirror server.");
+            con = DriverManager.getConnection(connectionUrl);
+            System.out.println("Connected to the new principal server.");
+            stmt = con.createStatement();
+            stmt.executeUpdate("INSERT INTO TestTable (Col2, Col3) VALUES ('a', 10)");
+         }
+         catch (Exception e) {
+            e.printStackTrace();
+         }
+      }
+      catch (Exception e) {
+         e.printStackTrace();
+      }
+      // Close the JDBC objects.
+      finally {
+         if (stmt != null) try { stmt.close(); } catch(Exception e) {}
+         if (con != null) try { con.close(); } catch(Exception e) {}
+      }
+   }
+}</pre></span></div></div><span id="seeAlsoSpan"><h1 class="heading">See Also</h1></span><div id="seeAlsoSection" class="section" name="collapseableSection" style=""><div class="seeAlsoStyle"><span sdata="link"><a href="94bcfbe3-f00e-4774-bda8-bb7577518fec.htm">Connecting to SQL Server with the JDBC Driver</a></span></div></div></div><div id="footer" class="section"><span id="feedbackarea">Send <a href="javascript:SubmitFeedback('DevDocs@Microsoft.com','','','','01.00.12024.10000','%0\dThank%20you%20for%20your%20feedback.%20The%20developer%20writing%20teams%20use%20your%20feedback%20to%20improve%20documentation.%20While%20we%20are%20reviewing%20your%20feedback,%20we%20may%20send%20you%20e-mail%20to%20ask%20for%20clarification%20or%20feedback%20on%20a%20solution.%20We%20do%20not%20use%20your%20e-mail%20address%20for%20any%20other%20purpose%20and%20we%20delete%20it%20after%20we%20finish%20our%20review.%0\AFor%20further%20information%20about%20the%20privacy%20policies%20of%20Microsoft,%20please%20see%20http://privacy.microsoft.com/en-us/default.aspx.%0\A%0\d','Customer%20Feedback');">feedback</a> on this topic to Microsoft.</span><span id="copyrightarea"><p><a href="9bad553b-9e70-4696-8499-2e35f772a1e0.htm">© 2012 Microsoft.  All rights reserved.</a></p></span></div></div></body></html>

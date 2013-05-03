@@ -17,11 +17,11 @@
 package uk.nhs.hdn.common.parsers.separatedValueParsers;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.common.parsers.separatedValueParsers.separatedValuesParseEventHandlers.AbstractSingleLineSeparatedValueParseEventHandler;
+import uk.nhs.hdn.common.parsers.separatedValueParsers.separatedValuesParseEventHandlers.SeparatedValueParseEventHandler;
 
-public class SingleLineCommaSeparatedValueParser extends CommaSeparatedValueParser
+public class SingleLineCommaSeparatedValueParser<S> extends CommaSeparatedValueParser<S>
 {
-	public SingleLineCommaSeparatedValueParser(@SuppressWarnings("TypeMayBeWeakened") @NotNull final AbstractSingleLineSeparatedValueParseEventHandler separatedValueParseEventHandler)
+	public SingleLineCommaSeparatedValueParser(@SuppressWarnings("TypeMayBeWeakened") @NotNull final SeparatedValueParseEventHandler<S> separatedValueParseEventHandler)
 	{
 		super(separatedValueParseEventHandler, true);
 	}

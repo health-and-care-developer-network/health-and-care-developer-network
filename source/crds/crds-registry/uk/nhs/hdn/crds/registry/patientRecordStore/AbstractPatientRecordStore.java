@@ -18,10 +18,9 @@ package uk.nhs.hdn.crds.registry.patientRecordStore;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.nhs.hdn.crds.registry.domain.*;
-import uk.nhs.hdn.crds.registry.domain.identifiers.ProviderIdentifier;
-import uk.nhs.hdn.crds.registry.domain.identifiers.RepositoryIdentifier;
-import uk.nhs.hdn.crds.registry.domain.identifiers.StuffIdentifier;
+import uk.nhs.hdn.crds.registry.domain.PatientRecord;
+import uk.nhs.hdn.crds.registry.domain.SimplePatientRecord;
+import uk.nhs.hdn.crds.registry.domain.StuffEventMessage;
 import uk.nhs.hdn.crds.registry.server.eventObservers.EventObserver;
 import uk.nhs.hdn.number.NhsNumber;
 
@@ -49,8 +48,10 @@ public abstract class AbstractPatientRecordStore<K, V extends PatientRecord<V>> 
 	}
 
 	@Override
-	public final void addEvent(@NotNull final NhsNumber patientIdentifier, @NotNull final ProviderIdentifier providerIdentifier, @NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final StuffIdentifier stuffIdentifier, @NotNull final StuffEvent stuffEvent)
+	public final void addEvent(@NotNull final StuffEventMessage stuffEventMessage)
 	{
+		@NotNull final NhsNumber patientIdentifier = stuffEventMessage.patientIdentifier();
+
 		try
 		{
 			final K key = key(patientIdentifier);
@@ -61,7 +62,7 @@ public abstract class AbstractPatientRecordStore<K, V extends PatientRecord<V>> 
 				{
 					// No entry, try to add one
 
-					final SimplePatientRecord simplePatientRecord = initialPatientRecord(patientIdentifier, providerIdentifier, repositoryIdentifier, stuffIdentifier, stuffEvent);
+					final SimplePatientRecord simplePatientRecord = initialPatientRecord(stuffEventMessage);
 					oldPatientRecord = root.putIfAbsent(key, value(simplePatientRecord));
 
 					if (wasNewPatientSuccessfullyAdded(oldPatientRecord))
@@ -73,7 +74,7 @@ public abstract class AbstractPatientRecordStore<K, V extends PatientRecord<V>> 
 				{
 					// Existing entry. Try to atomically replace it
 
-					final V newPatientRecord = oldPatientRecord.addRepositoryEvent(providerIdentifier, repositoryIdentifier, stuffIdentifier, stuffEvent);
+					final V newPatientRecord = oldPatientRecord.addRepositoryEvent(stuffEventMessage);
 					if (root.replace(key, oldPatientRecord, newPatientRecord))
 					{
 						return;

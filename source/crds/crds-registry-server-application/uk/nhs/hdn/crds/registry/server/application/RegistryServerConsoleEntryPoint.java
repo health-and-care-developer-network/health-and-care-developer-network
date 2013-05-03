@@ -24,11 +24,10 @@ import uk.nhs.hdn.common.commandLine.AbstractConsoleEntryPoint;
 import uk.nhs.hdn.common.fileWatching.FailedToReloadException;
 import uk.nhs.hdn.common.fileWatching.FileReloader;
 import uk.nhs.hdn.common.http.server.sun.Server;
-import uk.nhs.hdn.common.tuples.Quintuple;
 import uk.nhs.hdn.crds.registry.domain.StuffEvent;
+import uk.nhs.hdn.crds.registry.domain.StuffEventMessage;
 import uk.nhs.hdn.crds.registry.domain.identifiers.*;
 import uk.nhs.hdn.crds.registry.domain.metadata.AbstractMetadataRecord;
-import uk.nhs.hdn.crds.registry.domain.metadata.parsing.MetadataRecordsParserFactory;
 import uk.nhs.hdn.crds.registry.patientRecordStore.PatientRecordStore;
 import uk.nhs.hdn.crds.registry.recordStore.SubstitutableRecordStore;
 import uk.nhs.hdn.crds.registry.server.eventObservers.ConcurrentAggregatedEventObserver;
@@ -48,9 +47,9 @@ import static uk.nhs.hdn.common.VariableArgumentsHelper.of;
 import static uk.nhs.hdn.common.fileWatching.FileWatcher.startFileWatcherOnNewThread;
 import static uk.nhs.hdn.common.http.server.sun.restEndpoints.RootDenialRestEndpoint.RootDenialRestEndpointInstance;
 import static uk.nhs.hdn.common.parsers.ParsingFileReloader.utf8ParsingFileReloaderWithInitialLoad;
-import static uk.nhs.hdn.common.tuples.Quintuple.quintuple;
 import static uk.nhs.hdn.crds.registry.domain.StuffEventKind.Created;
 import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.*;
+import static uk.nhs.hdn.crds.registry.domain.metadata.parsing.MetadataRecordsParserFactory.metadataRecordsParser;
 import static uk.nhs.hdn.crds.registry.server.application.PatientRecordStoreKind.Hazelcast;
 import static uk.nhs.hdn.number.NhsNumber.valueOf;
 
@@ -138,7 +137,7 @@ public final class RegistryServerConsoleEntryPoint extends AbstractConsoleEntryP
 		final ConcurrentAggregatedEventObserver<NhsNumber> patientRecordConcurrentAggregatedEventObserver = new ConcurrentAggregatedEventObserver<>();
 		final PatientRecordStore patientRecordStore = patientRecordStoreKind.create(new HazelcastConfiguration(hazelcastPort, useTcp), patientRecordConcurrentAggregatedEventObserver);
 
-		final BlockingQueue<Quintuple<NhsNumber, ProviderIdentifier, RepositoryIdentifier, StuffIdentifier, StuffEvent>> incomingEvents = new LinkedBlockingDeque<>();
+		final BlockingQueue<StuffEventMessage> incomingEvents = new LinkedBlockingDeque<>();
 		addTestData(incomingEvents);
 		new Thread(new EventListenerRunnable(incomingEvents, patientRecordStore), "Incoming Events Listener").start();
 
@@ -154,7 +153,7 @@ public final class RegistryServerConsoleEntryPoint extends AbstractConsoleEntryP
 		final FileReloader fileReloader;
 		try
 		{
-			fileReloader = utf8ParsingFileReloaderWithInitialLoad(new MetadataRecordsParserFactory(providerMetadataRecordStore, repositoryMetadataRecordStore, stuffMetadataRecordStore), dataPath, RegistryMetadataFileName);
+			fileReloader = utf8ParsingFileReloaderWithInitialLoad(metadataRecordsParser(providerMetadataRecordStore, repositoryMetadataRecordStore, stuffMetadataRecordStore), dataPath, RegistryMetadataFileName);
 		}
 		catch (FailedToReloadException e)
 		{
@@ -174,9 +173,9 @@ public final class RegistryServerConsoleEntryPoint extends AbstractConsoleEntryP
 	}
 
 	@SuppressWarnings("FeatureEnvy")
-	private static void addTestData(@NotNull final Collection<Quintuple<NhsNumber, ProviderIdentifier, RepositoryIdentifier, StuffIdentifier, StuffEvent>> incomingEvents)
+	private static void addTestData(@NotNull final Collection<StuffEventMessage> incomingEvents)
 	{
-		incomingEvents.add(quintuple
+		incomingEvents.add(new StuffEventMessage
 		(
 			valueOf("123-456-7881"),
 			(ProviderIdentifier) provider.construct("2dbf298f-eed9-474d-bf8b-d70f68b83417"),

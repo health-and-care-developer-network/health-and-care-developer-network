@@ -18,14 +18,11 @@ package uk.nhs.hdn.crds.registry.patientRecordStore;
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.crds.registry.domain.SimplePatientRecord;
-import uk.nhs.hdn.crds.registry.domain.StuffEvent;
-import uk.nhs.hdn.crds.registry.domain.identifiers.ProviderIdentifier;
-import uk.nhs.hdn.crds.registry.domain.identifiers.RepositoryIdentifier;
-import uk.nhs.hdn.crds.registry.domain.identifiers.StuffIdentifier;
+import uk.nhs.hdn.crds.registry.domain.StuffEventMessage;
 import uk.nhs.hdn.crds.registry.recordStore.RecordStore;
 import uk.nhs.hdn.number.NhsNumber;
 
 public interface PatientRecordStore extends RecordStore<NhsNumber, SimplePatientRecord>
 {
-	void addEvent(@NotNull NhsNumber patientIdentifier, @NotNull ProviderIdentifier providerIdentifier, @NotNull RepositoryIdentifier repositoryIdentifier, @NotNull StuffIdentifier stuffIdentifier, @NotNull StuffEvent stuffEvent);
+	void addEvent(@NotNull final StuffEventMessage stuffEventMessage);
 }

@@ -13,6 +13,10 @@
     <orderEntry type="module" module-name="common-commandLine" />
     <orderEntry type="library" name="JOpt Simple" level="project" />
     <orderEntry type="module" module-name="common-reflection" />
+    <orderEntry type="module" module-name="crds-repository" />
+    <orderEntry type="module" module-name="common-parsers" />
+    <orderEntry type="module" module-name="common" />
+    <orderEntry type="module" module-name="crds-registry" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

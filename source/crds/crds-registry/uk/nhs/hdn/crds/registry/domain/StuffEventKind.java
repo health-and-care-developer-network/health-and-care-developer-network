@@ -31,7 +31,7 @@ public enum StuffEventKind implements ValueSerialisable
 
 
 	@NotNull
-	public static StuffEventKind repositoryEventKind(final int ordinal)
+	public static StuffEventKind stuffEventKind(final int ordinal)
 	{
 		return StuffEventKind.values()[ordinal];
 	}

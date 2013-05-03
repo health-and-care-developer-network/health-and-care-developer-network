@@ -17,12 +17,9 @@
 package uk.nhs.hdn.crds.registry.domain;
 
 import org.jetbrains.annotations.NotNull;
-import uk.nhs.hdn.crds.registry.domain.identifiers.ProviderIdentifier;
-import uk.nhs.hdn.crds.registry.domain.identifiers.RepositoryIdentifier;
-import uk.nhs.hdn.crds.registry.domain.identifiers.StuffIdentifier;
 
 public interface PatientRecord<P extends PatientRecord<P>>
 {
 	@NotNull
-	P addRepositoryEvent(@NotNull final ProviderIdentifier providerIdentifier, @NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final StuffIdentifier stuffIdentifier, @NotNull final StuffEvent stuffEvent);
+	P addRepositoryEvent(@NotNull final StuffEventMessage stuffEventMessage);
 }

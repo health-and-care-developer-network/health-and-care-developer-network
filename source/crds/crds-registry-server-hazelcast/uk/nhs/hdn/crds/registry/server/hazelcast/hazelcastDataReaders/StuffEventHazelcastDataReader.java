@@ -24,7 +24,7 @@ import uk.nhs.hdn.crds.registry.domain.StuffEvent;
 import java.io.DataInput;
 import java.io.IOException;
 
-import static uk.nhs.hdn.crds.registry.domain.StuffEventKind.repositoryEventKind;
+import static uk.nhs.hdn.crds.registry.domain.StuffEventKind.stuffEventKind;
 import static uk.nhs.hdn.crds.registry.server.hazelcast.hazelcastDataReaders.identifierDataReaders.StuffEventIdentifierHazelcastDataReader.StuffEventIdentifierDataReaderInstance;
 
 public final class StuffEventHazelcastDataReader extends AbstractHazelcastDataReader<StuffEvent>
@@ -39,6 +39,6 @@ public final class StuffEventHazelcastDataReader extends AbstractHazelcastDataRe
 	@Override
 	public StuffEvent readData(@NotNull final DataInput in) throws IOException
 	{
-		return new StuffEvent(StuffEventIdentifierDataReaderInstance.readData(in), in.readLong(), repositoryEventKind((int) in.readByte()));
+		return new StuffEvent(StuffEventIdentifierDataReaderInstance.readData(in), in.readLong(), stuffEventKind((int) in.readByte()));
 	}
 }

@@ -21,6 +21,7 @@ import uk.nhs.hdn.common.hazelcast.hazelcastSerialisationHolders.AbstractHazelca
 import uk.nhs.hdn.crds.registry.domain.PatientRecord;
 import uk.nhs.hdn.crds.registry.domain.SimplePatientRecord;
 import uk.nhs.hdn.crds.registry.domain.StuffEvent;
+import uk.nhs.hdn.crds.registry.domain.StuffEventMessage;
 import uk.nhs.hdn.crds.registry.domain.identifiers.ProviderIdentifier;
 import uk.nhs.hdn.crds.registry.domain.identifiers.RepositoryIdentifier;
 import uk.nhs.hdn.crds.registry.domain.identifiers.StuffIdentifier;
@@ -60,10 +61,10 @@ public final class PatientRecordHazelcastSerialisationHolder extends AbstractHaz
 
 	@Override
 	@NotNull
-	public PatientRecordHazelcastSerialisationHolder addRepositoryEvent(@NotNull final ProviderIdentifier providerIdentifier, @NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final StuffIdentifier stuffIdentifier, @NotNull final StuffEvent stuffEvent)
+	public PatientRecordHazelcastSerialisationHolder addRepositoryEvent(@NotNull final StuffEventMessage stuffEventMessage)
 	{
 		assert heldValue != null;
-		heldValue.addRepositoryEvent(providerIdentifier, repositoryIdentifier, stuffIdentifier, stuffEvent);
+		heldValue.addRepositoryEvent(stuffEventMessage);
 		return this;
 	}
 }
