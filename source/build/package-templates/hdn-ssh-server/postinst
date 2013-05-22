@@ -13,19 +13,12 @@ function divertFiles()
 	rm -f /etc/ssh/ssh_host_ecdsa_key
 	rm -f /etc/ssh/ssh_host_ecdsa_key.pub
 }
-
-function googleAuthenticator()
-{
-	google-authenticator
-}
-
 case "$1" in
 	configure)
 		readonly postinst_Instance="any"
 		readonly mostRecentlyConfiguredVersion="$2"
 
 		divertFiles
-		googleAuthenticator
 	;;
 
 	abort-upgrade)
