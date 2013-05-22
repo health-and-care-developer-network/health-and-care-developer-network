@@ -16,9 +16,17 @@
 
 package uk.nhs.hdn.crds.registry.domain.identifiers;
 
+import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.serialisers.PropertyNameSerialisable;
 import uk.nhs.hdn.common.hazelcast.hazelcastDataWriters.HazelcastDataWriter;
 
+import java.util.UUID;
+
 public interface Identifier extends HazelcastDataWriter, PropertyNameSerialisable
 {
+	@NotNull
+	UUID toUuid();
+
+	@NotNull
+	String toUuidString();
 }

@@ -19,9 +19,9 @@ package uk.nhs.hdn.crds.registry.domain;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.nhs.hdn.common.MillisecondsSince1970;
+import uk.nhs.hdn.common.hazelcast.collections.HazelcastAwareLinkedHashSet;
 import uk.nhs.hdn.common.hazelcast.hazelcastDataWriters.HazelcastDataWriter;
 import uk.nhs.hdn.common.reflection.toString.AbstractToString;
-import uk.nhs.hdn.common.hazelcast.collections.HazelcastAwareLinkedHashSet;
 import uk.nhs.hdn.common.serialisers.CouldNotSerialiseMapException;
 import uk.nhs.hdn.common.serialisers.CouldNotWritePropertyException;
 import uk.nhs.hdn.common.serialisers.MapSerialisable;
@@ -30,6 +30,7 @@ import uk.nhs.hdn.crds.registry.domain.identifiers.StuffEventIdentifier;
 
 import java.io.DataOutput;
 import java.io.IOException;
+import java.util.UUID;
 
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
@@ -42,9 +43,9 @@ public final class StuffEvent extends AbstractToString implements HazelcastDataW
 		return new HazelcastAwareLinkedHashSet<>(stuffEvent);
 	}
 
-	@NotNull private final StuffEventIdentifier stuffEventIdentifier;
-	@MillisecondsSince1970 private final long timestamp;
-	@NotNull private final StuffEventKind stuffEventKind;
+	@NotNull public final StuffEventIdentifier stuffEventIdentifier;
+	@MillisecondsSince1970 public final long timestamp;
+	@NotNull public final StuffEventKind stuffEventKind;
 
 	public StuffEvent(@NotNull final StuffEventIdentifier stuffEventIdentifier, @MillisecondsSince1970 final long timestamp, @NotNull final StuffEventKind stuffEventKind)
 	{
@@ -54,9 +55,15 @@ public final class StuffEvent extends AbstractToString implements HazelcastDataW
 	}
 
 	@NotNull
-	public String toWriteFormat()
+	public String toWireFormat()
 	{
 		return format(ENGLISH, "\"%1$s\",\"%2$s\",\"%3$s\"", stuffEventIdentifier.toUuidString(), timestamp, stuffEventKind.name());
+	}
+
+	@NotNull
+	public UUID stuffEventIdentifierUuid()
+	{
+		return stuffEventIdentifier.toUuid();
 	}
 
 	@Override

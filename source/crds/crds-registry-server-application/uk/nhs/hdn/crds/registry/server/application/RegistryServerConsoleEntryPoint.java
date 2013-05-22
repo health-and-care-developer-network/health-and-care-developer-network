@@ -18,40 +18,17 @@ package uk.nhs.hdn.crds.registry.server.application;
 
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
-import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.commandLine.AbstractConsoleEntryPoint;
-import uk.nhs.hdn.common.fileWatching.FailedToReloadException;
-import uk.nhs.hdn.common.fileWatching.FileReloader;
-import uk.nhs.hdn.common.http.server.sun.Server;
-import uk.nhs.hdn.crds.registry.domain.StuffEvent;
-import uk.nhs.hdn.crds.registry.domain.StuffEventMessage;
-import uk.nhs.hdn.crds.registry.domain.identifiers.*;
-import uk.nhs.hdn.crds.registry.domain.metadata.AbstractMetadataRecord;
-import uk.nhs.hdn.crds.registry.patientRecordStore.PatientRecordStore;
-import uk.nhs.hdn.crds.registry.recordStore.SubstitutableRecordStore;
-import uk.nhs.hdn.crds.registry.server.eventObservers.ConcurrentAggregatedEventObserver;
-import uk.nhs.hdn.crds.registry.server.rest.PatientRecordStoreRestEndpoint;
-import uk.nhs.hdn.crds.registry.server.rest.metadata.MetadataRecordRestEndpoint;
-import uk.nhs.hdn.number.NhsNumber;
+import uk.nhs.hdn.crds.registry.server.HazelcastConfiguration;
+import uk.nhs.hdn.crds.registry.server.PatientRecordStoreKind;
+import uk.nhs.hdn.crds.registry.server.application.hazelcast.HazelcastStartReceivingMessagesThread;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.util.Collection;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingDeque;
 
-import static java.lang.System.currentTimeMillis;
-import static uk.nhs.hdn.common.VariableArgumentsHelper.of;
-import static uk.nhs.hdn.common.fileWatching.FileWatcher.startFileWatcherOnNewThread;
-import static uk.nhs.hdn.common.http.server.sun.restEndpoints.RootDenialRestEndpoint.RootDenialRestEndpointInstance;
-import static uk.nhs.hdn.common.parsers.ParsingFileReloader.utf8ParsingFileReloaderWithInitialLoad;
-import static uk.nhs.hdn.crds.registry.domain.StuffEventKind.Created;
-import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.*;
-import static uk.nhs.hdn.crds.registry.domain.metadata.parsing.MetadataRecordsParserFactory.metadataRecordsParser;
-import static uk.nhs.hdn.crds.registry.server.application.PatientRecordStoreKind.Hazelcast;
-import static uk.nhs.hdn.number.NhsNumber.valueOf;
+import static uk.nhs.hdn.crds.registry.server.PatientRecordStoreKind.Hazelcast;
+import static uk.nhs.hdn.crds.registry.server.RegistryServerApplication.run;
 
 public final class RegistryServerConsoleEntryPoint extends AbstractConsoleEntryPoint
 {
@@ -63,17 +40,16 @@ public final class RegistryServerConsoleEntryPoint extends AbstractConsoleEntryP
 	private static final String HazelcasePortOption = "hazelcast-port";
 	private static final String HazelcaseTcpOption = "hazelcast-tcp";
 	private static final String DataPathOption = "data-path";
+	private static final String InstanceIdOption = "instance-id";
+	private static final String PgpassFileOption = "pgpass-file";
 
 	private static final String DefaultHostName = "localhost";
 	private static final int DefaultHttpPort = 4000;
 	private static final int DefaultBacklog = 20;
 	private static final int DefaultCacheSize = 10000;
 	private static final PatientRecordStoreKind DefaultPatientRecordStoreKind = Hazelcast;
-	private static final int DefaultHazlecastPort = 5701;
-	private static final boolean DefaultHazlecastTcp = false;
 	private static final String DefaultDataPath = "/srv/hdn-crds-registry-server";
-
-	@NonNls private static final String RegistryMetadataFileName = "crds-registry-server-metadata.tsv";
+	private static final int DefaultInstanceId = 0;
 
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static void main(@NotNull final String... commandLineArguments)
@@ -89,9 +65,11 @@ public final class RegistryServerConsoleEntryPoint extends AbstractConsoleEntryP
 		options.accepts(BacklogOption).withRequiredArg().ofType(Integer.class).defaultsTo(DefaultBacklog).describedAs("TCP connection backlog");
 		options.accepts(CacheSizeOption).withRequiredArg().ofType(Integer.class).defaultsTo(DefaultCacheSize).describedAs("maximum number of entries to cache per I/O thread");
 		options.accepts(PatientRecordStoreKindOption).withRequiredArg().ofType(PatientRecordStoreKind.class).defaultsTo(DefaultPatientRecordStoreKind).describedAs("backing registry kind for data");
-		options.accepts(HazelcasePortOption).withRequiredArg().ofType(Integer.class).defaultsTo(DefaultHazlecastPort).describedAs("first port for Hazelcast to listen on");
-		options.accepts(HazelcaseTcpOption, "Use multicast (false) or tcp (true)").withOptionalArg().ofType(Boolean.class).defaultsTo(DefaultHazlecastTcp).describedAs("defaults to using TCP instead of multicast");
-		options.accepts(DataPathOption).withRequiredArg().ofType(File.class).defaultsTo(new File(DefaultDataPath)).describedAs("Folder path containing registry metadata");
+		options.accepts(HazelcasePortOption).withRequiredArg().ofType(Integer.class).defaultsTo(HazelcastConfiguration.DefaultHazelcastPort).describedAs("first port for Hazelcast to listen on");
+		options.accepts(HazelcaseTcpOption, "Use multicast (false) or tcp (true)").withOptionalArg().ofType(Boolean.class).defaultsTo(HazelcastConfiguration.DefaultHazelcastTcp).describedAs("defaults to using TCP instead of multicast");
+		options.accepts(DataPathOption, "Folder path containing registry metadata and local container data").withRequiredArg().ofType(File.class).defaultsTo(new File(DefaultDataPath)).describedAs("Linux path");
+		options.accepts(InstanceIdOption, "long lived instance identifier").withRequiredArg().ofType(Integer.class).defaultsTo(DefaultInstanceId).describedAs("Instance identifer. Must be unique but consistent across invocations");
+		options.accepts(PgpassFileOption, "location of password file if not ~/.pgpass").withRequiredArg().ofType(File.class);
 		return true;
 	}
 
@@ -124,69 +102,25 @@ public final class RegistryServerConsoleEntryPoint extends AbstractConsoleEntryP
 		}
 		else
 		{
-			useTcp = DefaultHazlecastTcp;
+			useTcp = HazelcastConfiguration.DefaultHazelcastTcp;
 		}
 
 		final File dataPath = readableDirectory(optionSet, DataPathOption);
 
-		execute(domainName, httpPort, backlog, cacheMaximumNumberOfEntries, patientRecordStoreKind, hazelcastPort, useTcp, dataPath);
-	}
+		final int instanceId = defaulted(optionSet, InstanceIdOption);
 
-	private static void execute(final String domainName, final char httpPort, final int backlog, final int cacheMaximumNumberOfEntries, final PatientRecordStoreKind patientRecordStoreKind, final char hazelcastPort, final boolean useTcp, final File dataPath) throws IOException
-	{
-		final ConcurrentAggregatedEventObserver<NhsNumber> patientRecordConcurrentAggregatedEventObserver = new ConcurrentAggregatedEventObserver<>();
-		final PatientRecordStore patientRecordStore = patientRecordStoreKind.create(new HazelcastConfiguration(hazelcastPort, useTcp), patientRecordConcurrentAggregatedEventObserver);
-
-		final BlockingQueue<StuffEventMessage> incomingEvents = new LinkedBlockingDeque<>();
-		addTestData(incomingEvents);
-		new Thread(new EventListenerRunnable(incomingEvents, patientRecordStore), "Incoming Events Listener").start();
-
-		final ConcurrentAggregatedEventObserver<Identifier> providerMetadataConcurrentAggregatedEventObserver = new ConcurrentAggregatedEventObserver<>();
-		final SubstitutableRecordStore<Identifier, AbstractMetadataRecord<?>> providerMetadataRecordStore = new SubstitutableRecordStore<>(providerMetadataConcurrentAggregatedEventObserver);
-
-		final ConcurrentAggregatedEventObserver<Identifier> repositoryMetadataConcurrentAggregatedEventObserver = new ConcurrentAggregatedEventObserver<>();
-		final SubstitutableRecordStore<Identifier, AbstractMetadataRecord<?>> repositoryMetadataRecordStore = new SubstitutableRecordStore<>(repositoryMetadataConcurrentAggregatedEventObserver);
-
-		final ConcurrentAggregatedEventObserver<Identifier> stuffMetadataConcurrentAggregatedEventObserver = new ConcurrentAggregatedEventObserver<>();
-		final SubstitutableRecordStore<Identifier, AbstractMetadataRecord<?>> stuffMetadataRecordStore = new SubstitutableRecordStore<>(repositoryMetadataConcurrentAggregatedEventObserver);
-
-		final FileReloader fileReloader;
-		try
+		final File pgpassFile;
+		if (optionSet.has(PgpassFileOption))
 		{
-			fileReloader = utf8ParsingFileReloaderWithInitialLoad(metadataRecordsParser(providerMetadataRecordStore, repositoryMetadataRecordStore, stuffMetadataRecordStore), dataPath, RegistryMetadataFileName);
+			pgpassFile = readableFile(optionSet, PgpassFileOption);
 		}
-		catch (FailedToReloadException e)
+		else
 		{
-			throw new IllegalStateException("Could not load registry metadata", e);
+			pgpassFile = new File(".pgpass"); //findDefaultPgpassFileIfNoneSpecified(null);
 		}
-		startFileWatcherOnNewThread(dataPath, RegistryMetadataFileName, fileReloader);
 
-		final Server server = new Server(new InetSocketAddress(domainName, (int) httpPort), backlog, of
-		(
-			RootDenialRestEndpointInstance,
-			new PatientRecordStoreRestEndpoint(cacheMaximumNumberOfEntries, patientRecordStore, patientRecordConcurrentAggregatedEventObserver),
-			new MetadataRecordRestEndpoint(provider, cacheMaximumNumberOfEntries, providerMetadataRecordStore, providerMetadataConcurrentAggregatedEventObserver),
-			new MetadataRecordRestEndpoint(repository, cacheMaximumNumberOfEntries, repositoryMetadataRecordStore, repositoryMetadataConcurrentAggregatedEventObserver),
-			new MetadataRecordRestEndpoint(stuff, cacheMaximumNumberOfEntries, stuffMetadataRecordStore, stuffMetadataConcurrentAggregatedEventObserver)
-		));
-		server.start();
+		final HazelcastConfiguration hazelcastConfiguration = new HazelcastConfiguration(hazelcastPort, useTcp);
+		run(domainName, httpPort, backlog, cacheMaximumNumberOfEntries, patientRecordStoreKind, dataPath, new HazelcastStartReceivingMessagesThread(hazelcastConfiguration), hazelcastConfiguration);
 	}
 
-	@SuppressWarnings("FeatureEnvy")
-	private static void addTestData(@NotNull final Collection<StuffEventMessage> incomingEvents)
-	{
-		incomingEvents.add(new StuffEventMessage
-		(
-			valueOf("123-456-7881"),
-			(ProviderIdentifier) provider.construct("2dbf298f-eed9-474d-bf8b-d70f68b83417"),
-			(RepositoryIdentifier) repository.construct("66dad8b0-72c7-4164-a8b2-27ae6b7467cf"),
-			(StuffIdentifier) stuff.construct("599dbd25-3c3e-4b7a-868b-37b653f394dd"),
-			new StuffEvent
-			(
-				(StuffEventIdentifier) stuff_event.construct("83a0cdb4-849b-44db-bc8f-6998fb60dc1d"),
-				currentTimeMillis(),
-				Created
-			)
-		));
-	}
 }

@@ -19,6 +19,8 @@
     <orderEntry type="module" module-name="crds-registry-server-standalone" />
     <orderEntry type="module" module-name="crds-registry-server-hazelcast" />
     <orderEntry type="module" module-name="crds-registry-server-rest" />
+    <orderEntry type="module" module-name="crds-registry-server" />
+    <orderEntry type="module" module-name="crds-registry-server-application-hazelcast" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

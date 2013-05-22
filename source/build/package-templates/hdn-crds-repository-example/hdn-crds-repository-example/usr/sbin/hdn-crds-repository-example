@@ -170,6 +170,7 @@ function executeHdnServer()
 	-XX:+UseThreadPriorities \
 	-XX:ThreadPriorityPolicy=1 \
 	-XX:+UseLargePages \
+	-Xbootclasspath/a:/usr/lib/hdn-crds-repository-example/jars/nio-bootclasspath.jar \
 	$HDN_CRDS_REPOSITORY_EXAMPLE_JAVA_DEBUG_SWITCHES \
 	-Dfile.encoding=UTF-8 \
 	-Dsun.jnu.encoding=UTF-8 \

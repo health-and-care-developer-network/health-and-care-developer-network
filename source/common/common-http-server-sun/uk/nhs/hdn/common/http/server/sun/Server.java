@@ -25,7 +25,8 @@ import uk.nhs.hdn.common.reflection.toString.AbstractToString;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.Arrays;
-import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.Executor;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import static com.sun.net.httpserver.HttpServer.create;
@@ -37,6 +38,7 @@ import static uk.nhs.hdn.common.VariableArgumentsHelper.copyOf;
 public final class Server extends AbstractToString
 {
 	private static final int TenSecondsGraceToStop = 10;
+	public static final long Fifteen = 15L;
 
 	@NotNull
 	private final InetSocketAddress listenOn;
@@ -47,7 +49,7 @@ public final class Server extends AbstractToString
 	private final RestEndpoint[] restEndpoints;
 
 	@Nullable
-	private HttpServer httpServer;
+	private volatile HttpServer httpServer;
 
 	public Server(@NotNull final InetSocketAddress listenOn, final int backlog, @NotNull final RestEndpoint... restEndpoints)
 	{
@@ -61,6 +63,7 @@ public final class Server extends AbstractToString
 		httpServer = null;
 	}
 
+	@SuppressWarnings("ConstantConditions")
 	public void start() throws IOException
 	{
 		httpServer = create(listenOn, backlog);
@@ -68,17 +71,17 @@ public final class Server extends AbstractToString
 		{
 			restEndpoint.register(httpServer);
 		}
-		assert httpServer != null;
 		httpServer.setExecutor(executor());
 		httpServer.start();
 	}
 
 	@NotNull
-	private static ThreadPoolExecutor executor()
+	private static Executor executor()
 	{
-		return new ThreadPoolExecutor(2, getRuntime().availableProcessors(), 15L, SECONDS, new ArrayBlockingQueue<Runnable>(1024 * 1024));
+		return new ThreadPoolExecutor(2, getRuntime().availableProcessors(), Fifteen, SECONDS, new LinkedBlockingQueue<Runnable>());
 	}
 
+	@SuppressWarnings("ConstantConditions")
 	public void stop()
 	{
 		if (httpServer == null)
@@ -86,7 +89,6 @@ public final class Server extends AbstractToString
 			return;
 		}
 		httpServer.stop(TenSecondsGraceToStop);
-		httpServer = null;
 	}
 
 	@Override

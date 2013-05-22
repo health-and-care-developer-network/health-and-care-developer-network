@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.registry.server.application;
+package uk.nhs.hdn.crds.registry.server;
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.crds.registry.server.eventObservers.EventObserver;

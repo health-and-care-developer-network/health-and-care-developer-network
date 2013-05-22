@@ -21,23 +21,27 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.postgresql.PGConnection;
 import org.postgresql.PGNotification;
+import uk.nhs.hdn.common.sql.ConnectionProvider;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static java.lang.Thread.sleep;
 
-public final class PostgresqlListenerRunnable implements Runnable, AutoCloseable
+public final class PostgresqlListenerRunnable implements Runnable
 {
 	public static final long TenthOfASecond = 100L;
 	@NotNull private final Connection connection;
 	@NotNull private final ProcessNotificationUser processNotificationUser;
+	@NotNull private final AtomicBoolean terminationSignal;
 
 	@SuppressWarnings("JDBCExecuteWithNonConstantString")
-	public PostgresqlListenerRunnable(@NotNull final PostgresqlConnectionProvider postgresqlConnectionProvider, @NotNull @NonNls final String channel, @NotNull final ProcessNotificationUser processNotificationUser) throws SQLException
+	public PostgresqlListenerRunnable(@NotNull final ConnectionProvider postgresqlConnectionProvider, @NotNull @NonNls final String channel, @NotNull final AtomicBoolean terminationSignal, @NotNull final ProcessNotificationUser processNotificationUser) throws SQLException
 	{
+		this.terminationSignal = terminationSignal;
 		connection = postgresqlConnectionProvider.connection();
 		connection.setAutoCommit(true);
 		connection.setReadOnly(true);
@@ -48,52 +52,63 @@ public final class PostgresqlListenerRunnable implements Runnable, AutoCloseable
 		}
 	}
 
-	@Override
-	public void close() throws SQLException
-	{
-		connection.close();
-	}
-
 	@SuppressWarnings("CallToStringEquals")
 	@Override
 	public void run()
 	{
 		final PGConnection pgconn = (PGConnection) connection;
-		do
+		try
 		{
-			try
+			while(shouldContinueRunning())
 			{
-				dummyQueryToForceBackendToSendAnyPendingNotifications();
-			}
-			catch (SQLException e)
-			{
-				if (!"No results were returned by the query.".equals(e.getMessage()))
+				try
+				{
+					dummyQueryToForceBackendToSendAnyPendingNotifications();
+				}
+				catch (SQLException e)
+				{
+					if (!"No results were returned by the query.".equals(e.getMessage()))
+					{
+						throw new IllegalStateException(e);
+					}
+				}
+
+				final PGNotification[] notifications;
+				try
+				{
+					notifications = pgconn.getNotifications();
+				}
+				catch (SQLException e)
 				{
 					throw new IllegalStateException(e);
 				}
-			}
+				processNotifications(notifications);
 
-			final PGNotification[] notifications;
-			try
-			{
-				notifications = pgconn.getNotifications();
-			}
-			catch (SQLException e)
-			{
-				throw new IllegalStateException(e);
-			}
-			processNotifications(notifications);
-
-			try
-			{
-				pause();
-			}
-			catch (InterruptedException ignored)
-			{
-				return;
+				try
+				{
+					pause();
+				}
+				catch (InterruptedException ignored)
+				{
+					return;
+				}
 			}
 		}
-		while (true);
+		finally
+		{
+			try
+			{
+				connection.close();
+			}
+			catch (SQLException ignored)
+			{
+			}
+		}
+	}
+
+	private boolean shouldContinueRunning()
+	{
+		return !terminationSignal.get();
 	}
 
 	@SuppressWarnings("MethodCanBeVariableArityMethod")
@@ -124,7 +139,6 @@ public final class PostgresqlListenerRunnable implements Runnable, AutoCloseable
 
 	private static void pause() throws InterruptedException
 	{
-		// a yield might be a better choice if heavily loaded.
 		sleep(TenthOfASecond);
 	}
 }

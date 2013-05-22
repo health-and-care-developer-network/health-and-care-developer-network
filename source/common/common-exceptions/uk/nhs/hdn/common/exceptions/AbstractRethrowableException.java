@@ -36,8 +36,9 @@ public abstract class AbstractRethrowableException extends Exception
 		stackTraceFilled = false;
 	}
 
+	@SuppressWarnings("NonSynchronizedMethodOverridesSynchronizedMethod")
 	@Override
-	public synchronized Throwable fillInStackTrace()
+	public Throwable fillInStackTrace()
 	{
 		if (stackTraceFilled)
 		{

@@ -1,0 +1,64 @@
+#!/bin/bash -
+set -e
+
+source "/usr/lib/hdn-apt/functions"
+
+function divertFiles()
+{
+	divertFile "hdn-ssh-server" "/etc/pam.d" "sshd"
+	divertFile "hdn-ssh-server" "/etc/ssh" "sshd_config"
+	
+	rm -f /etc/ssh/ssh_host_dsa_key
+	rm -f /etc/ssh/ssh_host_dsa_key.pub
+	rm -f /etc/ssh/ssh_host_ecdsa_key
+	rm -f /etc/ssh/ssh_host_ecdsa_key.pub
+}
+
+function googleAuthenticator()
+{
+	google-authenticator
+}
+
+case "$1" in
+	configure)
+		readonly postinst_Instance="any"
+		readonly mostRecentlyConfiguredVersion="$2"
+
+		divertFiles
+		googleAuthenticator
+	;;
+
+	abort-upgrade)
+		readonly postinst_Instance="old"
+		readonly newVersion="$2"
+		
+		:
+	;;
+
+	abort-remove)
+		if [ $# -gt 0 ]; then
+			if [ "$2" = "in-favour" ]; then
+				readonly postinst_Instance="conflictors"
+				readonly package="$3"
+				readonly newVersion="$4"
+			fi
+		else
+			readonly postinst_Instance="any"
+		fi
+		
+		:
+	;;
+
+	abort-deconfigure)
+		if [ $# -gt 0 ]; then
+			if [ "$2" = "in-favour" ]; then
+				readonly postinst_Instance="deconfigureds"
+				readonly failedInstallPackage="$3"
+				readonly version="$4"
+			fi
+		fi
+		# [removing conflicting-package version]
+		
+		:
+	;;
+esac

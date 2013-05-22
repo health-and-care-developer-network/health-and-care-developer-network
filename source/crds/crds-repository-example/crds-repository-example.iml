@@ -15,6 +15,10 @@
     <orderEntry type="module" module-name="common-reflection" />
     <orderEntry type="module" module-name="common-sql" exported="" />
     <orderEntry type="module" module-name="common-sql-postgresql" exported="" />
+    <orderEntry type="module" module-name="common-exceptions" />
+    <orderEntry type="module" module-name="common-parsers" />
+    <orderEntry type="module" module-name="crds-registry" />
+    <orderEntry type="module" module-name="crds-repository" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

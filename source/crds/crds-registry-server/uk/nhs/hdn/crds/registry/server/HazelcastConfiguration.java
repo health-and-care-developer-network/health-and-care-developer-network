@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package uk.nhs.hdn.crds.registry.server.application;
+package uk.nhs.hdn.crds.registry.server;
 
 import com.hazelcast.config.*;
 import com.hazelcast.core.HazelcastInstance;
 import org.jetbrains.annotations.NotNull;
+import uk.nhs.hdn.crds.registry.domain.StuffEventMessage;
 import uk.nhs.hdn.crds.registry.patientRecordStore.PatientRecordStore;
 import uk.nhs.hdn.crds.registry.server.eventObservers.EventObserver;
 import uk.nhs.hdn.crds.registry.server.hazelcast.hazelcastSerialisationHolders.NhsNumberHazelcastSerialisationHolder;
@@ -26,11 +27,16 @@ import uk.nhs.hdn.crds.registry.server.hazelcast.hazelcastSerialisationHolders.P
 import uk.nhs.hdn.crds.registry.server.hazelcast.patientRecordStore.HazelcastPatientRecordStore;
 import uk.nhs.hdn.number.NhsNumber;
 
+import java.util.concurrent.BlockingQueue;
+
 import static com.hazelcast.core.Hazelcast.newHazelcastInstance;
 
 public final class HazelcastConfiguration
 {
+	public static final int DefaultHazelcastPort = 5701;
+	public static final boolean DefaultHazelcastTcp = false;
 	@NotNull private static final String PatientRecordStoreMap = "patient-record-registry";
+	@NotNull private static final String QueueName = "stuff-event";
 
 	@NotNull private final HazelcastInstance hazelcastInstance;
 
@@ -89,6 +95,10 @@ public final class HazelcastConfiguration
 //		final WanReplicationRef wanReplicationRef = new WanReplicationRef();
 //		rootMapConfig.setWanReplicationRef(wanReplicationRef);
 		config.addMapConfig(rootMapConfig);
+
+		final QueueConfig rootQueueConfig = new QueueConfig();
+		rootQueueConfig.setName(QueueName);
+		config.addQueueConfig(rootQueueConfig);
 		hazelcastInstance = newHazelcastInstance(config);
 	}
 
@@ -96,5 +106,11 @@ public final class HazelcastConfiguration
 	public PatientRecordStore rootMap(@NotNull final EventObserver<NhsNumber> eventObserver)
 	{
 		return new HazelcastPatientRecordStore(hazelcastInstance.<NhsNumberHazelcastSerialisationHolder, PatientRecordHazelcastSerialisationHolder>getMap(PatientRecordStoreMap), eventObserver);
+	}
+
+	@NotNull
+	public BlockingQueue<StuffEventMessage> rootQueue()
+	{
+		return hazelcastInstance.getQueue(QueueName);
 	}
 }

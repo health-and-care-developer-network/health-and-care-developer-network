@@ -18,6 +18,8 @@
     <orderEntry type="module" module-name="common" />
     <orderEntry type="module" module-name="crds-registry" />
     <orderEntry type="module" module-name="crds-repository" />
+    <orderEntry type="module" module-name="crds-repository-senders-hazelcast" />
+    <orderEntry type="module" module-name="crds-registry-server" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

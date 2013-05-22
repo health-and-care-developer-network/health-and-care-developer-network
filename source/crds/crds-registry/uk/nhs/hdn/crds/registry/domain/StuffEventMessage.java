@@ -10,6 +10,7 @@ import uk.nhs.hdn.number.NhsNumber;
 
 import static java.lang.String.format;
 import static java.util.Locale.ENGLISH;
+import static uk.nhs.hdn.common.CharsetHelper.Utf8;
 
 public final class StuffEventMessage
 {
@@ -31,9 +32,30 @@ public final class StuffEventMessage
 	@SuppressWarnings("FeatureEnvy")
 	@NotNull
 	@NonNls
-	public String toWireFormat()
+	private String toWireFormat()
 	{
-		return format(ENGLISH, "\"%1$s\",\"%2$s\",\"%3$s\",\"%4$s\",%5$s", patientIdentifier.normalised(), providerIdentifier.toUuidString(), repositoryIdentifier.toUuidString(), stuffIdentifier.toUuidString(), stuffEvent.toWriteFormat());
+		return format(ENGLISH, "\"%1$s\",\"%2$s\",\"%3$s\",\"%4$s\",%5$s", patientIdentifier.normalised(), providerIdentifier.toUuidString(), repositoryIdentifier.toUuidString(), stuffIdentifier.toUuidString(), stuffEvent.toWireFormat());
+	}
+
+	@SuppressWarnings("FeatureEnvy")
+	@NotNull
+	@NonNls
+	public byte[] toWireFormatBytes()
+	{
+		return toWireFormat().getBytes(Utf8);
+	}
+
+	@NotNull
+	public byte[] userId()
+	{
+		@NonNls final String s = providerIdentifier().toUuidString() + '.' + repositoryIdentifier().toUuidString();
+		return s.getBytes(Utf8);
+	}
+
+	@NotNull
+	public CharSequence subject()
+	{
+		return patientIdentifier.normalised();
 	}
 
 	@NotNull

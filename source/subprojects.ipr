@@ -89,11 +89,6 @@
   <component name="EntryPointsManager">
     <entry_points version="2.0" />
   </component>
-  <component name="HierarchyBrowserManager">
-    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
-    <option name="SORT_ALPHABETICALLY" value="false" />
-    <option name="HIDE_CLASSES_WHERE_METHOD_NOT_IMPLEMENTED" value="false" />
-  </component>
   <component name="IdProvider" IDEtalkID="4956B7F7F689C1935C99E268D4F70B3E" />
   <component name="InspectionProjectProfileManager">
     <profiles>
@@ -343,7 +338,7 @@
           <option name="CHECK_DUPLICATE_KEYS" value="true" />
           <option name="CHECK_DUPLICATE_KEYS_WITH_DIFFERENT_VALUES" value="true" />
         </inspection_tool>
-        <inspection_tool class="DuplicateStringLiteralInspection" enabled="true" level="WARNING" enabled_by_default="true">
+        <inspection_tool class="DuplicateStringLiteralInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
           <option name="MIN_STRING_LENGTH" value="5" />
           <option name="IGNORE_PROPERTY_KEYS" value="false" />
         </inspection_tool>
@@ -1291,7 +1286,9 @@
       <module fileurl="file://$PROJECT_DIR$/crds/crds-registry-client/crds-registry-client.iml" filepath="$PROJECT_DIR$/crds/crds-registry-client/crds-registry-client.iml" group="crds/registry/client" />
       <module fileurl="file://$PROJECT_DIR$/crds/crds-registry-client-metadata/crds-registry-client-metadata.iml" filepath="$PROJECT_DIR$/crds/crds-registry-client-metadata/crds-registry-client-metadata.iml" group="crds/registry/client" />
       <module fileurl="file://$PROJECT_DIR$/crds/crds-registry-client-patient/crds-registry-client-patient.iml" filepath="$PROJECT_DIR$/crds/crds-registry-client-patient/crds-registry-client-patient.iml" group="crds/registry/client" />
+      <module fileurl="file://$PROJECT_DIR$/crds/crds-registry-server/crds-registry-server.iml" filepath="$PROJECT_DIR$/crds/crds-registry-server/crds-registry-server.iml" group="crds/registry/server" />
       <module fileurl="file://$PROJECT_DIR$/crds/crds-registry-server-application/crds-registry-server-application.iml" filepath="$PROJECT_DIR$/crds/crds-registry-server-application/crds-registry-server-application.iml" group="crds/registry/server" />
+      <module fileurl="file://$PROJECT_DIR$/crds/crds-registry-server-application-hazelcast/crds-registry-server-application-hazelcast.iml" filepath="$PROJECT_DIR$/crds/crds-registry-server-application-hazelcast/crds-registry-server-application-hazelcast.iml" group="crds/registry/server" />
       <module fileurl="file://$PROJECT_DIR$/crds/crds-registry-server-eventObservers/crds-registry-server-eventObservers.iml" filepath="$PROJECT_DIR$/crds/crds-registry-server-eventObservers/crds-registry-server-eventObservers.iml" group="crds/registry/server" />
       <module fileurl="file://$PROJECT_DIR$/crds/crds-registry-server-hazelcast/crds-registry-server-hazelcast.iml" filepath="$PROJECT_DIR$/crds/crds-registry-server-hazelcast/crds-registry-server-hazelcast.iml" group="crds/registry/server" />
       <module fileurl="file://$PROJECT_DIR$/crds/crds-registry-server-rest/crds-registry-server-rest.iml" filepath="$PROJECT_DIR$/crds/crds-registry-server-rest/crds-registry-server-rest.iml" group="crds/registry/server" />
@@ -1301,6 +1298,7 @@
       <module fileurl="file://$PROJECT_DIR$/crds/crds-repository-example-application/crds-repository-example-application.iml" filepath="$PROJECT_DIR$/crds/crds-repository-example-application/crds-repository-example-application.iml" group="crds/repository" />
       <module fileurl="file://$PROJECT_DIR$/crds/crds-repository-example-windows/crds-repository-example-windows.iml" filepath="$PROJECT_DIR$/crds/crds-repository-example-windows/crds-repository-example-windows.iml" group="crds/repository" />
       <module fileurl="file://$PROJECT_DIR$/crds/crds-repository-example-windows-application/crds-repository-example-windows-application.iml" filepath="$PROJECT_DIR$/crds/crds-repository-example-windows-application/crds-repository-example-windows-application.iml" group="crds/repository" />
+      <module fileurl="file://$PROJECT_DIR$/crds/crds-repository-senders-hazelcast/crds-repository-senders-hazelcast.iml" filepath="$PROJECT_DIR$/crds/crds-repository-senders-hazelcast/crds-repository-senders-hazelcast.iml" group="crds/repository" />
       <module fileurl="file://$PROJECT_DIR$/dbs/dbs/dbs.iml" filepath="$PROJECT_DIR$/dbs/dbs/dbs.iml" group="dbs" />
       <module fileurl="file://$PROJECT_DIR$/dbs/dbs-parsing/dbs-parsing.iml" filepath="$PROJECT_DIR$/dbs/dbs-parsing/dbs-parsing.iml" group="dbs" />
       <module fileurl="file://$PROJECT_DIR$/dbs/dbs-request/dbs-request.iml" filepath="$PROJECT_DIR$/dbs/dbs-request/dbs-request.iml" group="dbs" />

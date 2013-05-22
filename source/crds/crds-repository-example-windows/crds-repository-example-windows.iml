@@ -16,6 +16,7 @@
     <orderEntry type="module" module-name="number" />
     <orderEntry type="module" module-name="crds-registry" />
     <orderEntry type="module" module-name="crds-repository" />
+    <orderEntry type="module" module-name="crds-repository-example" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

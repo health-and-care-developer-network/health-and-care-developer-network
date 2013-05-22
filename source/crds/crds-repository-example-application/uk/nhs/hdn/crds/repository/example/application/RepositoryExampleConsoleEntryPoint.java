@@ -20,21 +20,27 @@ import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.commandLine.AbstractConsoleEntryPoint;
-import uk.nhs.hdn.common.sql.PollingConnectionUserRunnable;
 import uk.nhs.hdn.common.sql.postgresql.PostgresqlConnectionProvider;
-import uk.nhs.hdn.common.sql.postgresql.PostgresqlListenerRunnable;
-import uk.nhs.hdn.crds.registry.domain.StuffEventMessage;
-import uk.nhs.hdn.crds.repository.StuffEventMessageUser;
+import uk.nhs.hdn.crds.registry.server.HazelcastConfiguration;
+import uk.nhs.hdn.crds.repository.senders.hazelcast.HazelcastRepositoryExampleApplication;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 
-import static java.lang.System.out;
-import static uk.nhs.hdn.crds.repository.example.DemonstrateChangesConnectionUser.DemonstrateChangesConnectionUserInstance;
-import static uk.nhs.hdn.crds.repository.example.SchemaCreation.createOrReplaceSchema;
-import static uk.nhs.hdn.crds.repository.parsing.StuffEventMessageParser.singleLineStuffEventMessageParser;
+import static uk.nhs.hdn.crds.registry.domain.Configuration.*;
+import static uk.nhs.hdn.crds.registry.server.HazelcastConfiguration.DefaultHazelcastPort;
+import static uk.nhs.hdn.crds.registry.server.HazelcastConfiguration.DefaultHazelcastTcp;
 
 public final class RepositoryExampleConsoleEntryPoint extends AbstractConsoleEntryPoint
 {
+	private static final String InstanceIdOption = "instance-id";
+	private static final String PgpassFileOption = "pgpass-file";
+	private static final String PersistedMessagesPathOption = "persisted-messages-path";
+
+	private static final int DefaultInstanceId = 0;
+	private static final String DefaultPersistedMessagesPath = "/srv/hdn-crds-repository-example";
+
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static void main(@NotNull final String... commandLineArguments)
 	{
@@ -44,60 +50,29 @@ public final class RepositoryExampleConsoleEntryPoint extends AbstractConsoleEnt
 	@Override
 	protected boolean options(@NotNull final OptionParser options)
 	{
+		options.accepts(InstanceIdOption, "long lived instance identifier").withRequiredArg().ofType(Integer.class).defaultsTo(DefaultInstanceId).describedAs("Instance identifer. Must be unique but consistent across invocations");
+		options.accepts(PgpassFileOption, "location of password file if not ~/.pgpass").withRequiredArg().ofType(File.class);
+		options.accepts(PersistedMessagesPathOption, "writable location to store persisted but not sent messages").withRequiredArg().ofType(File.class).defaultsTo(new File(DefaultPersistedMessagesPath)).describedAs("Folder path containing persisted messages");
 		return true;
 	}
 
 	@Override
-	protected void execute(@NotNull final OptionSet optionSet) throws SQLException
+	protected void execute(@NotNull final OptionSet optionSet) throws SQLException, IOException
 	{
-		@SuppressWarnings("DuplicateStringLiteralInspection") final PostgresqlConnectionProvider postgresqlConnectionProvider = new PostgresqlConnectionProvider("localhost", "postgres", "repository-example", "postgres", "postgres");
-		run(postgresqlConnectionProvider);
-	}
-
-	private static void run(final PostgresqlConnectionProvider postgresqlConnectionProvider) throws SQLException
-	{
-		final StuffEventMessageUser stuffEventMessageUser = new StuffEventMessageUser()
+		final int instanceId = defaulted(optionSet, InstanceIdOption);
+		final File pgpassFile;
+		if (optionSet.has(PgpassFileOption))
 		{
-			@SuppressWarnings("UseOfSystemOutOrSystemErr")
-			@Override
-			public void use(@NotNull final StuffEventMessage stuffEventMessage)
-			{
-				out.println(stuffEventMessage.toWireFormat());
-			}
-		};
-		try
-		{
-			createOrReplaceSchema(postgresqlConnectionProvider);
-
-			new Thread
-			(
-				new PollingConnectionUserRunnable
-				(
-					postgresqlConnectionProvider, DemonstrateChangesConnectionUserInstance
-				),
-				"Demonstrate Record Changes in Postgresql so we have some live data to be notified about"
-			).start();
-
-			try
-			(
-				PostgresqlListenerRunnable patients = new PostgresqlListenerRunnable
-				(
-					postgresqlConnectionProvider,
-					"patients",
-					new MessageSendingProcessNotificationUser
-					(
-						singleLineStuffEventMessageParser(stuffEventMessageUser)
-					)
-				)
-			)
-			{
-				patients.run();
-			}
+			pgpassFile = readableFile(optionSet, PgpassFileOption);
 		}
-		finally
+		else
 		{
-			postgresqlConnectionProvider.close();
+			pgpassFile = new File(".pgpass"); //findDefaultPgpassFileIfNoneSpecified(null);
 		}
-	}
 
+		final File persistedMessagesPath =  readableDirectory(optionSet, PersistedMessagesPathOption);
+
+		final PostgresqlConnectionProvider postgresqlConnectionProvider = new PostgresqlConnectionProvider("localhost", "postgres", "repository-example", "postgres", "postgres");
+		new HazelcastRepositoryExampleApplication(persistedMessagesPath, UserName, "", instanceId, HostName, VirtualHostName, QueueName, new HazelcastConfiguration((char) DefaultHazelcastPort, DefaultHazelcastTcp)).run(postgresqlConnectionProvider);
+	}
 }

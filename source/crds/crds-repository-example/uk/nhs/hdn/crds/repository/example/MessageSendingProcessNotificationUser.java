@@ -1,4 +1,4 @@
-package uk.nhs.hdn.crds.repository.example.application;
+package uk.nhs.hdn.crds.repository.example;
 
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.exceptions.ShouldNeverHappenException;
