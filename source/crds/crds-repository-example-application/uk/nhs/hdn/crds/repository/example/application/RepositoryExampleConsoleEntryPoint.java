@@ -30,7 +30,6 @@ import java.sql.SQLException;
 
 import static uk.nhs.hdn.crds.registry.domain.Configuration.*;
 import static uk.nhs.hdn.crds.registry.server.HazelcastConfiguration.DefaultHazelcastPort;
-import static uk.nhs.hdn.crds.registry.server.HazelcastConfiguration.DefaultHazelcastTcp;
 
 public final class RepositoryExampleConsoleEntryPoint extends AbstractConsoleEntryPoint
 {
@@ -73,6 +72,6 @@ public final class RepositoryExampleConsoleEntryPoint extends AbstractConsoleEnt
 		final File persistedMessagesPath =  readableDirectory(optionSet, PersistedMessagesPathOption);
 
 		final PostgresqlConnectionProvider postgresqlConnectionProvider = new PostgresqlConnectionProvider("localhost", "postgres", "repository-example", "postgres", "postgres");
-		new HazelcastRepositoryExampleApplication(persistedMessagesPath, UserName, "", instanceId, HostName, VirtualHostName, QueueName, new HazelcastConfiguration((char) DefaultHazelcastPort, DefaultHazelcastTcp)).run(postgresqlConnectionProvider);
+		new HazelcastRepositoryExampleApplication(persistedMessagesPath, UserName, "", instanceId, HostName, VirtualHostName, QueueName, new HazelcastConfiguration((char) DefaultHazelcastPort)).run(postgresqlConnectionProvider);
 	}
 }

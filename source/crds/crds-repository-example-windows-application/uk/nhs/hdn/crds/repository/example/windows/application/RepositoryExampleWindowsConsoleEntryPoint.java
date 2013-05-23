@@ -30,7 +30,6 @@ import java.io.IOException;
 
 import static uk.nhs.hdn.crds.registry.domain.Configuration.*;
 import static uk.nhs.hdn.crds.registry.server.HazelcastConfiguration.DefaultHazelcastPort;
-import static uk.nhs.hdn.crds.registry.server.HazelcastConfiguration.DefaultHazelcastTcp;
 
 public final class RepositoryExampleWindowsConsoleEntryPoint extends AbstractConsoleEntryPoint
 {
@@ -73,6 +72,6 @@ public final class RepositoryExampleWindowsConsoleEntryPoint extends AbstractCon
 		final File persistedMessagesPath = readableDirectory(optionSet, PersistedMessagesPathOption);
 
 		final ConnectionProvider provider = new SqlServerConnectionProvider("localhost", "crds", "repository-example-windows", "sa", "password");
-		new HazelcastRepositoryExampleWindowsApplication(persistedMessagesPath, UserName, "", instanceId, HostName, VirtualHostName, QueueName, new HazelcastConfiguration((char) DefaultHazelcastPort, DefaultHazelcastTcp)).run(provider);
+		new HazelcastRepositoryExampleWindowsApplication(persistedMessagesPath, UserName, "", instanceId, HostName, VirtualHostName, QueueName, new HazelcastConfiguration((char) DefaultHazelcastPort)).run(provider);
 	}
 }

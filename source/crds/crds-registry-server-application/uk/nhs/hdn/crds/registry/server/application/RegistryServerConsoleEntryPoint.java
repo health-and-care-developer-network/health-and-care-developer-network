@@ -27,6 +27,7 @@ import uk.nhs.hdn.crds.registry.server.application.hazelcast.HazelcastStartRecei
 import java.io.File;
 import java.io.IOException;
 
+import static uk.nhs.hdn.crds.registry.server.HazelcastConfiguration.DefaultHazelcastPort;
 import static uk.nhs.hdn.crds.registry.server.PatientRecordStoreKind.Hazelcast;
 import static uk.nhs.hdn.crds.registry.server.RegistryServerApplication.run;
 
@@ -38,7 +39,6 @@ public final class RegistryServerConsoleEntryPoint extends AbstractConsoleEntryP
 	private static final String CacheSizeOption = "cache-size";
 	private static final String PatientRecordStoreKindOption = "patient-record-registry-kind";
 	private static final String HazelcasePortOption = "hazelcast-port";
-	private static final String HazelcaseTcpOption = "hazelcast-tcp";
 	private static final String DataPathOption = "data-path";
 	private static final String InstanceIdOption = "instance-id";
 	private static final String PgpassFileOption = "pgpass-file";
@@ -65,8 +65,7 @@ public final class RegistryServerConsoleEntryPoint extends AbstractConsoleEntryP
 		options.accepts(BacklogOption).withRequiredArg().ofType(Integer.class).defaultsTo(DefaultBacklog).describedAs("TCP connection backlog");
 		options.accepts(CacheSizeOption).withRequiredArg().ofType(Integer.class).defaultsTo(DefaultCacheSize).describedAs("maximum number of entries to cache per I/O thread");
 		options.accepts(PatientRecordStoreKindOption).withRequiredArg().ofType(PatientRecordStoreKind.class).defaultsTo(DefaultPatientRecordStoreKind).describedAs("backing registry kind for data");
-		options.accepts(HazelcasePortOption).withRequiredArg().ofType(Integer.class).defaultsTo(HazelcastConfiguration.DefaultHazelcastPort).describedAs("first port for Hazelcast to listen on");
-		options.accepts(HazelcaseTcpOption, "Use multicast (false) or tcp (true)").withOptionalArg().ofType(Boolean.class).defaultsTo(HazelcastConfiguration.DefaultHazelcastTcp).describedAs("defaults to using TCP instead of multicast");
+		options.accepts(HazelcasePortOption).withRequiredArg().ofType(Integer.class).defaultsTo(DefaultHazelcastPort).describedAs("first port for Hazelcast to listen on");
 		options.accepts(DataPathOption, "Folder path containing registry metadata and local container data").withRequiredArg().ofType(File.class).defaultsTo(new File(DefaultDataPath)).describedAs("Linux path");
 		options.accepts(InstanceIdOption, "long lived instance identifier").withRequiredArg().ofType(Integer.class).defaultsTo(DefaultInstanceId).describedAs("Instance identifer. Must be unique but consistent across invocations");
 		options.accepts(PgpassFileOption, "location of password file if not ~/.pgpass").withRequiredArg().ofType(File.class);
@@ -88,23 +87,6 @@ public final class RegistryServerConsoleEntryPoint extends AbstractConsoleEntryP
 
 		final char hazelcastPort = portNumber(optionSet, HazelcasePortOption);
 
-		final boolean useTcp;
-		if (optionSet.has(HazelcaseTcpOption))
-		{
-			if (optionSet.hasArgument(HazelcaseTcpOption))
-			{
-				useTcp = defaulted(optionSet, HazelcaseTcpOption);
-			}
-			else
-			{
-				useTcp = true;
-			}
-		}
-		else
-		{
-			useTcp = HazelcastConfiguration.DefaultHazelcastTcp;
-		}
-
 		final File dataPath = readableDirectory(optionSet, DataPathOption);
 
 		final int instanceId = defaulted(optionSet, InstanceIdOption);
@@ -119,7 +101,7 @@ public final class RegistryServerConsoleEntryPoint extends AbstractConsoleEntryP
 			pgpassFile = new File(".pgpass"); //findDefaultPgpassFileIfNoneSpecified(null);
 		}
 
-		final HazelcastConfiguration hazelcastConfiguration = new HazelcastConfiguration(hazelcastPort, useTcp);
+		final HazelcastConfiguration hazelcastConfiguration = new HazelcastConfiguration(hazelcastPort);
 		run(domainName, httpPort, backlog, cacheMaximumNumberOfEntries, patientRecordStoreKind, dataPath, new HazelcastStartReceivingMessagesThread(hazelcastConfiguration), hazelcastConfiguration);
 	}
 

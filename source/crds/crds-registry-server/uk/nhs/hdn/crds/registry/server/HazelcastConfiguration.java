@@ -34,13 +34,12 @@ import static com.hazelcast.core.Hazelcast.newHazelcastInstance;
 public final class HazelcastConfiguration
 {
 	public static final int DefaultHazelcastPort = 5701;
-	public static final boolean DefaultHazelcastTcp = false;
 	@NotNull private static final String PatientRecordStoreMap = "patient-record-registry";
 	@NotNull private static final String QueueName = "stuff-event";
 
 	@NotNull private final HazelcastInstance hazelcastInstance;
 
-	public HazelcastConfiguration(final char hazelcastPort, final boolean useTcp)
+	public HazelcastConfiguration(final char hazelcastPort)
 	{
 		final Config config = new Config();
 
@@ -50,13 +49,12 @@ public final class HazelcastConfiguration
 		networkConfig.setReuseAddress(true);
 		networkConfig.setPublicAddress("127.0.0.1");
 		networkConfig.setReuseAddress(true);
-		if (useTcp)
-		{
-			final Join join = new Join();
-			join.getMulticastConfig().setEnabled(false);
-			networkConfig.setJoin(join.setTcpIpConfig(new TcpIpConfig().setEnabled(true).setConnectionTimeoutSeconds(60)));
-			networkConfig.setInterfaces(new Interfaces().addInterface("*").setEnabled(true));
-		}
+
+		//
+		final Join join = new Join();
+		join.getMulticastConfig().setEnabled(false);
+		networkConfig.setJoin(join.setTcpIpConfig(new TcpIpConfig().setEnabled(true).setConnectionTimeoutSeconds(60)));
+		networkConfig.setInterfaces(new Interfaces().addInterface("*").setEnabled(true));
 
 		config.setNetworkConfig(networkConfig);
 
