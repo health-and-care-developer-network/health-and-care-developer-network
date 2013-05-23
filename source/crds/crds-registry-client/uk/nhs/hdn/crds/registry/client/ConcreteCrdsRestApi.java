@@ -41,13 +41,17 @@ import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.*;
 
 public final class ConcreteCrdsRestApi extends AbstractToString implements CrdsRestApi
 {
+	@NotNull @NonNls public static final String DefaultDomainName = "services.developer.nhs.uk";
 	@SuppressWarnings("ConstantNamingConvention") @NonNls @NotNull private static final String crds = "crds";
 	@SuppressWarnings("ConstantNamingConvention") @NonNls @NotNull private static final String registry = "registry";
 	@SuppressWarnings("ConstantNamingConvention") @NonNls @NotNull private static final String patient = "patient";
 	@SuppressWarnings("ConstantNamingConvention") @NonNls @NotNull private static final String metadata = "metadata";
 
+	@NotNull public static final CrdsRestApi DefaulConcreteCrdsRestApi = concreteCrdsRestApi(DefaultDomainName);
+
+	@SuppressWarnings("MethodNamesDifferingOnlyByCase")
 	@NotNull
-	public static CrdsRestApi crdsStore(@NotNull final String domainName)
+	public static CrdsRestApi concreteCrdsRestApi(@NotNull final String domainName)
 	{
 		return new ConcreteCrdsRestApi(new JsonGenericGetApi(false, domainName, ""));
 	}

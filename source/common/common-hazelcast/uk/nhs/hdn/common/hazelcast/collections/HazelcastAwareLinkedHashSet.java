@@ -24,12 +24,12 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 import static uk.nhs.hdn.common.hazelcast.collections.HazelcastAwareLinkedHashMap.OptimumHashLoadFactor;
 
 @SuppressWarnings({"SerializableHasSerializationMethods", "serial"})
-public final class HazelcastAwareLinkedHashSet<E extends HazelcastDataWriter> extends HashSet<E> implements HazelcastDataWriter
+public final class HazelcastAwareLinkedHashSet<E extends HazelcastDataWriter> extends LinkedHashSet<E> implements HazelcastDataWriter
 {
 	public HazelcastAwareLinkedHashSet(final int size)
 	{

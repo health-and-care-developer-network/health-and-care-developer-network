@@ -50,11 +50,11 @@ public final class HazelcastConfiguration
 		networkConfig.setPublicAddress("127.0.0.1");
 		networkConfig.setReuseAddress(true);
 
-		//
 		final Join join = new Join();
 		join.getMulticastConfig().setEnabled(false);
 		networkConfig.setJoin(join.setTcpIpConfig(new TcpIpConfig().setEnabled(true).setConnectionTimeoutSeconds(60)));
-		networkConfig.setInterfaces(new Interfaces().addInterface("*").setEnabled(true));
+		//networkConfig.setInterfaces(new Interfaces().addInterface("eth0").setEnabled(true));
+		//networkConfig.setInterfaces(new Interfaces().addInterface("en0").setEnabled(true));
 
 		config.setNetworkConfig(networkConfig);
 

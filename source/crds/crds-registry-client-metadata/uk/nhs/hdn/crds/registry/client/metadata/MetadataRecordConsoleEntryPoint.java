@@ -18,7 +18,6 @@ package uk.nhs.hdn.crds.registry.client.metadata;
 
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
-import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.commandLine.AbstractConsoleEntryPoint;
 import uk.nhs.hdn.common.commandLine.ShouldHaveExitedException;
@@ -48,7 +47,6 @@ public final class MetadataRecordConsoleEntryPoint extends AbstractConsoleEntryP
 	private static final String UseHttpsOption = "use-https";
 	private static final String PortOption = "port";
 
-	@NotNull @NonNls private static final String DefaultDomainName = "services.developer.nhs.uk";
 	private static final char DefaultPort = (char) 80;
 	public static final char HttpsPortDefault = (char) 443;
 
@@ -71,7 +69,7 @@ public final class MetadataRecordConsoleEntryPoint extends AbstractConsoleEntryP
 		oneOfEnumAsOptionWithRequiredArgument(options, HaveMetadataIdentifierConstructors, String.class);
 
 		options.accepts(UseHttpsOption, "Use HTTPS").withOptionalArg().ofType(Boolean.class).defaultsTo(TRUE);
-		options.accepts(DomainNameOption, "FQDN of server").withRequiredArg().ofType(String.class).defaultsTo(DefaultDomainName).describedAs("domain name to connect to");
+		options.accepts(DomainNameOption, "FQDN of server").withRequiredArg().ofType(String.class).defaultsTo(ConcreteCrdsRestApi.DefaultDomainName).describedAs("domain name to connect to");
 		options.accepts(PortOption, "Port to connect on").withRequiredArg().ofType(Integer.class).defaultsTo((int) DefaultPort).describedAs("port to connect to HTTP(S) on");
 		return true;
 	}
