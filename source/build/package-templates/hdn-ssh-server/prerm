@@ -5,8 +5,9 @@ source "/usr/lib/hdn-apt/functions"
 
 function revertFiles()
 {
-	revertFile "hdn-ssh-server" "/etc/pam.d" "sshd"
-	revertFile "hdn-ssh-server" "/etc/ssh" "sshd_config"
+	#revertFile "hdn-ssh-server" "/etc/pam.d" "sshd"
+	#revertFile "hdn-ssh-server" "/etc/ssh" "sshd_config"
+	:
 }
 
 case "$1" in

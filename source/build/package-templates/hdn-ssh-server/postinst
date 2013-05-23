@@ -5,14 +5,15 @@ source "/usr/lib/hdn-apt/functions"
 
 function divertFiles()
 {
-	divertFile "hdn-ssh-server" "/etc/pam.d" "sshd"
-	divertFile "hdn-ssh-server" "/etc/ssh" "sshd_config"
+	#divertFile "hdn-ssh-server" "/etc/pam.d" "sshd"
+	#divertFile "hdn-ssh-server" "/etc/ssh" "sshd_config"
 	
 	rm -f /etc/ssh/ssh_host_dsa_key
 	rm -f /etc/ssh/ssh_host_dsa_key.pub
 	rm -f /etc/ssh/ssh_host_ecdsa_key
 	rm -f /etc/ssh/ssh_host_ecdsa_key.pub
 }
+
 case "$1" in
 	configure)
 		readonly postinst_Instance="any"
