@@ -54,7 +54,7 @@ PermitTunnel yes
 PermitUserEnvironment no
 PidFile /var/run/sshd.pid
 # Port before listen address
-Port 517
+Port 22
 ListenAddress 0.0.0.0
 PrintLastLog yes
 PrintMotd yes
