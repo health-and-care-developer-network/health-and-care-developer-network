@@ -1,5 +1,3 @@
 providerIdentifier	providerLastModified	organisationalDataServiceCode	repositoryIdentifier	repositoryLastModified	systemDescription	systemLocation	stuffIdentifier	stuffLastModified	stuffDescription
 2dbf298f-eed9-474d-bf8b-d70f68b83417	1366365019	XODS111	66dad8b0-72c7-4164-a8b2-27ae6b7467cf	1366365019	Repository Example	http://services.developer.nhs.uk/crds/repository/example	599dbd25-3c3e-4b7a-868b-37b653f394dd	1366365019	Palliative Care Record
-providerIdentifier	providerLastModified	organisationalDataServiceCode	repositoryIdentifier	repositoryLastModified	systemDescription	systemLocation	stuffIdentifier	stuffLastModified	stuffDescription
 b58a74c0-0b91-40d9-b460-d82d13c68b90	1366365019	ABC123	b09f747e-a372-4a00-b349-c6ca7f663ad4	1366365019	Repository Example Windows	http://services.developer.nhs.uk/crds/repository/example	c22d8702-f8ca-4f2f-836a-b75ad69a4231	1366365019	Another Care Record
-
