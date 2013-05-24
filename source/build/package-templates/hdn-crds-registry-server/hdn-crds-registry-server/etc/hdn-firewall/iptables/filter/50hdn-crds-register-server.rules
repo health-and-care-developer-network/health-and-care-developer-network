@@ -1,0 +1,3 @@
+# Accept inbound Hazelcast connection
+--append INPUT ! --in-interface lo --protocol tcp --destination-port 7850 --match state --state NEW --jump LOG --log-prefix "iptables_HazelcastConnection " --log-level info --log-ip-options --log-tcp-options --log-uid
+--append INPUT ! --in-interface lo --protocol tcp --destination-port 7850 --match state --state NEW --jump ACCEPT

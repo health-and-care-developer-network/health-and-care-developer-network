@@ -147,6 +147,8 @@ public final class BuildScript extends AbstractIntelliJConvenientBuildScript
 
 		debianPackagesPackageTask("hdn-pseudonymisation-client", "generate changelog template", "hdn-pseudonymisation-client");
 
+		debianPackagesPackageTask("hdn-crds-repository", "generate changelog template");
+
 		debianPackagesPackageTask("hdn-crds-registry-client", "generate changelog template", "hdn-crds-registry-patient", "hdn-crds-registry-metadata");
 
 		debianPackagesPackageTask("hdn-crds-registry-server", "generate changelog template", "hdn-crds-registry-server");
