@@ -5,4 +5,7 @@
     <item name='java.util.HashMap V put(K, V) 0'>
         <annotation name='org.jetbrains.annotations.NonNls'/>
     </item>
+    <item name='java.util.UUID java.util.UUID fromString(java.lang.String) 0'>
+        <annotation name='org.jetbrains.annotations.NonNls'/>
+    </item>
 </root>

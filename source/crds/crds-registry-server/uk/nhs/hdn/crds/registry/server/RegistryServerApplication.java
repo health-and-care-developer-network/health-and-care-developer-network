@@ -21,7 +21,9 @@ import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.fileWatching.FailedToReloadException;
 import uk.nhs.hdn.common.fileWatching.FileReloader;
 import uk.nhs.hdn.common.http.server.sun.Server;
-import uk.nhs.hdn.crds.registry.domain.identifiers.Identifier;
+import uk.nhs.hdn.crds.registry.domain.StuffEvent;
+import uk.nhs.hdn.crds.registry.domain.StuffEventMessage;
+import uk.nhs.hdn.crds.registry.domain.identifiers.*;
 import uk.nhs.hdn.crds.registry.domain.metadata.AbstractMetadataRecord;
 import uk.nhs.hdn.crds.registry.patientRecordStore.PatientRecordStore;
 import uk.nhs.hdn.crds.registry.recordStore.SubstitutableRecordStore;
@@ -37,12 +39,15 @@ import java.net.InetSocketAddress;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static java.lang.Runtime.getRuntime;
+import static java.util.UUID.fromString;
 import static uk.nhs.hdn.common.VariableArgumentsHelper.of;
 import static uk.nhs.hdn.common.fileWatching.FileWatcher.startFileWatcherOnNewThread;
 import static uk.nhs.hdn.common.http.server.sun.restEndpoints.RootDenialRestEndpoint.RootDenialRestEndpointInstance;
 import static uk.nhs.hdn.common.parsers.ParsingFileReloader.utf8ParsingFileReloaderWithInitialLoad;
+import static uk.nhs.hdn.crds.registry.domain.StuffEventKind.Created;
 import static uk.nhs.hdn.crds.registry.domain.metadata.IdentifierConstructor.*;
 import static uk.nhs.hdn.crds.registry.domain.metadata.parsing.MetadataRecordsParserFactory.metadataRecordsParser;
+import static uk.nhs.hdn.number.NhsNumber.valueOf;
 
 public final class RegistryServerApplication
 {
@@ -61,6 +66,8 @@ public final class RegistryServerApplication
 
 		final ConcurrentAggregatedEventObserver<Identifier> stuffMetadataConcurrentAggregatedEventObserver = new ConcurrentAggregatedEventObserver<>();
 		final SubstitutableRecordStore<Identifier, AbstractMetadataRecord<?>> stuffMetadataRecordStore = new SubstitutableRecordStore<>(repositoryMetadataConcurrentAggregatedEventObserver);
+
+		seedPatientRecordStoreWithExampleData(patientRecordStore);
 
 		final AtomicBoolean terminationSignal = startReceivingMessagesThread.startReceivingMessagesThread(patientRecordStore);
 
@@ -96,8 +103,25 @@ public final class RegistryServerApplication
 		}));
 	}
 
+	@SuppressWarnings("MagicNumber")
+	private static void seedPatientRecordStoreWithExampleData(final PatientRecordStore patientRecordStore)
+	{
+		patientRecordStore.addEvent(new StuffEventMessage
+		(
+			valueOf("1234567880"),
+			new ProviderIdentifier(fromString("2dbf298f-eed9-474d-bf8b-d70f68b83417")),
+			new RepositoryIdentifier(fromString("66dad8b0-72c7-4164-a8b2-27ae6b7467cf")),
+			new StuffIdentifier(fromString("599dbd25-3c3e-4b7a-868b-37b653f394dd")),
+			new StuffEvent
+			(
+				new StuffEventIdentifier(fromString("4e3ccfac-fa2e-4562-8320-b11fd7accd03")),
+				1366365019L,
+				Created
+			)
+		));
+	}
+
 	private RegistryServerApplication()
 	{
 	}
-
 }
