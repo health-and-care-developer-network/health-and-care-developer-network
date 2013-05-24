@@ -8,6 +8,7 @@ import uk.nhs.hdn.crds.registry.server.HazelcastConfiguration;
 
 import java.util.concurrent.BlockingQueue;
 
+import static com.hazelcast.client.HazelcastClient.newHazelcastClient;
 import static java.net.InetSocketAddress.createUnresolved;
 
 public final class ClientHazelcastConfiguration implements HazelcastConfiguration
@@ -20,7 +21,7 @@ public final class ClientHazelcastConfiguration implements HazelcastConfiguratio
 	{
 		final ClientConfig config = new ClientConfig();
 		config.addInetSocketAddress(createUnresolved(hostName, portNumber));
-		hazelcastClient = HazelcastClient.newHazelcastClient(config);
+		hazelcastClient = newHazelcastClient(config);
 	}
 
 	@NotNull

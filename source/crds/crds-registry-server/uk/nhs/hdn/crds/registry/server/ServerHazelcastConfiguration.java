@@ -45,7 +45,7 @@ public final class ServerHazelcastConfiguration implements HazelcastConfiguratio
 		networkConfig.setPort((int) hazelcastPort);
 		networkConfig.setPortAutoIncrement(true);
 		networkConfig.setReuseAddress(true);
-		networkConfig.setPublicAddress("127.0.0.1");
+		//networkConfig.setPublicAddress("127.0.0.1");
 		networkConfig.setReuseAddress(true);
 
 		final Join join = new Join();

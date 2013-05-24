@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static uk.nhs.hdn.crds.registry.server.application.hazelcast.HazelcastStartReceivingMessagesThread.MaximumDrainSize;
+
 public final class HazelcastReceivingMessagesRunnable implements Runnable
 {
 	@NotNull private final List<StuffEventMessage> drainTo;
@@ -21,7 +23,7 @@ public final class HazelcastReceivingMessagesRunnable implements Runnable
 	{
 		this.stuffEventMessages = stuffEventMessages;
 		this.patientRecordStore = patientRecordStore;
-		drainTo = new ArrayList<>(HazelcastStartReceivingMessagesThread.MaximumDrainSize);
+		drainTo = new ArrayList<>(MaximumDrainSize);
 		this.terminationSignal = terminationSignal;
 	}
 
