@@ -22,23 +22,18 @@ import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.commandLine.AbstractConsoleEntryPoint;
 import uk.nhs.hdn.common.sql.ConnectionProvider;
 import uk.nhs.hdn.common.sql.sqlserver.SqlServerConnectionProvider;
-import uk.nhs.hdn.crds.registry.server.HazelcastConfiguration;
+import uk.nhs.hdn.crds.repository.senders.hazelcast.ClientHazelcastConfiguration;
 import uk.nhs.hdn.crds.repository.senders.hazelcast.HazelcastRepositoryExampleWindowsApplication;
 
-import java.io.File;
 import java.io.IOException;
 
-import static uk.nhs.hdn.crds.registry.domain.Configuration.*;
 import static uk.nhs.hdn.crds.registry.server.HazelcastConfiguration.DefaultHazelcastPort;
+import static uk.nhs.hdn.crds.repository.senders.hazelcast.ClientHazelcastConfiguration.DefaultHostname;
 
 public final class RepositoryExampleWindowsConsoleEntryPoint extends AbstractConsoleEntryPoint
 {
-	private static final String InstanceIdOption = "instance-id";
-	private static final String PgpassFileOption = "pgpass-file";
-	private static final String PersistedMessagesPathOption = "persisted-messages-path";
-
-	private static final int DefaultInstanceId = 0;
-	private static final String DefaultPersistedMessagesPath = "/srv/hdn-crds-repository-example";
+	private static final String HostnameOption = "hostname";
+	private static final String PortOption = "port";
 
 	@SuppressWarnings("UseOfSystemOutOrSystemErr")
 	public static void main(@NotNull final String... commandLineArguments)
@@ -49,29 +44,19 @@ public final class RepositoryExampleWindowsConsoleEntryPoint extends AbstractCon
 	@Override
 	protected boolean options(@NotNull final OptionParser options)
 	{
-		options.accepts(InstanceIdOption, "long lived instance identifier").withRequiredArg().ofType(Integer.class).defaultsTo(DefaultInstanceId).describedAs("Instance identifer. Must be unique but consistent across invocations");
-		options.accepts(PgpassFileOption, "location of password file if not ~/.pgpass").withRequiredArg().ofType(File.class);
-		options.accepts(PersistedMessagesPathOption, "writable location to store persisted but not sent messages").withRequiredArg().ofType(File.class).defaultsTo(new File(DefaultPersistedMessagesPath)).describedAs("Folder path containing persisted messages");
+		options.accepts(HostnameOption, "server running Hazelcast").withRequiredArg().ofType(String.class).defaultsTo(DefaultHostname).describedAs("public services server");
+		options.accepts(PortOption, "port of server running Hazelcast").withRequiredArg().ofType(Integer.class).defaultsTo(DefaultHazelcastPort).describedAs("usual port of Hazelcast, modified for access via Azure");
 		return true;
 	}
 
 	@Override
 	protected void execute(@NotNull final OptionSet optionSet) throws IOException
 	{
-		final int instanceId = defaulted(optionSet, InstanceIdOption);
-		final File pgpassFile;
-		if (optionSet.has(PgpassFileOption))
-		{
-			pgpassFile = readableFile(optionSet, PgpassFileOption);
-		}
-		else
-		{
-			pgpassFile = new File(".pgpass"); //findDefaultPgpassFileIfNoneSpecified(null);
-		}
+		final String hostname = defaulted(optionSet, HostnameOption);
+		final char portNumber = portNumber(optionSet, PortOption);
 
-		final File persistedMessagesPath = readableDirectory(optionSet, PersistedMessagesPathOption);
-
+		final ClientHazelcastConfiguration hazelcastConfiguration = new ClientHazelcastConfiguration(hostname, (int) portNumber);
 		final ConnectionProvider provider = new SqlServerConnectionProvider("localhost", "crds", "repository-example-windows", "sa", "password");
-		new HazelcastRepositoryExampleWindowsApplication(persistedMessagesPath, UserName, "", instanceId, HostName, VirtualHostName, QueueName, new HazelcastConfiguration((char) DefaultHazelcastPort)).run(provider);
+		new HazelcastRepositoryExampleWindowsApplication(hazelcastConfiguration).run(provider);
 	}
 }

@@ -53,7 +53,7 @@ public final class RegistryServerApplication
 {
 	@NonNls private static final String RegistryMetadataFileName = "crds-registry-server-metadata.tsv";
 
-	public static void run(@NonNls @NotNull final String domainName, final char httpPort, final int backlog, final int cacheMaximumNumberOfEntries, @NotNull final PatientRecordStoreKind patientRecordStoreKind, @NotNull final File dataPath, @NotNull final StartReceivingMessagesThread startReceivingMessagesThread, final HazelcastConfiguration hazelcastConfiguration) throws IOException
+	public static void run(@NonNls @NotNull final String domainName, final char httpPort, final int backlog, final int cacheMaximumNumberOfEntries, @NotNull final PatientRecordStoreKind patientRecordStoreKind, @NotNull final File dataPath, @NotNull final StartReceivingMessagesThread startReceivingMessagesThread, @NotNull final ServerHazelcastConfiguration hazelcastConfiguration) throws IOException
 	{
 		final ConcurrentAggregatedEventObserver<NhsNumber> patientRecordConcurrentAggregatedEventObserver = new ConcurrentAggregatedEventObserver<>();
 		final PatientRecordStore patientRecordStore = patientRecordStoreKind.create(hazelcastConfiguration, patientRecordConcurrentAggregatedEventObserver);

@@ -1802,6 +1802,18 @@
         <root url="file://$PROJECT_DIR$/../library/hazelcast/2.5/hazelcast-2.5-source/hazelcast/src/test/java" />
       </SOURCES>
     </library>
+    <library name="hazelcast-client-2.5">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../library/hazelcast/2.5/hazelcast-2.5/lib/hazelcast-client-2.5.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="file://$PROJECT_DIR$/../library/hazelcast/2.5/hazelcast-2.5/docs/javadoc" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="file://$PROJECT_DIR$/../library/hazelcast/2.5/hazelcast-2.5-source/hazelcast-client/src/main/java" />
+        <root url="file://$PROJECT_DIR$/../library/hazelcast/2.5/hazelcast-2.5-source/hazelcast-client/src/test/java" />
+      </SOURCES>
+    </library>
     <library name="ihe openhealthtools bridge">
       <CLASSES>
         <root url="jar://$PROJECT_DIR$/../library/openhealthtools-ihe-bridge/2.0.0/webapps/bridge/WEB-INF/eclipse/plugins/org.eclipse.core.contenttype_3.4.100.v20100505-1235.jar!/" />

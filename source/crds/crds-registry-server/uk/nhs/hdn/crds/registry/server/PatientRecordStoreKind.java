@@ -29,7 +29,7 @@ public enum PatientRecordStoreKind
 	{
 		@NotNull
 		@Override
-		public PatientRecordStore create(@NotNull final HazelcastConfiguration hazelcastConfiguration, @NotNull final EventObserver<NhsNumber> eventObserver)
+		public PatientRecordStore create(@NotNull final ServerHazelcastConfiguration hazelcastConfiguration, @NotNull final EventObserver<NhsNumber> eventObserver)
 		{
 			return hazelcastConfiguration.rootMap(eventObserver);
 		}
@@ -38,7 +38,7 @@ public enum PatientRecordStoreKind
 	{
 		@NotNull
 		@Override
-		public PatientRecordStore create(@NotNull final HazelcastConfiguration hazelcastConfiguration, @NotNull final EventObserver<NhsNumber> eventObserver)
+		public PatientRecordStore create(@NotNull final ServerHazelcastConfiguration hazelcastConfiguration, @NotNull final EventObserver<NhsNumber> eventObserver)
 		{
 			return new NonBlockingStandalonePatientRecordStore( eventObserver);
 		}
@@ -47,7 +47,7 @@ public enum PatientRecordStoreKind
 	{
 		@NotNull
 		@Override
-		public PatientRecordStore create(@NotNull final HazelcastConfiguration hazelcastConfiguration, @NotNull final EventObserver<NhsNumber> eventObserver)
+		public PatientRecordStore create(@NotNull final ServerHazelcastConfiguration hazelcastConfiguration, @NotNull final EventObserver<NhsNumber> eventObserver)
 		{
 			return new StrippedLockingStandalonePatientRecordStore( eventObserver);
 		}
@@ -55,5 +55,5 @@ public enum PatientRecordStoreKind
 	;
 
 	@NotNull
-	public abstract PatientRecordStore create(@NotNull final HazelcastConfiguration hazelcastConfiguration, @NotNull final EventObserver<NhsNumber> eventObserver);
+	public abstract PatientRecordStore create(@NotNull final ServerHazelcastConfiguration hazelcastConfiguration, @NotNull final EventObserver<NhsNumber> eventObserver);
 }

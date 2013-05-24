@@ -14,6 +14,7 @@
     <orderEntry type="module" module-name="crds-registry-server" />
     <orderEntry type="module" module-name="crds-repository-example" />
     <orderEntry type="module" module-name="crds-repository-example-windows" />
+    <orderEntry type="library" name="hazelcast-client-2.5" level="project" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

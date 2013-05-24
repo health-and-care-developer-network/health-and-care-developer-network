@@ -16,34 +16,17 @@
 
 package uk.nhs.hdn.crds.repository.senders.hazelcast;
 
-import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.crds.registry.server.HazelcastConfiguration;
 import uk.nhs.hdn.crds.repository.example.AbstractRepositoryExampleApplication;
 
-import java.io.File;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class HazelcastRepositoryExampleApplication extends AbstractRepositoryExampleApplication<HazelcastSendingStuffEventMessageUser>
 {
-	@NotNull private final File persistedMessagesPath;
-	@NotNull private final String user;
-	@NotNull private final String base64urlEncodedPassword;
-	private final int instanceId;
-	@NotNull private final String hostName;
-	@NotNull private final String virtualHostName;
-	@NotNull private final String queueName;
-
-	public HazelcastRepositoryExampleApplication(@NotNull final File persistedMessagesPath, @NonNls @NotNull final String user, @NonNls @NotNull final String base64urlEncodedPassword, final int instanceId, @NotNull @NonNls final String hostName, @NotNull @NonNls final String virtualHostName, @NotNull @NonNls final String queueName, @NotNull final HazelcastConfiguration hazelcastConfiguration)
+	public HazelcastRepositoryExampleApplication(@NotNull final HazelcastConfiguration hazelcastConfiguration)
 	{
 		super(new HazelcastSendingStuffEventMessageUser(hazelcastConfiguration));
-		this.persistedMessagesPath = persistedMessagesPath;
-		this.user = user;
-		this.base64urlEncodedPassword = base64urlEncodedPassword;
-		this.instanceId = instanceId;
-		this.hostName = hostName;
-		this.virtualHostName = virtualHostName;
-		this.queueName = queueName;
 	}
 
 	@Override

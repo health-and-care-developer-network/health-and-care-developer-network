@@ -20,8 +20,8 @@ import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import org.jetbrains.annotations.NotNull;
 import uk.nhs.hdn.common.commandLine.AbstractConsoleEntryPoint;
-import uk.nhs.hdn.crds.registry.server.HazelcastConfiguration;
 import uk.nhs.hdn.crds.registry.server.PatientRecordStoreKind;
+import uk.nhs.hdn.crds.registry.server.ServerHazelcastConfiguration;
 import uk.nhs.hdn.crds.registry.server.application.hazelcast.HazelcastStartReceivingMessagesThread;
 
 import java.io.File;
@@ -101,8 +101,7 @@ public final class RegistryServerConsoleEntryPoint extends AbstractConsoleEntryP
 			pgpassFile = new File(".pgpass"); //findDefaultPgpassFileIfNoneSpecified(null);
 		}
 
-		final HazelcastConfiguration hazelcastConfiguration = new HazelcastConfiguration(hazelcastPort);
+		final ServerHazelcastConfiguration hazelcastConfiguration = new ServerHazelcastConfiguration(hazelcastPort);
 		run(domainName, httpPort, backlog, cacheMaximumNumberOfEntries, patientRecordStoreKind, dataPath, new HazelcastStartReceivingMessagesThread(hazelcastConfiguration), hazelcastConfiguration);
 	}
-
 }
