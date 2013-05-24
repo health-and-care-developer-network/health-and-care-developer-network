@@ -27,7 +27,7 @@ import uk.nhs.hdn.crds.repository.senders.hazelcast.HazelcastRepositoryExampleAp
 import java.io.IOException;
 import java.sql.SQLException;
 
-import static uk.nhs.hdn.crds.registry.server.HazelcastConfiguration.DefaultHazelcastPort;
+import static uk.nhs.hdn.crds.registry.server.HazelcastConfiguration.DefaultHazelcastPortNotFirewalled;
 import static uk.nhs.hdn.crds.repository.senders.hazelcast.ClientHazelcastConfiguration.DefaultHostname;
 
 public final class RepositoryExampleConsoleEntryPoint extends AbstractConsoleEntryPoint
@@ -45,7 +45,7 @@ public final class RepositoryExampleConsoleEntryPoint extends AbstractConsoleEnt
 	protected boolean options(@NotNull final OptionParser options)
 	{
 		options.accepts(HostnameOption, "server running Hazelcast").withRequiredArg().ofType(String.class).defaultsTo(DefaultHostname).describedAs("public services server");
-		options.accepts(PortOption, "port of server running Hazelcast").withRequiredArg().ofType(Integer.class).defaultsTo(DefaultHazelcastPort).describedAs("usual port of Hazelcast, modified for access via Azure");
+		options.accepts(PortOption, "port of server running Hazelcast").withRequiredArg().ofType(Integer.class).defaultsTo(DefaultHazelcastPortNotFirewalled).describedAs("usual port of Hazelcast, modified for access via Azure");
 		return true;
 	}
 

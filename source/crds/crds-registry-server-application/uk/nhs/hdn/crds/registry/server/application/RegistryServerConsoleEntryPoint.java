@@ -27,7 +27,7 @@ import uk.nhs.hdn.crds.registry.server.application.hazelcast.HazelcastStartRecei
 import java.io.File;
 import java.io.IOException;
 
-import static uk.nhs.hdn.crds.registry.server.HazelcastConfiguration.DefaultHazelcastPort;
+import static uk.nhs.hdn.crds.registry.server.HazelcastConfiguration.DefaultHazelcastPortNotFirewalled;
 import static uk.nhs.hdn.crds.registry.server.PatientRecordStoreKind.Hazelcast;
 import static uk.nhs.hdn.crds.registry.server.RegistryServerApplication.run;
 
@@ -65,7 +65,7 @@ public final class RegistryServerConsoleEntryPoint extends AbstractConsoleEntryP
 		options.accepts(BacklogOption).withRequiredArg().ofType(Integer.class).defaultsTo(DefaultBacklog).describedAs("TCP connection backlog");
 		options.accepts(CacheSizeOption).withRequiredArg().ofType(Integer.class).defaultsTo(DefaultCacheSize).describedAs("maximum number of entries to cache per I/O thread");
 		options.accepts(PatientRecordStoreKindOption).withRequiredArg().ofType(PatientRecordStoreKind.class).defaultsTo(DefaultPatientRecordStoreKind).describedAs("backing registry kind for data");
-		options.accepts(HazelcasePortOption).withRequiredArg().ofType(Integer.class).defaultsTo(DefaultHazelcastPort).describedAs("first port for Hazelcast to listen on");
+		options.accepts(HazelcasePortOption).withRequiredArg().ofType(Integer.class).defaultsTo(DefaultHazelcastPortNotFirewalled).describedAs("first port for Hazelcast to listen on");
 		options.accepts(DataPathOption, "Folder path containing registry metadata and local container data").withRequiredArg().ofType(File.class).defaultsTo(new File(DefaultDataPath)).describedAs("Linux path");
 		options.accepts(InstanceIdOption, "long lived instance identifier").withRequiredArg().ofType(Integer.class).defaultsTo(DefaultInstanceId).describedAs("Instance identifer. Must be unique but consistent across invocations");
 		options.accepts(PgpassFileOption, "location of password file if not ~/.pgpass").withRequiredArg().ofType(File.class);

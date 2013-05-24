@@ -7,8 +7,7 @@ import java.util.concurrent.BlockingQueue;
 
 public interface HazelcastConfiguration
 {
-	//int DefaultHazelcastPort = 5701;
-	int DefaultHazelcastPort = 7850;
+	int DefaultHazelcastPortNotFirewalled = 7850; // Hazelcast normally runs on 5701 and up
 	@NotNull String QueueName = "stuff-event";
 
 	@NotNull
