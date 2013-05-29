@@ -32,7 +32,7 @@ public final class HazelcastReceivingMessagesRunnable implements Runnable
 	{
 		while (shouldContinueExecution())
 		{
-			final int numberDrained = stuffEventMessages.drainTo(drainTo);
+			final int numberDrained = stuffEventMessages.drainTo(drainTo, MaximumDrainSize);
 			if (numberDrained == 0)
 			{
 				continue;
