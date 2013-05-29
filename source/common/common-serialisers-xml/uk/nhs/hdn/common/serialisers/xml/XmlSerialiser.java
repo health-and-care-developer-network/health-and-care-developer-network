@@ -36,9 +36,9 @@ import static uk.nhs.hdn.common.VariableArgumentsHelper.of;
 import static uk.nhs.hdn.common.tuples.Pair.pair;
 import static uk.nhs.hdn.common.xml.XmlNamespaceUri.XmlSchemaInstanceNamespace;
 
+@SuppressWarnings({"ClassNamePrefixedWithPackageName", "ClassWithTooManyMethods"})
 public final class XmlSerialiser extends AbstractSerialiser
 {
-
 	@SafeVarargs
 	public static void serialise(@NonNls @NotNull final String rootNodeName, @NotNull final Serialisable graph, @NotNull final OutputStream outputStream, @NotNull final Pair<String, String>... rootAttributes) throws CouldNotSerialiseException
 	{
@@ -168,7 +168,7 @@ public final class XmlSerialiser extends AbstractSerialiser
 		}
 		try
 		{
-			writeOpen(rootNodeName, rootAttributes);
+			writeOpen(rootNodeName, false, rootAttributes);
 		}
 		catch (CouldNotEncodeDataException e)
 		{
@@ -181,7 +181,7 @@ public final class XmlSerialiser extends AbstractSerialiser
 	{
 		try
 		{
-			writeClose(rootNodeName);
+			writeClose(rootNodeName, false);
 		}
 		catch (CouldNotEncodeDataException e)
 		{
@@ -194,18 +194,18 @@ public final class XmlSerialiser extends AbstractSerialiser
 	}
 
 	@Override
-	public void writeProperty(@NotNull final String name, @NotNull final String value) throws CouldNotWritePropertyException
+	public void writeProperty(@NotNull final String name, @NotNull final String value, final boolean isMapEntry) throws CouldNotWritePropertyException
 	{
 		if (value.isEmpty())
 		{
-			writeEmptyProperty(name);
+			writeEmptyProperty(name, isMapEntry);
 			return;
 		}
 		try
 		{
-			writeOpen(name);
+			writeOpen(name, isMapEntry);
 			writeText(value);
-			writeClose(name);
+			writeClose(name, isMapEntry);
 		}
 		catch (CouldNotWriteDataException | CouldNotEncodeDataException e)
 		{
@@ -214,13 +214,13 @@ public final class XmlSerialiser extends AbstractSerialiser
 	}
 
 	@Override
-	public void writeProperty(@NotNull final String name, @NotNull final MapSerialisable value) throws CouldNotWritePropertyException
+	public void writeProperty(@NotNull final String name, @NotNull final MapSerialisable value, final boolean isMapEntry) throws CouldNotWritePropertyException
 	{
 		try
 		{
-			writeOpen(name);
+			writeOpen(name, isMapEntry);
 			writeValue(value);
-			writeClose(name);
+			writeClose(name, isMapEntry);
 		}
 		catch (CouldNotWriteDataException | CouldNotEncodeDataException | CouldNotWriteValueException e)
 		{
@@ -229,90 +229,13 @@ public final class XmlSerialiser extends AbstractSerialiser
 	}
 
 	@Override
-	public void writeProperty(@NotNull final String name, @NotNull final ValueSerialisable value) throws CouldNotWritePropertyException
+	public void writeProperty(@NotNull final String name, @NotNull final ValueSerialisable value, final boolean isMapEntry) throws CouldNotWritePropertyException
 	{
 		try
 		{
-			writeOpen(name);
+			writeOpen(name, isMapEntry);
 			writeValue(value);
-			writeClose(name);
-		}
-		catch (CouldNotWriteDataException | CouldNotEncodeDataException | CouldNotWriteValueException e)
-		{
-			throw new CouldNotWritePropertyException(name, value, e);
-		}
-	}
-
-	@SuppressWarnings("MethodCanBeVariableArityMethod")
-	@Override
-	public <S extends MapSerialisable> void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final S[] values) throws CouldNotWritePropertyException
-	{
-		try
-		{
-			writeOpen(name);
-			writeValue(values);
-			writeClose(name);
-		}
-		catch (CouldNotWriteDataException | CouldNotEncodeDataException | CouldNotWriteValueException e)
-		{
-			throw new CouldNotWritePropertyException(name, values, e);
-		}
-	}
-
-	@SuppressWarnings("MethodCanBeVariableArityMethod")
-	@Override
-	public <S extends ValueSerialisable> void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final S[] values) throws CouldNotWritePropertyException
-	{
-		try
-		{
-			writeOpen(name);
-			writeValue(values);
-			writeClose(name);
-		}
-		catch (CouldNotWriteDataException | CouldNotEncodeDataException | CouldNotWriteValueException e)
-		{
-			throw new CouldNotWritePropertyException(name, values, e);
-		}
-	}
-
-	@Override
-	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final List<?> values) throws CouldNotWritePropertyException
-	{
-		try
-		{
-			writeOpen(name);
-			writeValue(values);
-			writeClose(name);
-		}
-		catch (CouldNotWriteDataException | CouldNotEncodeDataException | CouldNotWriteValueException e)
-		{
-			throw new CouldNotWritePropertyException(name, values, e);
-		}
-	}
-
-	@Override
-	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final Set<?> values) throws CouldNotWritePropertyException
-	{
-		try
-		{
-			writeOpen(name);
-			writeValue(values);
-			writeClose(name);
-		}
-		catch (CouldNotWriteDataException | CouldNotEncodeDataException | CouldNotWriteValueException e)
-		{
-			throw new CouldNotWritePropertyException(name, values, e);
-		}
-	}
-
-	@Override
-	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final int value) throws CouldNotWritePropertyException
-	{
-		try
-		{
-			writeOpen(name);
-			writeValue(value);
-			writeClose(name);
+			writeClose(name, isMapEntry);
 		}
 		catch (CouldNotWriteDataException | CouldNotEncodeDataException | CouldNotWriteValueException e)
 		{
@@ -321,13 +244,73 @@ public final class XmlSerialiser extends AbstractSerialiser
 	}
 
 	@Override
-	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final long value) throws CouldNotWritePropertyException
+	public <S extends MapSerialisable> void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final S[] values, final boolean isMapEntry) throws CouldNotWritePropertyException
 	{
 		try
 		{
-			writeOpen(name);
+			writeOpen(name, isMapEntry);
+			writeValue(values);
+			writeClose(name, isMapEntry);
+		}
+		catch (CouldNotWriteDataException | CouldNotEncodeDataException | CouldNotWriteValueException e)
+		{
+			throw new CouldNotWritePropertyException(name, values, e);
+		}
+	}
+
+	@Override
+	public <S extends ValueSerialisable> void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final S[] values, final boolean isMapEntry) throws CouldNotWritePropertyException
+	{
+		try
+		{
+			writeOpen(name, isMapEntry);
+			writeValue(values);
+			writeClose(name, isMapEntry);
+		}
+		catch (CouldNotWriteDataException | CouldNotEncodeDataException | CouldNotWriteValueException e)
+		{
+			throw new CouldNotWritePropertyException(name, values, e);
+		}
+	}
+
+	@Override
+	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final List<?> values, final boolean isMapEntry) throws CouldNotWritePropertyException
+	{
+		try
+		{
+			writeOpen(name, isMapEntry);
+			writeValue(values);
+			writeClose(name, isMapEntry);
+		}
+		catch (CouldNotWriteDataException | CouldNotEncodeDataException | CouldNotWriteValueException e)
+		{
+			throw new CouldNotWritePropertyException(name, values, e);
+		}
+	}
+
+	@Override
+	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final Set<?> values, final boolean isMapEntry) throws CouldNotWritePropertyException
+	{
+		try
+		{
+			writeOpen(name, isMapEntry);
+			writeValue(values);
+			writeClose(name, isMapEntry);
+		}
+		catch (CouldNotWriteDataException | CouldNotEncodeDataException | CouldNotWriteValueException e)
+		{
+			throw new CouldNotWritePropertyException(name, values, e);
+		}
+	}
+
+	@Override
+	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final int value, final boolean isMapEntry) throws CouldNotWritePropertyException
+	{
+		try
+		{
+			writeOpen(name, isMapEntry);
 			writeValue(value);
-			writeClose(name);
+			writeClose(name, isMapEntry);
 		}
 		catch (CouldNotWriteDataException | CouldNotEncodeDataException | CouldNotWriteValueException e)
 		{
@@ -336,15 +319,30 @@ public final class XmlSerialiser extends AbstractSerialiser
 	}
 
 	@Override
-	public void writePropertyNull(@NonNls @NotNull final String name) throws CouldNotWritePropertyException
+	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final long value, final boolean isMapEntry) throws CouldNotWritePropertyException
+	{
+		try
+		{
+			writeOpen(name, isMapEntry);
+			writeValue(value);
+			writeClose(name, isMapEntry);
+		}
+		catch (CouldNotWriteDataException | CouldNotEncodeDataException | CouldNotWriteValueException e)
+		{
+			throw new CouldNotWritePropertyException(name, value, e);
+		}
+	}
+
+	@Override
+	public void writePropertyNull(@NonNls @NotNull final String name, final boolean isMapEntry) throws CouldNotWritePropertyException
 	{
 		if (xsiNilAttribute == null)
 		{
-			writeEmptyProperty(name);
+			writeEmptyProperty(name, isMapEntry);
 		}
 		else
 		{
-			writeEmptyProperty(name, xsiNilAttribute);
+			writeEmptyProperty(name, isMapEntry, xsiNilAttribute);
 		}
 	}
 
@@ -358,7 +356,7 @@ public final class XmlSerialiser extends AbstractSerialiser
 			{
 				if (value == null)
 				{
-					writeEmptyProperty(ListElementNodeName);
+					writeEmptyProperty(ListElementNodeName, false);
 				}
 				else
 				{
@@ -382,7 +380,7 @@ public final class XmlSerialiser extends AbstractSerialiser
 			{
 				if (value == null)
 				{
-					writeEmptyProperty(ListElementNodeName);
+					writeEmptyProperty(ListElementNodeName, false);
 				}
 				else
 				{
@@ -405,7 +403,7 @@ public final class XmlSerialiser extends AbstractSerialiser
 			{
 				if (value == null)
 				{
-					writeEmptyProperty(ListElementNodeName);
+					writeEmptyProperty(ListElementNodeName, false);
 				}
 				else
 				{
@@ -428,7 +426,7 @@ public final class XmlSerialiser extends AbstractSerialiser
 			{
 				if (value == null)
 				{
-					writeEmptyProperty(ListElementNodeName);
+					writeEmptyProperty(ListElementNodeName, false);
 				}
 				else
 				{
@@ -453,7 +451,7 @@ public final class XmlSerialiser extends AbstractSerialiser
 			{
 				if (value == null)
 				{
-					writeEmptyProperty(ListElementNodeName);
+					writeEmptyProperty(ListElementNodeName, false);
 				}
 				else
 				{
@@ -537,39 +535,53 @@ public final class XmlSerialiser extends AbstractSerialiser
 
 	@SuppressWarnings("FinalMethodInFinalClass") // final is required for @SafeVarargs
 	@SafeVarargs
-	private final void writeOpen(final CharSequence name, final Pair<String, String>... attributes) throws CouldNotWriteDataException, CouldNotEncodeDataException
+	private final void writeOpen(final CharSequence name, final boolean isMapEntry, final Pair<String, String>... attributes) throws CouldNotWriteDataException, CouldNotEncodeDataException
 	{
 		write(LessThan);
-		writeNodeName(name);
-		writeAttributes(attributes);
+		writeNodeName(name, isMapEntry);
+		writeAttributes(name, isMapEntry, attributes);
 		write(GreaterThan);
 	}
 
-	private void writeClose(final CharSequence name) throws CouldNotWriteDataException, CouldNotEncodeDataException
+	private void writeClose(final CharSequence name, final boolean isMapEntry) throws CouldNotWriteDataException, CouldNotEncodeDataException
 	{
 		write(LessThanSlash);
-		writeNodeName(name);
+		writeNodeName(name, isMapEntry);
 		write(GreaterThan);
 	}
 
 	@SuppressWarnings("FinalMethodInFinalClass") // final is required for @SafeVarargs
 	@SafeVarargs
-	private final void writeEmpty(final CharSequence name, final Pair<String, String>... attributes) throws CouldNotWriteDataException, CouldNotEncodeDataException
+	private final void writeEmpty(final CharSequence name, final boolean isMapEntry, final Pair<String, String>... attributes) throws CouldNotWriteDataException, CouldNotEncodeDataException
 	{
 		write(LessThan);
-		writeNodeName(name);
-		writeAttributes(attributes);
+		writeNodeName(name, isMapEntry);
+		writeAttributes(name, isMapEntry, attributes);
 		write(SlashGreaterThan);
 	}
 
-	@SuppressWarnings("FinalMethodInFinalClass") // final is required for @SafeVarargs
+	@SuppressWarnings({"FinalMethodInFinalClass", "FeatureEnvy"}) // final is required for @SafeVarargs
 	@SafeVarargs
-	private final void writeAttributes(final Pair<String, String>... attributes) throws CouldNotWriteDataException, CouldNotEncodeDataException
+	private final void writeAttributes(final CharSequence name, final boolean isMapEntry, final Pair<String, String>... attributes) throws CouldNotWriteDataException, CouldNotEncodeDataException
 	{
+		if (isMapEntry)
+		{
+			write(Space);
+			xmlStringWriter.writeAttributeName("key");
+			write(DoubleQuoteEqualsDoubleQuote);
+			xmlStringWriter.writeAttributeValue(name);
+			write(DoubleQuote);
+		}
+
 		for (final Pair<String, String> attribute : attributes)
 		{
 			write(Space);
-			xmlStringWriter.writeAttributeName(attribute.a);
+			@NonNls final String attributeName = attribute.a;
+			if (isMapEntry && "key".equals(attributeName))
+			{
+				throw new CouldNotEncodeDataException("An attribute 'key' is present, which is reserved by the serialiser for map entries (which this is)");
+			}
+			xmlStringWriter.writeAttributeName(attributeName);
 			write(DoubleQuoteEqualsDoubleQuote);
 			xmlStringWriter.writeAttributeValue(attribute.b);
 			write(DoubleQuote);
@@ -578,11 +590,11 @@ public final class XmlSerialiser extends AbstractSerialiser
 
 	@SuppressWarnings("FinalMethodInFinalClass") // final is required for @SafeVarargs
 	@SafeVarargs
-	private final void writeEmptyProperty(final String name, final Pair<String, String>... attributes) throws CouldNotWritePropertyException
+	private final void writeEmptyProperty(final String name, final boolean isMapEntry, final Pair<String, String>... attributes) throws CouldNotWritePropertyException
 	{
 		try
 		{
-			writeEmpty(name, attributes);
+			writeEmpty(name, isMapEntry, attributes);
 		}
 		catch (CouldNotWriteDataException | CouldNotEncodeDataException e)
 		{
@@ -590,9 +602,9 @@ public final class XmlSerialiser extends AbstractSerialiser
 		}
 	}
 
-	private void writeNodeName(final CharSequence name) throws CouldNotWriteDataException, CouldNotEncodeDataException
+	private void writeNodeName(final CharSequence name, final boolean isMapEntry) throws CouldNotWriteDataException, CouldNotEncodeDataException
 	{
-		xmlStringWriter.writeNodeName(name);
+		xmlStringWriter.writeNodeName(isMapEntry ? "map-entry" : name);
 	}
 
 	private void writeText(final CharSequence value) throws CouldNotWriteDataException, CouldNotEncodeDataException

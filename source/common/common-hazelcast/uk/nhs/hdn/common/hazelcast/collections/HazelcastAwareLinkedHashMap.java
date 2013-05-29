@@ -68,7 +68,7 @@ public final class HazelcastAwareLinkedHashMap<K extends HazelcastDataWriter & P
 		{
 			try
 			{
-				mapSerialiser.writeProperty(entry.getKey().serialiseToPropertyName(), entry.getValue());
+				mapSerialiser.writeProperty(entry.getKey().serialiseToPropertyName(), entry.getValue(), true);
 			}
 			catch (CouldNotWritePropertyException e)
 			{

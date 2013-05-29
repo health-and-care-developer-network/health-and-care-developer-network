@@ -93,90 +93,164 @@ public abstract class AbstractSerialiser extends AbstractValueSerialiser impleme
 	}
 
 	@Override
+	public final void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final String value) throws CouldNotWritePropertyException
+	{
+		writeProperty(name, value, false);
+	}
+
+	@Override
+	public final void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final MapSerialisable value) throws CouldNotWritePropertyException
+	{
+		writeProperty(name, value, false);
+	}
+
+	@Override
+	public final void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final ValueSerialisable value) throws CouldNotWritePropertyException
+	{
+		writeProperty(name, value, false);
+	}
+
+	@Override
+	public final void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final int value) throws CouldNotWritePropertyException
+	{
+		writeProperty(name, value, false);
+	}
+
+	@Override
+	public final void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final long value) throws CouldNotWritePropertyException
+	{
+		writeProperty(name, value, false);
+	}
+
+	@Override
+	public final void writePropertyNull(@FieldTokenName @NonNls @NotNull final String name) throws CouldNotWritePropertyException
+	{
+		writePropertyNull(name, false);
+	}
+
+	@SuppressWarnings("MethodCanBeVariableArityMethod")
+	@Override
+	public final <S extends MapSerialisable> void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final S[] values) throws CouldNotWritePropertyException
+	{
+		writeProperty(name, values, false);
+	}
+
+	@SuppressWarnings("MethodCanBeVariableArityMethod")
+	@Override
+	public final <S extends ValueSerialisable> void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final S[] values) throws CouldNotWritePropertyException
+	{
+		writeProperty(name, values, false);
+	}
+
+	@Override
+	public final void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final List<?> values) throws CouldNotWritePropertyException
+	{
+		writeProperty(name, values, false);
+	}
+
+	@Override
+	public final void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final Set<?> values) throws CouldNotWritePropertyException
+	{
+		writeProperty(name, values, false);
+	}
+
+	@Override
 	public final void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final boolean value) throws CouldNotWritePropertyException
 	{
-		writeProperty(name, convertBooleanToString(value));
+		writeProperty(name, value, false);
+	}
+
+	@Override
+	public final void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final boolean value, final boolean isMapEntry) throws CouldNotWritePropertyException
+	{
+		writeProperty(name, convertBooleanToString(value), isMapEntry);
+	}
+
+	@Override
+	public final void writeProperty(@NonNls @NotNull final String name, @Nullable final Object value) throws CouldNotWritePropertyException
+	{
+		writeProperty(name, value, false);
 	}
 
 	@SuppressWarnings("MethodWithMultipleReturnPoints")
 	@Override
-	public final void writeProperty(@NonNls @NotNull final String name, @Nullable final Object value) throws CouldNotWritePropertyException
+	public final void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @Nullable final Object value, final boolean isMapEntry) throws CouldNotWritePropertyException
 	{
 		if (value == null)
 		{
-			writePropertyNull(name);
+			writePropertyNull(name, isMapEntry);
 			return;
 		}
 
 		if (value instanceof MapSerialisable)
 		{
-			writeProperty(name, (MapSerialisable) value);
+			writeProperty(name, (MapSerialisable) value, isMapEntry);
 			return;
 		}
 
 		if (value instanceof ValueSerialisable)
 		{
-			writeProperty(name, (ValueSerialisable) value);
+			writeProperty(name, (ValueSerialisable) value, isMapEntry);
 			return;
 		}
 
 		if (value instanceof MapSerialisable[])
 		{
-			writeProperty(name, (MapSerialisable[]) value);
+			writeProperty(name, (MapSerialisable[]) value, isMapEntry);
 			return;
 		}
 
 		if (value instanceof ValueSerialisable[])
 		{
-			writeProperty(name, (ValueSerialisable[]) value);
+			writeProperty(name, (ValueSerialisable[]) value, isMapEntry);
 			return;
 		}
 
 		if (value instanceof Integer)
 		{
-			writeProperty(name, (int) value);
+			writeProperty(name, (int) value, isMapEntry);
 			return;
 		}
 
 		if (value instanceof Long)
 		{
-			writeProperty(name, (long) value);
+			writeProperty(name, (long) value, isMapEntry);
 			return;
 		}
 
 		if (value instanceof String)
 		{
-			writeProperty(name, (String) value);
+			writeProperty(name, (String) value, isMapEntry);
 			return;
 		}
 
 		if (value instanceof Boolean)
 		{
-			writeProperty(name, (boolean) value);
+			writeProperty(name, (boolean) value, isMapEntry);
 			return;
 		}
 
 		if (value instanceof UUID)
 		{
-			writeProperty(name, (UUID) value);
+			writeProperty(name, (UUID) value, isMapEntry);
 			return;
 		}
 
 		if (value instanceof Map)
 		{
-			writeProperty(name, new GenericMapSerialisable((Map<?, ?>) value));
+			writeProperty(name, new GenericMapSerialisable((Map<?, ?>) value), isMapEntry);
 			return;
 		}
 
 		if (value instanceof List)
 		{
-			writeProperty(name, (List<?>) value);
+			writeProperty(name, (List<?>) value, isMapEntry);
 			return;
 		}
 
 		if (value instanceof Set)
 		{
-			writeProperty(name, (Set<?>) value);
+			writeProperty(name, (Set<?>) value, isMapEntry);
 			return;
 		}
 

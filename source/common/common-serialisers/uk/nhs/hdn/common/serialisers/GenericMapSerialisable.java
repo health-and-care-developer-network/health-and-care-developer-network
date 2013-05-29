@@ -73,7 +73,7 @@ public final class GenericMapSerialisable extends AbstractToString implements Ma
 			try
 			{
 				final Object key = entry.getKey();
-				mapSerialiser.writeProperty(key instanceof PropertyNameSerialisable ? ((PropertyNameSerialisable) key).serialiseToPropertyName() : key.toString(), entry.getValue());
+				mapSerialiser.writeProperty(key instanceof PropertyNameSerialisable ? ((PropertyNameSerialisable) key).serialiseToPropertyName() : key.toString(), entry.getValue(), true);
 			}
 			catch (CouldNotWritePropertyException e)
 			{

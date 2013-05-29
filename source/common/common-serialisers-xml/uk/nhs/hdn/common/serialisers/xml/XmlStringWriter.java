@@ -116,12 +116,12 @@ public final class XmlStringWriter extends AbstractToString
 
 	// Does not check for ':' in name
 	// Does not check that name starts (xml, XML or any other variant)
-	public void writeNodeName(@NotNull final CharSequence value) throws CouldNotWriteDataException, CouldNotEncodeDataException
+	public void writeNodeName(@NonNls @NotNull final CharSequence value) throws CouldNotWriteDataException, CouldNotEncodeDataException
 	{
 		writeText(value);
 	}
 
-	public void writeAttributeName(@NotNull final CharSequence attributeName) throws CouldNotEncodeDataException, CouldNotWriteDataException
+	public void writeAttributeName(@NonNls @NotNull final CharSequence attributeName) throws CouldNotEncodeDataException, CouldNotWriteDataException
 	{
 		writeText(attributeName);
 	}

@@ -310,37 +310,20 @@ public final class SeparatedValueSerialiser extends AbstractSerialiser
 	}
 
 	@Override
-	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final String value)
+	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final String value, final boolean isMapEntry)
 	{
 		final Matcher matcher = current.matchChild(name);
 		matcher.recordValue(value, separatedValuesLine);
 	}
 
 	@Override
-	public void writePropertyNull(@FieldTokenName @NonNls @NotNull final String name)
+	public void writePropertyNull(@FieldTokenName @NonNls @NotNull final String name, final boolean isMapEntry)
 	{
-		writeProperty(name, "");
+		writeProperty(name, "", isMapEntry);
 	}
 
 	@Override
-	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final MapSerialisable value) throws CouldNotWritePropertyException
-	{
-		final Matcher matcher = current.matchChild(name);
-		stack.push(current);
-		current = matcher;
-		try
-		{
-			writeValue(value);
-		}
-		catch (CouldNotWriteValueException e)
-		{
-			throw new CouldNotWritePropertyException(name, value, e);
-		}
-		current = stack.pop();
-	}
-
-	@Override
-	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final ValueSerialisable value) throws CouldNotWritePropertyException
+	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final MapSerialisable value, final boolean isMapEntry) throws CouldNotWritePropertyException
 	{
 		final Matcher matcher = current.matchChild(name);
 		stack.push(current);
@@ -357,20 +340,36 @@ public final class SeparatedValueSerialiser extends AbstractSerialiser
 	}
 
 	@Override
-	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final int value)
+	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final ValueSerialisable value, final boolean isMapEntry) throws CouldNotWritePropertyException
 	{
-		writeProperty(name, Integer.toString(value));
+		final Matcher matcher = current.matchChild(name);
+		stack.push(current);
+		current = matcher;
+		try
+		{
+			writeValue(value);
+		}
+		catch (CouldNotWriteValueException e)
+		{
+			throw new CouldNotWritePropertyException(name, value, e);
+		}
+		current = stack.pop();
 	}
 
 	@Override
-	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final long value)
+	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final int value, final boolean isMapEntry)
 	{
-		writeProperty(name, Long.toString(value));
+		writeProperty(name, Integer.toString(value), isMapEntry);
 	}
 
-	@SuppressWarnings("MethodCanBeVariableArityMethod")
 	@Override
-	public <S extends MapSerialisable> void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final S[] values) throws CouldNotWritePropertyException
+	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final long value, final boolean isMapEntry)
+	{
+		writeProperty(name, Long.toString(value), isMapEntry);
+	}
+
+	@Override
+	public <S extends MapSerialisable> void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final S[] values, final boolean isMapEntry) throws CouldNotWritePropertyException
 	{
 		final Matcher matcher = current.matchChild(name);
 		stack.push(current);
@@ -386,9 +385,8 @@ public final class SeparatedValueSerialiser extends AbstractSerialiser
 		current = stack.pop();
 	}
 
-	@SuppressWarnings("MethodCanBeVariableArityMethod")
 	@Override
-	public <S extends ValueSerialisable> void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final S[] values) throws CouldNotWritePropertyException
+	public <S extends ValueSerialisable> void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final S[] values, final boolean isMapEntry) throws CouldNotWritePropertyException
 	{
 		final Matcher matcher = current.matchChild(name);
 		stack.push(current);
@@ -405,7 +403,7 @@ public final class SeparatedValueSerialiser extends AbstractSerialiser
 	}
 
 	@Override
-	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final List<?> values) throws CouldNotWritePropertyException
+	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final List<?> values, final boolean isMapEntry) throws CouldNotWritePropertyException
 	{
 		final Matcher matcher = current.matchChild(name);
 		stack.push(current);
@@ -422,7 +420,7 @@ public final class SeparatedValueSerialiser extends AbstractSerialiser
 	}
 
 	@Override
-	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final Set<?> values) throws CouldNotWritePropertyException
+	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final Set<?> values, final boolean isMapEntry) throws CouldNotWritePropertyException
 	{
 		final Matcher matcher = current.matchChild(name);
 		stack.push(current);

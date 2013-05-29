@@ -30,6 +30,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.UUID;
 
+@SuppressWarnings({"ClassNamePrefixedWithPackageName", "ClassWithTooManyMethods"})
 public class JsonSerialiser extends AbstractSerialiser
 {
 	private static final int DoubleQuote = (int) '\"';
@@ -68,7 +69,7 @@ public class JsonSerialiser extends AbstractSerialiser
 	}
 
 	@Override
-	public void writeProperty(@NotNull final String name, @NotNull final String value) throws CouldNotWritePropertyException
+	public void writeProperty(@NotNull final String name, @NotNull final String value, final boolean isMapEntry) throws CouldNotWritePropertyException
 	{
 		try
 		{
@@ -93,7 +94,7 @@ public class JsonSerialiser extends AbstractSerialiser
 	}
 
 	@Override
-	public void writeProperty(@NotNull final String name, @NotNull final MapSerialisable value) throws CouldNotWritePropertyException
+	public void writeProperty(@NotNull final String name, @NotNull final MapSerialisable value, final boolean isMapEntry) throws CouldNotWritePropertyException
 	{
 		try
 		{
@@ -117,129 +118,7 @@ public class JsonSerialiser extends AbstractSerialiser
 	}
 
 	@Override
-	public void writeProperty(@NotNull final String name, @NotNull final ValueSerialisable value) throws CouldNotWritePropertyException
-	{
-		try
-		{
-			if (current.hasSubsequentProperty())
-			{
-				write(CommaDoubleQuote);
-			}
-			else
-			{
-				write(DoubleQuote);
-				current.setHasSubsequentProperty();
-			}
-			jsonStringWriter.writeString(name);
-			write(DoubleQuoteColon);
-			writeValue(value);
-		}
-		catch (CouldNotWriteDataException | CouldNotWriteValueException e)
-		{
-			throw new CouldNotWritePropertyException(name, value, e);
-		}
-	}
-
-	@SuppressWarnings("MethodCanBeVariableArityMethod")
-	@Override
-	public <S extends MapSerialisable> void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final S[] values) throws CouldNotWritePropertyException
-	{
-		try
-		{
-			if (current.hasSubsequentProperty())
-			{
-				write(CommaDoubleQuote);
-			}
-			else
-			{
-				write(DoubleQuote);
-				current.setHasSubsequentProperty();
-			}
-			jsonStringWriter.writeString(name);
-			write(DoubleQuoteColon);
-			writeValue(values);
-		}
-		catch (CouldNotWriteDataException | CouldNotWriteValueException e)
-		{
-			throw new CouldNotWritePropertyException(name, values, e);
-		}
-	}
-
-	@SuppressWarnings("MethodCanBeVariableArityMethod")
-	@Override
-	public <S extends ValueSerialisable> void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final S[] values) throws CouldNotWritePropertyException
-	{
-		try
-		{
-			if (current.hasSubsequentProperty())
-			{
-				write(CommaDoubleQuote);
-			}
-			else
-			{
-				write(DoubleQuote);
-				current.setHasSubsequentProperty();
-			}
-			jsonStringWriter.writeString(name);
-			write(DoubleQuoteColon);
-			writeValue(values);
-		}
-		catch (CouldNotWriteDataException | CouldNotWriteValueException e)
-		{
-			throw new CouldNotWritePropertyException(name, values, e);
-		}
-	}
-
-	@Override
-	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final List<?> values) throws CouldNotWritePropertyException
-	{
-		try
-		{
-			if (current.hasSubsequentProperty())
-			{
-				write(CommaDoubleQuote);
-			}
-			else
-			{
-				write(DoubleQuote);
-				current.setHasSubsequentProperty();
-			}
-			jsonStringWriter.writeString(name);
-			write(DoubleQuoteColon);
-			writeValue(values);
-		}
-		catch (CouldNotWriteDataException | CouldNotWriteValueException e)
-		{
-			throw new CouldNotWritePropertyException(name, values, e);
-		}
-	}
-
-	@Override
-	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final Set<?> values) throws CouldNotWritePropertyException
-	{
-		try
-		{
-			if (current.hasSubsequentProperty())
-			{
-				write(CommaDoubleQuote);
-			}
-			else
-			{
-				write(DoubleQuote);
-				current.setHasSubsequentProperty();
-			}
-			jsonStringWriter.writeString(name);
-			write(DoubleQuoteColon);
-			writeValue(values);
-		}
-		catch (CouldNotWriteDataException | CouldNotWriteValueException e)
-		{
-			throw new CouldNotWritePropertyException(name, values, e);
-		}
-	}
-
-	@Override
-	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final int value) throws CouldNotWritePropertyException
+	public void writeProperty(@NotNull final String name, @NotNull final ValueSerialisable value, final boolean isMapEntry) throws CouldNotWritePropertyException
 	{
 		try
 		{
@@ -263,7 +142,103 @@ public class JsonSerialiser extends AbstractSerialiser
 	}
 
 	@Override
-	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final long value) throws CouldNotWritePropertyException
+	public <S extends MapSerialisable> void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final S[] values, final boolean isMapEntry) throws CouldNotWritePropertyException
+	{
+		try
+		{
+			if (current.hasSubsequentProperty())
+			{
+				write(CommaDoubleQuote);
+			}
+			else
+			{
+				write(DoubleQuote);
+				current.setHasSubsequentProperty();
+			}
+			jsonStringWriter.writeString(name);
+			write(DoubleQuoteColon);
+			writeValue(values);
+		}
+		catch (CouldNotWriteDataException | CouldNotWriteValueException e)
+		{
+			throw new CouldNotWritePropertyException(name, values, e);
+		}
+	}
+
+	@Override
+	public <S extends ValueSerialisable> void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final S[] values, final boolean isMapEntry) throws CouldNotWritePropertyException
+	{
+		try
+		{
+			if (current.hasSubsequentProperty())
+			{
+				write(CommaDoubleQuote);
+			}
+			else
+			{
+				write(DoubleQuote);
+				current.setHasSubsequentProperty();
+			}
+			jsonStringWriter.writeString(name);
+			write(DoubleQuoteColon);
+			writeValue(values);
+		}
+		catch (CouldNotWriteDataException | CouldNotWriteValueException e)
+		{
+			throw new CouldNotWritePropertyException(name, values, e);
+		}
+	}
+
+	@Override
+	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final List<?> values, final boolean isMapEntry) throws CouldNotWritePropertyException
+	{
+		try
+		{
+			if (current.hasSubsequentProperty())
+			{
+				write(CommaDoubleQuote);
+			}
+			else
+			{
+				write(DoubleQuote);
+				current.setHasSubsequentProperty();
+			}
+			jsonStringWriter.writeString(name);
+			write(DoubleQuoteColon);
+			writeValue(values);
+		}
+		catch (CouldNotWriteDataException | CouldNotWriteValueException e)
+		{
+			throw new CouldNotWritePropertyException(name, values, e);
+		}
+	}
+
+	@Override
+	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, @NotNull final Set<?> values, final boolean isMapEntry) throws CouldNotWritePropertyException
+	{
+		try
+		{
+			if (current.hasSubsequentProperty())
+			{
+				write(CommaDoubleQuote);
+			}
+			else
+			{
+				write(DoubleQuote);
+				current.setHasSubsequentProperty();
+			}
+			jsonStringWriter.writeString(name);
+			write(DoubleQuoteColon);
+			writeValue(values);
+		}
+		catch (CouldNotWriteDataException | CouldNotWriteValueException e)
+		{
+			throw new CouldNotWritePropertyException(name, values, e);
+		}
+	}
+
+	@Override
+	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final int value, final boolean isMapEntry) throws CouldNotWritePropertyException
 	{
 		try
 		{
@@ -287,7 +262,31 @@ public class JsonSerialiser extends AbstractSerialiser
 	}
 
 	@Override
-	public void writePropertyNull(@NonNls @NotNull final String name) throws CouldNotWritePropertyException
+	public void writeProperty(@FieldTokenName @NonNls @NotNull final String name, final long value, final boolean isMapEntry) throws CouldNotWritePropertyException
+	{
+		try
+		{
+			if (current.hasSubsequentProperty())
+			{
+				write(CommaDoubleQuote);
+			}
+			else
+			{
+				write(DoubleQuote);
+				current.setHasSubsequentProperty();
+			}
+			jsonStringWriter.writeString(name);
+			write(DoubleQuoteColon);
+			writeValue(value);
+		}
+		catch (CouldNotWriteDataException | CouldNotWriteValueException e)
+		{
+			throw new CouldNotWritePropertyException(name, value, e);
+		}
+	}
+
+	@Override
+	public void writePropertyNull(@NonNls @NotNull final String name, final boolean isMapEntry) throws CouldNotWritePropertyException
 	{
 		try
 		{
