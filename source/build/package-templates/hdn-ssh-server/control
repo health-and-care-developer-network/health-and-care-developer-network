@@ -10,7 +10,7 @@ Standards-Version: 3.8.4.0
 Package: hdn-ssh-server
 Architecture: all
 Depends: openssh-server, openssh-blacklist, openssh-blacklist-extra, rsync, ${misc:Depends}
-Pre-Depends: dpkg (>= 1.15.6~)
+Pre-Depends: hdn-apt, dpkg (>= 1.15.6~)
 Homepage: http://hdn.nhs.uk/
 Description: HDN hdn-ssh-server
  This package provides the necessary support
