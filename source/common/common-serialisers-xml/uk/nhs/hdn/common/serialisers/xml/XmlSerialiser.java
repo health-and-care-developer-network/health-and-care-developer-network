@@ -61,7 +61,7 @@ public final class XmlSerialiser extends AbstractSerialiser
 	private static final String XmlnsPrefixColon = "xmlns:";
 	private static final int Space = (int) ' ';
 	private static final int DoubleQuote = (int) '"';
-	private static final char[] DoubleQuoteEqualsDoubleQuote = {'"', '=', '"'};
+	private static final char[] EqualsDoubleQuote = {'=', '"'};
 	private static final int LessThan = (int) '<';
 	private static final int GreaterThan = (int) '>';
 	private static final char[] LessThanSlash = characters("</");
@@ -568,7 +568,7 @@ public final class XmlSerialiser extends AbstractSerialiser
 		{
 			write(Space);
 			xmlStringWriter.writeAttributeName("key");
-			write(DoubleQuoteEqualsDoubleQuote);
+			write(EqualsDoubleQuote);
 			xmlStringWriter.writeAttributeValue(name);
 			write(DoubleQuote);
 		}
@@ -582,7 +582,7 @@ public final class XmlSerialiser extends AbstractSerialiser
 				throw new CouldNotEncodeDataException("An attribute 'key' is present, which is reserved by the serialiser for map entries (which this is)");
 			}
 			xmlStringWriter.writeAttributeName(attributeName);
-			write(DoubleQuoteEqualsDoubleQuote);
+			write(EqualsDoubleQuote);
 			xmlStringWriter.writeAttributeValue(attribute.b);
 			write(DoubleQuote);
 		}
