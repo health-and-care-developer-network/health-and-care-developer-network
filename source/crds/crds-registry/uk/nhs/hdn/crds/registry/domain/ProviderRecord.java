@@ -50,8 +50,8 @@ public final class ProviderRecord extends AbstractToString implements HazelcastD
 		return new ProviderRecord(providerIdentifier, initialRepositoryRecords(repositoryIdentifier, stuffIdentifier, stuffEvent));
 	}
 
-	@NotNull private final ProviderIdentifier providerIdentifier;
-	@NotNull private final HazelcastAwareLinkedHashMap<RepositoryIdentifier, RepositoryRecord> knownRepositories;
+	@NotNull public final ProviderIdentifier providerIdentifier;
+	@NotNull public final HazelcastAwareLinkedHashMap<RepositoryIdentifier, RepositoryRecord> knownRepositories;
 
 	@SuppressWarnings("AssignmentToCollectionOrArrayFieldFromParameter")
 	public ProviderRecord(@NotNull final ProviderIdentifier providerIdentifier, @NotNull final HazelcastAwareLinkedHashMap<RepositoryIdentifier, RepositoryRecord> knownRepositories)

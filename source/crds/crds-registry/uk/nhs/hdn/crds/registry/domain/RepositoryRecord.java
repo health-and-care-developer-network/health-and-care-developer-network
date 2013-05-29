@@ -49,8 +49,8 @@ public final class RepositoryRecord extends AbstractToString implements Hazelcas
 		return new RepositoryRecord(repositoryIdentifier, initialStuffRecords(stuffIdentifier, stuffEvent));
 	}
 
-	@NotNull private final RepositoryIdentifier repositoryIdentifier;
-	@NotNull private final HazelcastAwareLinkedHashMap<StuffIdentifier, StuffRecord> stuffRecords;
+	@NotNull public final RepositoryIdentifier repositoryIdentifier;
+	@NotNull public final HazelcastAwareLinkedHashMap<StuffIdentifier, StuffRecord> stuffRecords;
 
 	@SuppressWarnings("AssignmentToCollectionOrArrayFieldFromParameter")
 	public RepositoryRecord(@NotNull final RepositoryIdentifier repositoryIdentifier, @NotNull final HazelcastAwareLinkedHashMap<StuffIdentifier, StuffRecord> stuffRecords)

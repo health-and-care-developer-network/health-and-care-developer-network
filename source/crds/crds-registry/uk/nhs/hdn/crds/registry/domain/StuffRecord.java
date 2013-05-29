@@ -48,8 +48,8 @@ public final class StuffRecord extends AbstractToString implements HazelcastData
 		return new StuffRecord(repositoryIdentifier, initialStuffEvents(stuffEvent));
 	}
 
-	@NotNull private final StuffIdentifier stuffIdentifier;
-	@NotNull private final HazelcastAwareLinkedHashSet<StuffEvent> stuffEvents;
+	@NotNull public final StuffIdentifier stuffIdentifier;
+	@NotNull public final HazelcastAwareLinkedHashSet<StuffEvent> stuffEvents;
 
 	@SuppressWarnings("AssignmentToCollectionOrArrayFieldFromParameter")
 	public StuffRecord(@NotNull final StuffIdentifier stuffIdentifier, @NotNull final HazelcastAwareLinkedHashSet<StuffEvent> stuffEvents)
